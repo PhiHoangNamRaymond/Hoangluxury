@@ -18,4 +18,11 @@ npm run preview
 - `src/main.jsx` - React entry point.
 - `assets/` - Place real images and brand assets here.
 
-Replace the `THAY_LINK_ANH_...` placeholders in `src/App.jsx` with real image URLs or imported assets when the final images are ready.
+## External links
+
+Copy `.env.example` to `.env` and provide:
+
+- `VITE_CATALOG_URL`: the public Google Drive link for the catalog or price list.
+- `VITE_CONTACT_FORM_ENDPOINT`: a Power Automate/Make webhook that accepts JSON and appends each inquiry to Excel.
+
+Restart the Vite development server after changing `.env`.

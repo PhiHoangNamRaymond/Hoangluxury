@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   benefits,
+  blogPosts,
   bookingRows,
+  catalogUrl,
+  contactFormEndpoint,
   fleet,
   navLinks,
   routePins,
@@ -10,7 +13,7 @@ import {
   whatsappUrl,
   whyItems,
 } from "./data";
-import logoUrl from "../assets/hoang_luxury_logo_header.png";
+import logoUrl from "../assets/hoang-luxury-logo-2026-web.png";
 import heroBannerUrl from "../assets/home-banner.png";
 import serviceAirportUrl from "../assets/service-airport-transfer.png";
 import serviceSapaUrl from "../assets/service-sapa.png";
@@ -40,6 +43,8 @@ const fleetImages = {
 };
 
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="hlt-header">
       <div className="hlt-header-inner">
@@ -51,13 +56,32 @@ function Header() {
           </div>
         </a>
 
-        <nav className="hlt-nav">
-          {navLinks.map(([label, href]) => (
-            <a href={href} key={href}>
+        <nav id="primary-navigation" className={`hlt-nav${menuOpen ? " is-open" : ""}`}>
+          {navLinks.map(([label, href, external]) => (
+            <a
+              href={href}
+              key={label}
+              onClick={() => setMenuOpen(false)}
+              target={external && href !== "#catalog" ? "_blank" : undefined}
+              rel={external && href !== "#catalog" ? "noopener noreferrer" : undefined}
+            >
               {label}
             </a>
           ))}
         </nav>
+
+        <button
+          className="hlt-menu-toggle"
+          type="button"
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          aria-controls="primary-navigation"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
 
         <a className="hlt-header-cta" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
           <span className="hlt-phone-icon" aria-hidden="true">
@@ -74,17 +98,16 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="hlt-hero" style={{ "--hero-img": `url(${heroBannerUrl})` }}>
+    <section id="home" className="hlt-hero" style={{ "--hero-img": `url(${heroBannerUrl})` }}>
       <div className="hlt-container">
         <div className="hlt-hero-content">
-          <div className="hlt-badge">Private Transfer & Custom Journey</div>
           <h1>
-            <span className="hlt-hero-title-line">Premium Private</span>
-            <span>Car Service</span>
+            <span className="hlt-hero-title-line">Private Luxury</span>
+            <span>Car Transfer</span>
           </h1>
           <p>
-            Premium private car service for airport transfer, long-distance travel and custom journeys
-            across Northern Vietnam
+            Luxury private car services for international travelers across Northern Vietnam, specializing
+            in airport transfers, long-distance travel, and bespoke journeys.
           </p>
           <div className="hlt-actions">
             <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
@@ -95,7 +118,13 @@ function Hero() {
               </span>
               <span>Book via</span>
             </a>
-            <a className="hlt-btn hlt-btn-outline" href="/catalog/">
+            <a
+              className="hlt-btn hlt-btn-outline"
+              id="catalog"
+              href={catalogUrl}
+              target={catalogUrl !== "#catalog" ? "_blank" : undefined}
+              rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
+            >
               View Catalog
             </a>
           </div>
@@ -143,6 +172,18 @@ function WhyIcon({ type }) {
     heart: (
       <path d="M12 20s-7-4.2-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 10c0 5.8-7 10-7 10Z" />
     ),
+    whatsapp: (
+      <>
+        <path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4.1A8 8 0 1 1 20 11.6Z" />
+        <path d="M9 8.5c.4 2.7 1.8 4.2 4.6 5.1l1.3-1.2 1.8.9c-.2 1.5-1.1 2.3-2.7 2.3-3.9-.4-6.7-3.1-7.2-7 0-1.4.8-2.3 2.1-2.5L10 8l-1 1.2Z" />
+      </>
+    ),
+    price: (
+      <>
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M15.2 8.7c-.7-.7-1.7-1-3-1-1.6 0-2.8.8-2.8 2s1 1.8 2.9 2.2c1.7.4 2.6 1 2.6 2.2 0 1.3-1.2 2.2-3 2.2-1.4 0-2.6-.4-3.4-1.3M12 5.8v12.4" />
+      </>
+    ),
   };
 
   return (
@@ -154,17 +195,27 @@ function WhyIcon({ type }) {
 
 function WhyChoose() {
   return (
-    <section className="hlt-section hlt-why">
-      <div className="hlt-container">
-        <div className="hlt-why-heading">
-          <p className="hlt-why-eyebrow">Why Choose</p>
-          <h2>Hoang Luxury Travel</h2>
-          <div className="hlt-why-ornament" />
+    <section className="hlt-section hlt-why" aria-labelledby="why-title">
+      <div className="hlt-container hlt-why-layout">
+        <div className="hlt-why-intro">
+          <h2 id="why-title">
+            Why choose
+            <span>
+              Hoang Luxury <br className="hlt-mobile-break" /> Travel?
+            </span>
+          </h2>
+          <div className="hlt-gold-line" />
+          <p>
+            HOANG LUXURY TRAVEL is proudly recognized as a 5-star Personalized Transfer Service in
+            Vietnam, prioritizing your privacy and comfort above all else from professional airport
+            pick-ups to breathtaking journeys through the Northwest mountains.
+          </p>
         </div>
 
         <div className="hlt-why-cards">
-          {whyItems.map((item) => (
+          {whyItems.map((item, index) => (
             <article className="hlt-why-card" key={item.title}>
+              <span className="hlt-why-number">{String(index + 1).padStart(2, "0")}</span>
               <div className="hlt-icon">
                 <WhyIcon type={item.icon} />
               </div>
@@ -243,7 +294,7 @@ function Services() {
         </div>
 
         <div className="hlt-services-cta">
-          <a href="/services/">
+          <a href="#contact">
             <span>View All Services</span>
             <svg className="hlt-services-chev" viewBox="0 0 18 18" aria-hidden="true">
               <path d="m6.5 3.8 5 5.2-5 5.2" />
@@ -257,7 +308,7 @@ function Services() {
 
 function Fleet() {
   return (
-    <section id="vehicles" className="hlt-section hlt-fleet">
+    <section id="fleet" className="hlt-section hlt-fleet">
       <div className="hlt-container">
         <div className="hlt-fleet-heading">
           <p>Our Premium Vehicles</p>
@@ -431,6 +482,164 @@ function Booking() {
   );
 }
 
+function TravelBlog() {
+  return (
+    <section id="travel-blog" className="hlt-section hlt-blog" aria-labelledby="blog-title">
+      <div className="hlt-container">
+        <div className="hlt-blog-heading">
+          <div>
+            <p>Travel Insights</p>
+            <h2 id="blog-title">Northern Vietnam Travel Blog</h2>
+          </div>
+          <span>Guides and practical advice for international travelers</span>
+        </div>
+
+        <div className="hlt-blog-grid">
+          {blogPosts.map((post) => (
+            <article className="hlt-blog-card" key={post.title}>
+              <div className="hlt-blog-image">
+                <img src={serviceImages[post.image]} alt="" />
+              </div>
+              <div className="hlt-blog-body">
+                <span>{post.category}</span>
+                <h3>{post.title}</h3>
+                <p>{post.excerpt}</p>
+                <a href="#contact" aria-label={`Ask about ${post.title}`}>
+                  Plan this journey <span aria-hidden="true">&#8594;</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  const [status, setStatus] = useState({ type: "idle", message: "" });
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (!contactFormEndpoint) {
+      setStatus({
+        type: "error",
+        message: "Online submission is being connected. Please contact us on WhatsApp for immediate support.",
+      });
+      return;
+    }
+
+    const form = event.currentTarget;
+    const payload = Object.fromEntries(new FormData(form).entries());
+    setStatus({ type: "loading", message: "Sending your inquiry..." });
+
+    try {
+      const response = await fetch(contactFormEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, submittedAt: new Date().toISOString() }),
+      });
+
+      if (!response.ok) throw new Error("Submission failed");
+
+      form.reset();
+      setStatus({
+        type: "success",
+        message: "Thank you. Your travel inquiry has been received.",
+      });
+    } catch {
+      setStatus({
+        type: "error",
+        message: "We could not send your inquiry. Please try again or contact us on WhatsApp.",
+      });
+    }
+  }
+
+  return (
+    <section id="contact" className="hlt-section hlt-contact" aria-labelledby="contact-title">
+      <div className="hlt-container hlt-contact-layout">
+        <div className="hlt-contact-intro">
+          <p>Private Travel Consultation</p>
+          <h2 id="contact-title">Tell us about your journey</h2>
+          <div className="hlt-gold-line" />
+          <p className="hlt-contact-copy">
+            Share your route, travel date and preferences. Our team will prepare a personalized transfer
+            plan and respond via WhatsApp or email.
+          </p>
+
+          <div className="hlt-contact-details">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <span>WhatsApp</span>
+              +84 839 779 888
+            </a>
+            <a href="mailto:info@hoangluxurytravel.com">
+              <span>Email</span>
+              info@hoangluxurytravel.com
+            </a>
+          </div>
+        </div>
+
+        <form className="hlt-contact-form" onSubmit={handleSubmit}>
+          <div className="hlt-form-grid">
+            <label>
+              Full name
+              <input type="text" name="fullName" autoComplete="name" required />
+            </label>
+            <label>
+              WhatsApp number
+              <input type="tel" name="whatsapp" autoComplete="tel" required />
+            </label>
+            <label>
+              Email address
+              <input type="email" name="email" autoComplete="email" required />
+            </label>
+            <label>
+              Travel date
+              <input type="date" name="travelDate" required />
+            </label>
+            <label>
+              Pick-up location
+              <input type="text" name="pickup" required />
+            </label>
+            <label>
+              Destination
+              <input type="text" name="destination" required />
+            </label>
+            <label>
+              Number of travelers
+              <input type="number" name="travelers" min="1" max="20" defaultValue="2" required />
+            </label>
+            <label>
+              Preferred vehicle
+              <select name="vehicle" defaultValue="">
+                <option value="">Let us recommend</option>
+                <option value="VinFast VF9">VinFast VF9</option>
+                <option value="Limo Lux">Limo Lux</option>
+                <option value="Limo Green">Limo Green</option>
+              </select>
+            </label>
+          </div>
+
+          <label className="hlt-form-message">
+            Journey details
+            <textarea name="message" rows="4" placeholder="Flight number, luggage, preferred stops or special requests" />
+          </label>
+
+          <div className="hlt-form-actions">
+            <button type="submit" disabled={status.type === "loading"}>
+              {status.type === "loading" ? "Sending..." : "Send inquiry"}
+            </button>
+            <p className={`hlt-form-status is-${status.type}`} aria-live="polite">
+              {status.message}
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
       <footer className="hlt-footer">
@@ -445,10 +654,16 @@ function Footer() {
 
           <div className="hlt-footer-col">
             <h4>Quick Links</h4>
-            <a href="/">Home</a>
-            <a href="/catalog/">Catalog</a>
-            <a href="/travel-blog/">Travel Blog</a>
-            <a href="/contact/">Contact Us</a>
+            <a href="#home">Home</a>
+            <a
+              href={catalogUrl}
+              target={catalogUrl !== "#catalog" ? "_blank" : undefined}
+              rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
+            >
+              Catalog
+            </a>
+            <a href="#travel-blog">Travel Blog</a>
+            <a href="#contact">Contact Us</a>
           </div>
 
           <div className="hlt-footer-col">
@@ -493,7 +708,11 @@ function Footer() {
             </div>
             <div className="hlt-qr-box" aria-label="WhatsApp QR code">
               <div className="hlt-qr-pattern" />
-              <span>☎</span>
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19.1 4.9A9.8 9.8 0 0 0 12 2C6.6 2 2.1 6.5 2.1 11.9c0 1.8.5 3.5 1.3 5L2.1 22l5.2-1.4a9.8 9.8 0 0 0 4.7 1.2h.1c5.4 0 9.9-4.4 9.9-9.9 0-2.6-1-5.1-2.9-7Z" />
+                </svg>
+              </span>
             </div>
             <p>Scan to chat with us</p>
           </div>
@@ -501,7 +720,7 @@ function Footer() {
 
         <div className="hlt-footer-bottom">
           <div className="hlt-container">
-            <span>© 2025 Hoang Luxury Travel. All rights reserved.</span>
+            <span>&copy; 2026 Hoang Luxury Travel. All rights reserved.</span>
             <span>
               Proudly based in Hanoi, Vietnam <i className="hlt-vn-flag" aria-label="Vietnam" />
             </span>
@@ -520,6 +739,8 @@ export default function App() {
       <Services />
       <Fleet />
       <Booking />
+      <TravelBlog />
+      <Contact />
       <Footer />
     </div>
   );

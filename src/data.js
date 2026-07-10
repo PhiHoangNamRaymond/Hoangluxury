@@ -1,44 +1,60 @@
 export const whatsappUrl =
   "https://wa.me/84839779888?text=Hello%20Hoang%20Luxury%20Travel%2C%20I%20would%20like%20to%20book%20a%20private%20transfer.";
 
+export const catalogUrl = import.meta.env.VITE_CATALOG_URL || "#catalog";
+
+export const contactFormEndpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || "";
+
 export const navLinks = [
-  ["Home", "/"],
+  ["Home", "#home"],
   ["Services", "#services"],
-  ["Vehicles", "#vehicles"],
-  ["Routes", "#routes"],
-  ["About Us", "/about-us/"],
+  ["Fleet", "#fleet"],
+  ["Catalog", catalogUrl, true],
+  ["Travel Blog", "#travel-blog"],
+  ["Contact", "#contact"],
 ];
 
 export const whyItems = [
   {
     icon: "shield",
-    title: "Safety First",
-    text: "Your safety is our top priority on every journey.",
-  },
-  {
-    icon: "driver",
-    title: "Experienced Drivers",
-    text: "Professional, friendly and knowledgeable drivers.",
+    title: "Privacy & Professionalism",
+    text: "Our professional and courteous drivers are dedicated to ensuring you a safe, smooth journey. We also guarantee the utmost confidentiality for your itinerary and personal information.",
   },
   {
     icon: "car",
-    title: "Premium Vehicles",
-    text: "Modern, clean and comfortable luxury vehicles.",
+    title: "Customized VIP Service",
+    text: "To deliver a luxury VIP experience, every journey includes complimentary bottled water, refreshing cold towels, and the privacy of a spacious 7-seater vehicle with tinted windows. Best of all, your itinerary is fully customized to your preferences.",
   },
   {
-    icon: "clock",
-    title: "On Time",
-    text: "We value your time and always deliver on schedule.",
+    icon: "whatsapp",
+    title: "24/7 WhatsApp Support",
+    text: "We offer dedicated 24/7 WhatsApp support with prompt responses to assist you whenever you need.",
   },
   {
-    icon: "lock",
-    title: "Private & Secure",
-    text: "Your privacy and information are always protected.",
+    icon: "price",
+    title: "All-Inclusive Pricing",
+    text: "You can enjoy complete peace of mind with transparent all-inclusive rates that already cover fuel, toll fees and parking, with absolutely no hidden fees.",
+  },
+];
+
+export const blogPosts = [
+  {
+    image: "sapa",
+    category: "Destination Guide",
+    title: "Hanoi to Sapa by Private Car: A Complete Travel Guide",
+    excerpt: "Plan a comfortable journey from Hanoi or Noi Bai Airport to Sapa, with practical timing, route and stop recommendations.",
   },
   {
-    icon: "heart",
-    title: "Customer Care",
-    text: "We care about your experience and are always here to help.",
+    image: "haGiang",
+    category: "Northern Vietnam",
+    title: "The Best Private Transfer Routes for Exploring Ha Giang",
+    excerpt: "Discover how a personalized private transfer makes the dramatic mountain roads of Ha Giang safer and more enjoyable.",
+  },
+  {
+    image: "airport",
+    category: "Airport Transfer",
+    title: "What International Travelers Should Know About Noi Bai Pickups",
+    excerpt: "A clear guide to meeting your driver, luggage planning and continuing smoothly from Noi Bai Airport to your destination.",
   },
 ];
 
