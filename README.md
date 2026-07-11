@@ -23,6 +23,5 @@ npm run preview
 Copy `.env.example` to `.env` and provide:
 
 - `VITE_CATALOG_URL`: the public Google Drive link for the catalog or price list.
-- `VITE_CONTACT_FORM_ENDPOINT`: a Power Automate/Make webhook that accepts JSON and appends each inquiry to Excel.
 
 Restart the Vite development server after changing `.env`.

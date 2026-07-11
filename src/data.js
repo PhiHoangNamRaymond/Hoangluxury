@@ -3,58 +3,35 @@ export const whatsappUrl =
 
 export const catalogUrl = import.meta.env.VITE_CATALOG_URL || "#catalog";
 
-export const contactFormEndpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || "";
-
 export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
   ["Catalog", catalogUrl, true],
-  ["Travel Blog", "#travel-blog"],
+  ["Travel Blog", "/travel-blog/"],
   ["Contact", "#contact"],
 ];
 
 export const whyItems = [
   {
-    icon: "shield",
+    icon: "driver",
     title: "Privacy & Professionalism",
-    text: "Our professional and courteous drivers are dedicated to ensuring you a safe, smooth journey. We also guarantee the utmost confidentiality for your itinerary and personal information.",
+    text: "Professional and courteous drivers ensuring a safe, smooth, and completely confidential journey.",
   },
   {
     icon: "car",
     title: "Customized VIP Service",
-    text: "To deliver a luxury VIP experience, every journey includes complimentary bottled water, refreshing cold towels, and the privacy of a spacious 7-seater vehicle with tinted windows. Best of all, your itinerary is fully customized to your preferences.",
+    text: "Tailored itineraries featuring a luxury 7-seater vehicle with complimentary refreshments and amenities.",
   },
   {
     icon: "whatsapp",
     title: "24/7 WhatsApp Support",
-    text: "We offer dedicated 24/7 WhatsApp support with prompt responses to assist you whenever you need.",
+    text: "Dedicated support with prompt responses via WhatsApp to assist you whenever you need.",
   },
   {
     icon: "price",
     title: "All-Inclusive Pricing",
-    text: "You can enjoy complete peace of mind with transparent all-inclusive rates that already cover fuel, toll fees and parking, with absolutely no hidden fees.",
-  },
-];
-
-export const blogPosts = [
-  {
-    image: "sapa",
-    category: "Destination Guide",
-    title: "Hanoi to Sapa by Private Car: A Complete Travel Guide",
-    excerpt: "Plan a comfortable journey from Hanoi or Noi Bai Airport to Sapa, with practical timing, route and stop recommendations.",
-  },
-  {
-    image: "haGiang",
-    category: "Northern Vietnam",
-    title: "The Best Private Transfer Routes for Exploring Ha Giang",
-    excerpt: "Discover how a personalized private transfer makes the dramatic mountain roads of Ha Giang safer and more enjoyable.",
-  },
-  {
-    image: "airport",
-    category: "Airport Transfer",
-    title: "What International Travelers Should Know About Noi Bai Pickups",
-    excerpt: "A clear guide to meeting your driver, luggage planning and continuing smoothly from Noi Bai Airport to your destination.",
+    text: "Transparent, fixed rates covering fuel, tolls, and parking with absolutely no hidden fees.",
   },
 ];
 
@@ -63,43 +40,43 @@ export const services = [
     image: "airport",
     icon: "plane",
     title: "Airport Transfer",
-    text: "Noi Bai Airport pickup and drop-off with flexible schedule.",
+    text: "Reliable and punctual airport transport services ensuring a smooth and relaxing experience from start to finish.",
   },
   {
     image: "sapa",
-    icon: "mountain",
-    title: "Hanoi to Sapa",
-    text: "Private transfer from Hanoi or Noi Bai Airport to Sapa.",
+    icon: "route",
+    title: "Long-Distance Private Transfer",
+    text: "Safe and comfortable city-to-city travel in premium vehicles to make your long journeys relaxing and efficient.",
   },
   {
     image: "haGiang",
-    icon: "route",
-    title: "Hanoi to Ha Giang",
-    text: "Comfortable private car service for mountain routes.",
+    icon: "mountain",
+    title: "Custom Private Trip",
+    text: "Flexible itinerary and custom routes based on your travel plan.",
   },
   {
     image: "custom",
     icon: "dots",
-    title: "Custom Private Trip",
-    text: "Flexible itinerary and custom routes based on your travel plan.",
+    title: "Business / Partner Transfer",
+    text: "Luxury and professional corporate transport solutions to provide a high-quality executive experience for your business partners.",
   },
 ];
 
 export const fleet = [
   {
-    image: "vf9",
-    name: "VinFast VF9",
-    specs: ["6 Seats", "Electric", "Luxury SUV"],
-  },
-  {
     image: "limoLux",
     name: "Limo Lux",
-    specs: ["9 Seats", "Premium", "Spacious"],
+    specs: ["6 Seats", "Premium", "Spacious"],
   },
   {
     image: "limoGreen",
-    name: "Limo Green",
-    specs: ["9 Seats", "Comfort", "Eco-friendly"],
+    name: "Limo Prime",
+    specs: ["6 Seats", "Comfort", "Eco-friendly"],
+  },
+  {
+    image: "vf9",
+    name: "VF9 Lux",
+    specs: ["6 Seats", "Electric", "Luxury SUV"],
   },
 ];
 
@@ -139,7 +116,7 @@ export const bookingRows = [
   ["WhatsApp", "+966508375898"],
   ["Flight", "VN123 | 21 July 2026 | 16:10"],
   ["Route", "Noi Bai Airport -> Sapa Jade Hill"],
-  ["Vehicle", "VinFast VF9"],
+  ["Vehicle", "VF9 Lux"],
   ["Service", "Private Transfer (Round Trip)"],
   ["Total Price", "VND 4,615,000"],
 ];

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import {
   benefits,
-  blogPosts,
   bookingRows,
   catalogUrl,
-  contactFormEndpoint,
   fleet,
   navLinks,
   routePins,
@@ -23,7 +21,13 @@ import vehicleVf9Url from "../assets/vehicle-vinfast-vf9.png";
 import vehicleLimoLuxUrl from "../assets/vehicle-limo-lux.png";
 import vehicleLimoGreenUrl from "../assets/vehicle-limo-green.png";
 import routesStandardUrl from "../assets/routes-standard.png";
-import bookingWhatsappUrl from "../assets/booking-whatsapp.png";
+import whyDriverIconUrl from "../assets/why-icon-driver.png";
+import whyVehicleIconUrl from "../assets/why-icon-vehicle.png";
+import whyWhatsappIconUrl from "../assets/why-icon-whatsapp.png";
+import whyPricingIconUrl from "../assets/why-icon-pricing.png";
+import servicesBackgroundUrl from "../assets/services-background.png";
+import bookingProcessBackgroundUrl from "../assets/booking-process-background.png";
+import whatsappQrUrl from "../assets/whatsapp-qr.png";
 
 function cssImage(url) {
   return { "--img": `url('${url}')` };
@@ -40,6 +44,13 @@ const fleetImages = {
   vf9: vehicleVf9Url,
   limoLux: vehicleLimoLuxUrl,
   limoGreen: vehicleLimoGreenUrl,
+};
+
+const whyIconImages = {
+  driver: whyDriverIconUrl,
+  car: whyVehicleIconUrl,
+  whatsapp: whyWhatsappIconUrl,
+  price: whyPricingIconUrl,
 };
 
 function Header() {
@@ -134,65 +145,6 @@ function Hero() {
   );
 }
 
-function WhyIcon({ type }) {
-  const icons = {
-    shield: (
-      <>
-        <path d="M12 3 5.5 5.5v5.4c0 4.2 2.7 7.8 6.5 9.1 3.8-1.3 6.5-4.9 6.5-9.1V5.5L12 3Z" />
-        <path d="m8.8 11.7 2 2 4.4-4.8" />
-      </>
-    ),
-    driver: (
-      <>
-        <circle cx="12" cy="7.5" r="3" />
-        <path d="M5.5 20c.8-4.2 3-6.3 6.5-6.3s5.7 2.1 6.5 6.3" />
-        <path d="M9.5 14.5 12 17l2.5-2.5" />
-      </>
-    ),
-    car: (
-      <>
-        <path d="M5 13h14l-1.4-4.2A2.6 2.6 0 0 0 15.1 7H8.9a2.6 2.6 0 0 0-2.5 1.8L5 13Z" />
-        <path d="M4 13v5h3m10 0h3v-5" />
-        <circle cx="8" cy="17" r="1.5" />
-        <circle cx="16" cy="17" r="1.5" />
-      </>
-    ),
-    clock: (
-      <>
-        <circle cx="12" cy="12" r="8" />
-        <path d="M12 7.5v5l3.5 2" />
-      </>
-    ),
-    lock: (
-      <>
-        <rect x="6" y="10.5" width="12" height="9" rx="1.4" />
-        <path d="M8.8 10.5V8a3.2 3.2 0 0 1 6.4 0v2.5" />
-      </>
-    ),
-    heart: (
-      <path d="M12 20s-7-4.2-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 10c0 5.8-7 10-7 10Z" />
-    ),
-    whatsapp: (
-      <>
-        <path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4.1A8 8 0 1 1 20 11.6Z" />
-        <path d="M9 8.5c.4 2.7 1.8 4.2 4.6 5.1l1.3-1.2 1.8.9c-.2 1.5-1.1 2.3-2.7 2.3-3.9-.4-6.7-3.1-7.2-7 0-1.4.8-2.3 2.1-2.5L10 8l-1 1.2Z" />
-      </>
-    ),
-    price: (
-      <>
-        <circle cx="12" cy="12" r="8.5" />
-        <path d="M15.2 8.7c-.7-.7-1.7-1-3-1-1.6 0-2.8.8-2.8 2s1 1.8 2.9 2.2c1.7.4 2.6 1 2.6 2.2 0 1.3-1.2 2.2-3 2.2-1.4 0-2.6-.4-3.4-1.3M12 5.8v12.4" />
-      </>
-    ),
-  };
-
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      {icons[type]}
-    </svg>
-  );
-}
-
 function WhyChoose() {
   return (
     <section className="hlt-section hlt-why" aria-labelledby="why-title">
@@ -206,9 +158,9 @@ function WhyChoose() {
           </h2>
           <div className="hlt-gold-line" />
           <p>
-            HOANG LUXURY TRAVEL is proudly recognized as a 5-star Personalized Transfer Service in
-            Vietnam, prioritizing your privacy and comfort above all else from professional airport
-            pick-ups to breathtaking journeys through the Northwest mountains.
+            <strong>Hoang Luxury Travel</strong> is a 5-star personalized transfer service in Vietnam,
+            offering private and comfortable journeys from professional airport pick-ups to Northwest
+            mountain tours.
           </p>
         </div>
 
@@ -217,7 +169,7 @@ function WhyChoose() {
             <article className="hlt-why-card" key={item.title}>
               <span className="hlt-why-number">{String(index + 1).padStart(2, "0")}</span>
               <div className="hlt-icon">
-                <WhyIcon type={item.icon} />
+                <img src={whyIconImages[item.icon]} alt="" />
               </div>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -268,11 +220,15 @@ function ServiceIcon({ type }) {
 
 function Services() {
   return (
-    <section id="services" className="hlt-section hlt-services">
+    <section
+      id="services"
+      className="hlt-section hlt-services"
+      style={{ "--services-bg": `url(${servicesBackgroundUrl})` }}
+    >
       <div className="hlt-container">
         <div className="hlt-services-heading">
           <p>Our Services</p>
-          <h2>Private Transfer Services</h2>
+          <h2>Private Luxury Transfer</h2>
           <div className="hlt-services-ornament" />
         </div>
 
@@ -311,7 +267,7 @@ function Fleet() {
     <section id="fleet" className="hlt-section hlt-fleet">
       <div className="hlt-container">
         <div className="hlt-fleet-heading">
-          <p>Our Premium Vehicles</p>
+          <p>Our Luxury Fleet</p>
         </div>
 
         <div className="hlt-fleet-grid">
@@ -412,229 +368,145 @@ function PopularRoutes() {
   );
 }
 
-function Booking() {
-  const processSteps = [
-    "Quick WhatsApp consultation",
-    "Booking confirmation",
-    "Professional service",
-    "Safe & comfortable journey",
-    "On-time drop-off",
-    "24/7 support",
-  ];
+function BookingProcessIcon({ type }) {
+  const icons = {
+    whatsapp: (
+      <>
+        <path d="M19.1 4.9A9.8 9.8 0 0 0 12 2C6.6 2 2.1 6.5 2.1 11.9c0 1.8.5 3.5 1.3 5L2.1 22l5.2-1.4a9.8 9.8 0 0 0 4.7 1.2h.1c5.4 0 9.9-4.4 9.9-9.9 0-2.6-1-5.1-2.9-7Z" />
+        <path d="M8.7 7.9c.7 3.6 2.7 5.7 6.3 6.6l1.2-1.2 1.8.9c-.2 1.5-1.2 2.3-2.8 2.3-4.4-.5-7.2-3.2-7.7-7.5 0-1.5.8-2.4 2.2-2.6L10 8.1 8.7 7.9Z" />
+      </>
+    ),
+    calendar: (
+      <>
+        <rect x="4" y="6" width="16" height="14" rx="2" />
+        <path d="M8 3v5M16 3v5M4 10h16M8 14h2M13 14h2M8 17h2M13 17h2" />
+      </>
+    ),
+    card: (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 9h18M7 15h4" />
+      </>
+    ),
+    car: (
+      <>
+        <path d="M5 13h14l-1.4-4A2.8 2.8 0 0 0 15 7H9a2.8 2.8 0 0 0-2.6 2L5 13Z" />
+        <path d="M4 13v5h3m10 0h3v-5M7 13h10" />
+        <circle cx="8" cy="17" r="1.5" />
+        <circle cx="16" cy="17" r="1.5" />
+      </>
+    ),
+  };
 
   return (
-    <section className="hlt-booking">
-      <div className="hlt-container">
-        <div className="hlt-booking-panel">
-          <article className="hlt-booking-card" aria-label="Booking confirmation">
-            <div className="hlt-booking-top">
-              <div className="hlt-booking-logo">
-                <img src={logoUrl} alt="Hoang Luxury Travel" />
-                <strong>Hoang</strong>
-              </div>
-              <b>Booking Confirmation</b>
-              <div className="hlt-booking-id">
-                <span>Booking ID</span>
-                <strong>HLT21-07-001</strong>
-              </div>
-            </div>
-
-            <div className="hlt-booking-table">
-              {bookingRows.map(([label, value]) => (
-                <div className="hlt-booking-row" key={label}>
-                  <span>{label}</span>
-                  <strong>{value}</strong>
-                </div>
-              ))}
-            </div>
-
-            <div className="hlt-booking-note">
-              <span>Thank you for choosing Hoang Luxury Travel.</span>
-              <em>Hoang Luxury Travel Team</em>
-            </div>
-          </article>
-
-          <div className="hlt-booking-process">
-            <h2>
-              Professional Process
-              <br />
-              Peace of Mind
-            </h2>
-            <ul>
-              {processSteps.map((step) => (
-                <li key={step}>
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="m7.8 12.1 2.7 2.7 5.8-6.2" />
-                  </svg>
-                  <span>{step}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="hlt-booking-visual">
-            <img src={bookingWhatsappUrl} alt="WhatsApp booking consultation" />
-          </div>
-        </div>
-      </div>
-    </section>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      {icons[type]}
+    </svg>
   );
 }
 
-function TravelBlog() {
-  return (
-    <section id="travel-blog" className="hlt-section hlt-blog" aria-labelledby="blog-title">
-      <div className="hlt-container">
-        <div className="hlt-blog-heading">
-          <div>
-            <p>Travel Insights</p>
-            <h2 id="blog-title">Northern Vietnam Travel Blog</h2>
-          </div>
-          <span>Guides and practical advice for international travelers</span>
-        </div>
+function BookingRowIcon({ label }) {
+  const paths = {
+    "Customer Name": <><circle cx="12" cy="7" r="3" /><path d="M6.5 20v-2.5a5.5 5.5 0 0 1 11 0V20M6.5 20h11" /></>,
+    WhatsApp: <><path d="M19.1 4.9A9.8 9.8 0 0 0 12 2C6.6 2 2.1 6.5 2.1 11.9c0 1.8.5 3.5 1.3 5L2.1 22l5.2-1.4" /><path d="M8.7 7.9c.5 3.5 2.6 5.7 6.2 6.7" /></>,
+    Flight: <><path d="m3 13 8-3 5-7 2 1-3 7 5 3-1 2-6-1-3 5-2-1 1-5-6 1Z" /></>,
+    Route: <><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
+    Vehicle: <><path d="M4 14h16l-2-5H6l-2 5Zm1 0v5m14-5v5M7 18h.01M17 18h.01" /></>,
+    Service: <><path d="M4 15h16M6 15V9a6 6 0 0 1 12 0v6M3 19h18" /><path d="M12 3V1" /></>,
+    "Total Price": <><circle cx="12" cy="12" r="9" /><path d="M15 8.5c-.7-.7-1.7-1-3-1-1.7 0-3 .8-3 2s1.1 1.8 3 2.2 3 1 3 2.3-1.3 2.5-3 2.5c-1.2 0-2.4-.4-3.2-1.2M12 5v14" /></>,
+  };
 
-        <div className="hlt-blog-grid">
-          {blogPosts.map((post) => (
-            <article className="hlt-blog-card" key={post.title}>
-              <div className="hlt-blog-image">
-                <img src={serviceImages[post.image]} alt="" />
-              </div>
-              <div className="hlt-blog-body">
-                <span>{post.category}</span>
-                <h3>{post.title}</h3>
-                <p>{post.excerpt}</p>
-                <a href="#contact" aria-label={`Ask about ${post.title}`}>
-                  Plan this journey <span aria-hidden="true">&#8594;</span>
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[label]}</svg>;
 }
 
 function Contact() {
-  const [status, setStatus] = useState({ type: "idle", message: "" });
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    if (!contactFormEndpoint) {
-      setStatus({
-        type: "error",
-        message: "Online submission is being connected. Please contact us on WhatsApp for immediate support.",
-      });
-      return;
-    }
-
-    const form = event.currentTarget;
-    const payload = Object.fromEntries(new FormData(form).entries());
-    setStatus({ type: "loading", message: "Sending your inquiry..." });
-
-    try {
-      const response = await fetch(contactFormEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, submittedAt: new Date().toISOString() }),
-      });
-
-      if (!response.ok) throw new Error("Submission failed");
-
-      form.reset();
-      setStatus({
-        type: "success",
-        message: "Thank you. Your travel inquiry has been received.",
-      });
-    } catch {
-      setStatus({
-        type: "error",
-        message: "We could not send your inquiry. Please try again or contact us on WhatsApp.",
-      });
-    }
-  }
+  const steps = [
+    ["whatsapp", "01. Contact Us", "Send us a message via WhatsApp."],
+    ["calendar", "02. Confirm Details", "We confirm your itinerary, vehicle and pricing."],
+    ["card", "03. Secure Booking", "Confirm your booking easily and securely."],
+    ["car", "04. Enjoy Your Trip", "Our driver is ready on time. You relax and enjoy."],
+  ];
 
   return (
-    <section id="contact" className="hlt-section hlt-contact" aria-labelledby="contact-title">
-      <div className="hlt-container hlt-contact-layout">
-        <div className="hlt-contact-intro">
-          <p>Private Travel Consultation</p>
-          <h2 id="contact-title">Tell us about your journey</h2>
-          <div className="hlt-gold-line" />
-          <p className="hlt-contact-copy">
-            Share your route, travel date and preferences. Our team will prepare a personalized transfer
-            plan and respond via WhatsApp or email.
-          </p>
+    <section
+      id="contact"
+      className="hlt-booking-showcase"
+      style={{ "--booking-process-bg": `url(${bookingProcessBackgroundUrl})` }}
+      aria-labelledby="booking-process-title"
+    >
+      <div className="hlt-container hlt-booking-showcase-main">
+        <article className="hlt-showcase-ticket" aria-label="Booking confirmation">
+          <header>
+            <div className="hlt-showcase-brand">
+              <img src={logoUrl} alt="" />
+              <div>
+                <strong>Hoang</strong>
+                <span>Luxury Travel</span>
+              </div>
+            </div>
+            <b>Booking Confirmation</b>
+            <div className="hlt-showcase-confirmed">
+              <span>Confirmed</span>
+              <small>Booking ID</small>
+              <strong>HLT21-07-001</strong>
+            </div>
+          </header>
 
-          <div className="hlt-contact-details">
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <span>WhatsApp</span>
-              +84 839 779 888
+          <div className="hlt-showcase-ticket-rows">
+            <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
+            {bookingRows.map(([label, value]) => (
+              <div className="hlt-showcase-ticket-row" key={label}>
+                <i aria-hidden="true"><BookingRowIcon label={label} /></i>
+                <span>{label}</span>
+                <b>:</b>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+
+          <footer>
+            <span>Thank you for choosing Hoang Luxury Travel.</span>
+            <em>Hoang Luxury Travel Team</em>
+          </footer>
+        </article>
+
+        <div className="hlt-process-panel">
+          <h2 id="booking-process-title">Booking Process</h2>
+          <div className="hlt-process-ornament" />
+          <div className="hlt-process-steps">
+            {steps.map(([icon, title, text]) => (
+              <article className="hlt-process-step" key={title}>
+                <div className="hlt-process-icon">
+                  <BookingProcessIcon type={icon} />
+                </div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="hlt-booking-showcase-footer">
+        <div className="hlt-container">
+          <div>
+            <h3>Ready to start your journey?</h3>
+            <p>We are here to make your trip comfortable, safe and unforgettable.</p>
+          </div>
+          <div className="hlt-showcase-actions">
+            <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              Book via WhatsApp
             </a>
-            <a href="mailto:info@hoangluxurytravel.com">
-              <span>Email</span>
-              info@hoangluxurytravel.com
+            <a
+              className="hlt-btn hlt-btn-outline"
+              href={catalogUrl}
+              target={catalogUrl !== "#catalog" ? "_blank" : undefined}
+              rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
+            >
+              View Catalog
             </a>
           </div>
         </div>
-
-        <form className="hlt-contact-form" onSubmit={handleSubmit}>
-          <div className="hlt-form-grid">
-            <label>
-              Full name
-              <input type="text" name="fullName" autoComplete="name" required />
-            </label>
-            <label>
-              WhatsApp number
-              <input type="tel" name="whatsapp" autoComplete="tel" required />
-            </label>
-            <label>
-              Email address
-              <input type="email" name="email" autoComplete="email" required />
-            </label>
-            <label>
-              Travel date
-              <input type="date" name="travelDate" required />
-            </label>
-            <label>
-              Pick-up location
-              <input type="text" name="pickup" required />
-            </label>
-            <label>
-              Destination
-              <input type="text" name="destination" required />
-            </label>
-            <label>
-              Number of travelers
-              <input type="number" name="travelers" min="1" max="20" defaultValue="2" required />
-            </label>
-            <label>
-              Preferred vehicle
-              <select name="vehicle" defaultValue="">
-                <option value="">Let us recommend</option>
-                <option value="VinFast VF9">VinFast VF9</option>
-                <option value="Limo Lux">Limo Lux</option>
-                <option value="Limo Green">Limo Green</option>
-              </select>
-            </label>
-          </div>
-
-          <label className="hlt-form-message">
-            Journey details
-            <textarea name="message" rows="4" placeholder="Flight number, luggage, preferred stops or special requests" />
-          </label>
-
-          <div className="hlt-form-actions">
-            <button type="submit" disabled={status.type === "loading"}>
-              {status.type === "loading" ? "Sending..." : "Send inquiry"}
-            </button>
-            <p className={`hlt-form-status is-${status.type}`} aria-live="polite">
-              {status.message}
-            </p>
-          </div>
-        </form>
       </div>
     </section>
   );
@@ -642,13 +514,12 @@ function Contact() {
 
 function Footer() {
   return (
-      <footer className="hlt-footer">
+      <footer className="hlt-footer hlt-footer-compact">
         <div className="hlt-container hlt-footer-grid">
           <div className="hlt-footer-brand">
             <img src={logoUrl} alt="Hoang Luxury Travel" />
             <strong>Hoang</strong>
             <span>Luxury Travel</span>
-            <div className="hlt-footer-ornament" />
             <p>Premium private car services for international travelers in Northern Vietnam.</p>
           </div>
 
@@ -662,71 +533,83 @@ function Footer() {
             >
               Catalog
             </a>
-            <a href="#travel-blog">Travel Blog</a>
-            <a href="#contact">Contact Us</a>
+            <a href="/travel-blog/">Travel Blog</a>
+            <a href="#contact">Contact</a>
           </div>
 
           <div className="hlt-footer-col">
             <h4>Services</h4>
             <a href="#services">Airport Transfer</a>
-            <a href="#routes">Long-Distance Transfer</a>
+            <a href="#services">Long-Distance Private Transfer</a>
             <a href="#services">Custom Private Trip</a>
-            <a href="/partner-transfer/">Business / Partner Transfer</a>
+            <a href="/partner-transfer/">Business Partner Transfer</a>
           </div>
 
           <div className="hlt-footer-col hlt-footer-contact">
-            <h4>Contact Us</h4>
-            <a href="tel:+84912898398">
+            <h4>Information</h4>
+            <a href="tel:+84839779888">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
               </svg>
-              +84 912 89 83 98
+              +84.839.779.888
             </a>
-            <a href="mailto:info@hoangluxurytravel.com">
+            <a href="mailto:hoangluxury.travel@gmail.com">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3.5 6.5h17v11h-17z" />
                 <path d="m4 7 8 6 8-6" />
               </svg>
-              info@hoangluxurytravel.com
+              hoangluxury.travel@gmail.com
             </a>
             <span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" />
                 <circle cx="12" cy="9" r="2.4" />
               </svg>
-              Hanoi, Vietnam
+              Duplex Villa 68 SP Hanoi, Viet Nam
             </span>
           </div>
 
           <div className="hlt-footer-qr">
-            <div className="hlt-footer-whatsapp">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19.1 4.9A9.8 9.8 0 0 0 12 2C6.6 2 2.1 6.5 2.1 11.9c0 1.8.5 3.5 1.3 5L2.1 22l5.2-1.4a9.8 9.8 0 0 0 4.7 1.2h.1c5.4 0 9.9-4.4 9.9-9.9 0-2.6-1-5.1-2.9-7Z" />
-                <path d="M8.7 7.9c-.2 0-.5.1-.7.4-.2.2-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.7 2.6 4.1 3.6 2 .9 2.4.7 2.8.7.4 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1-.1-.1-.2-.2-.5-.3l-1.6-.8c-.2-.1-.4-.1-.6.1-.2.2-.6.7-.8.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.6-.4h-.3Z" />
-              </svg>
-              <span>WhatsApp</span>
-            </div>
-            <div className="hlt-qr-box" aria-label="WhatsApp QR code">
-              <div className="hlt-qr-pattern" />
-              <span>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M19.1 4.9A9.8 9.8 0 0 0 12 2C6.6 2 2.1 6.5 2.1 11.9c0 1.8.5 3.5 1.3 5L2.1 22l5.2-1.4a9.8 9.8 0 0 0 4.7 1.2h.1c5.4 0 9.9-4.4 9.9-9.9 0-2.6-1-5.1-2.9-7Z" />
-                </svg>
-              </span>
-            </div>
-            <p>Scan to chat with us</p>
+            <h4>Connect</h4>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
+              <img src={whatsappQrUrl} alt="WhatsApp QR code" />
+            </a>
+            <p>WhatsApp</p>
           </div>
         </div>
 
         <div className="hlt-footer-bottom">
           <div className="hlt-container">
             <span>&copy; 2026 Hoang Luxury Travel. All rights reserved.</span>
-            <span>
-              Proudly based in Hanoi, Vietnam <i className="hlt-vn-flag" aria-label="Vietnam" />
-            </span>
+            <span><a href="/privacy-policy/">Privacy Policy</a><a href="/terms/">Terms of Service</a></span>
           </div>
         </div>
       </footer>
+  );
+}
+
+function StickyActions() {
+  return (
+    <aside className="hlt-sticky-actions" aria-label="Quick contact actions">
+      <a
+        className="hlt-sticky-book"
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Book via WhatsApp"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 10h14v10H5z" />
+          <path d="M8 10V8a4 4 0 0 1 8 0v2M8 15h.01M12 15h.01M16 15h.01" />
+        </svg>
+        <span>Book Now</span>
+      </a>
+      <a className="hlt-sticky-phone" href="tel:+84839779888" title="Call +84.839.779.888" aria-label="Call +84.839.779.888">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
+        </svg>
+      </a>
+    </aside>
   );
 }
 
@@ -738,10 +621,9 @@ export default function App() {
       <WhyChoose />
       <Services />
       <Fleet />
-      <Booking />
-      <TravelBlog />
       <Contact />
       <Footer />
+      <StickyActions />
     </div>
   );
 }
