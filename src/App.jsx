@@ -15,7 +15,7 @@ import logoUrl from "../assets/hoang-luxury-logo-2026-web.png";
 import heroBannerUrl from "../assets/home-banner.png";
 import serviceAirportUrl from "../assets/service-airport-transfer.png";
 import serviceSapaUrl from "../assets/service-sapa.png";
-import serviceHaGiangUrl from "../assets/service-ha-giang.png";
+import serviceHaGiangUrl from "../assets/service-ha-giangv2.jpg";
 import serviceCustomTripUrl from "../assets/service-custom-trip.png";
 import vehicleVf9Url from "../assets/vehicle-vinfast-vf9.png";
 import vehicleLimoLuxUrl from "../assets/vehicle-limo-lux.png";
@@ -28,6 +28,8 @@ import whyPricingIconUrl from "../assets/why-icon-pricing.png";
 import servicesBackgroundUrl from "../assets/services-background.png";
 import bookingProcessBackgroundUrl from "../assets/booking-process-background.png";
 import whatsappQrUrl from "../assets/whatsapp-qr.png";
+import stickyBookDriveIconUrl from "../assets/sticky-book-drive.png";
+import BookingModal from "./BookingPage";
 
 function cssImage(url) {
   return { "--img": `url('${url}')` };
@@ -36,8 +38,8 @@ function cssImage(url) {
 const serviceImages = {
   airport: serviceAirportUrl,
   sapa: serviceSapaUrl,
-  haGiang: serviceHaGiangUrl,
-  custom: serviceCustomTripUrl,
+  haGiang: serviceCustomTripUrl,
+  custom: serviceHaGiangUrl,
 };
 
 const fleetImages = {
@@ -56,6 +58,44 @@ const whyIconImages = {
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const scrollToSection = (target) => {
+    const headerHeight = document.querySelector(".hlt-header")?.offsetHeight ?? 0;
+    const startPosition = window.scrollY;
+    const targetPosition = target.getBoundingClientRect().top + startPosition - headerHeight;
+    const distance = targetPosition - startPosition;
+    const duration = 900;
+    let startTime;
+
+    const easeInOutCubic = (progress) =>
+      progress < 0.5
+        ? 4 * progress ** 3
+        : 1 - (-2 * progress + 2) ** 3 / 2;
+
+    const animateScroll = (time) => {
+      startTime ??= time;
+      const progress = Math.min((time - startTime) / duration, 1);
+
+      window.scrollTo(0, startPosition + distance * easeInOutCubic(progress));
+
+      if (progress < 1) requestAnimationFrame(animateScroll);
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
+
+  const handleNavigation = (event, href) => {
+    setMenuOpen(false);
+
+    if (!href.startsWith("#") || href.length === 1) return;
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    event.preventDefault();
+    scrollToSection(target);
+    window.history.replaceState(null, "", href);
+  };
+
   return (
     <header className="hlt-header">
       <div className="hlt-header-inner">
@@ -72,7 +112,7 @@ function Header() {
             <a
               href={href}
               key={label}
-              onClick={() => setMenuOpen(false)}
+              onClick={(event) => handleNavigation(event, href)}
               target={external && href !== "#catalog" ? "_blank" : undefined}
               rel={external && href !== "#catalog" ? "noopener noreferrer" : undefined}
             >
@@ -165,9 +205,8 @@ function WhyChoose() {
         </div>
 
         <div className="hlt-why-cards">
-          {whyItems.map((item, index) => (
+          {whyItems.map((item) => (
             <article className="hlt-why-card" key={item.title}>
-              <span className="hlt-why-number">{String(index + 1).padStart(2, "0")}</span>
               <div className="hlt-icon">
                 <img src={whyIconImages[item.icon]} alt="" />
               </div>
@@ -262,12 +301,40 @@ function Services() {
   );
 }
 
+function FleetSpecIcon({ spec }) {
+  const type = spec.toLowerCase();
+
+  if (type.includes("seat")) {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="6" r="3" /><path d="M6 21v-2a6 6 0 0 1 12 0v2" /></svg>;
+  }
+
+  if (type.includes("premium")) {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.4.9-4.6 4.5 1.1 6.3-5.7-3-5.7 3 1.1-6.3-4.6-4.5 6.4-.9L12 2.8Z" /></svg>;
+  }
+
+  if (type.includes("comfort")) {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3.5C12 4 6.2 8.3 5.5 15.6c3.9.9 8-.3 10.7-3.2C18.8 9.7 20 6.5 20 3.5Z" /><path d="M4 20c2.2-4.2 5.5-7.1 10.2-9.2" /></svg>;
+  }
+
+  if (type.includes("electric")) {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13.5 2-8 11H12l-1.5 9 8-12H12l1.5-8Z" /></svg>;
+  }
+
+  if (type.includes("luxury")) {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 7 4.5 4L12 4l4.5 7L21 7l-2 11H5L3 7Z" /><path d="M5 21h14" /></svg>;
+  }
+
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="2" /><path d="M9 7V4h6v3M4 12h16M10 12v2h4v-2" /></svg>;
+}
+
 function Fleet() {
   return (
     <section id="fleet" className="hlt-section hlt-fleet">
       <div className="hlt-container">
         <div className="hlt-fleet-heading">
-          <p>Our Luxury Fleet</p>
+          <p>Our Fleet</p>
+          <h2>Our Premium Vehicles</h2>
+          <div className="hlt-fleet-heading-ornament" />
         </div>
 
         <div className="hlt-fleet-grid">
@@ -281,11 +348,7 @@ function Fleet() {
                 <div className="hlt-fleet-specs">
                   {vehicle.specs.map((spec) => (
                     <span key={spec}>
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M8.5 10.5a3.5 3.5 0 1 1 7 0" />
-                        <path d="M5.5 19c.7-3.3 2.9-5.1 6.5-5.1s5.8 1.8 6.5 5.1" />
-                        <path d="M7 19h10" />
-                      </svg>
+                      <FleetSpecIcon spec={spec} />
                       {spec}
                     </span>
                   ))}
@@ -466,7 +529,7 @@ function Contact() {
 
           <footer>
             <span>Thank you for choosing Hoang Luxury Travel.</span>
-            <em>Hoang Luxury Travel Team</em>
+            <em>Hoang Luxury Travel</em>
           </footer>
         </article>
 
@@ -514,96 +577,91 @@ function Contact() {
 
 function Footer() {
   return (
-      <footer className="hlt-footer hlt-footer-compact">
-        <div className="hlt-container hlt-footer-grid">
-          <div className="hlt-footer-brand">
-            <img src={logoUrl} alt="Hoang Luxury Travel" />
-            <strong>Hoang</strong>
-            <span>Luxury Travel</span>
-            <p>Premium private car services for international travelers in Northern Vietnam.</p>
-          </div>
+    <footer className="hlt-footer hlt-footer-compact">
+      <div className="hlt-container hlt-footer-grid">
+        <div className="hlt-footer-brand">
+          <img src={logoUrl} alt="Hoang Luxury Travel" />
+          <strong>Hoang</strong>
+          <span>Luxury Travel</span>
+          <p>Premium private car services for international travelers in Northern Vietnam.</p>
+        </div>
 
-          <div className="hlt-footer-col">
-            <h4>Quick Links</h4>
-            <a href="#home">Home</a>
-            <a
-              href={catalogUrl}
-              target={catalogUrl !== "#catalog" ? "_blank" : undefined}
-              rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
-            >
-              Catalog
-            </a>
-            <a href="/travel-blog/">Travel Blog</a>
-            <a href="#contact">Contact</a>
-          </div>
+        <div className="hlt-footer-col">
+          <h4>Quick Links</h4>
+          <a href="#home">Home</a>
+          <a
+            href={catalogUrl}
+            target={catalogUrl !== "#catalog" ? "_blank" : undefined}
+            rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
+          >
+            Catalog
+          </a>
+          <a href="/travel-blog/">Travel Blog</a>
+          <a href="#contact">Contact</a>
+        </div>
 
-          <div className="hlt-footer-col">
-            <h4>Services</h4>
-            <a href="#services">Airport Transfer</a>
-            <a href="#services">Long-Distance Private Transfer</a>
-            <a href="#services">Custom Private Trip</a>
-            <a href="/partner-transfer/">Business Partner Transfer</a>
-          </div>
+        <div className="hlt-footer-col">
+          <h4>Services</h4>
+          <a href="#services">Airport Transfer</a>
+          <a href="#services">Long-Distance Private Transfer</a>
+          <a href="#services">Custom Private Trip</a>
+          <a href="/partner-transfer/">Business Partner Transfer</a>
+        </div>
 
-          <div className="hlt-footer-col hlt-footer-contact">
-            <h4>Information</h4>
-            <a href="tel:+84839779888">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
-              </svg>
-              +84.839.779.888
-            </a>
-            <a href="mailto:hoangluxury.travel@gmail.com">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M3.5 6.5h17v11h-17z" />
-                <path d="m4 7 8 6 8-6" />
-              </svg>
-              hoangluxury.travel@gmail.com
-            </a>
-            <span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" />
-                <circle cx="12" cy="9" r="2.4" />
-              </svg>
-              Duplex Villa 68 SP Hanoi, Viet Nam
-            </span>
-          </div>
+        <div className="hlt-footer-col hlt-footer-contact">
+          <h4>Contact Us</h4>
+          <a href="tel:+84839779888">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
+            </svg>
+            +84.839.779.888
+          </a>
+          <a href="mailto:hoangluxury.travel@gmail.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 6.5h17v11h-17z" />
+              <path d="m4 7 8 6 8-6" />
+            </svg>
+            hoangluxury.travel@gmail.com
+          </a>
+          <span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" />
+              <circle cx="12" cy="9" r="2.4" />
+            </svg>
+            Duplex Villa 68 SP Hanoi, Viet Nam
+          </span>
+        </div>
 
-          <div className="hlt-footer-qr">
-            <h4>Connect</h4>
+        <div className="hlt-footer-qr">
+          <div className="hlt-footer-qr-frame">
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
               <img src={whatsappQrUrl} alt="WhatsApp QR code" />
             </a>
             <p>WhatsApp</p>
           </div>
+          <nav className="hlt-footer-legal" aria-label="Legal links">
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/terms/">Terms of Service</a>
+          </nav>
         </div>
+      </div>
 
-        <div className="hlt-footer-bottom">
-          <div className="hlt-container">
-            <span>&copy; 2026 Hoang Luxury Travel. All rights reserved.</span>
-            <span><a href="/privacy-policy/">Privacy Policy</a><a href="/terms/">Terms of Service</a></span>
-          </div>
-        </div>
-      </footer>
+    </footer>
   );
 }
 
-function StickyActions() {
+function StickyActions({ onBook }) {
   return (
     <aside className="hlt-sticky-actions" aria-label="Quick contact actions">
-      <a
+      <button
+        type="button"
         className="hlt-sticky-book"
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Book via WhatsApp"
+        onClick={onBook}
+        title="Book Your Drive"
       >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 10h14v10H5z" />
-          <path d="M8 10V8a4 4 0 0 1 8 0v2M8 15h.01M12 15h.01M16 15h.01" />
-        </svg>
-        <span>Book Now</span>
-      </a>
+        <img src={stickyBookDriveIconUrl} alt="" aria-hidden="true" />
+        <span>Book Your Drive</span>
+      </button>
       <a className="hlt-sticky-phone" href="tel:+84839779888" title="Call +84.839.779.888" aria-label="Call +84.839.779.888">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
@@ -614,6 +672,8 @@ function StickyActions() {
 }
 
 export default function App() {
+  const [bookingOpen, setBookingOpen] = useState(false);
+
   return (
     <div className="hlt-site">
       <Header />
@@ -623,7 +683,8 @@ export default function App() {
       <Fleet />
       <Contact />
       <Footer />
-      <StickyActions />
+      <StickyActions onBook={() => setBookingOpen(true)} />
+      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
     </div>
   );
 }

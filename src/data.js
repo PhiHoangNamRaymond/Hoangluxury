@@ -49,13 +49,13 @@ export const services = [
     text: "Safe and comfortable city-to-city travel in premium vehicles to make your long journeys relaxing and efficient.",
   },
   {
-    image: "haGiang",
+    image: "custom",          // ✅ sửa: trước đây là "haGiang"
     icon: "mountain",
     title: "Custom Private Trip",
     text: "Flexible itinerary and custom routes based on your travel plan.",
   },
   {
-    image: "custom",
+    image: "haGiang",         // ✅ sửa: trước đây là "custom"
     icon: "dots",
     title: "Business / Partner Transfer",
     text: "Luxury and professional corporate transport solutions to provide a high-quality executive experience for your business partners.",
@@ -71,11 +71,11 @@ export const fleet = [
   {
     image: "limoGreen",
     name: "Limo Prime",
-    specs: ["6 Seats", "Comfort", "Eco-friendly"],
+    specs: ["6 Seats", "Comfort", "Executive"],
   },
   {
     image: "vf9",
-    name: "VF9 Lux",
+    name: "VinFast VF9",
     specs: ["6 Seats", "Electric", "Luxury SUV"],
   },
 ];
@@ -112,11 +112,11 @@ export const benefits = [
 ];
 
 export const bookingRows = [
-  ["Customer Name", "Alabdullah Othman - 2 pax"],
-  ["WhatsApp", "+966508375898"],
-  ["Flight", "VN123 | 21 July 2026 | 16:10"],
-  ["Route", "Noi Bai Airport -> Sapa Jade Hill"],
-  ["Vehicle", "VF9 Lux"],
+  ["Customer Name", "ALABDULLAH OTHMAN - 2 pax"],
+  ["WhatsApp", "+971501234567"],
+  ["Flight", "VN1232  |  21 July 2026  |  16:10"],
+  ["Route", "Noi Bai Airport ↔ Sapa Hotel"],
+  ["Vehicle", "Limo Lux"],
   ["Service", "Private Transfer (Round Trip)"],
   ["Total Price", "VND 4,615,000"],
 ];
