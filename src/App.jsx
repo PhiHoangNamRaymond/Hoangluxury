@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {
-  benefits,
   bookingRows,
   catalogUrl,
   fleet,
   navLinks,
-  routePins,
-  routes,
+  popularRoutes,
   services,
   whatsappUrl,
   whyItems,
@@ -20,7 +18,6 @@ import serviceCustomTripUrl from "../assets/service-custom-trip.png";
 import vehicleVf9Url from "../assets/vehicle-vinfast-vf9.png";
 import vehicleLimoLuxUrl from "../assets/vehicle-limo-lux.png";
 import vehicleLimoGreenUrl from "../assets/vehicle-limo-green.png";
-import routesStandardUrl from "../assets/routes-standard.png";
 import whyDriverIconUrl from "../assets/why-icon-driver.png";
 import whyVehicleIconUrl from "../assets/why-icon-vehicle.png";
 import whyWhatsappIconUrl from "../assets/why-icon-whatsapp.png";
@@ -29,6 +26,7 @@ import servicesBackgroundUrl from "../assets/services-background.png";
 import bookingProcessBackgroundUrl from "../assets/booking-process-background.png";
 import whatsappQrUrl from "../assets/whatsapp-qr.png";
 import stickyBookDriveIconUrl from "../assets/sticky-book-drive.png";
+import vietnamRoutesMapUrl from "../assets/vietnam-routes-map.png";
 import BookingModal from "./BookingPage";
 
 function cssImage(url) {
@@ -358,75 +356,44 @@ function Fleet() {
           ))}
         </div>
 
-        <div className="hlt-fleet-routes" id="routes">
-          <img src={routesStandardUrl} alt="Popular private transfer routes" />
+        <div className="hlt-route-showcase" id="routes">
+          <div className="hlt-route-map" aria-hidden="true">
+            <img src={vietnamRoutesMapUrl} alt="" />
+          </div>
+
+          <div className="hlt-route-content">
+            <div className="hlt-route-heading">
+              <p>Curated Journeys</p>
+              <h2>Popular Private Transfer Routes</h2>
+              <div className="hlt-route-heading-ornament" />
+            </div>
+
+            <div className="hlt-route-grid">
+              {popularRoutes.map((route, index) => (
+                <article className="hlt-route-card" key={route}>
+                  <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="hlt-route-mountain" aria-hidden="true">
+                    <svg viewBox="0 0 80 42">
+                      <path d="M3 37 22 14l10 12L45 6l32 31H3Z" />
+                      <path d="m16 37 14-16 10 10 9-12 16 18" />
+                    </svg>
+                  </span>
+                  <h3>Hanoi / Noi Bai</h3>
+                  <p>{route}</p>
+                </article>
+              ))}
+            </div>
+
+            <a className="hlt-route-cta" href="#contact">
+              <span>View All Routes</span>
+              <svg viewBox="0 0 18 18" aria-hidden="true">
+                <path d="m6.5 3.8 5 5.2-5 5.2" />
+              </svg>
+            </a>
+          </div>
         </div>
+
       </div>
-    </section>
-  );
-}
-
-function BenefitIcon() {
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden="true">
-      <path d="M24 5 42 18 24 43 6 18 24 5Z" />
-      <path d="M6 18h36M16 18l8 25 8-25" />
-    </svg>
-  );
-}
-
-function RouteMap() {
-  return (
-    <div className="hlt-routes-final__map" aria-label="Northern Vietnam route map">
-      <div className="hlt-routes-final__map-shape" />
-      <svg className="hlt-routes-final__map-art" viewBox="0 0 560 820" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <filter id="hlt-gold-glow" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <path className="map-outline" d="M270 25C315 32 341 58 368 77C420 114 472 149 490 205C510 267 472 316 484 376C498 446 526 512 497 584C470 654 418 704 379 775C328 750 319 699 285 664C250 628 210 619 184 574C154 522 104 501 83 445C60 384 86 342 72 284C58 226 33 169 71 119C109 68 205 65 270 25Z" />
-        <path className="map-texture" d="M95 150c62-36 104-22 158-50M105 228c78-24 137-13 216-44M98 325c94-48 166-19 264-65M92 430c95-34 192-20 322-53M137 546c109-50 198-17 319-57M186 650c83-28 147-6 214-35" />
-        {[
-          "M275 477Q258 300 230 116",
-          "M275 477Q305 345 306 230",
-          "M275 477Q205 358 112 334",
-          "M275 477Q373 365 430 290",
-          "M275 477Q176 450 78 430",
-          "M275 477Q156 530 76 560",
-          "M275 477Q355 550 424 610",
-          "M275 477Q372 618 450 700",
-          "M275 477Q252 610 228 735",
-        ].map((d) => (
-          <path className="route-line" d={d} key={d} />
-        ))}
-        <circle className="map-hub-dot" cx="275" cy="477" r="17" />
-        <path className="map-hanoi-icon" d="M252 463h46M260 452h30M265 442h20M255 463l7 28h28l7-28M269 442v-15h12v15" />
-      </svg>
-
-      <div className="hlt-map-pin hlt-map-pin--hanoi" style={{ "--x": "49%", "--y": "58%" }}>
-        <b />
-        <span>HANOI</span>
-      </div>
-      {routePins.map((pin) => (
-        <div className="hlt-map-pin" style={{ "--x": pin.x, "--y": pin.y }} key={pin.number}>
-          <b>{pin.number}</b>
-          <span>{pin.name}</span>
-        </div>
-      ))}
-      <div className="hlt-routes-final__compass">N&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;W</div>
-    </div>
-  );
-}
-
-function PopularRoutes() {
-  return (
-    <section className="hlt-routes-final" id="routes">
-      <img className="hlt-routes-image" src={routesStandardUrl} alt="Popular private transfer routes" />
     </section>
   );
 }

@@ -80,35 +80,16 @@ export const fleet = [
   },
 ];
 
-export const routePins = [
-  { number: "01", name: "HA GIANG", x: "41%", y: "13%" },
-  { number: "02", name: "TA XUA", x: "56%", y: "27%" },
-  { number: "03", name: "SA PA", x: "18%", y: "39%" },
-  { number: "04", name: "CAO BANG", x: "77%", y: "34%" },
-  { number: "05", name: "MU CANG CHAI", x: "13%", y: "51%" },
-  { number: "06", name: "MOC CHAU", x: "11%", y: "64%" },
-  { number: "07", name: "CAT BA", x: "78%", y: "71%" },
-  { number: "08", name: "HA LONG", x: "83%", y: "82%" },
-  { number: "09", name: "NINH BINH", x: "43%", y: "87%" },
-];
-
-export const routes = [
-  ["01", "Hanoi / Noi Bai -", "Ha Giang"],
-  ["02", "Hanoi / Noi Bai -", "Ta Xua"],
-  ["03", "Hanoi / Noi Bai -", "Sa Pa"],
-  ["04", "Hanoi / Noi Bai -", "Cao Bang"],
-  ["05", "Hanoi / Noi Bai -", "Mu Cang Chai"],
-  ["06", "Hanoi / Noi Bai -", "Moc Chau"],
-  ["07", "Hanoi / Noi Bai -", "Cat Ba"],
-  ["08", "Hanoi / Noi Bai -", "Ha Long"],
-  ["09", "Hanoi / Noi Bai -", "Ninh Binh"],
-];
-
-export const benefits = [
-  ["Premium Fleet", "Luxury vehicles"],
-  ["Professional Drivers", "Experienced & courteous"],
-  ["Safe & Reliable", "Your safety, our priority"],
-  ["24/7 Support", "Always here for you"],
+export const popularRoutes = [
+  "Ha Giang",
+  "Ta Xua",
+  "Sa Pa",
+  "Cao Bang",
+  "Mu Cang Chai",
+  "Moc Chau",
+  "Cat Ba",
+  "Ha Long",
+  "Ninh Binh",
 ];
 
 export const bookingRows = [
