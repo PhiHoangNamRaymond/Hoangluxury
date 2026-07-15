@@ -1492,6 +1492,12 @@ body {
   cursor: pointer;
 }
 
+.hlt-book-actions button:disabled {
+  cursor: wait;
+  filter: grayscale(.2);
+  opacity: .72;
+}
+
 .hlt-book-actions button span {
   font-size: 25px;
 }
@@ -1506,6 +1512,44 @@ body {
   color: #5c554c;
   font-size: 12px;
   text-align: center;
+}
+
+.hlt-book-honeypot {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+.hlt-book-status {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.hlt-book-status.is-loading {
+  color: #6e4b15;
+  background: #fff3d8;
+  border: 1px solid rgba(190, 132, 37, .34);
+}
+
+.hlt-book-status.is-success {
+  color: #195b38;
+  background: #eaf7ef;
+  border: 1px solid rgba(25, 91, 56, .24);
+}
+
+.hlt-book-status.is-error {
+  color: #8a2b22;
+  background: #fff0ee;
+  border: 1px solid rgba(138, 43, 34, .24);
 }
 
 @media (max-width: 1100px) {

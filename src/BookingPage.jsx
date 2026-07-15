@@ -13,7 +13,10 @@ const initialForm = {
   journeyType: "",
   luggage: "",
   requirements: "",
+  website: "",
 };
+
+const bookingEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
 
 function FormIcon({ type }) {
   const icons = {
@@ -33,6 +36,7 @@ function FormIcon({ type }) {
 
 export default function BookingModal({ open, onClose }) {
   const [form, setForm] = useState(initialForm);
+  const [submission, setSubmission] = useState({ state: "idle", message: "" });
 
   useEffect(() => {
     if (!open) return undefined;
@@ -56,24 +60,45 @@ export default function BookingModal({ open, onClose }) {
     setForm((current) => ({ ...current, [name]: value }));
   };
 
-  const submitBooking = (event) => {
+  const submitBooking = async (event) => {
     event.preventDefault();
-    const message = [
-      "Hello Hoang Luxury Travel, I would like to request a private transfer quote.",
-      `Full name: ${form.fullName}`,
-      `Phone: ${form.phone}`,
-      `Departure date: ${form.departureDate}`,
-      `Return date: ${form.returnDate || "One way / not specified"}`,
-      `Pick-up: ${form.pickup}`,
-      `Drop-off: ${form.dropoff}`,
-      `Flight number: ${form.flight || "Not specified"}`,
-      `Passengers: ${form.passengers}`,
-      `Journey type: ${form.journeyType}`,
-      `Luggage: ${form.luggage || "Not specified"}`,
-      `Special requirements: ${form.requirements || "None"}`,
-    ].join("\n");
 
-    window.open(`https://wa.me/84839779888?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    if (!bookingEndpoint) {
+      setSubmission({
+        state: "error",
+        message: "Online booking is being configured. Please contact us via WhatsApp.",
+      });
+      return;
+    }
+
+    setSubmission({ state: "loading", message: "Sending your booking request..." });
+
+    const payload = new URLSearchParams({
+      ...form,
+      submittedFrom: window.location.href,
+      clientTimestamp: new Date().toISOString(),
+    });
+
+    try {
+      await fetch(bookingEndpoint, {
+        method: "POST",
+        mode: "no-cors",
+        credentials: "omit",
+        keepalive: true,
+        body: payload,
+      });
+
+      setForm(initialForm);
+      setSubmission({
+        state: "success",
+        message: "Thank you. Your booking request has been sent successfully.",
+      });
+    } catch {
+      setSubmission({
+        state: "error",
+        message: "We could not send your request. Please try again or contact us via WhatsApp.",
+      });
+    }
   };
 
   return (
@@ -88,6 +113,10 @@ export default function BookingModal({ open, onClose }) {
         </header>
 
         <form className="hlt-book-modal-form" onSubmit={submitBooking}>
+          <label className="hlt-book-honeypot" aria-hidden="true">
+            Website
+            <input name="website" value={form.website} onChange={updateField} tabIndex="-1" autoComplete="off" />
+          </label>
           <div className="hlt-book-fields">
             <label><span className="hlt-book-label-text">Departure Date</span><div className="hlt-book-control"><FormIcon type="calendar" /><input required type="date" name="departureDate" value={form.departureDate} onChange={updateField} /></div></label>
             <label><span className="hlt-book-label-text">Return Date <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="calendar" /><input type="date" name="returnDate" value={form.returnDate} onChange={updateField} /></div></label>
@@ -103,9 +132,17 @@ export default function BookingModal({ open, onClose }) {
           </div>
 
           <div className="hlt-book-actions">
-            <button type="submit">Request a Quote <span>→</span></button>
+            <button type="submit" disabled={submission.state === "loading"}>
+              {submission.state === "loading" ? "Sending..." : "Request a Quote"}
+              <span aria-hidden="true">→</span>
+            </button>
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
           </div>
+          {submission.message && (
+            <p className={`hlt-book-status is-${submission.state}`} role="status" aria-live="polite">
+              {submission.message}
+            </p>
+          )}
           <p className="hlt-book-secure">Your information is secure and will only be used to process your booking.</p>
         </form>
       </section>
