@@ -94,9 +94,9 @@ export const popularRoutes = [
 
 export const bookingRows = [
   ["Customer Name", "ALABDULLAH OTHMAN - 2 pax"],
-  ["WhatsApp", "+971501234567"],
-  ["Flight", "VN1232  |  21 July 2026  |  16:10"],
-  ["Route", "Noi Bai Airport ↔ Sapa Hotel"],
+  ["WhatsApp", "+971 501234567"],
+  ["Flight", "VN1222  |  23 July 2026  |  16:30"],
+  ["Route", "Noi Bai Airport - Sapa hotels"],
   ["Vehicle", "Limo Lux"],
   ["Service", "Private Transfer (Round Trip)"],
   ["Total Price", "VND 4,615,000"],
