@@ -9,7 +9,7 @@ export const navLinks = [
   ["Fleet", "#fleet"],
   ["Catalog", catalogUrl, true],
   ["Travel Blog", "/travel-blog/"],
-  ["Contact", "#contact"],
+  ["Contact", "/booking/"],
 ];
 
 export const whyItems = [

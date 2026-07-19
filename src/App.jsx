@@ -9,7 +9,7 @@ import {
   whatsappUrl,
   whyItems,
 } from "./data";
-import logoUrl from "../assets/hoang-luxury-logo-2026-web.png";
+import logoUrl from "../assets/hoang-luxury-logo-crown-2026.png";
 import heroBannerUrl from "../assets/home-banner.png";
 import serviceAirportUrl from "../assets/service-airport-transfer.png";
 import serviceSapaUrl from "../assets/service-sapa.png";
@@ -27,7 +27,6 @@ import bookingProcessBackgroundUrl from "../assets/booking-process-background.pn
 import whatsappQrUrl from "../assets/whatsapp-qr.png";
 import stickyBookDriveIconUrl from "../assets/sticky-book-drive.png";
 import vietnamRoutesMapUrl from "../assets/vietnam-routes-map.png";
-import BookingModal from "./BookingPage";
 
 function cssImage(url) {
   return { "--img": `url('${url}')` };
@@ -53,8 +52,9 @@ const whyIconImages = {
   price: whyPricingIconUrl,
 };
 
-function Header() {
+export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const isHomePage = window.location.pathname.replace(/\/+$/, "") === "";
 
   const scrollToSection = (target) => {
     const headerHeight = document.querySelector(".hlt-header")?.offsetHeight ?? 0;
@@ -94,6 +94,9 @@ function Header() {
     window.history.replaceState(null, "", href);
   };
 
+  const navigationHref = (href) =>
+    href.startsWith("#") && !isHomePage ? `/${href}` : href;
+
   return (
     <header className="hlt-header">
       <div className="hlt-header-inner">
@@ -106,17 +109,21 @@ function Header() {
         </a>
 
         <nav id="primary-navigation" className={`hlt-nav${menuOpen ? " is-open" : ""}`}>
-          {navLinks.map(([label, href, external]) => (
-            <a
-              href={href}
-              key={label}
-              onClick={(event) => handleNavigation(event, href)}
-              target={external && href !== "#catalog" ? "_blank" : undefined}
-              rel={external && href !== "#catalog" ? "noopener noreferrer" : undefined}
-            >
-              {label}
-            </a>
-          ))}
+          {navLinks.map(([label, href, external]) => {
+            const resolvedHref = navigationHref(href);
+
+            return (
+              <a
+                href={resolvedHref}
+                key={label}
+                onClick={(event) => handleNavigation(event, resolvedHref)}
+                target={external && href !== "#catalog" ? "_blank" : undefined}
+                rel={external && href !== "#catalog" ? "noopener noreferrer" : undefined}
+              >
+                {label}
+              </a>
+            );
+          })}
         </nav>
 
         <button
@@ -188,11 +195,11 @@ function WhyChoose() {
     <section className="hlt-section hlt-why" aria-labelledby="why-title">
       <div className="hlt-container hlt-why-layout">
         <div className="hlt-why-intro">
+          <p className="hlt-why-eyebrow">Why choose</p>
+          <div className="hlt-why-eyebrow-line" aria-hidden="true" />
           <h2 id="why-title">
-            Why choose
-            <span>
-              Hoang Luxury <br className="hlt-mobile-break" /> Travel?
-            </span>
+            <span className="hlt-why-title-gold">Hoang<br />Luxury</span>
+            <span className="hlt-why-title-ink">Travel?</span>
           </h2>
           <div className="hlt-gold-line" />
           <p>
@@ -209,6 +216,7 @@ function WhyChoose() {
                 <img src={whyIconImages[item.icon]} alt="" />
               </div>
               <h3>{item.title}</h3>
+              <div className="hlt-why-card-line" aria-hidden="true" />
               <p>{item.text}</p>
             </article>
           ))}
@@ -272,11 +280,13 @@ function Services() {
         <div className="hlt-service-grid">
           {services.map((service, index) => (
             <article className="hlt-service-card" key={service.title}>
-              <div className="hlt-service-image">
-                <img src={serviceImages[service.image]} alt={service.title} />
-              </div>
-              <div className="hlt-service-icon">
-                <ServiceIcon type={service.icon} />
+              <div className="hlt-service-media">
+                <div className="hlt-service-image">
+                  <img src={serviceImages[service.image]} alt={service.title} />
+                </div>
+                <div className="hlt-service-icon">
+                  <ServiceIcon type={service.icon} />
+                </div>
               </div>
               <div className="hlt-service-body">
                 <span className="hlt-service-number">
@@ -333,9 +343,12 @@ function Fleet() {
     <section id="fleet" className="hlt-section hlt-fleet">
       <div className="hlt-container">
         <div className="hlt-fleet-heading">
-          <p>Our Fleet</p>
-          <h2>Our Premium Vehicles</h2>
+          <p className="hlt-fleet-kicker">Our Fleet</p>
+          <h2>
+            <span>Our Luxury</span> <strong>Fleet</strong>
+          </h2>
           <div className="hlt-fleet-heading-ornament" />
+          <p className="hlt-fleet-subtitle">Premium Selection</p>
         </div>
 
         <div className="hlt-fleet-grid">
@@ -358,6 +371,8 @@ function Fleet() {
             </article>
           ))}
         </div>
+
+        <div className="hlt-fleet-divider" aria-hidden="true" />
 
         <div className="hlt-route-showcase" id="routes">
           <div className="hlt-route-map" aria-hidden="true">
@@ -518,32 +533,43 @@ function Contact() {
         </div>
       </div>
 
-      <div className="hlt-booking-showcase-footer">
-        <div className="hlt-container">
-          <div>
-            <h3>Ready to start your journey?</h3>
-            <p>We are here to make your trip comfortable, safe and unforgettable.</p>
-          </div>
-          <div className="hlt-showcase-actions">
-            <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              Book via WhatsApp
-            </a>
-            <a
-              className="hlt-btn hlt-btn-outline"
-              href={catalogUrl}
-              target={catalogUrl !== "#catalog" ? "_blank" : undefined}
-              rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
-            >
-              View Catalog
-            </a>
-          </div>
+    </section>
+  );
+}
+
+function JourneyCallToAction() {
+  return (
+    <section
+      className="hlt-booking-showcase-footer hlt-journey-cta"
+      aria-labelledby="journey-cta-title"
+    >
+      <div className="hlt-container">
+        <div>
+          <h3 id="journey-cta-title">Ready to start your journey?</h3>
+          <p>We are here to make your trip comfortable, safe and unforgettable.</p>
+        </div>
+        <div className="hlt-showcase-actions">
+          <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            Book via WhatsApp
+          </a>
+          <a
+            className="hlt-btn hlt-btn-outline"
+            href={catalogUrl}
+            target={catalogUrl !== "#catalog" ? "_blank" : undefined}
+            rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
+          >
+            View Catalog
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
-function Footer() {
+export function Footer() {
+  const isHomePage = window.location.pathname.replace(/\/+$/, "") === "";
+  const sectionHref = (href) => isHomePage ? href : `/${href}`;
+
   return (
     <footer className="hlt-footer hlt-footer-compact">
       <div className="hlt-container hlt-footer-grid">
@@ -556,7 +582,7 @@ function Footer() {
 
         <div className="hlt-footer-col">
           <h4>Quick Links</h4>
-          <a href="#home">Home</a>
+          <a href={sectionHref("#home")}>Home</a>
           <a
             href={catalogUrl}
             target={catalogUrl !== "#catalog" ? "_blank" : undefined}
@@ -565,14 +591,14 @@ function Footer() {
             Catalog
           </a>
           <a href="/travel-blog/">Travel Blog</a>
-          <a href="#contact">Contact</a>
+          <a href="/booking/">Contact</a>
         </div>
 
         <div className="hlt-footer-col">
           <h4>Services</h4>
-          <a href="#services">Airport Transfer</a>
-          <a href="#services">Long-Distance Private Transfer</a>
-          <a href="#services">Custom Private Trip</a>
+          <a href={sectionHref("#services")}>Airport Transfer</a>
+          <a href={sectionHref("#services")}>Long-Distance Private Transfer</a>
+          <a href={sectionHref("#services")}>Custom Private Trip</a>
           <a href="/partner-transfer/">Business Partner Transfer</a>
         </div>
 
@@ -618,18 +644,17 @@ function Footer() {
   );
 }
 
-function StickyActions({ onBook }) {
+function StickyActions() {
   return (
     <aside className="hlt-sticky-actions" aria-label="Quick contact actions">
-      <button
-        type="button"
+      <a
+        href="/booking/"
         className="hlt-sticky-book"
-        onClick={onBook}
         title="Book Your Drive"
       >
         <img src={stickyBookDriveIconUrl} alt="" aria-hidden="true" />
         <span>Book Your Drive</span>
-      </button>
+      </a>
       <a className="hlt-sticky-phone" href="tel:+84839779888" title="Call +84.839.779.888" aria-label="Call +84.839.779.888">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
@@ -640,8 +665,6 @@ function StickyActions({ onBook }) {
 }
 
 export default function App() {
-  const [bookingOpen, setBookingOpen] = useState(false);
-
   return (
     <div className="hlt-site">
       <Header />
@@ -650,9 +673,9 @@ export default function App() {
       <Services />
       <Fleet />
       <Contact />
+      <JourneyCallToAction />
       <Footer />
-      <StickyActions onBook={() => setBookingOpen(true)} />
-      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
+      <StickyActions />
     </div>
   );
 }
