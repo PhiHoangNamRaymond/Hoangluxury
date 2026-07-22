@@ -1393,10 +1393,19 @@ body {
 /* Booking page */
 .hlt-book-page {
   min-height: 100vh;
+  padding-bottom: clamp(28px, 4vw, 52px);
   overflow-x: hidden;
   color: #17130f;
   background: #090c0b;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.hlt-booking-site .hlt-footer.hlt-footer-compact {
+  border-top: 1px solid rgba(197, 161, 90, .38);
+}
+
+.hlt-booking-site .hlt-footer.hlt-footer-compact::before {
+  content: none;
 }
 
 .hlt-book-page *,
@@ -2336,6 +2345,7 @@ body {
   gap: clamp(40px, 5vw, 88px);
   margin-top: clamp(70px, 7vw, 112px);
   padding-top: clamp(52px, 5vw, 78px);
+  background-color: #EDE0CC;
   border-top: 1px solid rgba(184, 134, 54, .28);
 }
 
@@ -2351,6 +2361,14 @@ body {
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 16px 24px rgba(126, 82, 18, .13));
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 10%, #000 78%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 9%, #000 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 10%, #000 78%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 9%, #000 80%, transparent 100%);
+  mask-composite: intersect;
 }
 
 .hlt-route-content {
@@ -2481,6 +2499,24 @@ body {
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.hlt-route-artwork {
+  width: 96px;
+  height: 76px;
+  display: block;
+  margin: 2px 0 5px;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 44%, rgba(0, 0, 0, .88) 58%, transparent 82%);
+  mask-image: radial-gradient(ellipse at center, #000 44%, rgba(0, 0, 0, .88) 58%, transparent 82%);
+}
+
+.hlt-route-artwork img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hlt-route-card h3,
@@ -3944,7 +3980,7 @@ body {
     display: grid;
     grid-template-columns: 47% 53%;
     border-radius: 9px;
-    background: #fbf4e9;
+    background: #EDE0CC;
   }
 
   .hlt-service-image {
@@ -4123,6 +4159,12 @@ body {
     width: 44px;
     height: 26px;
     margin: 5px 0 3px;
+  }
+
+  .hlt-route-artwork {
+    width: 52px;
+    height: 42px;
+    margin: 1px 0 2px;
   }
 
   .hlt-route-card h3 {
@@ -4383,10 +4425,129 @@ body {
 
 .hlt-fleet {
   color: #25221D;
-  background:
-    radial-gradient(circle at 50% 18%, rgba(197, 161, 90, .1), transparent 34%),
-    linear-gradient(180deg, #F4EBDD, #EDE0CC);
+  background: #EDE0CC;
   border-color: rgba(197, 161, 90, .36);
+}
+
+/* Curated journey cards */
+.hlt-route-card {
+  min-height: 218px;
+  justify-content: flex-start;
+  padding: 16px 14px 15px;
+  border: 1px solid rgba(184, 126, 39, .68);
+  border-radius: 6px;
+  background: rgba(244, 235, 221, .82);
+  box-shadow: 0 7px 18px rgba(94, 61, 19, .08);
+}
+
+.hlt-route-card::before {
+  inset: 4px;
+  border-color: rgba(197, 161, 90, .38);
+  border-radius: 4px;
+}
+
+.hlt-route-number {
+  width: 36px;
+  height: 36px;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  border-color: #C58A32;
+  background: rgba(244, 235, 221, .94);
+  color: #9B641C;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.hlt-route-artwork {
+  width: 118px;
+  height: 90px;
+  margin: 2px 0 0;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 45%, rgba(0, 0, 0, .92) 62%, transparent 87%);
+  mask-image: radial-gradient(ellipse at center, #000 45%, rgba(0, 0, 0, .92) 62%, transparent 87%);
+}
+
+.hlt-route-artwork img {
+  filter: sepia(1) saturate(.9) contrast(1.08) brightness(1.08);
+  mix-blend-mode: multiply;
+}
+
+.hlt-route-card h3 {
+  margin-top: 1px;
+  color: #33271B;
+  font-size: clamp(16px, 1.15vw, 19px);
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.hlt-route-card p {
+  margin-top: 2px;
+  color: #9B641C;
+  font-size: clamp(21px, 1.55vw, 26px);
+  font-weight: 700;
+  line-height: .98;
+}
+
+.hlt-route-card-ornament {
+  width: 72px;
+  height: 9px;
+  display: block;
+  position: relative;
+  margin-top: auto;
+  background: linear-gradient(90deg, transparent, rgba(184, 126, 39, .72), transparent) center / 100% 1px no-repeat;
+}
+
+.hlt-route-card-ornament::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid #B87E27;
+  background: #F4EBDD;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+@media (max-width: 960px) {
+  .hlt-route-card {
+    min-height: 132px;
+    padding: 10px 6px 9px;
+  }
+
+  .hlt-route-number {
+    width: 24px;
+    height: 24px;
+    top: 7px;
+    left: 7px;
+    font-size: 10px;
+  }
+
+  .hlt-route-artwork {
+    width: 62px;
+    height: 48px;
+    margin-top: 0;
+  }
+
+  .hlt-route-card h3 {
+    margin-top: 0;
+    font-size: 11px;
+  }
+
+  .hlt-route-card p {
+    margin-top: 1px;
+    font-size: 15px;
+  }
+
+  .hlt-route-card-ornament {
+    width: 42px;
+    height: 7px;
+  }
+
+  .hlt-route-card-ornament::after {
+    width: 4px;
+    height: 4px;
+  }
 }
 
 .hlt-fleet-card {

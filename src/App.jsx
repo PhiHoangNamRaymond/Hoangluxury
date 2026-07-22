@@ -27,6 +27,15 @@ import bookingProcessBackgroundUrl from "../assets/booking-process-background.pn
 import whatsappQrUrl from "../assets/whatsapp-qr.png";
 import stickyBookDriveIconUrl from "../assets/sticky-book-drive.png";
 import vietnamRoutesMapUrl from "../assets/vietnam-routes-map.png";
+import routeHaGiangArtUrl from "../assets/route-art-ha-giang.png";
+import routeTaXuaArtUrl from "../assets/route-art-ta-xua.png";
+import routeSaPaArtUrl from "../assets/route-art-sa-pa.png";
+import routeCaoBangArtUrl from "../assets/route-art-cao-bang.png";
+import routeMuCangChaiArtUrl from "../assets/route-art-mu-cang-chai.png";
+import routeMocChauArtUrl from "../assets/route-art-moc-chau.png";
+import routeCatBaArtUrl from "../assets/route-art-cat-ba.png";
+import routeHaLongArtUrl from "../assets/route-art-ha-long.png";
+import routeNinhBinhArtUrl from "../assets/route-art-ninh-binh.png";
 
 function cssImage(url) {
   return { "--img": `url('${url}')` };
@@ -51,6 +60,18 @@ const whyIconImages = {
   whatsapp: whyWhatsappIconUrl,
   price: whyPricingIconUrl,
 };
+
+const routeArtwork = [
+  routeHaGiangArtUrl,
+  routeTaXuaArtUrl,
+  routeSaPaArtUrl,
+  routeCaoBangArtUrl,
+  routeMuCangChaiArtUrl,
+  routeMocChauArtUrl,
+  routeCatBaArtUrl,
+  routeHaLongArtUrl,
+  routeNinhBinhArtUrl,
+];
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -390,14 +411,21 @@ function Fleet() {
               {popularRoutes.map((route, index) => (
                 <article className="hlt-route-card" key={route}>
                   <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="hlt-route-mountain" aria-hidden="true">
-                    <svg viewBox="0 0 80 42">
-                      <path d="M3 37 22 14l10 12L45 6l32 31H3Z" />
-                      <path d="m16 37 14-16 10 10 9-12 16 18" />
-                    </svg>
-                  </span>
+                  {routeArtwork[index] ? (
+                    <span className="hlt-route-artwork" aria-hidden="true">
+                      <img src={routeArtwork[index]} alt="" />
+                    </span>
+                  ) : (
+                    <span className="hlt-route-mountain" aria-hidden="true">
+                      <svg viewBox="0 0 80 42">
+                        <path d="M3 37 22 14l10 12L45 6l32 31H3Z" />
+                        <path d="m16 37 14-16 10 10 9-12 16 18" />
+                      </svg>
+                    </span>
+                  )}
                   <h3>Hanoi / Noi Bai</h3>
                   <p>{route}</p>
+                  <span className="hlt-route-card-ornament" aria-hidden="true" />
                 </article>
               ))}
             </div>
