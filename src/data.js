@@ -2,12 +2,13 @@ export const whatsappUrl =
   "https://wa.me/84839779888?text=Hello%20Hoang%20Luxury%20Travel%2C%20I%20would%20like%20to%20book%20a%20private%20transfer.";
 
 export const catalogUrl = import.meta.env.VITE_CATALOG_URL || "#catalog";
+export const catalogPageUrl = "/catalog/";
 
 export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
-  ["Catalog", catalogUrl, true],
+  ["Catalog", catalogPageUrl],
   ["Travel Blog", "/travel-blog/"],
   ["Contact", "/booking/"],
 ];

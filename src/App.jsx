@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   bookingRows,
+  catalogPageUrl,
   catalogUrl,
   fleet,
   navLinks,
@@ -27,15 +28,15 @@ import bookingProcessBackgroundUrl from "../assets/booking-process-background.pn
 import whatsappQrUrl from "../assets/whatsapp-qr.png";
 import stickyBookDriveIconUrl from "../assets/sticky-book-drive.png";
 import vietnamRoutesMapUrl from "../assets/vietnam-routes-map.png";
-import routeHaGiangArtUrl from "../assets/route-art-ha-giang.png";
-import routeTaXuaArtUrl from "../assets/route-art-ta-xua.png";
-import routeSaPaArtUrl from "../assets/route-art-sa-pa.png";
-import routeCaoBangArtUrl from "../assets/route-art-cao-bang.png";
-import routeMuCangChaiArtUrl from "../assets/route-art-mu-cang-chai.png";
-import routeMocChauArtUrl from "../assets/route-art-moc-chau.png";
-import routeCatBaArtUrl from "../assets/route-art-cat-ba.png";
-import routeHaLongArtUrl from "../assets/route-art-ha-long.png";
-import routeNinhBinhArtUrl from "../assets/route-art-ninh-binh.png";
+import routeHaGiangArtUrl from "../assets/route-art-ha-giang.webp";
+import routeTaXuaArtUrl from "../assets/route-art-ta-xua.webp";
+import routeSaPaArtUrl from "../assets/route-art-sa-pa.webp";
+import routeCaoBangArtUrl from "../assets/route-art-cao-bang.webp";
+import routeMuCangChaiArtUrl from "../assets/route-art-mu-cang-chai.webp";
+import routeMocChauArtUrl from "../assets/route-art-moc-chau.webp";
+import routeCatBaArtUrl from "../assets/route-art-cat-ba.webp";
+import routeHaLongArtUrl from "../assets/route-art-ha-long.webp";
+import routeNinhBinhArtUrl from "../assets/route-art-ninh-binh.webp";
 
 function cssImage(url) {
   return { "--img": `url('${url}')` };
@@ -198,9 +199,7 @@ function Hero() {
             <a
               className="hlt-btn hlt-btn-outline"
               id="catalog"
-              href={catalogUrl}
-              target={catalogUrl !== "#catalog" ? "_blank" : undefined}
-              rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
+              href={catalogPageUrl}
             >
               View Catalog
             </a>
@@ -431,8 +430,15 @@ function Fleet() {
             </div>
 
             <a className="hlt-route-cta" href="#contact">
+              <span className="hlt-route-cta-compass" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8.5" />
+                  <path d="M12 4.8 13.7 10.3 19.2 12l-5.5 1.7L12 19.2l-1.7-5.5L4.8 12l5.5-1.7L12 4.8Z" />
+                  <circle cx="12" cy="12" r="1.15" />
+                </svg>
+              </span>
               <span>View All Routes</span>
-              <svg viewBox="0 0 18 18" aria-hidden="true">
+              <svg className="hlt-route-cta-arrow" viewBox="0 0 18 18" aria-hidden="true">
                 <path d="m6.5 3.8 5 5.2-5 5.2" />
               </svg>
             </a>
@@ -582,9 +588,7 @@ function JourneyCallToAction() {
           </a>
           <a
             className="hlt-btn hlt-btn-outline"
-            href={catalogUrl}
-            target={catalogUrl !== "#catalog" ? "_blank" : undefined}
-            rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
+            href={catalogPageUrl}
           >
             View Catalog
           </a>
@@ -611,13 +615,7 @@ export function Footer() {
         <div className="hlt-footer-col">
           <h4>Quick Links</h4>
           <a href={sectionHref("#home")}>Home</a>
-          <a
-            href={catalogUrl}
-            target={catalogUrl !== "#catalog" ? "_blank" : undefined}
-            rel={catalogUrl !== "#catalog" ? "noopener noreferrer" : undefined}
-          >
-            Catalog
-          </a>
+          <a href={catalogPageUrl}>Catalog</a>
           <a href="/travel-blog/">Travel Blog</a>
           <a href="/booking/">Contact</a>
         </div>

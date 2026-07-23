@@ -437,7 +437,7 @@ body {
   z-index: 20;
   padding: 0;
   background: linear-gradient(180deg, rgba(2, 8, 7, .82) 0%, rgba(2, 8, 7, .42) 68%, transparent 100%);
-  border-top: 1px solid rgba(250, 222, 123, .26);
+  border-top: 0;
   border-bottom: 0;
   box-shadow: none;
 }
@@ -1390,6 +1390,21 @@ body {
   color: #2b2117;
 }
 
+/* Keep the standalone booking form visually separate from the footer. */
+.hlt-booking-site .hlt-book-page {
+  padding-bottom: 30px;
+}
+
+.hlt-booking-site .hlt-footer.hlt-footer-compact {
+  margin-top: 0;
+  border-top: 2px solid #C5A15A;
+  box-shadow: inset 0 1px 0 rgba(242, 233, 220, .08);
+}
+
+.hlt-booking-site .hlt-footer.hlt-footer-compact::before {
+  content: none;
+}
+
 /* Booking page */
 .hlt-book-page {
   min-height: 100vh;
@@ -2336,6 +2351,7 @@ body {
   gap: clamp(40px, 5vw, 88px);
   margin-top: clamp(70px, 7vw, 112px);
   padding-top: clamp(52px, 5vw, 78px);
+  padding-bottom: clamp(64px, 6vw, 96px);
   border-top: 1px solid rgba(184, 134, 54, .28);
 }
 
@@ -2503,40 +2519,83 @@ body {
 }
 
 .hlt-route-cta {
-  width: min(320px, 100%);
-  min-height: 54px;
-  display: inline-flex;
+  position: relative;
+  width: min(300px, 100%);
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 42px 1fr 24px;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 26px;
-  border: 1px solid #b9872f;
-  border-radius: 4px;
-  color: #9e6a20;
-  background: rgba(255, 250, 242, .76);
+  gap: 8px;
+  margin: 30px auto 0;
+  padding: 6px 14px 6px 10px;
+  border: 1px solid #a66f1e;
+  color: #fff9eb;
+  background: linear-gradient(180deg, #d3af5a 0%, #bc8a30 55%, #a87020 100%);
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 800;
-  letter-spacing: .06em;
+  letter-spacing: 0;
   text-decoration: none;
   text-transform: uppercase;
-  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+  text-shadow: 0 1px 1px rgba(75, 44, 8, .45);
+  box-shadow: 0 5px 12px rgba(111, 72, 17, .22);
+  transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.hlt-route-cta::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(255, 244, 213, .88);
+  clip-path: polygon(5px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0 calc(100% - 5px), 0 5px);
+  pointer-events: none;
 }
 
 .hlt-route-cta:hover {
-  color: #fffaf2;
-  background: #9e6a20;
   transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 16px rgba(111, 72, 17, .3);
 }
 
 .hlt-route-cta svg {
-  width: 18px;
-  height: 18px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.hlt-route-cta-compass {
+  position: relative;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 249, 235, .95);
+  border-radius: 50%;
+}
+
+.hlt-route-cta-compass svg {
+  width: 25px;
+  height: 25px;
+}
+
+.hlt-route-cta > span:nth-child(2) {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.hlt-route-cta-arrow {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  justify-self: center;
+  stroke-width: 2.2 !important;
 }
 
 @media (max-width: 1100px) {
@@ -4067,7 +4126,7 @@ body {
 
   .hlt-route-showcase {
     margin: 34px -14px 0;
-    padding: 44px 14px 48px;
+    padding: 44px 14px 64px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -4135,10 +4194,22 @@ body {
 
   .hlt-route-cta {
     order: 4;
-    width: min(250px, 100%);
-    min-height: 44px;
+    width: min(280px, 100%);
+    min-height: 52px;
     margin: 0 auto;
     font-size: 15px;
+    grid-template-columns: 36px 1fr 20px;
+    padding: 5px 12px 5px 9px;
+  }
+
+  .hlt-route-cta-compass {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hlt-route-cta-compass svg {
+    width: 22px;
+    height: 22px;
   }
 
   .hlt-booking-showcase {
@@ -5333,5 +5404,509 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
   .hlt-journey-cta {
     background: #0D1715;
+  }
+}
+
+/* Curated Journeys recovery */
+.hlt-route-showcase {
+  background-color: #EDE0CC;
+}
+
+.hlt-route-map img {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 9%, #000 89%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 89%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 9%, #000 89%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 89%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.hlt-route-card {
+  min-height: 238px;
+  justify-content: flex-start;
+  padding: 16px 14px 15px;
+  border: 1px solid rgba(184, 126, 39, .68);
+  border-radius: 6px;
+  background: rgba(244, 235, 221, .82);
+  box-shadow: 0 7px 18px rgba(94, 61, 19, .08);
+}
+
+.hlt-route-card::before {
+  inset: 4px;
+  border-color: rgba(184, 126, 39, .3);
+  border-radius: 4px;
+}
+
+.hlt-route-number {
+  width: 36px;
+  height: 36px;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  background: rgba(244, 235, 221, .94);
+}
+
+.hlt-route-artwork {
+  width: 152px;
+  height: 110px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  margin: 2px 0 0;
+  overflow: hidden;
+}
+
+.hlt-route-artwork img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.hlt-route-card h3 {
+  margin-top: 0;
+  font-size: clamp(17px, 1.25vw, 21px);
+  line-height: 1.08;
+}
+
+.hlt-route-card p {
+  margin-top: 2px;
+  font-size: clamp(21px, 1.55vw, 26px);
+  line-height: 1;
+}
+
+.hlt-route-card-ornament {
+  width: 72px;
+  height: 12px;
+  display: block;
+  position: relative;
+  margin-top: auto;
+  background: linear-gradient(90deg, transparent, #b87e27, transparent) center / 100% 1px no-repeat;
+}
+
+.hlt-route-card-ornament::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #b87e27;
+  background: #F4EBDD;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+@media (max-width: 960px) {
+  .hlt-route-showcase {
+    background-color: #EDE0CC;
+  }
+
+  .hlt-route-card {
+    min-height: 164px;
+    padding: 10px 7px 9px;
+  }
+
+  .hlt-route-artwork {
+    width: 96px;
+    height: 72px;
+    margin-top: 0;
+  }
+
+  .hlt-route-card h3 {
+    font-size: 12px;
+  }
+
+  .hlt-route-card p {
+    font-size: 16px;
+  }
+
+  .hlt-route-card-ornament {
+    width: 48px;
+    height: 9px;
+  }
+}
+
+/* Keep Our Fleet in the same ivory and bronze palette as Curated Journeys. */
+.hlt-fleet {
+  color: #25221D;
+  background: #EDE0CC;
+  border-color: rgba(184, 126, 39, .36);
+}
+
+.hlt-fleet-heading .hlt-fleet-kicker,
+.hlt-fleet-heading h2 strong,
+.hlt-fleet-heading .hlt-fleet-subtitle {
+  color: #b87e27;
+}
+
+.hlt-fleet-heading h2 span {
+  color: #25221D;
+}
+
+.hlt-fleet-heading-ornament,
+.hlt-fleet-card h3::after,
+.hlt-fleet-divider {
+  background-color: transparent;
+  background-image: linear-gradient(90deg, transparent, #b87e27, transparent);
+}
+
+.hlt-fleet-heading-ornament::after,
+.hlt-fleet-divider::after {
+  border-color: #b87e27;
+  background: #EDE0CC;
+}
+
+.hlt-fleet-card {
+  background: rgba(244, 235, 221, .82);
+  border-color: rgba(184, 126, 39, .68);
+  box-shadow: 0 7px 18px rgba(94, 61, 19, .08);
+}
+
+.hlt-fleet-card::before {
+  border-color: rgba(184, 126, 39, .3);
+}
+
+.hlt-fleet-card h3 {
+  color: #25221D;
+  text-shadow: none;
+}
+
+.hlt-fleet-img {
+  background: #F4EBDD;
+}
+
+.hlt-fleet-specs span {
+  color: #25221D;
+}
+
+.hlt-fleet-specs svg {
+  color: #b87e27;
+  stroke: #b87e27;
+}
+
+.hlt-fleet-specs span + span {
+  border-color: rgba(184, 126, 39, .3);
+}
+
+/* Match the three vehicle cards to the footer's deep green background. */
+.hlt-fleet .hlt-fleet-card {
+  background: #071411;
+  border-color: rgba(197, 161, 90, .82);
+  box-shadow:
+    inset 0 0 0 1px rgba(242, 233, 220, .025),
+    0 12px 24px rgba(54, 35, 13, .22);
+}
+
+.hlt-fleet .hlt-fleet-card::before {
+  border-color: rgba(197, 161, 90, .58);
+}
+
+.hlt-fleet .hlt-fleet-card h3 {
+  color: #C5A15A;
+}
+
+.hlt-fleet .hlt-fleet-specs span {
+  color: #F2E9DC;
+}
+
+.hlt-fleet .hlt-fleet-specs svg {
+  color: #C5A15A;
+  stroke: #C5A15A;
+}
+
+.hlt-fleet .hlt-fleet-specs span + span {
+  border-color: rgba(197, 161, 90, .34);
+}
+
+/* Catalog page */
+.hlt-catalog-site {
+  min-height: 100vh;
+  background: #071411;
+}
+
+.hlt-catalog-main {
+  background: #071411;
+}
+
+.hlt-catalog-hero {
+  min-height: clamp(650px, calc(100vh - 92px), 760px);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background:
+    var(--catalog-background) center center / cover no-repeat,
+    #071411;
+}
+
+.hlt-catalog-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(7, 20, 17, .86) 0%, rgba(7, 20, 17, .18) 43%, rgba(7, 20, 17, .88) 100%),
+    linear-gradient(90deg, rgba(7, 20, 17, .5), transparent 25%, transparent 75%, rgba(7, 20, 17, .5));
+}
+
+.hlt-catalog-content {
+  width: 100%;
+  padding-top: 22px;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hlt-catalog-heading {
+  max-width: 1100px;
+  text-align: center;
+  color: #F2E9DC;
+}
+
+.hlt-catalog-heading p {
+  margin: 0 0 8px;
+  color: #C5A15A;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.hlt-catalog-heading p::before,
+.hlt-catalog-heading p::after {
+  content: "";
+  width: 28px;
+  height: 1px;
+  display: inline-block;
+  margin: 0 14px 6px;
+  background: rgba(197, 161, 90, .68);
+}
+
+.hlt-catalog-heading h1 {
+  margin: 0;
+  color: #D9B35E;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(52px, 4.15vw, 66px);
+  font-weight: 600;
+  line-height: .98;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, .38);
+}
+
+.hlt-catalog-heading span {
+  display: block;
+  margin-top: 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.hlt-catalog-heading i {
+  width: 116px;
+  height: 15px;
+  position: relative;
+  display: block;
+  margin: 10px auto 0;
+  background: linear-gradient(90deg, transparent, #C5A15A, transparent) center / 100% 1px no-repeat;
+}
+
+.hlt-catalog-heading i::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid #C5A15A;
+  background: #071411;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.hlt-catalog-book {
+  width: min(1110px, 78vw);
+  aspect-ratio: 2170 / 725;
+  display: block;
+  margin-top: 4px;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 24px rgba(0, 0, 0, .46));
+}
+
+.hlt-catalog-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 4px;
+}
+
+.hlt-catalog-button {
+  width: 340px;
+  min-height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  border: 1px solid #C5A15A;
+  border-radius: 4px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform .2s ease, filter .2s ease, background-color .2s ease;
+}
+
+.hlt-catalog-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.hlt-catalog-button svg {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-catalog-button-outline {
+  color: #F2E9DC;
+  background: rgba(7, 20, 17, .76);
+}
+
+.hlt-catalog-button-gold {
+  color: #11100d;
+  border-color: #dcbf74;
+  background: linear-gradient(100deg, #c99f43 0%, #f4db91 50%, #c59631 100%);
+}
+
+@media (max-width: 900px) {
+  .hlt-catalog-hero {
+    min-height: 620px;
+  }
+
+  .hlt-catalog-heading h1 {
+    font-size: 46px;
+  }
+
+  .hlt-catalog-book {
+    width: 92vw;
+  }
+
+  .hlt-catalog-button {
+    width: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hlt-catalog-hero {
+    min-height: auto;
+    align-items: flex-start;
+    background-position: 42% center;
+  }
+
+  .hlt-catalog-content {
+    padding-top: 36px;
+    padding-bottom: 42px;
+  }
+
+  .hlt-catalog-heading {
+    padding: 0 10px;
+  }
+
+  .hlt-catalog-heading p {
+    font-size: 15px;
+    letter-spacing: 3px;
+  }
+
+  .hlt-catalog-heading p::before,
+  .hlt-catalog-heading p::after {
+    width: 18px;
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+
+  .hlt-catalog-heading h1 {
+    font-size: 34px;
+    line-height: 1.05;
+    letter-spacing: 1px;
+  }
+
+  .hlt-catalog-heading span {
+    max-width: 340px;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .hlt-catalog-book {
+    width: 104vw;
+    max-width: none;
+    margin-top: 18px;
+  }
+
+  .hlt-catalog-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+    margin-top: 16px;
+  }
+
+  .hlt-catalog-button {
+    width: 100%;
+    max-width: 360px;
+    min-height: 54px;
+    font-size: 17px;
+  }
+}
+/* Keep the catalog hero content below the shared overlay header. */
+.hlt-catalog-site {
+  --catalog-header-height: 92px;
+  --catalog-header-gap: clamp(16px, 2vw, 28px);
+}
+
+.hlt-catalog-hero {
+  min-height: clamp(720px, 100svh, 820px);
+  align-items: flex-start;
+}
+
+.hlt-catalog-content {
+  box-sizing: border-box;
+  min-height: inherit;
+  padding-top: calc(var(--catalog-header-height) + var(--catalog-header-gap));
+  padding-bottom: clamp(26px, 3vw, 42px);
+}
+
+@media (max-width: 900px) {
+  .hlt-catalog-site {
+    --catalog-header-height: 84px;
+    --catalog-header-gap: 18px;
+  }
+
+  .hlt-catalog-hero {
+    min-height: 700px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hlt-catalog-site {
+    --catalog-header-height: 76px;
+    --catalog-header-gap: 14px;
+  }
+
+  .hlt-catalog-hero {
+    min-height: 680px;
   }
 }
