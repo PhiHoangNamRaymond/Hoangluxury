@@ -13,10 +13,15 @@ npm run preview
 
 ## Structure
 
-- `src/App.jsx` - React components and page data.
-- `src/App.css` - Page styling.
-- `src/main.jsx` - React entry point.
-- `assets/` - Place real images and brand assets here.
+- `src/main.jsx` - Entry point and pathname-to-page routing.
+- `src/App.jsx` - Homepage composition; individual sections live in `src/components/home/`.
+- `src/components/layout/` - Shared header, footer, and sticky actions.
+- `src/BookingPage.jsx` and `src/CatalogPage.jsx` - Standalone page components.
+- `src/data.js` - Content, navigation, and external URLs.
+- `src/config/assets.js` - Central asset imports and image mappings.
+- `src/styles/index.css` - Ordered CSS entry point; feature styles live beside it.
+- `AGENTS.md` - Short navigation and validation guide for AI coding agents.
+- `assets/` - Source images bundled by Vite.
 
 ## External links
 

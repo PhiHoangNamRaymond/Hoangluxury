@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Header, Footer } from "./App.jsx";
-import { whatsappUrl } from "./data";
-import heroBannerUrl from "../assets/home-banner.png";
+import Footer from "./components/layout/Footer.jsx";
+import Header from "./components/layout/Header.jsx";
+import { whatsappUrl } from "./data.js";
+import { heroBannerUrl } from "./config/assets.js";
 
 const initialForm = {
   departureDate: "",

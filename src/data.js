@@ -50,13 +50,13 @@ export const services = [
     text: "Safe and comfortable city-to-city travel in premium vehicles to make your long journeys relaxing and efficient.",
   },
   {
-    image: "custom",          // ✅ sửa: trước đây là "haGiang"
+    image: "custom",
     icon: "mountain",
     title: "Custom Private Trip",
     text: "Flexible itinerary and custom routes based on your travel plan.",
   },
   {
-    image: "haGiang",         // ✅ sửa: trước đây là "custom"
+    image: "haGiang",
     icon: "dots",
     title: "Business / Partner Transfer",
     text: "Luxury and professional corporate transport solutions to provide a high-quality executive experience for your business partners.",

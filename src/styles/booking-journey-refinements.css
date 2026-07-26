@@ -1,0 +1,88 @@
+/* Separate Booking Process and Journey CTA */
+.hlt-journey-cta {
+  position: relative;
+  margin-top: 0;
+  border-top: 1px solid rgba(197, 161, 90, .48);
+  border-bottom: 0;
+  background: #0D1715;
+}
+
+.hlt-journey-cta + .hlt-footer.hlt-footer-compact {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  border-top: 1px solid rgba(197, 161, 90, .78);
+  background: #0D1715;
+  box-shadow: inset 0 1px 0 rgba(197, 161, 90, .12);
+}
+
+section.hlt-booking-showcase-footer.hlt-journey-cta,
+section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-footer-compact {
+  background-color: #0D1715;
+  background-image: none;
+}
+
+.hlt-journey-cta + .hlt-footer.hlt-footer-compact::before {
+  content: none;
+}
+
+.hlt-journey-cta::before {
+  content: none;
+}
+
+.hlt-journey-cta::after { content: none; }
+
+@media (min-width: 961px) {
+  .hlt-booking-showcase {
+    padding-top: 58px;
+    padding-bottom: 42px;
+  }
+
+  .hlt-booking-showcase-main {
+    align-items: start;
+  }
+
+  .hlt-process-panel {
+    padding-top: 4px;
+  }
+
+  .hlt-journey-cta > .hlt-container {
+    min-height: 184px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .hlt-journey-cta h3 {
+    margin-bottom: 8px;
+    font-size: 31px;
+    letter-spacing: .025em;
+  }
+
+  .hlt-journey-cta p {
+    max-width: none;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: 16px;
+  }
+
+  .hlt-journey-cta .hlt-showcase-actions {
+    justify-content: center;
+  }
+
+  .hlt-journey-cta .hlt-showcase-actions .hlt-btn {
+    min-width: 278px;
+    min-height: 50px;
+  }
+}
+
+@media (max-width: 960px) {
+  .hlt-booking-showcase {
+    padding-bottom: 34px;
+  }
+
+  .hlt-journey-cta {
+    background: #0D1715;
+  }
+}

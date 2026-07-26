@@ -1,8 +1,8 @@
 import React from "react";
-import { Footer, Header } from "./App.jsx";
+import Footer from "./components/layout/Footer.jsx";
+import Header from "./components/layout/Header.jsx";
 import { catalogUrl, whatsappUrl } from "./data.js";
-import catalogBackgroundUrl from "../assets/catalog-background.png";
-import catalogOpenBookUrl from "../assets/catalog-open-book.png";
+import { catalogBackgroundUrl, catalogOpenBookUrl } from "./config/assets.js";
 
 function BookIcon() {
   return (
