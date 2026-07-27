@@ -651,7 +651,7 @@
     align-items: flex-end;
     background:
       linear-gradient(180deg, rgba(0, 0, 0, .04) 24%, rgba(2, 10, 9, .22) 43%, #06110f 76%, #06110f 100%),
-      var(--hero-img);
+      var(--hero-mobile-img, var(--hero-img));
     background-size: auto 100%;
     background-position: 59% center;
   }

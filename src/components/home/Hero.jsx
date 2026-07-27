@@ -1,10 +1,17 @@
 import React from "react";
-import { heroBannerUrl } from "../../config/assets.js";
+import { heroBannerUrl, heroMobileBannerUrl } from "../../config/assets.js";
 import { catalogPageUrl, whatsappUrl } from "../../data.js";
 
 export default function Hero() {
   return (
-    <section id="home" className="hlt-hero" style={{ "--hero-img": `url(${heroBannerUrl})` }}>
+    <section
+      id="home"
+      className="hlt-hero"
+      style={{
+        "--hero-img": `url(${heroBannerUrl})`,
+        "--hero-mobile-img": `url(${heroMobileBannerUrl})`,
+      }}
+    >
       <div className="hlt-container">
         <div className="hlt-hero-content">
           <h1>

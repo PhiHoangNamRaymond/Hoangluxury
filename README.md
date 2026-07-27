@@ -50,10 +50,13 @@ and leave the Output Directory as `dist`.
 
 ## Google Sheets booking integration
 
-1. Create the destination Google Sheet.
+1. Open the destination workbook in Google Sheets. If it still shows the
+   `.xlsx` badge, use **File > Save as Google Sheets** first.
 2. Open **Extensions > Apps Script** and paste the contents of `google-apps-script/Code.gs`.
 3. In **Project Settings > Script properties**, add `SPREADSHEET_ID` with the ID from the private Sheet URL. Optionally add `SHEET_NAME`; the default is `Bookings`.
-4. Run `setupBookingsSheet` once and approve the requested Google Sheets permission.
+4. Set the Apps Script project time zone to **(GMT+07:00) Ho Chi Minh City**,
+   then run `setupBookingsSheet` once and approve the requested Google Sheets
+   permission.
 5. Select **Deploy > New deployment > Web app**. Run as yourself and allow access to anyone who can submit the public booking form.
 6. Put the deployed `/exec` URL in `.env` as `VITE_BOOKING_SHEET_ENDPOINT`, then restart Vite.
 

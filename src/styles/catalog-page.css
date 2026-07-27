@@ -5,7 +5,20 @@
 }
 
 .hlt-catalog-main {
+  position: relative;
+  padding-bottom: clamp(44px, 4vw, 72px);
   background: #071411;
+}
+
+.hlt-catalog-main::after {
+  content: "";
+  width: min(1180px, calc(100% - 64px));
+  height: 1px;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(197, 161, 90, .72), transparent);
+  transform: translateX(-50%);
 }
 
 .hlt-catalog-hero {
@@ -109,11 +122,18 @@
 
 .hlt-catalog-book {
   width: min(1110px, 78vw);
-  aspect-ratio: 2170 / 725;
+  height: auto;
   display: block;
   margin-top: 4px;
-  object-fit: contain;
   filter: drop-shadow(0 22px 24px rgba(0, 0, 0, .46));
+}
+
+.hlt-catalog-site .hlt-footer.hlt-footer-compact {
+  border-top: 0;
+}
+
+.hlt-catalog-site .hlt-footer.hlt-footer-compact::before {
+  content: none;
 }
 
 .hlt-catalog-actions {
@@ -187,6 +207,14 @@
 }
 
 @media (max-width: 640px) {
+  .hlt-catalog-main {
+    padding-bottom: 32px;
+  }
+
+  .hlt-catalog-main::after {
+    width: calc(100% - 28px);
+  }
+
   .hlt-catalog-hero {
     min-height: auto;
     align-items: flex-start;
