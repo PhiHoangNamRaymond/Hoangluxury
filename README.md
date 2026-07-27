@@ -44,6 +44,10 @@ production web server to serve `index.html` as the fallback for unknown file
 paths. Without this SPA fallback, opening either page directly may return a
 server-level 404.
 
+For Vercel, the required SPA fallback is already defined in `vercel.json`.
+Keep the project Root Directory pointed at this repository, use `npm run build`,
+and leave the Output Directory as `dist`.
+
 ## Google Sheets booking integration
 
 1. Create the destination Google Sheet.
