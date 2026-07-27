@@ -20,6 +20,7 @@ export default function Footer() {
           <h4>Quick Links</h4>
           <a href={sectionHref("#home")}>Home</a>
           <a href={catalogPageUrl}>Catalog</a>
+          <a href={sectionHref("#routes")}>Journey</a>
           <a href="/booking/">Contact</a>
         </div>
 
@@ -62,6 +63,10 @@ export default function Footer() {
             </a>
             <p>WhatsApp</p>
           </div>
+          <nav className="hlt-footer-legal" aria-label="Legal">
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/terms-of-service/">Terms of Service</a>
+          </nav>
         </div>
       </div>
 

@@ -21,8 +21,10 @@ export default function Header() {
     const headerHeight = document.querySelector(".hlt-header")?.offsetHeight ?? 0;
     const startPosition = window.scrollY;
     const contentAnchor = target.querySelector("[data-scroll-anchor]");
+    const alwaysCenterContent = target.dataset.scrollContent === "always";
     const scrollAnchor =
-      window.matchMedia("(min-width: 769px)").matches && contentAnchor
+      contentAnchor &&
+      (alwaysCenterContent || window.matchMedia("(min-width: 769px)").matches)
         ? contentAnchor
         : target.querySelector("h1, h2") || target;
     const anchorRect = scrollAnchor.getBoundingClientRect();

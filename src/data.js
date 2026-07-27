@@ -8,6 +8,7 @@ export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
+  ["Journey", "#routes"],
   ["Catalog", catalogPageUrl],
   ["Contact", "/booking/"],
 ];
@@ -75,21 +76,21 @@ export const fleet = [
   },
   {
     image: "vf9",
-    name: "VinFast VF9",
+    name: "VF9 Luxury",
     specs: ["6 Seats", "Electric", "Luxury SUV"],
   },
 ];
 
 export const popularRoutes = [
-  "Ha Giang",
-  "Ta Xua",
   "Sa Pa",
-  "Cao Bang",
-  "Mu Cang Chai",
-  "Moc Chau",
-  "Cat Ba",
-  "Ha Long",
-  "Ninh Binh",
+  "Hạ Long",
+  "Ninh Bình",
+  "Hà Giang",
+  "Cát Bà",
+  "Cao Bằng",
+  "Mộc Châu",
+  "Mù Cang Chải",
+  "Tà Xùa",
 ];
 
 export const bookingRows = [
@@ -98,6 +99,6 @@ export const bookingRows = [
   ["Flight", "VN1222  |  23 July 2026  |  16:30"],
   ["Route", "Noi Bai Airport - Sapa hotels"],
   ["Vehicle", "Limo Lux"],
-  ["Service", "Private Transfer (Round Trip)"],
-  ["Total Price", "VND 3.300.000"],
+  ["Service", "Private Transfer"],
+  ["Total Price", "3.300.000 VND"],
 ];

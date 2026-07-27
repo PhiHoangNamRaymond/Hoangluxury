@@ -7,31 +7,6 @@
   letter-spacing: .25em;
 }
 
-.hlt-fleet-heading h2 span {
-  color: #12202a;
-}
-
-.hlt-fleet-heading h2 strong {
-  color: #b47d2b;
-  font-weight: inherit;
-}
-
-.hlt-fleet-heading .hlt-fleet-subtitle {
-  display: block;
-  margin: 0;
-  color: #765d3d;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: .42em;
-  text-transform: uppercase;
-}
-
-.hlt-fleet-heading .hlt-fleet-subtitle::before,
-.hlt-fleet-heading .hlt-fleet-subtitle::after {
-  content: none;
-}
-
 .hlt-fleet-divider {
   width: min(520px, 42%);
   height: 18px;
@@ -75,10 +50,6 @@
   .hlt-fleet-heading-ornament {
     width: 220px;
     margin-top: 14px;
-  }
-
-  .hlt-fleet-heading .hlt-fleet-subtitle {
-    margin-top: 2px;
   }
 
   .hlt-fleet-grid {
@@ -151,12 +122,6 @@
   .hlt-fleet-heading .hlt-fleet-kicker {
     margin-bottom: 10px;
     font-size: 12px;
-  }
-
-  .hlt-fleet-heading .hlt-fleet-subtitle {
-    margin-top: 4px;
-    font-size: 10px;
-    letter-spacing: .32em;
   }
 
   .hlt-fleet-divider {

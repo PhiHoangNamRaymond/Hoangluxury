@@ -4,7 +4,7 @@ import {
   serviceImages,
   servicesBackgroundUrl,
 } from "../../config/assets.js";
-import { services as serviceItems } from "../../data.js";
+import { catalogPageUrl, services as serviceItems } from "../../data.js";
 
 export default function Services() {
   return (
@@ -43,7 +43,7 @@ export default function Services() {
         </div>
 
         <div className="hlt-services-cta">
-          <a href="#contact">
+          <a href={catalogPageUrl}>
             <span>View All Services</span>
             <svg className="hlt-services-chev" viewBox="0 0 18 18" aria-hidden="true">
               <path d="m6.5 3.8 5 5.2-5 5.2" />

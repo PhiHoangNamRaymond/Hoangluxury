@@ -235,76 +235,6 @@ html {
   white-space: nowrap;
 }
 
-/* Fixed quick actions */
-.hlt-sticky-actions {
-  position: fixed;
-  z-index: 60;
-  top: 58%;
-  right: 0;
-  width: 44px;
-  display: grid;
-  color: #fff;
-  background: #d0ae43;
-  border: 1px solid rgba(255, 255, 255, .82);
-  border-right: 0;
-  transform: translateY(-50%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .24);
-}
-
-.hlt-sticky-actions a,
-.hlt-sticky-actions button {
-  color: #fff;
-}
-
-.hlt-sticky-book {
-  min-height: 126px;
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, .9);
-  color: inherit;
-  background: transparent;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  cursor: pointer;
-}
-
-.hlt-sticky-book span {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-}
-
-.hlt-sticky-phone svg {
-  width: 21px;
-  height: 21px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.hlt-sticky-phone {
-  min-height: 44px;
-  display: grid;
-  place-items: center;
-}
-
-.hlt-sticky-actions a:hover,
-.hlt-sticky-actions button:hover {
-  background: #b88d2b;
-}
-
 @media (max-width: 1050px) {
   .hlt-footer-compact .hlt-footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -335,29 +265,6 @@ html {
     align-items: center;
   }
 
-  .hlt-sticky-actions {
-    top: auto;
-    bottom: 18px;
-    width: 48px;
-    transform: none;
-  }
-
-  .hlt-sticky-book {
-    min-height: 48px;
-    padding: 0;
-  }
-
-  .hlt-sticky-book span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-  }
-
-  .hlt-sticky-phone {
-    min-height: 48px;
-  }
 }
 
 body {

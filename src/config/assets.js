@@ -72,13 +72,13 @@ export const whyIconImages = {
 };
 
 export const routeArtwork = [
-  routeHaGiangArtUrl,
-  routeTaXuaArtUrl,
   routeSaPaArtUrl,
-  routeCaoBangArtUrl,
-  routeMuCangChaiArtUrl,
-  routeMocChauArtUrl,
-  routeCatBaArtUrl,
   routeHaLongArtUrl,
   routeNinhBinhArtUrl,
+  routeHaGiangArtUrl,
+  routeCatBaArtUrl,
+  routeCaoBangArtUrl,
+  routeMocChauArtUrl,
+  routeMuCangChaiArtUrl,
+  routeTaXuaArtUrl,
 ];

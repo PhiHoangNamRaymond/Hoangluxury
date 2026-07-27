@@ -563,8 +563,7 @@
     padding-top: 52px;
   }
 
-  .hlt-footer-grid,
-  .hlt-footer-bottom .hlt-container {
+  .hlt-footer-grid {
     width: min(100% - 28px, 1180px);
   }
 
@@ -961,14 +960,6 @@
     padding: 12px 6px 9px;
   }
 
-  .hlt-route-number {
-    width: 22px;
-    height: 22px;
-    top: 7px;
-    left: 7px;
-    font-size: 10px;
-  }
-
   .hlt-route-mountain {
     width: 44px;
     height: 26px;
@@ -1184,7 +1175,4 @@
     height: 14px;
   }
 
-  .hlt-sticky-actions {
-    display: none;
-  }
 }

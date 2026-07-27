@@ -5,14 +5,8 @@
   border-color: rgba(184, 126, 39, .36);
 }
 
-.hlt-fleet-heading .hlt-fleet-kicker,
-.hlt-fleet-heading h2 strong,
-.hlt-fleet-heading .hlt-fleet-subtitle {
+.hlt-fleet-heading .hlt-fleet-kicker {
   color: #b87e27;
-}
-
-.hlt-fleet-heading h2 span {
-  color: #25221D;
 }
 
 .hlt-fleet-heading-ornament,

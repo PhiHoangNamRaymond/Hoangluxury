@@ -4,7 +4,7 @@ import {
   routeArtwork,
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
-import { fleet as fleetItems, popularRoutes } from "../../data.js";
+import { catalogPageUrl, fleet as fleetItems, popularRoutes } from "../../data.js";
 
 function FleetSpecIcon({ spec }) {
   const type = spec.toLowerCase();
@@ -38,11 +38,8 @@ export default function Fleet() {
       <div className="hlt-container">
         <div className="hlt-fleet-heading">
           <p className="hlt-fleet-kicker">Our Fleet</p>
-          <h2>
-            <span>Our</span> <strong>Fleet</strong>
-          </h2>
+          <h2>Premium Vehicle Selection</h2>
           <div className="hlt-fleet-heading-ornament" />
-          <p className="hlt-fleet-subtitle">PREMIUM VEHICLE SELECTION</p>
         </div>
 
         <div className="hlt-fleet-grid" data-scroll-anchor>
@@ -68,7 +65,7 @@ export default function Fleet() {
 
         <div className="hlt-fleet-divider" aria-hidden="true" />
 
-        <div className="hlt-route-showcase" id="routes">
+        <div className="hlt-route-showcase" id="routes" data-scroll-content="always">
           <div className="hlt-route-map" aria-hidden="true">
             <img src={vietnamRoutesMapUrl} alt="" />
           </div>
@@ -80,10 +77,9 @@ export default function Fleet() {
               <div className="hlt-route-heading-ornament" />
             </div>
 
-            <div className="hlt-route-grid">
+            <div className="hlt-route-grid" data-scroll-anchor>
               {popularRoutes.map((route, index) => (
                 <article className="hlt-route-card" key={route}>
-                  <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>
                   {routeArtwork[index] ? (
                     <span className="hlt-route-artwork" aria-hidden="true">
                       <img src={routeArtwork[index]} alt="" />
@@ -103,7 +99,7 @@ export default function Fleet() {
               ))}
             </div>
 
-            <a className="hlt-route-cta" href="#contact">
+            <a className="hlt-route-cta" href={catalogPageUrl}>
               <span className="hlt-route-cta-compass" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="8.5" />

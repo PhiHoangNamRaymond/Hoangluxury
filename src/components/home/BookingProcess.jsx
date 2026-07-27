@@ -50,7 +50,15 @@ function BookingRowIcon({ label }) {
     ),
     Flight: <><path d="m3 13 8-3 5-7 2 1-3 7 5 3-1 2-6-1-3 5-2-1 1-5-6 1Z" /></>,
     Route: <><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
-    Vehicle: <><path d="M4 14h16l-2-5H6l-2 5Zm1 0v5m14-5v5M7 18h.01M17 18h.01" /></>,
+    Vehicle: (
+      <>
+        <path d="m5 12 1.7-4.3A2.7 2.7 0 0 1 9.2 6h5.6a2.7 2.7 0 0 1 2.5 1.7L19 12" />
+        <rect x="4" y="11" width="16" height="8" rx="2" />
+        <path d="M7 19v2M17 19v2M7 11l1-2h8l1 2" />
+        <circle cx="8" cy="15.5" r="1" />
+        <circle cx="16" cy="15.5" r="1" />
+      </>
+    ),
     Service: <><path d="M4 15h16M6 15V9a6 6 0 0 1 12 0v6M3 19h18" /><path d="M12 3V1" /></>,
     "Total Price": <><circle cx="12" cy="12" r="9" /><path d="M15 8.5c-.7-.7-1.7-1-3-1-1.7 0-3 .8-3 2s1.1 1.8 3 2.2 3 1 3 2.3-1.3 2.5-3 2.5c-1.2 0-2.4-.4-3.2-1.2M12 5v14" /></>,
   };
@@ -62,8 +70,8 @@ export default function BookingProcess() {
   const steps = [
     ["whatsapp", "01. Contact Us", "Message us on WhatsApp. "],
     ["calendar", "02. Plan Your Trip", "We'll help you choose the best vehicle and plan your journey."],
-    ["card", "03. Confirm Your Booking", "We confirm your trip details, the price, and your booking."],
-    ["car", "04. Enjoy Your Journey", "Your driver will be ready to welcome you for a safe and comfortable trip."],
+    ["card", "03. Confirm Booking", "We confirm your trip details, the price, and your booking."],
+    ["car", "04. Enjoy Journey", "Your driver will be ready to welcome you for a safe and comfortable trip."],
   ];
 
   return (

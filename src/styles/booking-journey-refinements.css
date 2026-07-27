@@ -69,6 +69,61 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   color: #d8a849;
 }
 
+.hlt-footer.hlt-footer-compact .hlt-footer-legal {
+  width: 260px;
+  max-width: none;
+  margin-top: 16px;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.hlt-footer.hlt-footer-compact .hlt-footer-legal a {
+  color: #d8a849;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  transition: color .18s ease;
+}
+
+.hlt-footer.hlt-footer-compact .hlt-footer-legal a:hover {
+  color: #f1cf78;
+}
+
+@media (min-width: 961px) {
+  .hlt-footer-compact .hlt-footer-brand {
+    grid-template-columns: 92px minmax(0, 1fr);
+    grid-template-rows: 31px 16px auto;
+    align-content: start;
+    column-gap: 16px;
+    padding-top: 0;
+  }
+
+  .hlt-footer-compact .hlt-footer-brand img {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    align-self: start;
+    transform: translateY(-17px);
+  }
+
+  .hlt-footer-compact .hlt-footer-brand strong {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .hlt-footer-compact .hlt-footer-brand span {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .hlt-footer-compact .hlt-footer-brand p {
+    grid-column: 2;
+    grid-row: 3;
+    margin: 31px 0 0;
+  }
+}
+
 .hlt-process-step h3 {
   color: #211c17;
 }
@@ -76,12 +131,12 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 .hlt-why-intro > p:not(.hlt-why-eyebrow),
 .hlt-why-card p {
   color: #2b251f;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .hlt-process-step p {
   color: #211c17;
-  font-weight: 600;
+  font-weight: 700;
   text-shadow: 0 1px 0 rgba(255, 255, 255, .82);
 }
 
@@ -155,5 +210,16 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
   .hlt-journey-cta {
     background: #0D1715;
+  }
+
+  .hlt-footer.hlt-footer-compact .hlt-footer-legal {
+    width: 220px;
+    max-width: 100%;
+    margin-top: 12px;
+    gap: 12px;
+  }
+
+  .hlt-footer.hlt-footer-compact .hlt-footer-legal a {
+    font-size: 11px;
   }
 }

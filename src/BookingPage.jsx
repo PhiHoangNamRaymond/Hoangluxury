@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import { whatsappUrl } from "./data.js";
-import { heroBannerUrl, servicesBackgroundUrl } from "./config/assets.js";
+import { servicesBackgroundUrl } from "./config/assets.js";
 
 const initialForm = {
   departureDate: "",
@@ -86,14 +86,11 @@ export default function BookingPage() {
         className="hlt-book-page"
         style={{ "--booking-page-bg": `url(${servicesBackgroundUrl})` }}
       >
-        <section className="hlt-book-hero" style={{ "--booking-hero": `url(${heroBannerUrl})` }}>
-          <div className="hlt-book-hero-copy">
-          <p>Private Luxury Transfer</p>
-          <h1>Contact &amp; Book Your Ride</h1>
-          <div className="hlt-book-title-rule"><span>◇</span></div>
-          <div className="hlt-book-promises"><span>Fast response</span><i /><span>Professional service</span><i /><span>Luxury experience</span></div>
-          </div>
-        </section>
+        <section
+          className="hlt-book-hero"
+          style={{ "--booking-hero": `url(${servicesBackgroundUrl})` }}
+          aria-hidden="true"
+        />
 
         <section className="hlt-book-shell" aria-labelledby="booking-page-title">
         <aside className="hlt-book-care">

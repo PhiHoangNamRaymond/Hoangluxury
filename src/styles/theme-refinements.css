@@ -23,8 +23,7 @@
 .hlt-services-heading p,
 .hlt-fleet-heading p,
 .hlt-route-heading > p,
-.hlt-route-card p,
-.hlt-route-number {
+.hlt-route-card p {
   color: #C5A15A;
 }
 
@@ -120,10 +119,7 @@
 }
 
 .hlt-header-cta,
-.hlt-btn-gold,
-.hlt-sticky-actions,
-.hlt-sticky-actions a,
-.hlt-sticky-actions button {
+.hlt-btn-gold {
   border-color: #C5A15A;
   background: #C5A15A;
 }

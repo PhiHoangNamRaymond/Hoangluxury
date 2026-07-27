@@ -34,16 +34,9 @@ export default function CatalogPage() {
           id="catalog"
           className="hlt-catalog-hero"
           style={{ "--catalog-background": `url('${catalogBackgroundUrl}')` }}
-          aria-labelledby="catalog-page-title"
+          aria-label="Hoang Luxury Travel catalog"
         >
           <div className="hlt-container hlt-catalog-content">
-            <header className="hlt-catalog-heading">
-              <p>Our Catalog</p>
-              <h1 id="catalog-page-title">Hoang Luxury Travel</h1>
-              <span>Private Car Service - Northwest Routes - Personalized Experiences</span>
-              <i aria-hidden="true" />
-            </header>
-
             <img
               className="hlt-catalog-book"
               src={catalogOpenBookUrl}
