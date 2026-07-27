@@ -7,7 +7,6 @@ import Services from "./components/home/Services.jsx";
 import WhyChoose from "./components/home/WhyChoose.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
-import StickyActions from "./components/layout/StickyActions.jsx";
 
 export default function App() {
   return (
@@ -20,7 +19,6 @@ export default function App() {
       <BookingProcess />
       <JourneyCallToAction />
       <Footer />
-      <StickyActions />
     </div>
   );
 }

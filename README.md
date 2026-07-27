@@ -32,6 +32,18 @@ Copy `.env.example` to `.env` and provide:
 
 Restart the Vite development server after changing `.env`.
 
+The browser submits bookings to Google Apps Script with `no-cors`. This allows
+the cross-origin request but makes the response opaque, so the page can confirm
+that submission was attempted, not that the row was successfully stored. The
+concierge team should confirm each booking with the customer.
+
+## Deployment
+
+The app uses pathname routes (`/booking/` and `/catalog/`). Configure the
+production web server to serve `index.html` as the fallback for unknown file
+paths. Without this SPA fallback, opening either page directly may return a
+server-level 404.
+
 ## Google Sheets booking integration
 
 1. Create the destination Google Sheet.

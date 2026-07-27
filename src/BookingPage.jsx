@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import { whatsappUrl } from "./data.js";
-import { heroBannerUrl } from "./config/assets.js";
+import { heroBannerUrl, servicesBackgroundUrl } from "./config/assets.js";
 
 const initialForm = {
   departureDate: "",
@@ -70,7 +70,10 @@ export default function BookingPage() {
     try {
       await fetch(bookingEndpoint, { method: "POST", mode: "no-cors", credentials: "omit", keepalive: true, body: payload });
       setForm(initialForm);
-      setSubmission({ state: "success", message: "Thank you. Your booking request has been sent successfully." });
+      setSubmission({
+        state: "success",
+        message: "Your request was submitted. Our concierge team will contact you shortly to confirm it.",
+      });
     } catch {
       setSubmission({ state: "error", message: "We could not send your request. Please try again or contact us via WhatsApp." });
     }
@@ -79,7 +82,10 @@ export default function BookingPage() {
   return (
     <div className="hlt-site hlt-booking-site">
       <Header />
-      <main className="hlt-book-page">
+      <main
+        className="hlt-book-page"
+        style={{ "--booking-page-bg": `url(${servicesBackgroundUrl})` }}
+      >
         <section className="hlt-book-hero" style={{ "--booking-hero": `url(${heroBannerUrl})` }}>
           <div className="hlt-book-hero-copy">
           <p>Private Luxury Transfer</p>

@@ -1,9 +1,19 @@
 /* Curated Journeys recovery */
 .hlt-route-showcase {
+  grid-template-columns: minmax(320px, .88fr) minmax(560px, 1.12fr);
+  align-items: start;
+  gap: clamp(28px, 3.2vw, 52px);
+  padding-top: clamp(28px, 2.6vw, 42px);
   background-color: #EDE0CC;
 }
 
+.hlt-route-map {
+  align-self: start;
+}
+
 .hlt-route-map img {
+  width: min(100%, 720px);
+  max-height: none;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, #000 9%, #000 89%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, #000 8%, #000 89%, transparent 100%);
@@ -116,5 +126,26 @@
   .hlt-route-card-ornament {
     width: 48px;
     height: 9px;
+  }
+}
+
+@media (max-width: 900px) {
+  .hlt-route-showcase {
+    grid-template-columns: 1fr;
+    padding-top: 36px;
+  }
+
+  .hlt-route-map img {
+    width: min(80vw, 540px);
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-route-showcase {
+    padding-top: 32px;
+  }
+
+  .hlt-route-map img {
+    width: min(96%, 380px);
   }
 }

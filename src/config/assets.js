@@ -11,13 +11,12 @@ import routeMocChauArtUrl from "../../assets/route-art-moc-chau.webp";
 import routeMuCangChaiArtUrl from "../../assets/route-art-mu-cang-chai.webp";
 import routeNinhBinhArtUrl from "../../assets/route-art-ninh-binh.webp";
 import routeSaPaArtUrl from "../../assets/route-art-sa-pa.webp";
-import routeTaXuaArtUrl from "../../assets/route-art-ta-xua.webp";
+import routeTaXuaArtUrl from "../../assets/route-art-ta-xua-custom.webp";
 import serviceAirportUrl from "../../assets/service-airport-transfer.png";
 import serviceCustomTripUrl from "../../assets/service-custom-trip.png";
 import serviceHaGiangUrl from "../../assets/service-ha-giangv2.jpg";
 import servicesBackgroundUrl from "../../assets/services-background.png";
 import serviceSapaUrl from "../../assets/service-sapa.png";
-import stickyBookDriveIconUrl from "../../assets/sticky-book-drive.png";
 import vehicleLimoGreenUrl from "../../assets/vehicle-limo-green.png";
 import vehicleLimoLuxUrl from "../../assets/vehicle-limo-lux.png";
 import vehicleVf9Url from "../../assets/vehicle-vinfast-vf9.png";
@@ -35,7 +34,6 @@ export {
   heroBannerUrl,
   logoUrl,
   servicesBackgroundUrl,
-  stickyBookDriveIconUrl,
   vietnamRoutesMapUrl,
   whatsappQrUrl,
 };
@@ -43,8 +41,8 @@ export {
 export const serviceImages = {
   airport: serviceAirportUrl,
   sapa: serviceSapaUrl,
-  haGiang: serviceCustomTripUrl,
-  custom: serviceHaGiangUrl,
+  haGiang: serviceHaGiangUrl,
+  custom: serviceCustomTripUrl,
 };
 
 export const fleetImages = {

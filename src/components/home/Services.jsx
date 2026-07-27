@@ -1,6 +1,6 @@
 import React from "react";
 import { serviceImages, servicesBackgroundUrl } from "../../config/assets.js";
-import { services as serviceItems, whatsappUrl } from "../../data.js";
+import { services as serviceItems } from "../../data.js";
 
 function ServiceIcon({ type }) {
   const icons = {
@@ -53,7 +53,7 @@ export default function Services() {
           <div className="hlt-services-ornament" />
         </div>
 
-        <div className="hlt-service-grid">
+        <div className="hlt-service-grid" data-scroll-anchor>
           {serviceItems.map((service, index) => (
             <article className="hlt-service-card" key={service.title}>
               <div className="hlt-service-media">

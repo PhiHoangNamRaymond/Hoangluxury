@@ -1,6 +1,6 @@
 import React from "react";
-import { bookingProcessBackgroundUrl } from "../../config/assets.js";
-import { bookingRows, whatsappUrl } from "../../data.js";
+import { bookingProcessBackgroundUrl, logoUrl } from "../../config/assets.js";
+import { bookingRows } from "../../data.js";
 
 function BookingProcessIcon({ type }) {
   const icons = {
@@ -42,7 +42,12 @@ function BookingProcessIcon({ type }) {
 function BookingRowIcon({ label }) {
   const paths = {
     "Customer Name": <><circle cx="12" cy="7" r="3" /><path d="M6.5 20v-2.5a5.5 5.5 0 0 1 11 0V20M6.5 20h11" /></>,
-    WhatsApp: <><path d="M19.1 4.9A9.8 9.8 0 0 0 12 2C6.6 2 2.1 6.5 2.1 11.9c0 1.8.5 3.5 1.3 5L2.1 22l5.2-1.4" /><path d="M8.7 7.9c.5 3.5 2.6 5.7 6.2 6.7" /></>,
+    WhatsApp: (
+      <>
+        <path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L3 20.6l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z" />
+        <path d="M8.1 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .3.1.4.4l.8 1.8c.1.2.1.4-.1.6l-.6.8c-.1.2-.1.4 0 .6.7 1.2 1.7 2.1 2.8 2.8.2.1.4.2.6 0l.9-.9c.2-.2.4-.3.6-.2l1.7.8c.3.1.4.3.4.5 0 .4-.2 1.3-.8 1.9-.6.6-1.4.9-2.3.7-1.1-.2-2.8-.9-4.6-2.5-1.5-1.3-2.5-3-2.8-4-.3-1 .1-2 .7-2.7Z" />
+      </>
+    ),
     Flight: <><path d="m3 13 8-3 5-7 2 1-3 7 5 3-1 2-6-1-3 5-2-1 1-5-6 1Z" /></>,
     Route: <><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
     Vehicle: <><path d="M4 14h16l-2-5H6l-2 5Zm1 0v5m14-5v5M7 18h.01M17 18h.01" /></>,
@@ -55,10 +60,10 @@ function BookingRowIcon({ label }) {
 
 export default function BookingProcess() {
   const steps = [
-    ["whatsapp", "01. Contact Us", "Send us a message via WhatsApp."],
-    ["calendar", "02. Confirm Details", "We confirm your booking needs and pricing."],
-    ["card", "03. Secure Booking", "Confirm your trip details and onward."],
-    ["car", "04. Enjoy Your Trip", "Sit back and enjoy a stress-free ride with us."],
+    ["whatsapp", "01. Contact Us", "Message us on WhatsApp. "],
+    ["calendar", "02. Plan Your Trip", "We'll help you choose the best vehicle and plan your journey."],
+    ["card", "03. Confirm Your Booking", "We confirm your trip details, the price, and your booking."],
+    ["car", "04. Enjoy Your Journey", "Your driver will be ready to welcome you for a safe and comfortable trip."],
   ];
 
   return (
@@ -81,7 +86,7 @@ export default function BookingProcess() {
             <b>Booking Confirmation</b>
             <div className="hlt-showcase-confirmed">
               <span>Confirm ID</span>
-              <strong>#HGLT307-001</strong>
+              <strong># HLT307-001</strong>
             </div>
           </header>
 

@@ -9,7 +9,6 @@ export const navLinks = [
   ["Services", "#services"],
   ["Fleet", "#fleet"],
   ["Catalog", catalogPageUrl],
-  ["Travel Blog", "/travel-blog/"],
   ["Contact", "/booking/"],
 ];
 
@@ -17,22 +16,22 @@ export const whyItems = [
   {
     icon: "driver",
     title: "Privacy & Professionalism",
-    text: "Professional and courteous drivers ensuring a safe, smooth, and completely confidential journey.",
+    text: "Your privacy is our top priority. Our friendly and professional drivers ensure a safe, comfortable, and private journey.",
   },
   {
     icon: "car",
     title: "Customized VIP Service",
-    text: "Tailored itineraries featuring a luxury 7-seater vehicle with complimentary refreshments and amenities.",
+    text: "We plan a personalized itinerary, provide useful travel information and local tips for each destination, and assist with restaurant and attraction reservations.",
   },
   {
     icon: "whatsapp",
     title: "24/7 WhatsApp Support",
-    text: "Dedicated support with prompt responses via WhatsApp to assist you whenever you need.",
+    text: "We're available on WhatsApp 24/7 to answer your questions and assist with any requests during your trip.",
   },
   {
     icon: "price",
-    title: "All-Inclusive Pricing",
-    text: "Transparent, fixed rates covering fuel, tolls, and parking with absolutely no hidden fees.",
+    title: "Flexible Payment Methods",
+    text: "We offer a variety of convenient payment options, including cash and credit cards. Currency exchange assistance is available if needed.",
   },
 ];
 
@@ -67,12 +66,12 @@ export const fleet = [
   {
     image: "limoLux",
     name: "Limo Lux",
-    specs: ["6 Seats", "Premium", "Spacious"],
+    specs: ["6 Seats", "Comfort", "Spacious"],
   },
   {
     image: "limoGreen",
     name: "Limo Prime",
-    specs: ["6 Seats", "Comfort", "Executive"],
+    specs: ["6 Seats", "Premium", "Executive"],
   },
   {
     image: "vf9",
@@ -100,5 +99,5 @@ export const bookingRows = [
   ["Route", "Noi Bai Airport - Sapa hotels"],
   ["Vehicle", "Limo Lux"],
   ["Service", "Private Transfer (Round Trip)"],
-  ["Total Price", "VND 4,615,000"],
+  ["Total Price", "VND 3.300.000"],
 ];

@@ -4,7 +4,7 @@ import {
   routeArtwork,
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
-import { fleet as fleetItems, popularRoutes, whatsappUrl } from "../../data.js";
+import { fleet as fleetItems, popularRoutes } from "../../data.js";
 
 function FleetSpecIcon({ spec }) {
   const type = spec.toLowerCase();
@@ -39,13 +39,13 @@ export default function Fleet() {
         <div className="hlt-fleet-heading">
           <p className="hlt-fleet-kicker">Our Fleet</p>
           <h2>
-            <span>Our Luxury</span> <strong>Fleet</strong>
+            <span>Our</span> <strong>Fleet</strong>
           </h2>
           <div className="hlt-fleet-heading-ornament" />
-          <p className="hlt-fleet-subtitle">Premium Selection</p>
+          <p className="hlt-fleet-subtitle">PREMIUM VEHICLE SELECTION</p>
         </div>
 
-        <div className="hlt-fleet-grid">
+        <div className="hlt-fleet-grid" data-scroll-anchor>
           {fleetItems.map((vehicle) => (
             <article className="hlt-fleet-card" key={vehicle.name}>
               <h3>{vehicle.name}</h3>
@@ -76,7 +76,7 @@ export default function Fleet() {
           <div className="hlt-route-content">
             <div className="hlt-route-heading">
               <p>Curated Journeys</p>
-              <h2>Popular Private Transfer Routes</h2>
+              <h2>Popular Transfer Routes</h2>
               <div className="hlt-route-heading-ornament" />
             </div>
 

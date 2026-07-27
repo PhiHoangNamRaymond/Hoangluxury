@@ -1,5 +1,5 @@
 import React from "react";
-import { whatsappUrl } from "../../data.js";
+import { catalogPageUrl, whatsappUrl } from "../../data.js";
 
 export default function JourneyCallToAction() {
   return (

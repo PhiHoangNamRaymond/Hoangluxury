@@ -13,7 +13,7 @@ export default function Hero() {
           </h1>
           <p>
             Luxury private car services for international travelers across Northern Vietnam, specializing
-            in airport transfers, long-distance travel, and bespoke journeys.
+            in airport transfers, long-distance travel, and personalized journeys.
           </p>
           <div className="hlt-actions">
             <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">

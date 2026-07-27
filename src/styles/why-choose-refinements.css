@@ -10,6 +10,12 @@
   width: min(1720px, 84vw);
 }
 
+@media (min-width: 1181px) {
+  .hlt-hero > .hlt-container {
+    width: min(1720px, 84vw);
+  }
+}
+
 .hlt-why-layout {
   grid-template-columns: minmax(250px, .7fr) minmax(0, 2.8fr);
   gap: clamp(34px, 4vw, 70px);
