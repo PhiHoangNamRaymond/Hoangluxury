@@ -16,7 +16,7 @@ const BOOKING_STATUSES = [
   "Completed",
   "Cancelled",
 ];
-const BOOKING_HEADERS = [
+const LEGACY_BOOKING_HEADERS = [
   "Booking ID",
   "Submitted At",
   "Full Name",
@@ -36,6 +36,23 @@ const BOOKING_HEADERS = [
   "Internal Note",
   "Country",
   "Flight Time Zone",
+];
+const BOOKING_HEADERS = [
+  "Submitted At",
+  "Booking ID",
+  "Departure Date",
+  "Return Date",
+  "Full Name",
+  "Contact Number",
+  "Country",
+  "Passengers",
+  "Pick-up Location",
+  "Drop-off Location",
+  "Flight Number",
+  "Flight Time",
+  "Journey Type",
+  "Special Requirements",
+  "Status",
 ];
 
 function doGet() {
@@ -60,35 +77,31 @@ function doPost(event) {
 
       const submittedAt = new Date();
       const row = [
-        createBookingId_(submittedAt),
         submittedAt,
-        safeCell_(data.fullName),
-        safeCell_(data.phone),
-        parsePassengers_(data.passengers),
+        createBookingId_(submittedAt),
         parseDate_(data.departureDate, "departureDate"),
         parseOptionalDate_(data.returnDate),
+        safeCell_(data.fullName),
+        safeCell_(data.phone),
+        safeCell_(data.country),
+        parsePassengers_(data.passengers),
         safeCell_(data.pickup),
         safeCell_(data.dropoff),
-        safeCell_(data.journeyType),
         safeCell_(data.flight),
-        safeCell_(data.luggage),
+        safeCell_(data.flightTimeZone),
+        safeCell_(data.journeyType),
         safeCell_(data.requirements),
         "New",
-        "",
-        "Website",
-        "",
-        safeCell_(data.country),
-        safeCell_(data.flightTimeZone),
       ];
 
       const targetRow = Math.max(sheet.getLastRow() + 1, BOOKING_FIRST_DATA_ROW);
       sheet.getRange(targetRow, 1, 1, BOOKING_HEADERS.length).setValues([row]);
-      sheet.getRange(targetRow, 1).setNumberFormat("@");
-      sheet.getRange(targetRow, 2).setNumberFormat("dd/MM/yyyy HH:mm");
-      sheet.getRange(targetRow, 3, 1, 2).setNumberFormat("@");
-      sheet.getRange(targetRow, 5).setNumberFormat("0");
-      sheet.getRange(targetRow, 6, 1, 2).setNumberFormat("dd/MM/yyyy");
-      sheet.getRange(targetRow, 18, 1, 2).setNumberFormat("@");
+      sheet.getRange(targetRow, 1).setNumberFormat("dd/MM/yyyy HH:mm");
+      sheet.getRange(targetRow, 2).setNumberFormat("@");
+      sheet.getRange(targetRow, 3, 1, 2).setNumberFormat("dd/MM/yyyy");
+      sheet.getRange(targetRow, 5, 1, 3).setNumberFormat("@");
+      sheet.getRange(targetRow, 8).setNumberFormat("0");
+      sheet.getRange(targetRow, 9, 1, 6).setNumberFormat("@");
       SpreadsheetApp.flush();
     } finally {
       lock.releaseLock();
@@ -110,16 +123,16 @@ function setupBookingsSheet() {
     .setBackground("#C68A23")
     .setFontColor("#FFFFFF");
   sheet.getRange(BOOKING_FIRST_DATA_ROW, 1, sheet.getMaxRows() - BOOKING_HEADER_ROW, 1)
-    .setNumberFormat("@");
-  sheet.getRange(BOOKING_FIRST_DATA_ROW, 2, sheet.getMaxRows() - BOOKING_HEADER_ROW, 1)
     .setNumberFormat("dd/MM/yyyy HH:mm");
-  sheet.getRange(BOOKING_FIRST_DATA_ROW, 3, sheet.getMaxRows() - BOOKING_HEADER_ROW, 2)
+  sheet.getRange(BOOKING_FIRST_DATA_ROW, 2, sheet.getMaxRows() - BOOKING_HEADER_ROW, 1)
     .setNumberFormat("@");
-  sheet.getRange(BOOKING_FIRST_DATA_ROW, 5, sheet.getMaxRows() - BOOKING_HEADER_ROW, 1)
-    .setNumberFormat("0");
-  sheet.getRange(BOOKING_FIRST_DATA_ROW, 6, sheet.getMaxRows() - BOOKING_HEADER_ROW, 2)
+  sheet.getRange(BOOKING_FIRST_DATA_ROW, 3, sheet.getMaxRows() - BOOKING_HEADER_ROW, 2)
     .setNumberFormat("dd/MM/yyyy");
-  sheet.getRange(BOOKING_FIRST_DATA_ROW, 18, sheet.getMaxRows() - BOOKING_HEADER_ROW, 2)
+  sheet.getRange(BOOKING_FIRST_DATA_ROW, 5, sheet.getMaxRows() - BOOKING_HEADER_ROW, 3)
+    .setNumberFormat("@");
+  sheet.getRange(BOOKING_FIRST_DATA_ROW, 8, sheet.getMaxRows() - BOOKING_HEADER_ROW, 1)
+    .setNumberFormat("0");
+  sheet.getRange(BOOKING_FIRST_DATA_ROW, 9, sheet.getMaxRows() - BOOKING_HEADER_ROW, 6)
     .setNumberFormat("@");
   configureValidations_(sheet);
 }
@@ -138,9 +151,14 @@ function getBookingSheet_() {
 }
 
 function ensureHeaders_(sheet) {
-  const currentHeaders = sheet
-    .getRange(BOOKING_HEADER_ROW, 1, 1, BOOKING_HEADERS.length)
+  const inspectedColumnCount = Math.max(
+    BOOKING_HEADERS.length,
+    LEGACY_BOOKING_HEADERS.length
+  );
+  const inspectedHeaders = sheet
+    .getRange(BOOKING_HEADER_ROW, 1, 1, inspectedColumnCount)
     .getDisplayValues()[0];
+  const currentHeaders = inspectedHeaders.slice(0, BOOKING_HEADERS.length);
   const hasAnyHeader = currentHeaders.some(function (value) {
     return String(value || "").trim();
   });
@@ -156,24 +174,81 @@ function ensureHeaders_(sheet) {
     return currentHeaders[index] === header;
   });
 
-  const legacyHeadersMatch = BOOKING_HEADERS.slice(0, 17).every(function (header, index) {
-    return currentHeaders[index] === header;
-  });
-  const newHeadersAreEmpty = currentHeaders.slice(17).every(function (header) {
-    return !String(header || "").trim();
+  const legacyHeadersMatch = LEGACY_BOOKING_HEADERS.every(function (header, index) {
+    return inspectedHeaders[index] === header;
   });
 
-  if (legacyHeadersMatch && newHeadersAreEmpty) {
-    sheet
-      .getRange(BOOKING_HEADER_ROW, 18, 1, 2)
-      .setValues([["Country", "Flight Time Zone"]]);
+  if (legacyHeadersMatch) {
+    migrateLegacyBookings_(sheet);
     return;
   }
 
   if (!headersMatch) {
     throw new Error(
-      "Bookings headers do not match the expected 19-column template."
+      "Bookings headers do not match the expected 15-column template."
     );
+  }
+}
+
+function migrateLegacyBookings_(sheet) {
+  const existingDataRowCount = Math.max(
+    0,
+    sheet.getLastRow() - BOOKING_HEADER_ROW
+  );
+  let migratedRows = [];
+
+  if (existingDataRowCount > 0) {
+    const legacyRows = sheet
+      .getRange(
+        BOOKING_FIRST_DATA_ROW,
+        1,
+        existingDataRowCount,
+        LEGACY_BOOKING_HEADERS.length
+      )
+      .getValues();
+
+    migratedRows = legacyRows.map(function (row) {
+      return [
+        row[1],
+        row[0],
+        row[5],
+        row[6],
+        row[2],
+        row[3],
+        row[17],
+        row[4],
+        row[7],
+        row[8],
+        row[10],
+        row[18],
+        row[9],
+        row[12],
+        row[13],
+      ];
+    });
+  }
+
+  sheet
+    .getRange(
+      BOOKING_HEADER_ROW,
+      1,
+      Math.max(1, sheet.getMaxRows() - BOOKING_HEADER_ROW + 1),
+      LEGACY_BOOKING_HEADERS.length
+    )
+    .clearContent();
+  sheet
+    .getRange(BOOKING_HEADER_ROW, 1, 1, BOOKING_HEADERS.length)
+    .setValues([BOOKING_HEADERS]);
+
+  if (migratedRows.length > 0) {
+    sheet
+      .getRange(
+        BOOKING_FIRST_DATA_ROW,
+        1,
+        migratedRows.length,
+        BOOKING_HEADERS.length
+      )
+      .setValues(migratedRows);
   }
 }
 
@@ -188,18 +263,19 @@ function configureValidations_(sheet) {
     .setAllowInvalid(false)
     .build();
 
-  // The Excel template currently carries each dropdown one column too far.
   sheet
-    .getRange(BOOKING_FIRST_DATA_ROW, 11, dataRowCount, 1)
+    .getRange(
+      BOOKING_FIRST_DATA_ROW,
+      1,
+      dataRowCount,
+      LEGACY_BOOKING_HEADERS.length
+    )
     .clearDataValidations();
   sheet
-    .getRange(BOOKING_FIRST_DATA_ROW, 15, dataRowCount, 1)
-    .clearDataValidations();
-  sheet
-    .getRange(BOOKING_FIRST_DATA_ROW, 10, dataRowCount, 1)
+    .getRange(BOOKING_FIRST_DATA_ROW, 13, dataRowCount, 1)
     .setDataValidation(journeyValidation);
   sheet
-    .getRange(BOOKING_FIRST_DATA_ROW, 14, dataRowCount, 1)
+    .getRange(BOOKING_FIRST_DATA_ROW, 15, dataRowCount, 1)
     .setDataValidation(statusValidation);
 }
 
