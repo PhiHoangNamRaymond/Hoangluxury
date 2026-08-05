@@ -1,0 +1,26 @@
+/* Best-effort protection against casual copying and asset dragging. */
+.hlt-site,
+.hlt-site * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hlt-site input,
+.hlt-site textarea,
+.hlt-site select,
+.hlt-site option,
+.hlt-site [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.hlt-site img {
+  -webkit-touch-callout: none;
+}
+
+@media print {
+  .hlt-site {
+    display: none !important;
+  }
+}
