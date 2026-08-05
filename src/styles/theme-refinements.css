@@ -1,6 +1,23 @@
 /* Brand palette */
 .hlt-header {
-  background: linear-gradient(180deg, rgba(13, 23, 21, .94), rgba(13, 23, 21, .54) 68%, transparent);
+  position: fixed;
+  z-index: 100;
+  background: rgba(7, 20, 17, .92);
+  border-bottom: 0;
+  box-shadow: 0 5px 16px rgba(2, 8, 7, .16);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.hlt-header::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(180deg, rgba(7, 20, 17, .42) 0%, rgba(7, 20, 17, .16) 42%, transparent 100%);
+  pointer-events: none;
 }
 
 .hlt-why {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import { whatsappUrl } from "./data.js";
-import { servicesBackgroundUrl } from "./config/assets.js";
+import { catalogBackgroundUrl } from "./config/assets.js";
 
 const initialForm = {
   departureDate: "",
@@ -10,7 +10,9 @@ const initialForm = {
   pickup: "",
   dropoff: "",
   flight: "",
+  flightTimeZone: "",
   passengers: "2",
+  country: "",
   fullName: "",
   phone: "",
   journeyType: "",
@@ -34,6 +36,7 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
     note: <><path d="M4 20h4L20 8l-4-4L4 16v4Z" /><path d="m14 6 4 4" /></>,
     shield: <><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z" /><path d="m9 12 2 2 4-5" /></>,
     clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v6l4 2" /></>,
+    globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c3 3.4 4.2 6.4 4.2 9S15 17.6 12 21c-3-3.4-4.2-6.4-4.2-9S9 6.4 12 3Z" /></>,
     headset: <><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><path d="M4 14h3v6H5a1 1 0 0 1-1-1v-5ZM20 14h-3v6h2a1 1 0 0 0 1-1v-5ZM17 20c0 1-1 2-3 2h-2" /></>,
   };
 
@@ -42,9 +45,9 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
 
 const highlights = [
   ["shield", "Safe & Professional", "Experienced drivers, your safety is our priority."],
-  ["car", "Luxury Private Cars", "Modern, clean, and fully equipped for a first-class journey."],
-  ["clock", "On-time Guarantee", "Punctual service, no waiting and no worry."],
-  ["headset", "24/7 Concierge Support", "We are here whenever you need us."],
+  ["car", " Private Luxury Cars", "Modern, clean, and reserved just for you."],
+  ["clock", "On-Time Service", "Always on time, so you never have to wait."],
+  ["headset", "24/7 Support", "We are here whenever you need us."],
 ];
 
 export default function BookingPage() {
@@ -54,6 +57,10 @@ export default function BookingPage() {
   const updateField = (event) => {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const closeSuccessPopup = () => {
+    setSubmission({ state: "idle", message: "" });
   };
 
   const submitBooking = async (event) => {
@@ -84,11 +91,11 @@ export default function BookingPage() {
       <Header />
       <main
         className="hlt-book-page"
-        style={{ "--booking-page-bg": `url(${servicesBackgroundUrl})` }}
+        style={{ "--booking-page-bg": `url(${catalogBackgroundUrl})` }}
       >
         <section
           className="hlt-book-hero"
-          style={{ "--booking-hero": `url(${servicesBackgroundUrl})` }}
+          style={{ "--booking-hero": `url(${catalogBackgroundUrl})` }}
           aria-hidden="true"
         />
 
@@ -105,14 +112,14 @@ export default function BookingPage() {
           </div>
           <a className="hlt-book-support" href="tel:+84839779888">
             <FormIcon type="headset" className="hlt-book-support-icon" />
-            <span><strong>Assistance &amp; Support</strong><small>Our dedicated team is at your service.</small><b>+84 839 779 888</b></span>
+            <span><strong>Assistance &amp; Support</strong><small>Hoang Luxury Travel is ready to assist you anytime.</small><b>+84 839 779 888</b></span>
           </a>
         </aside>
 
         <form className="hlt-book-form" onSubmit={submitBooking}>
           <header>
             <div className="hlt-book-form-icon"><FormIcon type="calendar" className="hlt-book-form-heading-icon" /></div>
-            <div><h2 id="booking-page-title">Reserve Your Private Transfer</h2><p>Please provide your journey details below, and our concierge team will contact you shortly.</p></div>
+            <div><h2 id="booking-page-title">Book Your Private Transfer</h2><p>Choose your preferred option: message us on WhatsApp or fill out the form below.</p></div>
           </header>
 
           <label className="hlt-book-honeypot" aria-hidden="true">Website<input name="website" value={form.website} onChange={updateField} tabIndex="-1" autoComplete="off" /></label>
@@ -122,7 +129,9 @@ export default function BookingPage() {
             <label><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="e.g. Noi Bai International Airport, Hanoi" /></div></label>
             <label><span className="hlt-book-label-text">Drop-off Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="dropoff" value={form.dropoff} onChange={updateField} placeholder="e.g. Sapa Town, Lao Cai" /></div></label>
             <label><span className="hlt-book-label-text">Flight Number <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="plane" /><input name="flight" value={form.flight} onChange={updateField} placeholder="Enter your flight number" /></div></label>
+            <label><span className="hlt-book-label-text">Flight Time Zone</span><div className="hlt-book-control"><FormIcon type="clock" /><input required name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} placeholder="e.g. UTC+4 (Dubai)" /></div></label>
             <label><span className="hlt-book-label-text">Number of Passengers</span><div className="hlt-book-control"><FormIcon type="passengers" /><select name="passengers" value={form.passengers} onChange={updateField}>{[1,2,3,4,5,6].map((count) => <option key={count} value={count}>{count} {count === 1 ? "passenger" : "passengers"}</option>)}</select></div></label>
+            <label><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><input required name="country" value={form.country} onChange={updateField} placeholder="e.g. United Arab Emirates" /></div></label>
             <label><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
             <label><span className="hlt-book-label-text">Contact Number</span><div className="hlt-book-control"><FormIcon type="phone" /><input required type="tel" name="phone" value={form.phone} onChange={updateField} placeholder="Enter your phone number" /></div></label>
             <label><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>Airport Transfer</option><option>One-way Transfer</option><option>Round Trip</option><option>Long-Distance Private Transfer</option><option>Custom Private Trip</option><option>Business / Partner Transfer</option></select></div></label>
@@ -134,10 +143,35 @@ export default function BookingPage() {
             <button type="submit" disabled={submission.state === "loading"}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
           </div>
-          {submission.message && <p className={`hlt-book-status is-${submission.state}`} role="status" aria-live="polite">{submission.message}</p>}
+          {submission.message && submission.state !== "success" && <p className={`hlt-book-status is-${submission.state}`} role="status" aria-live="polite">{submission.message}</p>}
           <p className="hlt-book-secure">Your information is secure and will only be used to process your booking.</p>
         </form>
         </section>
+
+        {submission.state === "success" && (
+          <div
+            className="hlt-book-success-backdrop"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) closeSuccessPopup();
+            }}
+          >
+            <section
+              className="hlt-book-success-popup"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="booking-success-title"
+              aria-describedby="booking-success-message"
+            >
+              <button type="button" className="hlt-book-success-close" onClick={closeSuccessPopup} aria-label="Close thank you message">×</button>
+              <div className="hlt-book-success-icon" aria-hidden="true">✓</div>
+              <p className="hlt-book-success-kicker">Booking Request Received</p>
+              <h2 id="booking-success-title">Thank You</h2>
+              <p id="booking-success-message">Your request was submitted. Our concierge team will contact you shortly to confirm your journey.</p>
+              <button type="button" className="hlt-book-success-done" onClick={closeSuccessPopup}>Done</button>
+            </section>
+          </div>
+        )}
       </main>
       <Footer />
     </div>

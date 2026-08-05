@@ -10,7 +10,7 @@ export const navLinks = [
   ["Fleet", "#fleet"],
   ["Journey", "#routes"],
   ["Catalog", catalogPageUrl],
-  ["Contact", "/booking/"],
+  ["Booking", "/booking/"],
 ];
 
 export const whyItems = [
@@ -41,25 +41,25 @@ export const services = [
     image: "airport",
     icon: "plane",
     title: "Airport Transfer",
-    text: "Reliable and punctual airport transport services ensuring a smooth and relaxing experience from start to finish.",
+    text: "Private airport transfers between the airport and your destination.",
   },
   {
     image: "sapa",
     icon: "route",
     title: "Long-Distance Private Transfer",
-    text: "Safe and comfortable city-to-city travel in premium vehicles to make your long journeys relaxing and efficient.",
+    text: "Private transfers between cities with direct routes, flexible departure times and no shared rides.",
   },
   {
     image: "custom",
     icon: "mountain",
     title: "Custom Private Trip",
-    text: "Flexible itinerary and custom routes based on your travel plan.",
+    text: "Choose your destinations and travel on your own schedule with a private driver.",
   },
   {
     image: "haGiang",
     icon: "dots",
     title: "Business / Partner Transfer",
-    text: "Luxury and professional corporate transport solutions to provide a high-quality executive experience for your business partners.",
+    text: "Private transportation for business meetings, corporate events, and VIP guests.",
   },
 ];
 
@@ -82,15 +82,15 @@ export const fleet = [
 ];
 
 export const popularRoutes = [
-  "Sa Pa",
-  "Hạ Long",
-  "Ninh Bình",
-  "Hà Giang",
-  "Cát Bà",
-  "Cao Bằng",
-  "Mộc Châu",
-  "Mù Cang Chải",
-  "Tà Xùa",
+  "Ha Giang",
+  "Ta Xua",
+  "Sapa",
+  "Cao Bang",
+  "Mu Cang Chai",
+  "Moc Chau",
+  "Cat Ba",
+  "Ha Long",
+  "Ninh Binh",
 ];
 
 export const bookingRows = [

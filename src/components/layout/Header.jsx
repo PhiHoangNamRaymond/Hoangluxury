@@ -18,26 +18,26 @@ export default function Header() {
   const scrollToSection = (target) => {
     cancelScrollAnimation();
 
-    const headerHeight = document.querySelector(".hlt-header")?.offsetHeight ?? 0;
+    const headerHeight =
+      document.querySelector(".hlt-header")?.getBoundingClientRect().height ?? 0;
     const startPosition = window.scrollY;
-    const contentAnchor = target.querySelector("[data-scroll-anchor]");
-    const alwaysCenterContent = target.dataset.scrollContent === "always";
     const scrollAnchor =
-      contentAnchor &&
-      (alwaysCenterContent || window.matchMedia("(min-width: 769px)").matches)
-        ? contentAnchor
-        : target.querySelector("h1, h2") || target;
+      target.querySelector(
+        ".hlt-services-heading, .hlt-fleet-heading, .hlt-route-heading, [data-section-heading]"
+      ) || target.querySelector("h1, h2") || target;
     const anchorRect = scrollAnchor.getBoundingClientRect();
-    const viewportCenter = headerHeight + (window.innerHeight - headerHeight) / 2;
+    const headingGap = Math.round(
+      Math.max(12, Math.min(28, window.innerHeight * 0.025))
+    );
     const targetPosition = Math.max(
       0,
-      anchorRect.top + startPosition + anchorRect.height / 2 - viewportCenter
+      anchorRect.top + startPosition - headerHeight - headingGap
     );
     const distance = targetPosition - startPosition;
 
     if (Math.abs(distance) < 1) return;
 
-    const duration = 900;
+    const duration = Math.max(650, Math.min(1000, Math.abs(distance) * 0.42));
     let startTime;
 
     const easeInOutCubic = (progress) =>

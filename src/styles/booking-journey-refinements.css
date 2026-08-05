@@ -70,24 +70,22 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 }
 
 .hlt-footer.hlt-footer-compact .hlt-footer-legal {
-  width: 260px;
-  max-width: none;
+  width: auto;
+  max-width: 100%;
   margin-top: 16px;
-  justify-content: space-between;
-  gap: 18px;
+  justify-content: center;
+  gap: 14px;
 }
 
-.hlt-footer.hlt-footer-compact .hlt-footer-legal a {
-  color: #d8a849;
+.hlt-footer.hlt-footer-compact .hlt-footer-legal span {
+  color: rgba(216, 168, 73, .52);
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.25;
-  transition: color .18s ease;
-}
-
-.hlt-footer.hlt-footer-compact .hlt-footer-legal a:hover {
-  color: #f1cf78;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
 }
 
 @media (min-width: 961px) {
@@ -95,7 +93,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     grid-template-columns: 92px minmax(0, 1fr);
     grid-template-rows: 31px 16px auto;
     align-content: start;
-    column-gap: 16px;
+    column-gap: 8px;
     padding-top: 0;
   }
 
@@ -118,9 +116,11 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   }
 
   .hlt-footer-compact .hlt-footer-brand p {
-    grid-column: 2;
+    grid-column: 1 / -1;
     grid-row: 3;
-    margin: 31px 0 0;
+    margin: 31px 0 0 20px;
+    max-width: none;
+    white-space: nowrap;
   }
 }
 

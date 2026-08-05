@@ -6,6 +6,11 @@
   background-size: cover;
 }
 
+/* Bring the third journey artwork slightly back toward the left. */
+.hlt-service-card:nth-child(3) .hlt-service-image img {
+  object-position: 20% center;
+}
+
 @media (min-width: 1101px) {
   .hlt-services {
     min-height: 790px;

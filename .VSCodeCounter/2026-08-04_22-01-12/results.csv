@@ -1,0 +1,38 @@
+"filename", "language", "PostCSS", "JavaScript", "JSON", "JavaScript JSX", "Markdown", "HTML", "comment", "blank", "total"
+"e:\hoang-luxury-travel-home-code\AGENTS.md", "Markdown", 0, 0, 0, 0, 21, 0, 0, 8, 29
+"e:\hoang-luxury-travel-home-code\README.md", "Markdown", 0, 0, 0, 0, 47, 0, 0, 17, 64
+"e:\hoang-luxury-travel-home-code\index.html", "HTML", 0, 0, 0, 0, 0, 19, 0, 1, 20
+"e:\hoang-luxury-travel-home-code\package-lock.json", "JSON", 0, 0, 1135, 0, 0, 0, 0, 1, 1136
+"e:\hoang-luxury-travel-home-code\package.json", "JSON", 0, 0, 20, 0, 0, 0, 0, 1, 21
+"e:\hoang-luxury-travel-home-code\src\App.jsx", "JavaScript JSX", 0, 0, 0, 23, 0, 0, 0, 2, 25
+"e:\hoang-luxury-travel-home-code\src\BookingPage.jsx", "JavaScript JSX", 0, 0, 0, 161, 0, 0, 0, 19, 180
+"e:\hoang-luxury-travel-home-code\src\CatalogPage.jsx", "JavaScript JSX", 0, 0, 0, 66, 0, 0, 0, 8, 74
+"e:\hoang-luxury-travel-home-code\src\components\home\BookingProcess.jsx", "JavaScript JSX", 0, 0, 0, 127, 0, 0, 0, 11, 138
+"e:\hoang-luxury-travel-home-code\src\components\home\Fleet.jsx", "JavaScript JSX", 0, 0, 0, 102, 0, 0, 0, 16, 118
+"e:\hoang-luxury-travel-home-code\src\components\home\Hero.jsx", "JavaScript JSX", 0, 0, 0, 45, 0, 0, 0, 2, 47
+"e:\hoang-luxury-travel-home-code\src\components\home\JourneyCallToAction.jsx", "JavaScript JSX", 0, 0, 0, 28, 0, 0, 0, 2, 30
+"e:\hoang-luxury-travel-home-code\src\components\home\Services.jsx", "JavaScript JSX", 0, 0, 0, 53, 0, 0, 0, 4, 57
+"e:\hoang-luxury-travel-home-code\src\components\home\WhyChoose.jsx", "JavaScript JSX", 0, 0, 0, 35, 0, 0, 0, 3, 38
+"e:\hoang-luxury-travel-home-code\src\components\layout\BackToTop.jsx", "JavaScript JSX", 0, 0, 0, 60, 0, 0, 0, 14, 74
+"e:\hoang-luxury-travel-home-code\src\components\layout\Footer.jsx", "JavaScript JSX", 0, 0, 0, 71, 0, 0, 0, 8, 79
+"e:\hoang-luxury-travel-home-code\src\components\layout\Header.jsx", "JavaScript JSX", 0, 0, 0, 138, 0, 0, 0, 29, 167
+"e:\hoang-luxury-travel-home-code\src\config\assets.js", "JavaScript", 0, 80, 0, 0, 0, 0, 0, 7, 87
+"e:\hoang-luxury-travel-home-code\src\data.js", "JavaScript", 0, 97, 0, 0, 0, 0, 0, 8, 105
+"e:\hoang-luxury-travel-home-code\src\main.jsx", "JavaScript JSX", 0, 0, 0, 17, 0, 0, 0, 3, 20
+"e:\hoang-luxury-travel-home-code\src\styles\base.css", "PostCSS", 319, 0, 0, 0, 0, 0, 5, 52, 376
+"e:\hoang-luxury-travel-home-code\src\styles\booking-journey-refinements.css", "PostCSS", 188, 0, 0, 0, 0, 0, 1, 37, 226
+"e:\hoang-luxury-travel-home-code\src\styles\booking-page-refinements.css", "PostCSS", 276, 0, 0, 0, 0, 0, 2, 49, 327
+"e:\hoang-luxury-travel-home-code\src\styles\booking-page.css", "PostCSS", 864, 0, 0, 0, 0, 0, 3, 134, 1001
+"e:\hoang-luxury-travel-home-code\src\styles\booking-process.css", "PostCSS", 344, 0, 0, 0, 0, 0, 1, 45, 390
+"e:\hoang-luxury-travel-home-code\src\styles\catalog-page.css", "PostCSS", 186, 0, 0, 0, 0, 0, 2, 31, 219
+"e:\hoang-luxury-travel-home-code\src\styles\curated-journeys-refinements.css", "PostCSS", 189, 0, 0, 0, 0, 0, 1, 31, 221
+"e:\hoang-luxury-travel-home-code\src\styles\fleet-refinements.css", "PostCSS", 110, 0, 0, 0, 0, 0, 1, 21, 132
+"e:\hoang-luxury-travel-home-code\src\styles\fleet-theme-refinements.css", "PostCSS", 67, 0, 0, 0, 0, 0, 2, 17, 86
+"e:\hoang-luxury-travel-home-code\src\styles\footer-responsive.css", "PostCSS", 970, 0, 0, 0, 0, 0, 3, 206, 1179
+"e:\hoang-luxury-travel-home-code\src\styles\home-core.css", "PostCSS", 778, 0, 0, 0, 0, 0, 8, 117, 903
+"e:\hoang-luxury-travel-home-code\src\styles\index.css", "PostCSS", 14, 0, 0, 0, 0, 0, 1, 1, 16
+"e:\hoang-luxury-travel-home-code\src\styles\services-refinements.css", "PostCSS", 119, 0, 0, 0, 0, 0, 2, 25, 146
+"e:\hoang-luxury-travel-home-code\src\styles\theme-refinements.css", "PostCSS", 314, 0, 0, 0, 0, 0, 3, 54, 371
+"e:\hoang-luxury-travel-home-code\src\styles\why-choose-refinements.css", "PostCSS", 216, 0, 0, 0, 0, 0, 1, 43, 260
+"e:\hoang-luxury-travel-home-code\vercel.json", "JSON", 0, 0, 9, 0, 0, 0, 0, 1, 10
+"Total", "-", 4954, 177, 1164, 926, 68, 19, 36, 1028, 8372

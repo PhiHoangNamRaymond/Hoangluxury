@@ -34,6 +34,8 @@ const BOOKING_HEADERS = [
   "Assigned Driver",
   "Source",
   "Internal Note",
+  "Country",
+  "Flight Time Zone",
 ];
 
 function doGet() {
@@ -75,6 +77,8 @@ function doPost(event) {
         "",
         "Website",
         "",
+        safeCell_(data.country),
+        safeCell_(data.flightTimeZone),
       ];
 
       const targetRow = Math.max(sheet.getLastRow() + 1, BOOKING_FIRST_DATA_ROW);
@@ -84,6 +88,7 @@ function doPost(event) {
       sheet.getRange(targetRow, 3, 1, 2).setNumberFormat("@");
       sheet.getRange(targetRow, 5).setNumberFormat("0");
       sheet.getRange(targetRow, 6, 1, 2).setNumberFormat("dd/MM/yyyy");
+      sheet.getRange(targetRow, 18, 1, 2).setNumberFormat("@");
       SpreadsheetApp.flush();
     } finally {
       lock.releaseLock();
@@ -114,6 +119,8 @@ function setupBookingsSheet() {
     .setNumberFormat("0");
   sheet.getRange(BOOKING_FIRST_DATA_ROW, 6, sheet.getMaxRows() - BOOKING_HEADER_ROW, 2)
     .setNumberFormat("dd/MM/yyyy");
+  sheet.getRange(BOOKING_FIRST_DATA_ROW, 18, sheet.getMaxRows() - BOOKING_HEADER_ROW, 2)
+    .setNumberFormat("@");
   configureValidations_(sheet);
 }
 
@@ -149,9 +156,23 @@ function ensureHeaders_(sheet) {
     return currentHeaders[index] === header;
   });
 
+  const legacyHeadersMatch = BOOKING_HEADERS.slice(0, 17).every(function (header, index) {
+    return currentHeaders[index] === header;
+  });
+  const newHeadersAreEmpty = currentHeaders.slice(17).every(function (header) {
+    return !String(header || "").trim();
+  });
+
+  if (legacyHeadersMatch && newHeadersAreEmpty) {
+    sheet
+      .getRange(BOOKING_HEADER_ROW, 18, 1, 2)
+      .setValues([["Country", "Flight Time Zone"]]);
+    return;
+  }
+
   if (!headersMatch) {
     throw new Error(
-      "Bookings headers do not match the expected 17-column template."
+      "Bookings headers do not match the expected 19-column template."
     );
   }
 }
@@ -191,6 +212,8 @@ function validateBooking_(data) {
     "fullName",
     "phone",
     "journeyType",
+    "country",
+    "flightTimeZone",
   ];
 
   required.forEach(function (field) {

@@ -13,7 +13,10 @@ export default function Footer() {
           <img src={logoUrl} alt="Hoang Luxury Travel" />
           <strong>Hoang</strong>
           <span>Luxury Travel</span>
-          <p>Luxury private car services for international travelers in Northern Vietnam.</p>
+          <p>
+            Luxury private car services for international<br />
+            travelers in Northern Vietnam.
+          </p>
         </div>
 
         <div className="hlt-footer-col">
@@ -54,6 +57,17 @@ export default function Footer() {
             </svg>
             Duplex Villa 68 SP Hanoi, Viet Nam
           </span>
+          <a
+            href="https://www.youtube.com/@HoangLuxuryTravel"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="4" />
+              <path d="m10 9 5 3-5 3V9Z" />
+            </svg>
+            youtube.com/@HoangLuxuryTravel
+          </a>
         </div>
 
         <div className="hlt-footer-qr">
@@ -63,10 +77,10 @@ export default function Footer() {
             </a>
             <p>WhatsApp</p>
           </div>
-          <nav className="hlt-footer-legal" aria-label="Legal">
-            <a href="/privacy-policy/">Privacy Policy</a>
-            <a href="/terms-of-service/">Terms of Service</a>
-          </nav>
+          <div className="hlt-footer-legal" aria-label="Legal information">
+            <span>Privacy Policy</span>
+            <span>Terms of Service</span>
+          </div>
         </div>
       </div>
 

@@ -53,9 +53,9 @@
 }
 
 .hlt-catalog-book {
-  width: min(780px, 56vw);
+  width: min(1060px, 76vw);
   height: auto;
-  max-height: calc(100svh - 225px);
+  max-height: calc(100svh - 170px);
   display: block;
   margin-top: 4px;
   object-fit: contain;
@@ -74,21 +74,21 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 22px;
-  margin-top: 4px;
+  gap: 12px;
+  margin-top: 2px;
 }
 
 .hlt-catalog-button {
-  width: 340px;
-  min-height: 58px;
+  width: 240px;
+  min-height: 42px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 9px;
   border: 1px solid #C5A15A;
   border-radius: 4px;
   font-family: "Cormorant Garamond", serif;
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -101,8 +101,8 @@
 }
 
 .hlt-catalog-button svg {
-  width: 30px;
-  height: 30px;
+  width: 21px;
+  height: 21px;
   flex: 0 0 auto;
   fill: none;
   stroke: currentColor;
@@ -128,11 +128,11 @@
   }
 
   .hlt-catalog-book {
-    width: min(760px, 84vw);
+    width: min(900px, 92vw);
   }
 
   .hlt-catalog-button {
-    width: 300px;
+    width: 230px;
   }
 }
 
@@ -172,9 +172,9 @@
 
   .hlt-catalog-button {
     width: 100%;
-    max-width: 360px;
-    min-height: 54px;
-    font-size: 17px;
+    max-width: 290px;
+    min-height: 44px;
+    font-size: 13px;
   }
 }
 /* Keep the catalog hero content below the shared overlay header. */

@@ -71,7 +71,7 @@ export default function BookingProcess() {
     ["whatsapp", "01. Contact Us", "Message us on WhatsApp. "],
     ["calendar", "02. Plan Your Trip", "We'll help you choose the best vehicle and plan your journey."],
     ["card", "03. Confirm Booking", "We confirm your trip details, the price, and your booking."],
-    ["car", "04. Enjoy Journey", "Your driver will be ready to welcome you for a safe and comfortable trip."],
+    ["car", "04. Enjoy Journey", "Our driver will be ready to welcome you for a safe and comfortable trip."],
   ];
 
   return (

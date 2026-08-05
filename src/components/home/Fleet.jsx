@@ -2,6 +2,7 @@ import React from "react";
 import {
   fleetImages,
   routeArtwork,
+  routeViewAllButtonUrl,
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
 import { catalogPageUrl, fleet as fleetItems, popularRoutes } from "../../data.js";
@@ -80,6 +81,7 @@ export default function Fleet() {
             <div className="hlt-route-grid" data-scroll-anchor>
               {popularRoutes.map((route, index) => (
                 <article className="hlt-route-card" key={route}>
+                  <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>
                   {routeArtwork[index] ? (
                     <span className="hlt-route-artwork" aria-hidden="true">
                       <img src={routeArtwork[index]} alt="" />
@@ -99,18 +101,12 @@ export default function Fleet() {
               ))}
             </div>
 
-            <a className="hlt-route-cta" href={catalogPageUrl}>
-              <span className="hlt-route-cta-compass" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="8.5" />
-                  <path d="M12 4.8 13.7 10.3 19.2 12l-5.5 1.7L12 19.2l-1.7-5.5L4.8 12l5.5-1.7L12 4.8Z" />
-                  <circle cx="12" cy="12" r="1.15" />
-                </svg>
-              </span>
-              <span>View All Routes</span>
-              <svg className="hlt-route-cta-arrow" viewBox="0 0 18 18" aria-hidden="true">
-                <path d="m6.5 3.8 5 5.2-5 5.2" />
-              </svg>
+            <a
+              className="hlt-route-cta hlt-route-cta-image"
+              href={catalogPageUrl}
+              aria-label="View All Routes"
+            >
+              <img src={routeViewAllButtonUrl} alt="" />
             </a>
           </div>
         </div>

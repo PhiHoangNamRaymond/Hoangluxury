@@ -1,8 +1,8 @@
 /* Curated Journeys recovery */
 .hlt-route-showcase {
-  grid-template-columns: minmax(320px, .88fr) minmax(560px, 1.12fr);
+  grid-template-columns: minmax(400px, 1.22fr) minmax(460px, .78fr);
   align-items: start;
-  gap: clamp(28px, 3.2vw, 52px);
+  gap: clamp(22px, 2.4vw, 38px);
   padding-top: clamp(28px, 2.6vw, 42px);
   background-color: #EDE0CC;
 }
@@ -12,7 +12,7 @@
 }
 
 .hlt-route-map img {
-  width: min(100%, 720px);
+  width: min(96%, 780px);
   max-height: none;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, #000 9%, #000 89%, transparent 100%),
@@ -24,10 +24,52 @@
   mask-composite: intersect;
 }
 
+@media (min-width: 901px) {
+  .hlt-route-map {
+    align-self: end;
+    transform: translateX(-36px);
+  }
+
+  .hlt-route-map img {
+    width: auto;
+    height: 766px;
+    max-width: 100%;
+    max-height: 766px;
+  }
+}
+
+.hlt-route-cta.hlt-route-cta-image {
+  width: min(300px, 100%);
+  min-height: 0;
+  display: block;
+  margin: 20px auto 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  clip-path: none;
+}
+
+.hlt-route-cta.hlt-route-cta-image::before {
+  display: none;
+}
+
+.hlt-route-cta-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hlt-route-cta.hlt-route-cta-image:hover {
+  background: transparent;
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+}
+
 .hlt-route-card {
-  min-height: 238px;
+  min-height: 154px;
   justify-content: flex-start;
-  padding: 16px 14px 15px;
+  padding: 8px 9px 7px;
   border: 1px solid rgba(184, 126, 39, .68);
   border-radius: 6px;
   background: rgba(244, 235, 221, .82);
@@ -40,9 +82,28 @@
   border-radius: 4px;
 }
 
+.hlt-route-number {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  z-index: 2;
+  border: 1px solid #b9872f;
+  border-radius: 50%;
+  background: rgba(244, 235, 221, .94);
+  color: #c5a15a;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .hlt-route-artwork {
-  width: 152px;
-  height: 110px;
+  width: 110px;
+  height: 74px;
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -59,22 +120,22 @@
 
 .hlt-route-card h3 {
   margin-top: 0;
-  font-size: clamp(17px, 1.25vw, 21px);
+  font-size: clamp(15px, 1.08vw, 18px);
   line-height: 1.08;
 }
 
 .hlt-route-card p {
   margin-top: 2px;
-  font-size: clamp(21px, 1.55vw, 26px);
+  font-size: clamp(18px, 1.3vw, 22px);
   line-height: 1;
 }
 
 .hlt-route-card-ornament {
-  width: 72px;
-  height: 12px;
+  width: 56px;
+  height: 10px;
   display: block;
   position: relative;
-  margin-top: auto;
+  margin-top: 6px;
   background: linear-gradient(90deg, transparent, #b87e27, transparent) center / 100% 1px no-repeat;
 }
 
@@ -95,28 +156,41 @@
     background-color: #EDE0CC;
   }
 
+  .hlt-route-grid {
+    width: 100%;
+  }
+
   .hlt-route-card {
-    min-height: 164px;
-    padding: 10px 7px 9px;
+    min-height: 110px;
+    padding: 6px 5px 5px;
+  }
+
+  .hlt-route-number {
+    width: 20px;
+    height: 20px;
+    top: 6px;
+    left: 6px;
+    font-size: 9px;
   }
 
   .hlt-route-artwork {
-    width: 96px;
-    height: 72px;
+    width: 70px;
+    height: 44px;
     margin-top: 0;
   }
 
   .hlt-route-card h3 {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .hlt-route-card p {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .hlt-route-card-ornament {
-    width: 48px;
+    width: 38px;
     height: 9px;
+    margin-top: 4px;
   }
 }
 
@@ -127,7 +201,7 @@
   }
 
   .hlt-route-map img {
-    width: min(80vw, 540px);
+    width: min(94vw, 620px);
   }
 }
 
@@ -137,6 +211,10 @@
   }
 
   .hlt-route-map img {
-    width: min(96%, 380px);
+    width: min(104%, 400px);
+  }
+
+  .hlt-route-cta.hlt-route-cta-image {
+    width: min(240px, 100%);
   }
 }
