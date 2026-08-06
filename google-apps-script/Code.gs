@@ -1,12 +1,9 @@
 const BOOKING_HEADER_ROW = 4;
 const BOOKING_FIRST_DATA_ROW = 5;
 const JOURNEY_TYPES = [
-  "Airport Transfer",
-  "One-way Transfer",
+  "One-way",
   "Round Trip",
-  "Long-Distance Private Transfer",
-  "Custom Private Trip",
-  "Business / Partner Transfer",
+  "Custom Request",
 ];
 const BOOKING_STATUSES = [
   "New",
@@ -38,6 +35,23 @@ const LEGACY_BOOKING_HEADERS = [
   "Flight Time Zone",
 ];
 const BOOKING_HEADERS = [
+  "Submitted At",
+  "Booking ID",
+  "Departure Date",
+  "Return Date",
+  "Full Name",
+  "Contact Number",
+  "Nationality",
+  "Passengers",
+  "Pick-up Location",
+  "Drop-off Location",
+  "Flight Number",
+  "Flight Time",
+  "Journey Type",
+  "Special Requirements",
+  "Status",
+];
+const PREVIOUS_BOOKING_HEADERS = [
   "Submitted At",
   "Booking ID",
   "Departure Date",
@@ -83,7 +97,7 @@ function doPost(event) {
         parseOptionalDate_(data.returnDate),
         safeCell_(data.fullName),
         safeCell_(data.phone),
-        safeCell_(data.country),
+        safeCell_(data.nationality),
         parsePassengers_(data.passengers),
         safeCell_(data.pickup),
         safeCell_(data.dropoff),
@@ -174,12 +188,21 @@ function ensureHeaders_(sheet) {
     return currentHeaders[index] === header;
   });
 
+  const previousHeadersMatch = PREVIOUS_BOOKING_HEADERS.every(function (header, index) {
+    return currentHeaders[index] === header;
+  });
+
   const legacyHeadersMatch = LEGACY_BOOKING_HEADERS.every(function (header, index) {
     return inspectedHeaders[index] === header;
   });
 
   if (legacyHeadersMatch) {
     migrateLegacyBookings_(sheet);
+    return;
+  }
+
+  if (previousHeadersMatch) {
+    sheet.getRange(BOOKING_HEADER_ROW, 7).setValue("Nationality");
     return;
   }
 
@@ -288,7 +311,7 @@ function validateBooking_(data) {
     "fullName",
     "phone",
     "journeyType",
-    "country",
+    "nationality",
     "flightTimeZone",
   ];
 

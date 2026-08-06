@@ -12,7 +12,7 @@ const initialForm = {
   flight: "",
   flightTimeZone: "",
   passengers: "2",
-  country: "",
+  nationality: "",
   fullName: "",
   phone: "",
   journeyType: "",
@@ -131,10 +131,10 @@ export default function BookingPage() {
             <label><span className="hlt-book-label-text">Flight Number <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="plane" /><input name="flight" value={form.flight} onChange={updateField} placeholder="Enter your flight number" /></div></label>
             <label><span className="hlt-book-label-text">Flight Time</span><div className="hlt-book-control"><FormIcon type="clock" /><input required name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} placeholder="e.g. 14:30" /></div></label>
             <label><span className="hlt-book-label-text">Number of Passengers</span><div className="hlt-book-control"><FormIcon type="passengers" /><select name="passengers" value={form.passengers} onChange={updateField}>{[1,2,3,4,5,6].map((count) => <option key={count} value={count}>{count} {count === 1 ? "passenger" : "passengers"}</option>)}</select></div></label>
-            <label><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><input required name="country" value={form.country} onChange={updateField} placeholder="e.g. United Arab Emirates" /></div></label>
+            <label><span className="hlt-book-label-text">Nationality</span><div className="hlt-book-control"><FormIcon type="globe" /><input required name="nationality" value={form.nationality} onChange={updateField} placeholder="e.g. Vietnamese" /></div></label>
             <label><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
             <label><span className="hlt-book-label-text">Contact Number</span><div className="hlt-book-control"><FormIcon type="phone" /><input required type="tel" name="phone" value={form.phone} onChange={updateField} placeholder="Enter your phone number" /></div></label>
-            <label><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>Airport Transfer</option><option>One-way Transfer</option><option>Round Trip</option><option>Long-Distance Private Transfer</option><option>Custom Private Trip</option><option>Business / Partner Transfer</option></select></div></label>
+            <label><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>One-way</option><option>Round Trip</option><option>Custom Request</option></select></div></label>
             <label><span className="hlt-book-label-text">Luggage</span><div className="hlt-book-control"><FormIcon type="luggage" /><input name="luggage" value={form.luggage} onChange={updateField} placeholder="e.g. 2 suitcases, 1 carry-on" /></div></label>
             <label className="hlt-book-requirements"><span className="hlt-book-label-text">Special Requirements <small>(Optional)</small></span><div className="hlt-book-control hlt-book-control-textarea"><FormIcon type="note" /><textarea name="requirements" value={form.requirements} onChange={updateField} placeholder="Tell us your requests, special needs, or other details." /></div></label>
           </div>
