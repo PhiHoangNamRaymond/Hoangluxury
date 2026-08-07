@@ -3,10 +3,27 @@ import { logoUrl } from "../../config/assets.js";
 import { navLinks, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
 
+const normalizePath = (pathname) => pathname.replace(/\/+$/, "");
+
+const getInitialActiveHref = () => {
+  const currentPath = normalizePath(window.location.pathname);
+
+  if (currentPath === "") {
+    return window.location.hash || "#home";
+  }
+
+  return navLinks.find(([, href]) => {
+    if (href.startsWith("#")) return false;
+
+    return normalizePath(new URL(href, window.location.origin).pathname) === currentPath;
+  })?.[1] || "";
+};
+
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState(getInitialActiveHref);
   const scrollAnimationFrame = useRef(null);
-  const isHomePage = window.location.pathname.replace(/\/+$/, "") === "";
+  const isHomePage = normalizePath(window.location.pathname) === "";
 
   const cancelScrollAnimation = () => {
     if (scrollAnimationFrame.current === null) return;
@@ -76,6 +93,45 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    if (!isHomePage) return undefined;
+
+    const sectionLinks = navLinks.filter(([, href]) => href.startsWith("#"));
+    let observerFrame = null;
+
+    const updateActiveSection = () => {
+      observerFrame = null;
+      if (scrollAnimationFrame.current !== null) return;
+
+      const headerHeight =
+        document.querySelector(".hlt-header")?.getBoundingClientRect().height ?? 0;
+      const marker = window.scrollY + headerHeight + Math.max(28, window.innerHeight * 0.18);
+      let nextHref = "#home";
+
+      sectionLinks.forEach(([, href]) => {
+        const section = document.querySelector(href);
+        if (section && section.offsetTop <= marker) nextHref = href;
+      });
+
+      setActiveHref(nextHref);
+    };
+
+    const scheduleUpdate = () => {
+      if (observerFrame !== null) return;
+      observerFrame = requestAnimationFrame(updateActiveSection);
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (observerFrame !== null) cancelAnimationFrame(observerFrame);
+    };
+  }, [isHomePage]);
+
+  useEffect(() => {
     if (!isHomePage || !window.location.hash) return;
 
     const target = document.querySelector(window.location.hash);
@@ -91,17 +147,18 @@ export default function Header() {
     };
   }, [isHomePage]);
 
-  const handleNavigation = (event, href) => {
+  const handleNavigation = (event, href, resolvedHref) => {
     setMenuOpen(false);
+    setActiveHref(href);
 
-    if (!href.startsWith("#") || href.length === 1) return;
+    if (!isHomePage || !href.startsWith("#") || href.length === 1) return;
 
     const target = document.querySelector(href);
     if (!target) return;
 
     event.preventDefault();
     scrollToSection(target);
-    window.history.replaceState(null, "", href);
+    window.history.replaceState(null, "", resolvedHref);
   };
 
   const navigationHref = (href) =>
@@ -125,9 +182,11 @@ export default function Header() {
 
               return (
                 <a
+                  className={activeHref === href ? "is-active" : undefined}
                   href={resolvedHref}
                   key={label}
-                  onClick={(event) => handleNavigation(event, resolvedHref)}
+                  aria-current={activeHref === href ? "page" : undefined}
+                  onClick={(event) => handleNavigation(event, href, resolvedHref)}
                   target={external && href !== "#catalog" ? "_blank" : undefined}
                   rel={external && href !== "#catalog" ? "noopener noreferrer" : undefined}
                 >

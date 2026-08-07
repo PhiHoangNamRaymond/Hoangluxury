@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  curatedMountainDecorationUrl,
   fleetImages,
   routeArtwork,
   routeViewAllButtonUrl,
@@ -67,6 +68,13 @@ export default function Fleet() {
         <div className="hlt-fleet-divider" aria-hidden="true" />
 
         <div className="hlt-route-showcase" id="routes" data-scroll-content="always">
+          <img
+            className="hlt-route-landscape-decoration"
+            src={curatedMountainDecorationUrl}
+            alt=""
+            aria-hidden="true"
+          />
+
           <div className="hlt-route-map" aria-hidden="true">
             <img src={vietnamRoutesMapUrl} alt="" />
           </div>

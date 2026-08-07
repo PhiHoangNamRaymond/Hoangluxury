@@ -1,7 +1,9 @@
 export const whatsappUrl =
   "https://wa.me/84839779888?text=Hello%20Hoang%20Luxury%20Travel%2C%20I%20would%20like%20to%20book%20a%20private%20transfer.";
 
-export const catalogUrl = import.meta.env.VITE_CATALOG_URL || "#catalog";
+export const catalogUrl =
+  import.meta.env.VITE_CATALOG_URL ||
+  "https://drive.google.com/file/d/1Rzosh8jn_aSZPy9lnCMa8bZhWiEe9dID/view?usp=drive_link";
 export const catalogPageUrl = "/catalog/";
 
 export const navLinks = [
@@ -82,15 +84,15 @@ export const fleet = [
 ];
 
 export const popularRoutes = [
-  "Ha Giang",
-  "Ta Xua",
   "Sapa",
-  "Cao Bang",
-  "Mu Cang Chai",
-  "Moc Chau",
-  "Cat Ba",
   "Ha Long",
   "Ninh Binh",
+  "Ha Giang",
+  "Cat Ba",
+  "Cao Bang",
+  "Moc Chau",
+  "Mu Cang Chai",
+  "Ta Xua",
 ];
 
 export const bookingRows = [

@@ -51,7 +51,7 @@ export default function CatalogPage() {
                 rel={hasPdfUrl ? "noopener noreferrer" : undefined}
               >
                 <BookIcon />
-                <span>View Full Catalog (PDF)</span>
+                <span>VIEWS ROUTES & PRICING</span>
               </a>
               <a
                 className="hlt-catalog-button hlt-catalog-button-gold"

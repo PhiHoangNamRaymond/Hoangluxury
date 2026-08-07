@@ -24,7 +24,7 @@ export default function Footer() {
           <a href={sectionHref("#home")}>Home</a>
           <a href={catalogPageUrl}>Catalog</a>
           <a href={sectionHref("#routes")}>Journey</a>
-          <a href="/booking/">Contact</a>
+          <a href="/booking/">Booking</a>
         </div>
 
         <div className="hlt-footer-col">

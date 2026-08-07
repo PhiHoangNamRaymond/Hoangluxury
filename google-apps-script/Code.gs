@@ -41,7 +41,7 @@ const BOOKING_HEADERS = [
   "Return Date",
   "Full Name",
   "Contact Number",
-  "Nationality",
+  "Country",
   "Passengers",
   "Pick-up Location",
   "Drop-off Location",
@@ -58,7 +58,7 @@ const PREVIOUS_BOOKING_HEADERS = [
   "Return Date",
   "Full Name",
   "Contact Number",
-  "Country",
+  "Nationality",
   "Passengers",
   "Pick-up Location",
   "Drop-off Location",
@@ -94,10 +94,10 @@ function doPost(event) {
         submittedAt,
         createBookingId_(submittedAt),
         parseDate_(data.departureDate, "departureDate"),
-        parseOptionalDate_(data.returnDate),
+        parseDate_(data.returnDate, "returnDate"),
         safeCell_(data.fullName),
         safeCell_(data.phone),
-        safeCell_(data.nationality),
+        safeCell_(data.country || data.nationality),
         parsePassengers_(data.passengers),
         safeCell_(data.pickup),
         safeCell_(data.dropoff),
@@ -202,7 +202,7 @@ function ensureHeaders_(sheet) {
   }
 
   if (previousHeadersMatch) {
-    sheet.getRange(BOOKING_HEADER_ROW, 7).setValue("Nationality");
+    sheet.getRange(BOOKING_HEADER_ROW, 7).setValue("Country");
     return;
   }
 
@@ -305,21 +305,48 @@ function configureValidations_(sheet) {
 function validateBooking_(data) {
   const required = [
     "departureDate",
+    "returnDate",
     "pickup",
     "dropoff",
+    "flight",
     "passengers",
     "fullName",
     "phone",
     "journeyType",
-    "nationality",
+    "country",
     "flightTimeZone",
+    "luggage",
   ];
 
   required.forEach(function (field) {
-    if (!String(data[field] || "").trim()) {
+    const value = field === "country"
+      ? data.country || data.nationality
+      : data[field];
+
+    if (!String(value || "").trim()) {
       throw new Error("Missing required field: " + field);
     }
   });
+
+  const phone = String(data.phone || "").trim();
+  if (!/^\+?[0-9]{7,15}$/.test(phone)) {
+    throw new Error("Invalid contact number");
+  }
+
+  const flightTime = String(data.flightTimeZone || "").trim();
+  if (!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(flightTime)) {
+    throw new Error("Invalid 24-hour flight time");
+  }
+
+  if (JOURNEY_TYPES.indexOf(String(data.journeyType || "").trim()) === -1) {
+    throw new Error("Invalid journey type");
+  }
+
+  const departureDate = parseDate_(data.departureDate, "departureDate");
+  const returnDate = parseDate_(data.returnDate, "returnDate");
+  if (returnDate.getTime() < departureDate.getTime()) {
+    throw new Error("Return date cannot be before departure date");
+  }
 
   Object.keys(data).forEach(function (field) {
     if (String(data[field] || "").length > 2000) {
@@ -358,11 +385,6 @@ function parseDate_(value, fieldName) {
   }
 
   return date;
-}
-
-function parseOptionalDate_(value) {
-  const text = String(value || "").trim();
-  return text ? parseDate_(text, "returnDate") : "";
 }
 
 function parsePassengers_(value) {

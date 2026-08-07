@@ -1,7 +1,8 @@
 import bookingProcessBackgroundUrl from "../../assets/booking-process-background.png";
 import catalogBackgroundUrl from "../../assets/catalog-background.png";
 import catalogOpenBookUrl from "../../assets/catalog-open-book-2026.webp";
-import heroBannerUrl from "../../assets/home-banner-2026.webp";
+import curatedMountainDecorationUrl from "../../assets/curated-mountain-decoration.png";
+import heroBannerUrl from "../../assets/home-banner.png";
 import heroMobileBannerUrl from "../../assets/home-banner-mobile-2026.webp";
 import logoUrl from "../../assets/hoang-luxury-logo-crown-2026.png";
 import routeCaoBangArtUrl from "../../assets/route-art-cao-bang.webp";
@@ -26,7 +27,7 @@ import serviceLongDistanceUrl from "../../assets/service-long-distance-2026.webp
 import vehicleLimoPrimeUrl from "../../assets/vehicle-limo-prime-2026.webp";
 import vehicleLimoLuxUrl from "../../assets/vehicle-limo-lux-2026.webp";
 import vehicleVf9Url from "../../assets/vehicle-vf9-2026.webp";
-import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map.png";
+import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map-2026.webp";
 import whatsappQrUrl from "../../assets/whatsapp-qr.png";
 import whyDriverIconUrl from "../../assets/why-icon-driver.png";
 import whyPricingIconUrl from "../../assets/why-icon-pricing.png";
@@ -37,6 +38,7 @@ export {
   bookingProcessBackgroundUrl,
   catalogBackgroundUrl,
   catalogOpenBookUrl,
+  curatedMountainDecorationUrl,
   heroBannerUrl,
   heroMobileBannerUrl,
   logoUrl,
@@ -74,13 +76,13 @@ export const whyIconImages = {
 };
 
 export const routeArtwork = [
-  routeHaGiangArtUrl,
-  routeTaXuaArtUrl,
   routeSaPaArtUrl,
-  routeCaoBangArtUrl,
-  routeMuCangChaiArtUrl,
-  routeMocChauArtUrl,
-  routeCatBaArtUrl,
   routeHaLongArtUrl,
   routeNinhBinhArtUrl,
+  routeHaGiangArtUrl,
+  routeCatBaArtUrl,
+  routeCaoBangArtUrl,
+  routeMocChauArtUrl,
+  routeMuCangChaiArtUrl,
+  routeTaXuaArtUrl,
 ];

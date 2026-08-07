@@ -88,7 +88,7 @@
   transition: color .18s ease, text-shadow .18s ease;
 }
 
-.hlt-nav a:first-child,
+.hlt-nav a.is-active,
 .hlt-nav a:hover {
   color: #d9b14a;
   text-shadow: 0 0 16px rgba(217, 177, 74, .22);
