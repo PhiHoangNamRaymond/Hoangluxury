@@ -130,16 +130,77 @@
 }
 
 @media (max-width: 760px) {
+  .hlt-service-grid {
+    width: calc(100% + 14px);
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 0 14px 16px 0;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlt-service-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hlt-service-card {
+    flex: 0 0 84%;
+    min-height: 430px;
+    display: block;
+    border-radius: 10px;
+    background: rgba(3, 31, 25, .96);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
   .hlt-service-media {
     min-width: 0;
-    height: 100%;
+    height: auto;
+  }
+
+  .hlt-service-image {
+    height: auto;
+    aspect-ratio: 1.15 / 1;
+  }
+
+  .hlt-service-icon {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    top: auto;
+    bottom: 0;
+    border-width: 1px;
+    background: #082b24;
+    transform: translate(-50%, 50%);
+    box-shadow: 0 0 0 5px rgba(5, 30, 25, .9);
+  }
+
+  .hlt-service-body {
+    min-width: 0;
+    padding: 44px 22px 24px;
+    display: block;
+    text-align: center;
+  }
+
+  .hlt-service-number {
+    display: none;
   }
 
   .hlt-service-card h3 {
-    color: #25221d;
+    margin-bottom: 12px;
+    color: #f7efe3;
+    font-size: 22px;
+    line-height: 1.08;
   }
 
   .hlt-service-card p {
-    color: #665b4e;
+    margin: 0 auto;
+    max-width: 280px;
+    color: rgba(247, 239, 227, .88);
+    font-size: 13px;
+    line-height: 1.55;
   }
 }

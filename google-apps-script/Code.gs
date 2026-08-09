@@ -94,7 +94,7 @@ function doPost(event) {
         submittedAt,
         createBookingId_(submittedAt),
         parseDate_(data.departureDate, "departureDate"),
-        parseDate_(data.returnDate, "returnDate"),
+        parseOptionalDate_(data.returnDate, "returnDate"),
         safeCell_(data.fullName),
         safeCell_(data.phone),
         safeCell_(data.country || data.nationality),
@@ -305,7 +305,6 @@ function configureValidations_(sheet) {
 function validateBooking_(data) {
   const required = [
     "departureDate",
-    "returnDate",
     "pickup",
     "dropoff",
     "flight",
@@ -343,8 +342,8 @@ function validateBooking_(data) {
   }
 
   const departureDate = parseDate_(data.departureDate, "departureDate");
-  const returnDate = parseDate_(data.returnDate, "returnDate");
-  if (returnDate.getTime() < departureDate.getTime()) {
+  const returnDate = parseOptionalDate_(data.returnDate, "returnDate");
+  if (returnDate && returnDate.getTime() < departureDate.getTime()) {
     throw new Error("Return date cannot be before departure date");
   }
 
@@ -385,6 +384,11 @@ function parseDate_(value, fieldName) {
   }
 
   return date;
+}
+
+function parseOptionalDate_(value, fieldName) {
+  const text = String(value || "").trim();
+  return text ? parseDate_(text, fieldName) : "";
 }
 
 function parsePassengers_(value) {

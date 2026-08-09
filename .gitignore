@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .vite/
+.VSCodeCounter/
 .env
 .env.local
 npm-debug.log*

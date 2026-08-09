@@ -177,7 +177,7 @@ export default function Header() {
           </a>
 
           <nav id="primary-navigation" className={`hlt-nav${menuOpen ? " is-open" : ""}`}>
-            {navLinks.map(([label, href, external]) => {
+            {navLinks.map(([label, href]) => {
               const resolvedHref = navigationHref(href);
 
               return (
@@ -187,8 +187,6 @@ export default function Header() {
                   key={label}
                   aria-current={activeHref === href ? "page" : undefined}
                   onClick={(event) => handleNavigation(event, href, resolvedHref)}
-                  target={external && href !== "#catalog" ? "_blank" : undefined}
-                  rel={external && href !== "#catalog" ? "noopener noreferrer" : undefined}
                 >
                   {label}
                 </a>

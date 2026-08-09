@@ -27,7 +27,7 @@ import serviceLongDistanceUrl from "../../assets/service-long-distance-2026.webp
 import vehicleLimoPrimeUrl from "../../assets/vehicle-limo-prime-2026.webp";
 import vehicleLimoLuxUrl from "../../assets/vehicle-limo-lux-2026.webp";
 import vehicleVf9Url from "../../assets/vehicle-vf9-2026.webp";
-import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map-2026.webp";
+import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map-lineart-crisp-2026.png";
 import whatsappQrUrl from "../../assets/whatsapp-qr.png";
 import whyDriverIconUrl from "../../assets/why-icon-driver.png";
 import whyPricingIconUrl from "../../assets/why-icon-pricing.png";

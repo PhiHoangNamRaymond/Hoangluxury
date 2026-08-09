@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
 
+// Keep protection off while the site is being tested. Set to true before launch.
+const CONTENT_PROTECTION_ENABLED = false;
+
 const isEditableElement = (target) =>
   target instanceof HTMLElement &&
   (target.matches("input, textarea, select") || target.isContentEditable);
 
 export default function ContentProtection({ children }) {
   useEffect(() => {
+    if (!CONTENT_PROTECTION_ENABLED) return undefined;
+
     const preventDefault = (event) => event.preventDefault();
     const preventProtectedSelection = (event) => {
       if (!isEditableElement(event.target)) event.preventDefault();

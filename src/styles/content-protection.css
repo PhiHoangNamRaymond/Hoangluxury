@@ -1,4 +1,7 @@
 /* Best-effort protection against casual copying and asset dragging. */
+/* TEMPORARILY DISABLED FOR TESTING.
+   Remove this opening comment and the matching closing comment at the end
+   to restore text-selection, image-dragging, touch-callout, and print protection.
 .hlt-site,
 .hlt-site * {
   -webkit-user-select: none;
@@ -24,3 +27,4 @@
     display: none !important;
   }
 }
+*/

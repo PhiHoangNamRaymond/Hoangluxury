@@ -189,6 +189,67 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
+@media (min-width: 961px) {
+  .hlt-route-showcase {
+    grid-template-columns: minmax(500px, 1.12fr) minmax(470px, .88fr);
+    gap: clamp(16px, 1.5vw, 24px);
+  }
+
+  .hlt-route-map img {
+    width: min(115%, 820px);
+    transform: translateX(-3%);
+  }
+
+  .hlt-route-content {
+    width: 100%;
+    max-width: 630px;
+    justify-self: end;
+  }
+
+  .hlt-route-heading {
+    margin-bottom: 24px;
+  }
+
+  .hlt-route-grid {
+    gap: 12px;
+  }
+
+  .hlt-route-card {
+    min-height: 180px;
+    padding: 14px 9px 12px;
+  }
+
+  .hlt-route-number {
+    width: 25px;
+    height: 25px;
+    top: 7px;
+    left: 7px;
+    font-size: 11px;
+  }
+
+  .hlt-route-artwork {
+    width: 110px;
+    height: 70px;
+  }
+
+  .hlt-route-card h3 {
+    font-size: clamp(15px, 1vw, 18px);
+  }
+
+  .hlt-route-card p {
+    font-size: clamp(18px, 1.2vw, 22px);
+  }
+
+  .hlt-route-card-ornament {
+    margin-top: 4px;
+  }
+
+  .hlt-route-cta.hlt-route-cta-image {
+    width: min(210px, 100%);
+    margin-top: 14px;
+  }
+}
+
 @media (max-width: 960px) {
   .hlt-route-showcase {
     background-color: #EDE0CC;
@@ -250,6 +311,41 @@
 
   .hlt-route-map img {
     width: min(104%, 400px);
+  }
+
+  .hlt-route-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .hlt-route-card {
+    min-height: 105px;
+    padding: 6px 3px 5px;
+  }
+
+  .hlt-route-number {
+    width: 18px;
+    height: 18px;
+    top: 5px;
+    left: 5px;
+    font-size: 8px;
+  }
+
+  .hlt-route-artwork {
+    width: 60px;
+    height: 38px;
+  }
+
+  .hlt-route-card h3 {
+    font-size: 10px;
+  }
+
+  .hlt-route-card p {
+    font-size: 13px;
+  }
+
+  .hlt-route-card-ornament {
+    width: 34px;
   }
 
   .hlt-route-cta.hlt-route-cta-image {

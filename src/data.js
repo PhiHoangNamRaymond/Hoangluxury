@@ -3,7 +3,7 @@ export const whatsappUrl =
 
 export const catalogUrl =
   import.meta.env.VITE_CATALOG_URL ||
-  "https://drive.google.com/file/d/1Rzosh8jn_aSZPy9lnCMa8bZhWiEe9dID/view?usp=drive_link";
+  "https://drive.google.com/file/d/1Z6b3reHt-M3aD4g15YoD2EYWMJmrgQhN/view?usp=drive_link";
 export const catalogPageUrl = "/catalog/";
 
 export const navLinks = [
@@ -49,7 +49,7 @@ export const services = [
     image: "sapa",
     icon: "route",
     title: "Long-Distance Private Transfer",
-    text: "Private transfers between cities with direct routes, flexible departure times and no shared rides.",
+    text: "Private transfers between cities with direct routes, flexible departure times, no shared rides.",
   },
   {
     image: "custom",
@@ -102,5 +102,5 @@ export const bookingRows = [
   ["Route", "Noi Bai Airport - Sapa hotels"],
   ["Vehicle", "Limo Lux"],
   ["Service", "Private Transfer"],
-  ["Total Price", "3.300.000 VND"],
+  ["Total Price", "3.500.000 VND"],
 ];

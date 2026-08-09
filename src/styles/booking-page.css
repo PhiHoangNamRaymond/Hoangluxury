@@ -805,46 +805,6 @@
   box-shadow: 0 8px 16px rgba(111, 72, 17, .3);
 }
 
-.hlt-route-cta svg {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.hlt-route-cta-compass {
-  position: relative;
-  z-index: 1;
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255, 249, 235, .95);
-  border-radius: 50%;
-}
-
-.hlt-route-cta-compass svg {
-  width: 25px;
-  height: 25px;
-}
-
-.hlt-route-cta > span:nth-child(2) {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.hlt-route-cta-arrow {
-  position: relative;
-  z-index: 1;
-  width: 18px;
-  height: 18px;
-  justify-self: center;
-  stroke-width: 2.2 !important;
-}
-
 @media (max-width: 1100px) {
   .hlt-route-showcase {
     grid-template-columns: minmax(260px, .72fr) minmax(500px, 1.28fr);

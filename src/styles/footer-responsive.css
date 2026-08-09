@@ -631,8 +631,9 @@
   }
 
   .hlt-nav {
-    left: -16px;
-    right: -16px;
+    left: auto;
+    right: 0;
+    width: min(170px, calc(100vw - 32px));
     padding: 10px 16px 16px;
   }
 
@@ -646,7 +647,7 @@
   }
 
   .hlt-hero {
-    min-height: 760px;
+    min-height: clamp(540px, 80svh, 600px);
     align-items: flex-end;
     background:
       linear-gradient(180deg, rgba(0, 0, 0, .04) 24%, rgba(2, 10, 9, .22) 43%, #06110f 76%, #06110f 100%),
@@ -658,7 +659,7 @@
   .hlt-hero-content {
     max-width: 100%;
     margin: 0;
-    padding: 0 0 38px;
+    padding: 0 0 16px;
   }
 
   .hlt-hero h1 {
@@ -982,16 +983,6 @@
     font-size: 15px;
     grid-template-columns: 36px 1fr 20px;
     padding: 5px 12px 5px 9px;
-  }
-
-  .hlt-route-cta-compass {
-    width: 32px;
-    height: 32px;
-  }
-
-  .hlt-route-cta-compass svg {
-    width: 22px;
-    height: 22px;
   }
 
   .hlt-booking-showcase {

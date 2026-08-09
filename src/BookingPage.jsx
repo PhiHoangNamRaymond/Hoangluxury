@@ -22,20 +22,15 @@ const initialForm = {
   website: "",
 };
 
-const dropoffLocations = [
-  "Sapa",
-  "Ha Long",
-  "Ninh Binh",
-  "Ha Giang",
-  "Cat Ba",
-  "Cao Bang",
-  "Pu Luong",
-  "Moc Chau",
-  "Mu Cang Chai",
-  "Ta Xua",
-];
-
 const bookingEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
+
+const bookingSteps = [
+  { number: 1, label: "Journey Route", fields: ["departureDate", "returnDate", "pickup", "dropoff"] },
+  { number: 2, label: "Flight Details", fields: ["flight", "flightTimeZone"] },
+  { number: 3, label: "Passenger Details", fields: ["fullName", "phone", "country", "passengers"] },
+  { number: 4, label: "Ride Preferences", fields: ["journeyType", "luggage", "requirements"] },
+  { number: 5, label: "Review & Send", fields: [] },
+];
 
 function FormIcon({ type, className = "hlt-book-field-icon" }) {
   const icons = {
@@ -66,6 +61,7 @@ const highlights = [
 
 export default function BookingPage() {
   const [form, setForm] = useState(initialForm);
+  const [currentStep, setCurrentStep] = useState(1);
   const [submission, setSubmission] = useState({ state: "idle", message: "" });
 
   const updateField = (event) => {
@@ -85,6 +81,35 @@ export default function BookingPage() {
     setSubmission({ state: "idle", message: "" });
   };
 
+  const validateStep = (stepNumber) => {
+    const step = bookingSteps.find(({ number }) => number === stepNumber);
+
+    for (const fieldName of step.fields) {
+      const field = document.querySelector(`.hlt-book-form [name="${fieldName}"]`);
+      if (field && !field.checkValidity()) {
+        field.reportValidity();
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const goToNextStep = () => {
+    if (!validateStep(currentStep)) return;
+    setCurrentStep((step) => Math.min(step + 1, bookingSteps.length));
+    window.requestAnimationFrame(() => {
+      document.querySelector(".hlt-book-mobile-stepper")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  };
+
+  const goToPreviousStep = () => {
+    setCurrentStep((step) => Math.max(step - 1, 1));
+    window.requestAnimationFrame(() => {
+      document.querySelector(".hlt-book-mobile-stepper")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  };
+
   const submitBooking = async (event) => {
     event.preventDefault();
 
@@ -99,6 +124,7 @@ export default function BookingPage() {
     try {
       await fetch(bookingEndpoint, { method: "POST", mode: "no-cors", credentials: "omit", keepalive: true, body: payload });
       setForm(initialForm);
+      setCurrentStep(1);
       setSubmission({
         state: "success",
         message: "Your request was submitted. Our concierge team will contact you shortly to confirm it.",
@@ -138,27 +164,53 @@ export default function BookingPage() {
           </a>
         </aside>
 
-        <form className="hlt-book-form" onSubmit={submitBooking}>
+        <form className="hlt-book-form" data-current-step={currentStep} onSubmit={submitBooking}>
           <header>
             <div className="hlt-book-form-icon"><FormIcon type="calendar" className="hlt-book-form-heading-icon" /></div>
             <div><h2 id="booking-page-title">Book Your Private Transfer</h2><p>Choose your preferred option: message us on WhatsApp or fill out the form below.</p></div>
           </header>
 
+          <div className="hlt-book-mobile-stepper" aria-label={`Booking step ${currentStep} of ${bookingSteps.length}`}>
+            <div className="hlt-book-mobile-progress" aria-hidden="true">
+              {bookingSteps.map((step) => (
+                <span
+                  className={step.number <= currentStep ? "is-active" : ""}
+                  key={step.number}
+                >
+                  {step.number < currentStep ? "✓" : step.number}
+                </span>
+              ))}
+            </div>
+            <p><strong>Step {currentStep} of {bookingSteps.length}</strong>{bookingSteps[currentStep - 1].label}</p>
+          </div>
+
           <label className="hlt-book-honeypot" aria-hidden="true">Website<input name="website" value={form.website} onChange={updateField} tabIndex="-1" autoComplete="off" /></label>
           <div className="hlt-book-fields">
-            <label><span className="hlt-book-label-text">Departure Date</span><div className="hlt-book-control"><FormIcon type="calendar" /><input required type="date" name="departureDate" max={form.returnDate || undefined} value={form.departureDate} onChange={updateField} /></div></label>
-            <label><span className="hlt-book-label-text">Return Date</span><div className="hlt-book-control"><FormIcon type="calendar" /><input required type="date" name="returnDate" min={form.departureDate || undefined} value={form.returnDate} onChange={updateField} /></div></label>
-            <label><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="e.g. Noi Bai International Airport, Hanoi" /></div></label>
-            <label><span className="hlt-book-label-text">Drop-off Location</span><div className="hlt-book-control"><FormIcon type="location" /><select required name="dropoff" value={form.dropoff} onChange={updateField}><option value="" disabled>Select drop-off location</option>{dropoffLocations.map((location) => <option key={location} value={location}>{location}</option>)}</select></div></label>
-            <label><span className="hlt-book-label-text">Flight Number</span><div className="hlt-book-control"><FormIcon type="plane" /><input required name="flight" value={form.flight} onChange={updateField} placeholder="Enter your flight number" /></div></label>
-            <label><span className="hlt-book-label-text">Flight Time (24-hour)</span><div className="hlt-book-control"><FormIcon type="clock" /><input required type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
-            <label><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
-            <label><span className="hlt-book-label-text">Contact Number</span><div className="hlt-book-control"><FormIcon type="phone" /><input required type="tel" inputMode="tel" autoComplete="tel" pattern="[+]?[0-9]{7,15}" maxLength="16" title="Enter 7 to 15 digits, with an optional + at the beginning." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. +84839779888" /></div></label>
-            <label><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><select required name="country" value={form.country} onChange={updateField}><option value="" disabled>Select your country</option>{countries.map((country) => <option key={country} value={country}>{country}</option>)}</select></div></label>
-            <label><span className="hlt-book-label-text">Number of People</span><div className="hlt-book-control"><FormIcon type="passengers" /><select required name="passengers" value={form.passengers} onChange={updateField}><option value="" disabled>Select number of people</option>{[1,2,3,4,5,6].map((count) => <option key={count} value={count}>{count} {count === 1 ? "person" : "people"}</option>)}</select></div></label>
-            <label><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>One-way</option><option>Round Trip</option><option>Custom Request</option></select></div></label>
-            <label><span className="hlt-book-label-text">Baggage</span><div className="hlt-book-control"><FormIcon type="luggage" /><input required name="luggage" value={form.luggage} onChange={updateField} placeholder="e.g. 2 suitcases, 1 carry-on" /></div></label>
-            <label className="hlt-book-requirements"><span className="hlt-book-label-text">Special Requirements <small>(Optional)</small></span><div className="hlt-book-control hlt-book-control-textarea"><FormIcon type="note" /><textarea name="requirements" value={form.requirements} onChange={updateField} placeholder="Tell us your requests, special needs, or other details." /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Departure Date</span><div className="hlt-book-control"><FormIcon type="calendar" /><input required type="date" name="departureDate" max={form.returnDate || undefined} value={form.departureDate} onChange={updateField} /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Return Date <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="calendar" /><input type="date" name="returnDate" min={form.departureDate || undefined} value={form.returnDate} onChange={updateField} /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="e.g. Noi Bai International Airport, Hanoi" /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Drop-off Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="dropoff" value={form.dropoff} onChange={updateField} placeholder="e.g. Hotel name, street address, Sapa" autoComplete="street-address" /></div></label>
+            <label data-book-step="2"><span className="hlt-book-label-text">Flight Number</span><div className="hlt-book-control"><FormIcon type="plane" /><input required name="flight" value={form.flight} onChange={updateField} placeholder="Enter your flight number" /></div></label>
+            <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour)</span><div className="hlt-book-control"><FormIcon type="clock" /><input required type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
+            <label data-book-step="3"><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
+            <label data-book-step="3"><span className="hlt-book-label-text">Contact Number</span><div className="hlt-book-control"><FormIcon type="phone" /><input required type="tel" inputMode="tel" autoComplete="tel" pattern="[+]?[0-9]{7,15}" maxLength="16" title="Enter 7 to 15 digits, with an optional + at the beginning." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. +84839779888" /></div></label>
+            <label data-book-step="3"><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><select required name="country" value={form.country} onChange={updateField}><option value="" disabled>Select your country</option>{countries.map((country) => <option key={country} value={country}>{country}</option>)}</select></div></label>
+            <label data-book-step="3"><span className="hlt-book-label-text">Number of People</span><div className="hlt-book-control"><FormIcon type="passengers" /><select required name="passengers" value={form.passengers} onChange={updateField}><option value="" disabled>Select number of people</option>{[1,2,3,4,5,6].map((count) => <option key={count} value={count}>{count} {count === 1 ? "person" : "people"}</option>)}</select></div></label>
+            <label data-book-step="4"><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>One-way</option><option>Round Trip</option><option>Custom Request</option></select></div></label>
+            <label data-book-step="4"><span className="hlt-book-label-text">Luggage</span><div className="hlt-book-control"><FormIcon type="luggage" /><input required name="luggage" value={form.luggage} onChange={updateField} placeholder="e.g. 2 suitcases, 1 carry-on" /></div></label>
+            <label className="hlt-book-requirements" data-book-step="4"><span className="hlt-book-label-text">Special Requirements <small>(Optional)</small></span><div className="hlt-book-control hlt-book-control-textarea"><FormIcon type="note" /><textarea name="requirements" value={form.requirements} onChange={updateField} placeholder="Tell us your requests, special needs, or other details." /></div></label>
+          </div>
+
+          <div className="hlt-book-mobile-review">
+            <p><span>Route</span><strong>{form.pickup} → {form.dropoff}</strong></p>
+            <p><span>Travel date</span><strong>{form.departureDate} · {form.flightTimeZone}</strong></p>
+            <p><span>Passenger</span><strong>{form.fullName} · {form.passengers} {Number(form.passengers) === 1 ? "person" : "people"}</strong></p>
+            <p><span>Journey</span><strong>{form.journeyType}</strong></p>
+          </div>
+
+          <div className={`hlt-book-mobile-navigation is-step-${currentStep}`}>
+            {currentStep > 1 && <button className="is-back" type="button" onClick={goToPreviousStep}>Back</button>}
+            {currentStep < bookingSteps.length && <button className="is-next" type="button" onClick={goToNextStep}>Continue <span aria-hidden="true">→</span></button>}
           </div>
 
           <div className="hlt-book-actions">
