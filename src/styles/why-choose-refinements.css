@@ -189,15 +189,15 @@
 
 @media (max-width: 640px) {
   .hlt-why {
-    padding: 52px 0 58px;
+    padding: 26px 0 16px;
   }
 
   .hlt-why > .hlt-container {
-    width: calc(100% - 28px);
+    width: calc(100% - 32px);
   }
 
   .hlt-why-layout {
-    gap: 30px;
+    gap: 18px;
   }
 
   .hlt-why-intro .hlt-why-eyebrow {
@@ -207,13 +207,22 @@
   }
 
   .hlt-why-eyebrow-line {
-    width: 46px;
-    margin: 16px auto 20px;
+    width: 38px;
+    margin: 9px auto 12px;
   }
 
   .hlt-why-intro h2 {
-    font-size: 38px;
-    line-height: .98;
+    font-size: clamp(34px, 10vw, 39px);
+    line-height: .95;
+    letter-spacing: .03em;
+  }
+
+  .hlt-why-intro h2 .hlt-why-title-gold br {
+    display: none;
+  }
+
+  .hlt-why-intro h2 .hlt-why-title-ink {
+    color: #b68a38;
   }
 
   .hlt-why-intro > .hlt-gold-line,
@@ -222,40 +231,49 @@
   }
 
   .hlt-why-cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .hlt-why-card {
-    min-height: 294px;
-    padding: 18px 10px 16px;
-    border-radius: 6px;
+    min-height: 0;
+    padding: 12px 16px 12px 20px;
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    column-gap: 18px;
+    align-items: center;
+    border-radius: 9px;
+    background: rgba(255, 253, 249, .82);
+    box-shadow: 0 5px 14px rgba(84, 62, 29, .1);
   }
 
   .hlt-why-card .hlt-icon,
   .hlt-why-card .hlt-icon img {
-    width: 62px;
-    height: 62px;
+    width: 64px;
+    height: 64px;
   }
 
   .hlt-why-card .hlt-icon {
-    margin-bottom: 14px;
+    grid-row: 1 / span 2;
+    margin: 0;
   }
 
   .hlt-why-card h3 {
-    min-height: 42px;
-    font-size: 16px;
-    line-height: 1.15;
+    min-height: 0;
+    margin: 0 0 2px;
+    font-size: clamp(19px, 5.2vw, 22px);
+    line-height: 1.05;
+    text-align: left;
   }
 
   .hlt-why-card-line {
-    width: 38px;
-    height: 1px;
-    margin: 13px auto 14px;
+    display: none;
   }
 
   .hlt-why-card p {
-    font-size: 10.5px;
-    line-height: 1.45;
+    grid-column: 2;
+    font-size: 12px;
+    line-height: 1.32;
+    text-align: left;
   }
 }

@@ -63,6 +63,7 @@ export default function BookingPage() {
   const [form, setForm] = useState(initialForm);
   const [currentStep, setCurrentStep] = useState(1);
   const [submission, setSubmission] = useState({ state: "idle", message: "" });
+  const [hasFlightDetails, setHasFlightDetails] = useState(true);
 
   const updateField = (event) => {
     const { name, value } = event.target;
@@ -110,6 +111,16 @@ export default function BookingPage() {
     });
   };
 
+  const updateFlightDetailsAvailability = (event) => {
+    const hasDetails = event.target.checked;
+
+    setHasFlightDetails(hasDetails);
+
+    if (!hasDetails) {
+      setForm((current) => ({ ...current, flight: "", flightTimeZone: "" }));
+    }
+  };
+
   const submitBooking = async (event) => {
     event.preventDefault();
 
@@ -119,12 +130,18 @@ export default function BookingPage() {
     }
 
     setSubmission({ state: "loading", message: "Sending your booking request..." });
-    const payload = new URLSearchParams({ ...form, submittedFrom: window.location.href, clientTimestamp: new Date().toISOString() });
+    const payload = new URLSearchParams({
+      ...form,
+      hasFlightDetails: hasFlightDetails ? "yes" : "no",
+      submittedFrom: window.location.href,
+      clientTimestamp: new Date().toISOString(),
+    });
 
     try {
       await fetch(bookingEndpoint, { method: "POST", mode: "no-cors", credentials: "omit", keepalive: true, body: payload });
       setForm(initialForm);
       setCurrentStep(1);
+      setHasFlightDetails(true);
       setSubmission({
         state: "success",
         message: "Your request was submitted. Our concierge team will contact you shortly to confirm it.",
@@ -188,10 +205,14 @@ export default function BookingPage() {
           <div className="hlt-book-fields">
             <label data-book-step="1"><span className="hlt-book-label-text">Departure Date</span><div className="hlt-book-control"><FormIcon type="calendar" /><input required type="date" name="departureDate" max={form.returnDate || undefined} value={form.departureDate} onChange={updateField} /></div></label>
             <label data-book-step="1"><span className="hlt-book-label-text">Return Date <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="calendar" /><input type="date" name="returnDate" min={form.departureDate || undefined} value={form.returnDate} onChange={updateField} /></div></label>
-            <label data-book-step="1"><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="e.g. Noi Bai International Airport, Hanoi" /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="e.g. Noi Bai International Airport, Hanoi - 8:00 AM" /></div></label>
             <label data-book-step="1"><span className="hlt-book-label-text">Drop-off Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="dropoff" value={form.dropoff} onChange={updateField} placeholder="e.g. Hotel name, street address, Sapa" autoComplete="street-address" /></div></label>
-            <label data-book-step="2"><span className="hlt-book-label-text">Flight Number</span><div className="hlt-book-control"><FormIcon type="plane" /><input required name="flight" value={form.flight} onChange={updateField} placeholder="Enter your flight number" /></div></label>
-            <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour)</span><div className="hlt-book-control"><FormIcon type="clock" /><input required type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
+            <label className="hlt-book-flight-option hlt-book-requirements" data-book-step="2">
+              <input type="checkbox" checked={hasFlightDetails} onChange={updateFlightDetailsAvailability} />
+              <span><strong>I have flight details</strong><small>Uncheck this if your journey does not involve a flight.</small></span>
+            </label>
+            <label data-book-step="2"><span className="hlt-book-label-text">Flight Number <small>{hasFlightDetails ? "(Required)" : "(Not required)"}</small></span><div className="hlt-book-control"><FormIcon type="plane" /><input required={hasFlightDetails} disabled={!hasFlightDetails} name="flight" value={form.flight} onChange={updateField} placeholder="e.g VN 1222" /></div></label>
+            <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour) <small>{hasFlightDetails ? "(Required)" : "(Not required)"}</small></span><div className="hlt-book-control"><FormIcon type="clock" /><input required={hasFlightDetails} disabled={!hasFlightDetails} type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Contact Number</span><div className="hlt-book-control"><FormIcon type="phone" /><input required type="tel" inputMode="tel" autoComplete="tel" pattern="[+]?[0-9]{7,15}" maxLength="16" title="Enter 7 to 15 digits, with an optional + at the beginning." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. +84839779888" /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><select required name="country" value={form.country} onChange={updateField}><option value="" disabled>Select your country</option>{countries.map((country) => <option key={country} value={country}>{country}</option>)}</select></div></label>
