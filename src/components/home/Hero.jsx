@@ -1,17 +1,163 @@
-import React from "react";
-import { heroBannerUrl, heroMobileBannerUrl } from "../../config/assets.js";
-import { catalogPageUrl, whatsappUrl } from "../../data.js";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { heroSlideImages, heroSlideMobileImages } from "../../config/assets.js";
+import { catalogPageUrl, heroSlides, whatsappUrl } from "../../data.js";
+
+// Một vòng = 5 slide x (6000 + 900) ~ 30 giây.
+const SLIDE_DURATION = 6000;
+const TRANSITION_DURATION = 900;
+const SWIPE_THRESHOLD = 40;
 
 export default function Hero() {
+  const [index, setIndex] = useState(0);
+  const [loaded, setLoaded] = useState(() => new Set([0]));
+  // Trang có thể mở sẵn ở tab nền, nên lấy trạng thái ẩn ngay từ đầu
+  // thay vì chờ sự kiện visibilitychange đầu tiên.
+  const [paused, setPaused] = useState(() => document.hidden);
+  const [leaving, setLeaving] = useState(null);
+  const touchStartX = useRef(null);
+  const currentIndex = useRef(0);
+  // Bản sao của `loaded` cho bộ đếm autoplay đọc, để việc preload xong một ảnh
+  // không lọt vào dependency và làm đặt lại đồng hồ 6 giây đang chạy.
+  const loadedRef = useRef(loaded);
+
+  useEffect(() => {
+    loadedRef.current = loaded;
+  }, [loaded]);
+
+  const goTo = useCallback((next) => {
+    setIndex((next + heroSlides.length) % heroSlides.length);
+  }, []);
+
+  // Slide cũ giữ nguyên độ mờ đục ở lớp dưới trong lúc slide mới mờ chồng lên,
+  // nếu để cả hai cùng fade thì giữa nhịp chuyển sẽ bị hụt sáng.
+  useEffect(() => {
+    if (currentIndex.current === index) return undefined;
+
+    setLeaving(currentIndex.current);
+    currentIndex.current = index;
+
+    const timer = window.setTimeout(() => setLeaving(null), TRANSITION_DURATION);
+    return () => window.clearTimeout(timer);
+  }, [index]);
+
+  // Slide đầu tải ngay; 4 slide sau nạp nền sau khi trang đã vẽ xong,
+  // để hero không phải chờ ~9.6 MB ảnh trước lần hiển thị đầu tiên.
+  useEffect(() => {
+    let cancelled = false;
+
+    const preloadRest = () => {
+      heroSlides.forEach((slide, slideIndex) => {
+        if (slideIndex === 0) return;
+
+        const image = new Image();
+        image.decoding = "async";
+        // Ảnh hỏng vẫn phải đánh dấu xong, nếu không autoplay sẽ chờ mãi.
+        const markLoaded = () => {
+          if (cancelled) return;
+          setLoaded((current) => new Set(current).add(slideIndex));
+        };
+
+        image.onload = markLoaded;
+        image.onerror = markLoaded;
+        image.src = heroSlideImages[slide.image];
+      });
+    };
+
+    const schedule = () =>
+      window.requestIdleCallback
+        ? window.requestIdleCallback(preloadRest, { timeout: 2500 })
+        : window.setTimeout(preloadRest, 900);
+
+    if (document.readyState === "complete") {
+      schedule();
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    window.addEventListener("load", schedule, { once: true });
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", schedule);
+    };
+  }, []);
+
+  useEffect(() => {
+    const onVisibilityChange = () => setPaused(document.hidden);
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (paused) return undefined;
+
+    let timer;
+    const advance = () => {
+      const next = (index + 1) % heroSlides.length;
+      // Chưa nạp xong thì chờ thêm, tránh crossfade sang một ô trống.
+      if (loadedRef.current.has(next)) {
+        goTo(next);
+        return;
+      }
+      timer = window.setTimeout(advance, 500);
+    };
+
+    timer = window.setTimeout(advance, SLIDE_DURATION);
+    return () => window.clearTimeout(timer);
+  }, [index, paused, goTo]);
+
+  const onTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
+  };
+
+  const onTouchEnd = (event) => {
+    if (touchStartX.current === null) return;
+
+    const distance = event.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (Math.abs(distance) < SWIPE_THRESHOLD) return;
+    goTo(index + (distance < 0 ? 1 : -1));
+  };
+
+  const slideStyle = (slide, slideIndex) => {
+    if (!loaded.has(slideIndex)) return undefined;
+
+    const mobileImage = heroSlideMobileImages[slide.image];
+    return {
+      "--slide-img": `url(${heroSlideImages[slide.image]})`,
+      ...(mobileImage && { "--slide-mobile-img": `url(${mobileImage})` }),
+    };
+  };
+
   return (
     <section
       id="home"
       className="hlt-hero"
-      style={{
-        "--hero-img": `url(${heroBannerUrl})`,
-        "--hero-mobile-img": `url(${heroMobileBannerUrl})`,
-      }}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
+      <div className="hlt-hero-stage" aria-hidden="true">
+        {heroSlides.map((slide, slideIndex) => (
+          <div
+            className={
+              "hlt-hero-slide" +
+              (slideIndex === index ? " is-active" : "") +
+              (slideIndex === leaving ? " is-leaving" : "")
+            }
+            key={slide.image}
+          >
+            <div
+              className="hlt-hero-slide-image"
+              style={slideStyle(slide, slideIndex)}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="hlt-hero-scrim" aria-hidden="true" />
+
       <div className="hlt-container">
         <div className="hlt-hero-content">
           <h1>
@@ -40,6 +186,36 @@ export default function Hero() {
             </a>
           </div>
         </div>
+      </div>
+
+      <button
+        className="hlt-hero-arrow is-prev"
+        type="button"
+        aria-label="Previous slide"
+        onClick={() => goTo(index - 1)}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" /></svg>
+      </button>
+      <button
+        className="hlt-hero-arrow is-next"
+        type="button"
+        aria-label="Next slide"
+        onClick={() => goTo(index + 1)}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" /></svg>
+      </button>
+
+      <div className="hlt-hero-dots">
+        {heroSlides.map((slide, slideIndex) => (
+          <button
+            className={`hlt-hero-dot${slideIndex === index ? " is-active" : ""}`}
+            key={slide.image}
+            type="button"
+            aria-label={slide.alt}
+            aria-current={slideIndex === index ? "true" : undefined}
+            onClick={() => goTo(slideIndex)}
+          />
+        ))}
       </div>
     </section>
   );

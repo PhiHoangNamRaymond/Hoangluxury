@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700;800&family=Lato:wght@400;700&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #C5A15A; text-decoration: none; }
+    a:hover { color: #d9b14a; }
+    .sp * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<div class="sp" style="width: 1280px; background: #F4EBDD; font-family: 'Cormorant', Georgia, serif; color: #25221D;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 68px; background: #0D1715; color: #F2E9DC;">
+    <div style="display: flex; align-items: baseline; gap: 10px;">
+      <span style="font-size: 21px; font-weight: 700; letter-spacing: .16em;">HOANG</span>
+      <span style="font-size: 11px; letter-spacing: .3em; color: #C5A15A;">LUXURY TRAVEL</span>
+    </div>
+    <div style="display: flex; gap: 30px; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: rgba(242,233,220,.72);">
+      <span>HOME</span><span>SERVICES</span><span>FLEET</span><span style="color: #C5A15A;">JOURNEY</span><span>CATALOG</span><span>BOOKING</span>
+    </div>
+  </div>
+
+  <!-- HERO chia đôi: chữ trên nền kem trái, ảnh tràn mép phải -->
+  <div style="display: grid; grid-template-columns: 46fr 54fr; min-height: 560px;">
+    <div style="display: flex; flex-direction: column; justify-content: center; padding: 60px 52px 60px 56px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="width: 42px; height: 1px; background: #C5A15A;"></span>
+        <span style="font-family: 'Lato', sans-serif; font-size: 10.5px; font-weight: 700; letter-spacing: .34em; color: #a8843f;">PRIVATE LUXURY TRANSFER</span>
+      </div>
+      <h1 style="margin: 24px 0 0; font-size: 84px; line-height: .84; font-weight: 500; letter-spacing: -.005em;">
+        Hanoi<br>
+        <span style="font-style: italic; font-weight: 400; color: #a8843f;">to</span> Sapa
+      </h1>
+      <p style="margin: 26px 0 0; max-width: 400px; font-family: 'Lato', sans-serif; font-size: 14.5px; line-height: 1.8; color: #5d574c;">
+        Premium private transfer between Hanoi and Sapa. Door-to-door service with professional
+        drivers, ensuring comfort, safety, and peace of mind.
+      </p>
+      <div style="display: flex; gap: 12px; margin-top: 32px;">
+        <a href="#" style="display: inline-flex; align-items: center; height: 50px; padding: 0 30px; background: linear-gradient(100deg, #c29226 0%, #d9b14a 48%, #fade7b 71%, #dab74f 87%, #c7972b 100%); color: #111; font-family: 'Lato', sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: .16em;">BOOK VIA WHATSAPP</a>
+        <a href="#" style="display: inline-flex; align-items: center; height: 50px; padding: 0 30px; border: 1px solid #b79a68; color: #4a4237; font-family: 'Lato', sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: .16em;">REQUEST AVAILABILITY</a>
+      </div>
+    </div>
+
+    <div style="position: relative; overflow: hidden;">
+      <svg viewBox="0 0 700 560" style="display: block; width: 100%; height: 100%;" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="spSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#101d19"/><stop offset="1" stop-color="#38493d"/>
+          </linearGradient>
+        </defs>
+        <rect width="700" height="560" fill="url(#spSky)"/>
+        <circle cx="520" cy="150" r="62" fill="#c8a765" opacity=".24"/>
+        <path d="M0 400 L140 240 L260 350 L380 220 L520 400 Z" fill="#17251f"/>
+        <path d="M280 420 L430 250 L560 360 L700 240 L700 560 L280 560 Z" fill="#1f2f28"/>
+        <path d="M0 560 L0 470 Q 200 430 380 500 T 700 460 L700 560 Z" fill="#121d19"/>
+        <text x="350" y="300" text-anchor="middle" font-family="Cormorant, serif" font-size="14" letter-spacing="5" fill="rgba(242,233,220,.32)">ẢNH TUYẾN ĐƯỜNG</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 4 trường: dải tối lệch, đè lên mép ảnh -->
+  <div style="display: grid; grid-template-columns: 46fr 54fr;">
+    <div style="background: #0D1715; color: #F2E9DC; padding: 36px 52px 36px 56px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 26px 30px;">
+        <div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .26em; color: #C5A15A;">ROUTE</div>
+          <div style="font-size: 21px; margin-top: 6px;">Hanoi &#8596; Sapa</div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 11.5px; color: rgba(242,233,220,.7); margin-top: 2px;">approx. 320 km</div>
+        </div>
+        <div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .26em; color: #C5A15A;">TIME</div>
+          <div style="font-size: 21px; margin-top: 6px;">5.5 &ndash; 6.5 hrs</div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 11.5px; color: rgba(242,233,220,.7); margin-top: 2px;">door to door</div>
+        </div>
+        <div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .26em; color: #C5A15A;">VEHICLE</div>
+          <div style="font-size: 21px; margin-top: 6px;">Limo &middot; SUV</div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 11.5px; color: rgba(242,233,220,.7); margin-top: 2px;">Lux, Prime, VF9</div>
+        </div>
+        <div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .26em; color: #C5A15A;">FROM</div>
+          <div style="font-size: 21px; margin-top: 6px;">3,300,000&#8202;₫</div>
+          <div style="font-family: 'Lato', sans-serif; font-size: 11.5px; color: rgba(242,233,220,.7); margin-top: 2px;">per private car</div>
+        </div>
+      </div>
+    </div>
+    <div style="background: #13211D;"></div>
+  </div>
+
+  <!-- Door-to-door: bố cục lệch, tiêu đề bên trái -->
+  <div style="display: grid; grid-template-columns: 38fr 62fr; gap: 56px; padding: 88px 56px 24px; align-items: start;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="width: 34px; height: 1px; background: #C5A15A;"></span>
+        <span style="font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .3em; color: #a8843f;">SEAMLESS</span>
+      </div>
+      <h2 style="margin: 18px 0 0; font-size: 48px; line-height: 1.02; font-weight: 500;">Door-to-Door<br>Private Transfer</h2>
+      <p style="margin: 20px 0 0; font-family: 'Lato', sans-serif; font-size: 13.5px; line-height: 1.8; color: #5d574c;">
+        From your hotel in Hanoi or the arrivals hall at Noi Bai, straight to your door in Sapa.
+      </p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0;">
+      <div style="display: flex; align-items: center; gap: 20px; padding: 24px 0; border-bottom: 1px solid rgba(197,161,90,.34);">
+        <span style="display: grid; place-items: center; width: 54px; height: 54px; flex: none; border-radius: 50%; background: #0D1715;">
+          <svg viewBox="0 0 24 24" style="width: 28px; height: 28px; fill: none; stroke: #C5A15A; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round;"><path d="M5 8.6 12 4.4l7 4.2"/><path d="M3.4 9.2h17.2"/><path d="M7 12.4h10M6 18.4h12M3.6 21h16.8"/><path d="M8.2 12.4v6M15.8 12.4v6"/></svg>
+        </span>
+        <div style="flex: 1;">
+          <div style="font-family: 'Lato', sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .26em; color: #a8843f;">PICK-UP IN</div>
+          <div style="font-size: 27px; margin-top: 4px;">Hanoi / Noi Bai</div>
+        </div>
+        <div style="font-family: 'Lato', sans-serif; font-size: 12px; line-height: 1.6; color: #6d675d; text-align: right;">Hotels, residences<br>or the airport</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 14px; padding: 18px 0 18px 22px;">
+        <svg viewBox="0 0 26 60" style="width: 26px; height: 60px; flex: none; fill: none; stroke: #C5A15A; stroke-width: 1.4; stroke-dasharray: 1 7; stroke-linecap: round;"><path d="M13 0 V60"/></svg>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid rgba(197,161,90,.5); border-radius: 50%; background: #fffdf8;">
+            <svg viewBox="0 0 24 24" style="width: 26px; height: 26px; fill: none; stroke: #a8843f; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round;"><path d="M4.2 16.4v-3.6c0-.5.2-1 .6-1.4l1.9-1.9c.6-.6 1.3-.9 2.1-.9h6.4c.8 0 1.5.3 2.1.9l1.9 1.9c.4.4.6.9.6 1.4v3.6a1 1 0 0 1-1 1H5.2a1 1 0 0 1-1-1Z"/><path d="M6.6 11.4h10.8"/><circle cx="7.4" cy="14.2" r=".9"/><circle cx="16.6" cy="14.2" r=".9"/></svg>
+          </span>
+          <span style="font-family: 'Lato', sans-serif; font-size: 12px; letter-spacing: .1em; color: #6d675d;">5.5 &ndash; 6.5 hours on the road</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 20px; padding: 24px 0; border-top: 1px solid rgba(197,161,90,.34);">
+        <span style="display: grid; place-items: center; width: 54px; height: 54px; flex: none; border-radius: 50%; background: #0D1715;">
+          <svg viewBox="0 0 24 24" style="width: 28px; height: 28px; fill: none; stroke: #C5A15A; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round;"><path d="m3 18.4 5.6-8.2 3.4 4.9 3-4.4 5.6 7.7H3Z"/><path d="M3 21h18"/></svg>
+        </span>
+        <div style="flex: 1;">
+          <div style="font-family: 'Lato', sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .26em; color: #a8843f;">DROP-OFF IN</div>
+          <div style="font-size: 27px; margin-top: 4px;">Sapa</div>
+        </div>
+        <div style="font-family: 'Lato', sans-serif; font-size: 12px; line-height: 1.6; color: #6d675d; text-align: right;">Hotels, resorts<br>or town centre</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 giá trị: lưới 2x2 lệch sang phải -->
+  <div style="display: grid; grid-template-columns: 38fr 62fr; gap: 56px; padding: 54px 56px 90px;">
+    <div></div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 38px 44px;">
+      <div>
+        <h3 style="margin: 0 0 8px; font-size: 22px; font-weight: 500;">Privacy &amp; Comfort</h3>
+        <p style="margin: 0; font-family: 'Lato', sans-serif; font-size: 13px; line-height: 1.75; color: #5d574c;">A private, quiet space designed for your relaxation and peace of mind.</p>
+      </div>
+      <div>
+        <h3 style="margin: 0 0 8px; font-size: 22px; font-weight: 500;">Flexible Schedule</h3>
+        <p style="margin: 0; font-family: 'Lato', sans-serif; font-size: 13px; line-height: 1.75; color: #5d574c;">Depart at the hour that suits your plans, collected from your door.</p>
+      </div>
+      <div>
+        <h3 style="margin: 0 0 8px; font-size: 22px; font-weight: 500;">Professional Drivers</h3>
+        <p style="margin: 0; font-family: 'Lato', sans-serif; font-size: 13px; line-height: 1.75; color: #5d574c;">Experienced, courteous drivers who know the mountain roads well.</p>
+      </div>
+      <div>
+        <h3 style="margin: 0 0 8px; font-size: 22px; font-weight: 500;">Transparent Pricing</h3>
+        <p style="margin: 0; font-family: 'Lato', sans-serif; font-size: 13px; line-height: 1.75; color: #5d574c;">One quoted fare per car. No hidden fees, no surprises on arrival.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

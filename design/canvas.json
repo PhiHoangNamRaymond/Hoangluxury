@@ -1,0 +1,46 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Trang hoàn chỉnh" },
+    { "id": "page-2", "name": "Ba hướng ban đầu" }
+  ],
+  "artboards": [
+    { "file": "Framed.dc.html", "title": "B · Framed Luxury — trang đầy đủ", "page": "page-1", "x": 0, "y": 0, "w": 1280, "h": 3400 },
+    { "file": "Main.dc.html", "title": "A · Editorial Calm", "page": "page-2", "x": 0, "y": 0, "w": 1280, "h": 1500 },
+    { "file": "Split.dc.html", "title": "C · Split Asymmetric", "page": "page-2", "x": 1400, "y": 0, "w": 1280, "h": 1480 }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "x": 1400,
+      "y": 0,
+      "w": 460,
+      "page": "page-1",
+      "text": "Hướng B đã dựng đủ trang /journey/sapa/.\n\nNhịp khối: tối → dải 4 trường → kem → tối (đội xe) → kem đậm (trải nghiệm) → dải số liệu → kem (FAQ) → CTA tối.\n\nMọi ảnh đều là hình vẽ tạm — bản thật dùng home-banner.png, 3 ảnh xe và 4 ảnh trải nghiệm đã có trong assets/."
+    },
+    {
+      "id": "note-cta",
+      "x": 1400,
+      "y": 300,
+      "w": 460,
+      "page": "page-1",
+      "text": "Khối CTA cuối giữ đúng bố cục hai cột của component trang chủ (chữ trái, nút phải) — không vẽ lại kiểu căn giữa."
+    },
+    {
+      "id": "note-stats",
+      "x": 1400,
+      "y": 480,
+      "w": 460,
+      "page": "page-1",
+      "text": "Số liệu 4.9/5, 200+ đánh giá, 800+ chuyến, 20+ quốc gia đang lấy từ mockup cũ — cần bạn xác nhận trước khi lên production."
+    },
+    {
+      "id": "note-old",
+      "x": 0,
+      "y": -150,
+      "w": 520,
+      "page": "page-2",
+      "text": "Hai hướng không chọn, giữ lại để đối chiếu. Chỉ dựng phần đầu trang."
+    }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

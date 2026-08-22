@@ -44,7 +44,7 @@ export default function Fleet() {
           <div className="hlt-fleet-heading-ornament" />
         </div>
 
-        <div className="hlt-fleet-grid" data-scroll-anchor>
+        <div className="hlt-fleet-grid">
           {fleetItems.map((vehicle) => (
             <article className="hlt-fleet-card" key={vehicle.name}>
               <h3>{vehicle.name}</h3>
@@ -67,7 +67,7 @@ export default function Fleet() {
 
         <div className="hlt-fleet-divider" aria-hidden="true" />
 
-        <div className="hlt-route-showcase" id="routes" data-scroll-content="always">
+        <div className="hlt-route-showcase" id="routes">
           <img
             className="hlt-route-landscape-decoration"
             src={curatedMountainDecorationUrl}
@@ -86,7 +86,7 @@ export default function Fleet() {
               <div className="hlt-route-heading-ornament" />
             </div>
 
-            <div className="hlt-route-grid" data-scroll-anchor>
+            <div className="hlt-route-grid">
               {popularRoutes.map((route, index) => (
                 <article className="hlt-route-card" key={route}>
                   <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>

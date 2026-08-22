@@ -3,6 +3,10 @@ import catalogBackgroundUrl from "../../assets/catalog-background.png";
 import catalogOpenBookUrl from "../../assets/catalog-open-book-2026.webp";
 import curatedMountainDecorationUrl from "../../assets/curated-mountain-decoration.png";
 import heroBannerUrl from "../../assets/home-banner.png";
+import heroConvoyMountainUrl from "../../assets/hero-convoy-mountain-2026.png";
+import heroFleetWeddingUrl from "../../assets/hero-fleet-wedding-2026.png";
+import heroOperationsCenterUrl from "../../assets/hero-operations-center-2026.png";
+import heroReceptionLobbyUrl from "../../assets/hero-reception-lobby-2026.png";
 import heroMobileBannerUrl from "../../assets/home-banner-mobile-2026.webp";
 import logoUrl from "../../assets/hoang-luxury-logo-crown-2026.png";
 import routeCaoBangArtUrl from "../../assets/route-art-cao-bang.webp";
@@ -27,7 +31,7 @@ import serviceLongDistanceUrl from "../../assets/service-long-distance-2026.webp
 import vehicleLimoPrimeUrl from "../../assets/vehicle-limo-prime-2026.webp";
 import vehicleLimoLuxUrl from "../../assets/vehicle-limo-lux-2026.webp";
 import vehicleVf9Url from "../../assets/vehicle-vf9-2026.webp";
-import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map-lineart-crisp-2026.png";
+import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map-detail-sharp-2026.png";
 import whatsappQrUrl from "../../assets/whatsapp-qr.png";
 import whyDriverIconUrl from "../../assets/why-icon-driver.png";
 import whyPricingIconUrl from "../../assets/why-icon-pricing.png";
@@ -46,6 +50,18 @@ export {
   servicesBackgroundUrl,
   vietnamRoutesMapUrl,
   whatsappQrUrl,
+};
+
+export const heroSlideImages = {
+  mountainDrive: heroBannerUrl,
+  fleetWedding: heroFleetWeddingUrl,
+  convoyMountain: heroConvoyMountainUrl,
+  operationsCenter: heroOperationsCenterUrl,
+  receptionLobby: heroReceptionLobbyUrl,
+};
+
+export const heroSlideMobileImages = {
+  mountainDrive: heroMobileBannerUrl,
 };
 
 export const serviceImages = {

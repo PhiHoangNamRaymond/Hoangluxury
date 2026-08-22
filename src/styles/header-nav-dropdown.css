@@ -1,0 +1,140 @@
+/* Menu con của mục "Journey" trên header.
+   Nạp sau footer-responsive.css để ghi đè được khối nav mobile ở 960px. */
+
+.hlt-nav-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hlt-nav-group > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hlt-nav-caret {
+  width: 11px;
+  height: 11px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .22s ease;
+}
+
+.hlt-nav-group:hover .hlt-nav-caret,
+.hlt-nav-group:focus-within .hlt-nav-caret {
+  transform: rotate(180deg);
+}
+
+.hlt-nav-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 40;
+  display: grid;
+  /* Menu absolute không có bề rộng tham chiếu, thiếu `width: max-content`
+     thì cột co lại và chữ tràn ra ngoài hộp. */
+  width: max-content;
+  gap: 2px;
+  margin-top: 13px;
+  padding: 7px;
+  border: 1px solid rgba(216, 168, 73, .26);
+  border-radius: 5px;
+  /* Trùng đúng nền của .hlt-header trong theme-refinements.css. */
+  background: rgba(7, 20, 17, .92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .4);
+  transform: translate(-50%, 6px);
+  opacity: 0;
+  visibility: hidden;
+  /* Khi đóng: giữ visible cho tới lúc mờ hết rồi mới ẩn. */
+  transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+}
+
+.hlt-nav-group:hover .hlt-nav-menu,
+.hlt-nav-group:focus-within .hlt-nav-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  /* Khi mở: hiện ngay lập tức rồi mới mờ dần lên. */
+  transition: opacity .2s ease, transform .2s ease, visibility 0s;
+}
+
+/* Cầu nối trong suốt phủ khe 13px, để chuột đi từ mục cha xuống menu con
+   không lọt qua khoảng trống khiến menu đóng giữa chừng. */
+.hlt-nav-menu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -13px;
+  height: 13px;
+}
+
+.hlt-nav-menu > a {
+  padding: 10px 15px;
+  border-radius: 3px;
+  font-size: .88em;
+  letter-spacing: .04em;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+/* Rê chuột chỉ đổi màu chữ, không đổi nền. Màu vàng lấy từ rule
+   `.hlt-nav a:hover` có sẵn trong home-core.css nên không cần khai lại. */
+
+/* Giữ mục cha sáng vàng suốt lúc menu đang mở, kể cả khi con trỏ
+   đã rời xuống một mục con. */
+.hlt-nav-group:hover > a,
+.hlt-nav-group:focus-within > a {
+  color: #d9b14a;
+  text-shadow: 0 0 16px rgba(217, 177, 74, .22);
+}
+
+@media (max-width: 960px) {
+  /* Trong panel mobile không có hover: bỏ hẳn lớp bọc để mục cha và
+     các mục con rơi thẳng vào lưới của .hlt-nav như mọi link khác. */
+  .hlt-nav-group,
+  .hlt-nav-menu {
+    display: contents;
+  }
+
+  /* display:contents không tạo hộp, nhưng visibility vẫn kế thừa xuống
+     các link con - phải trả lại rõ ràng, nếu không chúng sẽ tàng hình. */
+  .hlt-nav-menu {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hlt-nav-caret {
+    display: none;
+  }
+
+  /* Trả lại dáng link của panel mobile, vì rule desktop ở trên cùng độ
+     ưu tiên với `.hlt-nav a` nhưng nạp sau nên sẽ thắng. */
+  .hlt-nav-menu > a {
+    padding: 13px 16px;
+    border-bottom: 1px solid rgba(216, 168, 73, .12);
+    border-radius: 0;
+    font-size: .88em;
+    opacity: .82;
+  }
+
+  /* 6 mục gốc + các tuyến con, có thể dài hơn màn hình điện thoại nhỏ. */
+  .hlt-nav.is-open {
+    max-height: calc(100vh - 88px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-nav-menu > a {
+    padding: 11px 10px;
+    text-align: center;
+  }
+}

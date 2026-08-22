@@ -1,0 +1,798 @@
+/* Trang tuyến: /journey/<slug>/ */
+
+.hlt-journey-site {
+  /* Vàng / mực / nền tối lấy đúng biến trang chủ trong base.css. */
+  --jr-dark: #0d1715;
+  --jr-dark-2: #13211d;
+  --jr-cream: #faf6ed;
+  --jr-cream-2: #f3ebdc;
+  --jr-gold: #c5a15a;
+  --jr-gold-soft: rgba(197, 161, 90, .32);
+  --jr-ink: #25221d;
+  --jr-muted: #4f483f;
+  background: var(--jr-cream);
+}
+
+.hlt-journey {
+  background: var(--jr-cream);
+}
+
+/* Container mặc định của site rộng 1180px nên chỉ chừa 30px mỗi bên ở màn
+   ~1255px; bản thiết kế chừa ~78px. Thu hẹp riêng cho trang tuyến. */
+.hlt-journey .hlt-container {
+  width: min(1180px, 88%);
+}
+
+.hlt-journey-section {
+  padding: clamp(48px, 5.6vw, 82px) 0;
+}
+
+/* ---------- Hero ---------- */
+
+.hlt-journey-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(420px, 36vw, 520px);
+  padding: 92px 0 clamp(80px, 7.4vw, 108px);
+  background:
+    linear-gradient(90deg, rgba(4, 12, 10, .88) 0%, rgba(4, 12, 10, .62) 34%, rgba(4, 12, 10, .12) 66%, transparent 84%),
+    var(--journey-hero-img);
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.hlt-journey-hero-content {
+  /* Bản thiết kế thụt chữ vào thêm ~42px so với mép thanh thông số. */
+  max-width: min(600px, 56vw);
+  padding-left: clamp(0px, 3.4vw, 46px);
+}
+
+.hlt-journey-eyebrow {
+  margin: 0 0 16px;
+  font-size: clamp(12px, 1.35vw, 17px);
+  font-weight: 600;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .9);
+}
+
+.hlt-journey-hero h1 {
+  margin: 0 0 14px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(42px, 5.8vw, 76px);
+  line-height: .88;
+  font-weight: 700;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.hlt-journey-hero h1 span {
+  display: block;
+}
+
+.hlt-journey-title-accent {
+  color: var(--jr-gold);
+}
+
+.hlt-journey-lead {
+  max-width: 340px;
+  margin: 0 0 22px;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .88);
+}
+
+.hlt-journey-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* ---------- Thanh thông số, đè lên đáy hero ---------- */
+
+.hlt-journey-facts {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(-72px, -5.6vw, -50px);
+  padding: clamp(18px, 2.15vw, 28px) clamp(14px, 2vw, 26px);
+  border: 1px solid var(--jr-gold-soft);
+  border-radius: 4px;
+  background: var(--jr-dark);
+  box-shadow: 0 22px 44px rgba(11, 28, 23, .26);
+}
+
+.hlt-journey-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(14px, 1.8vw, 22px);
+  padding: 2px clamp(10px, 1.6vw, 22px);
+}
+
+.hlt-journey-fact + .hlt-journey-fact {
+  border-left: 1px solid rgba(201, 162, 74, .22);
+}
+
+.hlt-journey-fact-icon {
+  flex: none;
+  width: clamp(28px, 3vw, 38px);
+  height: clamp(28px, 3vw, 38px);
+  margin-top: 1px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-fact span {
+  display: block;
+  margin-bottom: 9px;
+  font-size: clamp(11px, .92vw, 12.5px);
+  font-weight: 700;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+  color: var(--jr-gold);
+}
+
+/* Hai dòng dưới nhãn cùng cỡ và gần cùng độ sáng — trước đây dòng phụ bị
+   giảm còn 62% và nhỏ hơn nên đọc rất mờ. */
+.hlt-journey-fact strong,
+.hlt-journey-fact small {
+  display: block;
+  font-size: clamp(13.5px, 1.15vw, 15.5px);
+  font-weight: 500;
+  line-height: 1.5;
+  color: #f4eee3;
+}
+
+.hlt-journey-fact small {
+  margin-top: 5px;
+  color: rgba(244, 238, 227, .86);
+}
+
+/* ---------- Tiêu đề mục ---------- */
+
+.hlt-journey-heading {
+  max-width: 760px;
+  margin: 0 auto clamp(34px, 4vw, 52px);
+  text-align: center;
+}
+
+.hlt-journey-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 0 12px;
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--jr-gold);
+}
+
+.hlt-journey-kicker::before,
+.hlt-journey-kicker::after {
+  content: "";
+  width: clamp(30px, 6vw, 84px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--jr-gold));
+}
+
+.hlt-journey-kicker::after {
+  background: linear-gradient(90deg, var(--jr-gold), transparent);
+}
+
+.hlt-journey-heading h2,
+.hlt-journey-title-serif {
+  margin: 0 0 14px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(30px, 3.5vw, 46px);
+  font-weight: 600;
+  line-height: 1.06;
+  color: var(--jr-ink);
+}
+
+.hlt-journey-title-serif {
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.hlt-journey-sub {
+  margin: 0;
+  font-size: clamp(13.5px, 1.12vw, 16px);
+  line-height: 1.62;
+  color: var(--jr-muted);
+}
+
+/* ---------- Điểm đón / điểm trả ---------- */
+
+.hlt-journey-transit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 22px);
+  margin-bottom: clamp(40px, 4.6vw, 64px);
+}
+
+.hlt-journey-point {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: clamp(14px, 1.6vw, 20px);
+  border: 1px solid rgba(201, 162, 74, .34);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.hlt-journey-point-badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--jr-dark);
+}
+
+.hlt-journey-point-badge svg {
+  width: 29px;
+  height: 29px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-point p {
+  margin: 0 0 4px;
+  font-size: clamp(11px, 1.02vw, 13px);
+  font-weight: 700;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: var(--jr-gold);
+}
+
+.hlt-journey-point h3 {
+  margin: 0 0 4px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(19px, 1.7vw, 25px);
+  font-weight: 600;
+  color: var(--jr-ink);
+}
+
+.hlt-journey-point small {
+  font-size: clamp(12px, 1.05vw, 13.5px);
+  line-height: 1.5;
+  color: var(--jr-muted);
+}
+
+.hlt-journey-path {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hlt-journey-path-pin {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Nét đứt uốn cong nối hai đầu với xe ở giữa. `preserveAspectRatio: none`
+   cho đường kéo giãn theo bề ngang, `vector-effect` giữ nét khỏi méo. */
+.hlt-journey-path-curve {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 1 7;
+}
+
+.hlt-journey-path-car {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border: 1px solid rgba(201, 162, 74, .4);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(11, 28, 23, .12);
+}
+
+.hlt-journey-path-car svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Bốn điểm mạnh ---------- */
+
+.hlt-journey-features {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.hlt-journey-features article {
+  padding: 0 clamp(12px, 1.8vw, 26px);
+  text-align: center;
+}
+
+.hlt-journey-features article + article {
+  border-left: 1px solid rgba(201, 162, 74, .26);
+}
+
+.hlt-journey-feature-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 12px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-features h3 {
+  margin: 0 0 9px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 700;
+  color: var(--jr-ink);
+}
+
+.hlt-journey-features p {
+  margin: 0;
+  font-size: clamp(13px, 1.05vw, 14px);
+  line-height: 1.58;
+  color: var(--jr-muted);
+}
+
+/* ---------- Đội xe ---------- */
+
+.hlt-journey-kicker-center {
+  margin-bottom: clamp(22px, 2.6vw, 32px);
+}
+
+.hlt-journey-vehicles {
+  padding-top: 0;
+}
+
+.hlt-journey-vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+.hlt-journey-vehicle-grid article {
+  overflow: hidden;
+  border: 1px solid rgba(201, 162, 74, .3);
+  border-radius: 4px;
+  background: #fff;
+  text-align: center;
+}
+
+.hlt-journey-vehicle-img {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.hlt-journey-vehicle-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hlt-journey-vehicle-grid h3 {
+  margin: 15px 0 11px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(17px, 1.7vw, 23px);
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--jr-gold);
+}
+
+.hlt-journey-vehicle-specs {
+  display: flex;
+  justify-content: center;
+  gap: clamp(16px, 2.4vw, 34px);
+  padding: 11px 12px;
+  border-top: 1px solid rgba(201, 162, 74, .22);
+}
+
+.hlt-journey-vehicle-specs span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--jr-muted);
+}
+
+.hlt-journey-vehicle-specs svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Trải nghiệm hành trình ---------- */
+
+.hlt-journey-experience {
+  background: var(--jr-cream-2);
+}
+
+.hlt-journey-experience-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.5vw, 20px);
+  margin-bottom: clamp(34px, 4vw, 52px);
+}
+
+.hlt-journey-experience-grid article {
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--jr-dark);
+}
+
+.hlt-journey-experience-grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.hlt-journey-experience-body {
+  position: relative;
+  padding: 26px 16px 20px;
+  text-align: center;
+}
+
+.hlt-journey-experience-body span {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(201, 162, 74, .5);
+  border-radius: 50%;
+  background: var(--jr-dark);
+}
+
+.hlt-journey-experience-body svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-experience-body h3 {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--jr-gold);
+}
+
+.hlt-journey-experience-body p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: rgba(243, 236, 224, .78);
+}
+
+/* ---------- Bảng số liệu ---------- */
+
+.hlt-journey-stats {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr));
+  align-items: center;
+  padding: clamp(26px, 3.2vw, 42px) clamp(18px, 2.4vw, 34px);
+  border: 1px solid var(--jr-gold-soft);
+  border-radius: 4px;
+  background: var(--jr-dark);
+  text-align: center;
+}
+
+.hlt-journey-stat {
+  padding: 0 clamp(12px, 2vw, 28px);
+}
+
+.hlt-journey-stat + .hlt-journey-stat {
+  border-left: 1px solid rgba(201, 162, 74, .24);
+}
+
+.hlt-journey-stat-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 8px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-stat strong {
+  display: block;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(30px, 3.4vw, 48px);
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--jr-gold);
+}
+
+.hlt-journey-stat span {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(13px, 1.15vw, 16px);
+  line-height: 1.3;
+  color: #f3ece0;
+}
+
+.hlt-journey-stat-rating p {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(243, 236, 224, .72);
+}
+
+.hlt-journey-stars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 8px 0 10px;
+}
+
+.hlt-journey-stars svg {
+  width: 19px;
+  height: 19px;
+  fill: var(--jr-gold);
+  stroke: none;
+}
+
+.hlt-journey-stat-rating small {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(243, 236, 224, .66);
+}
+
+/* ---------- Bao gồm + FAQ ---------- */
+
+.hlt-journey-details-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.hlt-journey-small-heading {
+  margin: 0 0 22px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(15px, 1.4vw, 19px);
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--jr-ink);
+}
+
+.hlt-journey-included {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px clamp(14px, 2vw, 26px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hlt-journey-included li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--jr-ink);
+}
+
+.hlt-journey-included span {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--jr-dark);
+}
+
+.hlt-journey-included svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-faq details {
+  border-bottom: 1px solid rgba(201, 162, 74, .3);
+}
+
+.hlt-journey-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 2px;
+  font-size: 13.5px;
+  color: var(--jr-ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.hlt-journey-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.hlt-journey-faq summary svg {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--jr-muted);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .22s ease;
+}
+
+.hlt-journey-faq details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.hlt-journey-faq details[open] summary {
+  color: var(--jr-gold);
+}
+
+.hlt-journey-faq p {
+  margin: 0;
+  padding: 0 2px 16px;
+  font-size: 12.5px;
+  line-height: 1.68;
+  color: var(--jr-muted);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1080px) {
+  .hlt-journey-facts,
+  .hlt-journey-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlt-journey-fact:nth-child(3) {
+    border-left: 0;
+  }
+
+  .hlt-journey-fact:nth-child(n + 3) {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(201, 162, 74, .18);
+  }
+
+  .hlt-journey-features article:nth-child(3) {
+    border-left: 0;
+  }
+
+  .hlt-journey-features article:nth-child(n + 3) {
+    margin-top: 30px;
+  }
+
+  .hlt-journey-experience-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 16px;
+  }
+
+  .hlt-journey-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 0;
+  }
+
+  .hlt-journey-stat:nth-child(3) {
+    border-left: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .hlt-journey-hero-content {
+    max-width: 100%;
+    padding-left: 0;
+  }
+
+  .hlt-journey-hero {
+    background-position: 68% center;
+  }
+
+  .hlt-journey-transit {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlt-journey-path {
+    justify-content: center;
+    padding: 6px 0;
+  }
+
+  .hlt-journey-path-curve {
+    max-width: 110px;
+  }
+
+  .hlt-journey-vehicle-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlt-journey-details-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-journey-facts,
+  .hlt-journey-features,
+  .hlt-journey-experience-grid,
+  .hlt-journey-stats,
+  .hlt-journey-included {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlt-journey-fact + .hlt-journey-fact,
+  .hlt-journey-features article + article,
+  .hlt-journey-stat + .hlt-journey-stat {
+    border-left: 0;
+  }
+
+  .hlt-journey-fact:nth-child(n + 2) {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(201, 162, 74, .18);
+  }
+
+  .hlt-journey-features article:nth-child(n + 2) {
+    margin-top: 28px;
+  }
+
+  .hlt-journey-actions .hlt-btn {
+    width: 100%;
+  }
+}

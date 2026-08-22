@@ -6,13 +6,59 @@ export const catalogUrl =
   "https://drive.google.com/file/d/1Z6b3reHt-M3aD4g15YoD2EYWMJmrgQhN/view?usp=drive_link";
 export const catalogPageUrl = "/catalog/";
 
+export const popularRoutes = [
+  "Sapa",
+  "Ha Long",
+  "Ninh Binh",
+  "Ha Giang",
+  "Cat Ba",
+  "Cao Bang",
+  "Moc Chau",
+  "Mu Cang Chai",
+  "Ta Xua",
+];
+
+// Dropdown "Journey" chỉ liệt kê các tuyến chính, không phải toàn bộ
+// `popularRoutes` ở trên (phần thân trang vẫn hiện đủ 9 tuyến). Slug phải
+// khớp với key trong src/config/journeys.js.
+export const journeyRoutes = ["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map(
+  (route) => [
+    `Hanoi to ${route}`,
+    `/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`,
+  ]
+);
+
+// Phần tử thứ ba (tuỳ chọn) là danh sách con, hiện ra khi rê chuột vào mục cha.
 export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
-  ["Journey", "#routes"],
+  ["Journey", "#routes", journeyRoutes],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
+];
+
+export const heroSlides = [
+  {
+    image: "mountainDrive",
+    alt: "Private luxury SUV on a mountain pass at sunrise in Northern Vietnam",
+  },
+  {
+    image: "fleetWedding",
+    alt: "Fleet of white luxury SUVs decorated with flowers at a resort entrance",
+  },
+  {
+    image: "convoyMountain",
+    alt: "Convoy of luxury SUVs driving through a mountain village at dusk",
+  },
+  {
+    image: "operationsCenter",
+    alt: "Hoang Luxury Travel operations team supporting travellers",
+  },
+  {
+    image: "receptionLobby",
+    alt: "Hoang Luxury Travel reception lobby",
+  },
 ];
 
 export const whyItems = [
@@ -81,18 +127,6 @@ export const fleet = [
     name: "VF9 Luxury",
     specs: ["6 Seats", "Electric", "Luxury SUV"],
   },
-];
-
-export const popularRoutes = [
-  "Sapa",
-  "Ha Long",
-  "Ninh Binh",
-  "Ha Giang",
-  "Cat Ba",
-  "Cao Bang",
-  "Moc Chau",
-  "Mu Cang Chai",
-  "Ta Xua",
 ];
 
 export const bookingRows = [

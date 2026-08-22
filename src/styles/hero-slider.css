@@ -1,0 +1,212 @@
+/* Hero slideshow.
+   Nạp sau home-core.css và footer-responsive.css để thay nền tĩnh của
+   .hlt-hero bằng các lớp slide chồng nhau. Lớp phủ tối (scrim) tách riêng
+   khỏi ảnh nên nó đứng yên khi ảnh zoom - chữ trắng/vàng luôn đọc được. */
+
+.hlt-hero {
+  overflow: hidden;
+  background: #06110f;
+}
+
+.hlt-hero-stage,
+.hlt-hero-slide,
+.hlt-hero-slide-image,
+.hlt-hero-scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.hlt-hero-slide {
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Slide sắp biến mất: giữ đục hoàn toàn ở lớp dưới, không fade. */
+.hlt-hero-slide.is-leaving {
+  opacity: 1;
+  z-index: 1;
+}
+
+.hlt-hero-slide.is-active {
+  opacity: 1;
+  z-index: 2;
+  transition: opacity 900ms ease-in-out;
+}
+
+.hlt-hero-slide-image {
+  background-image: var(--slide-img);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1);
+  will-change: transform;
+}
+
+/* Zoom điện ảnh 100% -> 103%, chạy hết quãng slide hiển thị (6000 + 900 ms). */
+@keyframes hlt-hero-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
+
+.hlt-hero-slide.is-active .hlt-hero-slide-image {
+  animation: hlt-hero-zoom 6900ms linear forwards;
+}
+
+.hlt-hero-scrim {
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, .72) 0%, rgba(0, 0, 0, .46) 31%, rgba(0, 0, 0, .12) 56%, transparent 74%),
+    linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .20));
+}
+
+.hlt-hero > .hlt-container {
+  position: relative;
+  z-index: 4;
+}
+
+@keyframes hlt-hero-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+.hlt-hero-content > * {
+  animation: hlt-hero-rise 460ms cubic-bezier(.22, .61, .36, 1) both;
+}
+
+.hlt-hero-content > :nth-child(2) { animation-delay: 90ms; }
+.hlt-hero-content > :nth-child(3) { animation-delay: 180ms; }
+
+/* Mũi tên điều hướng */
+.hlt-hero-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 50%;
+  background: rgba(6, 17, 15, .34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 260ms ease, background 260ms ease, border-color 260ms ease;
+}
+
+.hlt-hero:hover .hlt-hero-arrow,
+.hlt-hero-arrow:focus-visible {
+  opacity: 1;
+}
+
+.hlt-hero-arrow:hover {
+  background: rgba(6, 17, 15, .58);
+  border-color: rgba(217, 177, 74, .7);
+}
+
+.hlt-hero-arrow svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-hero-arrow.is-prev { left: 22px; }
+.hlt-hero-arrow.is-next { right: 22px; }
+
+/* Cụm chấm dạng pill */
+.hlt-hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 13px;
+  transform: translateX(-50%);
+  border-radius: 22px;
+  background: rgba(6, 17, 15, .42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.hlt-hero-dot {
+  width: 6.5px;
+  height: 6.5px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+  cursor: pointer;
+  transition: width 300ms ease, height 300ms ease, background 300ms ease;
+}
+
+.hlt-hero-dot:hover {
+  background: rgba(255, 255, 255, .85);
+}
+
+.hlt-hero-dot.is-active {
+  width: 8.5px;
+  height: 8.5px;
+  background: #d9b14a;
+}
+
+@media (max-width: 760px) {
+  .hlt-hero-slide-image {
+    background-position: 62% center;
+  }
+
+  .hlt-hero-arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-hero {
+    background: #06110f;
+  }
+
+  .hlt-hero-slide-image {
+    background-image: var(--slide-mobile-img, var(--slide-img));
+    background-position: 59% center;
+  }
+
+  /* Trên mobile chữ nằm dưới cùng nên lớp phủ chuyển thành dọc. */
+  .hlt-hero-scrim {
+    background: linear-gradient(180deg, rgba(0, 0, 0, .04) 24%, rgba(2, 10, 9, .22) 43%, #06110f 76%, #06110f 100%);
+  }
+
+  .hlt-hero-dots {
+    bottom: 14px;
+  }
+}
+
+@keyframes hlt-hero-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Máy bật giảm chuyển động: vẫn giữ crossfade, vì mờ chồng không phải loại
+   chuyển động gây chóng mặt. Chỉ bỏ zoom liên tục và độ trượt của chữ. */
+@media (prefers-reduced-motion: reduce) {
+  .hlt-hero-slide.is-active .hlt-hero-slide-image {
+    animation: none;
+  }
+
+  .hlt-hero-content > * {
+    animation-name: hlt-hero-fade;
+  }
+
+  .hlt-hero-dot {
+    transition: background 300ms ease;
+  }
+}

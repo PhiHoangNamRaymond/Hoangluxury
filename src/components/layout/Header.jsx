@@ -177,10 +177,9 @@ export default function Header() {
           </a>
 
           <nav id="primary-navigation" className={`hlt-nav${menuOpen ? " is-open" : ""}`}>
-            {navLinks.map(([label, href]) => {
+            {navLinks.map(([label, href, children]) => {
               const resolvedHref = navigationHref(href);
-
-              return (
+              const link = (
                 <a
                   className={activeHref === href ? "is-active" : undefined}
                   href={resolvedHref}
@@ -189,7 +188,31 @@ export default function Header() {
                   onClick={(event) => handleNavigation(event, href, resolvedHref)}
                 >
                   {label}
+                  {children && (
+                    <svg className="hlt-nav-caret" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="m3 4.5 3 3 3-3" />
+                    </svg>
+                  )}
                 </a>
+              );
+
+              if (!children) return link;
+
+              return (
+                <div className="hlt-nav-group" key={label}>
+                  {link}
+                  <div className="hlt-nav-menu">
+                    {children.map(([childLabel, childHref]) => (
+                      <a
+                        href={childHref}
+                        key={childLabel}
+                        onClick={(event) => handleNavigation(event, childHref, childHref)}
+                      >
+                        {childLabel}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               );
             })}
           </nav>

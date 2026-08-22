@@ -20,7 +20,7 @@ export default function Services() {
           <div className="hlt-services-ornament" />
         </div>
 
-        <div className="hlt-service-grid" data-scroll-anchor>
+        <div className="hlt-service-grid">
           {serviceItems.map((service, index) => (
             <article className="hlt-service-card" key={service.title}>
               <div className="hlt-service-media">

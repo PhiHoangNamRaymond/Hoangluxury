@@ -3,7 +3,9 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import BookingPage from "./BookingPage.jsx";
 import CatalogPage from "./CatalogPage.jsx";
+import JourneyPage from "./JourneyPage.jsx";
 import ContentProtection from "./components/layout/ContentProtection.jsx";
+import { journeys } from "./config/journeys.js";
 import "./styles/index.css";
 
 const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -11,7 +13,14 @@ const pages = {
   "/booking": BookingPage,
   "/catalog": CatalogPage,
 };
-const RootPage = pages[normalizedPath] || App;
+
+// /journey/<slug>/ - slug lạ thì rơi về trang chủ như mọi đường dẫn không khớp.
+const journeySlug = normalizedPath.match(/^\/journey\/([a-z0-9-]+)$/)?.[1];
+const journey = journeySlug && journeys[journeySlug] ? journeySlug : null;
+
+const RootPage = journey
+  ? () => <JourneyPage slug={journey} />
+  : pages[normalizedPath] || App;
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

@@ -601,38 +601,3 @@
     animation: none;
   }
 }
-
-.hlt-book-fields .hlt-book-flight-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border: 1px solid #ded5c9;
-  border-radius: 8px;
-  background: #fffcf8;
-  cursor: pointer;
-  text-transform: none;
-}
-
-.hlt-book-fields .hlt-book-flight-option input {
-  width: 18px;
-  min-height: 18px;
-  margin: 0;
-  accent-color: #a96d19;
-}
-
-.hlt-book-flight-option span {
-  display: grid;
-  gap: 2px;
-}
-
-.hlt-book-flight-option small {
-  color: #675d52;
-  font-weight: 600;
-}
-
-.hlt-book-fields input:disabled {
-  cursor: not-allowed;
-  background: #f1ede7;
-  color: #8a8177;
-}
