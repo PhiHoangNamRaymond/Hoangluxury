@@ -240,13 +240,12 @@ export default function JourneyPage({ slug }) {
                 <small>{journey.stats.ratingNote}</small>
               </div>
 
-              {journey.stats.transfers && (
-                <div className="hlt-journey-stat">
-                  <Icon type="route" className="hlt-journey-stat-icon" />
-                  <strong>{journey.stats.transfers}</strong>
-                  <span>{journey.stats.transfersLabel}</span>
-                </div>
-              )}
+              {/* Luôn hiện: bảng phải đủ 4 cột ở mọi tuyến. */}
+              <div className="hlt-journey-stat">
+                <Icon type="route" className="hlt-journey-stat-icon" />
+                <strong>{journey.stats.transfers}</strong>
+                <span>{journey.stats.transfersLabel}</span>
+              </div>
 
               <div className="hlt-journey-stat">
                 <Icon type="globe" className="hlt-journey-stat-icon" />

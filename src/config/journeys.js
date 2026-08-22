@@ -7,6 +7,10 @@
 
 const sharedStats = {
   rating: "4.9 / 5",
+  // Số dùng chung cho mọi tuyến để bảng luôn đủ 4 cột. Tuyến nào có số
+  // riêng thì ghi đè bên dưới.
+  transfers: "800+",
+  transfersLabel: "Transfers Completed",
   ratingNote: "Based on 200+ verified reviews from international travelers.",
   countries: "20+",
   support: "24/7",
@@ -64,7 +68,7 @@ export const journeys = {
     price: "From 3,300,000 VND",
     dropoffNote: "Hotels, Resorts or Town Center",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfers: "800+", transfersLabel: "Sapa Transfers" },
+    stats: { ...sharedStats, transfersLabel: "Sapa Transfers" },
   },
   "ha-giang": {
     name: "Ha Giang",
@@ -80,7 +84,7 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Homestays or City Center",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfers: null, transfersLabel: "Ha Giang Transfers" },
+    stats: { ...sharedStats },
   },
   "ninh-binh": {
     name: "Ninh Binh",
@@ -96,7 +100,7 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Resorts or Tam Coc area",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfers: null, transfersLabel: "Ninh Binh Transfers" },
+    stats: { ...sharedStats },
   },
   "ha-long": {
     name: "Ha Long",
@@ -112,7 +116,7 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Resorts or Cruise Harbour",
     badgeIcon: "bay",
-    stats: { ...sharedStats, transfers: null, transfersLabel: "Ha Long Transfers" },
+    stats: { ...sharedStats },
   },
 };
 
