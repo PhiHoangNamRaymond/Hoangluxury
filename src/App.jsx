@@ -1,5 +1,6 @@
 import React from "react";
 import BookingProcess from "./components/home/BookingProcess.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import Fleet from "./components/home/Fleet.jsx";
 import Hero from "./components/home/Hero.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
@@ -18,6 +19,7 @@ export default function App() {
       <Fleet />
       <BookingProcess />
       <JourneyCallToAction />
+      <ExperienceSlider />
       <Footer />
     </div>
   );

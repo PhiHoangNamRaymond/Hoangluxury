@@ -7,7 +7,8 @@
   background: #0D1715;
 }
 
-.hlt-journey-cta + .hlt-footer.hlt-footer-compact {
+.hlt-journey-cta + .hlt-footer.hlt-footer-compact,
+.hlt-experience-slider + .hlt-footer.hlt-footer-compact {
   position: relative;
   z-index: 1;
   margin-top: 0;
@@ -17,12 +18,14 @@
 }
 
 section.hlt-booking-showcase-footer.hlt-journey-cta,
-section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-footer-compact {
+section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-footer-compact,
+.hlt-experience-slider + footer.hlt-footer.hlt-footer-compact {
   background-color: #0D1715;
   background-image: none;
 }
 
-.hlt-journey-cta + .hlt-footer.hlt-footer-compact::before {
+.hlt-journey-cta + .hlt-footer.hlt-footer-compact::before,
+.hlt-experience-slider + .hlt-footer.hlt-footer-compact::before {
   content: none;
 }
 

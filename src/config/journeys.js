@@ -119,5 +119,3 @@ export const journeys = {
     stats: { ...sharedStats },
   },
 };
-
-export const journeySlugs = Object.keys(journeys);

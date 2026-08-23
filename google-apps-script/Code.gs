@@ -48,6 +48,24 @@ const BOOKING_HEADERS = [
   "Flight Number",
   "Flight Time",
   "Journey Type",
+  "Luggage",
+  "Special Requirements",
+  "Status",
+];
+const BOOKING_HEADERS_WITHOUT_LUGGAGE = [
+  "Submitted At",
+  "Booking ID",
+  "Departure Date",
+  "Return Date",
+  "Full Name",
+  "Contact Number",
+  "Country",
+  "Passengers",
+  "Pick-up Location",
+  "Drop-off Location",
+  "Flight Number",
+  "Flight Time",
+  "Journey Type",
   "Special Requirements",
   "Status",
 ];
@@ -90,6 +108,7 @@ function doPost(event) {
       ensureHeaders_(sheet);
 
       const submittedAt = new Date();
+      const noFlight = String(data.noFlight || "").toLowerCase() === "true";
       const row = [
         submittedAt,
         createBookingId_(submittedAt),
@@ -101,9 +120,10 @@ function doPost(event) {
         parsePassengers_(data.passengers),
         safeCell_(data.pickup),
         safeCell_(data.dropoff),
-        safeCell_(data.flight),
-        safeCell_(data.flightTimeZone),
+        safeCell_(noFlight ? "No flight" : data.flight),
+        safeCell_(noFlight ? "No flight" : data.flightTimeZone),
         safeCell_(data.journeyType),
+        safeCell_(data.luggage),
         safeCell_(data.requirements),
         "New",
       ];
@@ -115,7 +135,7 @@ function doPost(event) {
       sheet.getRange(targetRow, 3, 1, 2).setNumberFormat("dd/MM/yyyy");
       sheet.getRange(targetRow, 5, 1, 3).setNumberFormat("@");
       sheet.getRange(targetRow, 8).setNumberFormat("0");
-      sheet.getRange(targetRow, 9, 1, 6).setNumberFormat("@");
+      sheet.getRange(targetRow, 9, 1, 7).setNumberFormat("@");
       SpreadsheetApp.flush();
     } finally {
       lock.releaseLock();
@@ -146,7 +166,7 @@ function setupBookingsSheet() {
     .setNumberFormat("@");
   sheet.getRange(BOOKING_FIRST_DATA_ROW, 8, sheet.getMaxRows() - BOOKING_HEADER_ROW, 1)
     .setNumberFormat("0");
-  sheet.getRange(BOOKING_FIRST_DATA_ROW, 9, sheet.getMaxRows() - BOOKING_HEADER_ROW, 6)
+  sheet.getRange(BOOKING_FIRST_DATA_ROW, 9, sheet.getMaxRows() - BOOKING_HEADER_ROW, 7)
     .setNumberFormat("@");
   configureValidations_(sheet);
 }
@@ -181,6 +201,7 @@ function ensureHeaders_(sheet) {
     sheet
       .getRange(BOOKING_HEADER_ROW, 1, 1, BOOKING_HEADERS.length)
       .setValues([BOOKING_HEADERS]);
+    configureValidations_(sheet);
     return;
   }
 
@@ -191,6 +212,9 @@ function ensureHeaders_(sheet) {
   const previousHeadersMatch = PREVIOUS_BOOKING_HEADERS.every(function (header, index) {
     return currentHeaders[index] === header;
   });
+  const headersWithoutLuggageMatch = BOOKING_HEADERS_WITHOUT_LUGGAGE.every(function (header, index) {
+    return currentHeaders[index] === header;
+  });
 
   const legacyHeadersMatch = LEGACY_BOOKING_HEADERS.every(function (header, index) {
     return inspectedHeaders[index] === header;
@@ -198,18 +222,67 @@ function ensureHeaders_(sheet) {
 
   if (legacyHeadersMatch) {
     migrateLegacyBookings_(sheet);
+    configureValidations_(sheet);
     return;
   }
 
-  if (previousHeadersMatch) {
-    sheet.getRange(BOOKING_HEADER_ROW, 7).setValue("Country");
+  if (previousHeadersMatch || headersWithoutLuggageMatch) {
+    migratePreviousBookings_(sheet);
+    configureValidations_(sheet);
     return;
   }
 
   if (!headersMatch) {
     throw new Error(
-      "Bookings headers do not match the expected 15-column template."
+      "Bookings headers do not match the expected 16-column template."
     );
+  }
+}
+
+function migratePreviousBookings_(sheet) {
+  const previousColumnCount = BOOKING_HEADERS_WITHOUT_LUGGAGE.length;
+  const existingDataRowCount = Math.max(
+    0,
+    sheet.getLastRow() - BOOKING_HEADER_ROW
+  );
+  let migratedRows = [];
+
+  if (existingDataRowCount > 0) {
+    const previousRows = sheet
+      .getRange(
+        BOOKING_FIRST_DATA_ROW,
+        1,
+        existingDataRowCount,
+        previousColumnCount
+      )
+      .getValues();
+
+    migratedRows = previousRows.map(function (row) {
+      return row.slice(0, 13).concat([""], row.slice(13));
+    });
+  }
+
+  sheet
+    .getRange(
+      BOOKING_HEADER_ROW,
+      1,
+      Math.max(1, sheet.getMaxRows() - BOOKING_HEADER_ROW + 1),
+      BOOKING_HEADERS.length
+    )
+    .clearContent();
+  sheet
+    .getRange(BOOKING_HEADER_ROW, 1, 1, BOOKING_HEADERS.length)
+    .setValues([BOOKING_HEADERS]);
+
+  if (migratedRows.length > 0) {
+    sheet
+      .getRange(
+        BOOKING_FIRST_DATA_ROW,
+        1,
+        migratedRows.length,
+        BOOKING_HEADERS.length
+      )
+      .setValues(migratedRows);
   }
 }
 
@@ -245,6 +318,7 @@ function migrateLegacyBookings_(sheet) {
         row[10],
         row[18],
         row[9],
+        row[11],
         row[12],
         row[13],
       ];
@@ -298,24 +372,27 @@ function configureValidations_(sheet) {
     .getRange(BOOKING_FIRST_DATA_ROW, 13, dataRowCount, 1)
     .setDataValidation(journeyValidation);
   sheet
-    .getRange(BOOKING_FIRST_DATA_ROW, 15, dataRowCount, 1)
+    .getRange(BOOKING_FIRST_DATA_ROW, 16, dataRowCount, 1)
     .setDataValidation(statusValidation);
 }
 
 function validateBooking_(data) {
+  const noFlight = String(data.noFlight || "").toLowerCase() === "true";
   const required = [
     "departureDate",
     "pickup",
     "dropoff",
-    "flight",
     "passengers",
     "fullName",
     "phone",
     "journeyType",
     "country",
-    "flightTimeZone",
     "luggage",
   ];
+
+  if (!noFlight) {
+    required.push("flight", "flightTimeZone");
+  }
 
   required.forEach(function (field) {
     const value = field === "country"
@@ -332,9 +409,11 @@ function validateBooking_(data) {
     throw new Error("Invalid contact number");
   }
 
-  const flightTime = String(data.flightTimeZone || "").trim();
-  if (!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(flightTime)) {
-    throw new Error("Invalid 24-hour flight time");
+  if (!noFlight) {
+    const flightTime = String(data.flightTimeZone || "").trim();
+    if (!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(flightTime)) {
+      throw new Error("Invalid 24-hour flight time");
+    }
   }
 
   if (JOURNEY_TYPES.indexOf(String(data.journeyType || "").trim()) === -1) {

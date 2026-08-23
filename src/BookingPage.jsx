@@ -10,6 +10,7 @@ const initialForm = {
   returnDate: "",
   pickup: "",
   dropoff: "",
+  noFlight: false,
   flight: "",
   flightTimeZone: "",
   passengers: "",
@@ -65,8 +66,17 @@ export default function BookingPage() {
   const [submission, setSubmission] = useState({ state: "idle", message: "" });
 
   const updateField = (event) => {
-    const { name, value } = event.target;
-    let nextValue = value;
+    const { checked, name, type, value } = event.target;
+    let nextValue = type === "checkbox" ? checked : value;
+
+    if (name === "noFlight") {
+      setForm((current) => ({
+        ...current,
+        noFlight: checked,
+        ...(checked && { flight: "", flightTimeZone: "" }),
+      }));
+      return;
+    }
 
     if (name === "phone") {
       const startsWithPlus = value.startsWith("+");
@@ -190,8 +200,9 @@ export default function BookingPage() {
             <label data-book-step="1"><span className="hlt-book-label-text">Return Date <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="calendar" /><input type="date" name="returnDate" min={form.departureDate || undefined} value={form.returnDate} onChange={updateField} /></div></label>
             <label data-book-step="1"><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="e.g. Noi Bai International Airport, Hanoi - 8:00 AM" /></div></label>
             <label data-book-step="1"><span className="hlt-book-label-text">Drop-off Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="dropoff" value={form.dropoff} onChange={updateField} placeholder="e.g. Hotel name, street address, Sapa" autoComplete="street-address" /></div></label>
-            <label data-book-step="2"><span className="hlt-book-label-text">Flight Number</span><div className="hlt-book-control"><FormIcon type="plane" /><input required name="flight" value={form.flight} onChange={updateField} placeholder="e.g. VN 1222" /></div></label>
-            <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour)</span><div className="hlt-book-control"><FormIcon type="clock" /><input required type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
+            <label className="hlt-book-no-flight" data-book-step="2"><input type="checkbox" name="noFlight" checked={form.noFlight} onChange={updateField} /><span>I am not arriving by flight</span></label>
+            <label data-book-step="2"><span className="hlt-book-label-text">Flight Number <small>(Optional when not flying)</small></span><div className="hlt-book-control"><FormIcon type="plane" /><input required={!form.noFlight} disabled={form.noFlight} name="flight" value={form.flight} onChange={updateField} placeholder="e.g. VN 1222" /></div></label>
+            <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour) <small>(Optional when not flying)</small></span><div className="hlt-book-control"><FormIcon type="clock" /><input required={!form.noFlight} disabled={form.noFlight} type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Contact Number</span><div className="hlt-book-control"><FormIcon type="phone" /><input required type="tel" inputMode="tel" autoComplete="tel" pattern="[+]?[0-9]{7,15}" maxLength="16" title="Enter 7 to 15 digits, with an optional + at the beginning." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. +84839779888" /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><select required name="country" value={form.country} onChange={updateField}><option value="" disabled>Select your country</option>{countries.map((country) => <option key={country} value={country}>{country}</option>)}</select></div></label>
@@ -203,7 +214,7 @@ export default function BookingPage() {
 
           <div className="hlt-book-mobile-review">
             <p><span>Route</span><strong>{form.pickup} → {form.dropoff}</strong></p>
-            <p><span>Travel date</span><strong>{form.departureDate} · {form.flightTimeZone}</strong></p>
+            <p><span>Travel date</span><strong>{form.departureDate} · {form.noFlight ? "No flight" : form.flightTimeZone}</strong></p>
             <p><span>Passenger</span><strong>{form.fullName} · {form.passengers} {Number(form.passengers) === 1 ? "person" : "people"}</strong></p>
             <p><span>Journey</span><strong>{form.journeyType}</strong></p>
           </div>

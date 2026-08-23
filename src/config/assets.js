@@ -2,6 +2,15 @@ import bookingProcessBackgroundUrl from "../../assets/booking-process-background
 import catalogBackgroundUrl from "../../assets/catalog-background.png";
 import catalogOpenBookUrl from "../../assets/catalog-open-book-2026.webp";
 import curatedMountainDecorationUrl from "../../assets/curated-mountain-decoration.png";
+import experienceChauffeurArrivalUrl from "../../assets/experience-chauffeur-arrival.png";
+import experienceEthnicFashionUrl from "../../assets/experience-ethnic-fashion.png";
+import experienceFlowerGirlUrl from "../../assets/experience-flower-girl.png";
+import experienceHorseTerracesUrl from "../../assets/experience-horse-terraces.webp";
+import experienceHotelLobbyUrl from "../../assets/experience-hotel-lobby.png";
+import experienceLuxuryPoolUrl from "../../assets/experience-luxury-pool.webp";
+import experienceMountainResortUrl from "../../assets/experience-mountain-resort.png";
+import experienceVietnamFlagUrl from "../../assets/experience-vietnam-flag.webp";
+import experienceWhiteHorseUrl from "../../assets/experience-white-horse.png";
 import heroBannerUrl from "../../assets/home-banner.png";
 import heroConvoyMountainUrl from "../../assets/hero-convoy-mountain-2026.png";
 import heroFleetWeddingUrl from "../../assets/hero-fleet-wedding-2026.png";
@@ -31,7 +40,7 @@ import serviceLongDistanceUrl from "../../assets/service-long-distance-2026.webp
 import vehicleLimoPrimeUrl from "../../assets/vehicle-limo-prime-2026.webp";
 import vehicleLimoLuxUrl from "../../assets/vehicle-limo-lux-2026.webp";
 import vehicleVf9Url from "../../assets/vehicle-vf9-2026.webp";
-import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map-detail-sharp-2026.png";
+import vietnamRoutesMapUrl from "../../assets/vietnam-routes-map-detail-balanced-2026.png";
 import whatsappQrUrl from "../../assets/whatsapp-qr.png";
 import whyDriverIconUrl from "../../assets/why-icon-driver.png";
 import whyPricingIconUrl from "../../assets/why-icon-pricing.png";
@@ -44,7 +53,6 @@ export {
   catalogOpenBookUrl,
   curatedMountainDecorationUrl,
   heroBannerUrl,
-  heroMobileBannerUrl,
   logoUrl,
   routeViewAllButtonUrl,
   servicesBackgroundUrl,
@@ -63,6 +71,56 @@ export const heroSlideImages = {
 export const heroSlideMobileImages = {
   mountainDrive: heroMobileBannerUrl,
 };
+
+export const experienceImages = [
+  {
+    src: experienceChauffeurArrivalUrl,
+    alt: "Private chauffeur welcoming a guest at a luxury hotel",
+  },
+  {
+    src: experienceHotelLobbyUrl,
+    alt: "Grand chandelier and staircase in a luxury hotel lobby",
+  },
+  {
+    src: experienceVietnamFlagUrl,
+    alt: "Traveler holding the Vietnamese flag in a mountain valley",
+  },
+  {
+    src: experienceMountainResortUrl,
+    alt: "Luxury mountain resort surrounded by terraced hills and blossoms",
+  },
+  {
+    src: experienceHorseTerracesUrl,
+    alt: "Horseback experience overlooking mountain rice terraces",
+  },
+  {
+    src: experienceLuxuryPoolUrl,
+    alt: "Elegant indoor pool at a luxury resort",
+  },
+  {
+    src: experienceEthnicFashionUrl,
+    alt: "Traditional highland fashion beside a mountain lake",
+  },
+  {
+    src: experienceFlowerGirlUrl,
+    alt: "Highland flower seller overlooking terraced fields",
+  },
+  {
+    src: experienceWhiteHorseUrl,
+    alt: "White-horse cultural experience in Northern Vietnam",
+  },
+];
+
+export const feedbackReviewImages = [
+  experienceChauffeurArrivalUrl,
+  heroReceptionLobbyUrl,
+  serviceBusinessUrl,
+  serviceCustomTripUrl,
+  vehicleLimoPrimeUrl,
+  heroFleetWeddingUrl,
+  experienceFlowerGirlUrl,
+  experienceVietnamFlagUrl,
+];
 
 export const serviceImages = {
   airport: serviceAirportUrl,

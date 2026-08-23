@@ -5,6 +5,7 @@ export const catalogUrl =
   import.meta.env.VITE_CATALOG_URL ||
   "https://drive.google.com/file/d/1Z6b3reHt-M3aD4g15YoD2EYWMJmrgQhN/view?usp=drive_link";
 export const catalogPageUrl = "/catalog/";
+export const feedbackPageUrl = "/feedback/";
 
 export const popularRoutes = [
   "Sapa",
@@ -21,7 +22,7 @@ export const popularRoutes = [
 // Dropdown "Journey" chỉ liệt kê các tuyến chính, không phải toàn bộ
 // `popularRoutes` ở trên (phần thân trang vẫn hiện đủ 9 tuyến). Slug phải
 // khớp với key trong src/config/journeys.js.
-export const journeyRoutes = ["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map(
+const journeyRoutes = ["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map(
   (route) => [
     `Hanoi to ${route}`,
     `/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`,
@@ -36,6 +37,7 @@ export const navLinks = [
   ["Journey", "#routes", journeyRoutes],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
+  ["Feedback", feedbackPageUrl],
 ];
 
 export const heroSlides = [
@@ -87,25 +89,21 @@ export const whyItems = [
 export const services = [
   {
     image: "airport",
-    icon: "plane",
     title: "Airport Transfer",
     text: "Private airport transfers between the airport and your destination.",
   },
   {
     image: "sapa",
-    icon: "route",
     title: "Long-Distance Private Transfer",
     text: "Private transfers between cities with direct routes, flexible departure times, no shared rides.",
   },
   {
     image: "custom",
-    icon: "mountain",
     title: "Custom Private Trip",
     text: "Choose your destinations and travel on your own schedule with a private driver.",
   },
   {
     image: "haGiang",
-    icon: "dots",
     title: "Business / Partner Transfer",
     text: "Private transportation for business meetings, corporate events, and VIP guests.",
   },

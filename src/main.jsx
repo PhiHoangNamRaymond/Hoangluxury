@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import BookingPage from "./BookingPage.jsx";
 import CatalogPage from "./CatalogPage.jsx";
+import FeedbackPage from "./FeedbackPage.jsx";
 import JourneyPage from "./JourneyPage.jsx";
-import ContentProtection from "./components/layout/ContentProtection.jsx";
 import { journeys } from "./config/journeys.js";
 import "./styles/index.css";
 
@@ -12,6 +12,7 @@ const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
 const pages = {
   "/booking": BookingPage,
   "/catalog": CatalogPage,
+  "/feedback": FeedbackPage,
 };
 
 // /journey/<slug>/ - slug lạ thì rơi về trang chủ như mọi đường dẫn không khớp.
@@ -24,8 +25,6 @@ const RootPage = journey
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ContentProtection>
-      <RootPage />
-    </ContentProtection>
+    <RootPage />
   </StrictMode>
 );
