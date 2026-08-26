@@ -855,7 +855,7 @@
 
   .hlt-showcase-divider-horizontal-separate {
     display: block !important;
-    margin: 24px auto 16px !important;
+    margin: 20px auto 26px !important;
   }
 
   .hlt-process-panel {
@@ -876,9 +876,9 @@
     gap: 0 !important;
     position: relative !important;
     width: 100% !important;
-    max-width: 320px !important;
+    max-width: 290px !important;
     margin: 0 auto !important;
-    padding: 0 4px !important;
+    padding: 0 !important;
   }
 
   .hlt-process-steps::before {
@@ -888,9 +888,9 @@
   .hlt-process-connector-line {
     display: block !important;
     position: absolute;
-    left: 25px;
-    top: 26px;
-    bottom: 26px;
+    left: 23px;
+    top: 24px;
+    bottom: 24px;
     width: 1.5px;
     background: rgba(197, 161, 90, 0.65);
     z-index: 0;
@@ -899,10 +899,10 @@
   .hlt-process-step {
     display: flex !important;
     flex-direction: row !important;
-    align-items: center !important;
-    gap: 18px !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
     text-align: left !important;
-    padding: 12px 0 !important;
+    padding: 11px 0 !important;
     position: relative;
     z-index: 1;
     border-bottom: none !important;
@@ -912,22 +912,22 @@
     display: block !important;
     content: "" !important;
     position: absolute !important;
-    left: 70px !important;
-    right: 0 !important;
+    left: 63px !important;
+    width: 165px !important;
+    right: auto !important;
     bottom: 0 !important;
     height: 1px !important;
     background: rgba(197, 161, 90, 0.22) !important;
     border: none !important;
-    width: auto !important;
     top: auto !important;
     transform: none !important;
     border-radius: 0 !important;
   }
 
   .hlt-process-icon {
-    flex: 0 0 52px !important;
-    width: 52px !important;
-    height: 52px !important;
+    flex: 0 0 48px !important;
+    width: 48px !important;
+    height: 48px !important;
     margin: 0 !important;
     border-radius: 50% !important;
     background: radial-gradient(circle at 35% 35%, #e8ba5a, #b88326) !important;
@@ -941,15 +941,15 @@
   }
 
   .hlt-process-icon svg {
-    width: 26px !important;
-    height: 26px !important;
+    width: 24px !important;
+    height: 24px !important;
     stroke-width: 2 !important;
     color: #1a140a !important;
   }
 
   .hlt-process-car-icon-img {
-    width: 36px !important;
-    height: 36px !important;
+    width: 32px !important;
+    height: 32px !important;
     object-fit: contain;
     filter: brightness(0.12) !important;
   }
@@ -958,14 +958,14 @@
     flex: 1;
     min-width: 0;
     text-align: left;
-    padding: 0 !important;
+    padding: 3px 0 0 !important;
     border-bottom: none !important;
   }
 
   .hlt-process-step-content h3 {
     margin: 0 0 2px !important;
     font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
-    font-size: 19px !important;
+    font-size: 18.5px !important;
     font-weight: 700 !important;
     color: #2b2116 !important;
     line-height: 1.15 !important;
@@ -976,7 +976,7 @@
   .hlt-process-step-content p {
     margin: 0 !important;
     font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
-    font-size: 14px !important;
+    font-size: 13.5px !important;
     color: #4a3e30 !important;
     line-height: 1.35 !important;
     font-weight: 500 !important;
