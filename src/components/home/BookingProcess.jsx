@@ -82,38 +82,67 @@ export default function BookingProcess() {
       aria-labelledby="booking-process-title"
     >
       <div className="hlt-container hlt-booking-showcase-main">
-        <article className="hlt-showcase-ticket" aria-label="Booking confirmation">
-          <header>
-            <div className="hlt-showcase-brand">
-              <img src={logoUrl} alt="" />
-              <div>
-                <strong>Hoang</strong>
-                <span>Luxury Travel</span>
+        <div className="hlt-showcase-ticket-wrap">
+          <article className="hlt-showcase-ticket" aria-label="Booking confirmation">
+            <div className="hlt-showcase-ticket-content">
+              {/* Left Column: Brand & Booking ID */}
+              <div className="hlt-showcase-left">
+                <div className="hlt-showcase-crest-wrap">
+                  <img src={logoUrl} alt="" className="hlt-showcase-crest" />
+                  <h4 className="hlt-showcase-brand-text">
+                    <span className="hlt-brand-hoang">HOANG</span>
+                    <span className="hlt-brand-sub">LUXURY TRAVEL</span>
+                  </h4>
+                </div>
+                <div className="hlt-showcase-divider-line">
+                  <span className="hlt-showcase-divider-diamond" />
+                </div>
+                <div className="hlt-showcase-id-wrap">
+                  <span className="hlt-showcase-id-label">Booking ID</span>
+                  <strong className="hlt-showcase-id-value">HLT307-001</strong>
+                </div>
+              </div>
+
+              {/* Vertical Divider */}
+              <div className="hlt-showcase-divider-vertical">
+                <span className="hlt-showcase-divider-vertical-diamond" />
+              </div>
+
+              {/* Right Column: Rows list */}
+              <div className="hlt-showcase-right">
+                <div className="hlt-showcase-ticket-rows">
+                  <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
+                  {bookingRows.map(([label, value]) => {
+                    const displayLabel = label === "Customer Name" ? "Customer" : label;
+                    // Replace pipe separator with dot and hyphen route with clean arrow
+                    const displayValue = value
+                      .replace(/\s*\|\s*/g, " • ")
+                      .replace(/\s*-\s*Sapa/g, " → Sa Pa");
+                    return (
+                      <div className="hlt-showcase-ticket-row" key={label}>
+                        <div className="hlt-showcase-row-icon-circle" aria-hidden="true">
+                          <BookingRowIcon label={label} />
+                        </div>
+                        <div className="hlt-showcase-row-info">
+                          <span className="hlt-showcase-row-label">{displayLabel}</span>
+                          <strong className="hlt-showcase-row-value">{displayValue}</strong>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-            <b>Booking Confirmation</b>
-            <div className="hlt-showcase-confirmed">
-              <span>Confirm ID</span>
-              <strong># HLT307-001</strong>
-            </div>
-          </header>
+          </article>
 
-          <div className="hlt-showcase-ticket-rows">
-            <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
-            {bookingRows.map(([label, value]) => (
-              <div className="hlt-showcase-ticket-row" key={label}>
-                <i aria-hidden="true"><BookingRowIcon label={label} /></i>
-                <span>{label}</span>
-                <b>:</b>
-                <strong>{value}</strong>
-              </div>
-            ))}
-          </div>
-
-          <footer>
-            <em>Hoang Luxury Travel</em>
-          </footer>
-        </article>
+          <a href={catalogPageUrl} className="hlt-showcase-sample-btn">
+            <span>View Booking Sample</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
 
         <div className="hlt-process-panel">
           <h2 id="booking-process-title">Booking Process</h2>
