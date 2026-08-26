@@ -99,10 +99,10 @@ export default function BookingProcess() {
               <div className="hlt-showcase-left">
                 {/* Modular Non-distorting Notched Frame */}
                 <div className="hlt-showcase-left-frame" aria-hidden="true">
-                  <svg className="hlt-frame-corner hlt-corner-tl" viewBox="0 0 16 16"><path d="M 16,4 A 12,12 0 0,1 4,16" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
-                  <svg className="hlt-frame-corner hlt-corner-tr" viewBox="0 0 16 16"><path d="M 0,4 A 12,12 0 0,0 12,16" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
-                  <svg className="hlt-frame-corner hlt-corner-bl" viewBox="0 0 16 16"><path d="M 16,12 A 12,12 0 0,0 4,0" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
-                  <svg className="hlt-frame-corner hlt-corner-br" viewBox="0 0 16 16"><path d="M 0,12 A 12,12 0 0,1 12,0" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
+                  <svg className="hlt-frame-corner hlt-corner-tl" viewBox="0 0 16 16"><path d="M 16,4 A 12,12 0 0,0 4,16" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
+                  <svg className="hlt-frame-corner hlt-corner-tr" viewBox="0 0 16 16"><path d="M 0,4 A 12,12 0 0,1 12,16" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
+                  <svg className="hlt-frame-corner hlt-corner-bl" viewBox="0 0 16 16"><path d="M 16,12 A 12,12 0 0,1 4,0" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
+                  <svg className="hlt-frame-corner hlt-corner-br" viewBox="0 0 16 16"><path d="M 0,12 A 12,12 0 0,0 12,0" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
                   <div className="hlt-frame-line hlt-line-top" />
                   <div className="hlt-frame-line hlt-line-bottom" />
                   <div className="hlt-frame-line hlt-line-left" />
