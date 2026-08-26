@@ -213,10 +213,10 @@
   .hlt-service-icon.hlt-service-icon-mobile {
     position: static;
     transform: none;
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
     border: none;
     border-radius: 0;
     background: transparent;
@@ -224,7 +224,7 @@
     display: flex !important;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     padding: 0;
   }
 
