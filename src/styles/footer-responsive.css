@@ -706,7 +706,7 @@
   }
 
   .hlt-why-intro h2 span {
-    max-width: 190px;
+    max-width: none;
     margin-inline: auto;
     margin-top: 15px;
     font-size: 34px;
