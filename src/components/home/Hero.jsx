@@ -168,9 +168,9 @@ export default function Hero() {
             fill="none"
           >
             <path
-              d="M 0,6 A 6,6 0 0,1 6,0 L 94,0 A 6,6 0 0,1 100,6 L 100,94 A 6,6 0 0,1 94,100 L 6,100 A 6,6 0 0,1 0,94 Z"
-              stroke="rgba(197, 161, 90, 0.55)"
-              strokeWidth="0.6"
+              d="M 6,0 L 94,0 A 6,6 0 0,0 100,6 L 100,94 A 6,6 0 0,0 94,100 L 6,100 A 6,6 0 0,0 0,94 L 0,6 A 6,6 0 0,0 6,0 Z"
+              stroke="rgba(197, 161, 90, 0.7)"
+              strokeWidth="0.7"
               vectorEffect="non-scaling-stroke"
             />
           </svg>
