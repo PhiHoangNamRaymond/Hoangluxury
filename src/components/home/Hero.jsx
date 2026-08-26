@@ -175,8 +175,8 @@ export default function Hero() {
 
             <div className="hlt-hero-crown-divider" aria-hidden="true">
               <span className="hlt-hero-crown-line" />
-              <svg viewBox="0 0 24 16" fill="currentColor" className="hlt-hero-crown-svg">
-                <path d="M2 14h20v2H2v-2zm1-2l3-7 4 4 2-7 2 7 4-4 3 7H3z" />
+              <svg viewBox="0 0 32 24" fill="currentColor" className="hlt-hero-crown-svg">
+                <path d="M16 1.8l2.2 4.4-2.2 2.6-2.2-2.6L16 1.8zm-9.8 4.6c1 0 1.8.8 1.8 1.8s-.8 1.8-1.8 1.8-1.8-.8-1.8-1.8.8-1.8 1.8-1.8zm19.6 0c1 0 1.8.8 1.8 1.8s-.8 1.8-1.8 1.8-1.8-.8-1.8-1.8.8-1.8 1.8-1.8zm-19.6 4l4.6 6.8h10.4l4.6-6.8-5.8 3.2-4.4-6-4.4 6-5-3.2zm-1.8 8.8h23.2v2.8H4.4v-2.8z" />
               </svg>
               <span className="hlt-hero-crown-line" />
             </div>
