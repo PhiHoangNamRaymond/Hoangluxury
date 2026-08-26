@@ -1,6 +1,6 @@
 import React from "react";
 import { bookingProcessBackgroundUrl, logoUrl } from "../../config/assets.js";
-import { bookingRows } from "../../data.js";
+import { bookingRows, catalogPageUrl } from "../../data.js";
 
 function BookingProcessIcon({ type }) {
   const icons = {
