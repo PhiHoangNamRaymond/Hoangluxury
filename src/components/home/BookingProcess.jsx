@@ -1,8 +1,12 @@
 import React from "react";
-import { bookingProcessBackgroundUrl, logoUrl } from "../../config/assets.js";
+import { bookingProcessBackgroundUrl, logoUrl, whyVehicleIconUrl } from "../../config/assets.js";
 import { bookingRows, catalogPageUrl } from "../../data.js";
 
 function BookingProcessIcon({ type }) {
+  if (type === "car") {
+    return <img src={whyVehicleIconUrl} alt="" className="hlt-process-car-icon-img" />;
+  }
+
   const icons = {
     whatsapp: (
       <>
@@ -20,14 +24,6 @@ function BookingProcessIcon({ type }) {
       <>
         <rect x="3" y="5" width="18" height="14" rx="2" />
         <path d="M3 9h18M7 15h4" />
-      </>
-    ),
-    car: (
-      <>
-        <path d="M5 13h14l-1.4-4A2.8 2.8 0 0 0 15 7H9a2.8 2.8 0 0 0-2.6 2L5 13Z" />
-        <path d="M4 13v5h3m10 0h3v-5M7 13h10" />
-        <circle cx="8" cy="17" r="1.5" />
-        <circle cx="16" cy="17" r="1.5" />
       </>
     ),
   };
@@ -156,6 +152,10 @@ export default function BookingProcess() {
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </a>
+        </div>
+
+        <div className="hlt-showcase-divider-horizontal-separate">
+          <span className="hlt-showcase-divider-horizontal-separate-diamond" />
         </div>
 
         <div className="hlt-process-panel">
