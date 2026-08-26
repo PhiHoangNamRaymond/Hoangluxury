@@ -180,8 +180,7 @@
   margin-left: 0;
 }
 
-.hlt-hero h1,
-.hlt-hero-title {
+.hlt-hero h1 {
   margin: 12px 0 20px;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(42px, 3.75vw, 58px);
@@ -192,26 +191,25 @@
   color: #fff;
 }
 
-.hlt-hero-title-white {
+.hlt-hero h1 span,
+.hlt-hero-title-line {
   display: block;
   white-space: nowrap;
-  color: #fff;
 }
 
-.hlt-hero-title-gold {
-  display: block;
-  white-space: nowrap;
-  color: #d9b14a;
-}
-
-.hlt-hero-kicker,
-.hlt-hero-crown-divider,
-.hlt-hero-frame-corner {
+.hlt-hero h1 br {
   display: none;
 }
 
-.hlt-hero p,
-.hlt-hero-description {
+.hlt-hero h1 span {
+  color: #d9b14a;
+}
+
+.hlt-hero h1 .hlt-hero-title-line {
+  color: #fff;
+}
+
+.hlt-hero p {
   max-width: 490px;
   color: rgba(255, 255, 255, .9);
   font-size: clamp(16px, 1.2vw, 19px);
