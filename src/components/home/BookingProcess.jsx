@@ -97,19 +97,21 @@ export default function BookingProcess() {
             <div className="hlt-showcase-ticket-content">
               {/* Left Column: Brand & Booking ID */}
               <div className="hlt-showcase-left">
-                <div className="hlt-showcase-crest-wrap">
-                  <img src={logoUrl} alt="" className="hlt-showcase-crest" />
-                  <h4 className="hlt-showcase-brand-text">
-                    <span className="hlt-brand-hoang">HOANG</span>
-                    <span className="hlt-brand-sub">LUXURY TRAVEL</span>
-                  </h4>
-                </div>
-                <div className="hlt-showcase-divider-line">
-                  <span className="hlt-showcase-divider-diamond" />
-                </div>
-                <div className="hlt-showcase-id-wrap">
-                  <span className="hlt-showcase-id-label">Booking ID</span>
-                  <strong className="hlt-showcase-id-value">HLT307-001</strong>
+                <div className="hlt-showcase-left-inner">
+                  <div className="hlt-showcase-crest-wrap">
+                    <img src={logoUrl} alt="" className="hlt-showcase-crest" />
+                    <h4 className="hlt-showcase-brand-text">
+                      <span className="hlt-brand-hoang">HOANG</span>
+                      <span className="hlt-brand-sub">LUXURY TRAVEL</span>
+                    </h4>
+                  </div>
+                  <div className="hlt-showcase-divider-line">
+                    <span className="hlt-showcase-divider-diamond" />
+                  </div>
+                  <div className="hlt-showcase-id-wrap">
+                    <span className="hlt-showcase-id-label">Booking ID</span>
+                    <strong className="hlt-showcase-id-value">HLT307-001</strong>
+                  </div>
                 </div>
               </div>
 
@@ -144,14 +146,6 @@ export default function BookingProcess() {
               </div>
             </div>
           </article>
-
-          <a href={catalogPageUrl} className="hlt-showcase-sample-btn">
-            <span>View Booking Sample</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
         </div>
 
         <div className="hlt-showcase-divider-horizontal-separate">
