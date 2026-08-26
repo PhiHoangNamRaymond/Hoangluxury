@@ -212,17 +212,28 @@
   }
 
   .hlt-why-intro h2 {
-    font-size: clamp(34px, 10vw, 39px);
-    line-height: .95;
-    letter-spacing: .03em;
+    font-size: clamp(23px, 6.8vw, 32px);
+    line-height: 1.15;
+    letter-spacing: .04em;
+    white-space: nowrap;
+    text-align: center;
+    margin: 0 auto;
   }
 
+  .hlt-why-intro h2 .hlt-why-title-gold,
+  .hlt-why-intro h2 .hlt-why-title-ink {
+    display: inline;
+    margin: 0;
+  }
+
+  .hlt-why-intro h2 .hlt-why-title-gold .hlt-why-br-desktop,
   .hlt-why-intro h2 .hlt-why-title-gold br {
     display: none;
   }
 
   .hlt-why-intro h2 .hlt-why-title-ink {
     color: #b68a38;
+    margin-left: 6px;
   }
 
   .hlt-why-intro > .hlt-gold-line,
