@@ -593,4 +593,18 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     display: block !important;
     margin: 0 !important;
   }
+
+  .hlt-footer.hlt-footer-compact {
+    background: linear-gradient(180deg, #071512 0%, #050d0b 32%, #020504 65%, #000000 100%) !important;
+  }
+
+  .hlt-footer-flourish-img {
+    width: 100% !important;
+    max-width: 320px !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto 16px !important;
+    object-fit: contain !important;
+    mix-blend-mode: screen !important;
+  }
 }
