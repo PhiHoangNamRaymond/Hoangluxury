@@ -90,12 +90,13 @@ export default function Footer() {
         {/* Top Floating Card: Brand + QR */}
         <div className="hlt-footer-mobile-card">
           <div className="hlt-footer-mobile-card-brand">
-            <div className="hlt-footer-mobile-logo-row">
-              <img src={logoUrl} alt="Hoang Luxury Travel" className="hlt-footer-mobile-logo" />
-              <div className="hlt-footer-mobile-brand-text">
-                <strong>HOANG</strong>
-                <span>LUXURY TRAVEL</span>
-              </div>
+            <img src={logoUrl} alt="Hoang Luxury Travel" className="hlt-footer-mobile-logo" />
+            <div className="hlt-footer-mobile-brand-text">
+              <strong>HOANG</strong>
+              <span>LUXURY TRAVEL</span>
+            </div>
+            <div className="hlt-footer-mobile-brand-divider">
+              <span className="hlt-footer-mobile-brand-diamond" />
             </div>
             <p className="hlt-footer-mobile-tagline">
               Luxury private car services for international travelers in Northern Vietnam.

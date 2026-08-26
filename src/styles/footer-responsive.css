@@ -1154,80 +1154,96 @@
   /* Top Card: Brand + QR */
   .hlt-footer-mobile-card {
     position: relative;
-    background: rgba(10, 22, 19, 0.7);
-    border: 1px solid rgba(197, 161, 90, 0.42);
-    border-radius: 12px;
-    padding: 16px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.35);
+    background: radial-gradient(circle at 40% 30%, #0d1e1a 0%, #06110f 100%) !important;
+    border: 1.2px solid rgba(197, 161, 90, 0.45) !important;
+    border-radius: 18px !important;
+    padding: 22px 18px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(0, 0, 0, 0.4) !important;
   }
 
   .hlt-footer-mobile-card-brand {
     flex: 1;
     min-width: 0;
-  }
-
-  .hlt-footer-mobile-logo-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    text-align: center;
   }
 
   .hlt-footer-mobile-logo {
-    width: 36px;
-    height: 36px;
-    object-fit: contain;
-    flex-shrink: 0;
+    width: 54px !important;
+    height: 54px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto 8px !important;
   }
 
   .hlt-footer-mobile-brand-text strong {
-    display: block;
-    font-family: "Cormorant", Georgia, serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #d4af37;
-    letter-spacing: 0.08em;
-    line-height: 1;
+    display: block !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #d4af37 !important;
+    letter-spacing: 0.1em !important;
+    line-height: 1 !important;
   }
 
   .hlt-footer-mobile-brand-text span {
-    display: block;
-    font-family: "Cormorant", Georgia, serif;
-    font-size: 8.5px;
-    color: #c5a15a;
-    letter-spacing: 0.12em;
-    line-height: 1.2;
-    margin-top: 2px;
+    display: block !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 9.5px !important;
+    color: #c5a15a !important;
+    letter-spacing: 0.2em !important;
+    line-height: 1.2 !important;
+    margin-top: 3px !important;
+  }
+
+  .hlt-footer-mobile-brand-divider {
+    position: relative;
+    width: 90px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 161, 90, 0.6), transparent);
+    margin: 8px auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlt-footer-mobile-brand-diamond {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #c5a15a;
+    transform: rotate(45deg);
   }
 
   .hlt-footer-mobile-tagline {
-    margin: 0;
-    font-family: "Cormorant", Georgia, serif;
-    font-size: 11px;
-    color: #a89f91;
-    line-height: 1.35;
+    margin: 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 11.5px !important;
+    color: #a89f91 !important;
+    line-height: 1.38 !important;
+    text-align: center !important;
   }
 
   .hlt-footer-mobile-card-divider {
     position: relative;
     width: 1px;
-    height: 78px;
-    background: rgba(197, 161, 90, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    height: 136px;
+    background: linear-gradient(180deg, transparent, rgba(197, 161, 90, 0.45), transparent) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
   .hlt-footer-mobile-card-diamond {
     position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #c5a15a;
+    width: 6px;
+    height: 6px;
+    border: 1px solid #d4af37;
+    background: #081210;
     transform: rotate(45deg);
   }
 
@@ -1236,30 +1252,31 @@
   }
 
   .hlt-footer-mobile-qr-box {
-    border: 1px solid rgba(197, 161, 90, 0.45);
-    border-radius: 8px;
-    padding: 6px 8px 4px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(197, 161, 90, 0.5) !important;
+    border-radius: 12px !important;
+    padding: 8px 8px 6px !important;
+    text-align: center !important;
+    background: rgba(0, 0, 0, 0.4) !important;
   }
 
   .hlt-footer-mobile-qr-box img {
-    width: 54px;
-    height: 54px;
-    object-fit: contain;
-    border-radius: 4px;
-    display: block;
-    margin: 0 auto;
-    background: #fff;
-    padding: 2px;
+    width: 76px !important;
+    height: 76px !important;
+    object-fit: contain !important;
+    border-radius: 6px !important;
+    display: block !important;
+    margin: 0 auto !important;
+    background: #fff !important;
+    padding: 3px !important;
   }
 
   .hlt-footer-mobile-qr-box p {
-    margin: 4px 0 0;
-    font-family: "Cormorant", Georgia, serif;
-    font-size: 10px;
-    color: #c5a15a;
-    letter-spacing: 0.05em;
+    margin: 6px 0 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #d4af37 !important;
+    letter-spacing: 0.05em !important;
   }
 
   /* Contact Us Section */
