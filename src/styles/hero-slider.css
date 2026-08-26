@@ -163,6 +163,7 @@
   background: #d9b14a;
 }
 
+/* === Layout / text / frame chỉnh trên mobile — KHÔNG đụng ảnh === */
 @media (max-width: 960px) {
   .hlt-hero {
     min-height: clamp(520px, 82svh, 600px) !important;
@@ -192,18 +193,6 @@
     width: 100% !important;
     height: 100% !important;
     display: block !important;
-  }
-
-  .hlt-hero-slide-image {
-    background-image: var(--slide-img) !important;
-    background-size: cover !important;
-    background-position: right center !important;
-  }
-
-  .hlt-hero-scrim {
-    background:
-      linear-gradient(90deg, rgba(2, 8, 7, 0.85) 0%, rgba(2, 8, 7, 0.55) 45%, rgba(2, 8, 7, 0.1) 75%, transparent 100%),
-      linear-gradient(180deg, rgba(2, 8, 7, 0.25) 0%, transparent 35%, rgba(2, 8, 7, 0.3) 100%) !important;
   }
 
   .hlt-hero-arrow {
@@ -323,6 +312,24 @@
     bottom: 14px !important;
     padding: 4px 10px !important;
     gap: 6px !important;
+  }
+}
+
+/* === Ảnh nền giữ nguyên như gốc === */
+@media (max-width: 760px) {
+  .hlt-hero-slide-image {
+    background-position: 62% center;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-hero-slide-image {
+    background-image: var(--slide-mobile-img, var(--slide-img));
+    background-position: 59% center;
+  }
+
+  .hlt-hero-scrim {
+    background: linear-gradient(180deg, rgba(0, 0, 0, .04) 24%, rgba(2, 10, 9, .22) 43%, #06110f 76%, #06110f 100%);
   }
 }
 
