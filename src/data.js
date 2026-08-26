@@ -89,22 +89,22 @@ export const services = [
   {
     image: "airport",
     title: "Airport Transfer",
-    text: "Private airport transfers between the airport and your destination.",
+    text: "Private airport transfers in comfort and style.",
+  },
+  {
+    image: "haGiang",
+    title: "Private Chauffeur",
+    text: "Professional chauffeurs and discreet service.",
   },
   {
     image: "sapa",
-    title: "Long-Distance Private Transfer",
-    text: "Private transfers between cities with direct routes, flexible departure times, no shared rides.",
+    title: "Long-Distance Transfer",
+    text: "Comfortable intercity travel for extended journeys.",
   },
   {
     image: "custom",
     title: "Custom Private Trip",
-    text: "Choose your destinations and travel on your own schedule with a private driver.",
-  },
-  {
-    image: "haGiang",
-    title: "Business / Partner Transfer",
-    text: "Private transportation for business meetings, corporate events, and VIP guests.",
+    text: "Tailored journeys designed around your plans.",
   },
 ];
 

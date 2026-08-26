@@ -129,17 +129,30 @@
   }
 }
 
+.hlt-service-icon-mobile {
+  display: none !important;
+}
+
+.hlt-service-icon-desktop {
+  display: grid;
+}
+
 @media (max-width: 760px) {
+  .hlt-service-icon-desktop {
+    display: none !important;
+  }
+
+  .hlt-service-icon-mobile {
+    display: flex !important;
+  }
+
   .hlt-service-grid {
-    width: calc(100% + 14px);
+    width: 100%;
     display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 0 14px 16px 0;
-    scroll-snap-type: x mandatory;
-    overscroll-behavior-inline: contain;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+    overflow: visible;
   }
 
   .hlt-service-grid::-webkit-scrollbar {
@@ -147,60 +160,121 @@
   }
 
   .hlt-service-card {
-    flex: 0 0 84%;
-    min-height: 430px;
-    display: block;
-    border-radius: 10px;
-    background: rgba(3, 31, 25, .96);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    flex: none;
+    width: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 142px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    padding: 10px;
+    border: 1.2px solid rgba(197, 161, 90, .45);
+    border-radius: 12px;
+    background: #081110;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .35);
   }
 
   .hlt-service-media {
+    width: 100%;
+    height: 98px;
     min-width: 0;
-    height: auto;
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   .hlt-service-image {
-    height: auto;
-    aspect-ratio: 1.15 / 1;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
   }
 
-  .hlt-service-icon {
-    width: 54px;
-    height: 54px;
-    display: grid;
-    top: auto;
-    bottom: 0;
-    border-width: 1px;
-    background: #082b24;
-    transform: translate(-50%, 50%);
-    box-shadow: 0 0 0 5px rgba(5, 30, 25, .9);
+  .hlt-service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
   }
 
   .hlt-service-body {
     min-width: 0;
-    padding: 44px 22px 24px;
-    display: block;
-    text-align: center;
+    padding: 2px 4px 2px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .hlt-service-number {
     display: none;
   }
 
+  .hlt-service-icon.hlt-service-icon-mobile {
+    position: static;
+    transform: none;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 50%;
+    border: 1px solid #c5a15a;
+    background: transparent;
+    box-shadow: none;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+    padding: 0;
+  }
+
+  .hlt-service-icon.hlt-service-icon-mobile img {
+    width: 17px;
+    height: 17px;
+    object-fit: contain;
+  }
+
   .hlt-service-card h3 {
-    margin-bottom: 12px;
-    color: #f7efe3;
-    font-size: 22px;
-    line-height: 1.08;
+    margin: 0 0 4px;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: clamp(15px, 4.2vw, 17px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #c5a15a;
+    text-align: left;
   }
 
   .hlt-service-card p {
-    margin: 0 auto;
-    max-width: 280px;
-    color: rgba(247, 239, 227, .88);
-    font-size: 13px;
-    line-height: 1.55;
+    margin: 0;
+    max-width: 100%;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: rgba(245, 238, 226, .78);
+    text-align: left;
+  }
+
+  .hlt-services-cta {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .hlt-services-cta a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 24px;
+    border: 1px solid rgba(197, 161, 90, .7);
+    border-radius: 6px;
+    background: #081110;
+    color: #c5a15a;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 250ms ease;
   }
 }

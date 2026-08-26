@@ -16,7 +16,7 @@ export default function Services() {
       <div className="hlt-container">
         <div className="hlt-services-heading">
           <p>Our Services</p>
-          <h2>Private Luxury Transfer</h2>
+          <h2>Experiences, Elevated</h2>
           <div className="hlt-services-ornament" />
         </div>
 
@@ -27,11 +27,14 @@ export default function Services() {
                 <div className="hlt-service-image">
                   <img src={serviceImages[service.image]} alt={service.title} />
                 </div>
-                <div className="hlt-service-icon">
+                <div className="hlt-service-icon hlt-service-icon-desktop">
                   <img src={serviceIconImages[index]} alt="" aria-hidden="true" />
                 </div>
               </div>
               <div className="hlt-service-body">
+                <div className="hlt-service-icon hlt-service-icon-mobile">
+                  <img src={serviceIconImages[index]} alt="" aria-hidden="true" />
+                </div>
                 <span className="hlt-service-number">
                   {String(index + 1).padStart(2, "0")}
                 </span>

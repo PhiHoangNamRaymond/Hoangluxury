@@ -148,9 +148,9 @@ export const serviceImages = {
 
 export const serviceIconImages = [
   serviceAirportIconUrl,
+  serviceBusinessIconUrl,
   serviceLongDistanceIconUrl,
   serviceCustomTripIconUrl,
-  serviceBusinessIconUrl,
 ];
 
 export const fleetImages = {
