@@ -208,11 +208,14 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
 @media (max-width: 960px) {
   .hlt-booking-showcase {
-    padding-bottom: 34px;
+    padding-bottom: 0 !important;
   }
 
   .hlt-journey-cta {
-    background: #0D1715;
+    background: #f5eee3 !important;
+    border-top: none !important;
+    padding-top: 0 !important;
+    margin-top: -8px !important;
   }
 
   .hlt-footer.hlt-footer-compact .hlt-footer-legal {
@@ -230,13 +233,16 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 /* Preserve the desktop booking-confirmation styling and proportions on phones. */
 @media (max-width: 600px) {
   .hlt-booking-showcase {
-    border-top: 1px solid rgba(197, 161, 90, .78);
     background-position: center bottom, center calc(100% + 135px);
     background-size: 100% 100%, auto 330px;
+    padding-bottom: 0 !important;
   }
 
   .hlt-journey-cta {
-    border-top: 1px solid rgba(197, 161, 90, .78);
+    border-top: none !important;
+    background: #f5eee3 !important;
+    padding-top: 0 !important;
+    margin-top: -8px !important;
   }
 
   .hlt-footer.hlt-footer-compact {
