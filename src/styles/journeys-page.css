@@ -601,10 +601,40 @@
   }
   .hlt-journeys-guarantees {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 0;
   }
   .hlt-journeys-guarantee-item:nth-child(2n+1) {
     border-left: none;
     padding-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hlt-journeys-cta h2 {
+    white-space: normal;
+    font-size: clamp(22px, 6vw, 28px);
+    line-height: 1.2;
+    padding: 0 12px;
+  }
+
+  .hlt-journeys-cta p {
+    padding: 0 16px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .hlt-journeys-cta-btns {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .hlt-jcta-btn {
+    width: 100%;
+    max-width: 300px;
+    height: 48px;
+    box-sizing: border-box;
   }
 }
 
@@ -614,6 +644,7 @@
   }
   .hlt-journeys-guarantees {
     grid-template-columns: 1fr;
+    padding: 18px 16px;
   }
   .hlt-journeys-guarantee-item + .hlt-journeys-guarantee-item {
     border-left: none;
