@@ -97,17 +97,16 @@ export default function BookingProcess() {
             <div className="hlt-showcase-ticket-content">
               {/* Left Column: Brand & Booking ID */}
               <div className="hlt-showcase-left">
-                {/* Modular Non-distorting Notched Frame */}
-                <div className="hlt-showcase-left-frame" aria-hidden="true">
-                  <svg className="hlt-frame-corner hlt-corner-tl" viewBox="0 0 16 16"><path d="M 16,4 A 12,12 0 0,0 4,16" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
-                  <svg className="hlt-frame-corner hlt-corner-tr" viewBox="0 0 16 16"><path d="M 0,4 A 12,12 0 0,1 12,16" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
-                  <svg className="hlt-frame-corner hlt-corner-bl" viewBox="0 0 16 16"><path d="M 16,12 A 12,12 0 0,1 4,0" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
-                  <svg className="hlt-frame-corner hlt-corner-br" viewBox="0 0 16 16"><path d="M 0,12 A 12,12 0 0,0 12,0" fill="none" stroke="rgba(197, 161, 90, 0.42)" strokeWidth="1.2" /></svg>
-                  <div className="hlt-frame-line hlt-line-top" />
-                  <div className="hlt-frame-line hlt-line-bottom" />
-                  <div className="hlt-frame-line hlt-line-left" />
-                  <div className="hlt-frame-line hlt-line-right" />
-                </div>
+                {/* Vintage Coped/Scalloped Border Frame */}
+                <svg className="hlt-showcase-left-frame" viewBox="0 0 210 250" preserveAspectRatio="none" aria-hidden="true">
+                  <path
+                    d="M 24,12 H 186 A 4,4 0 0,1 190,16 A 4,4 0 0,0 194,20 A 4,4 0 0,1 198,24 V 226 A 4,4 0 0,1 194,230 A 4,4 0 0,0 190,234 A 4,4 0 0,1 186,238 H 24 A 4,4 0 0,1 20,234 A 4,4 0 0,0 16,230 A 4,4 0 0,1 12,226 V 24 A 4,4 0 0,1 16,20 A 4,4 0 0,0 20,16 A 4,4 0 0,1 24,12 Z"
+                    fill="none"
+                    stroke="rgba(197, 161, 90, 0.45)"
+                    strokeWidth="1.2"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
 
                 {/* Faded Watermark behind the logo content */}
                 <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
