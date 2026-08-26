@@ -97,10 +97,10 @@ export default function BookingProcess() {
             <div className="hlt-showcase-ticket-content">
               {/* Left Column: Brand & Booking ID */}
               <div className="hlt-showcase-left">
-                {/* Royal Stepped Bracket Border Frame - Delicate & Subtle */}
+                {/* Royal Stepped Bracket Border Frame - Balanced & Refined */}
                 <svg className="hlt-showcase-left-frame" viewBox="0 0 210 250" preserveAspectRatio="none" aria-hidden="true">
                   <path
-                    d="M 18,10 H 192 A 3,3 0 0,1 195,13 H 197 A 3,3 0 0,1 200,16 V 234 A 3,3 0 0,1 197,237 H 195 A 3,3 0 0,1 192,240 H 18 A 3,3 0 0,1 15,237 H 13 A 3,3 0 0,1 10,234 V 16 A 3,3 0 0,1 13,13 H 15 A 3,3 0 0,1 18,10 Z"
+                    d="M 23,10 H 187 A 5,5 0 0,1 192,15 H 195 A 5,5 0 0,1 200,20 V 230 A 5,5 0 0,1 195,235 H 192 A 5,5 0 0,1 187,240 H 23 A 5,5 0 0,1 18,235 H 15 A 5,5 0 0,1 10,230 V 20 A 5,5 0 0,1 15,15 H 18 A 5,5 0 0,1 23,10 Z"
                     fill="none"
                     stroke="rgba(197, 161, 90, 0.45)"
                     strokeWidth="1.2"
