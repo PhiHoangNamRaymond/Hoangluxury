@@ -384,6 +384,12 @@
     cursor: pointer;
     transition: all 250ms ease;
     clip-path: none;
+    color: #b88a38 !important;
+    text-shadow: none !important;
+  }
+
+  .hlt-route-cta.hlt-route-cta-button::before {
+    display: none !important;
   }
 }
 
