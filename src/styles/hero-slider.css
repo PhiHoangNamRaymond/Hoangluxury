@@ -235,7 +235,7 @@
 
   .hlt-hero-title-white {
     display: block !important;
-    font-size: clamp(24px, 6.6vw, 30px) !important;
+    font-size: clamp(30px, 8.4vw, 38px) !important;
     color: #ffffff !important;
     line-height: 0.98 !important;
     letter-spacing: 0.04em !important;
@@ -244,7 +244,7 @@
 
   .hlt-hero-title-gold {
     display: block !important;
-    font-size: clamp(24px, 6.6vw, 30px) !important;
+    font-size: clamp(30px, 8.4vw, 38px) !important;
     color: #d4af37 !important;
     line-height: 0.98 !important;
     letter-spacing: 0.04em !important;
@@ -288,25 +288,36 @@
   .hlt-hero .hlt-actions {
     display: flex !important;
     flex-direction: column !important;
-    gap: 7px !important;
+    gap: 6px !important;
     width: 100% !important;
-    max-width: 210px !important;
+    max-width: 175px !important;
     margin-top: 0 !important;
   }
 
   .hlt-hero .hlt-btn {
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 36px !important;
-    padding: 0 12px !important;
-    font-size: 10px !important;
-    border-radius: 6px !important;
+    min-height: 33px !important;
+    padding: 0 10px !important;
+    font-size: 9px !important;
+    border-radius: 5px !important;
     justify-content: center !important;
-    letter-spacing: 0.1em !important;
+    letter-spacing: 0.08em !important;
     font-family: "Cormorant", Georgia, serif !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
+  }
+
+  .hlt-hero-whatsapp-icon {
+    width: 14px !important;
+    height: 14px !important;
+    margin-right: 5px !important;
+  }
+
+  .hlt-hero-whatsapp-icon svg {
+    width: 14px !important;
+    height: 14px !important;
   }
 
   .hlt-hero-dots {
