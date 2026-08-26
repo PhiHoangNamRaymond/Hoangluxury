@@ -749,26 +749,29 @@
 .hlt-showcase-divider-horizontal-separate {
   display: none;
   position: relative;
-  width: 220px;
+  width: 220px !important;
   height: 1px;
   background: linear-gradient(90deg, transparent, #c5a15a, transparent);
-  margin: 36px auto 16px;
+  margin: 36px auto 16px !important;
+  grid-column: 1 / -1;
+  justify-self: center;
+  align-self: center;
 }
 
 .hlt-showcase-divider-horizontal-separate-diamond {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 50% !important;
+  top: 50% !important;
   width: 8px;
   height: 8px;
   background: #f5eee3; /* Match section background */
   border: 1px solid #c5a15a;
-  transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg) !important;
 }
 
 @media (max-width: 960px) {
   .hlt-showcase-divider-horizontal-separate {
-    display: block;
+    display: block !important;
   }
 }
 
