@@ -102,8 +102,8 @@ export default function BookingProcess() {
                   <path
                     d="M 23,10 H 187 A 5,5 0 0,1 192,15 H 195 A 5,5 0 0,1 200,20 V 230 A 5,5 0 0,1 195,235 H 192 A 5,5 0 0,1 187,240 H 23 A 5,5 0 0,1 18,235 H 15 A 5,5 0 0,1 10,230 V 20 A 5,5 0 0,1 15,15 H 18 A 5,5 0 0,1 23,10 Z"
                     fill="none"
-                    stroke="rgba(197, 161, 90, 0.45)"
-                    strokeWidth="1.2"
+                    stroke="rgba(197, 161, 90, 0.32)"
+                    strokeWidth="0.85"
                     vectorEffect="non-scaling-stroke"
                   />
                 </svg>
