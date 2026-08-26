@@ -632,10 +632,6 @@
 }
 
 @media (max-width: 768px) {
-  .hlt-showcase-confirm-header {
-    display: block;
-  }
-
   .hlt-showcase-ticket-content {
     flex-direction: row;
   }
@@ -706,7 +702,6 @@
 
 /* Journey Confirmed Header Above Ticket */
 .hlt-showcase-confirm-header {
-  display: none;
   text-align: center;
   margin-bottom: 24px;
   width: 100%;
