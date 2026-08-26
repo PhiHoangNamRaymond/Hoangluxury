@@ -109,6 +109,16 @@ export default function Fleet() {
               ))}
             </div>
 
+            {/* Desktop: Original Image Button */}
+            <a
+              className="hlt-route-cta hlt-route-cta-image"
+              href={catalogPageUrl}
+              aria-label="View All Routes"
+            >
+              <img src={routeViewAllButtonUrl} alt="" />
+            </a>
+
+            {/* Mobile: Styled Nautical Compass Button */}
             <a
               className="hlt-route-cta hlt-route-cta-button"
               href="/journeys/"
