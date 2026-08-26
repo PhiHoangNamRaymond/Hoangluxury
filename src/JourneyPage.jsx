@@ -3,7 +3,12 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import { whatsappUrl } from "./data.js";
-import { fleetImages, heroBannerUrl, serviceImages } from "./config/assets.js";
+import {
+  catalogBackgroundUrl,
+  fleetImages,
+  heroBannerUrl,
+  serviceImages,
+} from "./config/assets.js";
 import {
   journeyExperience,
   journeyFaq,
@@ -21,23 +26,92 @@ const experienceImages = [
 ];
 
 function Icon({ type, className }) {
+  if (type === "carFront") {
+    return (
+      <svg className={className} viewBox="0 0 512 512" aria-hidden="true" fill="currentColor">
+        <path d="M499.99 176h-59.87l-16.64-41.6C406.38 91.63 365.57 64 319.5 64h-127c-46.06 0-86.88 27.63-103.99 70.4L71.87 176H12.01C4.2 176-1.53 183.34.37 190.91l6 24C7.7 220.25 12.5 224 18.01 224h20.07C24.65 235.73 16 252.78 16 272v48c0 16.12 6.16 30.67 16 41.93V416c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h256v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-54.07c9.84-11.25 16-25.8 16-41.93v-48c0-19.22-8.65-36.27-22.07-48H494c5.51 0 10.31-3.75 11.64-9.09l6-24c1.89-7.57-3.84-14.91-11.65-14.91m-352.06-17.83c7.29-18.22 24.94-30.17 44.57-30.17h127c19.63 0 37.28 11.95 44.57 30.17L384 208H128zM96 319.8c-19.2 0-32-12.76-32-31.9S76.8 256 96 256s48 28.71 48 47.85s-28.8 15.95-48 15.95m320 0c-19.2 0-48 3.19-48-15.95S396.8 256 416 256s32 12.76 32 31.9s-12.8 31.9-32 31.9" />
+      </svg>
+    );
+  }
+
   const shapes = {
+    // Top crest emblem (M-peaks with base)
+    emblem: (
+      <>
+        <path d="M5 13 L9.5 4.5 L14 9.5 L18.5 4.5 L23 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <path d="M8 13 L11.5 8 L14 9.5 L16.5 8 L20 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6" />
+        <path d="M4 15.5 h20" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </>
+    ),
+    // Map pin marker with filled dot
+    marker: (
+      <>
+        <path d="M12 21.5 C15.5 17 18 13.5 18 9.5 A6 6 0 1 0 6 9.5 C6 13.5 8.5 17 12 21.5 Z" fill="#b88a38" stroke="#b88a38" strokeWidth="1" />
+        <circle cx="12" cy="9.5" r="2.2" fill="#ffffff" stroke="none" />
+      </>
+    ),
+    // Pagoda / Temple with pediment, architrave, 4 pillars & stepped base
+    pagoda: (
+      <>
+        <path d="M3.5 9.5 L12 4 L20.5 9.5 Z" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinejoin="round" />
+        <path d="M3 10 h18" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M6 10.5 v8 M10 10.5 v8 M14 10.5 v8 M18 10.5 v8" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M4.5 18.5 h15" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M2.5 20.5 h19" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
+      </>
+    ),
+    // Mountain peaks for Sapa
+    mountain: (
+      <>
+        <path d="M3 18.5 L8.5 9 L12.5 14 L15.5 9.5 L21 18.5 Z" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinejoin="round" />
+        <path d="M8.5 9 L10.5 13.5 M15.5 9.5 L14 13" stroke="#b88a38" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M2 19 h20" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
+      </>
+    ),
+    // Luxury reclining seat
+    seat: (
+      <>
+        <circle cx="9.2" cy="4.8" r="1.8" fill="none" stroke="#b88a38" strokeWidth="1.4" />
+        <path d="M7.5 8 h3.2 a2 2 0 0 1 2 2 v4.5 a2 2 0 0 0 2 2 h2.6" fill="none" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M6 18 h7" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M6 10.5 v7" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M17 16.5 l2 2" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
+      </>
+    ),
+    // Calendar with grid
+    calendar: (
+      <>
+        <rect x="3.5" y="4.5" width="17" height="16" rx="2.5" fill="none" stroke="#b88a38" strokeWidth="1.5" />
+        <path d="M8 2.5 v4 M16 2.5 v4 M3.5 9.5 h17" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
+        <circle cx="7.5" cy="13" r="1" fill="#b88a38" stroke="none" />
+        <circle cx="12" cy="13" r="1" fill="#b88a38" stroke="none" />
+        <circle cx="16.5" cy="13" r="1" fill="#b88a38" stroke="none" />
+        <circle cx="7.5" cy="17" r="1" fill="#b88a38" stroke="none" />
+        <circle cx="12" cy="17" r="1" fill="#b88a38" stroke="none" />
+        <circle cx="16.5" cy="17" r="1" fill="#b88a38" stroke="none" />
+      </>
+    ),
+    // Chauffeur with peaked cap
+    driver: (
+      <>
+        <path d="M6.5 8 C6.5 5.5 9 4 12 4 s5.5 1.5 5.5 4" fill="none" stroke="#b88a38" strokeWidth="1.4" />
+        <path d="M4.5 8.2 h15" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="12" cy="11.8" r="2.8" fill="none" stroke="#b88a38" strokeWidth="1.4" />
+        <path d="M6.5 20 c0-3 2.5-5 5.5-5 s5.5 2 5.5 5" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
+      </>
+    ),
+    // Transparent pricing coin with $
+    price: (
+      <>
+        <circle cx="12" cy="12" r="9.2" fill="none" stroke="#b88a38" strokeWidth="1.5" />
+        <path d="M14.5 9.2 c-.6-.7-1.5-1-2.5-1 -1.7 0-2.8 .9-2.8 2 s1 1.7 2.6 2 c1.8 .4 2.8 .9 2.8 2.1 0 1.3-1.2 2.1-2.9 2.1 -1.3 0-2.3-.4-3-1.1 M12 6.5 v11" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      </>
+    ),
     pin: <><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
     clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v6l4 2" /></>,
     car: <><path d="m5 16-2-2v-3l2-5h14l2 5v3l-2 2" /><path d="M4 11h16M7 16v2M17 16v2" /><circle cx="7" cy="14" r="1" /><circle cx="17" cy="14" r="1" /></>,
     tag: <><path d="M3 12V4h8l9 9-8 8-9-9Z" /><circle cx="7.5" cy="7.5" r="1.4" /></>,
-    seat: <><circle cx="8.6" cy="4.8" r="2" /><path d="M6.6 8.8c-1.4.7-2.1 2-2.1 3.7V17" /><path d="M4.5 17h7l5.2 2.6M11 12.4h3.2M3 20.4h14.5" /></>,
-    calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4M16 3v4M3 10h18" /><path d="M7 13.5h.01M12 13.5h.01M17 13.5h.01M7 17.5h.01M12 17.5h.01M17 17.5h.01" /></>,
-    driver: <><path d="M7.6 7.4c0-2.4 1.9-3.9 4.4-3.9s4.4 1.5 4.4 3.9" /><path d="M6.2 7.6h11.6" /><circle cx="12" cy="11.6" r="2.7" /><path d="M6 20.5a6 6 0 0 1 12 0" /></>,
-    // Cổng chùa - đại diện điểm đón Hà Nội
-    pagoda: <><path d="M5 8.6 12 4.4l7 4.2" /><path d="M3.4 9.2h17.2" /><path d="M7 12.4h10M6 18.4h12M3.6 21h16.8" /><path d="M8.2 12.4v6M15.8 12.4v6" /><path d="M10.4 18.4v-3a1.6 1.6 0 0 1 3.2 0v3" /></>,
-    mountain: <><path d="m3 18.4 5.6-8.2 3.4 4.9 3-4.4 5.6 7.7H3Z" /><path d="m8.6 10.2 2 2.9M17 10.7l-1.8 2.6" /><path d="M3 21h18" /></>,
-    // Vịnh đảo - dùng cho tuyến Hạ Long
     bay: <><path d="M3.6 15.4c1.8 0 1.6-6.4 4.4-6.4s2.6 6.4 4.4 6.4" /><path d="M13.4 15.4c1.4 0 1.3-4.2 3.2-4.2s1.9 4.2 3.4 4.2" /><path d="M3 18.4c1.6 0 1.6 1.2 3.2 1.2s1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2" /></>,
-    // Ghim bản đồ kèm vòng tròn ở chân, dùng cho hai đầu đường nối
-    marker: <><path d="M12 2.4a4.6 4.6 0 0 1 4.6 4.6c0 3.3-4.6 7.2-4.6 7.2S7.4 10.3 7.4 7A4.6 4.6 0 0 1 12 2.4Z" /><circle cx="12" cy="7" r="1.5" /><circle cx="12" cy="19.4" r="2.6" /></>,
-    carFront: <><path d="M4.2 16.4v-3.6c0-.5.2-1 .6-1.4l1.9-1.9c.6-.6 1.3-.9 2.1-.9h6.4c.8 0 1.5.3 2.1.9l1.9 1.9c.4.4.6.9.6 1.4v3.6a1 1 0 0 1-1 1H5.2a1 1 0 0 1-1-1Z" /><path d="M6.6 11.4h10.8" /><circle cx="7.4" cy="14.2" r=".9" /><circle cx="16.6" cy="14.2" r=".9" /><path d="M7.2 17.4v1.4M16.8 17.4v1.4" /></>,
-    price: <><circle cx="12" cy="12" r="9" /><path d="M15 9c-.7-.7-1.8-1-3-1-1.7 0-3 .8-3 1.9s1.1 1.7 3 2.1 3 1 3 2.1-1.3 2-3 2c-1.2 0-2.3-.3-3-1M12 6v12" /></>,
     passengers: <><circle cx="12" cy="7" r="3" /><path d="M6 21v-2a6 6 0 0 1 12 0v2" /></>,
     luggage: <><rect x="5" y="7" width="14" height="14" rx="2" /><path d="M9 7V4h6v3M9 11v6M15 11v6" /></>,
     route: <><path d="M4 20c6 0 4-8 10-8s6 8 6 8" /><circle cx="4" cy="20" r="1.5" /></>,
@@ -130,11 +204,58 @@ export default function JourneyPage({ slug }) {
           </div>
         </div>
 
-        <section className="hlt-journey-section">
+        <section className="hlt-journey-section hlt-journey-transit-section">
+          <div className="hlt-journey-bg-accent hlt-journey-bg-left" aria-hidden="true">
+            <svg viewBox="0 0 320 320" fill="none">
+              <path d="M0,0 C130,40 190,140 220,320" stroke="url(#goldGradLeft1)" strokeWidth="1.5" opacity="0.4" />
+              <path d="M0,45 C110,85 160,170 185,320" stroke="url(#goldGradLeft2)" strokeWidth="1.2" opacity="0.3" />
+              <path d="M0,95 C90,135 130,200 145,320" stroke="url(#goldGradLeft3)" strokeWidth="1" opacity="0.2" />
+              <defs>
+                <linearGradient id="goldGradLeft1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#c5a15a" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#c5a15a" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="goldGradLeft2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#d4af37" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#d4af37" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="goldGradLeft3" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#ecd8ad" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#ecd8ad" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div className="hlt-journey-bg-accent hlt-journey-bg-right" aria-hidden="true">
+            <svg viewBox="0 0 320 320" fill="none">
+              <path d="M320,0 C190,40 130,140 100,320" stroke="url(#goldGradRight1)" strokeWidth="1.5" opacity="0.4" />
+              <path d="M320,45 C210,85 160,170 135,320" stroke="url(#goldGradRight2)" strokeWidth="1.2" opacity="0.3" />
+              <path d="M320,95 C230,135 190,200 175,320" stroke="url(#goldGradRight3)" strokeWidth="1" opacity="0.2" />
+              <defs>
+                <linearGradient id="goldGradRight1" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#c5a15a" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#c5a15a" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="goldGradRight2" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#d4af37" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#d4af37" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="goldGradRight3" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#ecd8ad" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#ecd8ad" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
           <div className="hlt-container">
             <div className="hlt-journey-heading">
+              <div className="hlt-journey-emblem-wrap">
+                <Icon type="emblem" className="hlt-journey-emblem" />
+              </div>
               <p className="hlt-journey-kicker">Seamless from start to finish</p>
               <h2>Door-to-Door Private Transfer</h2>
+              <div className="hlt-journey-ornament" />
               <p className="hlt-journey-sub">{journey.leadIn}</p>
             </div>
 
@@ -143,7 +264,7 @@ export default function JourneyPage({ slug }) {
                 <span className="hlt-journey-point-badge">
                   <Icon type="pagoda" />
                 </span>
-                <div>
+                <div className="hlt-journey-point-info">
                   <p>Pick-up in</p>
                   <h3>Hanoi / Noi Bai</h3>
                   <small>Hotels, Residences or<br />Noi Bai Airport</small>
@@ -151,22 +272,18 @@ export default function JourneyPage({ slug }) {
               </article>
 
               <div className="hlt-journey-path" aria-hidden="true">
-                <Icon type="marker" className="hlt-journey-path-pin" />
-                <svg className="hlt-journey-path-curve" viewBox="0 0 100 26" preserveAspectRatio="none">
-                  <path d="M0 21C34 21 44 5 100 5" vectorEffect="non-scaling-stroke" />
-                </svg>
+                <span className="hlt-journey-path-pin"><Icon type="marker" /></span>
+                <span className="hlt-journey-path-line" />
                 <span className="hlt-journey-path-car"><Icon type="carFront" /></span>
-                <svg className="hlt-journey-path-curve" viewBox="0 0 100 26" preserveAspectRatio="none">
-                  <path d="M0 5C56 5 66 21 100 21" vectorEffect="non-scaling-stroke" />
-                </svg>
-                <Icon type="marker" className="hlt-journey-path-pin" />
+                <span className="hlt-journey-path-line" />
+                <span className="hlt-journey-path-pin"><Icon type="marker" /></span>
               </div>
 
               <article className="hlt-journey-point">
                 <span className="hlt-journey-point-badge">
                   <Icon type={journey.badgeIcon} />
                 </span>
-                <div>
+                <div className="hlt-journey-point-info">
                   <p>Drop-off in</p>
                   <h3>{journey.name}</h3>
                   <small>{journey.dropoffNote}</small>
@@ -176,8 +293,10 @@ export default function JourneyPage({ slug }) {
 
             <div className="hlt-journey-features">
               {journeyFeatures.map(([icon, title, text]) => (
-                <article key={title}>
-                  <Icon type={icon} className="hlt-journey-feature-icon" />
+                <article key={title} className="hlt-journey-feature-col">
+                  <div className="hlt-journey-feature-icon-wrap">
+                    <Icon type={icon} className="hlt-journey-feature-icon" />
+                  </div>
                   <h3>{title}</h3>
                   <p>{text}</p>
                 </article>

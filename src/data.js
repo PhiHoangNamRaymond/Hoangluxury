@@ -19,22 +19,21 @@ export const popularRoutes = [
   "Ta Xua",
 ];
 
-// Dropdown "Journey" chỉ liệt kê các tuyến chính, không phải toàn bộ
-// `popularRoutes` ở trên (phần thân trang vẫn hiện đủ 9 tuyến). Slug phải
-// khớp với key trong src/config/journeys.js.
-const journeyRoutes = ["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map(
-  (route) => [
+// Dropdown "Journey" liệt kê tuỳ chọn xem tất cả tuyến cùng các tuyến chính.
+const journeyRoutes = [
+  ["All Popular Routes", "/journeys/"],
+  ...["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map((route) => [
     `Hanoi to ${route}`,
     `/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`,
-  ]
-);
+  ]),
+];
 
 // Phần tử thứ ba (tuỳ chọn) là danh sách con, hiện ra khi rê chuột vào mục cha.
 export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
-  ["Journey", "#routes", journeyRoutes],
+  ["Journey", "/journeys/", journeyRoutes],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
   ["Feedback", feedbackPageUrl],

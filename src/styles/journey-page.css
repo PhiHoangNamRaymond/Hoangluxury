@@ -154,175 +154,309 @@
   color: rgba(244, 238, 227, .86);
 }
 
-/* ---------- Tiêu đề mục ---------- */
+/* ---------- Section Seamless From Start To Finish ---------- */
+
+.hlt-journey-transit-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(64px, 6.8vw, 104px) 0 clamp(56px, 6vw, 92px);
+  background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, #fcf9f2 40%, #f6eee0 100%);
+}
+
+.hlt-journey-bg-accent {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  z-index: 0;
+  width: clamp(220px, 25vw, 360px);
+  height: clamp(220px, 25vw, 360px);
+}
+
+.hlt-journey-bg-left {
+  left: 0;
+}
+
+.hlt-journey-bg-right {
+  right: 0;
+}
+
+.hlt-journey-bg-accent svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hlt-journey-transit-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(240px, 28vw, 420px);
+  height: clamp(240px, 28vw, 420px);
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle at 0% 0%, rgba(220, 195, 140, 0.35) 0%, rgba(230, 210, 165, 0.15) 40%, transparent 70%);
+  border-bottom-right-radius: 100%;
+}
+
+.hlt-journey-transit-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: clamp(240px, 28vw, 420px);
+  height: clamp(240px, 28vw, 420px);
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(220, 195, 140, 0.35) 0%, rgba(230, 210, 165, 0.15) 40%, transparent 70%);
+  border-bottom-left-radius: 100%;
+}
+
+.hlt-journey-transit-section .hlt-container {
+  position: relative;
+  z-index: 1;
+}
 
 .hlt-journey-heading {
-  max-width: 760px;
-  margin: 0 auto clamp(34px, 4vw, 52px);
+  max-width: 780px;
+  margin: 0 auto clamp(36px, 4.2vw, 56px);
   text-align: center;
+}
+
+.hlt-journey-emblem-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.hlt-journey-emblem {
+  width: 30px;
+  height: 16px;
+  fill: none;
+  stroke: #c5a15a;
 }
 
 .hlt-journey-kicker {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin: 0 0 12px;
-  font-size: clamp(14px, 1.4vw, 18px);
+  gap: 16px;
+  margin: 0 0 14px;
+  font-size: clamp(12px, 1.1vw, 14px);
   font-weight: 700;
-  letter-spacing: .2em;
+  letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--jr-gold);
+  color: #b88a38;
 }
 
 .hlt-journey-kicker::before,
 .hlt-journey-kicker::after {
   content: "";
-  width: clamp(30px, 6vw, 84px);
+  width: clamp(36px, 7vw, 90px);
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--jr-gold));
+  background: linear-gradient(90deg, transparent, #c5a15a);
 }
 
 .hlt-journey-kicker::after {
-  background: linear-gradient(90deg, var(--jr-gold), transparent);
+  background: linear-gradient(90deg, #c5a15a, transparent);
 }
 
-.hlt-journey-heading h2,
+.hlt-journey-heading h2 {
+  margin: 0 0 14px;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 4.2vw, 56px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: .015em;
+  color: #17242a;
+}
+
+.hlt-journey-ornament {
+  width: 130px;
+  height: 14px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+
+.hlt-journey-ornament::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184, 134, 54, .65), transparent);
+}
+
+.hlt-journey-ornament::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
 .hlt-journey-title-serif {
   margin: 0 0 14px;
   font-family: var(--hlt-font-family);
   font-size: clamp(30px, 3.5vw, 46px);
   font-weight: 600;
   line-height: 1.06;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   color: var(--jr-ink);
 }
 
-.hlt-journey-title-serif {
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
 .hlt-journey-sub {
-  margin: 0;
-  font-size: clamp(13.5px, 1.12vw, 16px);
-  line-height: 1.62;
-  color: var(--jr-muted);
+  max-width: 660px;
+  margin: 0 auto;
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.68;
+  color: #55626a;
 }
 
 /* ---------- Điểm đón / điểm trả ---------- */
 
 .hlt-journey-transit {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(120px, 1.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(130px, 1.35fr) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(10px, 1.6vw, 22px);
-  margin-bottom: clamp(40px, 4.6vw, 64px);
+  gap: clamp(12px, 2vw, 24px);
+  margin-bottom: clamp(48px, 5.4vw, 80px);
 }
 
 .hlt-journey-point {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: clamp(14px, 1.6vw, 20px);
-  border: 1px solid rgba(201, 162, 74, .34);
-  border-radius: 4px;
-  background: #fff;
+  gap: clamp(16px, 1.8vw, 22px);
+  padding: clamp(18px, 2.1vw, 26px) clamp(20px, 2.3vw, 28px);
+  border: 1.5px solid rgba(220, 195, 140, 0.55);
+  border-radius: 20px;
+  background: #fffdfa;
+  box-shadow:
+    0 14px 34px rgba(180, 145, 80, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.hlt-journey-point:hover {
+  transform: translateY(-2px);
+  border-color: rgba(201, 162, 74, 0.85);
+  box-shadow:
+    0 18px 42px rgba(180, 145, 80, 0.18),
+    0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .hlt-journey-point-badge {
   flex: none;
   display: grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
-  overflow: hidden;
+  width: clamp(58px, 5.2vw, 68px);
+  height: clamp(58px, 5.2vw, 68px);
+  border: 1.5px solid rgba(197, 161, 90, 0.55);
   border-radius: 50%;
-  background: var(--jr-dark);
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ec 100%);
+  box-shadow:
+    0 4px 14px rgba(197, 161, 90, 0.14),
+    inset 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 .hlt-journey-point-badge svg {
-  width: 29px;
-  height: 29px;
+  width: clamp(28px, 2.6vw, 34px);
+  height: clamp(28px, 2.6vw, 34px);
   fill: none;
-  stroke: var(--jr-gold);
+  stroke: #b88636;
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.hlt-journey-point p {
+.hlt-journey-point-info p {
   margin: 0 0 4px;
-  font-size: clamp(11px, 1.02vw, 13px);
+  font-size: clamp(10.5px, .92vw, 12px);
   font-weight: 700;
-  letter-spacing: .17em;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--jr-gold);
+  color: #b88636;
 }
 
-.hlt-journey-point h3 {
-  margin: 0 0 4px;
-  font-family: var(--hlt-font-family);
-  font-size: clamp(19px, 1.7vw, 25px);
-  font-weight: 600;
-  color: var(--jr-ink);
+.hlt-journey-point-info h3 {
+  margin: 0 0 5px;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(21px, 2vw, 28px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #17242a;
 }
 
-.hlt-journey-point small {
+.hlt-journey-point-info small {
+  display: block;
   font-size: clamp(12px, 1.05vw, 13.5px);
-  line-height: 1.5;
-  color: var(--jr-muted);
+  line-height: 1.45;
+  color: #667085;
 }
 
 .hlt-journey-path {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  position: relative;
+  width: 100%;
 }
 
 .hlt-journey-path-pin {
   flex: none;
-  width: 30px;
-  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b88636;
+}
+
+.hlt-journey-path-pin svg {
+  width: 20px;
+  height: 20px;
   fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 1.5;
+  stroke: #b88636;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-/* Nét đứt uốn cong nối hai đầu với xe ở giữa. `preserveAspectRatio: none`
-   cho đường kéo giãn theo bề ngang, `vector-effect` giữ nét khỏi méo. */
-.hlt-journey-path-curve {
+.hlt-journey-path-line {
   flex: 1;
-  min-width: 0;
-  height: 30px;
-  fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 1 7;
+  height: 0;
+  border-top: 2px dotted #c5a15a;
+  margin: 0 8px;
+  min-width: 20px;
 }
 
 .hlt-journey-path-car {
   flex: none;
   display: grid;
   place-items: center;
-  width: 62px;
-  height: 62px;
-  border: 1px solid rgba(201, 162, 74, .4);
+  width: clamp(74px, 6.4vw, 86px);
+  height: clamp(74px, 6.4vw, 86px);
+  border: 2px solid #c5a15a;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 8px 20px rgba(11, 28, 23, .12);
+  background: #ffffff;
+  box-shadow:
+    0 8px 26px rgba(197, 161, 90, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.hlt-journey-path-car:hover {
+  transform: scale(1.06);
+  box-shadow: 0 12px 32px rgba(197, 161, 90, 0.38);
 }
 
 .hlt-journey-path-car svg {
-  width: 30px;
-  height: 30px;
-  fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  width: clamp(40px, 3.6vw, 48px);
+  height: clamp(40px, 3.6vw, 48px);
+  color: #b88a38;
 }
 
 /* ---------- Bốn điểm mạnh ---------- */
@@ -330,41 +464,64 @@
 .hlt-journey-features {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
 }
 
-.hlt-journey-features article {
-  padding: 0 clamp(12px, 1.8vw, 26px);
+.hlt-journey-feature-col {
+  padding: 0 clamp(12px, 1.8vw, 28px);
   text-align: center;
 }
 
-.hlt-journey-features article + article {
-  border-left: 1px solid rgba(201, 162, 74, .26);
+.hlt-journey-feature-col + .hlt-journey-feature-col {
+  border-left: 1px solid rgba(197, 161, 90, 0.28);
+}
+
+.hlt-journey-feature-icon-wrap {
+  width: clamp(48px, 4.4vw, 56px);
+  height: clamp(48px, 4.4vw, 56px);
+  margin: 0 auto 16px;
+  border: 1.5px solid rgba(197, 161, 90, 0.5);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff 0%, #faf4ea 100%);
+  box-shadow:
+    0 4px 14px rgba(197, 161, 90, 0.12),
+    inset 0 0 8px rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .25s ease, border-color .25s ease;
+}
+
+.hlt-journey-feature-col:hover .hlt-journey-feature-icon-wrap {
+  transform: translateY(-2px);
+  border-color: #c5a15a;
 }
 
 .hlt-journey-feature-icon {
-  width: 34px;
-  height: 34px;
-  margin-bottom: 12px;
+  width: clamp(24px, 2.2vw, 28px);
+  height: clamp(24px, 2.2vw, 28px);
   fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 1.4;
+  stroke: #b88636;
+  stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.hlt-journey-features h3 {
-  margin: 0 0 9px;
-  font-family: var(--hlt-font-family);
-  font-size: clamp(16px, 1.5vw, 20px);
+.hlt-journey-feature-col h3 {
+  margin: 0 0 8px;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(17px, 1.5vw, 21px);
   font-weight: 700;
-  color: var(--jr-ink);
+  line-height: 1.2;
+  color: #17242a;
 }
 
-.hlt-journey-features p {
-  margin: 0;
-  font-size: clamp(13px, 1.05vw, 14px);
-  line-height: 1.58;
-  color: var(--jr-muted);
+.hlt-journey-feature-col p {
+  margin: 0 auto;
+  max-width: 230px;
+  font-size: clamp(12.5px, 1.02vw, 14px);
+  line-height: 1.55;
+  color: #625a4f;
 }
 
 /* ---------- Đội xe ---------- */
@@ -747,15 +904,24 @@
 
   .hlt-journey-transit {
     grid-template-columns: minmax(0, 1fr);
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 16px;
   }
 
   .hlt-journey-path {
     justify-content: center;
-    padding: 6px 0;
+    padding: 8px 0;
   }
 
-  .hlt-journey-path-curve {
-    max-width: 110px;
+  .hlt-journey-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 0;
+  }
+
+  .hlt-journey-feature-col:nth-child(2n + 1) {
+    border-left: 0;
   }
 
   .hlt-journey-vehicle-grid {
@@ -777,7 +943,7 @@
   }
 
   .hlt-journey-fact + .hlt-journey-fact,
-  .hlt-journey-features article + article,
+  .hlt-journey-feature-col + .hlt-journey-feature-col,
   .hlt-journey-stat + .hlt-journey-stat {
     border-left: 0;
   }
@@ -788,8 +954,8 @@
     border-top: 1px solid rgba(201, 162, 74, .18);
   }
 
-  .hlt-journey-features article:nth-child(n + 2) {
-    margin-top: 28px;
+  .hlt-journey-feature-col:nth-child(n + 2) {
+    margin-top: 24px;
   }
 
   .hlt-journey-actions .hlt-btn {

@@ -202,15 +202,18 @@ export default function Header() {
                 <div className="hlt-nav-group" key={label}>
                   {link}
                   <div className="hlt-nav-menu">
-                    {children.map(([childLabel, childHref]) => (
-                      <a
-                        href={childHref}
-                        key={childLabel}
-                        onClick={(event) => handleNavigation(event, childHref, childHref)}
-                      >
-                        {childLabel}
-                      </a>
-                    ))}
+                    {children.map(([childLabel, childHref]) => {
+                      const resolvedChildHref = navigationHref(childHref);
+                      return (
+                        <a
+                          href={resolvedChildHref}
+                          key={childLabel}
+                          onClick={(event) => handleNavigation(event, childHref, resolvedChildHref)}
+                        >
+                          {childLabel}
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               );
