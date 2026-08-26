@@ -188,7 +188,7 @@ export default function JourneysPage() {
             <p className="hlt-journeys-kicker">POPULAR ROUTES</p>
             <h1 className="hlt-journeys-title">Private Transfers to Top Destinations</h1>
             <p className="hlt-journeys-lead">
-              Discover stunning landscapes and cultural wonders with our door-to-door<br className="hlt-journeys-lead-br" />private transfer service from Hanoi or Noi Bai Airport.
+              Discover stunning landscapes and cultural wonders with our <span className="hlt-nobrk">door-to-door</span> private transfer service from Hanoi or Noi Bai Airport.
             </p>
           </header>
 

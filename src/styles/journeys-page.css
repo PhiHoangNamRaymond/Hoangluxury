@@ -60,22 +60,24 @@
 
 .hlt-journeys-lead {
   margin: 0 auto;
-  max-width: 780px;
+  max-width: 620px;
   font-size: clamp(13.5px, 1.05vw, 15px);
   line-height: 1.5;
   color: #55626a;
+  text-wrap: balance;
+  text-wrap: pretty;
 }
 
-.hlt-journeys-lead-br {
-  display: block;
+.hlt-nobrk {
+  white-space: nowrap;
 }
 
 @media (max-width: 820px) {
   .hlt-journeys-title {
     white-space: normal;
   }
-  .hlt-journeys-lead-br {
-    display: inline;
+  .hlt-journeys-lead {
+    max-width: 320px;
   }
 }
 
