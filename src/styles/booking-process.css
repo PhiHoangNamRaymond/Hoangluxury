@@ -752,7 +752,7 @@
   width: 220px !important;
   height: 1px;
   background: linear-gradient(90deg, transparent, #c5a15a, transparent);
-  margin: 36px auto 16px !important;
+  margin: 24px auto !important;
   grid-column: 1 / -1;
   justify-self: center;
   align-self: center;
