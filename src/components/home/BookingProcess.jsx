@@ -97,6 +97,17 @@ export default function BookingProcess() {
             <div className="hlt-showcase-ticket-content">
               {/* Left Column: Brand & Booking ID */}
               <div className="hlt-showcase-left">
+                {/* SVG Concave/Notched Border Frame */}
+                <svg className="hlt-showcase-left-frame" viewBox="0 0 210 250" preserveAspectRatio="none" aria-hidden="true">
+                  <path
+                    d="M 22,12 H 188 A 10,10 0 0,1 198,22 V 228 A 10,10 0 0,1 188,238 H 22 A 10,10 0 0,1 12,228 V 22 A 10,10 0 0,1 22,12 Z"
+                    fill="none"
+                    stroke="rgba(197, 161, 90, 0.45)"
+                    strokeWidth="1.2"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
+
                 {/* Faded Watermark behind the logo content */}
                 <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
 
