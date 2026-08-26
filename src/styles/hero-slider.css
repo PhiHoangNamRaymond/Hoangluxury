@@ -165,39 +165,41 @@
 
 @media (max-width: 960px) {
   .hlt-hero {
-    min-height: clamp(620px, 94svh, 720px) !important;
-    padding: 74px 10px 18px !important;
-    background: #040d0b !important;
+    min-height: clamp(560px, 86svh, 650px) !important;
+    padding: 0 !important;
+    background: #06110f !important;
     display: flex !important;
     align-items: stretch !important;
     position: relative !important;
+    overflow: hidden !important;
   }
 
   .hlt-hero > .hlt-container {
     width: 100% !important;
-    padding: 0 !important;
+    max-width: 100% !important;
+    padding: 10px 10px 16px !important;
     display: flex !important;
     align-items: stretch !important;
+    box-sizing: border-box !important;
   }
 
   .hlt-hero-stage,
   .hlt-hero-slide,
   .hlt-hero-scrim {
-    inset: 74px 10px 18px !important;
-    border-radius: 16px !important;
-    overflow: hidden !important;
+    inset: 0 !important;
+    border-radius: 0 !important;
   }
 
   .hlt-hero-slide-image {
-    background-image: var(--slide-mobile-img, var(--slide-img)) !important;
-    background-position: 80% bottom !important;
-    background-size: cover !important;
+    background-image: var(--slide-img) !important;
+    background-size: auto 100% !important;
+    background-position: 62% center !important;
   }
 
   .hlt-hero-scrim {
     background:
-      linear-gradient(135deg, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0.45) 45%, transparent 72%),
-      linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%) !important;
+      linear-gradient(90deg, rgba(2, 8, 7, 0.78) 0%, rgba(2, 8, 7, 0.52) 48%, rgba(2, 8, 7, 0.1) 75%, transparent 100%),
+      linear-gradient(180deg, rgba(2, 8, 7, 0.6) 0%, transparent 30%, rgba(2, 8, 7, 0.4) 100%) !important;
   }
 
   .hlt-hero-arrow {
@@ -207,9 +209,9 @@
   .hlt-hero-frame {
     position: relative !important;
     width: 100% !important;
-    border: 1.2px solid rgba(197, 161, 90, 0.46) !important;
-    border-radius: 16px !important;
-    padding: 24px 18px 22px !important;
+    border: 1.2px solid rgba(197, 161, 90, 0.45) !important;
+    border-radius: 14px !important;
+    padding: 72px 14px 18px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
@@ -220,39 +222,39 @@
   .hlt-hero-frame-corner {
     display: block !important;
     position: absolute !important;
-    width: 18px !important;
-    height: 18px !important;
+    width: 16px !important;
+    height: 16px !important;
     border: 1.5px solid #c5a15a !important;
     pointer-events: none !important;
   }
 
   .hlt-hero-frame-corner.top-left {
-    top: 5px;
-    left: 5px;
+    top: 4px;
+    left: 4px;
     border-right: none !important;
     border-bottom: none !important;
     border-top-left-radius: 4px !important;
   }
 
   .hlt-hero-frame-corner.top-right {
-    top: 5px;
-    right: 5px;
+    top: 4px;
+    right: 4px;
     border-left: none !important;
     border-bottom: none !important;
     border-top-right-radius: 4px !important;
   }
 
   .hlt-hero-frame-corner.bottom-left {
-    bottom: 5px;
-    left: 5px;
+    bottom: 4px;
+    left: 4px;
     border-right: none !important;
     border-top: none !important;
     border-bottom-left-radius: 4px !important;
   }
 
   .hlt-hero-frame-corner.bottom-right {
-    bottom: 5px;
-    right: 5px;
+    bottom: 4px;
+    right: 4px;
     border-left: none !important;
     border-top: none !important;
     border-bottom-right-radius: 4px !important;
@@ -266,11 +268,12 @@
     flex-direction: column !important;
     align-items: flex-start !important;
     text-align: left !important;
+    z-index: 7 !important;
   }
 
   .hlt-hero-kicker {
     display: block !important;
-    margin: 0 0 10px !important;
+    margin: 0 0 8px !important;
     font-family: "Cormorant", Georgia, serif !important;
     font-size: 9.5px !important;
     font-weight: 700 !important;
@@ -293,21 +296,21 @@
 
   .hlt-hero-title-white {
     display: block !important;
-    font-size: clamp(32px, 8.2vw, 40px) !important;
+    font-size: clamp(30px, 8vw, 38px) !important;
     color: #ffffff !important;
     line-height: 0.98 !important;
     letter-spacing: 0.04em !important;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6) !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
   }
 
   .hlt-hero-title-gold {
     display: block !important;
-    font-size: clamp(24px, 6.4vw, 30px) !important;
+    font-size: clamp(22px, 6.2vw, 28px) !important;
     color: #d4af37 !important;
     line-height: 1.08 !important;
     letter-spacing: 0.05em !important;
     margin-top: 2px !important;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6) !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
   }
 
   .hlt-hero-crown-divider {
@@ -315,7 +318,7 @@
     align-items: center !important;
     gap: 8px !important;
     margin: 10px 0 12px !important;
-    width: 120px !important;
+    width: 110px !important;
     color: #c5a15a !important;
   }
 
@@ -331,37 +334,37 @@
 
   .hlt-hero-crown-svg {
     width: 20px !important;
-    height: 15px !important;
+    height: 16px !important;
     color: #c5a15a !important;
     flex-shrink: 0 !important;
   }
 
   .hlt-hero-description {
-    margin: 0 0 20px !important;
-    max-width: 58% !important;
+    margin: 0 0 18px !important;
+    max-width: 56% !important;
     font-family: "Cormorant", Georgia, serif !important;
     font-size: 11.5px !important;
-    line-height: 1.4 !important;
-    color: rgba(255, 255, 255, 0.9) !important;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
+    line-height: 1.38 !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8) !important;
   }
 
   .hlt-hero .hlt-actions {
     display: flex !important;
     flex-direction: column !important;
-    gap: 10px !important;
+    gap: 8px !important;
     width: 100% !important;
-    max-width: 210px !important;
+    max-width: 200px !important;
     margin-top: 0 !important;
   }
 
   .hlt-hero .hlt-btn {
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 44px !important;
+    min-height: 42px !important;
     padding: 0 14px !important;
-    font-size: 12.5px !important;
-    border-radius: 8px !important;
+    font-size: 12px !important;
+    border-radius: 7px !important;
     justify-content: center !important;
     letter-spacing: 0.08em !important;
     font-family: "Cormorant", Georgia, serif !important;
@@ -370,7 +373,7 @@
   }
 
   .hlt-hero-dots {
-    bottom: 24px !important;
+    bottom: 20px !important;
     padding: 4px 10px !important;
     gap: 6px !important;
   }
