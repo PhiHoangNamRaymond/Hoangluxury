@@ -110,11 +110,22 @@ export default function Fleet() {
             </div>
 
             <a
-              className="hlt-route-cta hlt-route-cta-image"
-              href={catalogPageUrl}
+              className="hlt-route-cta hlt-route-cta-button"
+              href="/journeys/"
               aria-label="View All Routes"
             >
-              <img src={routeViewAllButtonUrl} alt="" />
+              <span className="hlt-route-cta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
+                  <path d="M12 4 L13.8 10.2 L20 12 L13.8 13.8 L12 20 L10.2 13.8 L4 12 L10.2 10.2 Z" fill="currentColor" />
+                </svg>
+              </span>
+              <span className="hlt-route-cta-label">VIEW ALL ROUTES</span>
+              <span className="hlt-route-cta-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </span>
             </a>
           </div>
         </div>
