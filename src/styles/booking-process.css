@@ -1019,21 +1019,19 @@
     display: block !important;
     position: relative;
     background: #081210 !important;
-    border: 1.2px solid rgba(197, 161, 90, 0.45);
-    border-radius: 16px;
-    padding: 32px 18px 26px;
+    border: 1.2px solid rgba(197, 161, 90, 0.45) !important;
+    border-radius: 16px !important;
+    padding: 32px 18px 26px !important;
     text-align: center;
     overflow: hidden;
-    max-width: 350px;
-    margin: 0 auto;
+    max-width: 350px !important;
+    margin: 24px auto 0 !important;
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
   }
 
-  .hlt-booking-showcase-footer.hlt-journey-cta {
-    background: #f5eee3 !important; /* Yellow/cream matching the general page background */
-    padding: 20px 16px 44px !important;
-    margin-top: 0 !important;
-    border-top: none !important;
+  .hlt-booking-showcase-footer.hlt-journey-cta,
+  section.hlt-booking-showcase-footer.hlt-journey-cta {
+    display: none !important;
   }
 }
 

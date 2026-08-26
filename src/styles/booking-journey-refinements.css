@@ -524,14 +524,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
   .hlt-journey-cta,
   section.hlt-booking-showcase-footer.hlt-journey-cta {
-    border: none !important;
-    border-top: none !important;
-    border-bottom: none !important;
-    background-color: #f5eee3 !important;
-    background-image: none !important;
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-    box-shadow: none !important;
+    display: none !important;
   }
 
   .hlt-booking-showcase::before,
