@@ -130,18 +130,21 @@
   z-index: 5;
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 13px;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 14px;
   transform: translateX(-50%);
-  border-radius: 22px;
-  background: rgba(6, 17, 15, .42);
+  border-radius: 20px;
+  background: rgba(6, 17, 15, .7);
+  border: 1px solid rgba(217, 177, 74, .4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
 
 .hlt-hero-dot {
-  width: 6.5px;
-  height: 6.5px;
+  width: 7px;
+  height: 7px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -155,8 +158,8 @@
 }
 
 .hlt-hero-dot.is-active {
-  width: 8.5px;
-  height: 8.5px;
+  width: 9px;
+  height: 9px;
   background: #d9b14a;
 }
 
@@ -186,11 +189,13 @@
   }
 
   .hlt-hero-content {
-    padding-bottom: 52px;
+    padding-bottom: 56px;
   }
 
   .hlt-hero-dots {
     bottom: 18px;
+    padding: 5px 12px;
+    gap: 7px;
   }
 }
 

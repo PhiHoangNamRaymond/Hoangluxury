@@ -10,7 +10,7 @@ export default function WhyChoose() {
           <p className="hlt-why-eyebrow">Why choose</p>
           <div className="hlt-why-eyebrow-line" aria-hidden="true" />
           <h2 id="why-title">
-            <span className="hlt-why-title-gold">Hoang<br />Luxury</span>
+            <span className="hlt-why-title-gold">Hoang<br className="hlt-why-br-desktop" /> Luxury</span>
             <span className="hlt-why-title-ink">Travel?</span>
           </h2>
           <div className="hlt-gold-line" />
