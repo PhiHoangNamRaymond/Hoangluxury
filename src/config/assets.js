@@ -59,12 +59,14 @@ import whyDriverIconUrl from "../../assets/why-icon-driver.png";
 import whyPricingIconUrl from "../../assets/why-icon-pricing.png";
 import whyVehicleIconUrl from "../../assets/why-icon-vehicle.png";
 import whyWhatsappIconUrl from "../../assets/why-icon-whatsapp.png";
+import footerFlourishDividerUrl from "../../assets/footer-flourish-divider.png";
 
 export {
   bookingProcessBackgroundUrl,
   catalogBackgroundUrl,
   catalogOpenBookUrl,
   curatedMountainDecorationUrl,
+  footerFlourishDividerUrl,
   heroBannerUrl,
   logoUrl,
   routeViewAllButtonUrl,

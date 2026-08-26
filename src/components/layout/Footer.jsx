@@ -1,5 +1,5 @@
 import React from "react";
-import { logoUrl, whatsappQrUrl } from "../../config/assets.js";
+import { footerFlourishDividerUrl, logoUrl, whatsappQrUrl } from "../../config/assets.js";
 import { catalogPageUrl, whatsappUrl } from "../../data.js";
 
 export default function Footer() {
@@ -172,20 +172,7 @@ export default function Footer() {
 
         {/* Bottom Flourish Ornament Divider + Privacy Policy */}
         <div className="hlt-footer-mobile-bottom">
-          <div className="hlt-footer-flourish-divider">
-            <span className="hlt-footer-flourish-line" />
-            <span className="hlt-footer-flourish-center">
-              <svg viewBox="0 0 72 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="hlt-footer-flourish-svg">
-                <path d="M36 1.5L39.2 8.5L36 15.5L32.8 8.5L36 1.5Z" fill="#c5a15a" />
-                <path d="M36 6.5C39.5 9 46 8 48 14C44 14 40 11.5 36 12.5C32 11.5 28 14 24 14C26 8 32.5 9 36 6.5Z" fill="#c5a15a" opacity="0.85" />
-                <path d="M48 14C51 14 54 12 52.5 9.5C51 7.5 48 8.8 48 11" stroke="#c5a15a" strokeWidth="1.2" strokeLinecap="round" />
-                <path d="M24 14C21 14 18 12 19.5 9.5C21 7.5 24 8.8 24 11" stroke="#c5a15a" strokeWidth="1.2" strokeLinecap="round" />
-                <path d="M54 13.5C58 13.5 64 12 66 8" stroke="#c5a15a" strokeWidth="1" strokeLinecap="round" opacity="0.7" />
-                <path d="M18 13.5C14 13.5 8 12 6 8" stroke="#c5a15a" strokeWidth="1" strokeLinecap="round" opacity="0.7" />
-              </svg>
-            </span>
-            <span className="hlt-footer-flourish-line" />
-          </div>
+          <img src={footerFlourishDividerUrl} alt="" className="hlt-footer-flourish-img" aria-hidden="true" />
 
           <div className="hlt-footer-mobile-legal">
             <a href="#privacy">Privacy Policy</a>
