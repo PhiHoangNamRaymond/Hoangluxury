@@ -88,7 +88,7 @@ export const heroSlideImages = {
 };
 
 export const heroSlideMobileImages = {
-  mountainDrive: heroMobileBannerUrl,
+  mountainDrive: heroBannerUrl,
 };
 
 export const experienceImages = [
