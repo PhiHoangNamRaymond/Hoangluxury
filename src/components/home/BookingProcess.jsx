@@ -64,10 +64,10 @@ function BookingRowIcon({ label }) {
 
 export default function BookingProcess() {
   const steps = [
-    ["whatsapp", "01. Contact Us", "Message us on WhatsApp. "],
-    ["calendar", "02. Plan Your Trip", "We'll help you choose the best vehicle and plan your journey."],
-    ["card", "03. Confirm Booking", "We confirm your trip details, the price, and your booking."],
-    ["car", "04. Enjoy Journey", "Our driver will be ready to welcome you for a safe and comfortable trip."],
+    ["whatsapp", "01. Contact Us", "Message us on WhatsApp.\nWe're here to answer your questions."],
+    ["calendar", "02. Plan Your Trip", "Share your travel details and preferences.\nWe'll design the perfect journey for you."],
+    ["card", "03. Confirm Booking", "Review your itinerary and price.\nConfirm your booking with ease."],
+    ["car", "04. Enjoy Your Journey", "Our professional driver will be ready to welcome you for a safe and comfortable trip."],
   ];
 
   return (
@@ -142,7 +142,6 @@ export default function BookingProcess() {
                     const displayLabel = label === "Customer Name" ? "Customer" : label;
                     // Replace pipe separator with dot and hyphen route with clean arrow
                     const displayValue = value
-
                       .replace(/\s*\|\s*/g, " • ")
                       .replace(/\s*-\s*Sapa/g, " → Sa Pa");
                     return (
@@ -171,13 +170,16 @@ export default function BookingProcess() {
           <h2 id="booking-process-title">Booking Process</h2>
           <div className="hlt-process-ornament" />
           <div className="hlt-process-steps">
+            <div className="hlt-process-connector-line" aria-hidden="true" />
             {steps.map(([icon, title, text]) => (
               <article className="hlt-process-step" key={title}>
                 <div className="hlt-process-icon">
                   <BookingProcessIcon type={icon} />
                 </div>
-                <h3>{title}</h3>
-                <p>{text}</p>
+                <div className="hlt-process-step-content">
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
               </article>
             ))}
           </div>

@@ -849,8 +849,111 @@
   }
 
   .hlt-process-panel h2 {
-    margin-bottom: 28px !important;
+    margin-bottom: 24px !important;
   }
+
+  .hlt-process-steps {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    position: relative !important;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .hlt-process-steps::before {
+    display: none !important;
+  }
+
+  .hlt-process-connector-line {
+    display: block !important;
+    position: absolute;
+    left: 27px;
+    top: 36px;
+    bottom: 36px;
+    width: 2px;
+    background: #c5a15a;
+    z-index: 0;
+  }
+
+  .hlt-process-step {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 20px !important;
+    text-align: left !important;
+    padding: 18px 0 !important;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid rgba(197, 161, 90, 0.2) !important;
+  }
+
+  .hlt-process-step:not(:last-child)::after {
+    display: none !important;
+  }
+
+  .hlt-process-step:last-child {
+    border-bottom: none !important;
+  }
+
+  .hlt-process-icon {
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    height: 54px !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #e3b64e, #b77c24) !important;
+    border: 1px solid rgba(242, 205, 107, 0.92) !important;
+    box-shadow: 0 4px 14px rgba(74, 49, 18, 0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+
+  .hlt-process-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+    stroke-width: 1.8 !important;
+    color: #1a160e !important;
+  }
+
+  .hlt-process-car-icon-img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .hlt-process-step-content {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .hlt-process-step-content h3 {
+    margin: 0 0 4px !important;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #30281f !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+    min-height: 0 !important;
+  }
+
+  .hlt-process-step-content p {
+    margin: 0 !important;
+    font-size: 13px !important;
+    color: #554838 !important;
+    line-height: 1.45 !important;
+    text-align: left !important;
+    max-width: none !important;
+    white-space: pre-line !important;
+  }
+}
+
+.hlt-process-connector-line {
+  display: none;
 }
 
 /* Redesigned Car Icon in Booking Process Step 4 */
@@ -859,4 +962,169 @@
   height: 32px;
   object-fit: contain;
   filter: brightness(0.12); /* Make it dark to match inline SVGs */
+}
+
+/* Ready For Your Journey CTA Card */
+.hlt-journey-cta {
+  background: transparent !important;
+  padding: 20px 0 40px !important;
+  margin-top: 0 !important;
+  border-top: none !important;
+}
+
+.hlt-journey-cta-card {
+  position: relative;
+  background: #081210;
+  border: 1.2px solid rgba(197, 161, 90, 0.45);
+  border-radius: 16px;
+  padding: 34px 22px 28px;
+  text-align: center;
+  overflow: hidden;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+.hlt-journey-watermark {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hlt-journey-cta-header {
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-journey-cta-header h3 {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 5.5vw, 30px);
+  font-weight: 700;
+  color: #dfb268;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  margin: 0 0 12px;
+}
+
+.hlt-journey-divider {
+  position: relative;
+  width: 140px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c5a15a, transparent);
+  margin: 12px auto 14px;
+}
+
+.hlt-journey-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 1px solid #081210;
+}
+
+.hlt-journey-cta-header p {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  margin: 0 0 22px;
+}
+
+.hlt-journey-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hlt-journey-btn-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, #dfb268, #b88628);
+  color: #1a140a !important;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 13px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(184, 134, 40, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hlt-journey-btn-whatsapp:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(184, 134, 40, 0.45);
+}
+
+.hlt-journey-whatsapp-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-journey-whatsapp-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.hlt-journey-btn-text {
+  flex: 1;
+  text-align: center;
+}
+
+.hlt-journey-chevron {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-journey-chevron svg {
+  width: 14px;
+  height: 14px;
+}
+
+.hlt-journey-btn-catalog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: rgba(8, 17, 16, 0.7);
+  border: 1px solid rgba(197, 161, 90, 0.55);
+  color: #c5a15a !important;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 13px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.hlt-journey-btn-catalog:hover {
+  background: rgba(197, 161, 90, 0.12);
+  border-color: #c5a15a;
+}
+
+.hlt-journey-btn-catalog .hlt-journey-chevron {
+  position: absolute;
+  right: 18px;
 }
