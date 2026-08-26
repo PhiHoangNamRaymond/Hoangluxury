@@ -185,8 +185,12 @@
     background: linear-gradient(180deg, rgba(0, 0, 0, .04) 24%, rgba(2, 10, 9, .22) 43%, #06110f 76%, #06110f 100%);
   }
 
+  .hlt-hero-content {
+    padding-bottom: 52px;
+  }
+
   .hlt-hero-dots {
-    bottom: 14px;
+    bottom: 18px;
   }
 }
 
