@@ -1121,3 +1121,283 @@
   }
 
 }
+
+/* Footer Desktop vs Mobile View */
+.hlt-footer-desktop-view {
+  display: grid;
+}
+
+.hlt-footer-mobile-view {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .hlt-footer-desktop-view {
+    display: none !important;
+  }
+
+  .hlt-footer.hlt-footer-compact {
+    background: #081210 !important;
+    border-top: 1px solid rgba(197, 161, 90, 0.45) !important;
+    padding: 36px 0 28px !important;
+  }
+
+  .hlt-footer-mobile-view {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 360px !important;
+    margin: 0 auto !important;
+    padding: 0 16px !important;
+  }
+
+  /* Top Card: Brand + QR */
+  .hlt-footer-mobile-card {
+    position: relative;
+    background: rgba(10, 22, 19, 0.7);
+    border: 1px solid rgba(197, 161, 90, 0.42);
+    border-radius: 12px;
+    padding: 16px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .hlt-footer-mobile-card-brand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hlt-footer-mobile-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .hlt-footer-mobile-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .hlt-footer-mobile-brand-text strong {
+    display: block;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #d4af37;
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .hlt-footer-mobile-brand-text span {
+    display: block;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 8.5px;
+    color: #c5a15a;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+
+  .hlt-footer-mobile-tagline {
+    margin: 0;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 11px;
+    color: #a89f91;
+    line-height: 1.35;
+  }
+
+  .hlt-footer-mobile-card-divider {
+    position: relative;
+    width: 1px;
+    height: 78px;
+    background: rgba(197, 161, 90, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .hlt-footer-mobile-card-diamond {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #c5a15a;
+    transform: rotate(45deg);
+  }
+
+  .hlt-footer-mobile-card-qr {
+    flex-shrink: 0;
+  }
+
+  .hlt-footer-mobile-qr-box {
+    border: 1px solid rgba(197, 161, 90, 0.45);
+    border-radius: 8px;
+    padding: 6px 8px 4px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .hlt-footer-mobile-qr-box img {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto;
+    background: #fff;
+    padding: 2px;
+  }
+
+  .hlt-footer-mobile-qr-box p {
+    margin: 4px 0 0;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 10px;
+    color: #c5a15a;
+    letter-spacing: 0.05em;
+  }
+
+  /* Contact Us Section */
+  .hlt-footer-mobile-contact-section {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .hlt-footer-mobile-contact-title {
+    margin: 0;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #d4af37;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .hlt-footer-mobile-title-divider {
+    position: relative;
+    width: 140px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 161, 90, 0.65), transparent);
+    margin: 8px auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlt-footer-mobile-title-diamond {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #c5a15a;
+    transform: rotate(45deg);
+  }
+
+  .hlt-footer-mobile-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .hlt-footer-mobile-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: #ded3c1;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 15px;
+    transition: color 0.2s ease;
+  }
+
+  .hlt-footer-mobile-contact-item:hover {
+    color: #f1d39a;
+  }
+
+  .hlt-footer-mobile-icon-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(197, 161, 90, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    flex-shrink: 0;
+    background: rgba(197, 161, 90, 0.04);
+  }
+
+  .hlt-footer-mobile-icon-circle svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* Bottom Flourish Ornament & Legal */
+  .hlt-footer-mobile-bottom {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .hlt-footer-flourish-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .hlt-footer-flourish-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 161, 90, 0.45));
+  }
+
+  .hlt-footer-flourish-line:last-child {
+    background: linear-gradient(90deg, rgba(197, 161, 90, 0.45), transparent);
+  }
+
+  .hlt-footer-flourish-center {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlt-footer-flourish-svg {
+    width: 68px;
+    height: 18px;
+    display: block;
+  }
+
+  .hlt-footer-mobile-legal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 13px;
+    color: #9c9182;
+  }
+
+  .hlt-footer-mobile-legal a {
+    color: #9c9182;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .hlt-footer-mobile-legal a:hover {
+    color: #d4af37;
+  }
+
+  .hlt-footer-mobile-legal-separator {
+    color: rgba(197, 161, 90, 0.4);
+    font-size: 11px;
+  }
+}
