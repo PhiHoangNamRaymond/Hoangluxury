@@ -83,6 +83,20 @@ export default function BookingProcess() {
     >
       <div className="hlt-container hlt-booking-showcase-main">
         <div className="hlt-showcase-ticket-wrap">
+          <div className="hlt-showcase-confirm-header">
+            <div className="hlt-showcase-confirm-line-top">
+              <span className="hlt-showcase-confirm-diamond" />
+            </div>
+            <h2>Journey Confirmed</h2>
+            <div className="hlt-showcase-confirm-line-bottom">
+              <span className="hlt-showcase-confirm-diamond" />
+            </div>
+            <p>
+              Thank you for choosing Hoang Luxury Travel.
+              <br />
+              Your booking has been successfully confirmed.
+            </p>
+          </div>
           <article className="hlt-showcase-ticket" aria-label="Booking confirmation">
             <div className="hlt-showcase-ticket-content">
               {/* Left Column: Brand & Booking ID */}

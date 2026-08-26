@@ -699,3 +699,49 @@
     font-size: 10.5px;
   }
 }
+
+/* Journey Confirmed Header Above Ticket */
+.hlt-showcase-confirm-header {
+  text-align: center;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.hlt-showcase-confirm-header h2 {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 5.5vw, 44px);
+  font-weight: 700;
+  color: #0d1715;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 12px auto;
+  line-height: 1.1;
+}
+
+.hlt-showcase-confirm-header p {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(14px, 2.5vw, 17px);
+  color: #4a4a4a;
+  line-height: 1.5;
+  margin: 16px auto 0;
+  max-width: 480px;
+}
+
+.hlt-showcase-confirm-line-top,
+.hlt-showcase-confirm-line-bottom {
+  position: relative;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c5a15a, transparent);
+  margin: 0 auto;
+}
+
+.hlt-showcase-confirm-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
