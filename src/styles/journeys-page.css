@@ -641,15 +641,105 @@
 @media (max-width: 640px) {
   .hlt-journeys-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
   .hlt-journeys-guarantees {
     grid-template-columns: 1fr;
     padding: 18px 16px;
+    gap: 10px 0;
   }
   .hlt-journeys-guarantee-item + .hlt-journeys-guarantee-item {
     border-left: none;
     border-top: 1px solid rgba(197, 161, 90, 0.25);
     padding-left: 0;
     padding-top: 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .hlt-journeys-main {
+    padding-top: calc(clamp(68px, 14vw, 80px) + 16px);
+  }
+
+  .hlt-journeys-header {
+    margin-bottom: 20px;
+  }
+
+  .hlt-journeys-title {
+    font-size: clamp(26px, 7.5vw, 36px);
+    white-space: normal;
+  }
+
+  .hlt-journeys-lead {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .hlt-jcard-media {
+    aspect-ratio: 16 / 12.5;
+  }
+
+  .hlt-jcard-overlay {
+    padding: 16px 14px 70px;
+  }
+
+  .hlt-jcard-overlay h2 {
+    font-size: 20px;
+  }
+
+  .hlt-jcard-stats {
+    padding: 6px 6px;
+  }
+
+  .hlt-jcard-stat-label {
+    font-size: 7.5px;
+    gap: 2px;
+  }
+
+  .hlt-jcard-stat-label svg {
+    width: 8px;
+    height: 8px;
+  }
+
+  .hlt-jcard-stat-val {
+    font-size: 8.5px;
+    line-height: 1.15;
+  }
+
+  .hlt-jcard-stat-sub {
+    font-size: 7px;
+  }
+
+  .hlt-jcard-body {
+    padding: 14px 12px 12px;
+  }
+
+  .hlt-jcard-place {
+    font-size: 13px;
+  }
+
+  .hlt-jcard-note {
+    font-size: 10px;
+  }
+
+  .hlt-jcard-actions {
+    gap: 8px;
+  }
+
+  .hlt-jbtn-action {
+    height: 38px;
+    font-size: 9.5px;
+    padding: 0 6px;
+    gap: 5px;
+  }
+
+  .hlt-jbtn-action svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hlt-jbtn-stars {
+    font-size: 9px;
+    letter-spacing: .08em;
   }
 }
