@@ -159,15 +159,43 @@ export default function Hero() {
       <div className="hlt-hero-scrim" aria-hidden="true" />
 
       <div className="hlt-container">
+        {/* Scalloped concave corner frame overlay for mobile */}
+        <div className="hlt-hero-mobile-frame" aria-hidden="true">
+          <svg
+            className="hlt-hero-scallop-svg"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <path
+              d="M 0,6 A 6,6 0 0,1 6,0 L 94,0 A 6,6 0 0,1 100,6 L 100,94 A 6,6 0 0,1 94,100 L 6,100 A 6,6 0 0,1 0,94 Z"
+              stroke="rgba(197, 161, 90, 0.55)"
+              strokeWidth="0.6"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </div>
+
         <div className="hlt-hero-content">
-          <h1>
-            <span className="hlt-hero-title-line">Private Luxury</span>
-            <span>Car Transfer</span>
+          <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
+          <h1 className="hlt-hero-title">
+            <span className="hlt-hero-title-white">PRIVATE</span>
+            <span className="hlt-hero-title-white">LUXURY</span>
+            <span className="hlt-hero-title-gold">CAR TRANSFER</span>
           </h1>
-          <p>
-            Luxury private car services for international travelers across Northern Vietnam, specializing
-            in airport transfers, long-distance travel, and personalized journeys.
+
+          <div className="hlt-hero-crown-divider" aria-hidden="true">
+            <span className="hlt-hero-crown-line" />
+            <svg viewBox="0 0 20 14" fill="currentColor" className="hlt-hero-crown-svg">
+              <path d="M1 11.5h18v1.8H1v-1.8zm1.2-2.5l2.4-5.8 3.8 3.2 2.6-4.8 2.6 4.8 3.8-3.2 2.4 5.8H2.2z" />
+            </svg>
+            <span className="hlt-hero-crown-line" />
+          </div>
+
+          <p className="hlt-hero-desc">
+            Premium private car services across Northern Vietnam. From airport transfers to long-distance journeys, we deliver comfort, discretion, and punctuality at every mile.
           </p>
+
           <div className="hlt-actions">
             <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <span className="hlt-hero-whatsapp-icon" aria-hidden="true">
