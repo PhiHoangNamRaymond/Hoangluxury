@@ -235,7 +235,7 @@
 
   .hlt-hero-title-white {
     display: block !important;
-    font-size: clamp(28px, 7.8vw, 36px) !important;
+    font-size: clamp(24px, 6.6vw, 30px) !important;
     color: #ffffff !important;
     line-height: 0.98 !important;
     letter-spacing: 0.04em !important;
@@ -244,7 +244,7 @@
 
   .hlt-hero-title-gold {
     display: block !important;
-    font-size: clamp(28px, 7.8vw, 36px) !important;
+    font-size: clamp(24px, 6.6vw, 30px) !important;
     color: #d4af37 !important;
     line-height: 0.98 !important;
     letter-spacing: 0.04em !important;
@@ -288,19 +288,19 @@
   .hlt-hero .hlt-actions {
     display: flex !important;
     flex-direction: column !important;
-    gap: 8px !important;
+    gap: 7px !important;
     width: 100% !important;
-    max-width: 230px !important;
+    max-width: 210px !important;
     margin-top: 0 !important;
   }
 
   .hlt-hero .hlt-btn {
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 40px !important;
-    padding: 0 16px !important;
-    font-size: 11px !important;
-    border-radius: 7px !important;
+    min-height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 10px !important;
+    border-radius: 6px !important;
     justify-content: center !important;
     letter-spacing: 0.1em !important;
     font-family: "Cormorant", Georgia, serif !important;
