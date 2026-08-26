@@ -66,22 +66,22 @@ export const whyItems = [
   {
     icon: "driver",
     title: "Privacy & Professionalism",
-    text: "Your privacy is our top priority. Our friendly and professional drivers ensure a safe, comfortable, and private journey.",
+    text: "Discreet, courteous service with experienced professional drivers.",
   },
   {
     icon: "car",
-    title: "Customized VIP Service",
-    text: "We plan a personalized itinerary, provide useful travel information and local tips for each destination, and assist with restaurant and attraction reservations.",
+    title: "Personalized Service",
+    text: "Tailored routes and thoughtful assistance around your travel plans.",
   },
   {
     icon: "whatsapp",
     title: "24/7 WhatsApp Support",
-    text: "We're available on WhatsApp 24/7 to answer your questions and assist with any requests during your trip.",
+    text: "Direct support before, during and after your journey.",
   },
   {
     icon: "price",
-    title: "Flexible Payment Methods",
-    text: "We offer a variety of convenient payment options, including cash and credit cards. Currency exchange assistance is available if needed.",
+    title: "Flexible Payment",
+    text: "Convenient payment options with clear, transparent pricing.",
   },
 ];
 

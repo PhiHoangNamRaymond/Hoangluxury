@@ -189,51 +189,54 @@
 
 @media (max-width: 640px) {
   .hlt-why {
-    padding: 48px 0 24px;
+    padding: 38px 0 28px;
   }
 
   .hlt-why > .hlt-container {
-    width: calc(100% - 32px);
+    width: min(100% - 28px, 440px);
   }
 
   .hlt-why-layout {
-    gap: 18px;
+    gap: 22px;
   }
 
   .hlt-why-intro .hlt-why-eyebrow {
     display: block;
-    font-size: 11px;
-    letter-spacing: .2em;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #17242a;
   }
 
   .hlt-why-eyebrow-line {
-    width: 38px;
-    margin: 9px auto 12px;
+    width: 44px;
+    height: 2px;
+    margin: 10px auto 14px;
+    background: #c5a15a;
   }
 
   .hlt-why-intro h2 {
-    font-size: clamp(23px, 6.8vw, 32px);
-    line-height: 1.15;
-    letter-spacing: .04em;
-    white-space: nowrap;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 8.2vw, 38px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #c5a15a;
     text-align: center;
     margin: 0 auto;
   }
 
   .hlt-why-intro h2 .hlt-why-title-gold,
   .hlt-why-intro h2 .hlt-why-title-ink {
-    display: inline;
+    display: block;
+    color: #c5a15a;
     margin: 0;
   }
 
-  .hlt-why-intro h2 .hlt-why-title-gold .hlt-why-br-desktop,
-  .hlt-why-intro h2 .hlt-why-title-gold br {
-    display: none;
-  }
-
   .hlt-why-intro h2 .hlt-why-title-ink {
-    color: #b68a38;
-    margin-left: 6px;
+    margin-top: 2px;
   }
 
   .hlt-why-intro > .hlt-gold-line,
@@ -243,38 +246,58 @@
 
   .hlt-why-cards {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 12px;
   }
 
   .hlt-why-card {
     min-height: 0;
-    padding: 12px 16px 12px 20px;
-    display: grid;
-    grid-template-columns: 70px minmax(0, 1fr);
-    column-gap: 18px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    border-radius: 9px;
-    background: rgba(255, 253, 249, .82);
-    box-shadow: 0 5px 14px rgba(84, 62, 29, .1);
-  }
-
-  .hlt-why-card .hlt-icon,
-  .hlt-why-card .hlt-icon img {
-    width: 64px;
-    height: 64px;
+    gap: 18px;
+    border: 1.5px solid rgba(197, 161, 90, .35);
+    border-radius: 14px;
+    background: #fffcf7;
+    box-shadow: 0 4px 16px rgba(84, 62, 29, .06);
   }
 
   .hlt-why-card .hlt-icon {
-    grid-row: 1 / span 2;
+    flex: none;
+    width: 60px;
+    height: 60px;
     margin: 0;
+    border-radius: 50%;
+    background: #faf5ed;
+    border: 1.5px solid rgba(197, 161, 90, .45);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .05);
+    display: grid;
+    place-items: center;
+  }
+
+  .hlt-why-card .hlt-icon img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border: none;
+    box-shadow: none;
+  }
+
+  .hlt-why-card-content {
+    flex: 1;
+    min-width: 0;
   }
 
   .hlt-why-card h3 {
     min-height: 0;
-    margin: 0 0 2px;
-    font-size: clamp(19px, 5.2vw, 22px);
-    line-height: 1.05;
+    margin: 0 0 4px;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: clamp(17px, 4.6vw, 20px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #112841;
     text-align: left;
+    display: block;
   }
 
   .hlt-why-card-line {
@@ -282,9 +305,10 @@
   }
 
   .hlt-why-card p {
-    grid-column: 2;
+    margin: 0;
     font-size: 12px;
-    line-height: 1.32;
+    line-height: 1.45;
+    color: #555555;
     text-align: left;
   }
 }
