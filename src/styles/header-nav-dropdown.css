@@ -143,14 +143,14 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 78%;
-  max-width: 310px;
+  width: 66%;
+  max-width: 255px;
   background: linear-gradient(180deg, #071512 0%, #050d0b 45%, #020605 100%);
   border-left: 1px solid rgba(197, 161, 90, 0.45);
-  border-top-left-radius: 28px;
+  border-top-left-radius: 26px;
   border-bottom-left-radius: 0;
   z-index: 9999;
-  padding: 26px 24px 28px;
+  padding: 20px 18px 22px;
   display: flex;
   flex-direction: column;
   box-shadow: -12px 0 40px rgba(0, 0, 0, 0.7);
@@ -182,30 +182,30 @@
 }
 
 .hlt-mobile-drawer-close svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .hlt-mobile-drawer-header {
-  margin-top: 8px;
-  margin-bottom: 22px;
+  margin-top: 4px;
+  margin-bottom: 16px;
 }
 
 .hlt-mobile-drawer-title {
   display: block;
   font-family: "Cormorant", Georgia, serif;
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #c5a15a;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.28em;
   line-height: 1;
 }
 
 .hlt-mobile-drawer-title-line {
-  width: 36px;
+  width: 32px;
   height: 1.5px;
   background: #c5a15a;
-  margin-top: 6px;
+  margin-top: 5px;
 }
 
 .hlt-mobile-drawer-nav {
@@ -218,11 +218,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding: 13px 0;
+  padding: 10.5px 0;
   border-bottom: 1px solid rgba(197, 161, 90, 0.12);
   text-decoration: none;
   font-family: "Cormorant", Georgia, serif;
-  font-size: 19px;
+  font-size: 17.5px;
   font-weight: 600;
   color: #ded3c1;
   transition: color 0.2s ease;
@@ -236,23 +236,23 @@
 .hlt-mobile-nav-active-bar {
   display: inline-block;
   width: 2px;
-  height: 18px;
+  height: 16px;
   background: #d4af37;
-  margin-right: 8px;
+  margin-right: 7px;
   border-radius: 1px;
 }
 
 .hlt-mobile-drawer-footer {
   margin-top: auto;
-  padding-top: 24px;
+  padding-top: 18px;
   text-align: center;
 }
 
 .hlt-mobile-drawer-watermark {
-  width: 92px;
-  height: 92px;
+  width: 76px;
+  height: 76px;
   object-fit: contain;
-  margin: 0 auto 10px;
+  margin: 0 auto 8px;
   display: block;
   opacity: 0.15;
   filter: brightness(1.2);
@@ -262,7 +262,7 @@
 .hlt-mobile-drawer-slogan {
   margin: 0;
   font-family: "Cormorant", Georgia, serif;
-  font-size: 8.5px;
+  font-size: 8px;
   letter-spacing: 0.22em;
   color: #c5a15a;
   text-transform: uppercase;
