@@ -773,6 +773,10 @@
   .hlt-showcase-divider-horizontal-separate {
     display: block !important;
   }
+
+  .hlt-process-ornament {
+    display: none !important;
+  }
 }
 
 /* Redesigned Car Icon in Booking Process Step 4 */
