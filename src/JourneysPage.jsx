@@ -2,14 +2,14 @@ import React from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import { whatsappUrl, catalogPageUrl } from "./data.js";
-import { routeArtwork, whyVehicleIconUrl, whyWhatsappIconUrl } from "./config/assets.js";
+import { journeyCardImages, whyVehicleIconUrl, whyWhatsappIconUrl } from "./config/assets.js";
 
 const allRoutesData = [
   {
     num: "01",
     name: "SA PA",
     slug: "sapa",
-    image: routeArtwork[0],
+    image: journeyCardImages[0],
     routeLine: "Hanoi → Sa Pa",
     approxTime: "approx. 5-6 hrs",
     time: "5-6 Hours",
@@ -22,7 +22,7 @@ const allRoutesData = [
     num: "02",
     name: "HA LONG",
     slug: "ha-long",
-    image: routeArtwork[1],
+    image: journeyCardImages[1],
     routeLine: "Hanoi → Ha Long",
     approxTime: "approx. 2.5-3 hrs",
     time: "2.5-3.0 Hours",
@@ -35,7 +35,7 @@ const allRoutesData = [
     num: "03",
     name: "NINH BINH",
     slug: "ninh-binh",
-    image: routeArtwork[2],
+    image: journeyCardImages[2],
     routeLine: "Hanoi → Ninh Binh",
     approxTime: "approx. 1.5-2 hrs",
     time: "1.5-2.0 Hours",
@@ -48,7 +48,7 @@ const allRoutesData = [
     num: "04",
     name: "HA GIANG",
     slug: "ha-giang",
-    image: routeArtwork[3],
+    image: journeyCardImages[3],
     routeLine: "Hanoi → Ha Giang",
     approxTime: "approx. 6-7 hrs",
     time: "6.0-7.0 Hours",
@@ -61,7 +61,7 @@ const allRoutesData = [
     num: "05",
     name: "CAT BA",
     slug: "cat-ba",
-    image: routeArtwork[4],
+    image: journeyCardImages[4],
     routeLine: "Hanoi → Cat Ba",
     approxTime: "approx. 3.5-4 hrs",
     time: "3.5-4.0 Hours",
@@ -74,7 +74,7 @@ const allRoutesData = [
     num: "06",
     name: "CAO BANG",
     slug: "cao-bang",
-    image: routeArtwork[5],
+    image: journeyCardImages[5],
     routeLine: "Hanoi → Cao Bang",
     approxTime: "approx. 6-7 hrs",
     time: "6.0-7.0 Hours",
@@ -87,7 +87,7 @@ const allRoutesData = [
     num: "07",
     name: "MU CANG CHAI",
     slug: "mu-cang-chai",
-    image: routeArtwork[6],
+    image: journeyCardImages[6],
     routeLine: "Hanoi → Mu Cang Chai",
     approxTime: "approx. 6.5-7.5 hrs",
     time: "6.5-7.5 Hours",
@@ -100,7 +100,7 @@ const allRoutesData = [
     num: "08",
     name: "MOC CHAU",
     slug: "moc-chau",
-    image: routeArtwork[7],
+    image: journeyCardImages[7],
     routeLine: "Hanoi → Moc Chau",
     approxTime: "approx. 4-4.5 hrs",
     time: "4.0-4.5 Hours",
@@ -113,7 +113,7 @@ const allRoutesData = [
     num: "09",
     name: "TA XUA",
     slug: "ta-xua",
-    image: routeArtwork[8],
+    image: journeyCardImages[8],
     routeLine: "Hanoi → Ta Xua",
     approxTime: "approx. 4.5-5.5 hrs",
     time: "4.5-5.5 Hours",

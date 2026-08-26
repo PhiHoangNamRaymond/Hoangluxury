@@ -18,15 +18,28 @@ import heroOperationsCenterUrl from "../../assets/hero-operations-center-2026.pn
 import heroReceptionLobbyUrl from "../../assets/hero-reception-lobby-2026.png";
 import heroMobileBannerUrl from "../../assets/home-banner-mobile-2026.webp";
 import logoUrl from "../../assets/hoang-luxury-logo-crown-2026.png";
-import routeCaoBangArtUrl from "../../assets/Cao bang.png";
-import routeCatBaArtUrl from "../../assets/Cat ba.png";
-import routeHaGiangArtUrl from "../../assets/Ha giang.png";
-import routeHaLongArtUrl from "../../assets/Ha long.png";
-import routeMocChauArtUrl from "../../assets/Moc chau.png";
-import routeMuCangChaiArtUrl from "../../assets/Mu Cang Chai.png";
-import routeNinhBinhArtUrl from "../../assets/Ninh Binh.png";
-import routeSaPaArtUrl from "../../assets/Sapa2.png";
+
+/* Original Gold Sketch Icons for Homepage (Popular Transfer Routes) */
+import routeCaoBangArtUrl from "../../assets/route-art-cao-bang.webp";
+import routeCatBaArtUrl from "../../assets/route-art-cat-ba.webp";
+import routeHaGiangArtUrl from "../../assets/route-art-ha-giang.webp";
+import routeHaLongArtUrl from "../../assets/route-art-ha-long.webp";
+import routeMocChauArtUrl from "../../assets/route-art-moc-chau.webp";
+import routeMuCangChaiArtUrl from "../../assets/route-art-mu-cang-chai.webp";
+import routeNinhBinhArtUrl from "../../assets/route-art-ninh-binh.webp";
+import routeSaPaArtUrl from "../../assets/route-art-sa-pa.webp";
 import routeTaXuaArtUrl from "../../assets/route-art-ta-xua-custom.webp";
+
+/* Full Artwork Photos for Journeys Catalog Page (/journeys/) */
+import journeyCaoBangImgUrl from "../../assets/Cao bang.png";
+import journeyCatBaImgUrl from "../../assets/Cat ba.png";
+import journeyHaGiangImgUrl from "../../assets/Ha giang.png";
+import journeyHaLongImgUrl from "../../assets/Ha long.png";
+import journeyMocChauImgUrl from "../../assets/Moc chau.png";
+import journeyMuCangChaiImgUrl from "../../assets/Mu Cang Chai.png";
+import journeyNinhBinhImgUrl from "../../assets/Ninh Binh.png";
+import journeySaPaImgUrl from "../../assets/Sapa2.png";
+
 import routeViewAllButtonUrl from "../../assets/route-view-all-button-2026.webp";
 import serviceAirportUrl from "../../assets/service-airport-2026.webp";
 import serviceAirportIconUrl from "../../assets/service-icon-airport.webp";
@@ -153,6 +166,7 @@ export const whyIconImages = {
   price: whyPricingIconUrl,
 };
 
+/* 9 sketch icons for Homepage (Fleet.jsx / Curated Journeys) */
 export const routeArtwork = [
   routeSaPaArtUrl,
   routeHaLongArtUrl,
@@ -160,7 +174,20 @@ export const routeArtwork = [
   routeHaGiangArtUrl,
   routeCatBaArtUrl,
   routeCaoBangArtUrl,
-  routeMuCangChaiArtUrl,
   routeMocChauArtUrl,
+  routeMuCangChaiArtUrl,
+  routeTaXuaArtUrl,
+];
+
+/* 9 photo cards for Journeys catalog page (/journeys/) */
+export const journeyCardImages = [
+  journeySaPaImgUrl,
+  journeyHaLongImgUrl,
+  journeyNinhBinhImgUrl,
+  journeyHaGiangImgUrl,
+  journeyCatBaImgUrl,
+  journeyCaoBangImgUrl,
+  journeyMuCangChaiImgUrl,
+  journeyMocChauImgUrl,
   routeTaXuaArtUrl,
 ];
