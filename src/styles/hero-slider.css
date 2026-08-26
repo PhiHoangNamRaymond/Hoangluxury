@@ -165,8 +165,8 @@
 
 @media (max-width: 960px) {
   .hlt-hero {
-    min-height: clamp(580px, 92svh, 680px) !important;
-    padding: 12px 10px 18px !important;
+    min-height: clamp(620px, 94svh, 720px) !important;
+    padding: 74px 10px 18px !important;
     background: #040d0b !important;
     display: flex !important;
     align-items: stretch !important;
@@ -183,14 +183,14 @@
   .hlt-hero-stage,
   .hlt-hero-slide,
   .hlt-hero-scrim {
-    inset: 12px 10px 18px !important;
+    inset: 74px 10px 18px !important;
     border-radius: 16px !important;
     overflow: hidden !important;
   }
 
   .hlt-hero-slide-image {
     background-image: var(--slide-mobile-img, var(--slide-img)) !important;
-    background-position: 72% bottom !important;
+    background-position: 80% bottom !important;
     background-size: cover !important;
   }
 
