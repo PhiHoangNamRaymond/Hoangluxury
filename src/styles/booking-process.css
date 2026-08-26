@@ -840,8 +840,16 @@
 }
 
 @media (max-width: 960px) {
+  .hlt-booking-showcase-main {
+    gap: 16px !important;
+  }
+
   .hlt-showcase-divider-horizontal-separate {
-    display: block !important;
+    display: none !important;
+  }
+
+  .hlt-process-panel {
+    margin-top: 4px !important;
   }
 
   .hlt-process-ornament {
@@ -849,7 +857,7 @@
   }
 
   .hlt-process-panel h2 {
-    margin-bottom: 24px !important;
+    margin-bottom: 20px !important;
   }
 
   .hlt-process-steps {
@@ -871,8 +879,8 @@
     display: block !important;
     position: absolute;
     left: 25px;
-    top: 30px;
-    bottom: 30px;
+    top: 26px;
+    bottom: 26px;
     width: 1.5px;
     background: rgba(197, 161, 90, 0.65);
     z-index: 0;
@@ -884,14 +892,26 @@
     align-items: center !important;
     gap: 18px !important;
     text-align: left !important;
-    padding: 14px 0 !important;
+    padding: 12px 0 !important;
     position: relative;
     z-index: 1;
     border-bottom: none !important;
   }
 
   .hlt-process-step:not(:last-child)::after {
-    display: none !important;
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    left: 70px !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 1px !important;
+    background: rgba(197, 161, 90, 0.22) !important;
+    border: none !important;
+    width: auto !important;
+    top: auto !important;
+    transform: none !important;
+    border-radius: 0 !important;
   }
 
   .hlt-process-icon {
@@ -918,30 +938,27 @@
   }
 
   .hlt-process-car-icon-img {
-    width: 26px !important;
-    height: 26px !important;
+    width: 36px !important;
+    height: 36px !important;
+    object-fit: contain;
+    filter: brightness(0.12) !important;
   }
 
   .hlt-process-step-content {
     flex: 1;
     min-width: 0;
     text-align: left;
-    padding-bottom: 14px;
-    border-bottom: 1px solid rgba(197, 161, 90, 0.22);
-  }
-
-  .hlt-process-step:last-child .hlt-process-step-content {
+    padding: 0 !important;
     border-bottom: none !important;
-    padding-bottom: 0 !important;
   }
 
   .hlt-process-step-content h3 {
-    margin: 0 0 3px !important;
+    margin: 0 0 2px !important;
     font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
     font-size: 19px !important;
     font-weight: 700 !important;
     color: #2b2116 !important;
-    line-height: 1.2 !important;
+    line-height: 1.15 !important;
     text-align: left !important;
     min-height: 0 !important;
   }
@@ -951,7 +968,7 @@
     font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
     font-size: 14px !important;
     color: #4a3e30 !important;
-    line-height: 1.4 !important;
+    line-height: 1.35 !important;
     font-weight: 500 !important;
     text-align: left !important;
     max-width: none !important;
