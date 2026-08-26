@@ -1299,43 +1299,65 @@
   }
 
   .hlt-footer-mobile-contact-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    text-align: left;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    text-align: left !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
   }
 
   .hlt-footer-mobile-contact-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    text-decoration: none;
-    color: #ded3c1;
-    font-family: "Cormorant", Georgia, serif;
-    font-size: 15px;
-    transition: color 0.2s ease;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+    text-decoration: none !important;
+    color: #ded3c1 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 15px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transition: color 0.2s ease !important;
   }
 
   .hlt-footer-mobile-contact-item:hover {
-    color: #f1d39a;
+    color: #f1d39a !important;
+  }
+
+  .hlt-footer-mobile-contact-item span {
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 15px !important;
+    color: #ded3c1 !important;
+    line-height: 1.2 !important;
   }
 
   .hlt-footer-mobile-icon-circle {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1px solid rgba(197, 161, 90, 0.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #d4af37;
-    flex-shrink: 0;
-    background: rgba(197, 161, 90, 0.04);
+    width: 36px !important;
+    height: 36px !important;
+    flex: 0 0 36px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(197, 161, 90, 0.55) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #d4af37 !important;
+    flex-shrink: 0 !important;
+    background: rgba(197, 161, 90, 0.04) !important;
+    margin: 0 !important;
   }
 
   .hlt-footer-mobile-icon-circle svg {
-    width: 17px;
-    height: 17px;
+    width: 17px !important;
+    height: 17px !important;
+    display: block !important;
+    margin: 0 !important;
   }
 
   /* Bottom Flourish Ornament & Legal */
