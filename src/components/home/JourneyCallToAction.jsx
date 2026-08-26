@@ -9,11 +9,31 @@ export default function JourneyCallToAction() {
       aria-labelledby="journey-cta-title"
     >
       <div className="hlt-container">
-        <div className="hlt-journey-cta-card">
+        {/* Desktop View - Intact */}
+        <div className="hlt-journey-desktop-view">
+          <div>
+            <h3 id="journey-cta-title">Ready to start your journey?</h3>
+            <p>We are here to make your trip comfortable, safe and unforgettable.</p>
+          </div>
+          <div className="hlt-showcase-actions">
+            <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              Book via WhatsApp
+            </a>
+            <a
+              className="hlt-btn hlt-btn-outline"
+              href={catalogPageUrl}
+            >
+              View Catalog
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile View - Luxury Floating Dark Card on Yellow/Cream Section BG */}
+        <div className="hlt-journey-mobile-card">
           <img src={logoUrl} alt="" className="hlt-journey-watermark" aria-hidden="true" />
 
           <div className="hlt-journey-cta-header">
-            <h3 id="journey-cta-title">
+            <h3 id="journey-cta-title-mobile">
               Ready for your
               <br />
               journey?

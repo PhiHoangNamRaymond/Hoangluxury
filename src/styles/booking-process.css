@@ -857,8 +857,10 @@
     flex-direction: column !important;
     gap: 0 !important;
     position: relative !important;
-    max-width: 480px;
-    margin: 0 auto;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+    padding: 0 4px !important;
   }
 
   .hlt-process-steps::before {
@@ -868,11 +870,11 @@
   .hlt-process-connector-line {
     display: block !important;
     position: absolute;
-    left: 27px;
-    top: 36px;
-    bottom: 36px;
-    width: 2px;
-    background: #c5a15a;
+    left: 25px;
+    top: 30px;
+    bottom: 30px;
+    width: 1.5px;
+    background: rgba(197, 161, 90, 0.65);
     z-index: 0;
   }
 
@@ -880,31 +882,27 @@
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-    gap: 20px !important;
+    gap: 18px !important;
     text-align: left !important;
-    padding: 18px 0 !important;
+    padding: 14px 0 !important;
     position: relative;
     z-index: 1;
-    border-bottom: 1px solid rgba(197, 161, 90, 0.2) !important;
+    border-bottom: none !important;
   }
 
   .hlt-process-step:not(:last-child)::after {
     display: none !important;
   }
 
-  .hlt-process-step:last-child {
-    border-bottom: none !important;
-  }
-
   .hlt-process-icon {
-    flex: 0 0 54px !important;
-    width: 54px !important;
-    height: 54px !important;
+    flex: 0 0 52px !important;
+    width: 52px !important;
+    height: 52px !important;
     margin: 0 !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, #e3b64e, #b77c24) !important;
-    border: 1px solid rgba(242, 205, 107, 0.92) !important;
-    box-shadow: 0 4px 14px rgba(74, 49, 18, 0.2) !important;
+    background: radial-gradient(circle at 35% 35%, #e8ba5a, #b88326) !important;
+    border: 1px solid rgba(242, 205, 107, 0.95) !important;
+    box-shadow: 0 4px 12px rgba(184, 131, 38, 0.22) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -913,29 +911,36 @@
   }
 
   .hlt-process-icon svg {
-    width: 28px !important;
-    height: 28px !important;
-    stroke-width: 1.8 !important;
-    color: #1a160e !important;
+    width: 26px !important;
+    height: 26px !important;
+    stroke-width: 2 !important;
+    color: #1a140a !important;
   }
 
   .hlt-process-car-icon-img {
-    width: 28px !important;
-    height: 28px !important;
+    width: 26px !important;
+    height: 26px !important;
   }
 
   .hlt-process-step-content {
     flex: 1;
     min-width: 0;
     text-align: left;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(197, 161, 90, 0.22);
+  }
+
+  .hlt-process-step:last-child .hlt-process-step-content {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
   }
 
   .hlt-process-step-content h3 {
-    margin: 0 0 4px !important;
+    margin: 0 0 3px !important;
     font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
-    font-size: 20px !important;
+    font-size: 19px !important;
     font-weight: 700 !important;
-    color: #30281f !important;
+    color: #2b2116 !important;
     line-height: 1.2 !important;
     text-align: left !important;
     min-height: 0 !important;
@@ -943,9 +948,11 @@
 
   .hlt-process-step-content p {
     margin: 0 !important;
-    font-size: 13px !important;
-    color: #554838 !important;
-    line-height: 1.45 !important;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+    font-size: 14px !important;
+    color: #4a3e30 !important;
+    line-height: 1.4 !important;
+    font-weight: 500 !important;
     text-align: left !important;
     max-width: none !important;
     white-space: pre-line !important;
@@ -964,25 +971,43 @@
   filter: brightness(0.12); /* Make it dark to match inline SVGs */
 }
 
-/* Ready For Your Journey CTA Card */
-.hlt-journey-cta {
-  background: transparent !important;
-  padding: 20px 0 40px !important;
-  margin-top: 0 !important;
-  border-top: none !important;
+/* Ready For Your Journey CTA - Desktop vs Mobile */
+.hlt-journey-desktop-view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.hlt-journey-cta-card {
-  position: relative;
-  background: #081210;
-  border: 1.2px solid rgba(197, 161, 90, 0.45);
-  border-radius: 16px;
-  padding: 34px 22px 28px;
-  text-align: center;
-  overflow: hidden;
-  max-width: 500px;
-  margin: 0 auto;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+.hlt-journey-mobile-card {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .hlt-journey-desktop-view {
+    display: none !important;
+  }
+
+  .hlt-journey-mobile-card {
+    display: block !important;
+    position: relative;
+    background: #081210 !important;
+    border: 1.2px solid rgba(197, 161, 90, 0.45);
+    border-radius: 16px;
+    padding: 32px 18px 26px;
+    text-align: center;
+    overflow: hidden;
+    max-width: 350px;
+    margin: 0 auto;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  .hlt-booking-showcase-footer.hlt-journey-cta {
+    background: #f5eee3 !important; /* Yellow/cream matching the general page background */
+    padding: 20px 16px 44px !important;
+    margin-top: 0 !important;
+    border-top: none !important;
+  }
 }
 
 .hlt-journey-watermark {
@@ -1034,9 +1059,10 @@
 }
 
 .hlt-journey-cta-header p {
-  font-size: 13.5px;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.5;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 14.5px;
+  color: #ded6c9;
+  line-height: 1.45;
   margin: 0 0 22px;
 }
 

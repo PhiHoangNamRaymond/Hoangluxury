@@ -1021,52 +1021,6 @@
     font-size: 30px;
   }
 
-  .hlt-process-steps {
-    gap: 28px 12px;
-  }
-
-  .hlt-process-icon {
-    width: 58px;
-    height: 58px;
-    margin-bottom: 12px;
-  }
-
-  .hlt-process-icon svg {
-    width: 29px;
-    height: 29px;
-  }
-
-  .hlt-process-step h3 {
-    min-height: 31px;
-    font-size: 12px;
-  }
-
-  .hlt-process-step p {
-    max-width: 135px;
-    font-size: 9.5px;
-    line-height: 1.45;
-  }
-
-  .hlt-booking-showcase-footer {
-    margin-top: 38px;
-  }
-
-  .hlt-booking-showcase-footer > .hlt-container {
-    min-height: 285px;
-    padding: 58px 0 30px;
-    text-align: center;
-  }
-
-  .hlt-booking-showcase-footer h3 {
-    font-size: 27px;
-    line-height: .95;
-  }
-
-  .hlt-booking-showcase-footer p {
-    margin-inline: auto;
-    font-size: 12px;
-  }
-
   .hlt-footer.hlt-footer-compact {
     padding-top: 28px;
   }
