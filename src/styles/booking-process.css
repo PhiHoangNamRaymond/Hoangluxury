@@ -633,27 +633,69 @@
 
 @media (max-width: 768px) {
   .hlt-showcase-ticket-content {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .hlt-showcase-left {
-    flex: none;
-    width: 100%;
-    padding: 24px 16px;
+    flex: 0 0 38%;
+    padding: 18px 8px;
   }
 
-  .hlt-showcase-divider-vertical {
-    width: 100%;
-    height: 1px;
-    align-self: auto;
+  .hlt-showcase-crest {
+    width: 46px;
+    height: 46px;
   }
 
-  .hlt-showcase-divider-vertical-diamond {
-    left: 50%;
-    top: 50%;
+  .hlt-brand-hoang {
+    font-size: 14px;
+  }
+
+  .hlt-brand-sub {
+    font-size: 7.5px;
+  }
+
+  .hlt-showcase-divider-line {
+    width: 76px;
+    margin: 12px 0;
+  }
+
+  .hlt-showcase-id-label {
+    font-size: 9px;
+  }
+
+  .hlt-showcase-id-value {
+    font-size: 16px;
   }
 
   .hlt-showcase-right {
-    padding: 22px 18px 24px;
+    padding: 16px 12px 16px 10px;
+  }
+
+  .hlt-showcase-ticket-rows {
+    gap: 8px;
+  }
+
+  .hlt-showcase-ticket-row {
+    gap: 8px;
+    padding-bottom: 7px !important;
+  }
+
+  .hlt-showcase-row-icon-circle {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+  }
+
+  .hlt-showcase-row-icon-circle svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hlt-showcase-row-label {
+    font-size: 8.5px;
+  }
+
+  .hlt-showcase-row-value {
+    font-size: 10.5px;
   }
 }
