@@ -114,27 +114,158 @@
     display: none;
   }
 
-  /* Trả lại dáng link của panel mobile, vì rule desktop ở trên cùng độ
-     ưu tiên với `.hlt-nav a` nhưng nạp sau nên sẽ thắng. */
-  .hlt-nav-menu > a {
-    padding: 13px 16px;
-    border-bottom: 1px solid rgba(216, 168, 73, .12);
-    border-radius: 0;
-    font-size: .88em;
-    opacity: .82;
-  }
-
-  /* 6 mục gốc + các tuyến con, có thể dài hơn màn hình điện thoại nhỏ. */
-  .hlt-nav.is-open {
-    max-height: calc(100vh - 88px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
+  /* Hide old dropdown on mobile */
+  #primary-navigation.hlt-nav {
+    display: none !important;
   }
 }
 
-@media (max-width: 600px) {
-  .hlt-nav-menu > a {
-    padding: 11px 10px;
-    text-align: center;
-  }
+/* Mobile Navigation Drawer & Backdrop */
+.hlt-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hlt-nav-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hlt-mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 78%;
+  max-width: 310px;
+  background: linear-gradient(180deg, #071512 0%, #050d0b 45%, #020605 100%);
+  border-left: 1px solid rgba(197, 161, 90, 0.45);
+  border-top-left-radius: 28px;
+  border-bottom-left-radius: 0;
+  z-index: 9999;
+  padding: 26px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.7);
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+.hlt-mobile-drawer.is-open {
+  transform: translateX(0);
+}
+
+.hlt-mobile-drawer-close {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: #c5a15a;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.hlt-mobile-drawer-close:hover {
+  color: #f1d39a;
+  transform: scale(1.1);
+}
+
+.hlt-mobile-drawer-close svg {
+  width: 22px;
+  height: 22px;
+}
+
+.hlt-mobile-drawer-header {
+  margin-top: 8px;
+  margin-bottom: 22px;
+}
+
+.hlt-mobile-drawer-title {
+  display: block;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #c5a15a;
+  letter-spacing: 0.3em;
+  line-height: 1;
+}
+
+.hlt-mobile-drawer-title-line {
+  width: 36px;
+  height: 1.5px;
+  background: #c5a15a;
+  margin-top: 6px;
+}
+
+.hlt-mobile-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.hlt-mobile-nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(197, 161, 90, 0.12);
+  text-decoration: none;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #ded3c1;
+  transition: color 0.2s ease;
+}
+
+.hlt-mobile-nav-link:hover,
+.hlt-mobile-nav-link.is-active {
+  color: #d4af37;
+}
+
+.hlt-mobile-nav-active-bar {
+  display: inline-block;
+  width: 2px;
+  height: 18px;
+  background: #d4af37;
+  margin-right: 8px;
+  border-radius: 1px;
+}
+
+.hlt-mobile-drawer-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  text-align: center;
+}
+
+.hlt-mobile-drawer-watermark {
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  margin: 0 auto 10px;
+  display: block;
+  opacity: 0.15;
+  filter: brightness(1.2);
+  pointer-events: none;
+}
+
+.hlt-mobile-drawer-slogan {
+  margin: 0;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  color: #c5a15a;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
 }

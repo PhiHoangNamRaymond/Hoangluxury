@@ -224,7 +224,7 @@ export default function Header() {
             className="hlt-menu-toggle"
             type="button"
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-            aria-controls="primary-navigation"
+            aria-controls="mobile-navigation"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
           >
@@ -243,6 +243,69 @@ export default function Header() {
           </a>
         </div>
       </header>
+
+      {/* Mobile Drawer Backdrop */}
+      <div
+        className={`hlt-nav-backdrop${menuOpen ? " is-open" : ""}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+
+      {/* Mobile Slide Drawer */}
+      <aside
+        id="mobile-navigation"
+        className={`hlt-mobile-drawer${menuOpen ? " is-open" : ""}`}
+        aria-label="Mobile Navigation"
+      >
+        <button
+          className="hlt-mobile-drawer-close"
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => setMenuOpen(false)}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        <div className="hlt-mobile-drawer-header">
+          <span className="hlt-mobile-drawer-title">M E N U</span>
+          <div className="hlt-mobile-drawer-title-line" />
+        </div>
+
+        <nav className="hlt-mobile-drawer-nav">
+          {[
+            ["Home", "#home"],
+            ["Services", "#services"],
+            ["Fleet", "#fleet"],
+            ["Journeys", "/journeys/"],
+            ["Catalog", catalogPageUrl],
+            ["Booking", "/booking/"],
+            ["Contact", "#contact"],
+          ].map(([label, href]) => {
+            const resolvedHref = navigationHref(href);
+            const isActive = activeHref === href;
+            return (
+              <a
+                className={`hlt-mobile-nav-link${isActive ? " is-active" : ""}`}
+                href={resolvedHref}
+                key={label}
+                onClick={(event) => handleNavigation(event, href, resolvedHref)}
+              >
+                {isActive && <span className="hlt-mobile-nav-active-bar" />}
+                <span>{label}</span>
+              </a>
+            );
+          })}
+        </nav>
+
+        <div className="hlt-mobile-drawer-footer">
+          <img src={logoUrl} alt="" className="hlt-mobile-drawer-watermark" aria-hidden="true" />
+          <p className="hlt-mobile-drawer-slogan">LUXURY. COMFORT. TRUST.</p>
+        </div>
+      </aside>
+
       <BackToTop />
     </>
   );
