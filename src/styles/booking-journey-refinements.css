@@ -513,15 +513,29 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 }
 
 @media (max-width: 960px) {
+  .hlt-booking-showcase {
+    background-color: #f5eee3 !important;
+    background-image: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
   .hlt-journey-cta,
   section.hlt-booking-showcase-footer.hlt-journey-cta {
+    border: none !important;
     border-top: none !important;
-    background: #f5eee3 !important;
-    padding-top: 6px !important;
+    border-bottom: none !important;
+    background-color: #f5eee3 !important;
+    background-image: none !important;
+    padding-top: 0 !important;
     margin-top: 0 !important;
     box-shadow: none !important;
   }
 
+  .hlt-booking-showcase::before,
+  .hlt-booking-showcase::after,
   .hlt-journey-cta::before,
   .hlt-journey-cta::after,
   section.hlt-booking-showcase-footer.hlt-journey-cta::before,

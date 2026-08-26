@@ -840,6 +840,15 @@
 }
 
 @media (max-width: 960px) {
+  .hlt-booking-showcase {
+    background-color: #f5eee3 !important;
+    background-image: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
   .hlt-booking-showcase-main {
     gap: 16px !important;
   }
