@@ -250,32 +250,32 @@
 
 .hlt-mobile-drawer-footer {
   margin-top: auto;
-  padding-top: 14px;
-  padding-bottom: 2px;
+  padding-top: 28px;
+  padding-bottom: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  min-height: 175px;
+  justify-content: center;
   text-align: center;
+  width: 100%;
 }
 
 .hlt-mobile-drawer-watermark {
-  width: 108px;
-  height: 108px;
+  width: 124px;
+  height: 124px;
   object-fit: contain;
   margin: 0 auto;
   display: block;
-  opacity: 0.17;
-  filter: brightness(1.2);
+  opacity: 0.18;
+  filter: brightness(1.25);
   pointer-events: none;
 }
 
 .hlt-mobile-drawer-slogan {
-  margin: auto 0 0;
+  margin: 12px 0 0;
   font-family: "Cormorant", Georgia, serif;
-  font-size: 8px;
-  letter-spacing: 0.22em;
+  font-size: 8.5px;
+  letter-spacing: 0.24em;
   color: #c5a15a;
   text-transform: uppercase;
   font-weight: 700;
