@@ -164,7 +164,7 @@
     width: 100%;
     min-height: 0;
     display: grid;
-    grid-template-columns: 142px minmax(0, 1fr);
+    grid-template-columns: minmax(126px, 44%) minmax(0, 1fr);
     gap: 14px;
     align-items: center;
     padding: 10px;
@@ -176,7 +176,8 @@
 
   .hlt-service-media {
     width: 100%;
-    height: 98px;
+    height: auto;
+    aspect-ratio: 16 / 11;
     min-width: 0;
     border-radius: 8px;
     overflow: hidden;
@@ -185,13 +186,13 @@
   .hlt-service-image {
     width: 100%;
     height: 100%;
-    aspect-ratio: auto;
   }
 
   .hlt-service-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
     border-radius: 8px;
   }
@@ -212,24 +213,24 @@
   .hlt-service-icon.hlt-service-icon-mobile {
     position: static;
     transform: none;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
-    border-radius: 50%;
-    border: 1px solid #c5a15a;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border: none;
+    border-radius: 0;
     background: transparent;
     box-shadow: none;
     display: flex !important;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 6px;
     padding: 0;
   }
 
   .hlt-service-icon.hlt-service-icon-mobile img {
-    width: 17px;
-    height: 17px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 
