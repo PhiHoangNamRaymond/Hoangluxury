@@ -198,14 +198,15 @@
 
   .hlt-hero-slide-image {
     background-image: var(--slide-img) !important;
-    background-size: cover !important;
-    background-position: 72% center !important;
+    background-size: 135% auto !important;
+    background-position: right -15px bottom 0 !important;
+    background-repeat: no-repeat !important;
   }
 
   .hlt-hero-scrim {
     background:
-      linear-gradient(90deg, rgba(2, 8, 7, 0.78) 0%, rgba(2, 8, 7, 0.45) 50%, transparent 75%),
-      linear-gradient(180deg, rgba(2, 8, 7, 0.3) 0%, transparent 35%, rgba(2, 8, 7, 0.3) 100%) !important;
+      linear-gradient(90deg, #06110f 0%, rgba(6, 17, 15, 0.88) 42%, rgba(6, 17, 15, 0.25) 75%, transparent 100%),
+      linear-gradient(180deg, rgba(6, 17, 15, 0.5) 0%, transparent 35%, rgba(6, 17, 15, 0.6) 100%) !important;
   }
 
   .hlt-hero-arrow {
