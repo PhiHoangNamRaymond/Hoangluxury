@@ -115,9 +115,22 @@ export default function Fleet() {
               aria-label="View All Routes"
             >
               <span className="hlt-route-cta-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
-                  <path d="M12 4 L13.8 10.2 L20 12 L13.8 13.8 L12 20 L10.2 13.8 L4 12 L10.2 10.2 Z" fill="currentColor" />
+                <svg viewBox="0 0 32 32">
+                  <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                  {/* Diagonal smaller points */}
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(45 16 16)" />
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(135 16 16)" />
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(225 16 16)" />
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(315 16 16)" />
+                  {/* Main 4 points */}
+                  <polygon points="16,4 14.2,13.8 16,16" fill="currentColor" />
+                  <polygon points="16,4 17.8,13.8 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="16,28 14.2,18.2 16,16" fill="currentColor" />
+                  <polygon points="16,28 17.8,18.2 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="28,16 18.2,14.2 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="28,16 18.2,17.8 16,16" fill="currentColor" />
+                  <polygon points="4,16 13.8,14.2 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="4,16 13.8,17.8 16,16" fill="currentColor" />
                 </svg>
               </span>
               <span className="hlt-route-cta-label">VIEW ALL ROUTES</span>
