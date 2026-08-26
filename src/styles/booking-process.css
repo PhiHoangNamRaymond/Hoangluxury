@@ -845,11 +845,12 @@
   }
 
   .hlt-showcase-divider-horizontal-separate {
-    display: none !important;
+    display: block !important;
+    margin: 24px auto 16px !important;
   }
 
   .hlt-process-panel {
-    margin-top: 4px !important;
+    margin-top: 0 !important;
   }
 
   .hlt-process-ornament {

@@ -314,7 +314,6 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   }
 
   .hlt-showcase-ticket {
-    min-height: 378px;
     border: 2px solid rgba(197, 161, 90, .92);
     border-radius: 12px;
     background: linear-gradient(135deg, #0d1715, #13211d);
@@ -504,5 +503,24 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
   .hlt-showcase-ticket-row strong {
     font-size: 10.5px;
+  }
+}
+
+@media (max-width: 960px) {
+  .hlt-journey-cta,
+  section.hlt-booking-showcase-footer.hlt-journey-cta {
+    border-top: none !important;
+    background: #f5eee3 !important;
+    padding-top: 6px !important;
+    margin-top: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .hlt-journey-cta::before,
+  .hlt-journey-cta::after,
+  section.hlt-booking-showcase-footer.hlt-journey-cta::before,
+  section.hlt-booking-showcase-footer.hlt-journey-cta::after {
+    display: none !important;
+    content: none !important;
   }
 }
