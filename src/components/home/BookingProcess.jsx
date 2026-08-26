@@ -108,12 +108,13 @@ export default function BookingProcess() {
                   />
                 </svg>
 
-                {/* Faded Watermark behind the logo content */}
-                <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
-
                 <div className="hlt-showcase-left-inner">
                   <div className="hlt-showcase-crest-wrap">
-                    <img src={logoUrl} alt="" className="hlt-showcase-crest" />
+                    <div className="hlt-showcase-crest-box">
+                      {/* Faded Watermark centered directly behind the crest logo */}
+                      <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
+                      <img src={logoUrl} alt="" className="hlt-showcase-crest" />
+                    </div>
                     <h4 className="hlt-showcase-brand-text">
                       <span className="hlt-brand-hoang">HOANG</span>
                       <span className="hlt-brand-sub">LUXURY TRAVEL</span>
