@@ -197,7 +197,7 @@
   .hlt-hero-slide-image {
     background-image: var(--slide-img) !important;
     background-size: cover !important;
-    background-position: 72% center !important;
+    background-position: right center !important;
   }
 
   .hlt-hero-scrim {
