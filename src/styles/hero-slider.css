@@ -164,42 +164,48 @@
 }
 
 @media (max-width: 960px) {
+  .hlt-header {
+    position: relative !important;
+    background: #06110f !important;
+    border-bottom: 1px solid rgba(197, 161, 90, 0.15) !important;
+  }
+
   .hlt-hero {
-    min-height: clamp(560px, 86svh, 650px) !important;
-    padding: 0 !important;
+    min-height: clamp(520px, 78svh, 580px) !important;
+    padding: 10px 12px 16px !important;
     background: #06110f !important;
     display: flex !important;
     align-items: stretch !important;
     position: relative !important;
-    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .hlt-hero > .hlt-container {
     width: 100% !important;
     max-width: 100% !important;
-    padding: 10px 10px 16px !important;
+    padding: 0 !important;
     display: flex !important;
     align-items: stretch !important;
-    box-sizing: border-box !important;
   }
 
   .hlt-hero-stage,
   .hlt-hero-slide,
   .hlt-hero-scrim {
-    inset: 0 !important;
-    border-radius: 0 !important;
+    inset: 10px 12px 16px !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
   }
 
   .hlt-hero-slide-image {
     background-image: var(--slide-img) !important;
-    background-size: auto 100% !important;
-    background-position: 62% center !important;
+    background-size: cover !important;
+    background-position: 72% center !important;
   }
 
   .hlt-hero-scrim {
     background:
-      linear-gradient(90deg, rgba(2, 8, 7, 0.78) 0%, rgba(2, 8, 7, 0.52) 48%, rgba(2, 8, 7, 0.1) 75%, transparent 100%),
-      linear-gradient(180deg, rgba(2, 8, 7, 0.6) 0%, transparent 30%, rgba(2, 8, 7, 0.4) 100%) !important;
+      linear-gradient(90deg, rgba(2, 8, 7, 0.78) 0%, rgba(2, 8, 7, 0.45) 50%, transparent 75%),
+      linear-gradient(180deg, rgba(2, 8, 7, 0.3) 0%, transparent 35%, rgba(2, 8, 7, 0.3) 100%) !important;
   }
 
   .hlt-hero-arrow {
@@ -210,8 +216,8 @@
     position: relative !important;
     width: 100% !important;
     border: 1.2px solid rgba(197, 161, 90, 0.45) !important;
-    border-radius: 14px !important;
-    padding: 72px 14px 18px !important;
+    border-radius: 16px !important;
+    padding: 20px 16px 18px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
@@ -273,11 +279,11 @@
 
   .hlt-hero-kicker {
     display: block !important;
-    margin: 0 0 8px !important;
+    margin: 0 0 6px !important;
     font-family: "Cormorant", Georgia, serif !important;
-    font-size: 9.5px !important;
+    font-size: 9px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.22em !important;
+    letter-spacing: 0.2em !important;
     color: #c5a15a !important;
     text-transform: uppercase !important;
     line-height: 1 !important;
@@ -296,7 +302,7 @@
 
   .hlt-hero-title-white {
     display: block !important;
-    font-size: clamp(30px, 8vw, 38px) !important;
+    font-size: clamp(28px, 7.5vw, 36px) !important;
     color: #ffffff !important;
     line-height: 0.98 !important;
     letter-spacing: 0.04em !important;
@@ -305,7 +311,7 @@
 
   .hlt-hero-title-gold {
     display: block !important;
-    font-size: clamp(22px, 6.2vw, 28px) !important;
+    font-size: clamp(20px, 5.8vw, 26px) !important;
     color: #d4af37 !important;
     line-height: 1.08 !important;
     letter-spacing: 0.05em !important;
@@ -317,8 +323,8 @@
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
-    margin: 10px 0 12px !important;
-    width: 110px !important;
+    margin: 8px 0 10px !important;
+    width: 100px !important;
     color: #c5a15a !important;
   }
 
@@ -333,18 +339,18 @@
   }
 
   .hlt-hero-crown-svg {
-    width: 20px !important;
-    height: 16px !important;
+    width: 18px !important;
+    height: 14px !important;
     color: #c5a15a !important;
     flex-shrink: 0 !important;
   }
 
   .hlt-hero-description {
-    margin: 0 0 18px !important;
-    max-width: 56% !important;
+    margin: 0 0 16px !important;
+    max-width: 58% !important;
     font-family: "Cormorant", Georgia, serif !important;
-    font-size: 11.5px !important;
-    line-height: 1.38 !important;
+    font-size: 11px !important;
+    line-height: 1.35 !important;
     color: rgba(255, 255, 255, 0.92) !important;
     text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8) !important;
   }
@@ -354,16 +360,16 @@
     flex-direction: column !important;
     gap: 8px !important;
     width: 100% !important;
-    max-width: 200px !important;
+    max-width: 195px !important;
     margin-top: 0 !important;
   }
 
   .hlt-hero .hlt-btn {
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 42px !important;
-    padding: 0 14px !important;
-    font-size: 12px !important;
+    min-height: 40px !important;
+    padding: 0 12px !important;
+    font-size: 11.5px !important;
     border-radius: 7px !important;
     justify-content: center !important;
     letter-spacing: 0.08em !important;
@@ -373,7 +379,7 @@
   }
 
   .hlt-hero-dots {
-    bottom: 20px !important;
+    bottom: 22px !important;
     padding: 4px 10px !important;
     gap: 6px !important;
   }
