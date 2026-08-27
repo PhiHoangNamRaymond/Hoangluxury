@@ -185,6 +185,7 @@ export const cruiseData = {
       name: "Jessica M.",
       country: "Australia",
       avatarLetter: "J",
+      avatarKey: "avatarJessica",
     },
     {
       stars: 5,
@@ -192,6 +193,7 @@ export const cruiseData = {
       name: "David & Sarah",
       country: "United Kingdom",
       avatarLetter: "D",
+      avatarKey: "avatarDavid",
     },
     {
       stars: 5,
@@ -199,6 +201,7 @@ export const cruiseData = {
       name: "Marco R.",
       country: "Italy",
       avatarLetter: "M",
+      avatarKey: "avatarMarco",
     },
   ],
   faqs: [

@@ -444,7 +444,10 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-exp-layout">
               <div className="hlt-cruise-exp-intro">
-                <h2>More Than a Night on the Bay</h2>
+                <h2>
+                  More Than a<br />
+                  Night on the Bay
+                </h2>
                 <p>
                   Wake up surrounded by limestone islands, savor refined dining, explore hidden caves
                   and create unforgettable memories in one of the world's most extraordinary landscapes.
@@ -454,7 +457,7 @@ export default function CruisesPage() {
               <div className="hlt-cruise-exp-mosaic">
                 <div
                   className="hlt-cruise-exp-banner"
-                  style={{ backgroundImage: `url(${cruiseImages.heroHalong})` }}
+                  style={{ backgroundImage: `url(${cruiseImages.mosaicPanorama || cruiseImages.heroHalong})` }}
                   aria-label="Ha Long Bay panorama"
                 />
 
@@ -475,6 +478,8 @@ export default function CruisesPage() {
                 </div>
               </div>
             </div>
+
+            <hr className="hlt-cruise-light-divider" />
           </div>
         </section>
 
@@ -483,34 +488,39 @@ export default function CruisesPage() {
         ========================================================================= */}
         <section className="hlt-cruise-durations-section">
           <div className="hlt-container">
-            <div className="hlt-cruise-section-heading-left">
-              <h2>Choose Your Journey</h2>
-            </div>
+            <div className="hlt-cruise-durations-layout">
+              <div className="hlt-cruise-durations-intro">
+                <h2>
+                  Choose Your<br />
+                  Journey
+                </h2>
+              </div>
 
-            <div className="hlt-cruise-durations-grid">
-              {cruiseData.durations.map((duration, idx) => (
-                <div className="hlt-cruise-duration-card" key={idx}>
-                  <div className="hlt-cruise-duration-media">
-                    <img
-                      src={cruiseImages[duration.imageKey]}
-                      alt={duration.title}
-                      loading="lazy"
-                    />
+              <div className="hlt-cruise-durations-grid">
+                {cruiseData.durations.map((duration, idx) => (
+                  <div className="hlt-cruise-duration-card" key={idx}>
+                    <div className="hlt-cruise-duration-media">
+                      <img
+                        src={cruiseImages[duration.imageKey]}
+                        alt={duration.title}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="hlt-cruise-duration-body">
+                      <h3>{duration.title}</h3>
+                      <p>{duration.subtitle}</p>
+                      <a
+                        className="hlt-cruise-duration-btn"
+                        href={getCustomInquiryUrl(`${duration.title} Itinerary`)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Journey
+                      </a>
+                    </div>
                   </div>
-                  <div className="hlt-cruise-duration-body">
-                    <h3>{duration.title}</h3>
-                    <p>{duration.subtitle}</p>
-                    <a
-                      className="hlt-cruise-duration-btn"
-                      href={getCustomInquiryUrl(`${duration.title} Itinerary`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View Journey
-                    </a>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -599,13 +609,10 @@ export default function CruisesPage() {
         ========================================================================= */}
         <section className="hlt-cruise-moments-section">
           <div className="hlt-container">
-            <div className="hlt-cruise-section-heading-left">
-              <h2>Real Cruise Moments</h2>
-            </div>
-
             <div className="hlt-cruise-moments-grid">
-              <div className="hlt-cruise-moment-card">
-                <img src={cruiseImages.heroHalong} alt="Ha Long Bay sundeck panorama" loading="lazy" />
+              <div className="hlt-cruise-moment-card hlt-cruise-moment-featured">
+                <img src={cruiseImages.momentSundeck || cruiseImages.heroHalong} alt="Ha Long Bay sundeck panorama" loading="lazy" />
+                <h2 className="hlt-cruise-moment-title">Real Cruise Moments</h2>
               </div>
               <div className="hlt-cruise-moment-card">
                 <img src={cruiseImages.expCabin} alt="Luxury suite interior" loading="lazy" />
@@ -617,6 +624,8 @@ export default function CruisesPage() {
                 <img src={cruiseImages.expKayaking} alt="Kayaking in Ha Long Bay" loading="lazy" />
               </div>
             </div>
+
+            <hr className="hlt-cruise-light-divider" />
           </div>
         </section>
 
@@ -627,7 +636,11 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-reviews-layout">
               <div className="hlt-cruise-reviews-left">
-                <h2>Trusted by International Travelers</h2>
+                <h2>
+                  Trusted by<br />
+                  International<br />
+                  Travelers
+                </h2>
               </div>
 
               <div className="hlt-cruise-reviews-grid">
@@ -636,7 +649,16 @@ export default function CruisesPage() {
                     <div className="hlt-cruise-review-stars">★★★★★</div>
                     <p className="hlt-cruise-review-quote">"{rev.text}"</p>
                     <div className="hlt-cruise-review-author">
-                      <div className="hlt-review-avatar">{rev.avatarLetter}</div>
+                      {cruiseImages[rev.avatarKey] ? (
+                        <img
+                          src={cruiseImages[rev.avatarKey]}
+                          alt={rev.name}
+                          className="hlt-review-avatar-img"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="hlt-review-avatar">{rev.avatarLetter}</div>
+                      )}
                       <div className="hlt-review-info">
                         <strong>{rev.name}</strong>
                         <span>{rev.country}</span>
@@ -646,6 +668,8 @@ export default function CruisesPage() {
                 ))}
               </div>
             </div>
+
+            <hr className="hlt-cruise-light-divider" />
           </div>
         </section>
 
@@ -656,7 +680,10 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-faq-layout">
               <div className="hlt-cruise-faq-left">
-                <h2>Frequently Asked Questions</h2>
+                <h2>
+                  Frequently Asked<br />
+                  Questions
+                </h2>
               </div>
 
               <div className="hlt-cruise-faq-grid">
@@ -706,45 +733,53 @@ export default function CruisesPage() {
         ========================================================================= */}
         <section
           className="hlt-cruise-cta-section"
-          style={{ backgroundImage: `url(${cruiseImages.heroHalong})` }}
+          style={{ backgroundImage: `url(${cruiseImages.ctaSunset || cruiseImages.heroHalong})` }}
         >
           <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
           <div className="hlt-container hlt-cruise-cta-content">
             <div className="hlt-cruise-cta-text">
-              <h2>Your Ha Long Journey Starts Here</h2>
+              <h2>
+                Your Ha Long<br />
+                Journey Starts Here
+              </h2>
               <p>
-                Tell us your travel dates and preferences. We'll help you select the right cruise and
+                Tell us your travel date and preferences. We'll help you select the right cruise and
                 arrange your private journey from Hanoi.
               </p>
             </div>
 
-            <div className="hlt-cruise-cta-actions">
-              <a
-                className="hlt-cruise-btn-gold"
-                href={getCustomInquiryUrl("Check Cruise Availability & Rates")}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Check Cruise Availability
-              </a>
-              <a
-                className="hlt-cruise-btn-glass"
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="hlt-whatsapp-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
-                  </svg>
-                </span>
-                <span>WhatsApp Us</span>
-              </a>
+            <div className="hlt-cruise-cta-right">
+              <div className="hlt-cruise-cta-actions">
+                <a
+                  className="hlt-cruise-btn-gold"
+                  href={getCustomInquiryUrl("Check Cruise Availability & Rates")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Check Cruise Availability
+                </a>
+                <a
+                  className="hlt-cruise-btn-dark-wa"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="hlt-whatsapp-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
+                    </svg>
+                  </span>
+                  WhatsApp Us
+                </a>
+              </div>
+              <div className="hlt-cruise-cta-trust">
+                <span>Personal Support</span>
+                <span className="hlt-cta-dot">·</span>
+                <span>Secure Booking</span>
+                <span className="hlt-cta-dot">·</span>
+                <span>Private Transfer Available</span>
+              </div>
             </div>
-          </div>
-
-          <div className="hlt-cruise-cta-trust">
-            <span>Personal Support</span> · <span>Secure Booking</span> · <span>Private Transfer Available</span>
           </div>
         </section>
       </main>

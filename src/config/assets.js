@@ -21,6 +21,11 @@ import logoUrl from "../../assets/hoang-luxury-logo-crown-2026.png";
 
 /* Cruise Page Assets */
 import cruiseHeroHalongUrl from "../../assets/cruise-hero-halong.jpg";
+import cruiseMosaicPanoramaUrl from "../../assets/cruise-mosaic-panorama.jpg";
+import cruiseMomentSundeckUrl from "../../assets/cruise-moment-sundeck.jpg";
+import avatarJessicaUrl from "../../assets/avatar-jessica.jpg";
+import avatarDavidUrl from "../../assets/avatar-david.jpg";
+import avatarMarcoUrl from "../../assets/avatar-marco.jpg";
 import cruiseParadiseEleganceUrl from "../../assets/cruise-paradise-elegance.jpg";
 import cruiseOrchidPremiumUrl from "../../assets/cruise-orchid-premium.jpg";
 import cruiseAthenaLuxuryUrl from "../../assets/cruise-athena-luxury.jpg";
@@ -32,6 +37,7 @@ import cruiseExpCabinUrl from "../../assets/cruise-exp-cabin.jpg";
 import cruiseExpDiningUrl from "../../assets/cruise-exp-dining.jpg";
 import cruiseExpSunsetUrl from "../../assets/cruise-exp-sunset.jpg";
 import cruiseExpKayakingUrl from "../../assets/cruise-exp-kayaking.jpg";
+import cruiseCtaSunsetUrl from "../../assets/cruise-cta-sunset.jpg";
 
 /* Original Gold Sketch Icons for Homepage (Popular Transfer Routes) */
 import routeCaoBangArtUrl from "../../assets/route-art-cao-bang.webp";
@@ -216,6 +222,11 @@ export const journeyCardImages = [
 
 export const cruiseImages = {
   heroHalong: cruiseHeroHalongUrl,
+  mosaicPanorama: cruiseMosaicPanoramaUrl,
+  momentSundeck: cruiseMomentSundeckUrl,
+  avatarJessica: avatarJessicaUrl,
+  avatarDavid: avatarDavidUrl,
+  avatarMarco: avatarMarcoUrl,
   paradiseElegance: cruiseParadiseEleganceUrl,
   orchidPremium: cruiseOrchidPremiumUrl,
   athenaLuxury: cruiseAthenaLuxuryUrl,
@@ -227,6 +238,7 @@ export const cruiseImages = {
   expDining: cruiseExpDiningUrl,
   expSunset: cruiseExpSunsetUrl,
   expKayaking: cruiseExpKayakingUrl,
+  ctaSunset: cruiseCtaSunsetUrl,
 };
 
 export const preferenceIconImages = {

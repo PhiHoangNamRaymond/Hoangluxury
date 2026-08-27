@@ -51,7 +51,7 @@
 }
 
 .hlt-cruise-hero-title {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(38px, 5.2vw, 58px);
   font-weight: 700;
   line-height: 1.05;
@@ -71,7 +71,7 @@
 }
 
 .hlt-cruise-hero-subtitle {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(18px, 1.8vw, 23px);
   color: rgba(255, 255, 255, 0.95);
   margin: 0 0 10px;
@@ -79,7 +79,7 @@
 }
 
 .hlt-cruise-hero-bullets {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(14px, 1.2vw, 16px);
   font-weight: 500;
   color: rgba(255, 255, 255, 0.85);
@@ -196,7 +196,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(13.5px, 1.2vw, 16px);
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -255,10 +255,10 @@
 }
 
 .hlt-cruise-catalog-title {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(32px, 2.8vw, 42px);
   font-weight: 700;
-  color: #141414;
+  color: #07201b;
   line-height: 1.08;
   margin: 0 0 14px;
   display: flex;
@@ -267,9 +267,9 @@
 
 .hlt-cruise-catalog-desc {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 14px;
-  color: #334155;
-  line-height: 1.5;
+  font-size: 15px;
+  color: #42524e;
+  line-height: 1.45;
   margin: 0 0 18px;
 }
 
@@ -474,7 +474,7 @@
 }
 
 .hlt-cruise-match-left h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(23px, 2.4vw, 27px);
   font-weight: 700;
   color: #ffffff;
@@ -483,7 +483,7 @@
 }
 
 .hlt-cruise-match-left p {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.78);
   line-height: 1.45;
@@ -559,7 +559,7 @@
 }
 
 .hlt-cruise-pref-box h3 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
   font-weight: 600;
   color: #ffffff;
@@ -601,16 +601,16 @@
 }
 
 .hlt-cruise-seamless-content h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 700;
-  color: #141414;
+  color: #07201b;
   margin: 0 0 8px;
   line-height: 1.15;
 }
 
 .hlt-cruise-seamless-subtitle {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 13.5px;
   color: #4b5563;
   margin: 0 auto 24px;
@@ -653,10 +653,10 @@
 }
 
 .hlt-cruise-flow-step span:last-child {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 11.5px;
   font-weight: 700;
-  color: #111a18;
+  color: #07201b;
   line-height: 1.25;
   text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95);
 }
@@ -688,7 +688,7 @@
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #ffffff;
@@ -730,9 +730,9 @@
 
 /* ==========================================================================
    5. MORE THAN A NIGHT ON THE BAY (Light Theme)
-   ========================================================================== */
+   ========================================================================= */
 .hlt-cruise-exp-section {
-  padding: clamp(60px, 7vw, 90px) 0;
+  padding: clamp(24px, 2.8vw, 36px) 0 0;
   background: #fbf9f4;
 }
 
@@ -744,61 +744,70 @@
 }
 
 .hlt-cruise-exp-intro h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(32px, 3.2vw, 44px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 700;
-  color: #1a1a1a;
+  color: #07201b;
   line-height: 1.15;
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 
 .hlt-cruise-exp-intro p {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(15px, 1.2vw, 17px);
-  color: #555555;
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.45;
+  max-width: 260px;
   margin: 0;
 }
 
 .hlt-cruise-exp-mosaic {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 6px;
 }
 
 .hlt-cruise-exp-banner {
   width: 100%;
-  height: 200px;
-  border-radius: 6px;
+  height: 175px;
+  border-radius: 12px 12px 0 0;
   background-size: cover;
-  background-position: center 60%;
+  background-position: center 62%;
   border: 1px solid #e8e2d2;
 }
 
 .hlt-cruise-exp-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  gap: 6px;
 }
 
 .hlt-cruise-exp-card {
   position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 6px;
+  aspect-ratio: 4 / 2.5;
+  border-radius: 0;
   overflow: hidden;
   border: 1px solid #e8e2d2;
   background: #020706;
+}
+
+.hlt-cruise-exp-card:first-child {
+  border-radius: 0 0 0 12px;
+}
+
+.hlt-cruise-exp-card:last-child {
+  border-radius: 0 0 12px 0;
 }
 
 .hlt-cruise-exp-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
 .hlt-cruise-exp-card:hover .hlt-cruise-exp-img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .hlt-cruise-exp-overlay {
@@ -807,73 +816,87 @@
   background: linear-gradient(180deg, transparent 40%, rgba(2, 8, 7, 0.85) 100%);
   display: flex;
   align-items: flex-end;
-  padding: 10px;
+  justify-content: center;
+  padding: 6px;
 }
 
 .hlt-cruise-exp-overlay h4 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 12px;
+  font-weight: 600;
   color: #ffffff;
   margin: 0;
-  letter-spacing: 0.04em;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.hlt-cruise-light-divider {
+  border: none;
+  border-top: 1px solid #d4c4a3;
+  margin: clamp(18px, 2.2vw, 26px) 0 0;
+  opacity: 1;
 }
 
 /* ==========================================================================
    6. CHOOSE YOUR JOURNEY (Light Theme)
-   ========================================================================== */
+   ========================================================================= */
 .hlt-cruise-durations-section {
-  padding: clamp(50px, 6vw, 80px) 0;
+  padding: clamp(16px, 2vw, 24px) 0 clamp(28px, 3.5vw, 42px);
   background: #fbf9f4;
 }
 
-.hlt-cruise-section-heading-left {
-  margin-bottom: clamp(24px, 4vw, 36px);
+.hlt-cruise-durations-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
 }
 
-.hlt-cruise-section-heading-left h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(30px, 3.2vw, 42px);
+.hlt-cruise-durations-intro h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 700;
-  color: #1a1a1a;
+  color: #07201b;
+  line-height: 1.15;
   margin: 0;
-  letter-spacing: 0.02em;
 }
 
 .hlt-cruise-durations-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  gap: 14px;
 }
 
 .hlt-cruise-duration-card {
   background: #ffffff;
-  border: 1px solid #e8e2d2;
-  border-radius: 8px;
+  border: 1px solid #e5dccb;
+  border-radius: 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .hlt-cruise-duration-card:hover {
-  transform: translateY(-4px);
-  border-color: #d9b14a;
-  box-shadow: 0 10px 24px rgba(217, 177, 74, 0.15);
+  transform: translateY(-2px);
+  border-color: #c5a15a;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
 }
 
 .hlt-cruise-duration-media {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 8.5;
   overflow: hidden;
+  background: #eae5da;
 }
 
 .hlt-cruise-duration-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
 .hlt-cruise-duration-card:hover .hlt-cruise-duration-media img {
@@ -881,59 +904,64 @@
 }
 
 .hlt-cruise-duration-body {
-  padding: 20px;
+  padding: 12px 10px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: space-between;
   flex: 1;
 }
 
 .hlt-cruise-duration-body h3 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 19px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #1a1a1a;
-  margin: 0 0 6px;
-  text-transform: uppercase;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  color: #07201b !important;
+  margin: 0 0 3px !important;
+  line-height: 1.3 !important;
+  text-transform: uppercase !important;
 }
 
 .hlt-cruise-duration-body p {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 14px;
-  color: #666666;
-  margin: 0 0 18px;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+  font-size: 13.5px !important;
+  color: #384d48 !important;
+  font-weight: 600 !important;
+  margin: 0 0 10px !important;
+  line-height: 1.35 !important;
 }
 
 .hlt-cruise-duration-btn {
-  margin-top: auto;
-  display: inline-block;
-  padding: 8px 24px;
-  background: #fbf9f4;
-  border: 1px solid #d4af37;
-  border-radius: 4px;
-  color: #8c6d1f;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.25s ease;
+  all: unset !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 26px !important;
+  padding: 0 16px !important;
+  border: 1px solid #c5a15a !important;
+  background: #fffdfa !important;
+  color: #8c6d1f !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  border-radius: 5px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
 }
 
 .hlt-cruise-duration-btn:hover {
-  background: #d9b14a;
-  color: #06110f;
-  border-color: #d9b14a;
+  background: #c5a15a !important;
+  color: #0a1f1b !important;
 }
 
 /* ==========================================================================
    7. STATS & VALUES (Dark Theme)
    ========================================================================== */
 .hlt-cruise-stats-section {
-  padding: clamp(50px, 6vw, 80px) 0;
+  padding: clamp(32px, 3.8vw, 48px) 0;
   background: #061311;
   color: #ffffff;
 }
@@ -946,12 +974,12 @@
 }
 
 .hlt-cruise-stats-left h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(28px, 3vw, 38px);
   font-weight: 700;
-  color: #ffffff;
+  color: #d9b14a;
   line-height: 1.15;
-  margin: 0 0 20px;
+  margin: 0 0 16px;
 }
 
 .hlt-cruise-benefits-list {
@@ -960,15 +988,15 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .hlt-cruise-benefits-list li {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -984,99 +1012,130 @@
 }
 
 .hlt-cruise-metric-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(217, 177, 74, 0.28);
-  border-radius: 8px;
-  padding: 20px 10px;
+  background: #0d1a26;
+  border: 1px solid rgba(217, 177, 74, 0.3);
+  border-radius: 14px;
+  min-height: 185px;
+  padding: 28px 12px 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .hlt-metric-svg {
-  width: 24px;
-  height: 24px;
+  width: 52px;
+  height: 52px;
   color: #d9b14a;
-  margin-bottom: 8px;
-  display: inline-flex;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hlt-metric-svg svg {
   width: 100%;
   height: 100%;
+  stroke: #d9b14a;
 }
 
 .hlt-metric-val {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(22px, 2.2vw, 28px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.3vw, 30px);
   font-weight: 700;
   color: #d9b14a;
   line-height: 1.1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .hlt-metric-lbl {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.04em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #cad8d4;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  line-height: 1.25;
 }
 
 /* ==========================================================================
    8. REAL CRUISE MOMENTS (Light Theme)
    ========================================================================== */
 .hlt-cruise-moments-section {
-  padding: clamp(50px, 6vw, 80px) 0;
+  padding: clamp(16px, 2vw, 24px) 0 0;
   background: #fbf9f4;
 }
 
 .hlt-cruise-moments-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr;
+  gap: 14px;
+  height: clamp(125px, 12vw, 150px);
 }
 
 .hlt-cruise-moment-card {
   position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 6px;
+  height: 100%;
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #e8e2d2;
+  border: 1px solid #e0d5be;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.hlt-cruise-moment-featured {
+  height: 100%;
+}
+
+.hlt-cruise-moment-title {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.15;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.95), 0 0 3px rgba(255, 255, 255, 0.95);
+  z-index: 2;
 }
 
 .hlt-cruise-moment-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
 .hlt-cruise-moment-card:hover img {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 /* ==========================================================================
    9. TRUSTED BY INTERNATIONAL TRAVELERS (Light Theme)
    ========================================================================== */
 .hlt-cruise-reviews-section {
-  padding: clamp(50px, 6vw, 80px) 0;
+  padding: clamp(20px, 2.5vw, 30px) 0 0;
   background: #fbf9f4;
 }
 
 .hlt-cruise-reviews-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: clamp(24px, 4vw, 44px);
   align-items: start;
 }
 
 .hlt-cruise-reviews-left h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(30px, 3.2vw, 42px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 700;
-  color: #1a1a1a;
+  color: #07201b;
   line-height: 1.15;
   margin: 0;
 }
@@ -1084,33 +1143,33 @@
 .hlt-cruise-reviews-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 14px;
 }
 
 .hlt-cruise-review-card {
   background: #ffffff;
-  border: 1px solid #e8e2d2;
-  border-radius: 8px;
-  padding: 24px 20px;
+  border: 1px solid #e5dccb;
+  border-radius: 10px;
+  padding: 14px 14px 16px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 .hlt-cruise-review-stars {
   color: #d9b14a;
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 2px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .hlt-cruise-review-quote {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
   line-height: 1.5;
-  color: #333333;
-  font-style: italic;
-  margin: 0 0 18px;
+  color: #0b1a17;
+  margin: 0 0 12px;
   flex: 1;
 }
 
@@ -1118,55 +1177,70 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid #f0ecdf;
+}
+
+.hlt-review-avatar-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #d4c4a3;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .hlt-review-avatar {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #d9b14a;
+  background: #d4af37;
   color: #06110f;
   display: grid;
   place-items: center;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .hlt-review-info strong {
   display: block;
   font-size: 13px;
-  color: #1a1a1a;
+  color: #07201b;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .hlt-review-info span {
   display: block;
-  font-size: 12px;
-  color: #777777;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #4b5d59;
+  line-height: 1.2;
 }
 
 /* ==========================================================================
    10. FREQUENTLY ASKED QUESTIONS (Light Theme)
    ========================================================================== */
 .hlt-cruise-faq-section {
-  padding: clamp(50px, 6vw, 80px) 0;
+  padding: clamp(20px, 2.5vw, 30px) 0 clamp(36px, 4.5vw, 55px);
   background: #fbf9f4;
 }
 
 .hlt-cruise-faq-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: clamp(24px, 4vw, 44px);
   align-items: start;
 }
 
 .hlt-cruise-faq-left h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(30px, 3.2vw, 42px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 700;
-  color: #1a1a1a;
+  color: #07201b;
   line-height: 1.15;
   margin: 0;
 }
@@ -1174,57 +1248,52 @@
 .hlt-cruise-faq-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .hlt-cruise-faq-item {
   background: #ffffff;
-  border: 1px solid #e8e2d2;
-  border-radius: 6px;
+  border: 1px solid #e5dccb;
+  border-radius: 8px;
   overflow: hidden;
-  transition: border-color 0.25s ease;
+  transition: border-color 0.2s ease;
 }
 
 .hlt-cruise-faq-item.is-open {
-  border-color: #d9b14a;
+  border-color: #c5a15a;
 }
 
 .hlt-cruise-faq-question {
   width: 100%;
-  padding: 14px 16px;
+  padding: 10px 14px;
   background: transparent;
   border: none;
-  color: #1a1a1a;
+  color: #07201b;
   display: flex;
   align-items: center;
   justify-content: space-between;
   text-align: left;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 15px;
-  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  gap: 10px;
 }
 
 .hlt-faq-chevron {
   width: 14px;
   height: 14px;
-  color: #888888;
+  color: #64748b;
   transition: transform 0.25s ease;
   flex-shrink: 0;
 }
 
 .hlt-cruise-faq-item.is-open .hlt-faq-chevron {
   transform: rotate(180deg);
-  color: #d9b14a;
+  color: #c5a15a;
 }
 
 .hlt-cruise-faq-answer {
-  padding: 0 16px 14px;
-  font-size: 13px;
-  line-height: 1.55;
-  color: #555555;
-  border-top: 1px solid #f2ede2;
+  padding: 0 14px 12px;
 }
 
 .hlt-cruise-faq-answer p {
@@ -1237,17 +1306,16 @@
 .hlt-cruise-cta-section {
   position: relative;
   background-size: cover;
-  background-position: center;
-  padding: clamp(60px, 8vw, 100px) 0;
-  text-align: center;
+  background-position: center 45%;
+  padding: clamp(22px, 2.5vw, 32px) 0;
   color: #ffffff;
+  overflow: hidden;
 }
 
 .hlt-cruise-cta-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(3, 11, 9, 0.92) 0%, rgba(3, 11, 9, 0.82) 50%, rgba(3, 11, 9, 0.96) 100%);
+  background: linear-gradient(90deg, rgba(7, 18, 16, 0.88) 0%, rgba(7, 18, 16, 0.45) 48%, rgba(7, 18, 16, 0.78) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -1255,47 +1323,110 @@
 .hlt-cruise-cta-content {
   position: relative;
   z-index: 2;
-  max-width: 720px;
-  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
 }
 
 .hlt-cruise-cta-text h2 {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(32px, 3.8vw, 46px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(25px, 2.7vw, 34px);
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   line-height: 1.15;
 }
 
 .hlt-cruise-cta-text p {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(15px, 1.4vw, 18px);
-  color: rgba(255, 255, 255, 0.88);
-  margin: 0 auto 30px;
-  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  line-height: 1.45;
+  max-width: 360px;
+}
+
+.hlt-cruise-cta-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .hlt-cruise-cta-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.hlt-cruise-btn-gold {
+  background: linear-gradient(135deg, #dfbc5d, #b88d2a);
+  color: #071512;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 11px 26px;
+  min-width: 195px;
+  border-radius: 7px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.hlt-cruise-btn-gold:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.hlt-cruise-btn-dark-wa {
+  background: #081a16;
+  color: #ffffff;
+  border: 1px solid rgba(217, 177, 74, 0.45);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 11px 24px;
+  min-width: 155px;
+  border-radius: 7px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.hlt-cruise-btn-dark-wa:hover {
+  background: #0d2822;
+  border-color: #d9b14a;
 }
 
 .hlt-cruise-cta-trust {
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #d9b14a;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  font-weight: 550;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
-.hlt-cruise-cta-trust span {
-  color: #e6dfcc;
+.hlt-cta-dot {
+  color: #dfbc5d;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 /* ==========================================================================
