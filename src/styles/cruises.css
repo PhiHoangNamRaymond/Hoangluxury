@@ -14,14 +14,14 @@
    ========================================================================== */
 .hlt-cruise-hero {
   position: relative;
-  min-height: clamp(520px, 85vh, 700px);
+  min-height: clamp(520px, 80vh, 680px);
   background-size: cover;
   background-position: center 36%;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: clamp(110px, 15vh, 150px);
+  padding-top: clamp(120px, 16vh, 160px);
   color: #ffffff;
 }
 
@@ -29,7 +29,7 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(2, 9, 8, 0.94) 0%, rgba(2, 9, 8, 0.72) 42%, rgba(2, 9, 8, 0.15) 75%, transparent 100%),
+    linear-gradient(90deg, rgba(2, 9, 8, 0.92) 0%, rgba(2, 9, 8, 0.72) 42%, rgba(2, 9, 8, 0.12) 75%, transparent 100%),
     linear-gradient(180deg, rgba(2, 9, 8, 0.35) 0%, transparent 35%, rgba(2, 9, 8, 0.95) 100%);
   pointer-events: none;
   z-index: 1;
@@ -39,7 +39,7 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  padding-bottom: 30px;
+  padding-bottom: 36px;
 }
 
 .hlt-cruise-hero-content {
@@ -48,12 +48,12 @@
 
 .hlt-cruise-hero-title {
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(38px, 5.2vw, 62px);
+  font-size: clamp(38px, 5.2vw, 58px);
   font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: 0.04em;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   display: flex;
   flex-direction: column;
 }
@@ -63,26 +63,32 @@
 }
 
 .hlt-title-gold {
-  color: #d9b14a;
+  color: #cfa84e;
 }
 
 .hlt-cruise-hero-subtitle {
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(18px, 1.8vw, 24px);
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.92);
-  margin: 0 0 12px;
+  font-size: clamp(18px, 1.8vw, 23px);
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 10px;
   line-height: 1.35;
 }
 
 .hlt-cruise-hero-bullets {
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(11px, 1vw, 13px);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #d4af37;
-  text-transform: uppercase;
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
   margin: 0 0 28px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hlt-bullet-dot {
+  color: #d4af37;
+  margin: 0 10px;
+  font-weight: 700;
 }
 
 .hlt-cruise-hero-actions {
@@ -92,37 +98,61 @@
   flex-wrap: wrap;
 }
 
-.hlt-btn-outline-glass {
+.hlt-cruise-btn-gold {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 46px;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 24px;
+  background: linear-gradient(180deg, #dfb461 0%, #b88a38 100%);
+  border: 1px solid #e2bc6c;
+  border-radius: 5px;
+  color: #110d05 !important;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s ease;
+}
+
+.hlt-cruise-btn-gold:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(217, 177, 74, 0.35);
+}
+
+.hlt-cruise-btn-glass {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
   padding: 0 22px;
   background: rgba(6, 17, 15, 0.65);
-  border: 1px solid rgba(217, 177, 74, 0.55);
-  border-radius: 6px;
-  color: #ffffff;
+  border: 1px solid rgba(217, 177, 74, 0.6);
+  border-radius: 5px;
+  color: #ffffff !important;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   text-decoration: none;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
-.hlt-btn-outline-glass:hover {
-  background: rgba(217, 177, 74, 0.2);
+.hlt-cruise-btn-glass:hover {
+  background: rgba(217, 177, 74, 0.18);
   border-color: #d9b14a;
-  color: #ffffff;
   transform: translateY(-2px);
 }
 
 .hlt-whatsapp-icon {
   width: 17px;
   height: 17px;
+  color: #d9b14a;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -131,16 +161,15 @@
 .hlt-whatsapp-icon svg {
   width: 100%;
   height: 100%;
-  fill: currentColor;
 }
 
 /* Trustbar */
 .hlt-cruise-trustbar {
   position: relative;
   z-index: 2;
-  background: rgba(3, 11, 9, 0.92);
-  border-top: 1px solid rgba(217, 177, 74, 0.28);
-  border-bottom: 1px solid rgba(217, 177, 74, 0.28);
+  background: rgba(4, 13, 11, 0.95);
+  border-top: 1px solid rgba(217, 177, 74, 0.25);
+  border-bottom: 1px solid rgba(217, 177, 74, 0.25);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 16px 0;
@@ -149,9 +178,8 @@
 .hlt-cruise-trustbar-inner {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 18px;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .hlt-cruise-trust-item {
@@ -159,20 +187,27 @@
   align-items: center;
   gap: 10px;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(13px, 1.1vw, 16px);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #e6dfcc;
-  text-transform: uppercase;
+  font-size: clamp(13px, 1.15vw, 15.5px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #f0ece1;
+}
+
+.hlt-cruise-trust-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(217, 177, 74, 0.22);
+  flex-shrink: 0;
 }
 
 .hlt-trust-svg {
-  width: 20px;
-  height: 20px;
-  color: #d9b14a;
+  width: 22px;
+  height: 22px;
+  color: #d4af37;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .hlt-trust-svg svg {

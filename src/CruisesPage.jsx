@@ -46,21 +46,29 @@ export default function CruisesPage() {
                 <span className="hlt-title-white">LUXURY</span>
                 <span className="hlt-title-gold">HA LONG CRUISES</span>
               </h1>
-              <p className="hlt-cruise-hero-subtitle">{cruiseData.hero.subtitle}</p>
-              <p className="hlt-cruise-hero-bullets">{cruiseData.hero.kicker}</p>
+              <p className="hlt-cruise-hero-subtitle">
+                Exceptional journeys through Ha Long &amp; Lan Ha Bay
+              </p>
+              <p className="hlt-cruise-hero-bullets">
+                <span>Handpicked Cruises</span>
+                <span className="hlt-bullet-dot">·</span>
+                <span>Private Hanoi Transfer</span>
+                <span className="hlt-bullet-dot">·</span>
+                <span>Personal Support</span>
+              </p>
 
               <div className="hlt-cruise-hero-actions">
-                <a className="hlt-btn hlt-btn-gold" href="#find-cruise">
+                <a className="hlt-btn hlt-cruise-btn-gold" href="#find-cruise">
                   Explore Cruises
                 </a>
                 <a
-                  className="hlt-btn hlt-btn-outline-glass"
+                  className="hlt-btn hlt-cruise-btn-glass"
                   href={getCustomInquiryUrl("Luxury Ha Long Cruise & Private Transfer")}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <span className="hlt-whatsapp-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
                     </svg>
                   </span>
@@ -74,7 +82,7 @@ export default function CruisesPage() {
             <div className="hlt-container hlt-cruise-trustbar-inner">
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
                     <path d="M2 9h20" />
                     <path d="m12 21 4-12-4-6-4 6 4 12z" />
@@ -82,29 +90,32 @@ export default function CruisesPage() {
                 </span>
                 <span>Handpicked Cruises</span>
               </div>
+              <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <rect x="1" y="5" width="16" height="11" rx="2" />
-                    <path d="M17 9h4l2 3v4h-6V9z" />
-                    <circle cx="6" cy="18" r="2.5" />
-                    <circle cx="18" cy="18" r="2.5" />
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="2" y="6" width="14" height="10" rx="2" />
+                    <path d="M16 9h4l2 3v4h-6V9z" />
+                    <circle cx="6" cy="18" r="2.2" />
+                    <circle cx="18" cy="18" r="2.2" />
                   </svg>
                 </span>
                 <span>Private 7-Seat Transfer</span>
               </div>
+              <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
                     <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
                   </svg>
                 </span>
                 <span>Direct Support</span>
               </div>
+              <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 </span>
