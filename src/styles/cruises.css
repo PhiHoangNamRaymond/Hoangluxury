@@ -1,12 +1,6 @@
-/* ==========================================================================
-   HOANG LUXURY TRAVEL - LUXURY HA LONG CRUISES STYLESHEET
-   ========================================================================== */
-
 .hlt-cruises-page {
   min-height: 100vh;
   background-color: #fbf9f4;
-  color: #1a1a1a;
-  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   overflow-x: hidden;
 }
 
