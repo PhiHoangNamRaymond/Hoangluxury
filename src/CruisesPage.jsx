@@ -93,11 +93,11 @@ export default function CruisesPage() {
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="2" y="6" width="14" height="10" rx="2" />
-                    <path d="M16 9h4l2 3v4h-6V9z" />
-                    <circle cx="6" cy="18" r="2.2" />
-                    <circle cx="18" cy="18" r="2.2" />
+                  <svg viewBox="0 0 26 18" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1.5 11h2.5l2.2-4.5c.5-.9 1.4-1.5 2.5-1.5h10.6c1.1 0 2 .6 2.5 1.5l2.7 4.5h1c.8 0 1.5.7 1.5 1.5v2c0 .8-.7 1.5-1.5 1.5h-2M18.5 16H8.5M4 16H1.5c-.8 0-1.5-.7-1.5-1.5v-2c0-.8.7-1.5 1.5-1.5" />
+                    <circle cx="6.2" cy="15.8" r="2.3" />
+                    <circle cx="20.8" cy="15.8" r="2.3" />
+                    <path d="M8 7.5h4.5v3.5H6.5zM14 7.5h4.5v3.5H14z" />
                   </svg>
                 </span>
                 <span>Private 7-Seat Transfer</span>
