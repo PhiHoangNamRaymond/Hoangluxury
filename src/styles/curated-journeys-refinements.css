@@ -353,7 +353,12 @@
 @media (max-width: 900px) {
   .hlt-route-showcase {
     grid-template-columns: 1fr;
-    padding-top: 36px;
+    padding-top: 32px;
+    gap: 8px;
+  }
+
+  .hlt-route-map {
+    margin-bottom: 0;
   }
 
   .hlt-route-map img {
@@ -395,7 +400,12 @@
 
 @media (max-width: 600px) {
   .hlt-route-showcase {
-    padding-top: 32px;
+    padding-top: 24px;
+    gap: 6px;
+  }
+
+  .hlt-route-map {
+    margin-bottom: -4px;
   }
 
   .hlt-route-map img {
@@ -405,6 +415,7 @@
   .hlt-route-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
+    margin-top: 0;
   }
 
   .hlt-route-card {
