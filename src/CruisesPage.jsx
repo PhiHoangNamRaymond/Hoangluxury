@@ -28,7 +28,7 @@ export default function CruisesPage() {
   };
 
   return (
-    <div className="hlt-cruises-page">
+    <div className="hlt-site hlt-cruises-site">
       <Header />
 
       <main className="hlt-cruises-main">
