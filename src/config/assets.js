@@ -76,6 +76,11 @@ import whyVehicleIconUrl from "../../assets/why-icon-vehicle.png";
 import whyWhatsappIconUrl from "../../assets/why-icon-whatsapp.png";
 import footerFlourishDividerUrl from "../../assets/footer-flourish-divider.png";
 
+import iconPrefCouplesUrl from "../../assets/icon-pref-couples.svg";
+import iconPrefFamilyUrl from "../../assets/icon-pref-family.svg";
+import iconPrefLuxuryUrl from "../../assets/icon-pref-luxury.svg";
+import iconPrefScenicUrl from "../../assets/icon-pref-scenic.svg";
+
 export {
   bookingProcessBackgroundUrl,
   catalogBackgroundUrl,
@@ -222,4 +227,11 @@ export const cruiseImages = {
   expDining: cruiseExpDiningUrl,
   expSunset: cruiseExpSunsetUrl,
   expKayaking: cruiseExpKayakingUrl,
+};
+
+export const preferenceIconImages = {
+  couples: iconPrefCouplesUrl,
+  family: iconPrefFamilyUrl,
+  luxury: iconPrefLuxuryUrl,
+  scenic: iconPrefScenicUrl,
 };
