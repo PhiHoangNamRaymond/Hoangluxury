@@ -19,9 +19,12 @@ export const popularRoutes = [
   "Ta Xua",
 ];
 
-// Dropdown "Journey" liệt kê tuỳ chọn xem tất cả tuyến cùng các tuyến chính.
+export const cruisesPageUrl = "/cruises/";
+
+// Dropdown "Journey" liệt kê tuỳ chọn xem tất cả tuyến cùng các tuyến chính và du thuyền.
 const journeyRoutes = [
   ["All Popular Routes", "/journeys/"],
+  ["Ha Long Bay Cruises", cruisesPageUrl],
   ...["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map((route) => [
     `Hanoi to ${route}`,
     `/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`,

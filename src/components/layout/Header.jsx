@@ -280,6 +280,7 @@ export default function Header() {
             ["Services", "#services"],
             ["Fleet", "#fleet"],
             ["Journeys", "/journeys/"],
+            ["Cruises", "/cruises/"],
             ["Catalog", catalogPageUrl],
             ["Booking", "/booking/"],
             ["Contact", "#contact"],

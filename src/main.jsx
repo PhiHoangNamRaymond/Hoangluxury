@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import BookingPage from "./BookingPage.jsx";
 import CatalogPage from "./CatalogPage.jsx";
+import CruisesPage from "./CruisesPage.jsx";
 import FeedbackPage from "./FeedbackPage.jsx";
 import JourneyPage from "./JourneyPage.jsx";
 import JourneysPage from "./JourneysPage.jsx";
@@ -13,6 +14,8 @@ const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
 const pages = {
   "/booking": BookingPage,
   "/catalog": CatalogPage,
+  "/cruises": CruisesPage,
+  "/ha-long-cruises": CruisesPage,
   "/feedback": FeedbackPage,
   "/journeys": JourneysPage,
   "/routes": JourneysPage,
