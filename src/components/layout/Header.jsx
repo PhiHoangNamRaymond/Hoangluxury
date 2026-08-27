@@ -12,11 +12,20 @@ const getInitialActiveHref = () => {
     return window.location.hash || "#home";
   }
 
-  return navLinks.find(([, href]) => {
-    if (href.startsWith("#")) return false;
+  for (const [, href, children] of navLinks) {
+    if (!href.startsWith("#") && normalizePath(new URL(href, window.location.origin).pathname) === currentPath) {
+      return href;
+    }
+    if (children) {
+      for (const [, childHref] of children) {
+        if (!childHref.startsWith("#") && normalizePath(new URL(childHref, window.location.origin).pathname) === currentPath) {
+          return href;
+        }
+      }
+    }
+  }
 
-    return normalizePath(new URL(href, window.location.origin).pathname) === currentPath;
-  })?.[1] || "";
+  return "";
 };
 
 export default function Header() {
