@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import { cruiseData } from "./config/cruises.js";
-import { cruiseImages, logoUrl } from "./config/assets.js";
-import { catalogPageUrl, whatsappUrl } from "./data.js";
+import { cruiseImages } from "./config/assets.js";
+import { whatsappUrl } from "./data.js";
 import "./styles/cruises.css";
 
 export default function CruisesPage() {
-  const [selectedBay, setSelectedBay] = useState("all");
-  const [selectedPreference, setSelectedPreference] = useState(null);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const toggleFaq = (index) => {
@@ -17,22 +15,17 @@ export default function CruisesPage() {
 
   const getCruiseInquiryUrl = (cruiseName) => {
     const text = encodeURIComponent(
-      `Hello Hoang Luxury Travel, I am interested in booking or checking availability for ${cruiseName} (Cruise + Private Transfer). Please provide details.`
+      `Hello Hoang Luxury Travel, I would like to inquire about booking ${cruiseName} with Private Transfer from Hanoi.`
     );
     return `https://wa.me/84839779888?text=${text}`;
   };
 
   const getCustomInquiryUrl = (topic) => {
     const text = encodeURIComponent(
-      `Hello Hoang Luxury Travel, I would like personal recommendation for ${topic} in Ha Long Bay / Lan Ha Bay.`
+      `Hello Hoang Luxury Travel, I would like personal recommendation and rates for ${topic}.`
     );
     return `https://wa.me/84839779888?text=${text}`;
   };
-
-  const filteredCruises = cruiseData.cruises.filter((c) => {
-    if (selectedBay === "all") return true;
-    return c.bay.toLowerCase().includes(selectedBay.toLowerCase());
-  });
 
   return (
     <div className="hlt-cruises-page">
@@ -40,7 +33,7 @@ export default function CruisesPage() {
 
       <main className="hlt-cruises-main">
         {/* =========================================================================
-            1. HERO BANNER & USPs TRUSTBAR
+            1. HERO BANNER & USPs TRUSTBAR (Dark Gold Luxury)
         ========================================================================= */}
         <section
           className="hlt-cruise-hero"
@@ -49,12 +42,12 @@ export default function CruisesPage() {
           <div className="hlt-cruise-hero-overlay" aria-hidden="true" />
           <div className="hlt-container hlt-cruise-hero-container">
             <div className="hlt-cruise-hero-content">
-              <p className="hlt-cruise-hero-kicker">{cruiseData.hero.kicker}</p>
               <h1 className="hlt-cruise-hero-title">
-                <span>LUXURY</span>
-                <span className="hlt-gold-text">HA LONG CRUISES</span>
+                <span className="hlt-title-white">LUXURY</span>
+                <span className="hlt-title-gold">HA LONG CRUISES</span>
               </h1>
               <p className="hlt-cruise-hero-subtitle">{cruiseData.hero.subtitle}</p>
+              <p className="hlt-cruise-hero-bullets">{cruiseData.hero.kicker}</p>
 
               <div className="hlt-cruise-hero-actions">
                 <a className="hlt-btn hlt-btn-gold" href="#find-cruise">
@@ -80,19 +73,41 @@ export default function CruisesPage() {
           <div className="hlt-cruise-trustbar">
             <div className="hlt-container hlt-cruise-trustbar-inner">
               <div className="hlt-cruise-trust-item">
-                <span className="hlt-trust-icon">💎</span>
+                <span className="hlt-trust-svg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
+                    <path d="M2 9h20" />
+                    <path d="m12 21 4-12-4-6-4 6 4 12z" />
+                  </svg>
+                </span>
                 <span>Handpicked Cruises</span>
               </div>
               <div className="hlt-cruise-trust-item">
-                <span className="hlt-trust-icon">🚐</span>
+                <span className="hlt-trust-svg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <rect x="1" y="5" width="16" height="11" rx="2" />
+                    <path d="M17 9h4l2 3v4h-6V9z" />
+                    <circle cx="6" cy="18" r="2.5" />
+                    <circle cx="18" cy="18" r="2.5" />
+                  </svg>
+                </span>
                 <span>Private 7-Seat Transfer</span>
               </div>
               <div className="hlt-cruise-trust-item">
-                <span className="hlt-trust-icon">🎧</span>
+                <span className="hlt-trust-svg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                  </svg>
+                </span>
                 <span>Direct Support</span>
               </div>
               <div className="hlt-cruise-trust-item">
-                <span className="hlt-trust-icon">⭐</span>
+                <span className="hlt-trust-svg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </span>
                 <span>Best Available Options</span>
               </div>
             </div>
@@ -100,45 +115,23 @@ export default function CruisesPage() {
         </section>
 
         {/* =========================================================================
-            2. FIND YOUR CRUISE (CATALOG / GRID)
+            2. FIND YOUR CRUISE (Light Cream Theme)
         ========================================================================= */}
         <section id="find-cruise" className="hlt-cruise-catalog-section">
           <div className="hlt-container">
             <div className="hlt-cruise-catalog-layout">
-              {/* Left Intro Sidebar */}
+              {/* Left Column Intro */}
               <div className="hlt-cruise-catalog-intro">
                 <h2>Find Your Cruise</h2>
                 <p>
                   Handpicked luxury cruises in Ha Long Bay & Lan Ha Bay. Best service. Best value.
                 </p>
-                <div className="hlt-cruise-filter-tabs">
-                  <button
-                    type="button"
-                    className={`hlt-cruise-filter-btn ${selectedBay === "all" ? "is-active" : ""}`}
-                    onClick={() => setSelectedBay("all")}
-                  >
-                    All Bays
-                  </button>
-                  <button
-                    type="button"
-                    className={`hlt-cruise-filter-btn ${selectedBay === "ha long" ? "is-active" : ""}`}
-                    onClick={() => setSelectedBay("ha long")}
-                  >
-                    Ha Long Bay
-                  </button>
-                  <button
-                    type="button"
-                    className={`hlt-cruise-filter-btn ${selectedBay === "lan ha" ? "is-active" : ""}`}
-                    onClick={() => setSelectedBay("lan ha")}
-                  >
-                    Lan Ha Bay
-                  </button>
-                </div>
+                <div className="hlt-cruise-gold-rule" aria-hidden="true" />
               </div>
 
-              {/* Right Cruise Cards Grid */}
+              {/* Right Column Grid: 6 Cards (2 rows x 3 cols) */}
               <div className="hlt-cruise-grid">
-                {filteredCruises.map((cruise) => {
+                {cruiseData.cruises.map((cruise) => {
                   const cruiseImg = cruiseImages[cruise.imageKey] || cruiseImages.heroHalong;
                   return (
                     <article className="hlt-cruise-card" key={cruise.id}>
@@ -150,7 +143,7 @@ export default function CruisesPage() {
                           className="hlt-cruise-card-img"
                         />
                         <span className="hlt-cruise-card-badge">
-                          <svg viewBox="0 0 16 16" fill="currentColor">
+                          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                             <path d="M8 1a5 5 0 0 0-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 0 0-5-5Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" />
                           </svg>
                           <span>{cruise.locationBadge}</span>
@@ -188,11 +181,11 @@ export default function CruisesPage() {
         </section>
 
         {/* =========================================================================
-            3. NOT SURE WHICH CRUISE TO CHOOSE? (PREFERENCE MATCHING)
+            3. NOT SURE WHICH CRUISE TO CHOOSE? (Dark Navy Luxury)
         ========================================================================= */}
         <section className="hlt-cruise-match-section">
           <div className="hlt-container">
-            <div className="hlt-cruise-match-card">
+            <div className="hlt-cruise-match-layout">
               <div className="hlt-cruise-match-left">
                 <h2>Not Sure Which Cruise to Choose?</h2>
                 <p>
@@ -201,9 +194,7 @@ export default function CruisesPage() {
                 </p>
                 <a
                   className="hlt-btn hlt-btn-gold"
-                  href={getCustomInquiryUrl(
-                    selectedPreference ? `Cruise Recommendation for ${selectedPreference}` : "Cruise Recommendation"
-                  )}
+                  href={getCustomInquiryUrl("Cruise Recommendation")}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -212,52 +203,51 @@ export default function CruisesPage() {
               </div>
 
               <div className="hlt-cruise-match-grid">
-                {cruiseData.preferenceCategories.map((cat) => {
-                  const isSelected = selectedPreference === cat.title;
-                  return (
-                    <div
-                      key={cat.id}
-                      className={`hlt-cruise-pref-box ${isSelected ? "is-selected" : ""}`}
-                      onClick={() => setSelectedPreference(isSelected ? null : cat.title)}
-                    >
-                      <div className="hlt-cruise-pref-icon">
-                        {cat.icon === "heart" && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                          </svg>
-                        )}
-                        {cat.icon === "family" && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                          </svg>
-                        )}
-                        {cat.icon === "diamond" && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                            <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
-                            <path d="M2 9h20" />
-                            <path d="m12 21 4-12-4-6-4 6 4 12z" />
-                          </svg>
-                        )}
-                        {cat.icon === "mountains" && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                            <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-                          </svg>
-                        )}
-                      </div>
-                      <h3>{cat.title}</h3>
+                {cruiseData.preferenceCategories.map((cat) => (
+                  <a
+                    key={cat.id}
+                    className="hlt-cruise-pref-box"
+                    href={getCustomInquiryUrl(`Cruise Recommendation for ${cat.title}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="hlt-cruise-pref-icon">
+                      {cat.icon === "heart" && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                      )}
+                      {cat.icon === "family" && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                          <circle cx="9" cy="7" r="4" />
+                          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                      )}
+                      {cat.icon === "diamond" && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
+                          <path d="M2 9h20" />
+                          <path d="m12 21 4-12-4-6-4 6 4 12z" />
+                        </svg>
+                      )}
+                      {cat.icon === "mountains" && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+                        </svg>
+                      )}
                     </div>
-                  );
-                })}
+                    <h3>{cat.title}</h3>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            4. FROM YOUR HOTEL TO YOUR CRUISE — SEAMLESSLY
+            4. FROM YOUR HOTEL TO YOUR CRUISE — SEAMLESSLY (Composite Photo & Steps)
         ========================================================================= */}
         <section className="hlt-cruise-seamless-section">
           <div
@@ -266,54 +256,100 @@ export default function CruisesPage() {
           >
             <div className="hlt-cruise-seamless-overlay" aria-hidden="true" />
             <div className="hlt-container hlt-cruise-seamless-content">
-              <h2>{cruiseData.seamlessTransfer.heading}</h2>
+              <h2>From Your Hotel to Your Cruise — Seamlessly</h2>
               <p className="hlt-cruise-seamless-subtitle">
-                {cruiseData.seamlessTransfer.subtitle}
+                Enjoy a private journey from Hanoi or Noi Bai Airport directly to your cruise terminal.
               </p>
 
-              {/* 4-Step Diagram */}
+              {/* 4-Step Flowchart */}
               <div className="hlt-cruise-flow-steps">
                 <div className="hlt-cruise-flow-step">
-                  <span className="hlt-flow-icon">🏨</span>
+                  <span className="hlt-flow-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M3 21h18M5 21V7l8-4v18M13 9h6v12M9 9h1M9 13h1M9 17h1M16 13h1M16 17h1" />
+                    </svg>
+                  </span>
                   <span>Hanoi Hotel</span>
                 </div>
-                <div className="hlt-cruise-flow-arrow" aria-hidden="true">➔</div>
+                <div className="hlt-cruise-flow-arrow" aria-hidden="true">→</div>
                 <div className="hlt-cruise-flow-step">
-                  <span className="hlt-flow-icon">🚐</span>
+                  <span className="hlt-flow-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <rect x="1" y="5" width="16" height="11" rx="2" />
+                      <path d="M17 9h4l2 3v4h-6V9z" />
+                      <circle cx="6" cy="18" r="2.5" />
+                      <circle cx="18" cy="18" r="2.5" />
+                    </svg>
+                  </span>
                   <span>Private Hoang Luxury Vehicle</span>
                 </div>
-                <div className="hlt-cruise-flow-arrow" aria-hidden="true">➔</div>
+                <div className="hlt-cruise-flow-arrow" aria-hidden="true">→</div>
                 <div className="hlt-cruise-flow-step">
-                  <span className="hlt-flow-icon">⚓</span>
+                  <span className="hlt-flow-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <circle cx="12" cy="5" r="3" />
+                      <line x1="12" y1="8" x2="12" y2="21" />
+                      <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+                    </svg>
+                  </span>
                   <span>Ha Long / Tuan Chau Port</span>
                 </div>
-                <div className="hlt-cruise-flow-arrow" aria-hidden="true">➔</div>
+                <div className="hlt-cruise-flow-arrow" aria-hidden="true">→</div>
                 <div className="hlt-cruise-flow-step">
-                  <span className="hlt-flow-icon">🚢</span>
+                  <span className="hlt-flow-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M2 20a4 4 0 0 0 8 0 4 4 0 0 0 8 0 4 4 0 0 0 4 0" />
+                      <path d="M19 17 21 7H3l2 10" />
+                      <line x1="12" y1="7" x2="12" y2="3" />
+                      <path d="M12 3l4 2-4 2" />
+                    </svg>
+                  </span>
                   <span>Luxury Cruise</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Features Strip & CTA */}
+          {/* Feature Highlights & Central CTA */}
           <div className="hlt-cruise-seamless-bottom">
             <div className="hlt-container">
               <div className="hlt-cruise-features-row">
                 <div className="hlt-cruise-feature-item">
-                  <span className="hlt-feature-icon">🚗</span>
+                  <span className="hlt-feature-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                  </span>
                   <span>Door-to-door pickup</span>
                 </div>
                 <div className="hlt-cruise-feature-item">
-                  <span className="hlt-feature-icon">7️⃣</span>
+                  <span className="hlt-feature-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <path d="M8 8h8l-5 8h5" />
+                    </svg>
+                  </span>
                   <span>Private 7-Seat vehicle</span>
                 </div>
                 <div className="hlt-cruise-feature-item">
-                  <span className="hlt-feature-icon">⏱️</span>
+                  <span className="hlt-feature-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </span>
                   <span>Flexible departure time</span>
                 </div>
                 <div className="hlt-cruise-feature-item">
-                  <span className="hlt-feature-icon">🧳</span>
+                  <span className="hlt-feature-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <rect x="4" y="7" width="16" height="14" rx="2" />
+                      <path d="M9 7V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v3" />
+                      <line x1="9" y1="12" x2="9" y2="12.01" />
+                      <line x1="15" y1="12" x2="15" y2="12.01" />
+                    </svg>
+                  </span>
                   <span>Luggage assistance</span>
                 </div>
               </div>
@@ -321,7 +357,7 @@ export default function CruisesPage() {
               <div className="hlt-cruise-seamless-cta">
                 <a
                   className="hlt-btn hlt-btn-gold"
-                  href={getCustomInquiryUrl("Combined Cruise + Private Transfer Package")}
+                  href={getCustomInquiryUrl("Book Cruise + Private Transfer Package")}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -333,14 +369,17 @@ export default function CruisesPage() {
         </section>
 
         {/* =========================================================================
-            5. MORE THAN A NIGHT ON THE BAY (EXPERIENCES MOSAIC)
+            5. MORE THAN A NIGHT ON THE BAY (Light Theme Mosaic)
         ========================================================================= */}
         <section className="hlt-cruise-exp-section">
           <div className="hlt-container">
             <div className="hlt-cruise-exp-layout">
               <div className="hlt-cruise-exp-intro">
-                <h2>{cruiseData.experiences.heading}</h2>
-                <p>{cruiseData.experiences.description}</p>
+                <h2>More Than a Night on the Bay</h2>
+                <p>
+                  Wake up surrounded by limestone islands, savor refined dining, explore hidden caves
+                  and create unforgettable memories in one of the world's most extraordinary landscapes.
+                </p>
               </div>
 
               <div className="hlt-cruise-exp-mosaic">
@@ -371,11 +410,11 @@ export default function CruisesPage() {
         </section>
 
         {/* =========================================================================
-            6. CHOOSE YOUR JOURNEY (DURATION CARDS)
+            6. CHOOSE YOUR JOURNEY (Light Theme Itineraries)
         ========================================================================= */}
         <section className="hlt-cruise-durations-section">
           <div className="hlt-container">
-            <div className="hlt-cruise-section-heading">
+            <div className="hlt-cruise-section-heading-left">
               <h2>Choose Your Journey</h2>
             </div>
 
@@ -408,59 +447,102 @@ export default function CruisesPage() {
         </section>
 
         {/* =========================================================================
-            7. A MORE PERSONAL WAY TO EXPERIENCE HA LONG (STATS & VALUES)
+            7. A MORE PERSONAL WAY TO EXPERIENCE HA LONG (Dark Navy Luxury)
         ========================================================================= */}
         <section className="hlt-cruise-stats-section">
           <div className="hlt-container">
             <div className="hlt-cruise-stats-layout">
               <div className="hlt-cruise-stats-left">
-                <h2>{cruiseData.stats.heading}</h2>
+                <h2>A More Personal Way to Experience Ha Long</h2>
                 <ul className="hlt-cruise-benefits-list">
-                  {cruiseData.stats.benefits.map((b, i) => (
-                    <li key={i}>
-                      <span className="hlt-check-icon">✓</span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
+                  <li>
+                    <span className="hlt-check-icon">✓</span>
+                    <span>Expert cruise recommendation</span>
+                  </li>
+                  <li>
+                    <span className="hlt-check-icon">✓</span>
+                    <span>Private transfer coordination</span>
+                  </li>
+                  <li>
+                    <span className="hlt-check-icon">✓</span>
+                    <span>Cruise terminal assistance</span>
+                  </li>
+                  <li>
+                    <span className="hlt-check-icon">✓</span>
+                    <span>Direct WhatsApp support</span>
+                  </li>
                 </ul>
               </div>
 
               <div className="hlt-cruise-stats-grid">
-                {cruiseData.stats.metrics.map((m, i) => (
-                  <div className="hlt-cruise-metric-box" key={i}>
-                    <div className="hlt-metric-icon">
-                      {m.icon === "group" && "👥"}
-                      {m.icon === "globe" && "🌐"}
-                      {m.icon === "star" && "⭐"}
-                      {m.icon === "headset" && "🎧"}
-                    </div>
-                    <div className="hlt-metric-val">{m.value}</div>
-                    <div className="hlt-metric-lbl">{m.label}</div>
+                <div className="hlt-cruise-metric-box">
+                  <div className="hlt-metric-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
                   </div>
-                ))}
+                  <div className="hlt-metric-val">12,686+</div>
+                  <div className="hlt-metric-lbl">Successful Transfers</div>
+                </div>
+
+                <div className="hlt-cruise-metric-box">
+                  <div className="hlt-metric-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="2" y1="12" x2="22" y2="12" />
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                  </div>
+                  <div className="hlt-metric-val">20+</div>
+                  <div className="hlt-metric-lbl">Countries Served</div>
+                </div>
+
+                <div className="hlt-cruise-metric-box">
+                  <div className="hlt-metric-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                  </div>
+                  <div className="hlt-metric-val">4.9 / 5</div>
+                  <div className="hlt-metric-lbl">Guest Rating</div>
+                </div>
+
+                <div className="hlt-cruise-metric-box">
+                  <div className="hlt-metric-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                    </svg>
+                  </div>
+                  <div className="hlt-metric-val">24/7</div>
+                  <div className="hlt-metric-lbl">Travel Support</div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            8. REAL CRUISE MOMENTS (GALLERY)
+            8. REAL CRUISE MOMENTS (Light Theme Gallery)
         ========================================================================= */}
         <section className="hlt-cruise-moments-section">
           <div className="hlt-container">
-            <div className="hlt-cruise-section-heading">
+            <div className="hlt-cruise-section-heading-left">
               <h2>Real Cruise Moments</h2>
             </div>
 
             <div className="hlt-cruise-moments-grid">
               <div className="hlt-cruise-moment-card">
-                <img src={cruiseImages.expSunset} alt="Sundeck moments" loading="lazy" />
+                <img src={cruiseImages.heroHalong} alt="Ha Long Bay sundeck panorama" loading="lazy" />
               </div>
               <div className="hlt-cruise-moment-card">
                 <img src={cruiseImages.expCabin} alt="Luxury suite interior" loading="lazy" />
               </div>
               <div className="hlt-cruise-moment-card">
-                <img src={cruiseImages.expDining} alt="Fine dining table setup" loading="lazy" />
+                <img src={cruiseImages.expDining} alt="Fine dining table setting" loading="lazy" />
               </div>
               <div className="hlt-cruise-moment-card">
                 <img src={cruiseImages.expKayaking} alt="Kayaking in Ha Long Bay" loading="lazy" />
@@ -470,43 +552,45 @@ export default function CruisesPage() {
         </section>
 
         {/* =========================================================================
-            9. TRUSTED BY INTERNATIONAL TRAVELERS (REVIEWS)
+            9. TRUSTED BY INTERNATIONAL TRAVELERS (Light Theme Reviews)
         ========================================================================= */}
         <section className="hlt-cruise-reviews-section">
           <div className="hlt-container">
-            <div className="hlt-cruise-section-heading">
-              <h2>Trusted by International Travelers</h2>
-            </div>
+            <div className="hlt-cruise-reviews-layout">
+              <div className="hlt-cruise-reviews-left">
+                <h2>Trusted by International Travelers</h2>
+              </div>
 
-            <div className="hlt-cruise-reviews-grid">
-              {cruiseData.reviews.map((rev, idx) => (
-                <article className="hlt-cruise-review-card" key={idx}>
-                  <div className="hlt-cruise-review-stars">★★★★★</div>
-                  <p className="hlt-cruise-review-quote">"{rev.text}"</p>
-                  <div className="hlt-cruise-review-author">
-                    <div className="hlt-review-avatar">{rev.avatarLetter}</div>
-                    <div className="hlt-review-info">
-                      <strong>{rev.name}</strong>
-                      <span>{rev.country}</span>
+              <div className="hlt-cruise-reviews-grid">
+                {cruiseData.reviews.map((rev, idx) => (
+                  <article className="hlt-cruise-review-card" key={idx}>
+                    <div className="hlt-cruise-review-stars">★★★★★</div>
+                    <p className="hlt-cruise-review-quote">"{rev.text}"</p>
+                    <div className="hlt-cruise-review-author">
+                      <div className="hlt-review-avatar">{rev.avatarLetter}</div>
+                      <div className="hlt-review-info">
+                        <strong>{rev.name}</strong>
+                        <span>{rev.country}</span>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            10. FREQUENTLY ASKED QUESTIONS
+            10. FREQUENTLY ASKED QUESTIONS (Light Theme Accordion Grid)
         ========================================================================= */}
         <section className="hlt-cruise-faq-section">
           <div className="hlt-container">
             <div className="hlt-cruise-faq-layout">
-              <div className="hlt-cruise-faq-title-col">
+              <div className="hlt-cruise-faq-left">
                 <h2>Frequently Asked Questions</h2>
               </div>
 
-              <div className="hlt-cruise-faq-accordion">
+              <div className="hlt-cruise-faq-grid">
                 {cruiseData.faqs.map((faq, index) => {
                   const isOpen = openFaqIndex === index;
                   return (
@@ -549,7 +633,7 @@ export default function CruisesPage() {
         </section>
 
         {/* =========================================================================
-            11. YOUR HA LONG JOURNEY STARTS HERE (CTA BANNER)
+            11. YOUR HA LONG JOURNEY STARTS HERE (Pre-footer Dark Gold CTA)
         ========================================================================= */}
         <section
           className="hlt-cruise-cta-section"
