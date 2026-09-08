@@ -1,5 +1,10 @@
 import React from "react";
-import { bookingProcessBackgroundUrl, logoUrl, whyVehicleIconUrl } from "../../config/assets.js";
+import {
+  bookingProcessBackgroundUrl,
+  botanicalCornerGoldUrl,
+  logoUrl,
+  whyVehicleIconUrl,
+} from "../../config/assets.js";
 import { bookingRows, catalogPageUrl, whatsappUrl } from "../../data.js";
 
 function BookingProcessIcon({ type }) {
@@ -170,72 +175,62 @@ export default function BookingProcess() {
             </div>
           </article>
 
-          {/* Mobile Version: Original Confirmation Ticket */}
-          <article className="hlt-showcase-ticket hlt-mobile-confirm-ticket" aria-label="Booking confirmation">
-            <div className="hlt-showcase-ticket-content">
-              {/* Left Column: Brand & Booking ID */}
-              <div className="hlt-showcase-left">
-                {/* Royal Stepped Bracket Border Frame - Balanced & Refined */}
-                <svg className="hlt-showcase-left-frame" viewBox="0 0 210 250" preserveAspectRatio="none" aria-hidden="true">
-                  <path
-                    d="M 23,10 H 187 A 5,5 0 0,1 192,15 H 195 A 5,5 0 0,1 200,20 V 230 A 5,5 0 0,1 195,235 H 192 A 5,5 0 0,1 187,240 H 23 A 5,5 0 0,1 18,235 H 15 A 5,5 0 0,1 10,230 V 20 A 5,5 0 0,1 15,15 H 18 A 5,5 0 0,1 23,10 Z"
-                    fill="none"
-                    stroke="rgba(197, 161, 90, 0.32)"
-                    strokeWidth="0.85"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                </svg>
+          {/* Mobile Version: Refined Confirmation Ticket matching Image 1 & 2 */}
+          <article className="hlt-mobile-confirm-ticket" aria-label="Booking confirmation">
+            {/* Top Box: Logo, Booking ID, and Botanical Wildflower Corner Motifs */}
+            <div className="hlt-mobile-card-top-box">
+              <img
+                src={botanicalCornerGoldUrl}
+                alt=""
+                className="hlt-mobile-botanical-ornament hlt-botanical-top-left"
+                aria-hidden="true"
+              />
+              <img
+                src={botanicalCornerGoldUrl}
+                alt=""
+                className="hlt-mobile-botanical-ornament hlt-botanical-top-right"
+                aria-hidden="true"
+              />
 
-                <div className="hlt-showcase-left-inner">
-                  <div className="hlt-showcase-crest-wrap">
-                    <div className="hlt-showcase-crest-box">
-                      {/* Faded Watermark centered directly behind the crest logo */}
-                      <img className="hlt-showcase-watermark" src={logoUrl} alt="" aria-hidden="true" />
-                      <img src={logoUrl} alt="" className="hlt-showcase-crest" />
+              <div className="hlt-mobile-top-brand">
+                <img src={logoUrl} alt="" className="hlt-mobile-top-logo" />
+                <div className="hlt-mobile-top-brand-text">
+                  <span className="hlt-mobile-top-brand-hoang">HOANG</span>
+                  <span className="hlt-mobile-top-brand-sub">LUXURY TRAVEL</span>
+                </div>
+              </div>
+
+              <div className="hlt-mobile-top-divider" />
+
+              <div className="hlt-mobile-top-id-wrap">
+                <span className="hlt-mobile-top-id-label">BOOKING ID</span>
+                <strong className="hlt-mobile-top-id-value">HLT307-001</strong>
+              </div>
+            </div>
+
+            {/* Rows list */}
+            <div className="hlt-mobile-card-rows">
+              {bookingRows.map(([label, value]) => {
+                const displayLabel = label === "Customer Name" ? "CUSTOMER" : label.toUpperCase();
+                const displayValue = value
+                  .replace(/\s*\|\s*/g, " • ")
+                  .replace(/\s*-\s*Sapa/g, " → Sa Pa");
+                const isPrice = label === "Total Price";
+
+                return (
+                  <div className={`hlt-mobile-card-row ${isPrice ? "hlt-mobile-row-price" : ""}`} key={label}>
+                    <div className="hlt-mobile-row-icon-circle" aria-hidden="true">
+                      <BookingRowIcon label={label} />
                     </div>
-                    <h4 className="hlt-showcase-brand-text">
-                      <span className="hlt-brand-hoang">HOANG</span>
-                      <span className="hlt-brand-sub">LUXURY TRAVEL</span>
-                    </h4>
+                    <div className="hlt-mobile-row-info">
+                      <span className="hlt-mobile-row-label">{displayLabel}</span>
+                      <strong className={`hlt-mobile-row-value ${isPrice ? "hlt-mobile-price-val" : ""}`}>
+                        {displayValue}
+                      </strong>
+                    </div>
                   </div>
-                  <div className="hlt-showcase-divider-line">
-                    <span className="hlt-showcase-divider-diamond" />
-                  </div>
-                  <div className="hlt-showcase-id-wrap">
-                    <span className="hlt-showcase-id-label">Booking ID</span>
-                    <strong className="hlt-showcase-id-value">HLT307-001</strong>
-                  </div>
-                </div>
-              </div>
-
-              {/* Vertical Divider */}
-              <div className="hlt-showcase-divider-vertical">
-                <span className="hlt-showcase-divider-vertical-diamond" />
-              </div>
-
-              {/* Right Column: Rows list */}
-              <div className="hlt-showcase-right">
-                <div className="hlt-showcase-ticket-rows">
-                  {bookingRows.map(([label, value]) => {
-                    const displayLabel = label === "Customer Name" ? "Customer" : label;
-                    // Replace pipe separator with dot and hyphen route with clean arrow
-                    const displayValue = value
-                      .replace(/\s*\|\s*/g, " • ")
-                      .replace(/\s*-\s*Sapa/g, " → Sa Pa");
-                    return (
-                      <div className="hlt-showcase-ticket-row" key={label}>
-                        <div className="hlt-showcase-row-icon-circle" aria-hidden="true">
-                          <BookingRowIcon label={label} />
-                        </div>
-                        <div className="hlt-showcase-row-info">
-                          <span className="hlt-showcase-row-label">{displayLabel}</span>
-                          <strong className="hlt-showcase-row-value">{displayValue}</strong>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+                );
+              })}
             </div>
           </article>
         </div>

@@ -87,8 +87,11 @@ import iconPrefFamilyUrl from "../../assets/icon-pref-family.svg";
 import iconPrefLuxuryUrl from "../../assets/icon-pref-luxury.svg";
 import iconPrefScenicUrl from "../../assets/icon-pref-scenic.svg";
 
+import botanicalCornerGoldUrl from "../../assets/botanical-corner-gold.webp";
+
 export {
   bookingProcessBackgroundUrl,
+  botanicalCornerGoldUrl,
   catalogBackgroundUrl,
   catalogOpenBookUrl,
   curatedMountainDecorationUrl,

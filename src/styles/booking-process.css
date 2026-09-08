@@ -584,8 +584,8 @@
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: 16px;
   font-weight: 600;
-  color: #c5a15a;
-  opacity: 0.85;
+  color: #ffffff;
+  opacity: 0.9;
   white-space: nowrap;
 }
 
@@ -593,7 +593,8 @@
   width: 28px;
   flex: none;
   text-align: center;
-  color: #c5a15a;
+  color: #ffffff;
+  opacity: 0.75;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: 16px;
   font-weight: 600;
@@ -604,7 +605,7 @@
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: 16px;
   font-weight: 600;
-  color: #c5a15a;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -628,6 +629,18 @@
 }
 .hlt-mobile-confirm-ticket {
   display: none !important;
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  border: 1.2px solid rgba(197, 161, 90, 0.45);
+  border-radius: 14px;
+  background: #091714;
+  background: linear-gradient(155deg, #0d1e1a 0%, #081310 100%);
+  padding: 14px 14px 10px;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.5), 0 0 20px rgba(197, 161, 90, 0.05);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 @media (max-width: 960px) {
@@ -636,6 +649,232 @@
   }
   .hlt-mobile-confirm-ticket {
     display: block !important;
+  }
+}
+
+/* Top Box with Laurel / Wheat Ear Corners */
+.hlt-mobile-card-top-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border: 1px solid rgba(197, 161, 90, 0.4);
+  border-radius: 10px;
+  background: rgba(13, 27, 24, 0.7);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Botanical Leaf Corner Ornaments - Exact reference matching */
+.hlt-mobile-botanical-ornament {
+  position: absolute;
+  top: 4px;
+  height: 68px;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.hlt-botanical-top-left {
+  left: 3px;
+  transform: scaleX(-1);
+}
+
+.hlt-botanical-top-right {
+  right: 3px;
+}
+
+/* Top Box Content */
+.hlt-mobile-top-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-mobile-top-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+  flex-shrink: 0;
+}
+
+.hlt-mobile-top-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.hlt-mobile-top-brand-hoang {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  line-height: 1;
+}
+
+.hlt-mobile-top-brand-sub {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  color: #c5a15a;
+  margin-top: 3px;
+  line-height: 1;
+}
+
+.hlt-mobile-top-divider {
+  width: 1px;
+  height: 38px;
+  background: rgba(197, 161, 90, 0.35);
+  margin: 0 10px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.hlt-mobile-top-id-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-mobile-top-id-label {
+  font-family: var(--hlt-font-family, sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.hlt-mobile-top-id-value {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: .02em;
+  line-height: 1.15;
+  margin-top: 3px;
+}
+
+/* Card Rows Below Top Box */
+.hlt-mobile-card-rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.hlt-mobile-card-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 4px;
+  border-bottom: 1px solid rgba(197, 161, 90, 0.14);
+}
+
+.hlt-mobile-card-row:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+
+.hlt-mobile-row-icon-circle {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 161, 90, 0.45);
+  background: rgba(197, 161, 90, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c5a15a;
+  flex-shrink: 0;
+}
+
+.hlt-mobile-row-icon-circle svg {
+  width: 17px;
+  height: 17px;
+  stroke: #c5a15a;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-mobile-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hlt-mobile-row-label {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  opacity: 0.9;
+  line-height: 1.1;
+}
+
+.hlt-mobile-row-value {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.25;
+  letter-spacing: .01em;
+}
+
+.hlt-mobile-price-val {
+  font-size: 21px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: .02em;
+}
+
+@media (max-width: 360px) {
+  .hlt-mobile-confirm-ticket {
+    padding: 10px 10px 8px;
+  }
+  .hlt-mobile-card-top-box {
+    padding: 10px 8px;
+  }
+  .hlt-mobile-top-logo {
+    width: 36px;
+    height: 36px;
+  }
+  .hlt-mobile-top-brand-hoang {
+    font-size: 17px;
+  }
+  .hlt-mobile-top-id-value {
+    font-size: 18px;
+  }
+  .hlt-mobile-card-row {
+    gap: 10px;
+    padding: 9px 2px;
+  }
+  .hlt-mobile-row-icon-circle {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+  .hlt-mobile-row-value {
+    font-size: 14px;
+  }
+  .hlt-mobile-price-val {
+    font-size: 19px;
   }
 }
 
@@ -880,7 +1119,7 @@
 .hlt-showcase-row-value {
   font-size: 13px;
   font-weight: 600;
-  color: #c5a15a !important;
+  color: #ffffff !important;
   line-height: 1.25;
 }
 
