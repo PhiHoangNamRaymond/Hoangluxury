@@ -46,6 +46,18 @@
   padding-bottom: 32px;
 }
 
+.hlt-cruise-hero-mobile-frame {
+  display: none;
+}
+
+.hlt-cruise-hero-kicker {
+  display: none;
+}
+
+.hlt-cruise-crown-divider {
+  display: none;
+}
+
 .hlt-cruise-hero-content {
   max-width: 620px;
 }
@@ -259,10 +271,8 @@
   font-size: clamp(32px, 2.8vw, 42px);
   font-weight: 700;
   color: #07201b;
-  line-height: 1.08;
+  line-height: 1.12;
   margin: 0 0 14px;
-  display: flex;
-  flex-direction: column;
 }
 
 .hlt-cruise-catalog-desc {
@@ -1488,53 +1498,695 @@
   }
 }
 
-@media (max-width: 600px) {
-  .hlt-cruise-trustbar-inner {
-    flex-direction: column;
-    align-items: flex-start;
+@media (max-width: 768px) {
+  /* Container & Global Spacing */
+  .hlt-cruises-site .hlt-container {
     padding: 0 16px;
-    gap: 12px;
   }
 
-  .hlt-cruise-grid {
-    grid-template-columns: 1fr;
+  /* 1. Hero Section (Home Format with Scalloped Concave Frame) */
+  /* 1. Hero Section (Home Format with Balanced Scalloped Frame) */
+  .hlt-cruise-hero {
+    min-height: 590px;
+    padding-top: 75px;
+    padding-bottom: 0 !important;
+    background-position: 72% center;
+    position: relative;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .hlt-cruise-hero-overlay {
+    background:
+      linear-gradient(180deg, rgba(2, 9, 8, 0.85) 0%, rgba(2, 9, 8, 0.42) 45%, rgba(2, 9, 8, 0.96) 100%),
+      linear-gradient(90deg, rgba(2, 9, 8, 0.75) 0%, rgba(2, 9, 8, 0.35) 60%, transparent 100%) !important;
+  }
+
+  .hlt-cruise-hero-container {
+    position: relative !important;
+    width: calc(100% - 44px) !important;
+    max-width: 320px !important;
+    margin: auto auto !important;
+    padding: 0 !important;
+  }
+
+  .hlt-cruise-hero-mobile-frame {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 6 !important;
+  }
+
+  .hlt-cruise-hero-scallop-svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+  }
+
+  .hlt-cruise-hero-content {
+    position: relative !important;
+    z-index: 7 !important;
+    min-height: 400px !important;
+    padding: 28px 18px !important;
+    text-align: left !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .hlt-cruise-hero-kicker {
+    display: block !important;
+    margin: 0 0 6px !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.22em !important;
+    color: #c5a15a !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    text-align: left !important;
+  }
+
+  .hlt-cruise-hero-title {
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+  }
+
+  .hlt-title-white {
+    display: block !important;
+    font-size: clamp(28px, 8vw, 36px) !important;
+    color: #ffffff !important;
+    line-height: 0.98 !important;
+    letter-spacing: 0.04em !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .hlt-title-gold {
+    display: block !important;
+    font-size: clamp(28px, 8vw, 36px) !important;
+    color: #d4af37 !important;
+    line-height: 0.98 !important;
+    letter-spacing: 0.04em !important;
+    margin-top: 2px !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .hlt-cruise-crown-divider {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 10px 0 12px !important;
+    width: 120px !important;
+    color: #c5a15a !important;
+  }
+
+  .hlt-cruise-crown-line {
+    flex: 1 !important;
+    height: 1px !important;
+    background: #c5a15a !important;
+    opacity: 0.85 !important;
+  }
+
+  .hlt-cruise-crown-svg {
+    width: 12px !important;
+    height: 9px !important;
+    color: #c5a15a !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hlt-cruise-hero-subtitle {
+    margin: 0 0 18px !important;
+    max-width: 205px !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 11px !important;
+    line-height: 1.38 !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8) !important;
+    font-style: normal !important;
+    text-align: left !important;
+  }
+
+  .hlt-cruise-hero-bullets {
+    display: none !important;
+  }
+
+  .hlt-cruise-hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    width: 100% !important;
+    max-width: 175px !important;
+    margin: 0 !important;
+    align-items: flex-start !important;
+  }
+
+  .hlt-cruise-hero-actions .hlt-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 33px !important;
+    padding: 0 10px !important;
+    font-size: 9px !important;
+    border-radius: 5px !important;
+    justify-content: center !important;
+    letter-spacing: 0.08em !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  /* Trustbar: 1 Single Row, Sát Mép Đen Dưới Cùng */
+  .hlt-cruise-trustbar {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+    padding: 12px 0 10px !important;
+    background: rgba(3, 10, 8, 0.88) !important;
+    border-top: 1px solid rgba(197, 161, 90, 0.38) !important;
+    border-bottom: none !important;
+    width: 100% !important;
+    position: relative;
+    z-index: 5;
+  }
+
+  .hlt-cruise-trustbar-inner {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0 !important;
+    padding: 0 4px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  .hlt-cruise-trust-divider {
+    display: block !important;
+    width: 1px !important;
+    height: 28px !important;
+    background: rgba(197, 161, 90, 0.45) !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hlt-cruise-trust-item {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 5px !important;
+    padding: 0 3px !important;
+  }
+
+  .hlt-cruise-trust-item span:not(.hlt-trust-svg) {
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    color: #ded6c2 !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+    display: block !important;
+    white-space: normal !important;
+  }
+
+  .hlt-trust-svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+    color: #c5a15a !important;
+  }
+
+  /* 2. Find Your Cruise (Single-column Full-width 16:10 Cards) */
+  .hlt-cruise-catalog-section {
+    padding: 36px 0 40px;
+  }
+
+  .hlt-cruise-row-top {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .hlt-cruise-catalog-intro {
+    width: 100% !important;
+    padding: 0 0 10px !important;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hlt-cruise-catalog-title {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: clamp(24px, 7vw, 28px) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 10px !important;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+
+  .hlt-cruise-catalog-desc {
+    font-size: 14px !important;
+    max-width: 320px;
+    margin: 0 auto 14px !important;
+  }
+
+  .hlt-cruise-gold-rule {
+    margin: 0 auto;
+  }
+
+  .hlt-cruise-match-left h2,
+  .hlt-cruise-seamless-content h2,
+  .hlt-cruise-exp-intro h2,
+  .hlt-cruise-durations-intro h2,
+  .hlt-cruise-stats-left h2,
+  .hlt-cruise-reviews-left h2,
+  .hlt-cruise-faq-left h2,
+  .hlt-cruise-cta-text h2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+
+  .hlt-cruise-row-bottom {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    margin-top: 20px !important;
+    padding-left: 0 !important;
+  }
+
+  .hlt-cruise-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .hlt-cruise-card-media {
+    width: 100% !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  .hlt-cruise-card-body {
+    padding: 16px 16px 18px !important;
+  }
+
+  .hlt-cruise-card-title {
+    font-size: 18px !important;
+  }
+
+  .hlt-cruise-card-btn {
+    height: 42px !important;
+    font-size: 13.5px !important;
+  }
+
+  /* 3. Not Sure Which Cruise to Choose? */
+  .hlt-cruise-match-section {
+    padding: 36px 0;
+  }
+
+  .hlt-cruise-match-layout {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    text-align: center;
+  }
+
+  .hlt-cruise-match-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hlt-cruise-match-left h2 {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hlt-cruise-match-left p {
+    font-size: 14px !important;
+    max-width: 320px;
+    margin: 0 auto 20px !important;
+  }
+
+  .hlt-cruise-match-left .hlt-cruise-btn-gold {
+    width: 100% !important;
+    max-width: 300px;
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .hlt-cruise-match-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlt-cruise-pref-box {
+    min-height: 135px !important;
+    padding: 16px 8px 14px !important;
+  }
+
+  .hlt-cruise-pref-icon {
+    width: 46px !important;
+    height: 46px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hlt-cruise-pref-img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .hlt-cruise-pref-box h3 {
+    font-size: 13.5px !important;
+  }
+
+  /* 4. From Hotel to Cruise Seamlessly */
+  .hlt-cruise-seamless-banner {
+    min-height: 440px !important;
+    padding: 36px 16px !important;
+    background-position: center center !important;
+  }
+
+  .hlt-cruise-seamless-content h2 {
+    font-size: clamp(24px, 6.8vw, 32px) !important;
+    line-height: 1.15 !important;
+  }
+
+  .hlt-cruise-seamless-subtitle {
+    font-size: 13.5px !important;
+    margin-bottom: 24px !important;
   }
 
   .hlt-cruise-flow-steps {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .hlt-cruise-flow-step {
+    width: 100% !important;
+    max-width: 290px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(8px) !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    justify-content: flex-start !important;
   }
 
   .hlt-cruise-flow-arrow {
-    transform: rotate(90deg);
-    margin: 4px auto;
+    transform: rotate(90deg) !important;
+    color: #c5a15a !important;
+    font-size: 18px !important;
+    margin: 2px 0 !important;
   }
 
   .hlt-cruise-features-row {
-    flex-direction: column;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px 10px !important;
+    padding: 24px 0 20px !important;
+  }
+
+  .hlt-cruise-feature-item {
+    font-size: 12.5px !important;
+    gap: 8px !important;
+  }
+
+  .hlt-cruise-seamless-cta .hlt-cruise-btn-gold {
+    width: 100% !important;
+    max-width: 320px;
+    height: 46px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+  }
+
+  /* 5. More Than a Night on the Bay (Mosaic) */
+  .hlt-cruise-exp-section {
+    padding: 36px 0 0 !important;
+  }
+
+  .hlt-cruise-exp-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .hlt-cruise-exp-intro {
+    text-align: center;
+  }
+
+  .hlt-cruise-exp-intro h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-exp-intro p {
+    max-width: 100% !important;
+    font-size: 14px !important;
+    margin: 0 auto !important;
+  }
+
+  .hlt-cruise-exp-banner {
+    height: 180px !important;
+    border-radius: 12px 12px 0 0 !important;
+  }
+
+  .hlt-cruise-exp-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  .hlt-cruise-exp-card {
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .hlt-cruise-exp-card:nth-child(3) {
+    border-radius: 0 0 0 12px !important;
+  }
+
+  .hlt-cruise-exp-card:nth-child(4) {
+    border-radius: 0 0 12px 0 !important;
+  }
+
+  /* 6. Choose Your Journey */
+  .hlt-cruise-durations-section {
+    padding: 30px 0 36px !important;
+  }
+
+  .hlt-cruise-durations-layout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .hlt-cruise-durations-intro {
+    text-align: center;
+  }
+
+  .hlt-cruise-durations-intro h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-durations-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .hlt-cruise-duration-media {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .hlt-cruise-duration-body {
+    padding: 16px 14px 18px !important;
+  }
+
+  .hlt-cruise-duration-btn {
+    height: 36px !important;
+    font-size: 12.5px !important;
+    padding: 0 24px !important;
+  }
+
+  /* 7. Stats & Values */
+  .hlt-cruise-stats-section {
+    padding: 36px 0 !important;
+  }
+
+  .hlt-cruise-stats-layout {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .hlt-cruise-stats-left {
+    text-align: center;
+  }
+
+  .hlt-cruise-stats-left h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-benefits-list {
     align-items: flex-start;
-    gap: 12px;
+    max-width: 290px;
+    margin: 0 auto;
+    font-size: 14px !important;
   }
 
-  .hlt-cruise-exp-grid,
+  .hlt-cruise-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlt-cruise-metric-box {
+    min-height: 135px !important;
+    padding: 18px 10px 14px !important;
+  }
+
+  .hlt-metric-svg {
+    width: 36px !important;
+    height: 36px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hlt-metric-val {
+    font-size: 22px !important;
+  }
+
+  /* 8. Real Cruise Moments */
+  .hlt-cruise-moments-section {
+    padding: 30px 0 0 !important;
+  }
+
   .hlt-cruise-moments-grid {
-    grid-template-columns: 1fr;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    height: auto !important;
   }
 
-  .hlt-cruise-hero-actions,
+  .hlt-cruise-moment-featured {
+    grid-column: 1 / -1 !important;
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
+
+  .hlt-cruise-moment-card:not(.hlt-cruise-moment-featured) {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+  }
+
+  /* 9. Reviews */
+  .hlt-cruise-reviews-section {
+    padding: 30px 0 0 !important;
+  }
+
+  .hlt-cruise-reviews-layout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .hlt-cruise-reviews-left {
+    text-align: center;
+  }
+
+  .hlt-cruise-reviews-left h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-reviews-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* 10. FAQ */
+  .hlt-cruise-faq-section {
+    padding: 30px 0 44px !important;
+  }
+
+  .hlt-cruise-faq-layout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .hlt-cruise-faq-left {
+    text-align: center;
+  }
+
+  .hlt-cruise-faq-left h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .hlt-cruise-faq-question {
+    min-height: 48px !important;
+    font-size: 14px !important;
+    padding: 12px 14px !important;
+  }
+
+  /* 11. CTA Banner */
+  .hlt-cruise-cta-section {
+    padding: 36px 0 !important;
+  }
+
+  .hlt-cruise-cta-content {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 22px !important;
+  }
+
+  .hlt-cruise-cta-text h2 {
+    font-size: 26px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hlt-cruise-cta-text p {
+    font-size: 13.5px !important;
+    max-width: 320px;
+    margin: 0 auto !important;
+  }
+
+  .hlt-cruise-cta-right {
+    width: 100% !important;
+  }
+
   .hlt-cruise-cta-actions {
-    flex-direction: column;
-    width: 100%;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
   }
 
-  .hlt-cruise-hero-actions .hlt-btn,
-  .hlt-cruise-cta-actions .hlt-btn,
-  .hlt-btn-outline-glass {
-    width: 100%;
-    justify-content: center;
+  .hlt-cruise-cta-actions .hlt-cruise-btn-gold,
+  .hlt-cruise-cta-actions .hlt-cruise-btn-dark-wa {
+    width: 100% !important;
+    justify-content: center !important;
+    height: 46px !important;
+    font-size: 14px !important;
+  }
+
+  .hlt-cruise-cta-trust {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    font-size: 11.5px !important;
+    margin-top: 14px !important;
   }
 }

@@ -43,11 +43,39 @@ export default function CruisesPage() {
           <div className="hlt-cruise-hero-overlay" aria-hidden="true" />
 
           <div className="hlt-container hlt-cruise-hero-container">
+            {/* Scalloped concave corner frame overlay for mobile */}
+            <div className="hlt-cruise-hero-mobile-frame" aria-hidden="true">
+              <svg
+                className="hlt-cruise-hero-scallop-svg"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                fill="none"
+              >
+                <path
+                  d="M 3.5,0 L 96.5,0 A 3.5,3.5 0 0,0 100,3.5 L 100,96.5 A 3.5,3.5 0 0,0 96.5,100 L 3.5,100 A 3.5,3.5 0 0,0 0,96.5 L 0,3.5 A 3.5,3.5 0 0,0 3.5,0 Z"
+                  stroke="rgba(197, 161, 90, 0.7)"
+                  strokeWidth="0.7"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+            </div>
+
             <div className="hlt-cruise-hero-content">
+              <p className="hlt-cruise-hero-kicker">HANDPICKED · LUXURY · PRIVATE TRANSFER</p>
               <h1 className="hlt-cruise-hero-title">
                 <span className="hlt-title-white">LUXURY</span>
                 <span className="hlt-title-gold">HA LONG CRUISES</span>
               </h1>
+
+              <div className="hlt-cruise-crown-divider" aria-hidden="true">
+                <span className="hlt-cruise-crown-line" />
+                <svg viewBox="0 0 20 11" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round" className="hlt-cruise-crown-svg">
+                  <polyline points="1,10 3,4 7,7.5 10,1 13,7.5 17,4 19,10" />
+                  <line x1="1" y1="10" x2="19" y2="10" />
+                </svg>
+                <span className="hlt-cruise-crown-line" />
+              </div>
+
               <p className="hlt-cruise-hero-subtitle">
                 Exceptional journeys through Ha Long &amp; Lan Ha Bay
               </p>
@@ -141,8 +169,7 @@ export default function CruisesPage() {
             <div className="hlt-cruise-row-top">
               <div className="hlt-cruise-catalog-intro">
                 <h2 className="hlt-cruise-catalog-title">
-                  <span>Find Your</span>
-                  <span>Cruise</span>
+                  Find Your Cruise
                 </h2>
                 <p className="hlt-cruise-catalog-desc">
                   Handpicked luxury cruises in Ha Long Bay &amp; Lan Ha Bay. Best service. Best value.
@@ -299,11 +326,7 @@ export default function CruisesPage() {
           >
             <div className="hlt-cruise-seamless-overlay" aria-hidden="true" />
             <div className="hlt-container hlt-cruise-seamless-content">
-              <h2>
-                From Your Hotel<br />
-                to Your Cruise —<br />
-                Seamlessly
-              </h2>
+              <h2>From Your Hotel to Your Cruise — Seamlessly</h2>
               <p className="hlt-cruise-seamless-subtitle">
                 Enjoy a private journey from Hanoi or Noi Bai Airport directly to your cruise terminal.
               </p>
@@ -445,10 +468,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-exp-layout">
               <div className="hlt-cruise-exp-intro">
-                <h2>
-                  More Than a<br />
-                  Night on the Bay
-                </h2>
+                <h2>More Than a Night on the Bay</h2>
                 <p>
                   Wake up surrounded by limestone islands, savor refined dining, explore hidden caves
                   and create unforgettable memories in one of the world's most extraordinary landscapes.
@@ -491,10 +511,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-durations-layout">
               <div className="hlt-cruise-durations-intro">
-                <h2>
-                  Choose Your<br />
-                  Journey
-                </h2>
+                <h2>Choose Your Journey</h2>
               </div>
 
               <div className="hlt-cruise-durations-grid">
@@ -637,11 +654,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-reviews-layout">
               <div className="hlt-cruise-reviews-left">
-                <h2>
-                  Trusted by<br />
-                  International<br />
-                  Travelers
-                </h2>
+                <h2>Trusted by International Travelers</h2>
               </div>
 
               <div className="hlt-cruise-reviews-grid">
@@ -681,10 +694,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-faq-layout">
               <div className="hlt-cruise-faq-left">
-                <h2>
-                  Frequently Asked<br />
-                  Questions
-                </h2>
+                <h2>Frequently Asked Questions</h2>
               </div>
 
               <div className="hlt-cruise-faq-grid">
@@ -739,10 +749,7 @@ export default function CruisesPage() {
           <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
           <div className="hlt-container hlt-cruise-cta-content">
             <div className="hlt-cruise-cta-text">
-              <h2>
-                Your Ha Long<br />
-                Journey Starts Here
-              </h2>
+              <h2>Your Ha Long Journey Starts Here</h2>
               <p>
                 Tell us your travel date and preferences. We'll help you select the right cruise and
                 arrange your private journey from Hanoi.
