@@ -7,14 +7,14 @@
   padding-top: 72px;
   border-top: 0;
   border-bottom: 0;
-  background-color: #f5eee3;
+  background-color: #EDE0CC;
   background-image:
     linear-gradient(to bottom,
-      #f5eee3 0%,
-      rgba(245, 238, 227, .98) 30%,
-      rgba(245, 238, 227, .88) 42%,
-      rgba(245, 238, 227, .46) 55%,
-      rgba(245, 238, 227, 0) 68%),
+      #EDE0CC 0%,
+      rgba(237, 224, 204, .98) 30%,
+      rgba(237, 224, 204, .88) 42%,
+      rgba(237, 224, 204, .46) 55%,
+      rgba(237, 224, 204, 0) 68%),
     var(--booking-process-bg);
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -24,7 +24,7 @@
 
 .hlt-booking-showcase-main {
   display: grid;
-  grid-template-columns: minmax(390px, .88fr) minmax(0, 1.42fr);
+  grid-template-columns: minmax(460px, 1.02fr) minmax(0, 1.18fr);
   gap: clamp(34px, 4vw, 58px);
   align-items: center;
 }
@@ -396,6 +396,249 @@
   width: 100%;
 }
 
+/* =========================================================
+   DESKTOP CONFIRMATION CARD (Bảng Desktop theo mẫu ảnh)
+   ========================================================= */
+
+.hlt-desk-confirm-card {
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(197, 161, 90, 0.45);
+  border-radius: 12px;
+  background: #091714;
+  background: linear-gradient(145deg, #0d1e1a 0%, #081310 100%);
+  padding: 24px 28px 18px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5), 0 0 24px rgba(197, 161, 90, 0.06);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.hlt-desk-confirm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.hlt-desk-confirm-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hlt-desk-confirm-logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+.hlt-desk-confirm-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.hlt-desk-brand-hoang {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  line-height: 1;
+}
+
+.hlt-desk-brand-sub {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  color: #c5a15a;
+  margin-top: 4px;
+}
+
+.hlt-desk-confirm-title-wrap {
+  text-align: center;
+}
+
+.hlt-desk-confirm-title {
+  margin: 0;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  line-height: 1.22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hlt-desk-confirm-id-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 120px;
+}
+
+.hlt-desk-confirm-id-label {
+  font-family: var(--hlt-font-family, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  text-transform: uppercase;
+}
+
+.hlt-desk-confirm-id-line {
+  width: 105px;
+  height: 1px;
+  background: rgba(197, 161, 90, 0.35);
+  margin: 6px 0;
+}
+
+.hlt-desk-confirm-id-val {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #c5a15a;
+  letter-spacing: .02em;
+}
+
+.hlt-desk-confirm-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: rgba(197, 161, 90, 0.35);
+  margin: 18px 0 10px;
+}
+
+.hlt-desk-confirm-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.hlt-desk-confirm-body {
+  position: relative;
+}
+
+.hlt-desk-confirm-watermark {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 220px;
+  height: 220px;
+  opacity: 0.08;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.hlt-desk-confirm-rows {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-desk-confirm-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(197, 161, 90, 0.12);
+}
+
+.hlt-desk-row-label-col {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 175px;
+  flex: none;
+}
+
+.hlt-desk-row-icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: #c5a15a;
+}
+
+.hlt-desk-row-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #c5a15a;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-desk-row-label {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #c5a15a;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.hlt-desk-row-colon {
+  width: 28px;
+  flex: none;
+  text-align: center;
+  color: #c5a15a;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.hlt-desk-row-value-col {
+  flex: 1;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #c5a15a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hlt-desk-confirm-signature {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 18px;
+  color: #c5a15a;
+  text-align: right;
+  margin-top: 14px;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+/* Visibility toggles: Desktop vs Mobile */
+.hlt-desk-confirm-card {
+  display: block;
+}
+.hlt-mobile-confirm-ticket {
+  display: none !important;
+}
+
+@media (max-width: 960px) {
+  .hlt-desk-confirm-card {
+    display: none !important;
+  }
+  .hlt-mobile-confirm-ticket {
+    display: block !important;
+  }
+}
+
 .hlt-showcase-ticket {
   border: 1px solid rgba(197, 161, 90, 0.45);
   border-radius: 12px;
@@ -544,7 +787,7 @@
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: 24px;
   font-weight: 700;
-  color: #ffffff;
+  color: #c5a15a;
   letter-spacing: .02em;
 }
 
@@ -631,12 +874,13 @@
   text-transform: uppercase;
   letter-spacing: .08em;
   color: #c5a15a;
+  opacity: 0.82;
 }
 
 .hlt-showcase-row-value {
   font-size: 13px;
-  font-weight: 500;
-  color: #ffffff !important;
+  font-weight: 600;
+  color: #c5a15a !important;
   line-height: 1.25;
 }
 
@@ -834,14 +1078,14 @@
   top: 50% !important;
   width: 8px;
   height: 8px;
-  background: #f5eee3; /* Match section background */
+  background: #EDE0CC; /* Match section background */
   border: 1px solid #c5a15a;
   transform: translate(-50%, -50%) rotate(45deg) !important;
 }
 
 @media (max-width: 960px) {
   .hlt-booking-showcase {
-    background-color: #f5eee3 !important;
+    background-color: #EDE0CC !important;
     background-image: none !important;
     border: none !important;
     border-bottom: none !important;
@@ -886,14 +1130,18 @@
   }
 
   .hlt-process-connector-line {
-    display: block !important;
-    position: absolute;
-    left: 23px;
-    top: 24px;
-    bottom: 24px;
-    width: 1.5px;
-    background: rgba(197, 161, 90, 0.65);
-    z-index: 0;
+    display: none !important;
+  }
+
+  .hlt-process-step:not(:last-child)::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 23px !important;
+    top: 35px !important;
+    height: 100% !important;
+    width: 1.5px !important;
+    background: rgba(197, 161, 90, 0.65) !important;
+    z-index: 0 !important;
   }
 
   .hlt-process-step {

@@ -58,7 +58,7 @@ import journeyHaLongImgUrl from "../../assets/Ha long.png";
 import journeyMocChauImgUrl from "../../assets/Moc chau.png";
 import journeyMuCangChaiImgUrl from "../../assets/Mu Cang Chai.png";
 import journeyNinhBinhImgUrl from "../../assets/Ninh Binh.png";
-import journeySaPaImgUrl from "../../assets/Sapa2.png";
+import journeySaPaImgUrl from "../../assets/ảnh sapa.png";
 import journeyTaXuaImgUrl from "../../assets/Ta xua.png";
 
 import routeViewAllButtonUrl from "../../assets/route-view-all-button-2026.webp";

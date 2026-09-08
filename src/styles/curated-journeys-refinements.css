@@ -279,8 +279,8 @@
   .hlt-route-number {
     width: 25px;
     height: 25px;
-    top: 7px;
-    left: 7px;
+    top: 9px;
+    left: 9px;
     font-size: 11px;
   }
 
@@ -324,8 +324,8 @@
   .hlt-route-number {
     width: 20px;
     height: 20px;
-    top: 6px;
-    left: 6px;
+    top: 8px;
+    left: 8px;
     font-size: 9px;
   }
 
@@ -357,12 +357,26 @@
     gap: 8px;
   }
 
+  .hlt-route-heading-ornament {
+    display: none !important;
+  }
+
+  .hlt-route-heading {
+    margin-bottom: 16px;
+  }
+
   .hlt-route-map {
+    margin-top: 6px;
     margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 
   .hlt-route-map img {
-    width: min(94vw, 620px);
+    width: min(96vw, 660px);
+    max-height: none !important;
   }
 
   .hlt-route-cta.hlt-route-cta-image {
@@ -404,12 +418,34 @@
     gap: 6px;
   }
 
+  .hlt-route-heading {
+    margin-bottom: 16px;
+  }
+
+  .hlt-route-heading-ornament {
+    display: none !important;
+  }
+
   .hlt-route-map {
-    margin-bottom: -4px;
+    width: calc(100% + 28px);
+    margin-left: -14px;
+    margin-right: -14px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
   }
 
   .hlt-route-map img {
-    width: min(104%, 400px);
+    width: 100%;
+    max-width: 480px;
+    max-height: none !important;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transform: scale(1.1);
   }
 
   .hlt-route-grid {
@@ -426,8 +462,8 @@
   .hlt-route-number {
     width: 18px;
     height: 18px;
-    top: 5px;
-    left: 5px;
+    top: 8px;
+    left: 8px;
     font-size: 8px;
   }
 

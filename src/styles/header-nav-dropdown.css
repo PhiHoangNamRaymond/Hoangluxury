@@ -51,8 +51,22 @@
   transform: translate(-50%, 6px);
   opacity: 0;
   visibility: hidden;
+  max-height: min(540px, calc(100vh - 90px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(216, 168, 73, .4) transparent;
   /* Khi đóng: giữ visible cho tới lúc mờ hết rồi mới ẩn. */
   transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+}
+
+.hlt-nav-menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.hlt-nav-menu::-webkit-scrollbar-thumb {
+  background: rgba(216, 168, 73, .35);
+  border-radius: 4px;
 }
 
 .hlt-nav-group:hover .hlt-nav-menu,

@@ -3,7 +3,7 @@
   overflow: hidden;
   border-top: 1px solid rgba(190, 139, 48, .34);
   border-bottom: 1px solid rgba(190, 139, 48, .58);
-  background: #f4ead9;
+  background: #EDE0CC;
 }
 
 .hlt-experience-heading {
@@ -16,7 +16,7 @@
   text-align: center;
   background:
     radial-gradient(circle at 20% 0%, rgba(216, 168, 73, .08), transparent 32%),
-    linear-gradient(90deg, #f1e4cf, #fbf5eb 50%, #f1e4cf);
+    linear-gradient(90deg, #EDE0CC, #F4EBDD 50%, #EDE0CC);
 }
 
 .hlt-experience-title-row {
@@ -41,7 +41,7 @@
   width: 8px;
   height: 8px;
   border: 1.5px solid #c28a2d;
-  background: #f7eedf;
+  background: #EDE0CC;
   transform: translateY(-50%) rotate(45deg);
 }
 

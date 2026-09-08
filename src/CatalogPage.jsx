@@ -1,6 +1,8 @@
 import React from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { catalogUrl, whatsappUrl } from "./data.js";
 import { catalogBackgroundUrl, catalogOpenBookUrl } from "./config/assets.js";
 
@@ -67,6 +69,8 @@ export default function CatalogPage() {
         </section>
       </main>
 
+      <JourneyCallToAction />
+      <ExperienceSlider />
       <Footer />
     </div>
   );

@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .hlt-journeys-site {
-  background-color: #faf6ed;
+  background-color: #EDE0CC;
   min-height: 100vh;
 }
 
@@ -400,6 +400,26 @@
   font-size: 11px;
   letter-spacing: 2px;
   line-height: 1;
+}
+
+.hlt-jcard-btn-dest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  line-height: 1.1;
+}
+
+.hlt-jcard-btn-dest svg {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  stroke: currentColor;
+  transition: transform .2s ease;
+}
+
+.hlt-jcard-btn-detail:hover .hlt-jcard-btn-dest svg {
+  transform: translateX(3px);
 }
 
 .hlt-jcard-btn-book {

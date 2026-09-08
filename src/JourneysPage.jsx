@@ -1,8 +1,10 @@
 import React from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { whatsappUrl, catalogPageUrl } from "./data.js";
-import { journeyCardImages, whyVehicleIconUrl, whyWhatsappIconUrl } from "./config/assets.js";
+import { journeyCardImages, whyVehicleIconUrl } from "./config/assets.js";
 
 const allRoutesData = [
   {
@@ -11,10 +13,9 @@ const allRoutesData = [
     slug: "sapa",
     image: journeyCardImages[0],
     routeLine: "Hanoi → Sa Pa",
-    approxTime: "approx. 5-6 hrs",
     time: "5-6 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Sa Pa",
     dropoffNote: "Hotels, Resorts or Town Center",
   },
@@ -24,10 +25,9 @@ const allRoutesData = [
     slug: "ha-long",
     image: journeyCardImages[1],
     routeLine: "Hanoi → Ha Long",
-    approxTime: "approx. 2.5-3 hrs",
     time: "2.5-3.0 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Ha Long",
     dropoffNote: "Hotels, Resorts or Cruise Harbour",
   },
@@ -37,10 +37,9 @@ const allRoutesData = [
     slug: "ninh-binh",
     image: journeyCardImages[2],
     routeLine: "Hanoi → Ninh Binh",
-    approxTime: "approx. 1.5-2 hrs",
     time: "1.5-2.0 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Ninh Binh",
     dropoffNote: "Hotels, Resorts or Tam Coc / Trang An",
   },
@@ -50,10 +49,9 @@ const allRoutesData = [
     slug: "ha-giang",
     image: journeyCardImages[3],
     routeLine: "Hanoi → Ha Giang",
-    approxTime: "approx. 6-7 hrs",
     time: "6.0-7.0 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Ha Giang",
     dropoffNote: "Hotels, Homestays or City Center",
   },
@@ -63,10 +61,9 @@ const allRoutesData = [
     slug: "cat-ba",
     image: journeyCardImages[4],
     routeLine: "Hanoi → Cat Ba",
-    approxTime: "approx. 3.5-4 hrs",
     time: "3.5-4.0 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Cat Ba Island",
     dropoffNote: "Hotels, Resorts or Town Center",
   },
@@ -76,10 +73,9 @@ const allRoutesData = [
     slug: "cao-bang",
     image: journeyCardImages[5],
     routeLine: "Hanoi → Cao Bang",
-    approxTime: "approx. 6-7 hrs",
     time: "6.0-7.0 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Cao Bang",
     dropoffNote: "Hotels, Homestays or Ban Gioc Area",
   },
@@ -89,10 +85,9 @@ const allRoutesData = [
     slug: "mu-cang-chai",
     image: journeyCardImages[6],
     routeLine: "Hanoi → Mu Cang Chai",
-    approxTime: "approx. 6.5-7.5 hrs",
     time: "6.5-7.5 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Mu Cang Chai",
     dropoffNote: "Hotels, Resorts or Terraced Valleys",
   },
@@ -102,10 +97,9 @@ const allRoutesData = [
     slug: "moc-chau",
     image: journeyCardImages[7],
     routeLine: "Hanoi → Moc Chau",
-    approxTime: "approx. 4-4.5 hrs",
     time: "4.0-4.5 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Moc Chau",
     dropoffNote: "Hotels, Resorts or Farmstay Areas",
   },
@@ -115,10 +109,9 @@ const allRoutesData = [
     slug: "ta-xua",
     image: journeyCardImages[8],
     routeLine: "Hanoi → Ta Xua",
-    approxTime: "approx. 4.5-5.5 hrs",
     time: "4.5-5.5 Hours",
-    vehicle: "Limousine / VIP Luxury",
-    service: "Private Transfer Door-to-Door",
+    vehicle: "Limo Lux",
+    service: "Private Transfer",
     dropoffPlace: "Ta Xua",
     dropoffNote: "Hotels, Homestays or Town Center",
   },
@@ -210,7 +203,7 @@ export default function JourneysPage() {
                     <div className="hlt-jcard-stats">
                       <div className="hlt-jcard-stat hlt-jcard-stat-route">
                         <span className="hlt-jcard-stat-label">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="10" r="3" /><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" /></svg>
                           <span>ROUTE</span>
                         </span>
                         <strong className="hlt-jcard-stat-val">
@@ -220,21 +213,21 @@ export default function JourneysPage() {
                       </div>
                       <div className="hlt-jcard-stat">
                         <span className="hlt-jcard-stat-label">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                           <span>TIME</span>
                         </span>
                         <strong className="hlt-jcard-stat-val">{item.time}</strong>
                       </div>
                       <div className="hlt-jcard-stat">
                         <span className="hlt-jcard-stat-label">
-                          <svg viewBox="0 0 512 512" fill="currentColor"><path d="M499.99 176h-59.87l-16.64-41.6C406.38 91.63 349.57 64 303.5 64h-127c-46.06 0-86.88 27.63-103.99 70.4L71.87 176H12.01C4.2 176-1.53 183.34.37 190.91l6 24C7.7 220.25 12.5 224 18.01 224h20.07C24.65 235.73 16 252.78 16 272v48c0 16.12 6.16 30.67 16 41.93V416c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h256v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-54.07c9.84-11.25 16-25.8 16-41.93v-48c0-19.22-8.65-36.27-22.07-48H494c5.51 0 10.31-3.75 11.64-9.09l6-24c1.89-7.57-3.84-14.91-11.65-14.91m-352.06-17.83c7.29-18.22 24.94-30.17 44.57-30.17h127c19.63 0 37.28 11.95 44.57 30.17L384 208H128zM96 319.8c-19.2 0-32-12.76-32-31.9S76.8 256 96 256s48 28.71 48 47.85s-28.8 15.95-48 15.95m320 0c-19.2 0-48 3.19-48-15.95S396.8 256 416 256s32 12.76 32 31.9s-12.8 31.9-32 31.9"/></svg>
+                          <svg viewBox="0 0 512 512" fill="currentColor"><path d="M499.99 176h-59.87l-16.64-41.6C406.38 91.63 349.57 64 303.5 64h-127c-46.06 0-86.88 27.63-103.99 70.4L71.87 176H12.01C4.2 176-1.53 183.34.37 190.91l6 24C7.7 220.25 12.5 224 18.01 224h20.07C24.65 235.73 16 252.78 16 272v48c0 16.12 6.16 30.67 16 41.93V416c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h256v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-54.07c9.84-11.25 16-25.8 16-41.93v-48c0-19.22-8.65-36.27-22.07-48H494c5.51 0 10.31-3.75 11.64-9.09l6-24c1.89-7.57-3.84-14.91-11.65-14.91m-352.06-17.83c7.29-18.22 24.94-30.17 44.57-30.17h127c19.63 0 37.28 11.95 44.57 30.17L384 208H128zM96 319.8c-19.2 0-32-12.76-32-31.9S76.8 256 96 256s48 28.71 48 47.85s-28.8 15.95-48 15.95m320 0c-19.2 0-48 3.19-48-15.95S396.8 256 416 256s32 12.76 32 31.9s-12.8 31.9-32 31.9" /></svg>
                           <span>VEHICLE</span>
                         </span>
                         <strong className="hlt-jcard-stat-val">{item.vehicle}</strong>
                       </div>
                       <div className="hlt-jcard-stat">
                         <span className="hlt-jcard-stat-label">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
                           <span>SERVICE</span>
                         </span>
                         <strong className="hlt-jcard-stat-val">{item.service}</strong>
@@ -278,7 +271,13 @@ export default function JourneysPage() {
                       className="hlt-jcard-btn hlt-jcard-btn-detail"
                     >
                       <span className="hlt-jcard-stars">★★★★★</span>
-                      <span>5-STAR SERVICE</span>
+                      <span className="hlt-jcard-btn-dest">
+                        <span>{item.name}</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </span>
                     </a>
                     <a
                       href={whatsappRouteUrl}
@@ -308,33 +307,10 @@ export default function JourneysPage() {
           </div>
         </div>
 
-        <section className="hlt-journeys-cta-section">
-          <div className="hlt-container">
-            <div className="hlt-journeys-cta">
-              <h2>READY TO START YOUR JOURNEY?</h2>
-              <p>We are here to make your trip comfortable, safe and unforgettable.</p>
-              <div className="hlt-journeys-cta-btns">
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hlt-jcta-btn hlt-jcta-btn-gold"
-                >
-                  <img src={whyWhatsappIconUrl} alt="WhatsApp" className="hlt-jcta-btn-icon-img" />
-                  <span>BOOK VIA WHATSAPP</span>
-                </a>
-                <a
-                  href={catalogPageUrl}
-                  className="hlt-jcta-btn hlt-jcta-btn-outline"
-                >
-                  VIEW CATALOG
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
+      <JourneyCallToAction />
+      <ExperienceSlider />
       <Footer />
     </div>
   );

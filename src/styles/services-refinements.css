@@ -137,6 +137,10 @@
   display: grid;
 }
 
+.hlt-service-title-row {
+  display: contents;
+}
+
 @media (max-width: 760px) {
   .hlt-service-icon-desktop {
     display: none !important;
@@ -164,10 +168,10 @@
     width: 100%;
     min-height: 0;
     display: grid;
-    grid-template-columns: minmax(126px, 44%) minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: minmax(95px, 34%) minmax(0, 1fr);
+    gap: 10px;
     align-items: center;
-    padding: 10px;
+    padding: 8px 10px;
     border: 1.2px solid rgba(197, 161, 90, .45);
     border-radius: 12px;
     background: #081110;
@@ -199,10 +203,11 @@
 
   .hlt-service-body {
     min-width: 0;
-    padding: 2px 4px 2px 0;
+    padding: 2px 2px 2px 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     text-align: left;
   }
 
@@ -210,22 +215,32 @@
     display: none;
   }
 
+  .hlt-service-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 4px;
+  }
+
   .hlt-service-icon.hlt-service-icon-mobile {
     position: static;
     transform: none;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
+    width: 21px;
+    height: 21px;
+    min-width: 21px;
+    min-height: 21px;
     border: none;
     border-radius: 0;
     background: transparent;
     box-shadow: none;
     display: flex !important;
     align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 5px;
+    justify-content: center;
+    margin-bottom: 0;
     padding: 0;
+    flex-shrink: 0;
   }
 
   .hlt-service-icon.hlt-service-icon-mobile img {
@@ -235,15 +250,16 @@
   }
 
   .hlt-service-card h3 {
-    margin: 0 0 4px;
+    margin: 0;
     font-family: "Cormorant", Georgia, "Times New Roman", serif;
-    font-size: clamp(15px, 4.2vw, 17px);
+    font-size: clamp(11.5px, 2.8vw, 13px);
     font-weight: 700;
     line-height: 1.15;
-    letter-spacing: .04em;
+    letter-spacing: .018em;
     text-transform: uppercase;
     color: #c5a15a;
     text-align: left;
+    white-space: nowrap;
   }
 
   .hlt-service-card p {

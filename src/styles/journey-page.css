@@ -90,14 +90,20 @@
   gap: 14px;
 }
 
-/* ---------- Thanh thông số, đè lên đáy hero ---------- */
+
+.hlt-journey-facts-floating {
+  position: relative;
+  z-index: 10;
+  height: 0;
+}
 
 .hlt-journey-facts {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: clamp(-72px, -5.6vw, -50px);
+  transform: translateY(-50%);
+  margin-top: 0;
   padding: clamp(18px, 2.15vw, 28px) clamp(14px, 2vw, 26px);
   border: 1px solid var(--jr-gold-soft);
   border-radius: 4px;
@@ -159,8 +165,8 @@
 .hlt-journey-transit-section {
   position: relative;
   overflow: hidden;
-  padding: clamp(64px, 6.8vw, 104px) 0 clamp(56px, 6vw, 92px);
-  background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, #fcf9f2 40%, #f6eee0 100%);
+  padding: clamp(72px, 6.8vw, 96px) 0 clamp(56px, 6vw, 92px);
+  background: radial-gradient(ellipse at 50% 25%, #fcf9f2 0%, #fcf9f2 40%, #f6eee0 100%);
 }
 
 .hlt-journey-bg-accent {
@@ -746,109 +752,248 @@
   color: rgba(243, 236, 224, .66);
 }
 
-/* ---------- Bao gồm + FAQ ---------- */
+/* ---------- WHAT'S INCLUDED (Card trên FAQ) ---------- */
 
-.hlt-journey-details-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(28px, 4vw, 64px);
+.hlt-jincluded-card {
+  position: relative;
+  border: 1px solid #eccd95;
+  border-radius: 8px;
+  background: var(--jr-cream, #faf6ed);
+  margin-bottom: clamp(48px, 5vw, 68px);
 }
 
-.hlt-journey-small-heading {
-  margin: 0 0 22px;
+.hlt-jincluded-title {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0 clamp(16px, 2.2vw, 28px);
+  background: var(--jr-cream, #faf6ed);
   font-family: var(--hlt-font-family);
-  font-size: clamp(15px, 1.4vw, 19px);
+  font-size: clamp(18px, 2vw, 26px);
   font-weight: 700;
-  letter-spacing: .16em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   text-align: center;
-  color: var(--jr-ink);
+  color: #17242a;
+  white-space: nowrap;
 }
 
-.hlt-journey-included {
+.hlt-jincluded-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px clamp(14px, 2vw, 26px);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hlt-journey-included li {
-  display: flex;
+  grid-template-columns: repeat(6, 1fr);
   align-items: center;
-  gap: 11px;
-  font-size: 12.5px;
-  line-height: 1.4;
-  color: var(--jr-ink);
+  padding: clamp(26px, 3vw, 36px) 0 clamp(20px, 2.4vw, 28px);
 }
 
-.hlt-journey-included span {
-  flex: none;
+.hlt-jincluded-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(6px, 1vw, 14px);
+  text-align: center;
+  transition: transform .22s ease;
+}
+
+.hlt-jincluded-item:hover {
+  transform: translateY(-2px);
+}
+
+.hlt-jincluded-icon-box {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  margin-bottom: clamp(10px, 1.2vw, 14px);
+}
+
+.hlt-jincluded-icon {
+  width: clamp(34px, 3.2vw, 42px);
+  height: clamp(34px, 3.2vw, 42px);
+}
+
+.hlt-jincluded-text {
+  font-size: clamp(12.5px, 1.05vw, 14px);
+  font-weight: 600;
+  line-height: 1.35;
+  color: #2b2823;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+
+/* Vertical dividers between items */
+@media (min-width: 861px) {
+  .hlt-jincluded-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 14%;
+    bottom: 14%;
+    width: 1px;
+    background: #edd8ba;
+  }
+}
+
+@media (max-width: 860px) and (min-width: 581px) {
+  .hlt-jincluded-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 0;
+    padding: 28px 12px 20px;
+  }
+  .hlt-jincluded-item:not(:nth-child(3n))::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 14%;
+    bottom: 14%;
+    width: 1px;
+    background: #edd8ba;
+  }
+}
+
+@media (max-width: 580px) {
+  .hlt-jincluded-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 0;
+    padding: 24px 8px 16px;
+  }
+  .hlt-jincluded-item:not(:nth-child(2n))::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 14%;
+    bottom: 14%;
+    width: 1px;
+    background: #edd8ba;
+  }
+  .hlt-jincluded-text {
+    white-space: normal;
+  }
+}
+
+/* ---------- FREQUENTLY ASKED QUESTIONS (2 Cột Theo Mẫu) ---------- */
+
+.hlt-jfaq-section {
+  margin-top: clamp(48px, 5.5vw, 70px);
+}
+
+.hlt-jfaq-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.2vw, 16px);
+  margin-bottom: clamp(24px, 2.8vw, 36px);
+}
+
+.hlt-jfaq-line {
+  display: block;
+  width: clamp(40px, 8vw, 110px);
+  height: 1px;
+  background: #eccd95;
+}
+
+.hlt-jfaq-dot {
+  display: block;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: var(--jr-dark);
+  background: #c5a15a;
+  flex: none;
 }
 
-.hlt-journey-included svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.hlt-jfaq-title {
+  margin: 0;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #17242a;
 }
 
-.hlt-journey-faq details {
-  border-bottom: 1px solid rgba(201, 162, 74, .3);
+.hlt-jfaq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
 }
 
-.hlt-journey-faq summary {
+.hlt-jfaq-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.2vw, 14px);
+}
+
+.hlt-jfaq-item {
+  border: 1px solid #eccd95;
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.85);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.hlt-jfaq-item:hover {
+  border-color: #c5a15a;
+  box-shadow: 0 4px 16px rgba(184, 138, 56, 0.08);
+}
+
+.hlt-jfaq-item[open] {
+  border-color: #c5a15a;
+  box-shadow: 0 4px 18px rgba(184, 138, 56, 0.1);
+}
+
+.hlt-jfaq-summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 14px 2px;
-  font-size: 13.5px;
-  color: var(--jr-ink);
+  padding: clamp(14px, 1.4vw, 18px) clamp(16px, 1.8vw, 22px);
+  font-size: clamp(13px, 1.05vw, 14.5px);
+  font-weight: 600;
+  color: #25221d;
   cursor: pointer;
   list-style: none;
 }
 
-.hlt-journey-faq summary::-webkit-details-marker {
+.hlt-jfaq-summary::-webkit-details-marker {
   display: none;
 }
 
-.hlt-journey-faq summary svg {
+.hlt-jfaq-plus {
   flex: none;
-  width: 17px;
-  height: 17px;
-  fill: none;
-  stroke: var(--jr-muted);
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform .22s ease;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 300;
+  color: #c5a15a;
+  transition: transform .25s ease, color .2s ease;
 }
 
-.hlt-journey-faq details[open] summary svg {
-  transform: rotate(180deg);
+.hlt-jfaq-item[open] .hlt-jfaq-plus {
+  transform: rotate(45deg);
+  color: #b88a38;
 }
 
-.hlt-journey-faq details[open] summary {
-  color: var(--jr-gold);
+.hlt-jfaq-item[open] .hlt-jfaq-summary {
+  color: #b88a38;
 }
 
-.hlt-journey-faq p {
+.hlt-jfaq-answer {
+  padding: 0 clamp(16px, 1.8vw, 22px) clamp(14px, 1.4vw, 18px);
+  border-top: 1px dashed rgba(201, 162, 74, 0.28);
+}
+
+.hlt-jfaq-answer p {
   margin: 0;
-  padding: 0 2px 16px;
-  font-size: 12.5px;
-  line-height: 1.68;
-  color: var(--jr-muted);
+  padding-top: 10px;
+  font-size: clamp(12.5px, 1vw, 13.5px);
+  line-height: 1.65;
+  color: #554e44;
+}
+
+@media (max-width: 768px) {
+  .hlt-jfaq-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* ---------- Responsive ---------- */
@@ -927,18 +1072,13 @@
   .hlt-journey-vehicle-grid {
     grid-template-columns: minmax(0, 1fr);
   }
-
-  .hlt-journey-details-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 @media (max-width: 600px) {
   .hlt-journey-facts,
   .hlt-journey-features,
   .hlt-journey-experience-grid,
-  .hlt-journey-stats,
-  .hlt-journey-included {
+  .hlt-journey-stats {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -962,3 +1102,4 @@
     width: 100%;
   }
 }
+

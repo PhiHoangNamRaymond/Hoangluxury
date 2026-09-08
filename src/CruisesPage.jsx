@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { cruiseData } from "./config/cruises.js";
 import { cruiseImages, preferenceIconImages } from "./config/assets.js";
 import { whatsappUrl } from "./data.js";
@@ -784,6 +785,7 @@ export default function CruisesPage() {
         </section>
       </main>
 
+      <ExperienceSlider />
       <Footer />
     </div>
   );

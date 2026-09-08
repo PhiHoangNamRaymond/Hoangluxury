@@ -25,7 +25,17 @@ export const cruisesPageUrl = "/cruises/";
 const journeyRoutes = [
   ["All Popular Routes", "/journeys/"],
   ["Ha Long Bay Cruises", cruisesPageUrl],
-  ...["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map((route) => [
+  ...[
+    "Sapa",
+    "Ha Giang",
+    "Ninh Binh",
+    "Ha Long",
+    "Cat Ba",
+    "Cao Bang",
+    "Mu Cang Chai",
+    "Moc Chau",
+    "Ta Xua",
+  ].map((route) => [
     `Hanoi to ${route}`,
     `/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`,
   ]),

@@ -32,13 +32,15 @@ export default function Services() {
                 </div>
               </div>
               <div className="hlt-service-body">
-                <div className="hlt-service-icon hlt-service-icon-mobile">
-                  <img src={serviceIconImages[index]} alt="" aria-hidden="true" />
+                <div className="hlt-service-title-row">
+                  <div className="hlt-service-icon hlt-service-icon-mobile">
+                    <img src={serviceIconImages[index]} alt="" aria-hidden="true" />
+                  </div>
+                  <h3>{service.title}</h3>
                 </div>
                 <span className="hlt-service-number">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h3>{service.title}</h3>
                 <p>{service.text}</p>
               </div>
             </article>

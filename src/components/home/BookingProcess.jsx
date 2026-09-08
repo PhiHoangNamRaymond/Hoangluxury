@@ -37,26 +37,49 @@ function BookingProcessIcon({ type }) {
 
 function BookingRowIcon({ label }) {
   const paths = {
-    "Customer Name": <><circle cx="12" cy="7" r="3" /><path d="M6.5 20v-2.5a5.5 5.5 0 0 1 11 0V20M6.5 20h11" /></>,
+    "Customer Name": (
+      <>
+        <circle cx="12" cy="7.5" r="3.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M6 19.5 v-1.5 a6 6 0 0 1 12 0 v1.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </>
+    ),
     WhatsApp: (
       <>
-        <path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L3 20.6l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z" />
-        <path d="M8.1 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .3.1.4.4l.8 1.8c.1.2.1.4-.1.6l-.6.8c-.1.2-.1.4 0 .6.7 1.2 1.7 2.1 2.8 2.8.2.1.4.2.6 0l.9-.9c.2-.2.4-.3.6-.2l1.7.8c.3.1.4.3.4.5 0 .4-.2 1.3-.8 1.9-.6.6-1.4.9-2.3.7-1.1-.2-2.8-.9-4.6-2.5-1.5-1.3-2.5-3-2.8-4-.3-1 .1-2 .7-2.7Z" />
+        <path d="M17.5 6.5 A7.8 7.8 0 0 0 12 4.2 C7.7 4.2 4.2 7.7 4.2 12 c0 1.5.4 3 1.2 4.2 L4.2 20 l3.9-1.2 a7.7 7.7 0 0 0 3.9 1 c4.3 0 7.8-3.5 7.8-7.8 c0-2.1-.8-4-2.3-5.5 Z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9.5 9 c.2-.4.4-.4.6-.4h.5c.2 0 .3.1.4.3l.7 1.6c.1.2.1.4 0 .5l-.5.6c-.1.2-.1.3 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.3.1.5 0l.6-.5c.1-.1.3-.1.5 0l1.6.7c.2.1.3.2.3.4 0 .3-.1 1.1-.6 1.6-.5.5-1.2.7-2 .5-1-.2-2.4-.8-3.9-2.2-1.3-1.2-2.1-2.6-2.4-3.5-.3-.9.1-1.7.6-2.3 Z" fill="none" stroke="currentColor" strokeWidth="1.2" />
       </>
     ),
-    Flight: <><path d="m3 13 8-3 5-7 2 1-3 7 5 3-1 2-6-1-3 5-2-1 1-5-6 1Z" /></>,
-    Route: <><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
+    Flight: (
+      <path d="M21 3 L10 14 M21 3 L14 21 L10 14 L3 10 Z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    ),
+    Route: (
+      <>
+        <path d="M12 21 C15.5 16.5 18 13.2 18 9.5 A6 6 0 1 0 6 9.5 C6 13.2 8.5 16.5 12 21 Z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <circle cx="12" cy="9.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      </>
+    ),
     Vehicle: (
       <>
-        <path d="m5 12 1.7-4.3A2.7 2.7 0 0 1 9.2 6h5.6a2.7 2.7 0 0 1 2.5 1.7L19 12" />
-        <rect x="4" y="11" width="16" height="8" rx="2" />
-        <path d="M7 19v2M17 19v2M7 11l1-2h8l1 2" />
-        <circle cx="8" cy="15.5" r="1" />
-        <circle cx="16" cy="15.5" r="1" />
+        <path d="M5.5 11.5 L7.5 7 h9 l2 4.5 v5 a1 1 0 0 1-1 1 h-1 v-1 H7.5 v1 h-1 a1 1 0 0 1-1-1 v-5 Z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M6.8 11 h10.4" stroke="currentColor" strokeWidth="1.3" />
+        <circle cx="8" cy="14" r="1.1" fill="currentColor" stroke="none" />
+        <circle cx="16" cy="14" r="1.1" fill="currentColor" stroke="none" />
       </>
     ),
-    Service: <><path d="M4 15h16M6 15V9a6 6 0 0 1 12 0v6M3 19h18" /><path d="M12 3V1" /></>,
-    "Total Price": <><circle cx="12" cy="12" r="9" /><path d="M15 8.5c-.7-.7-1.7-1-3-1-1.7 0-3 .8-3 2s1.1 1.8 3 2.2 3 1 3 2.3-1.3 2.5-3 2.5c-1.2 0-2.4-.4-3.2-1.2M12 5v14" /></>,
+    Service: (
+      <>
+        <path d="M5 16 a7 7 0 0 1 14 0" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M3 18 h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M12 4.5 v4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M10.5 4.5 h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </>
+    ),
+    "Total Price": (
+      <>
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M14.2 9.5 c-.5-.6-1.3-.9-2.2-.9-1.5 0-2.5.8-2.5 1.8s.9 1.5 2.3 1.8c1.6.3 2.5.8 2.5 1.9 0 1.2-1.1 1.9-2.6 1.9-1.2 0-2.1-.4-2.7-1 M12 7 v10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      </>
+    ),
   };
 
   return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[label]}</svg>;
@@ -93,7 +116,62 @@ export default function BookingProcess() {
               Your booking has been successfully confirmed.
             </p>
           </div>
-          <article className="hlt-showcase-ticket" aria-label="Booking confirmation">
+
+          {/* Desktop Version: Confirmation Card as shown in screenshot */}
+          <article className="hlt-desk-confirm-card" aria-label="Booking confirmation">
+            <div className="hlt-desk-confirm-header">
+              <div className="hlt-desk-confirm-brand">
+                <img src={logoUrl} alt="" className="hlt-desk-confirm-logo" />
+                <div className="hlt-desk-confirm-brand-text">
+                  <span className="hlt-desk-brand-hoang">HOANG</span>
+                  <span className="hlt-desk-brand-sub">LUXURY TRAVEL</span>
+                </div>
+              </div>
+
+              <div className="hlt-desk-confirm-title-wrap">
+                <h3 className="hlt-desk-confirm-title">
+                  <span>BOOKING</span>
+                  <span>CONFIRMATION</span>
+                </h3>
+              </div>
+
+              <div className="hlt-desk-confirm-id-box">
+                <span className="hlt-desk-confirm-id-label">CONFIRM ID</span>
+                <div className="hlt-desk-confirm-id-line" />
+                <strong className="hlt-desk-confirm-id-val"># HLT307-001</strong>
+              </div>
+            </div>
+
+            <div className="hlt-desk-confirm-divider">
+              <span className="hlt-desk-confirm-diamond" />
+            </div>
+
+            <div className="hlt-desk-confirm-body">
+              <img src={logoUrl} alt="" className="hlt-desk-confirm-watermark" aria-hidden="true" />
+              <div className="hlt-desk-confirm-rows">
+                {bookingRows.map(([label, value]) => (
+                  <div key={label} className="hlt-desk-confirm-row">
+                    <div className="hlt-desk-row-label-col">
+                      <span className="hlt-desk-row-icon" aria-hidden="true">
+                        <BookingRowIcon label={label} />
+                      </span>
+                      <span className="hlt-desk-row-label">{label}</span>
+                    </div>
+                    <span className="hlt-desk-row-colon">:</span>
+                    <div className="hlt-desk-row-value-col">
+                      <span>{value}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="hlt-desk-confirm-signature">
+                Hoang Luxury Travel
+              </div>
+            </div>
+          </article>
+
+          {/* Mobile Version: Original Confirmation Ticket */}
+          <article className="hlt-showcase-ticket hlt-mobile-confirm-ticket" aria-label="Booking confirmation">
             <div className="hlt-showcase-ticket-content">
               {/* Left Column: Brand & Booking ID */}
               <div className="hlt-showcase-left">

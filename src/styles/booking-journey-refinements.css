@@ -212,7 +212,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   }
 
   .hlt-journey-cta {
-    background: #f5eee3 !important;
+    background: #EDE0CC !important;
     border-top: none !important;
     padding-top: 0 !important;
     margin-top: -8px !important;
@@ -240,7 +240,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
   .hlt-journey-cta {
     border-top: none !important;
-    background: #f5eee3 !important;
+    background: #EDE0CC !important;
     padding-top: 0 !important;
     margin-top: -8px !important;
   }
@@ -514,7 +514,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
 @media (max-width: 960px) {
   .hlt-booking-showcase {
-    background-color: #f5eee3 !important;
+    background-color: #EDE0CC !important;
     background-image: none !important;
     border: none !important;
     border-bottom: none !important;
