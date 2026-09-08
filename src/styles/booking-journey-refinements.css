@@ -81,10 +81,11 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 }
 
 .hlt-footer.hlt-footer-compact .hlt-footer-legal span {
-  color: rgba(216, 168, 73, .52);
+  color: #c5a15a;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   line-height: 1.25;
   white-space: nowrap;
   pointer-events: none;

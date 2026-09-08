@@ -177,7 +177,6 @@ export default function Footer() {
 
           <div className="hlt-footer-mobile-legal">
             <a href="#privacy">Privacy Policy</a>
-            <span className="hlt-footer-mobile-legal-separator">|</span>
             <a href="#terms">Terms of Service</a>
           </div>
         </div>

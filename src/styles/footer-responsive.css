@@ -1146,9 +1146,9 @@
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    max-width: 360px !important;
+    max-width: 380px !important;
     margin: 0 auto !important;
-    padding: 0 16px !important;
+    padding: 0 12px !important;
   }
 
   /* Top Card: Brand + QR */
@@ -1157,11 +1157,11 @@
     background: radial-gradient(circle at 40% 30%, #0d1e1a 0%, #06110f 100%) !important;
     border: 1.2px solid rgba(197, 161, 90, 0.45) !important;
     border-radius: 18px !important;
-    padding: 22px 18px 20px !important;
+    padding: 14px 10px 12px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 16px !important;
+    gap: 10px !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(0, 0, 0, 0.4) !important;
   }
 
@@ -1172,17 +1172,17 @@
   }
 
   .hlt-footer-mobile-logo {
-    width: 54px !important;
-    height: 54px !important;
+    width: 66px !important;
+    height: 66px !important;
     object-fit: contain !important;
     display: block !important;
-    margin: 0 auto 8px !important;
+    margin: 0 auto 6px !important;
   }
 
   .hlt-footer-mobile-brand-text strong {
     display: block !important;
     font-family: "Cormorant", Georgia, serif !important;
-    font-size: 20px !important;
+    font-size: 22px !important;
     font-weight: 700 !important;
     color: #d4af37 !important;
     letter-spacing: 0.1em !important;
@@ -1192,19 +1192,19 @@
   .hlt-footer-mobile-brand-text span {
     display: block !important;
     font-family: "Cormorant", Georgia, serif !important;
-    font-size: 9.5px !important;
+    font-size: 10px !important;
     color: #c5a15a !important;
     letter-spacing: 0.2em !important;
     line-height: 1.2 !important;
-    margin-top: 3px !important;
+    margin-top: 2px !important;
   }
 
   .hlt-footer-mobile-brand-divider {
     position: relative;
-    width: 90px;
+    width: 96px;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(197, 161, 90, 0.6), transparent);
-    margin: 8px auto 10px;
+    margin: 6px auto 7px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1223,14 +1223,14 @@
     font-family: "Cormorant", Georgia, serif !important;
     font-size: 11.5px !important;
     color: #a89f91 !important;
-    line-height: 1.38 !important;
+    line-height: 1.35 !important;
     text-align: center !important;
   }
 
   .hlt-footer-mobile-card-divider {
     position: relative;
     width: 1px;
-    height: 136px;
+    height: 156px;
     background: linear-gradient(180deg, transparent, rgba(197, 161, 90, 0.45), transparent) !important;
     display: flex !important;
     align-items: center !important;
@@ -1252,28 +1252,28 @@
   }
 
   .hlt-footer-mobile-qr-box {
-    border: 1px solid rgba(197, 161, 90, 0.5) !important;
+    border: 1.2px solid rgba(197, 161, 90, 0.55) !important;
     border-radius: 12px !important;
-    padding: 8px 8px 6px !important;
+    padding: 6px 6px 5px !important;
     text-align: center !important;
     background: rgba(0, 0, 0, 0.4) !important;
   }
 
   .hlt-footer-mobile-qr-box img {
-    width: 76px !important;
-    height: 76px !important;
+    width: 98px !important;
+    height: 98px !important;
     object-fit: contain !important;
     border-radius: 6px !important;
     display: block !important;
     margin: 0 auto !important;
     background: #fff !important;
-    padding: 3px !important;
+    padding: 2px !important;
   }
 
   .hlt-footer-mobile-qr-box p {
-    margin: 6px 0 0 !important;
+    margin: 4px 0 0 !important;
     font-family: "Cormorant", Georgia, serif !important;
-    font-size: 12.5px !important;
+    font-size: 13.5px !important;
     font-weight: 600 !important;
     color: #d4af37 !important;
     letter-spacing: 0.05em !important;
@@ -1397,24 +1397,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 18px;
     font-family: "Cormorant", Georgia, serif;
-    font-size: 13px;
-    color: #9c9182;
+    font-size: 14px;
+    color: #c5a15a;
   }
 
   .hlt-footer-mobile-legal a {
-    color: #9c9182;
-    text-decoration: none;
-    transition: color 0.2s ease;
+    color: #c5a15a !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease, opacity 0.2s ease !important;
   }
 
   .hlt-footer-mobile-legal a:hover {
-    color: #d4af37;
-  }
-
-  .hlt-footer-mobile-legal-separator {
-    color: rgba(197, 161, 90, 0.4);
-    font-size: 11px;
+    color: #f1d39a !important;
   }
 }
