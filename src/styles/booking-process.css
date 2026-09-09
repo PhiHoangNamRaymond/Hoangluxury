@@ -1666,3 +1666,22 @@
   position: absolute;
   right: 18px;
 }
+
+/* Bản thiết kế PC không có khối "Journey Confirmed" phía trên vé —
+   thẻ xác nhận nằm ngay đầu cột trái. Mobile giữ nguyên. */
+@media (min-width: 961px) {
+  .hlt-showcase-confirm-header {
+    display: none;
+  }
+}
+
+/* Hai vạch dọc vàng ngăn ba khối trong header thẻ xác nhận (bản PC).
+   Đặt cả hai lên khối tiêu đề ở giữa nên chỉ cần một phần tử. */
+@media (min-width: 961px) {
+  .hlt-desk-confirm-title-wrap {
+    flex: 1;
+    padding: 2px 20px;
+    border-left: 1px solid rgba(197, 161, 90, .38);
+    border-right: 1px solid rgba(197, 161, 90, .38);
+  }
+}

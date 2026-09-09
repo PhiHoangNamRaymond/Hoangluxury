@@ -78,12 +78,25 @@
 .hlt-experience-viewport {
   overflow: hidden;
   background: #0d1715;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hlt-experience-viewport:focus-visible {
+  outline: 2px solid #c28a2d;
+  outline-offset: -2px;
+}
+
+.hlt-experience-viewport.is-dragging {
+  cursor: grabbing;
 }
 
 .hlt-experience-track {
   width: max-content;
   display: flex;
-  animation: hlt-experience-scroll 40s linear infinite;
+  transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
@@ -103,6 +116,9 @@
   display: block;
   object-fit: cover;
   object-position: center 38%;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
   transform: scale(1.015);
   transition: transform .7s ease, filter .7s ease;
 }
@@ -112,9 +128,8 @@
   transform: scale(1.055);
 }
 
-@keyframes hlt-experience-scroll {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
+.hlt-experience-viewport.is-dragging .hlt-experience-slide img {
+  transform: scale(1.015);
 }
 
 @media (max-width: 760px) {
@@ -147,10 +162,6 @@
     font-size: 13px;
   }
 
-  .hlt-experience-track {
-    animation-duration: 38s;
-  }
-
   .hlt-experience-slide {
     width: 72vw;
     height: min(84vw, 360px);
@@ -159,10 +170,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hlt-experience-track {
-    animation-duration: 64s;
-  }
-
   .hlt-experience-slide img {
     transition: none;
   }

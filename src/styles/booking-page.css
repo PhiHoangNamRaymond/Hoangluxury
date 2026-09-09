@@ -624,7 +624,7 @@
   min-width: 0;
 }
 
-.hlt-route-map img {
+.hlt-route-map-artwork {
   width: min(100%, 590px);
   max-height: 900px;
   display: block;
@@ -821,7 +821,7 @@
     grid-template-columns: 1fr;
   }
 
-  .hlt-route-map img {
+  .hlt-route-map-artwork {
     width: min(72vw, 460px);
     max-height: 620px;
   }

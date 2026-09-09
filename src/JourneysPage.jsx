@@ -117,6 +117,24 @@ const allRoutesData = [
   },
 ];
 
+// "MU CANG CHAI" -> "Mu Cang Chai" cho bố cục gọn trên mobile.
+const titleCase = (value) =>
+  value.toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase());
+
+function CompactIcon({ type }) {
+  const shapes = {
+    time: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5.2l3.4 2" /></>,
+    vehicle: <><path d="M4.4 16.2v-3.4c0-.5.2-1 .5-1.3l1.8-1.8c.5-.5 1.2-.8 2-.8h6.6c.8 0 1.5.3 2 .8l1.8 1.8c.3.3.5.8.5 1.3v3.4a1 1 0 0 1-1 1H5.4a1 1 0 0 1-1-1Z" /><path d="M6.8 11.3h10.4" /><circle cx="7.6" cy="14" r=".85" /><circle cx="16.4" cy="14" r=".85" /></>,
+    service: <><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" /><circle cx="12" cy="10" r="2.1" /></>,
+  };
+
+  return (
+    <span className="hlt-jcard-compact-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">{shapes[type]}</svg>
+    </span>
+  );
+}
+
 const guarantees = [
   {
     icon: (
@@ -193,6 +211,34 @@ export default function JourneysPage() {
 
               return (
                 <article className="hlt-jcard" key={item.num}>
+                  {/* Bố cục gọn - CSS chỉ bật khối này ở mobile, PC vẫn dùng
+                      nguyên thẻ đầy đủ bên dưới. */}
+                  <div className="hlt-jcard-compact">
+                    <a
+                      className="hlt-jcard-compact-media"
+                      href={`/journey/${item.slug}/`}
+                      tabIndex={-1}
+                      aria-hidden="true"
+                    >
+                      <img src={item.image} alt="" />
+                      <span className="hlt-jcard-compact-badge">{item.num}</span>
+                    </a>
+                    <div className="hlt-jcard-compact-body">
+                      <h2>Hanoi to {titleCase(item.name)}</h2>
+                      <ul>
+                        <li><CompactIcon type="time" />{item.time}</li>
+                        <li><CompactIcon type="vehicle" />{item.vehicle}</li>
+                        <li><CompactIcon type="service" />{item.service}</li>
+                      </ul>
+                      <a className="hlt-jcard-compact-link" href={`/journey/${item.slug}/`}>
+                        View Route
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M4 12h15M13 6l6 6-6 6" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+
                   <div className="hlt-jcard-media">
                     <img src={item.image} alt={`Hanoi to ${item.name}`} />
                     <span className="hlt-jcard-badge">{item.num}</span>

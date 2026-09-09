@@ -3,14 +3,29 @@ import catalogBackgroundUrl from "../../assets/catalog-background.png";
 import catalogOpenBookUrl from "../../assets/catalog-open-book-2026.webp";
 import curatedMountainDecorationUrl from "../../assets/curated-mountain-decoration.png";
 import experienceChauffeurArrivalUrl from "../../assets/experience-chauffeur-arrival.png";
-import experienceEthnicFashionUrl from "../../assets/experience-ethnic-fashion.png";
 import experienceFlowerGirlUrl from "../../assets/experience-flower-girl.png";
-import experienceHorseTerracesUrl from "../../assets/experience-horse-terraces.webp";
-import experienceHotelLobbyUrl from "../../assets/experience-hotel-lobby.png";
-import experienceLuxuryPoolUrl from "../../assets/experience-luxury-pool.webp";
-import experienceMountainResortUrl from "../../assets/experience-mountain-resort.png";
 import experienceVietnamFlagUrl from "../../assets/experience-vietnam-flag.webp";
-import experienceWhiteHorseUrl from "../../assets/experience-white-horse.png";
+import experienceSlide01Url from "../../assets/experience-slider/1.png";
+import experienceSlide02Url from "../../assets/experience-slider/2.png";
+import experienceSlide15Url from "../../assets/experience-slider/15.png";
+import experienceSlide16Url from "../../assets/experience-slider/16.webp";
+import experienceSlide17Url from "../../assets/experience-slider/17.png";
+import experienceSlide18Url from "../../assets/experience-slider/18.png";
+import experienceSlide20Url from "../../assets/experience-slider/20.png";
+import experienceSlide21Url from "../../assets/experience-slider/21.webp";
+import experienceSlide30Url from "../../assets/experience-slider/30.png";
+import experienceSlide30VariantUrl from "../../assets/experience-slider/30(2).png";
+import experienceSlide31Url from "../../assets/experience-slider/31.png";
+import experienceSlide50Url from "../../assets/experience-slider/50.png";
+import experienceSlide51Url from "../../assets/experience-slider/51.png";
+import experienceSlide60Url from "../../assets/experience-slider/60.png";
+import experienceSlide61Url from "../../assets/experience-slider/61.png";
+import experienceSlide70Url from "../../assets/experience-slider/70.png";
+import experienceSlide71Url from "../../assets/experience-slider/71.png";
+import experienceSlide80Url from "../../assets/experience-slider/80.png";
+import experienceSlide81Url from "../../assets/experience-slider/81.png";
+import experienceSlide85Url from "../../assets/experience-slider/85.png";
+import experienceSlide90Url from "../../assets/experience-slider/90.png";
 import heroBannerUrl from "../../assets/home-banner.png";
 import heroConvoyMountainUrl from "../../assets/hero-convoy-mountain-2026.png";
 import heroFleetWeddingUrl from "../../assets/hero-fleet-wedding-2026.png";
@@ -121,43 +136,31 @@ export const heroSlideMobileImages = {
 };
 
 export const experienceImages = [
-  {
-    src: experienceChauffeurArrivalUrl,
-    alt: "Private chauffeur welcoming a guest at a luxury hotel",
-  },
-  {
-    src: experienceHotelLobbyUrl,
-    alt: "Grand chandelier and staircase in a luxury hotel lobby",
-  },
-  {
-    src: experienceVietnamFlagUrl,
-    alt: "Traveler holding the Vietnamese flag in a mountain valley",
-  },
-  {
-    src: experienceMountainResortUrl,
-    alt: "Luxury mountain resort surrounded by terraced hills and blossoms",
-  },
-  {
-    src: experienceHorseTerracesUrl,
-    alt: "Horseback experience overlooking mountain rice terraces",
-  },
-  {
-    src: experienceLuxuryPoolUrl,
-    alt: "Elegant indoor pool at a luxury resort",
-  },
-  {
-    src: experienceEthnicFashionUrl,
-    alt: "Traditional highland fashion beside a mountain lake",
-  },
-  {
-    src: experienceFlowerGirlUrl,
-    alt: "Highland flower seller overlooking terraced fields",
-  },
-  {
-    src: experienceWhiteHorseUrl,
-    alt: "White-horse cultural experience in Northern Vietnam",
-  },
-];
+  experienceSlide01Url,
+  experienceSlide02Url,
+  experienceSlide15Url,
+  experienceSlide16Url,
+  experienceSlide17Url,
+  experienceSlide18Url,
+  experienceSlide20Url,
+  experienceSlide21Url,
+  experienceSlide30Url,
+  experienceSlide30VariantUrl,
+  experienceSlide31Url,
+  experienceSlide50Url,
+  experienceSlide51Url,
+  experienceSlide60Url,
+  experienceSlide61Url,
+  experienceSlide70Url,
+  experienceSlide71Url,
+  experienceSlide80Url,
+  experienceSlide81Url,
+  experienceSlide85Url,
+  experienceSlide90Url,
+].map((src, index) => ({
+  src,
+  alt: `Hoang Luxury Travel experience ${index + 1}`,
+}));
 
 export const feedbackReviewImages = [
   experienceChauffeurArrivalUrl,
@@ -177,11 +180,12 @@ export const serviceImages = {
   custom: serviceCustomTripUrl,
 };
 
+// Tra theo chỉ số thẻ, nên thứ tự phải khớp mảng `services` trong data.js.
 export const serviceIconImages = [
   serviceAirportIconUrl,
-  serviceBusinessIconUrl,
   serviceLongDistanceIconUrl,
   serviceCustomTripIconUrl,
+  serviceBusinessIconUrl,
 ];
 
 export const fleetImages = {

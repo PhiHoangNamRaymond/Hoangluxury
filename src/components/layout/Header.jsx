@@ -4,6 +4,7 @@ import { catalogPageUrl, navLinks, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
 
 const normalizePath = (pathname) => pathname.replace(/\/+$/, "");
+const mobileJourneyLinks = navLinks.find(([label]) => label === "Journey")?.[2] ?? [];
 
 const getInitialActiveHref = () => {
   const currentPath = normalizePath(window.location.pathname);
@@ -30,6 +31,9 @@ const getInitialActiveHref = () => {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileJourneysOpen, setMobileJourneysOpen] = useState(
+    () => getInitialActiveHref() === "/journeys/"
+  );
   const [activeHref, setActiveHref] = useState(getInitialActiveHref);
   const scrollAnimationFrame = useRef(null);
   const isHomePage = normalizePath(window.location.pathname) === "";
@@ -102,6 +106,17 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
     if (!isHomePage) return undefined;
 
     const sectionLinks = navLinks.filter(([, href]) => href.startsWith("#"));
@@ -158,6 +173,7 @@ export default function Header() {
 
   const handleNavigation = (event, href, resolvedHref) => {
     setMenuOpen(false);
+    setMobileJourneysOpen(false);
     setActiveHref(href);
 
     if (!isHomePage || !href.startsWith("#") || href.length === 1) return;
@@ -256,7 +272,10 @@ export default function Header() {
       {/* Mobile Drawer Backdrop */}
       <div
         className={`hlt-nav-backdrop${menuOpen ? " is-open" : ""}`}
-        onClick={() => setMenuOpen(false)}
+        onClick={() => {
+          setMenuOpen(false);
+          setMobileJourneysOpen(false);
+        }}
         aria-hidden="true"
       />
 
@@ -270,7 +289,10 @@ export default function Header() {
           className="hlt-mobile-drawer-close"
           type="button"
           aria-label="Close navigation"
-          onClick={() => setMenuOpen(false)}
+          onClick={() => {
+            setMenuOpen(false);
+            setMobileJourneysOpen(false);
+          }}
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18" />
@@ -288,8 +310,71 @@ export default function Header() {
             ["Home", "#home"],
             ["Services", "#services"],
             ["Fleet", "#fleet"],
-            ["Journeys", "/journeys/"],
-            ["Cruises", "/cruises/"],
+          ].map(([label, href]) => {
+            const resolvedHref = navigationHref(href);
+            const isActive = activeHref === href;
+            return (
+              <a
+                className={`hlt-mobile-nav-link${isActive ? " is-active" : ""}`}
+                href={resolvedHref}
+                key={label}
+                onClick={(event) => handleNavigation(event, href, resolvedHref)}
+              >
+                {isActive && <span className="hlt-mobile-nav-active-bar" />}
+                <span>{label}</span>
+              </a>
+            );
+          })}
+
+          <div className="hlt-mobile-journey-group">
+            <button
+              className={`hlt-mobile-nav-link hlt-mobile-nav-toggle${activeHref === "/journeys/" ? " is-active" : ""}`}
+              type="button"
+              aria-expanded={mobileJourneysOpen}
+              aria-controls="mobile-journey-menu"
+              onClick={() => setMobileJourneysOpen((open) => !open)}
+            >
+              {activeHref === "/journeys/" && <span className="hlt-mobile-nav-active-bar" />}
+              <span className="hlt-mobile-nav-label">Journeys</span>
+              <svg
+                className={`hlt-mobile-nav-caret${mobileJourneysOpen ? " is-open" : ""}`}
+                viewBox="0 0 12 12"
+                aria-hidden="true"
+              >
+                <path d="m3 4.5 3 3 3-3" />
+              </svg>
+            </button>
+
+            <div
+              id="mobile-journey-menu"
+              className={`hlt-mobile-journey-menu${mobileJourneysOpen ? " is-open" : ""}`}
+              aria-hidden={!mobileJourneysOpen}
+            >
+              <div className="hlt-mobile-journey-menu-inner">
+                {mobileJourneyLinks.map(([childLabel, childHref], index) => {
+                  const resolvedChildHref = navigationHref(childHref);
+                  const childPath = normalizePath(new URL(childHref, window.location.origin).pathname);
+                  const isChildActive = childPath === normalizePath(window.location.pathname);
+                  const displayLabel = index === 0 ? "All 9 Routes" : childLabel;
+
+                  return (
+                    <a
+                      className={`hlt-mobile-journey-link${index === 0 ? " is-overview" : ""}${index === 1 ? " is-cruise" : ""}${isChildActive ? " is-active" : ""}`}
+                      href={resolvedChildHref}
+                      key={childLabel}
+                      aria-current={isChildActive ? "page" : undefined}
+                      tabIndex={mobileJourneysOpen ? 0 : -1}
+                      onClick={(event) => handleNavigation(event, childHref, resolvedChildHref)}
+                    >
+                      {displayLabel}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {[
             ["Catalog", catalogPageUrl],
             ["Booking", "/booking/"],
             ["Contact", "#contact"],

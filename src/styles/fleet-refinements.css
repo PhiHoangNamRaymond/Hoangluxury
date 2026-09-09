@@ -1,10 +1,11 @@
 /* Our Fleet - Tk4 composition */
+/* Khớp với kicker "Curated Journeys" (.hlt-route-heading>p trong
+   booking-page.css). Màu để theme-refinements.css cấp (#C5A15A). */
 .hlt-fleet-heading .hlt-fleet-kicker {
   margin-bottom: 18px;
-  color: #a97425;
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: .25em;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: .08em;
 }
 
 .hlt-fleet-divider {
@@ -122,6 +123,8 @@
   .hlt-fleet-heading .hlt-fleet-kicker {
     margin-bottom: 10px;
     font-size: 12px;
+    /* Bằng "Curated Journeys" ở footer-responsive.css. */
+    letter-spacing: .14em;
   }
 
   .hlt-fleet-divider {

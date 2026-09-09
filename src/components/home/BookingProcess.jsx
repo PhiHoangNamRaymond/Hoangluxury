@@ -92,10 +92,10 @@ function BookingRowIcon({ label }) {
 
 export default function BookingProcess() {
   const steps = [
-    ["whatsapp", "01. Contact Us", "Message us on WhatsApp.\nWe're here to answer your questions."],
-    ["calendar", "02. Plan Your Trip", "Share your travel details and preferences.\nWe'll design the perfect journey for you."],
-    ["card", "03. Confirm Booking", "Review your itinerary and price.\nConfirm your booking with ease."],
-    ["car", "04. Enjoy Your Journey", "Our professional driver will be ready to welcome you for a safe and comfortable trip."],
+    ["whatsapp", "01. Contact Us", "Message us on WhatsApp."],
+    ["calendar", "02. Plan Your Trip", "We'll help you choose the best vehicle and plan your journey."],
+    ["card", "03. Confirm Booking", "We confirm your trip details, the price, and your booking."],
+    ["car", "04. Enjoy Journey", "Our driver will be ready to welcome you for a safe and comfortable trip."],
   ];
 
   return (

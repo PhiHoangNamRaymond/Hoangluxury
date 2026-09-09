@@ -177,7 +177,9 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   }
 
   .hlt-journey-cta > .hlt-container {
-    min-height: 184px;
+    /* Nội dung chỉ cao 64px; 184px để lại ~60px trống trên và dưới.
+       132px cho khoảng thở 34px mỗi bên, gọn hơn mà không chật. */
+    min-height: 132px;
     display: flex;
     flex-direction: column;
     justify-content: center;

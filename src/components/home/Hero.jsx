@@ -179,8 +179,7 @@ export default function Hero() {
         <div className="hlt-hero-content">
           <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
           <h1 className="hlt-hero-title">
-            <span className="hlt-hero-title-white">PRIVATE</span>
-            <span className="hlt-hero-title-white">LUXURY</span>
+            <span className="hlt-hero-title-white">PRIVATE LUXURY</span>
             <span className="hlt-hero-title-gold">CAR TRANSFER</span>
           </h1>
 
@@ -194,7 +193,8 @@ export default function Hero() {
           </div>
 
           <p className="hlt-hero-desc">
-            Premium private car services across Northern Vietnam. From airport transfers to long-distance journeys, we deliver comfort, discretion, and punctuality at every mile.
+            Luxury private car services for international travelers across Northern Vietnam,
+            specializing in airport transfers, long-distance travel, and personalized journeys.
           </p>
 
           <div className="hlt-actions">

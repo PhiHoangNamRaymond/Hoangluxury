@@ -27,13 +27,13 @@ const journeyRoutes = [
   ["Ha Long Bay Cruises", cruisesPageUrl],
   ...[
     "Sapa",
-    "Ha Giang",
-    "Ninh Binh",
     "Ha Long",
+    "Ninh Binh",
+    "Ha Giang",
     "Cat Ba",
     "Cao Bang",
-    "Mu Cang Chai",
     "Moc Chau",
+    "Mu Cang Chai",
     "Ta Xua",
   ].map((route) => [
     `Hanoi to ${route}`,
@@ -79,45 +79,48 @@ export const whyItems = [
   {
     icon: "driver",
     title: "Privacy & Professionalism",
-    text: "Discreet, courteous service with experienced professional drivers.",
+    text: "Your privacy is our top priority. Our friendly and professional drivers ensure a safe, comfortable, and private journey.",
   },
   {
     icon: "car",
-    title: "Personalized Service",
-    text: "Tailored routes and thoughtful assistance around your travel plans.",
+    title: "Customized VIP Service",
+    text: "We plan a personalized itinerary, provide useful travel information and local tips for each destination, and assist with restaurant and attraction reservations.",
   },
   {
     icon: "whatsapp",
     title: "24/7 WhatsApp Support",
-    text: "Direct support before, during and after your journey.",
+    text: "We're available on WhatsApp 24/7 to answer your questions and assist with any requests during your trip.",
   },
   {
     icon: "price",
-    title: "Flexible Payment",
-    text: "Convenient payment options with clear, transparent pricing.",
+    title: "Flexible Payment Methods",
+    text: "We offer a variety of convenient payment options, including cash and credit cards. Currency exchange assistance is available if needed.",
   },
 ];
 
 export const services = [
+  // Thứ tự phải khớp `serviceIconImages` trong config/assets.js — icon lấy
+  // theo chỉ số, không theo tên. Lưu ý key ảnh đặt tên cũ: "sapa" là ảnh
+  // long-distance, "haGiang" là ảnh business.
   {
     image: "airport",
     title: "Airport Transfer",
-    text: "Private airport transfers in comfort and style.",
-  },
-  {
-    image: "haGiang",
-    title: "Private Chauffeur",
-    text: "Professional chauffeurs and discreet service.",
+    text: "Private airport transfers between the airport and your destination.",
   },
   {
     image: "sapa",
-    title: "Long-Distance Transfer",
-    text: "Comfortable intercity travel for extended journeys.",
+    title: "Long-Distance Private Transfer",
+    text: "Private transfers between cities with direct routes, flexible departure times, no shared rides.",
   },
   {
     image: "custom",
     title: "Custom Private Trip",
-    text: "Tailored journeys designed around your plans.",
+    text: "Choose your destinations and travel on your own schedule with a private driver.",
+  },
+  {
+    image: "haGiang",
+    title: "Business / Partner Transfer",
+    text: "Private transportation for business meetings, corporate events, and VIP guests.",
   },
 ];
 

@@ -5,9 +5,8 @@
   border-color: rgba(184, 126, 39, .36);
 }
 
-.hlt-fleet-heading .hlt-fleet-kicker {
-  color: #b87e27;
-}
+/* Bỏ ghi đè màu riêng cho kicker: dùng chung #C5A15A với "Curated Journeys"
+   và "Our Services" (theme-refinements.css). */
 
 .hlt-fleet-heading-ornament,
 .hlt-fleet-card h3::after,

@@ -76,7 +76,22 @@ export default function Fleet() {
           />
 
           <div className="hlt-route-map" aria-hidden="true">
-            <img src={vietnamRoutesMapUrl} alt="" />
+            <svg
+              className="hlt-route-map-artwork"
+              viewBox="0 0 1491 1055"
+              preserveAspectRatio="xMidYMin meet"
+              focusable="false"
+            >
+              <image
+                href={vietnamRoutesMapUrl}
+                width="1491"
+                height="1055"
+                preserveAspectRatio="xMidYMin meet"
+              />
+              <text className="hlt-route-map-label" x="1058" y="681">
+                CAT BA
+              </text>
+            </svg>
           </div>
 
           <div className="hlt-route-content">

@@ -26,12 +26,21 @@
   align-self: start;
 }
 
-.hlt-route-map img {
+.hlt-route-map-artwork {
   width: min(96%, 780px);
   max-height: none;
   filter: none;
   -webkit-mask-image: none;
   mask-image: none;
+}
+
+.hlt-route-map-label {
+  fill: #201b16;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: .35px;
+  text-anchor: middle;
 }
 
 @media (min-width: 901px) {
@@ -45,7 +54,7 @@
     transform: none;
   }
 
-  .hlt-route-map img {
+  .hlt-route-map-artwork {
     position: static;
     width: min(108%, 720px);
     height: auto;
@@ -252,7 +261,7 @@
     gap: clamp(16px, 1.5vw, 24px);
   }
 
-  .hlt-route-map img {
+  .hlt-route-map-artwork {
     width: min(115%, 820px);
     transform: translateX(-3%);
   }
@@ -374,7 +383,7 @@
     width: 100%;
   }
 
-  .hlt-route-map img {
+  .hlt-route-map-artwork {
     width: min(96vw, 660px);
     max-height: none !important;
   }
@@ -438,7 +447,7 @@
     overflow: visible;
   }
 
-  .hlt-route-map img {
+  .hlt-route-map-artwork {
     width: 100%;
     max-width: 480px;
     max-height: none !important;

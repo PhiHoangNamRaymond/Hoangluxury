@@ -945,7 +945,7 @@
     order: 2;
   }
 
-  .hlt-route-map img {
+  .hlt-route-map-artwork {
     width: min(92%, 340px);
     max-height: 430px;
   }

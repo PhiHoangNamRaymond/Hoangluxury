@@ -28,11 +28,12 @@
   justify-content: center;
   gap: 16px;
   margin: 0 0 8px;
-  font-size: clamp(11.5px, 1vw, 13px);
-  font-weight: 700;
-  letter-spacing: .26em;
+  /* Khớp kicker "Curated Journeys" / "Our Fleet" ở trang chủ. */
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  color: #b88a38;
+  color: #C5A15A;
 }
 
 .hlt-journeys-kicker::before,
@@ -47,23 +48,27 @@
   background: linear-gradient(90deg, #c5a15a, transparent);
 }
 
+/* Cỡ, màu và giãn chữ lấy theo .hlt-route-heading h2 ở trang chủ
+   (booking-page.css). Giữ chữ thường, không in hoa như trang chủ. */
 .hlt-journeys-title {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(32px, 3.8vw, 50px);
+  font-size: clamp(36px, 3.5vw, 54px);
   font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: .01em;
-  color: #17242a;
+  line-height: 1.04;
+  letter-spacing: .025em;
+  color: #2b2117;
   white-space: nowrap;
 }
 
+/* Theo đoạn giới thiệu ở mục Why Choose trang chủ (.hlt-why-intro p). */
 .hlt-journeys-lead {
   margin: 0 auto;
   max-width: 620px;
-  font-size: clamp(13.5px, 1.05vw, 15px);
-  line-height: 1.5;
-  color: #55626a;
+  font-size: clamp(14px, 1.1vw, 15.5px);
+  font-weight: 700;
+  line-height: 1.7;
+  color: #2b251f;
   text-wrap: balance;
   text-wrap: pretty;
 }
@@ -763,5 +768,259 @@
   .hlt-jbtn-stars {
     font-size: 9px;
     letter-spacing: .08em;
+  }
+}
+
+/* ==========================================================================
+   Bố cục gọn cho mobile (ảnh trái + nội dung phải).
+   Mặc định tắt; chỉ bật từ 640px trở xuống. Bố cục PC không đổi.
+   ========================================================================== */
+
+.hlt-jcard-compact {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .hlt-jcard-compact {
+    display: grid;
+    grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
+  }
+
+  /* Tắt ba khối của bố cục PC */
+  .hlt-jcard-media,
+  .hlt-jcard-route,
+  .hlt-jcard-actions {
+    display: none;
+  }
+
+  .hlt-jcard {
+    flex-direction: row;
+  }
+
+  .hlt-jcard-compact-media {
+    position: relative;
+    display: block;
+    align-self: stretch;
+    min-height: 132px;
+    overflow: hidden;
+    background: #0d221c;
+  }
+
+  .hlt-jcard-compact-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hlt-jcard-compact-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px 10px;
+    border-bottom-right-radius: 6px;
+    background: #b88a38;
+    color: #fff;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: .04em;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .25);
+  }
+
+  .hlt-jcard-compact-body {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px 13px 11px;
+  }
+
+  .hlt-jcard-compact-body h2 {
+    margin: 0;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #17242a;
+  }
+
+  .hlt-jcard-compact-body ul {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hlt-jcard-compact-body li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
+    line-height: 1.3;
+    color: #55626a;
+  }
+
+  .hlt-jcard-compact-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: rgba(197, 161, 90, .16);
+  }
+
+  .hlt-jcard-compact-icon svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: #a8843f;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .hlt-jcard-compact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 2px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: #b88a38;
+  }
+
+  .hlt-jcard-compact-link svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/* Kicker thu nhỏ ở mobile bằng đúng trang chủ (footer-responsive.css). */
+@media (max-width: 600px) {
+  .hlt-journeys-kicker {
+    font-size: 12px;
+    letter-spacing: .14em;
+  }
+}
+
+/* ==========================================================================
+   Chữ trong thẻ ở bản PC đang quá nhỏ (nhãn chỉ 9px). Phóng lên cho dễ đọc.
+   Bọc trong min-width 961px nên bố cục mobile không đổi.
+   ========================================================================== */
+@media (min-width: 961px) {
+  /* Dải thông số đè trên ảnh */
+  .hlt-jcard-stat-label {
+    font-size: 11px;
+    letter-spacing: .1em;
+    margin-bottom: 5px;
+  }
+
+  .hlt-jcard-stat-label svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hlt-jcard-stat {
+    min-height: 54px;
+  }
+
+  .hlt-jcard-stat-val,
+  .hlt-jcard-route-name,
+  .hlt-jcard-route-approx {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  /* Khối điểm đón / điểm trả */
+  .hlt-jcard-point-text small {
+    font-size: 11px;
+    letter-spacing: .12em;
+    margin-bottom: 3px;
+  }
+
+  .hlt-jcard-point-text strong {
+    font-size: 20px;
+  }
+
+  .hlt-jcard-point-text p {
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  /* Hai nút dưới thẻ */
+  .hlt-jcard-btn-detail .hlt-jcard-btn-dest span,
+  .hlt-jcard-btn-book span {
+    font-size: 12.5px;
+    letter-spacing: .08em;
+  }
+}
+
+/* ==========================================================================
+   Đợt 2: chữ trong thẻ PC vẫn nhỏ và mờ.
+   - Nhãn PICK-UP/DROP-OFF vàng #B88A38 trên nền kem chỉ đạt 2.9:1 (trượt
+     WCAG AA 4.5:1) -> đổi sang #8E651C = 4.8:1.
+   - Ghi chú địa điểm màu xám xanh lạc tông -> đổi sang nâu ấm 8.6:1.
+   - Dải thông số nằm trên ảnh nên độ tương phản phụ thuộc từng tấm ảnh;
+     tăng lớp phủ tối để chữ vàng luôn đọc được.
+   ========================================================================== */
+@media (min-width: 961px) {
+  .hlt-jcard-stats {
+    background: linear-gradient(180deg, rgba(4, 20, 15, .62) 0%, rgba(3, 14, 11, .82) 100%);
+    padding: 10px 3px 11px;
+  }
+
+  .hlt-jcard-stat-label {
+    font-size: 12px;
+    color: #dcc189;
+  }
+
+  .hlt-jcard-stat-label svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .hlt-jcard-stat {
+    min-height: 58px;
+  }
+
+  .hlt-jcard-stat-val,
+  .hlt-jcard-route-name,
+  .hlt-jcard-route-approx {
+    font-size: 16px;
+  }
+
+  .hlt-jcard-point-text small {
+    font-size: 12px;
+    color: #8E651C;
+  }
+
+  .hlt-jcard-point-text strong {
+    font-size: 21px;
+  }
+
+  .hlt-jcard-point-text p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #4E463C;
+  }
+
+  .hlt-jcard-btn-detail .hlt-jcard-btn-dest span,
+  .hlt-jcard-btn-book span {
+    font-size: 13.5px;
+  }
+
+  .hlt-jcard-overlay {
+    padding-bottom: 86px;
   }
 }
