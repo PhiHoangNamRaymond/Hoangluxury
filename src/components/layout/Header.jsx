@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { logoUrl } from "../../config/assets.js";
-import { catalogPageUrl, navLinks, whatsappUrl } from "../../data.js";
+import { catalogPageUrl, feedbackPageUrl, navLinks, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
 
 const normalizePath = (pathname) => pathname.replace(/\/+$/, "");
@@ -377,7 +377,7 @@ export default function Header() {
           {[
             ["Catalog", catalogPageUrl],
             ["Booking", "/booking/"],
-            ["Contact", "#contact"],
+            ["Feedback", feedbackPageUrl],
           ].map(([label, href]) => {
             const resolvedHref = navigationHref(href);
             const isActive = activeHref === href;

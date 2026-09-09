@@ -166,8 +166,13 @@
 /* === Layout / text / frame chỉnh trên mobile — KHÔNG đụng ảnh === */
 @media (max-width: 960px) {
   .hlt-hero {
-    min-height: clamp(520px, 82svh, 600px) !important;
-    padding: 12px 10px 18px !important;
+    /* Nội dung chỉ cao ~276px; 600px để trống hơn một nửa khung.
+       Thu lại cho gọn mà vẫn đủ chỗ khoe ảnh. */
+    min-height: clamp(470px, 70svh, 550px) !important;
+    /* Hero canh giữa theo chiều dọc, nên khi tăng chiều cao phải giảm
+       padding-top tương ứng để mép trên của khung vẫn giữ khoảng hở 45px
+       với header; phần cao thêm dồn xuống dưới. */
+    padding: 30px 10px 18px !important;
     background: #06110f !important;
     display: flex !important;
     align-items: center !important;
@@ -340,8 +345,10 @@
     background-position: 59% center;
   }
 
+  /* Không để chuyển sang màu đặc ở đáy — như vậy thành một mảng xanh đen
+     phẳng che mất phần dưới của ảnh. Đậm dần tới 66% là đủ cho chữ. */
   .hlt-hero-scrim {
-    background: linear-gradient(180deg, rgba(0, 0, 0, .04) 24%, rgba(2, 10, 9, .22) 43%, #06110f 76%, #06110f 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, .06) 18%, rgba(2, 10, 9, .34) 45%, rgba(2, 10, 9, .58) 76%, rgba(2, 10, 9, .66) 100%);
   }
 }
 
@@ -363,5 +370,14 @@
 
   .hlt-hero-dot {
     transition: background 300ms ease;
+  }
+}
+
+/* Header có lớp gradient tối (.hlt-header::after) kéo 30px xuống dưới mép.
+   Trên mobile nó rơi trúng mép trên của khung hero, làm khung trông như bị
+   che. Hero mobile đã có scrim riêng nên không cần lớp hoà này. */
+@media (max-width: 960px) {
+  .hlt-header::after {
+    display: none;
   }
 }

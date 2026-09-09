@@ -2,6 +2,7 @@
    Journeys Page Styles (/journeys/ or /routes/)
    ========================================================================== */
 
+/* Nền phẳng khớp mục "The Hoang Luxury Experience" (.hlt-experience-slider). */
 .hlt-journeys-site {
   background-color: #EDE0CC;
   min-height: 100vh;
@@ -1022,5 +1023,221 @@
 
   .hlt-jcard-overlay {
     padding-bottom: 86px;
+  }
+}
+
+
+/* ==========================================================================
+   Thẻ mobile theo bản thiết kế: ảnh tràn kín nửa trái của thẻ, không đệm,
+   không bo góc riêng (góc do overflow của thẻ cắt). Icon để trần.
+   ========================================================================== */
+@media (max-width: 640px) {
+  .hlt-jcard {
+    border-radius: 14px;
+  }
+
+  .hlt-jcard-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .hlt-jcard-compact-media {
+    min-height: 152px;
+    border-radius: 0;
+  }
+
+  .hlt-jcard-compact-badge {
+    top: 9px;
+    left: 9px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 14.5px;
+  }
+
+  /* Toàn bộ khoảng thở dồn vào cột chữ, vì cột ảnh không còn đệm. */
+  .hlt-jcard-compact-body {
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 13px 14px 13px;
+  }
+
+  .hlt-jcard-compact-body h2 {
+    /* 15px la co lon nhat con giu "Hanoi to Mu Cang Chai" tren 1 dong. */
+    font-size: 15px;
+    line-height: 1.12;
+  }
+
+  .hlt-jcard-compact-body ul {
+    gap: 9px;
+  }
+
+  .hlt-jcard-compact-body li {
+    gap: 9px;
+    font-size: 12.5px;
+    color: #4E463C;
+  }
+
+  /* Icon để trần, bỏ vòng tròn nền */
+  .hlt-jcard-compact-icon {
+    width: auto;
+    height: auto;
+    background: none;
+    border-radius: 0;
+  }
+
+  .hlt-jcard-compact-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 1.5;
+  }
+
+  .hlt-jcard-compact-link {
+    gap: 9px;
+    font-size: 12.5px;
+    letter-spacing: .05em;
+  }
+
+  .hlt-jcard-compact-link svg {
+    width: 22px;
+    height: 13px;
+    stroke-width: 1.5;
+  }
+}
+
+/* ==========================================================================
+   Khối "Why Travelers Choose Us" — bản mobile theo thiết kế:
+   hàng trên 3 thẻ icon nằm trên chữ, hàng dưới 2 thẻ icon nằm bên trái.
+   Tiêu đề chỉ hiện ở mobile; PC giữ nguyên bố cục cũ.
+   ========================================================================== */
+.hlt-journeys-why-kicker {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .hlt-journeys-why-kicker {
+    display: flex;
+    margin: 30px 0 16px;
+    gap: 12px;
+    font-size: clamp(11.5px, 3.35vw, 13px);
+    font-weight: 800;
+    letter-spacing: .13em;
+    color: #24383a;
+    white-space: nowrap;
+  }
+
+  .hlt-journeys-why-kicker::before,
+  .hlt-journeys-why-kicker::after {
+    width: clamp(24px, 8vw, 34px);
+    flex: 0 1 34px;
+  }
+
+  /* Lưới 6 cột: 3 thẻ đầu chiếm 2 cột, 2 thẻ sau chiếm 3 cột. */
+  .hlt-journeys-guarantees {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px 8px;
+    align-items: stretch;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .hlt-journeys-guarantee-item {
+    display: flex;
+    min-width: 0;
+    box-sizing: border-box;
+    border: 1px solid rgba(207, 172, 103, .3);
+    border-radius: 12px;
+    background: rgba(255, 252, 246, .92);
+    color: #a77c2d;
+    overflow: hidden;
+    box-shadow: 0 5px 14px rgba(96, 70, 31, .035);
+  }
+
+  .hlt-journeys-guarantee-item:nth-child(-n + 3) {
+    grid-column: span 2;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 144px;
+    gap: 7px;
+    padding: 14px 7px 12px;
+    text-align: center;
+  }
+
+  .hlt-journeys-guarantee-item:nth-child(n + 4) {
+    grid-column: span 3;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-height: 102px;
+    gap: 12px;
+    padding: 14px 12px;
+    text-align: left;
+  }
+
+  .hlt-journeys-guarantee-icon {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    color: #a77c2d;
+  }
+
+  .hlt-journeys-guarantee-icon svg,
+  .hlt-journeys-guarantee-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hlt-journeys-guarantee-text {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hlt-journeys-guarantee-item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: clamp(13px, 3.75vw, 15px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 0;
+    color: #263a3c;
+    text-transform: none;
+    white-space: normal;
+    overflow-wrap: normal;
+  }
+
+  .hlt-journeys-guarantee-item p {
+    margin: 0;
+    font-size: clamp(10.5px, 2.9vw, 11.5px);
+    font-weight: 500;
+    line-height: 1.35;
+    color: #46595a;
+    text-wrap: balance;
+  }
+}
+
+/* Thẻ hoà vào nền trang: bỏ nền kem sáng, chỉ còn viền vàng định hình.
+   Chỉ áp cho mobile — bản PC giữ nguyên nền #faf6ed. */
+@media (max-width: 640px) {
+  .hlt-jcard,
+  .hlt-journeys-guarantee-item {
+    background: #EDE0CC;
+  }
+}
+
+/* Hai rule cũ gỡ viền trái để tách cột: :nth-child(2n+1) ở breakpoint
+   1080px, và .item + .item ở 640px. Cả hai có độ ưu tiên cao hơn rule
+   chung, nên phải ghi đè đúng từng selector thì thẻ mới đủ 4 cạnh. */
+@media (max-width: 640px) {
+  .hlt-journeys-guarantee-item,
+  .hlt-journeys-guarantee-item + .hlt-journeys-guarantee-item,
+  .hlt-journeys-guarantee-item:nth-child(2n + 1) {
+    border-left: 1px solid rgba(197, 161, 90, .34);
   }
 }

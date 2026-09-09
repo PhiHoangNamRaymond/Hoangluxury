@@ -46,7 +46,9 @@ export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
-  ["Journey", "/journeys/", journeyRoutes],
+  // Bấm vào chữ "Journey" thì cuộn xuống mục Curated Journeys ở trang chủ;
+  // các mục trong dropdown vẫn giữ đích riêng của chúng.
+  ["Journey", "#routes", journeyRoutes],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
   ["Feedback", feedbackPageUrl],

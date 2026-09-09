@@ -4,7 +4,7 @@ import Footer from "./components/layout/Footer.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { whatsappUrl, catalogPageUrl } from "./data.js";
-import { journeyCardImages, whyVehicleIconUrl } from "./config/assets.js";
+import { journeyCardImages } from "./config/assets.js";
 
 const allRoutesData = [
   {
@@ -143,8 +143,8 @@ const guarantees = [
         <path d="m9 12 2 2 4-4" />
       </svg>
     ),
-    title: "PRIVATE & SAFE",
-    desc: "Professional drivers, clean and reliable journey",
+    title: "Private & Safe",
+    desc: "Professional drivers and reliable journey",
   },
   {
     icon: (
@@ -153,14 +153,18 @@ const guarantees = [
         <polyline points="12 6 12 12 16 14" />
       </svg>
     ),
-    title: "FLEXIBLE SCHEDULE",
+    title: "Flexible Schedule",
     desc: "Depart anytime that suits your plans",
   },
   {
     icon: (
-      <img src={whyVehicleIconUrl} alt="Door-to-Door Vehicle" className="hlt-journeys-guarantee-img" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.6 5H8.4a2 2 0 0 0-1.9 1.3L5 10 3 8" />
+        <rect x="3" y="10" width="18" height="8" rx="2" />
+        <path d="M7 14h.01M17 14h.01M5 18v2M19 18v2" />
+      </svg>
     ),
-    title: "DOOR-TO-DOOR",
+    title: "Door-to-Door",
     desc: "Pick-up and drop-off at your exact location",
   },
   {
@@ -173,7 +177,7 @@ const guarantees = [
         <circle cx="10" cy="9" r="1.5" />
       </svg>
     ),
-    title: "CLEAR QUOTATION",
+    title: "Clear Quotations",
     desc: "Everything confirmed before your journey",
   },
   {
@@ -183,7 +187,7 @@ const guarantees = [
         <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
       </svg>
     ),
-    title: "24/7 SUPPORT",
+    title: "24/7 Support",
     desc: "We're here to assist you anytime",
   },
 ];
@@ -193,7 +197,9 @@ export default function JourneysPage() {
     <div className="hlt-site hlt-journeys-site">
       <Header />
 
-      <main className="hlt-journeys-main">
+      <main
+        className="hlt-journeys-main"
+      >
         <div className="hlt-container">
           <header className="hlt-journeys-header">
             <p className="hlt-journeys-kicker">POPULAR ROUTES</p>
@@ -340,11 +346,16 @@ export default function JourneysPage() {
             })}
           </div>
 
-          <div className="hlt-journeys-guarantees">
+          {/* Tiêu đề chỉ hiện ở mobile — bản PC giữ nguyên như cũ. */}
+          <p className="hlt-journeys-kicker hlt-journeys-why-kicker">
+            Why Travelers Choose Us
+          </p>
+
+          <div id="journeys-guarantees" className="hlt-journeys-guarantees">
             {guarantees.map((g) => (
               <div className="hlt-journeys-guarantee-item" key={g.title}>
                 <div className="hlt-journeys-guarantee-icon">{g.icon}</div>
-                <div>
+                <div className="hlt-journeys-guarantee-text">
                   <strong>{g.title}</strong>
                   <p>{g.desc}</p>
                 </div>

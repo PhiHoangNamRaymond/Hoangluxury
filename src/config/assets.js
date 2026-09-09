@@ -14,7 +14,6 @@ import experienceSlide18Url from "../../assets/experience-slider/18.png";
 import experienceSlide20Url from "../../assets/experience-slider/20.png";
 import experienceSlide21Url from "../../assets/experience-slider/21.webp";
 import experienceSlide30Url from "../../assets/experience-slider/30.png";
-import experienceSlide30VariantUrl from "../../assets/experience-slider/30(2).png";
 import experienceSlide31Url from "../../assets/experience-slider/31.png";
 import experienceSlide50Url from "../../assets/experience-slider/50.png";
 import experienceSlide51Url from "../../assets/experience-slider/51.png";
@@ -24,7 +23,6 @@ import experienceSlide70Url from "../../assets/experience-slider/70.png";
 import experienceSlide71Url from "../../assets/experience-slider/71.png";
 import experienceSlide80Url from "../../assets/experience-slider/80.png";
 import experienceSlide81Url from "../../assets/experience-slider/81.png";
-import experienceSlide85Url from "../../assets/experience-slider/85.png";
 import experienceSlide90Url from "../../assets/experience-slider/90.png";
 import heroBannerUrl from "../../assets/home-banner.png";
 import heroConvoyMountainUrl from "../../assets/hero-convoy-mountain-2026.png";
@@ -145,7 +143,6 @@ export const experienceImages = [
   experienceSlide20Url,
   experienceSlide21Url,
   experienceSlide30Url,
-  experienceSlide30VariantUrl,
   experienceSlide31Url,
   experienceSlide50Url,
   experienceSlide51Url,
@@ -155,7 +152,6 @@ export const experienceImages = [
   experienceSlide71Url,
   experienceSlide80Url,
   experienceSlide81Url,
-  experienceSlide85Url,
   experienceSlide90Url,
 ].map((src, index) => ({
   src,

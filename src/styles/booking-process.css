@@ -1685,3 +1685,15 @@
     border-right: 1px solid rgba(197, 161, 90, .38);
   }
 }
+
+/* Mobile: bỏ đường kẻ phía trên "Journey Confirmed" và kéo khối lên gần
+   mục trước, tránh để lại khoảng trống lớn. Bản PC đã ẩn cả khối này. */
+@media (max-width: 960px) {
+  .hlt-showcase-confirm-line-top {
+    display: none;
+  }
+
+  .hlt-booking-showcase {
+    padding-top: 22px;
+  }
+}
