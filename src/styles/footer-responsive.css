@@ -986,7 +986,8 @@
   }
 
   .hlt-booking-showcase {
-    padding-top: 42px;
+    /* Kéo khối "Journey Confirmed" lên gần mục trước (đã bỏ đường kẻ trên). */
+    padding-top: 22px;
     background-size: auto 330px;
   }
 

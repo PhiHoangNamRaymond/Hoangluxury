@@ -127,8 +127,9 @@
     letter-spacing: .14em;
   }
 
+  /* Bỏ đường kẻ mờ ngăn Our Fleet với Curated Journeys trên mobile.
+     Bản PC vẫn giữ (rule gốc ở đầu file). */
   .hlt-fleet-divider {
-    width: 64%;
-    margin-top: 30px;
+    display: none;
   }
 }

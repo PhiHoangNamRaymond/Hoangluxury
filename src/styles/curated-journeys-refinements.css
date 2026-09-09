@@ -319,6 +319,9 @@
 @media (max-width: 960px) {
   .hlt-route-showcase {
     background-color: #EDE0CC;
+    /* 64px dưới nút "View All Routes" là phần lớn khoảng trống trước
+       khối "Journey Confirmed". Thu lại cho hai mục gần nhau hơn. */
+    padding-bottom: 26px;
   }
 
   .hlt-route-grid {
