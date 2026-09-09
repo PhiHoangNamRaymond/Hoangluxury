@@ -1,5 +1,5 @@
 import React from "react";
-import { logoUrl, whatsappQrUrl } from "../../config/assets.js";
+import { footerFlourishDividerUrl, logoUrl, whatsappQrUrl } from "../../config/assets.js";
 import { catalogPageUrl, whatsappUrl } from "../../data.js";
 
 export default function Footer() {
@@ -8,7 +8,8 @@ export default function Footer() {
 
   return (
     <footer className="hlt-footer hlt-footer-compact">
-      <div className="hlt-container hlt-footer-grid">
+      {/* Desktop Footer Grid - 100% Intact */}
+      <div className="hlt-container hlt-footer-grid hlt-footer-desktop-view">
         <div className="hlt-footer-brand">
           <img src={logoUrl} alt="Hoang Luxury Travel" />
           <strong>Hoang</strong>
@@ -84,6 +85,102 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Mobile Footer View - Matching Reference Image */}
+      <div className="hlt-container hlt-footer-mobile-view">
+        {/* Top Floating Card: Brand + QR */}
+        <div className="hlt-footer-mobile-card">
+          <div className="hlt-footer-mobile-card-brand">
+            <img src={logoUrl} alt="Hoang Luxury Travel" className="hlt-footer-mobile-logo" />
+            <div className="hlt-footer-mobile-brand-text">
+              <strong>HOANG</strong>
+              <span>LUXURY TRAVEL</span>
+            </div>
+            <div className="hlt-footer-mobile-brand-divider">
+              <span className="hlt-footer-mobile-brand-diamond" />
+            </div>
+            <p className="hlt-footer-mobile-tagline">
+              Luxury private car services for international travelers in Northern Vietnam.
+            </p>
+          </div>
+
+          <div className="hlt-footer-mobile-card-divider">
+            <span className="hlt-footer-mobile-card-diamond" />
+          </div>
+
+          <div className="hlt-footer-mobile-card-qr">
+            <div className="hlt-footer-mobile-qr-box">
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
+                <img src={whatsappQrUrl} alt="WhatsApp QR code" />
+              </a>
+              <p>WhatsApp</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Us Section */}
+        <div className="hlt-footer-mobile-contact-section">
+          <h3 className="hlt-footer-mobile-contact-title">CONTACT US</h3>
+          <div className="hlt-footer-mobile-title-divider">
+            <span className="hlt-footer-mobile-title-diamond" />
+          </div>
+
+          <div className="hlt-footer-mobile-contact-list">
+            <a href="tel:+84839779888" className="hlt-footer-mobile-contact-item">
+              <div className="hlt-footer-mobile-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+              </div>
+              <span>+84.839.779.888</span>
+            </a>
+
+            <a href="mailto:hoangluxury.travel@gmail.com" className="hlt-footer-mobile-contact-item">
+              <div className="hlt-footer-mobile-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <polyline points="3 7 12 13 21 7" />
+                </svg>
+              </div>
+              <span>hoangluxury.travel@gmail.com</span>
+            </a>
+
+            <div className="hlt-footer-mobile-contact-item">
+              <div className="hlt-footer-mobile-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <span>Duplex Villa 68 SP Hanoi, Viet Nam</span>
+            </div>
+
+            <a
+              href="https://www.youtube.com/@HoangLuxuryTravel"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hlt-footer-mobile-contact-item"
+            >
+              <div className="hlt-footer-mobile-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="6" width="20" height="12" rx="3" />
+                  <polygon points="10 9 15 12 10 15 10 9" fill="currentColor" />
+                </svg>
+              </div>
+              <span>youtube.com/@HoangLuxuryTravel</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Bottom Flourish Ornament Divider + Privacy Policy */}
+        <div className="hlt-footer-mobile-bottom">
+          <img src={footerFlourishDividerUrl} alt="" className="hlt-footer-flourish-img" aria-hidden="true" />
+
+          <div className="hlt-footer-mobile-legal">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }

@@ -19,22 +19,34 @@ export const popularRoutes = [
   "Ta Xua",
 ];
 
-// Dropdown "Journey" chỉ liệt kê các tuyến chính, không phải toàn bộ
-// `popularRoutes` ở trên (phần thân trang vẫn hiện đủ 9 tuyến). Slug phải
-// khớp với key trong src/config/journeys.js.
-const journeyRoutes = ["Sapa", "Ha Giang", "Ninh Binh", "Ha Long"].map(
-  (route) => [
+export const cruisesPageUrl = "/cruises/";
+
+// Dropdown "Journey" liệt kê tuỳ chọn xem tất cả tuyến cùng các tuyến chính và du thuyền.
+const journeyRoutes = [
+  ["All Popular Routes", "/journeys/"],
+  ["Ha Long Bay Cruises", cruisesPageUrl],
+  ...[
+    "Sapa",
+    "Ha Long",
+    "Ninh Binh",
+    "Ha Giang",
+    "Cat Ba",
+    "Cao Bang",
+    "Moc Chau",
+    "Mu Cang Chai",
+    "Ta Xua",
+  ].map((route) => [
     `Hanoi to ${route}`,
     `/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`,
-  ]
-);
+  ]),
+];
 
 // Phần tử thứ ba (tuỳ chọn) là danh sách con, hiện ra khi rê chuột vào mục cha.
 export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
-  ["Journey", "#routes", journeyRoutes],
+  ["Journey", "/journeys/", journeyRoutes],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
   ["Feedback", feedbackPageUrl],
@@ -87,6 +99,9 @@ export const whyItems = [
 ];
 
 export const services = [
+  // Thứ tự phải khớp `serviceIconImages` trong config/assets.js — icon lấy
+  // theo chỉ số, không theo tên. Lưu ý key ảnh đặt tên cũ: "sapa" là ảnh
+  // long-distance, "haGiang" là ảnh business.
   {
     image: "airport",
     title: "Airport Transfer",

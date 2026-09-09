@@ -1,0 +1,2192 @@
+.hlt-cruises-site {
+  min-height: 100vh;
+  background-color: #fbf9f4;
+  overflow-x: hidden;
+}
+
+.hlt-cruises-site .hlt-container {
+  width: min(1320px, calc(100% - 72px));
+  margin: 0 auto;
+}
+
+.hlt-cruises-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   1. HERO BANNER & USPs TRUSTBAR (Dark Theme)
+   ========================================================================== */
+.hlt-cruise-hero {
+  position: relative;
+  min-height: clamp(520px, 58vh, 660px);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: clamp(115px, 14vh, 150px);
+  color: #ffffff;
+}
+
+.hlt-cruise-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(2, 9, 8, 0.88) 0%, rgba(2, 9, 8, 0.55) 36%, rgba(2, 9, 8, 0.05) 58%, transparent 100%),
+    linear-gradient(180deg, rgba(2, 9, 8, 0.2) 0%, transparent 30%, rgba(2, 9, 8, 0.35) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hlt-cruise-hero-container {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 32px;
+}
+
+.hlt-cruise-hero-mobile-frame {
+  display: none;
+}
+
+.hlt-cruise-hero-kicker {
+  display: none;
+}
+
+.hlt-cruise-crown-divider {
+  display: none;
+}
+
+.hlt-cruise-hero-content {
+  max-width: 620px;
+}
+
+.hlt-cruise-hero-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(38px, 5.2vw, 58px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hlt-title-white {
+  color: #ffffff;
+}
+
+.hlt-title-gold {
+  color: #cfa84e;
+}
+
+.hlt-cruise-hero-subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(18px, 1.8vw, 23px);
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+
+.hlt-cruise-hero-bullets {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 28px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hlt-bullet-dot {
+  color: #d4af37;
+  margin: 0 10px;
+  font-weight: 700;
+}
+
+.hlt-cruise-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hlt-cruise-btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 22px;
+  background: #c89d53;
+  border: 1px solid #c89d53;
+  border-radius: 6px;
+  color: #111a18 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 13.5px;
+  font-weight: 550;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.hlt-cruise-btn-gold:hover {
+  background: #d4a75b;
+  border-color: #d4a75b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(200, 157, 83, 0.35);
+}
+
+.hlt-cruise-btn-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 20px;
+  background: rgba(8, 20, 18, 0.72);
+  border: 1px solid rgba(217, 177, 74, 0.65);
+  border-radius: 6px;
+  color: #ffffff !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 13.5px;
+  font-weight: 550;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.hlt-cruise-btn-glass:hover {
+  background: rgba(217, 177, 74, 0.18);
+  border-color: #d9b14a;
+  transform: translateY(-1px);
+}
+
+.hlt-whatsapp-icon {
+  width: 17px;
+  height: 17px;
+  color: #d9b14a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-whatsapp-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Trustbar */
+.hlt-cruise-trustbar {
+  position: relative;
+  z-index: 2;
+  background: rgba(4, 13, 11, 0.95);
+  border-top: 1px solid rgba(217, 177, 74, 0.25);
+  border-bottom: 1px solid rgba(217, 177, 74, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 16px 0;
+}
+
+.hlt-cruise-trustbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hlt-cruise-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(13.5px, 1.2vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #f0ece1;
+}
+
+.hlt-cruise-trust-divider {
+  width: 1px;
+  height: 26px;
+  background: rgba(217, 177, 74, 0.22);
+  flex-shrink: 0;
+}
+
+.hlt-trust-svg {
+  width: 27px;
+  height: 27px;
+  color: #d4af37;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hlt-trust-svg svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   2. FIND YOUR CRUISE (Staggered Layout)
+   ========================================================================== */
+.hlt-cruise-catalog-section {
+  padding: clamp(50px, 6vw, 75px) 0;
+  background: #fbf9f4;
+}
+
+.hlt-cruise-catalog-container {
+  width: min(1320px, calc(100% - 72px));
+  margin: 0 auto;
+}
+
+/* Top Row: 4 items (Intro in col 1 + 3 Cards in cols 2, 3, 4) */
+.hlt-cruise-row-top {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.hlt-cruise-catalog-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 10px;
+  padding-right: 12px;
+}
+
+.hlt-cruise-catalog-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(32px, 2.8vw, 42px);
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.12;
+  margin: 0 0 14px;
+}
+
+.hlt-cruise-catalog-desc {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  color: #42524e;
+  line-height: 1.45;
+  margin: 0 0 18px;
+}
+
+.hlt-cruise-gold-rule {
+  width: 40px;
+  height: 2px;
+  background: #c5a15a;
+}
+
+/* Bottom Row: 3 Cards offset by 12.5% + 10px (centered under gaps of row 1) */
+.hlt-cruise-row-bottom {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+  padding-left: calc(12.5% + 7.5px);
+}
+
+.hlt-cruise-row-bottom .hlt-cruise-card {
+  grid-column: span 1;
+}
+
+.hlt-cruise-card {
+  background: #ffffff;
+  border: 1px solid #e2ded4;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hlt-cruise-card:hover {
+  transform: translateY(-3px);
+  border-color: #c5a15a;
+  box-shadow: 0 10px 24px rgba(197, 161, 90, 0.18);
+}
+
+.hlt-cruise-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #eef0ea;
+}
+
+.hlt-cruise-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.hlt-cruise-card:hover .hlt-cruise-card-img {
+  transform: scale(1.04);
+}
+
+.hlt-cruise-card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.hlt-cruise-card-badge svg {
+  width: 10px;
+  height: 10px;
+  color: #eab308;
+  flex-shrink: 0;
+}
+
+.hlt-cruise-card-body,
+.hlt-cruise-card-body * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.hlt-cruise-card-body {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: #ffffff;
+}
+
+.hlt-cruise-card-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 0 3px !important;
+  line-height: 1.25 !important;
+}
+
+.hlt-cruise-card-durations {
+  font-size: 12.5px !important;
+  color: #475569 !important;
+  margin: 0 0 10px !important;
+  font-weight: 500 !important;
+}
+
+.hlt-cruise-card-meta {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-top: auto !important;
+  margin-bottom: 10px !important;
+}
+
+.hlt-cruise-card-rating {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+
+.hlt-star {
+  color: #eab308 !important;
+  font-size: 13px !important;
+}
+
+.hlt-cruise-reviews-count {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #64748b !important;
+  margin-left: 2px !important;
+}
+
+.hlt-cruise-card-price {
+  font-size: 12px !important;
+  color: #475569 !important;
+  font-weight: 500 !important;
+}
+
+.hlt-cruise-card-price strong {
+  color: #0f172a !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  margin-left: 3px !important;
+}
+
+.hlt-cruise-card-btn {
+  all: unset !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 28px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: #fdfbf7 !important;
+  border: 1px solid #c5a15a !important;
+  border-radius: 5px !important;
+  color: #8c6d1f !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.hlt-cruise-card-btn:hover {
+  background: #c5a15a !important;
+  color: #0a1f1b !important;
+  border-color: #c5a15a !important;
+  transform: none !important;
+}
+
+.hlt-cruise-match-section {
+  padding: clamp(36px, 4vw, 48px) 0;
+  background: #08131d;
+  color: #ffffff;
+}
+
+.hlt-cruise-match-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(24px, 4vw, 44px);
+  align-items: center;
+}
+
+.hlt-cruise-match-left {
+  max-width: 280px;
+}
+
+.hlt-cruise-match-left h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(23px, 2.4vw, 27px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 12px;
+}
+
+.hlt-cruise-match-left p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.45;
+  margin: 0 0 18px;
+}
+
+.hlt-cruise-match-left .hlt-cruise-btn-gold {
+  all: unset !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 16px !important;
+  background: #c89d53 !important;
+  color: #111a18 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 12.5px !important;
+  font-weight: 550 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+
+.hlt-cruise-match-left .hlt-cruise-btn-gold:hover {
+  background: #d4a75b !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(200, 157, 83, 0.35) !important;
+}
+
+.hlt-cruise-match-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.hlt-cruise-pref-box {
+  background: #0d1a26;
+  border: 1px solid rgba(217, 177, 74, 0.3);
+  border-radius: 14px;
+  min-height: 185px;
+  padding: 28px 12px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  cursor: default;
+  user-select: none;
+}
+
+.hlt-cruise-pref-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-cruise-pref-img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  display: block;
+}
+
+.hlt-cruise-pref-box h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   4. FROM HOTEL TO CRUISE — SEAMLESSLY
+   ========================================================================== */
+.hlt-cruise-seamless-section {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.hlt-cruise-seamless-banner {
+  position: relative;
+  min-height: clamp(430px, 46vw, 520px);
+  background-size: cover;
+  background-position: center 78%;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.hlt-cruise-seamless-overlay {
+  display: none;
+}
+
+.hlt-cruise-seamless-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.hlt-cruise-seamless-content h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 700;
+  color: #07201b;
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+.hlt-cruise-seamless-subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  color: #4b5563;
+  margin: 0 auto 24px;
+  max-width: 360px;
+  line-height: 1.45;
+}
+
+.hlt-cruise-flow-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1.8vw, 14px);
+  max-width: 490px;
+  margin: 0 auto;
+}
+
+.hlt-cruise-flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 80px;
+}
+
+.hlt-flow-svg {
+  width: 36px;
+  height: 36px;
+  color: #b88a38;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-flow-svg svg {
+  width: 100%;
+  height: 100%;
+  stroke: #b88a38;
+  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.9));
+}
+
+.hlt-cruise-flow-step span:last-child {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.25;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95);
+}
+
+.hlt-cruise-flow-arrow {
+  color: #b88a38;
+  font-size: 18px;
+  margin-bottom: 22px;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.hlt-cruise-seamless-bottom {
+  background: #08131d;
+  border-top: 1px solid rgba(217, 177, 74, 0.35);
+  padding: 24px 0 28px;
+}
+
+.hlt-cruise-features-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 3.8vw, 44px);
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.hlt-cruise-feature-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.hlt-feature-svg {
+  width: 32px;
+  height: 32px;
+  color: #d4af37;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-feature-svg svg {
+  width: 100%;
+  height: 100%;
+  stroke: #d4af37;
+}
+
+.hlt-cruise-seamless-cta {
+  display: flex;
+  justify-content: center;
+}
+
+.hlt-cruise-seamless-cta .hlt-cruise-btn-gold {
+  min-height: 40px;
+  padding: 0 24px;
+  background: linear-gradient(135deg, #dfb461 0%, #b88a38 100%);
+  border: 1px solid #dfb461;
+  color: #110d05 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 550 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   5. MORE THAN A NIGHT ON THE BAY (Light Theme)
+   ========================================================================= */
+.hlt-cruise-exp-section {
+  padding: clamp(24px, 2.8vw, 36px) 0 0;
+  background: #fbf9f4;
+}
+
+.hlt-cruise-exp-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+}
+
+.hlt-cruise-exp-intro h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+
+.hlt-cruise-exp-intro p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.45;
+  max-width: 260px;
+  margin: 0;
+}
+
+.hlt-cruise-exp-mosaic {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hlt-cruise-exp-banner {
+  width: 100%;
+  height: 175px;
+  border-radius: 12px 12px 0 0;
+  background-size: cover;
+  background-position: center 62%;
+  border: 1px solid #e8e2d2;
+}
+
+.hlt-cruise-exp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.hlt-cruise-exp-card {
+  position: relative;
+  aspect-ratio: 4 / 2.5;
+  border-radius: 0;
+  overflow: hidden;
+  border: 1px solid #e8e2d2;
+  background: #020706;
+}
+
+.hlt-cruise-exp-card:first-child {
+  border-radius: 0 0 0 12px;
+}
+
+.hlt-cruise-exp-card:last-child {
+  border-radius: 0 0 12px 0;
+}
+
+.hlt-cruise-exp-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.hlt-cruise-exp-card:hover .hlt-cruise-exp-img {
+  transform: scale(1.06);
+}
+
+.hlt-cruise-exp-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(2, 8, 7, 0.85) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 6px;
+}
+
+.hlt-cruise-exp-overlay h4 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.hlt-cruise-light-divider {
+  border: none;
+  border-top: 1px solid #d4c4a3;
+  margin: clamp(18px, 2.2vw, 26px) 0 0;
+  opacity: 1;
+}
+
+/* ==========================================================================
+   6. CHOOSE YOUR JOURNEY (Light Theme)
+   ========================================================================= */
+.hlt-cruise-durations-section {
+  padding: clamp(16px, 2vw, 24px) 0 clamp(28px, 3.5vw, 42px);
+  background: #fbf9f4;
+}
+
+.hlt-cruise-durations-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+}
+
+.hlt-cruise-durations-intro h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.hlt-cruise-durations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.hlt-cruise-duration-card {
+  background: #ffffff;
+  border: 1px solid #e5dccb;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.hlt-cruise-duration-card:hover {
+  transform: translateY(-2px);
+  border-color: #c5a15a;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.hlt-cruise-duration-media {
+  width: 100%;
+  aspect-ratio: 16 / 8.5;
+  overflow: hidden;
+  background: #eae5da;
+}
+
+.hlt-cruise-duration-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.hlt-cruise-duration-card:hover .hlt-cruise-duration-media img {
+  transform: scale(1.05);
+}
+
+.hlt-cruise-duration-body {
+  padding: 12px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.hlt-cruise-duration-body h3 {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  color: #07201b !important;
+  margin: 0 0 3px !important;
+  line-height: 1.3 !important;
+  text-transform: uppercase !important;
+}
+
+.hlt-cruise-duration-body p {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+  font-size: 13.5px !important;
+  color: #384d48 !important;
+  font-weight: 600 !important;
+  margin: 0 0 10px !important;
+  line-height: 1.35 !important;
+}
+
+.hlt-cruise-duration-btn {
+  all: unset !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 26px !important;
+  padding: 0 16px !important;
+  border: 1px solid #c5a15a !important;
+  background: #fffdfa !important;
+  color: #8c6d1f !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  border-radius: 5px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.hlt-cruise-duration-btn:hover {
+  background: #c5a15a !important;
+  color: #0a1f1b !important;
+}
+
+/* ==========================================================================
+   7. STATS & VALUES (Dark Theme)
+   ========================================================================== */
+.hlt-cruise-stats-section {
+  padding: clamp(32px, 3.8vw, 48px) 0;
+  background: #061311;
+  color: #ffffff;
+}
+
+.hlt-cruise-stats-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+}
+
+.hlt-cruise-stats-left h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 700;
+  color: #d9b14a;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+.hlt-cruise-benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hlt-cruise-benefits-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hlt-check-icon {
+  color: #d9b14a;
+  font-weight: 700;
+}
+
+.hlt-cruise-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.hlt-cruise-metric-box {
+  background: #0d1a26;
+  border: 1px solid rgba(217, 177, 74, 0.3);
+  border-radius: 14px;
+  min-height: 185px;
+  padding: 28px 12px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.hlt-metric-svg {
+  width: 52px;
+  height: 52px;
+  color: #d9b14a;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-metric-svg svg {
+  width: 100%;
+  height: 100%;
+  stroke: #d9b14a;
+}
+
+.hlt-metric-val {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.3vw, 30px);
+  font-weight: 700;
+  color: #d9b14a;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.hlt-metric-lbl {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #cad8d4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   8. REAL CRUISE MOMENTS (Light Theme)
+   ========================================================================== */
+.hlt-cruise-moments-section {
+  padding: clamp(16px, 2vw, 24px) 0 0;
+  background: #fbf9f4;
+}
+
+.hlt-cruise-moments-grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr;
+  gap: 14px;
+  height: clamp(125px, 12vw, 150px);
+}
+
+.hlt-cruise-moment-card {
+  position: relative;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0d5be;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.hlt-cruise-moment-featured {
+  height: 100%;
+}
+
+.hlt-cruise-moment-title {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.15;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.95), 0 0 3px rgba(255, 255, 255, 0.95);
+  z-index: 2;
+}
+
+.hlt-cruise-moment-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.hlt-cruise-moment-card:hover img {
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   9. TRUSTED BY INTERNATIONAL TRAVELERS (Light Theme)
+   ========================================================================== */
+.hlt-cruise-reviews-section {
+  padding: clamp(20px, 2.5vw, 30px) 0 0;
+  background: #fbf9f4;
+}
+
+.hlt-cruise-reviews-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+}
+
+.hlt-cruise-reviews-left h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.hlt-cruise-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.hlt-cruise-review-card {
+  background: #ffffff;
+  border: 1px solid #e5dccb;
+  border-radius: 10px;
+  padding: 14px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.hlt-cruise-review-stars {
+  color: #d9b14a;
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.hlt-cruise-review-quote {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #0b1a17;
+  margin: 0 0 12px;
+  flex: 1;
+}
+
+.hlt-cruise-review-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0ecdf;
+}
+
+.hlt-review-avatar-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #d4c4a3;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.hlt-review-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #d4af37;
+  color: #06110f;
+  display: grid;
+  place-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.hlt-review-info strong {
+  display: block;
+  font-size: 13px;
+  color: #07201b;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.hlt-review-info span {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #4b5d59;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   10. FREQUENTLY ASKED QUESTIONS (Light Theme)
+   ========================================================================== */
+.hlt-cruise-faq-section {
+  padding: clamp(20px, 2.5vw, 30px) 0 clamp(36px, 4.5vw, 55px);
+  background: #fbf9f4;
+}
+
+.hlt-cruise-faq-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+}
+
+.hlt-cruise-faq-left h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 700;
+  color: #07201b;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.hlt-cruise-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.hlt-cruise-faq-item {
+  background: #ffffff;
+  border: 1px solid #e5dccb;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.hlt-cruise-faq-item.is-open {
+  border-color: #c5a15a;
+}
+
+.hlt-cruise-faq-question {
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: #07201b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hlt-faq-chevron {
+  width: 14px;
+  height: 14px;
+  color: #64748b;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.hlt-cruise-faq-item.is-open .hlt-faq-chevron {
+  transform: rotate(180deg);
+  color: #c5a15a;
+}
+
+.hlt-cruise-faq-answer {
+  padding: 0 14px 12px;
+}
+
+.hlt-cruise-faq-answer p {
+  margin: 10px 0 0;
+}
+
+/* ==========================================================================
+   11. YOUR HA LONG JOURNEY STARTS HERE (CTA BANNER)
+   ========================================================================== */
+.hlt-cruise-cta-section {
+  position: relative;
+  background-size: cover;
+  background-position: center 45%;
+  padding: clamp(22px, 2.5vw, 32px) 0;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.hlt-cruise-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(7, 18, 16, 0.88) 0%, rgba(7, 18, 16, 0.45) 48%, rgba(7, 18, 16, 0.78) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hlt-cruise-cta-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.hlt-cruise-cta-text h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(25px, 2.7vw, 34px);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+.hlt-cruise-cta-text p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  line-height: 1.45;
+  max-width: 360px;
+}
+
+.hlt-cruise-cta-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.hlt-cruise-cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.hlt-cruise-btn-gold {
+  background: linear-gradient(135deg, #dfbc5d, #b88d2a);
+  color: #071512;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 11px 26px;
+  min-width: 195px;
+  border-radius: 7px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.hlt-cruise-btn-gold:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.hlt-cruise-btn-dark-wa {
+  background: #081a16;
+  color: #ffffff;
+  border: 1px solid rgba(217, 177, 74, 0.45);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 11px 24px;
+  min-width: 155px;
+  border-radius: 7px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.hlt-cruise-btn-dark-wa:hover {
+  background: #0d2822;
+  border-color: #d9b14a;
+}
+
+.hlt-cruise-cta-trust {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13.5px;
+  font-weight: 550;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hlt-cta-dot {
+  color: #dfbc5d;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .hlt-cruise-row-top {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hlt-cruise-row-bottom {
+    grid-template-columns: repeat(2, 1fr);
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hlt-cruise-match-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .hlt-cruise-catalog-layout,
+  .hlt-cruise-match-layout,
+  .hlt-cruise-exp-layout,
+  .hlt-cruise-stats-layout,
+  .hlt-cruise-reviews-layout,
+  .hlt-cruise-faq-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hlt-cruise-catalog-intro,
+  .hlt-cruise-exp-intro,
+  .hlt-cruise-reviews-left,
+  .hlt-cruise-faq-left {
+    position: static;
+  }
+
+  .hlt-cruise-exp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hlt-cruise-durations-grid,
+  .hlt-cruise-reviews-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hlt-cruise-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hlt-cruise-moments-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hlt-cruise-faq-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Container & Global Spacing */
+  .hlt-cruises-site .hlt-container {
+    padding: 0 16px;
+  }
+
+  /* 1. Hero Section (Home Format with Scalloped Concave Frame) */
+  /* 1. Hero Section (Home Format with Balanced Scalloped Frame) */
+  .hlt-cruise-hero {
+    min-height: 590px;
+    padding-top: 75px;
+    padding-bottom: 0 !important;
+    background-position: 72% center;
+    position: relative;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .hlt-cruise-hero-overlay {
+    background:
+      linear-gradient(180deg, rgba(2, 9, 8, 0.85) 0%, rgba(2, 9, 8, 0.42) 45%, rgba(2, 9, 8, 0.96) 100%),
+      linear-gradient(90deg, rgba(2, 9, 8, 0.75) 0%, rgba(2, 9, 8, 0.35) 60%, transparent 100%) !important;
+  }
+
+  .hlt-cruise-hero-container {
+    position: relative !important;
+    width: calc(100% - 44px) !important;
+    max-width: 320px !important;
+    margin: auto auto !important;
+    padding: 0 !important;
+  }
+
+  .hlt-cruise-hero-mobile-frame {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 6 !important;
+  }
+
+  .hlt-cruise-hero-scallop-svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+  }
+
+  .hlt-cruise-hero-content {
+    position: relative !important;
+    z-index: 7 !important;
+    min-height: 400px !important;
+    padding: 28px 18px !important;
+    text-align: left !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .hlt-cruise-hero-kicker {
+    display: block !important;
+    margin: 0 0 6px !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.22em !important;
+    color: #c5a15a !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    text-align: left !important;
+  }
+
+  .hlt-cruise-hero-title {
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+  }
+
+  .hlt-title-white {
+    display: block !important;
+    font-size: clamp(28px, 8vw, 36px) !important;
+    color: #ffffff !important;
+    line-height: 0.98 !important;
+    letter-spacing: 0.04em !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .hlt-title-gold {
+    display: block !important;
+    font-size: clamp(28px, 8vw, 36px) !important;
+    color: #d4af37 !important;
+    line-height: 0.98 !important;
+    letter-spacing: 0.04em !important;
+    margin-top: 2px !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .hlt-cruise-crown-divider {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 10px 0 12px !important;
+    width: 120px !important;
+    color: #c5a15a !important;
+  }
+
+  .hlt-cruise-crown-line {
+    flex: 1 !important;
+    height: 1px !important;
+    background: #c5a15a !important;
+    opacity: 0.85 !important;
+  }
+
+  .hlt-cruise-crown-svg {
+    width: 12px !important;
+    height: 9px !important;
+    color: #c5a15a !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hlt-cruise-hero-subtitle {
+    margin: 0 0 18px !important;
+    max-width: 205px !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 11px !important;
+    line-height: 1.38 !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8) !important;
+    font-style: normal !important;
+    text-align: left !important;
+  }
+
+  .hlt-cruise-hero-bullets {
+    display: none !important;
+  }
+
+  .hlt-cruise-hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    width: 100% !important;
+    max-width: 175px !important;
+    margin: 0 !important;
+    align-items: flex-start !important;
+  }
+
+  .hlt-cruise-hero-actions .hlt-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 33px !important;
+    padding: 0 10px !important;
+    font-size: 9px !important;
+    border-radius: 5px !important;
+    justify-content: center !important;
+    letter-spacing: 0.08em !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  /* Trustbar: 1 Single Row, Sát Mép Đen Dưới Cùng */
+  .hlt-cruise-trustbar {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+    padding: 12px 0 10px !important;
+    background: rgba(3, 10, 8, 0.88) !important;
+    border-top: 1px solid rgba(197, 161, 90, 0.38) !important;
+    border-bottom: none !important;
+    width: 100% !important;
+    position: relative;
+    z-index: 5;
+  }
+
+  .hlt-cruise-trustbar-inner {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0 !important;
+    padding: 0 4px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  .hlt-cruise-trust-divider {
+    display: block !important;
+    width: 1px !important;
+    height: 28px !important;
+    background: rgba(197, 161, 90, 0.45) !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hlt-cruise-trust-item {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 5px !important;
+    padding: 0 3px !important;
+  }
+
+  .hlt-cruise-trust-item span:not(.hlt-trust-svg) {
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    color: #ded6c2 !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+    display: block !important;
+    white-space: normal !important;
+  }
+
+  .hlt-trust-svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+    color: #c5a15a !important;
+  }
+
+  /* 2. Find Your Cruise (Single-column Full-width 16:10 Cards) */
+  .hlt-cruise-catalog-section {
+    padding: 36px 0 40px;
+  }
+
+  .hlt-cruise-row-top {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .hlt-cruise-catalog-intro {
+    width: 100% !important;
+    padding: 0 0 10px !important;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hlt-cruise-catalog-title {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: clamp(24px, 7vw, 28px) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 10px !important;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+
+  .hlt-cruise-catalog-desc {
+    font-size: 14px !important;
+    max-width: 320px;
+    margin: 0 auto 14px !important;
+  }
+
+  .hlt-cruise-gold-rule {
+    margin: 0 auto;
+  }
+
+  .hlt-cruise-match-left h2,
+  .hlt-cruise-seamless-content h2,
+  .hlt-cruise-exp-intro h2,
+  .hlt-cruise-durations-intro h2,
+  .hlt-cruise-stats-left h2,
+  .hlt-cruise-reviews-left h2,
+  .hlt-cruise-faq-left h2,
+  .hlt-cruise-cta-text h2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+
+  .hlt-cruise-row-bottom {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    margin-top: 20px !important;
+    padding-left: 0 !important;
+  }
+
+  .hlt-cruise-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .hlt-cruise-card-media {
+    width: 100% !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  .hlt-cruise-card-body {
+    padding: 16px 16px 18px !important;
+  }
+
+  .hlt-cruise-card-title {
+    font-size: 18px !important;
+  }
+
+  .hlt-cruise-card-btn {
+    height: 42px !important;
+    font-size: 13.5px !important;
+  }
+
+  /* 3. Not Sure Which Cruise to Choose? */
+  .hlt-cruise-match-section {
+    padding: 36px 0;
+  }
+
+  .hlt-cruise-match-layout {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    text-align: center;
+  }
+
+  .hlt-cruise-match-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hlt-cruise-match-left h2 {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hlt-cruise-match-left p {
+    font-size: 14px !important;
+    max-width: 320px;
+    margin: 0 auto 20px !important;
+  }
+
+  .hlt-cruise-match-left .hlt-cruise-btn-gold {
+    width: 100% !important;
+    max-width: 300px;
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .hlt-cruise-match-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlt-cruise-pref-box {
+    min-height: 135px !important;
+    padding: 16px 8px 14px !important;
+  }
+
+  .hlt-cruise-pref-icon {
+    width: 46px !important;
+    height: 46px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hlt-cruise-pref-img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .hlt-cruise-pref-box h3 {
+    font-size: 13.5px !important;
+  }
+
+  /* 4. From Hotel to Cruise Seamlessly */
+  .hlt-cruise-seamless-banner {
+    min-height: 440px !important;
+    padding: 36px 16px !important;
+    background-position: center center !important;
+  }
+
+  .hlt-cruise-seamless-content h2 {
+    font-size: clamp(24px, 6.8vw, 32px) !important;
+    line-height: 1.15 !important;
+  }
+
+  .hlt-cruise-seamless-subtitle {
+    font-size: 13.5px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .hlt-cruise-flow-steps {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .hlt-cruise-flow-step {
+    width: 100% !important;
+    max-width: 290px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(8px) !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    justify-content: flex-start !important;
+  }
+
+  .hlt-cruise-flow-arrow {
+    transform: rotate(90deg) !important;
+    color: #c5a15a !important;
+    font-size: 18px !important;
+    margin: 2px 0 !important;
+  }
+
+  .hlt-cruise-features-row {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px 10px !important;
+    padding: 24px 0 20px !important;
+  }
+
+  .hlt-cruise-feature-item {
+    font-size: 12.5px !important;
+    gap: 8px !important;
+  }
+
+  .hlt-cruise-seamless-cta .hlt-cruise-btn-gold {
+    width: 100% !important;
+    max-width: 320px;
+    height: 46px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+  }
+
+  /* 5. More Than a Night on the Bay (Mosaic) */
+  .hlt-cruise-exp-section {
+    padding: 36px 0 0 !important;
+  }
+
+  .hlt-cruise-exp-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .hlt-cruise-exp-intro {
+    text-align: center;
+  }
+
+  .hlt-cruise-exp-intro h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-exp-intro p {
+    max-width: 100% !important;
+    font-size: 14px !important;
+    margin: 0 auto !important;
+  }
+
+  .hlt-cruise-exp-banner {
+    height: 180px !important;
+    border-radius: 12px 12px 0 0 !important;
+  }
+
+  .hlt-cruise-exp-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  .hlt-cruise-exp-card {
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .hlt-cruise-exp-card:nth-child(3) {
+    border-radius: 0 0 0 12px !important;
+  }
+
+  .hlt-cruise-exp-card:nth-child(4) {
+    border-radius: 0 0 12px 0 !important;
+  }
+
+  /* 6. Choose Your Journey */
+  .hlt-cruise-durations-section {
+    padding: 30px 0 36px !important;
+  }
+
+  .hlt-cruise-durations-layout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .hlt-cruise-durations-intro {
+    text-align: center;
+  }
+
+  .hlt-cruise-durations-intro h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-durations-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .hlt-cruise-duration-media {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .hlt-cruise-duration-body {
+    padding: 16px 14px 18px !important;
+  }
+
+  .hlt-cruise-duration-btn {
+    height: 36px !important;
+    font-size: 12.5px !important;
+    padding: 0 24px !important;
+  }
+
+  /* 7. Stats & Values */
+  .hlt-cruise-stats-section {
+    padding: 36px 0 !important;
+  }
+
+  .hlt-cruise-stats-layout {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .hlt-cruise-stats-left {
+    text-align: center;
+  }
+
+  .hlt-cruise-stats-left h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-benefits-list {
+    align-items: flex-start;
+    max-width: 290px;
+    margin: 0 auto;
+    font-size: 14px !important;
+  }
+
+  .hlt-cruise-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlt-cruise-metric-box {
+    min-height: 135px !important;
+    padding: 18px 10px 14px !important;
+  }
+
+  .hlt-metric-svg {
+    width: 36px !important;
+    height: 36px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hlt-metric-val {
+    font-size: 22px !important;
+  }
+
+  /* 8. Real Cruise Moments */
+  .hlt-cruise-moments-section {
+    padding: 30px 0 0 !important;
+  }
+
+  .hlt-cruise-moments-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    height: auto !important;
+  }
+
+  .hlt-cruise-moment-featured {
+    grid-column: 1 / -1 !important;
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
+
+  .hlt-cruise-moment-card:not(.hlt-cruise-moment-featured) {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+  }
+
+  /* 9. Reviews */
+  .hlt-cruise-reviews-section {
+    padding: 30px 0 0 !important;
+  }
+
+  .hlt-cruise-reviews-layout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .hlt-cruise-reviews-left {
+    text-align: center;
+  }
+
+  .hlt-cruise-reviews-left h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-reviews-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* 10. FAQ */
+  .hlt-cruise-faq-section {
+    padding: 30px 0 44px !important;
+  }
+
+  .hlt-cruise-faq-layout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .hlt-cruise-faq-left {
+    text-align: center;
+  }
+
+  .hlt-cruise-faq-left h2 {
+    font-size: 26px !important;
+  }
+
+  .hlt-cruise-faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .hlt-cruise-faq-question {
+    min-height: 48px !important;
+    font-size: 14px !important;
+    padding: 12px 14px !important;
+  }
+
+  /* 11. CTA Banner */
+  .hlt-cruise-cta-section {
+    padding: 36px 0 !important;
+  }
+
+  .hlt-cruise-cta-content {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 22px !important;
+  }
+
+  .hlt-cruise-cta-text h2 {
+    font-size: 26px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hlt-cruise-cta-text p {
+    font-size: 13.5px !important;
+    max-width: 320px;
+    margin: 0 auto !important;
+  }
+
+  .hlt-cruise-cta-right {
+    width: 100% !important;
+  }
+
+  .hlt-cruise-cta-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .hlt-cruise-cta-actions .hlt-cruise-btn-gold,
+  .hlt-cruise-cta-actions .hlt-cruise-btn-dark-wa {
+    width: 100% !important;
+    justify-content: center !important;
+    height: 46px !important;
+    font-size: 14px !important;
+  }
+
+  .hlt-cruise-cta-trust {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    font-size: 11.5px !important;
+    margin-top: 14px !important;
+  }
+}

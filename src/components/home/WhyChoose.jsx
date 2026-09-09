@@ -10,7 +10,7 @@ export default function WhyChoose() {
           <p className="hlt-why-eyebrow">Why choose</p>
           <div className="hlt-why-eyebrow-line" aria-hidden="true" />
           <h2 id="why-title">
-            <span className="hlt-why-title-gold">Hoang<br />Luxury</span>
+            <span className="hlt-why-title-gold">Hoang Luxury</span>
             <span className="hlt-why-title-ink">Travel?</span>
           </h2>
           <div className="hlt-gold-line" />
@@ -25,9 +25,11 @@ export default function WhyChoose() {
               <div className="hlt-icon">
                 <img src={whyIconImages[item.icon]} alt="" />
               </div>
-              <h3>{item.title}</h3>
-              <div className="hlt-why-card-line" aria-hidden="true" />
-              <p>{item.text}</p>
+              <div className="hlt-why-card-content">
+                <h3>{item.title}</h3>
+                <div className="hlt-why-card-line" aria-hidden="true" />
+                <p>{item.text}</p>
+              </div>
             </article>
           ))}
         </div>

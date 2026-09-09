@@ -76,7 +76,22 @@ export default function Fleet() {
           />
 
           <div className="hlt-route-map" aria-hidden="true">
-            <img src={vietnamRoutesMapUrl} alt="" />
+            <svg
+              className="hlt-route-map-artwork"
+              viewBox="0 0 1491 1055"
+              preserveAspectRatio="xMidYMin meet"
+              focusable="false"
+            >
+              <image
+                href={vietnamRoutesMapUrl}
+                width="1491"
+                height="1055"
+                preserveAspectRatio="xMidYMin meet"
+              />
+              <text className="hlt-route-map-label" x="1058" y="681">
+                CAT BA
+              </text>
+            </svg>
           </div>
 
           <div className="hlt-route-content">
@@ -109,12 +124,46 @@ export default function Fleet() {
               ))}
             </div>
 
+            {/* Desktop: Original Image Button */}
             <a
               className="hlt-route-cta hlt-route-cta-image"
               href={catalogPageUrl}
               aria-label="View All Routes"
             >
               <img src={routeViewAllButtonUrl} alt="" />
+            </a>
+
+            {/* Mobile: Styled Nautical Compass Button */}
+            <a
+              className="hlt-route-cta hlt-route-cta-button"
+              href="/journeys/"
+              aria-label="View All Routes"
+            >
+              <span className="hlt-route-cta-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32">
+                  <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                  {/* Diagonal smaller points */}
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(45 16 16)" />
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(135 16 16)" />
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(225 16 16)" />
+                  <polygon points="16,16 14.8,11.2 16,8.5 17.2,11.2" fill="currentColor" transform="rotate(315 16 16)" />
+                  {/* Main 4 points */}
+                  <polygon points="16,4 14.2,13.8 16,16" fill="currentColor" />
+                  <polygon points="16,4 17.8,13.8 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="16,28 14.2,18.2 16,16" fill="currentColor" />
+                  <polygon points="16,28 17.8,18.2 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="28,16 18.2,14.2 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="28,16 18.2,17.8 16,16" fill="currentColor" />
+                  <polygon points="4,16 13.8,14.2 16,16" fill="currentColor" opacity="0.82" />
+                  <polygon points="4,16 13.8,17.8 16,16" fill="currentColor" />
+                </svg>
+              </span>
+              <span className="hlt-route-cta-label">VIEW ALL ROUTES</span>
+              <span className="hlt-route-cta-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </span>
             </a>
           </div>
         </div>

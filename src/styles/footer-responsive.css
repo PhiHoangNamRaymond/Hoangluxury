@@ -706,7 +706,7 @@
   }
 
   .hlt-why-intro h2 span {
-    max-width: 190px;
+    max-width: none;
     margin-inline: auto;
     margin-top: 15px;
     font-size: 34px;
@@ -945,7 +945,7 @@
     order: 2;
   }
 
-  .hlt-route-map img {
+  .hlt-route-map-artwork {
     width: min(92%, 340px);
     max-height: 430px;
   }
@@ -1019,52 +1019,6 @@
 
   .hlt-process-panel h2 {
     font-size: 30px;
-  }
-
-  .hlt-process-steps {
-    gap: 28px 12px;
-  }
-
-  .hlt-process-icon {
-    width: 58px;
-    height: 58px;
-    margin-bottom: 12px;
-  }
-
-  .hlt-process-icon svg {
-    width: 29px;
-    height: 29px;
-  }
-
-  .hlt-process-step h3 {
-    min-height: 31px;
-    font-size: 12px;
-  }
-
-  .hlt-process-step p {
-    max-width: 135px;
-    font-size: 9.5px;
-    line-height: 1.45;
-  }
-
-  .hlt-booking-showcase-footer {
-    margin-top: 38px;
-  }
-
-  .hlt-booking-showcase-footer > .hlt-container {
-    min-height: 285px;
-    padding: 58px 0 30px;
-    text-align: center;
-  }
-
-  .hlt-booking-showcase-footer h3 {
-    font-size: 27px;
-    line-height: .95;
-  }
-
-  .hlt-booking-showcase-footer p {
-    margin-inline: auto;
-    font-size: 12px;
   }
 
   .hlt-footer.hlt-footer-compact {
@@ -1166,4 +1120,298 @@
     height: 14px;
   }
 
+}
+
+/* Footer Desktop vs Mobile View */
+.hlt-footer-desktop-view {
+  display: grid;
+}
+
+.hlt-footer-mobile-view {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .hlt-footer-desktop-view {
+    display: none !important;
+  }
+
+  .hlt-footer.hlt-footer-compact {
+    background: linear-gradient(180deg, #071512 0%, #050d0b 32%, #020504 65%, #000000 100%) !important;
+    border-top: 1px solid rgba(197, 161, 90, 0.45) !important;
+    padding: 36px 0 28px !important;
+  }
+
+  .hlt-footer-mobile-view {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 0 auto !important;
+    padding: 0 12px !important;
+  }
+
+  /* Top Card: Brand + QR */
+  .hlt-footer-mobile-card {
+    position: relative;
+    background: radial-gradient(circle at 40% 30%, #0d1e1a 0%, #06110f 100%) !important;
+    border: 1.2px solid rgba(197, 161, 90, 0.45) !important;
+    border-radius: 18px !important;
+    padding: 14px 10px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .hlt-footer-mobile-card-brand {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .hlt-footer-mobile-logo {
+    width: 66px !important;
+    height: 66px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto 6px !important;
+  }
+
+  .hlt-footer-mobile-brand-text strong {
+    display: block !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #d4af37 !important;
+    letter-spacing: 0.1em !important;
+    line-height: 1 !important;
+  }
+
+  .hlt-footer-mobile-brand-text span {
+    display: block !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 10px !important;
+    color: #c5a15a !important;
+    letter-spacing: 0.2em !important;
+    line-height: 1.2 !important;
+    margin-top: 2px !important;
+  }
+
+  .hlt-footer-mobile-brand-divider {
+    position: relative;
+    width: 96px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 161, 90, 0.6), transparent);
+    margin: 6px auto 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlt-footer-mobile-brand-diamond {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #c5a15a;
+    transform: rotate(45deg);
+  }
+
+  .hlt-footer-mobile-tagline {
+    margin: 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 11.5px !important;
+    color: #a89f91 !important;
+    line-height: 1.35 !important;
+    text-align: center !important;
+  }
+
+  .hlt-footer-mobile-card-divider {
+    position: relative;
+    width: 1px;
+    height: 156px;
+    background: linear-gradient(180deg, transparent, rgba(197, 161, 90, 0.45), transparent) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hlt-footer-mobile-card-diamond {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border: 1px solid #d4af37;
+    background: #081210;
+    transform: rotate(45deg);
+  }
+
+  .hlt-footer-mobile-card-qr {
+    flex-shrink: 0;
+  }
+
+  .hlt-footer-mobile-qr-box {
+    border: 1.2px solid rgba(197, 161, 90, 0.55) !important;
+    border-radius: 12px !important;
+    padding: 6px 6px 5px !important;
+    text-align: center !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .hlt-footer-mobile-qr-box img {
+    width: 98px !important;
+    height: 98px !important;
+    object-fit: contain !important;
+    border-radius: 6px !important;
+    display: block !important;
+    margin: 0 auto !important;
+    background: #fff !important;
+    padding: 2px !important;
+  }
+
+  .hlt-footer-mobile-qr-box p {
+    margin: 4px 0 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: #d4af37 !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* Contact Us Section */
+  .hlt-footer-mobile-contact-section {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .hlt-footer-mobile-contact-title {
+    margin: 0;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #d4af37;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .hlt-footer-mobile-title-divider {
+    position: relative;
+    width: 140px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 161, 90, 0.65), transparent);
+    margin: 8px auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlt-footer-mobile-title-diamond {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #c5a15a;
+    transform: rotate(45deg);
+  }
+
+  .hlt-footer-mobile-contact-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    text-align: left !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+
+  .hlt-footer-mobile-contact-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+    text-decoration: none !important;
+    color: #ded3c1 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 15px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transition: color 0.2s ease !important;
+  }
+
+  .hlt-footer-mobile-contact-item:hover {
+    color: #f1d39a !important;
+  }
+
+  .hlt-footer-mobile-contact-item span {
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: 15px !important;
+    color: #ded3c1 !important;
+    line-height: 1.2 !important;
+  }
+
+  .hlt-footer-mobile-icon-circle {
+    width: 36px !important;
+    height: 36px !important;
+    flex: 0 0 36px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(197, 161, 90, 0.55) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #d4af37 !important;
+    flex-shrink: 0 !important;
+    background: rgba(197, 161, 90, 0.04) !important;
+    margin: 0 !important;
+  }
+
+  .hlt-footer-mobile-icon-circle svg {
+    width: 17px !important;
+    height: 17px !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+
+  /* Bottom Flourish Ornament & Legal */
+  .hlt-footer-mobile-bottom {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .hlt-footer-flourish-img {
+    width: 100% !important;
+    max-width: 320px !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto 16px !important;
+    object-fit: contain !important;
+    mix-blend-mode: screen !important;
+  }
+
+  .hlt-footer-mobile-legal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    font-family: "Cormorant", Georgia, serif;
+    font-size: 14px;
+    color: #c5a15a;
+  }
+
+  .hlt-footer-mobile-legal a {
+    color: #c5a15a !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease, opacity 0.2s ease !important;
+  }
+
+  .hlt-footer-mobile-legal a:hover {
+    color: #f1d39a !important;
+  }
 }

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Sun behind left peak -->
+  <circle cx="32" cy="20" r="9" stroke="#d4af37" stroke-width="3"/>
+  <!-- Left Mountain Peak -->
+  <path d="M10 39L22 19L35 39" stroke="#d4af37" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right Mountain Peak -->
+  <path d="M33 39L44 22L55 39" stroke="#d4af37" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Double Waves at Bottom -->
+  <path d="M10 47C18 43 26 43 34 47C42 51 50 51 56 47" stroke="#d4af37" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M10 55C18 51 26 51 34 55C42 59 50 59 56 55" stroke="#d4af37" stroke-width="3.2" stroke-linecap="round"/>
+</svg>

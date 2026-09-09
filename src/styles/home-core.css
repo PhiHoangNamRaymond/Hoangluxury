@@ -180,7 +180,8 @@
   margin-left: 0;
 }
 
-.hlt-hero h1 {
+.hlt-hero h1,
+.hlt-hero-title {
   margin: 12px 0 20px;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(42px, 3.75vw, 58px);
@@ -191,25 +192,26 @@
   color: #fff;
 }
 
-.hlt-hero h1 span,
-.hlt-hero-title-line {
+.hlt-hero-title-white {
   display: block;
   white-space: nowrap;
-}
-
-.hlt-hero h1 br {
-  display: none;
-}
-
-.hlt-hero h1 span {
-  color: #d9b14a;
-}
-
-.hlt-hero h1 .hlt-hero-title-line {
   color: #fff;
 }
 
-.hlt-hero p {
+.hlt-hero-title-gold {
+  display: block;
+  white-space: nowrap;
+  color: #d9b14a;
+}
+
+.hlt-hero-kicker,
+.hlt-hero-crown-divider,
+.hlt-hero-mobile-frame {
+  display: none;
+}
+
+.hlt-hero p,
+.hlt-hero-desc {
   max-width: 490px;
   color: rgba(255, 255, 255, .9);
   font-size: clamp(16px, 1.2vw, 19px);

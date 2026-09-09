@@ -7,14 +7,14 @@
   padding-top: 72px;
   border-top: 0;
   border-bottom: 0;
-  background-color: #f5eee3;
+  background-color: #EDE0CC;
   background-image:
     linear-gradient(to bottom,
-      #f5eee3 0%,
-      rgba(245, 238, 227, .98) 30%,
-      rgba(245, 238, 227, .88) 42%,
-      rgba(245, 238, 227, .46) 55%,
-      rgba(245, 238, 227, 0) 68%),
+      #EDE0CC 0%,
+      rgba(237, 224, 204, .98) 30%,
+      rgba(237, 224, 204, .88) 42%,
+      rgba(237, 224, 204, .46) 55%,
+      rgba(237, 224, 204, 0) 68%),
     var(--booking-process-bg);
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -24,7 +24,7 @@
 
 .hlt-booking-showcase-main {
   display: grid;
-  grid-template-columns: minmax(390px, .88fr) minmax(0, 1.42fr);
+  grid-template-columns: minmax(460px, 1.02fr) minmax(0, 1.18fr);
   gap: clamp(34px, 4vw, 58px);
   align-items: center;
 }
@@ -139,14 +139,14 @@
 .hlt-showcase-watermark {
   position: absolute;
   z-index: 0;
-  right: 28px;
+  left: 50%;
   top: 50%;
-  width: 138px;
-  height: 138px;
+  width: 178px;
+  height: 178px;
   border-radius: 50%;
   object-fit: contain;
-  opacity: .055;
-  transform: translateY(-50%);
+  opacity: .045;
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
@@ -386,4 +386,1302 @@
   min-width: 190px;
   min-height: 46px;
   font-size: 16px;
+}
+
+/* --- Booking Confirmation Redesign --- */
+.hlt-showcase-ticket-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* =========================================================
+   DESKTOP CONFIRMATION CARD (Bảng Desktop theo mẫu ảnh)
+   ========================================================= */
+
+.hlt-desk-confirm-card {
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(197, 161, 90, 0.45);
+  border-radius: 12px;
+  background: #091714;
+  background: linear-gradient(145deg, #0d1e1a 0%, #081310 100%);
+  padding: 24px 28px 18px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5), 0 0 24px rgba(197, 161, 90, 0.06);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.hlt-desk-confirm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.hlt-desk-confirm-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hlt-desk-confirm-logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+.hlt-desk-confirm-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.hlt-desk-brand-hoang {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  line-height: 1;
+}
+
+.hlt-desk-brand-sub {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  color: #c5a15a;
+  margin-top: 4px;
+}
+
+.hlt-desk-confirm-title-wrap {
+  text-align: center;
+}
+
+.hlt-desk-confirm-title {
+  margin: 0;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  line-height: 1.22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hlt-desk-confirm-id-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 120px;
+}
+
+.hlt-desk-confirm-id-label {
+  font-family: var(--hlt-font-family, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  text-transform: uppercase;
+}
+
+.hlt-desk-confirm-id-line {
+  width: 105px;
+  height: 1px;
+  background: rgba(197, 161, 90, 0.35);
+  margin: 6px 0;
+}
+
+.hlt-desk-confirm-id-val {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #c5a15a;
+  letter-spacing: .02em;
+}
+
+.hlt-desk-confirm-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: rgba(197, 161, 90, 0.35);
+  margin: 18px 0 10px;
+}
+
+.hlt-desk-confirm-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.hlt-desk-confirm-body {
+  position: relative;
+}
+
+.hlt-desk-confirm-watermark {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 220px;
+  height: 220px;
+  opacity: 0.08;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.hlt-desk-confirm-rows {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-desk-confirm-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(197, 161, 90, 0.12);
+}
+
+.hlt-desk-row-label-col {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 175px;
+  flex: none;
+}
+
+.hlt-desk-row-icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: #c5a15a;
+}
+
+.hlt-desk-row-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #c5a15a;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-desk-row-label {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.hlt-desk-row-colon {
+  width: 28px;
+  flex: none;
+  text-align: center;
+  color: #ffffff;
+  opacity: 0.75;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.hlt-desk-row-value-col {
+  flex: 1;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hlt-desk-confirm-signature {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 18px;
+  color: #c5a15a;
+  text-align: right;
+  margin-top: 14px;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+/* Visibility toggles: Desktop vs Mobile */
+.hlt-desk-confirm-card {
+  display: block;
+}
+.hlt-mobile-confirm-ticket {
+  display: none !important;
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  border: 1.2px solid rgba(197, 161, 90, 0.45);
+  border-radius: 14px;
+  background: #091714;
+  background: linear-gradient(155deg, #0d1e1a 0%, #081310 100%);
+  padding: 14px 14px 10px;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.5), 0 0 20px rgba(197, 161, 90, 0.05);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+@media (max-width: 960px) {
+  .hlt-desk-confirm-card {
+    display: none !important;
+  }
+  .hlt-mobile-confirm-ticket {
+    display: block !important;
+  }
+}
+
+/* Top Box with Laurel / Wheat Ear Corners */
+.hlt-mobile-card-top-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border: 1px solid rgba(197, 161, 90, 0.4);
+  border-radius: 10px;
+  background: rgba(13, 27, 24, 0.7);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Botanical Leaf Corner Ornaments - Exact reference matching */
+.hlt-mobile-botanical-ornament {
+  position: absolute;
+  top: 4px;
+  height: 68px;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.hlt-botanical-top-left {
+  left: 3px;
+  transform: scaleX(-1);
+}
+
+.hlt-botanical-top-right {
+  right: 3px;
+}
+
+/* Top Box Content */
+.hlt-mobile-top-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-mobile-top-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+  flex-shrink: 0;
+}
+
+.hlt-mobile-top-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.hlt-mobile-top-brand-hoang {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  line-height: 1;
+}
+
+.hlt-mobile-top-brand-sub {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  color: #c5a15a;
+  margin-top: 3px;
+  line-height: 1;
+}
+
+.hlt-mobile-top-divider {
+  width: 1px;
+  height: 38px;
+  background: rgba(197, 161, 90, 0.35);
+  margin: 0 10px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.hlt-mobile-top-id-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-mobile-top-id-label {
+  font-family: var(--hlt-font-family, sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.hlt-mobile-top-id-value {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: .02em;
+  line-height: 1.15;
+  margin-top: 3px;
+}
+
+/* Card Rows Below Top Box */
+.hlt-mobile-card-rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.hlt-mobile-card-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 4px;
+  border-bottom: 1px solid rgba(197, 161, 90, 0.14);
+}
+
+.hlt-mobile-card-row:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+
+.hlt-mobile-row-icon-circle {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 161, 90, 0.45);
+  background: rgba(197, 161, 90, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c5a15a;
+  flex-shrink: 0;
+}
+
+.hlt-mobile-row-icon-circle svg {
+  width: 17px;
+  height: 17px;
+  stroke: #c5a15a;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-mobile-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hlt-mobile-row-label {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  opacity: 0.9;
+  line-height: 1.1;
+}
+
+.hlt-mobile-row-value {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.25;
+  letter-spacing: .01em;
+}
+
+.hlt-mobile-price-val {
+  font-size: 21px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: .02em;
+}
+
+@media (max-width: 360px) {
+  .hlt-mobile-confirm-ticket {
+    padding: 10px 10px 8px;
+  }
+  .hlt-mobile-card-top-box {
+    padding: 10px 8px;
+  }
+  .hlt-mobile-top-logo {
+    width: 36px;
+    height: 36px;
+  }
+  .hlt-mobile-top-brand-hoang {
+    font-size: 17px;
+  }
+  .hlt-mobile-top-id-value {
+    font-size: 18px;
+  }
+  .hlt-mobile-card-row {
+    gap: 10px;
+    padding: 9px 2px;
+  }
+  .hlt-mobile-row-icon-circle {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+  .hlt-mobile-row-value {
+    font-size: 14px;
+  }
+  .hlt-mobile-price-val {
+    font-size: 19px;
+  }
+}
+
+.hlt-showcase-ticket {
+  border: 1px solid rgba(197, 161, 90, 0.45);
+  border-radius: 12px;
+  background: #081110 !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.hlt-showcase-ticket-content {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.hlt-showcase-left {
+  flex: 0 0 210px;
+  display: flex;
+  background: rgba(13, 23, 21, 0.5);
+  padding: 12px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.hlt-showcase-left-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hlt-showcase-left-inner {
+  border: none;
+  padding: 24px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.hlt-showcase-crest-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.hlt-showcase-crest-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+}
+
+.hlt-showcase-watermark {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+  opacity: .055;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hlt-showcase-crest {
+  position: relative;
+  z-index: 1;
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
+
+.hlt-showcase-brand-text {
+  margin: 0;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.hlt-brand-hoang {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #c5a15a;
+}
+
+.hlt-brand-sub {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: #c5a15a;
+  opacity: 0.95;
+  margin-top: 2px;
+}
+
+.hlt-showcase-divider-line {
+  width: 110px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(197, 161, 90, 0.6), transparent);
+  position: relative;
+  margin: 18px 0;
+}
+
+.hlt-showcase-divider-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.hlt-showcase-id-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.hlt-showcase-id-label {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #c5a15a;
+}
+
+.hlt-showcase-id-value {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #c5a15a;
+  letter-spacing: .02em;
+}
+
+.hlt-showcase-divider-vertical {
+  width: 1px;
+  background: rgba(197, 161, 90, 0.22);
+  position: relative;
+  align-self: stretch;
+}
+
+.hlt-showcase-divider-vertical-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 1px solid #081110;
+}
+
+.hlt-showcase-right {
+  flex: 1;
+  min-width: 0;
+  padding: 24px 28px 24px 22px;
+  display: flex;
+  align-items: center;
+}
+
+.hlt-showcase-ticket-rows {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 0 !important;
+}
+
+.hlt-showcase-ticket-row {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(197, 161, 90, 0.15) !important;
+  padding: 0 0 9px 0 !important;
+  min-height: 0 !important;
+  grid-template-columns: none !important;
+}
+
+.hlt-showcase-ticket-row:last-child {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.hlt-showcase-row-icon-circle {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 161, 90, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c5a15a;
+}
+
+.hlt-showcase-row-icon-circle svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.hlt-showcase-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.hlt-showcase-row-label {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #c5a15a;
+  opacity: 0.82;
+}
+
+.hlt-showcase-row-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff !important;
+  line-height: 1.25;
+}
+
+.hlt-showcase-sample-btn {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 9px 24px;
+  background: #081110;
+  border: 1.2px solid rgba(197, 161, 90, 0.65);
+  border-radius: 6px;
+  color: #c5a15a;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 250ms ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.hlt-showcase-sample-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 200ms ease;
+}
+
+.hlt-showcase-sample-btn:hover {
+  background: rgba(197, 161, 90, 0.08);
+  border-color: #c5a15a;
+}
+
+.hlt-showcase-sample-btn:hover svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .hlt-showcase-ticket-content {
+    flex-direction: row;
+  }
+
+  .hlt-showcase-left {
+    flex: 0 0 38%;
+    padding: 8px;
+  }
+
+
+
+  .hlt-showcase-left-inner {
+    border: none;
+    padding: 12px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .hlt-showcase-crest-box {
+    width: 46px;
+    height: 46px;
+  }
+
+  .hlt-showcase-watermark {
+    width: 120px;
+    height: 120px;
+  }
+
+  .hlt-showcase-crest {
+    width: 46px;
+    height: 46px;
+  }
+
+  .hlt-brand-hoang {
+    font-size: 14px;
+  }
+
+  .hlt-brand-sub {
+    font-size: 7.5px;
+  }
+
+  .hlt-showcase-divider-line {
+    width: 76px;
+    margin: 12px 0;
+  }
+
+  .hlt-showcase-id-label {
+    font-size: 9px;
+  }
+
+  .hlt-showcase-id-value {
+    font-size: 16px;
+  }
+
+  .hlt-showcase-right {
+    padding: 16px 12px 16px 10px;
+  }
+
+  .hlt-showcase-ticket-rows {
+    gap: 8px;
+  }
+
+  .hlt-showcase-ticket-row {
+    gap: 8px;
+    padding-bottom: 7px !important;
+  }
+
+  .hlt-showcase-row-icon-circle {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+  }
+
+  .hlt-showcase-row-icon-circle svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hlt-showcase-row-label {
+    font-size: 8.5px;
+  }
+
+  .hlt-showcase-row-value {
+    font-size: 10.5px;
+  }
+}
+
+/* Journey Confirmed Header Above Ticket */
+.hlt-showcase-confirm-header {
+  text-align: center;
+  width: 100%;
+}
+
+.hlt-showcase-confirm-header h2 {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 5.5vw, 44px);
+  font-weight: 700;
+  color: #0d1715;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 12px auto;
+  line-height: 1.1;
+}
+
+.hlt-showcase-confirm-header p {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(14px, 2.5vw, 17px);
+  color: #4a4a4a;
+  line-height: 1.5;
+  margin: 16px auto 0;
+  max-width: 480px;
+}
+
+.hlt-showcase-confirm-line-top,
+.hlt-showcase-confirm-line-bottom {
+  position: relative;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c5a15a, transparent);
+  margin: 0 auto;
+}
+
+.hlt-showcase-confirm-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Horizontal Divider Separator between Ticket/Button and Booking Process steps */
+.hlt-showcase-divider-horizontal-separate {
+  display: none;
+  position: relative;
+  width: 220px !important;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c5a15a, transparent);
+  margin: 24px auto !important;
+  grid-column: 1 / -1;
+  justify-self: center;
+  align-self: center;
+}
+
+.hlt-showcase-divider-horizontal-separate-diamond {
+  position: absolute;
+  left: 50% !important;
+  top: 50% !important;
+  width: 8px;
+  height: 8px;
+  background: #EDE0CC; /* Match section background */
+  border: 1px solid #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg) !important;
+}
+
+@media (max-width: 960px) {
+  .hlt-booking-showcase {
+    background-color: #EDE0CC !important;
+    background-image: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    padding-bottom: 56px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .hlt-booking-showcase-main {
+    gap: 16px !important;
+  }
+
+  .hlt-showcase-divider-horizontal-separate {
+    display: block !important;
+    margin: 20px auto 26px !important;
+  }
+
+  .hlt-process-panel {
+    margin-top: 0 !important;
+  }
+
+  .hlt-process-ornament {
+    display: none !important;
+  }
+
+  .hlt-process-panel h2 {
+    margin-bottom: 20px !important;
+  }
+
+  .hlt-process-steps {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    position: relative !important;
+    width: 100% !important;
+    max-width: 290px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .hlt-process-steps::before {
+    display: none !important;
+  }
+
+  .hlt-process-connector-line {
+    display: none !important;
+  }
+
+  .hlt-process-step:not(:last-child)::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 23px !important;
+    top: 35px !important;
+    height: 100% !important;
+    width: 1.5px !important;
+    background: rgba(197, 161, 90, 0.65) !important;
+    z-index: 0 !important;
+  }
+
+  .hlt-process-step {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+    text-align: left !important;
+    padding: 11px 0 !important;
+    position: relative;
+    z-index: 1;
+    border-bottom: none !important;
+  }
+
+  .hlt-process-step:not(:last-child)::after {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    left: 63px !important;
+    width: 165px !important;
+    right: auto !important;
+    bottom: 0 !important;
+    height: 1px !important;
+    background: rgba(197, 161, 90, 0.22) !important;
+    border: none !important;
+    top: auto !important;
+    transform: none !important;
+    border-radius: 0 !important;
+  }
+
+  .hlt-process-icon {
+    flex: 0 0 48px !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle at 35% 35%, #e8ba5a, #b88326) !important;
+    border: 1px solid rgba(242, 205, 107, 0.95) !important;
+    box-shadow: 0 4px 12px rgba(184, 131, 38, 0.22) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+
+  .hlt-process-icon svg {
+    width: 24px !important;
+    height: 24px !important;
+    stroke-width: 2 !important;
+    color: #1a140a !important;
+  }
+
+  .hlt-process-car-icon-img {
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: contain;
+    filter: brightness(0.12) !important;
+  }
+
+  .hlt-process-step-content {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    padding: 3px 0 0 !important;
+    border-bottom: none !important;
+  }
+
+  .hlt-process-step-content h3 {
+    margin: 0 0 2px !important;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+    font-size: 18.5px !important;
+    font-weight: 700 !important;
+    color: #2b2116 !important;
+    line-height: 1.15 !important;
+    text-align: left !important;
+    min-height: 0 !important;
+  }
+
+  .hlt-process-step-content p {
+    margin: 0 !important;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
+    font-size: 13.5px !important;
+    color: #4a3e30 !important;
+    line-height: 1.35 !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+    max-width: none !important;
+    white-space: pre-line !important;
+  }
+}
+
+.hlt-process-connector-line {
+  display: none;
+}
+
+/* Redesigned Car Icon in Booking Process Step 4 */
+.hlt-process-car-icon-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: brightness(0.12); /* Make it dark to match inline SVGs */
+}
+
+/* Ready For Your Journey CTA - Desktop vs Mobile */
+.hlt-journey-desktop-view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.hlt-journey-mobile-card {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .hlt-journey-desktop-view {
+    display: none !important;
+  }
+
+  .hlt-journey-mobile-card {
+    display: block !important;
+    position: relative;
+    background: #081210 !important;
+    border: 1.2px solid rgba(197, 161, 90, 0.45) !important;
+    border-radius: 16px !important;
+    padding: 32px 18px 26px !important;
+    text-align: center;
+    overflow: hidden;
+    max-width: 350px !important;
+    margin: 24px auto 0 !important;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  .hlt-booking-showcase-footer.hlt-journey-cta,
+  section.hlt-booking-showcase-footer.hlt-journey-cta {
+    display: none !important;
+  }
+}
+
+.hlt-journey-watermark {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hlt-journey-cta-header {
+  position: relative;
+  z-index: 1;
+}
+
+.hlt-journey-cta-header h3 {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 5.5vw, 30px);
+  font-weight: 700;
+  color: #dfb268;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  margin: 0 0 12px;
+}
+
+.hlt-journey-divider {
+  position: relative;
+  width: 140px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c5a15a, transparent);
+  margin: 12px auto 14px;
+}
+
+.hlt-journey-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: #c5a15a;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 1px solid #081210;
+}
+
+.hlt-journey-cta-header p {
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 14.5px;
+  color: #ded6c9;
+  line-height: 1.45;
+  margin: 0 0 22px;
+}
+
+.hlt-journey-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hlt-journey-btn-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, #dfb268, #b88628);
+  color: #1a140a !important;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 13px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(184, 134, 40, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hlt-journey-btn-whatsapp:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(184, 134, 40, 0.45);
+}
+
+.hlt-journey-whatsapp-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-journey-whatsapp-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.hlt-journey-btn-text {
+  flex: 1;
+  text-align: center;
+}
+
+.hlt-journey-chevron {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hlt-journey-chevron svg {
+  width: 14px;
+  height: 14px;
+}
+
+.hlt-journey-btn-catalog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: rgba(8, 17, 16, 0.7);
+  border: 1px solid rgba(197, 161, 90, 0.55);
+  color: #c5a15a !important;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 13px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.hlt-journey-btn-catalog:hover {
+  background: rgba(197, 161, 90, 0.12);
+  border-color: #c5a15a;
+}
+
+.hlt-journey-btn-catalog .hlt-journey-chevron {
+  position: absolute;
+  right: 18px;
+}
+
+/* Bản thiết kế PC không có khối "Journey Confirmed" phía trên vé —
+   thẻ xác nhận nằm ngay đầu cột trái. Mobile giữ nguyên. */
+@media (min-width: 961px) {
+  .hlt-showcase-confirm-header {
+    display: none;
+  }
+}
+
+/* Hai vạch dọc vàng ngăn ba khối trong header thẻ xác nhận (bản PC).
+   Đặt cả hai lên khối tiêu đề ở giữa nên chỉ cần một phần tử. */
+@media (min-width: 961px) {
+  .hlt-desk-confirm-title-wrap {
+    flex: 1;
+    padding: 2px 20px;
+    border-left: 1px solid rgba(197, 161, 90, .38);
+    border-right: 1px solid rgba(197, 161, 90, .38);
+  }
 }

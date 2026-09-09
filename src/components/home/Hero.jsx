@@ -159,15 +159,44 @@ export default function Hero() {
       <div className="hlt-hero-scrim" aria-hidden="true" />
 
       <div className="hlt-container">
+        {/* Scalloped concave corner frame overlay for mobile */}
+        <div className="hlt-hero-mobile-frame" aria-hidden="true">
+          <svg
+            className="hlt-hero-scallop-svg"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <path
+              d="M 3.5,0 L 96.5,0 A 3.5,3.5 0 0,0 100,3.5 L 100,96.5 A 3.5,3.5 0 0,0 96.5,100 L 3.5,100 A 3.5,3.5 0 0,0 0,96.5 L 0,3.5 A 3.5,3.5 0 0,0 3.5,0 Z"
+              stroke="rgba(197, 161, 90, 0.7)"
+              strokeWidth="0.7"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </div>
+
         <div className="hlt-hero-content">
-          <h1>
-            <span className="hlt-hero-title-line">Private Luxury</span>
-            <span>Car Transfer</span>
+          <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
+          <h1 className="hlt-hero-title">
+            <span className="hlt-hero-title-white">PRIVATE LUXURY</span>
+            <span className="hlt-hero-title-gold">CAR TRANSFER</span>
           </h1>
-          <p>
-            Luxury private car services for international travelers across Northern Vietnam, specializing
-            in airport transfers, long-distance travel, and personalized journeys.
+
+          <div className="hlt-hero-crown-divider" aria-hidden="true">
+            <span className="hlt-hero-crown-line" />
+            <svg viewBox="0 0 20 11" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round" className="hlt-hero-crown-svg">
+              <polyline points="1,10 3,4 7,7.5 10,1 13,7.5 17,4 19,10" />
+              <line x1="1" y1="10" x2="19" y2="10" />
+            </svg>
+            <span className="hlt-hero-crown-line" />
+          </div>
+
+          <p className="hlt-hero-desc">
+            Luxury private car services for international travelers across Northern Vietnam,
+            specializing in airport transfers, long-distance travel, and personalized journeys.
           </p>
+
           <div className="hlt-actions">
             <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <span className="hlt-hero-whatsapp-icon" aria-hidden="true">
