@@ -23,7 +23,7 @@ export const cruisesPageUrl = "/cruises/";
 
 // Dropdown "Journey" liệt kê tuỳ chọn xem tất cả tuyến cùng các tuyến chính và du thuyền.
 const journeyRoutes = [
-  ["All Popular Routes", "/journeys/"],
+  ["Private Transfer Routes", "/journeys/"],
   ["Ha Long Bay Cruises", cruisesPageUrl],
   ...[
     "Sapa",
@@ -96,7 +96,7 @@ export const whyItems = [
   {
     icon: "price",
     title: "Flexible Payment Methods",
-    text: "We offer a variety of convenient payment options, including cash and credit cards. Currency exchange assistance is available if needed.",
+    text: "We offer a variety of convenient payment options, including cash and credit cards. Currency exchange assistance at a bank is available if needed.",
   },
 ];
 
@@ -151,5 +151,5 @@ export const bookingRows = [
   ["Route", "Noi Bai Airport - Sapa hotels"],
   ["Vehicle", "Limo Lux"],
   ["Service", "Private Transfer"],
-  ["Total Price", "3.500.000 VND"],
+  ["Total Price", "3.900.000 VND"],
 ];

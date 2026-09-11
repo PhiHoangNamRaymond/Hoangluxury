@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Hiệu ứng vào trang.
+   main.jsx gắn class .hlt-page-anim lên <html> cho mọi trang trừ
+   /booking và /catalog.
+   ========================================================================== */
+
+@keyframes hlt-page-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hlt-page-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Chỉ làm mờ dần, KHÔNG dùng transform ở đây: transform trên tổ tiên sẽ
+   khiến header position:fixed neo vào #root thay vì viewport. */
+.hlt-page-anim #root {
+  animation: hlt-page-fade 750ms ease-out both;
+}
+
+/* Phần thân trượt lên nhẹ. An toàn vì <main> không phải tổ tiên của header. */
+.hlt-page-anim #root main {
+  animation: hlt-page-rise 1100ms cubic-bezier(.22, .61, .36, 1) both;
+  animation-delay: 130ms;
+}
+
+/* Trang chủ dựng bằng các <section> rời, không bọc trong <main>. */
+.hlt-page-anim #root > .hlt-site > section:first-of-type {
+  animation: hlt-page-rise 1100ms cubic-bezier(.22, .61, .36, 1) both;
+  animation-delay: 130ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlt-page-anim #root,
+  .hlt-page-anim #root main,
+  .hlt-page-anim #root > .hlt-site > section:first-of-type {
+    animation: hlt-page-fade 200ms ease-out both;
+  }
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { footerFlourishDividerUrl, logoUrl, whatsappQrUrl } from "../../config/assets.js";
-import { catalogPageUrl, whatsappUrl } from "../../data.js";
+import { catalogPageUrl, feedbackPageUrl, whatsappUrl } from "../../data.js";
 
 export default function Footer() {
   const isHomePage = window.location.pathname.replace(/\/+$/, "") === "";
@@ -18,14 +18,21 @@ export default function Footer() {
             Luxury private car services for international<br />
             travelers in Northern Vietnam.
           </p>
+          {/* div thay vì span/strong/p: các rule .hlt-footer-brand span|strong|p là selector con cháu */}
+          <div className="hlt-footer-licence">
+            <div className="hlt-footer-licence-name">HOANG LUXURY TRAVEL</div>
+            <div className="hlt-footer-licence-meta">REGISTERED BUSINESS · VIETNAM</div>
+            <div className="hlt-footer-licence-no">Transport licence No. 15260263</div>
+          </div>
         </div>
 
         <div className="hlt-footer-col">
           <h4>Quick Links</h4>
           <a href={sectionHref("#home")}>Home</a>
           <a href={catalogPageUrl}>Catalog</a>
-          <a href={sectionHref("#routes")}>Journey</a>
           <a href="/booking/">Booking</a>
+          <a href={sectionHref("#routes")}>Journey</a>
+          <a href={feedbackPageUrl}>Feedback</a>
         </div>
 
         <div className="hlt-footer-col">
@@ -101,6 +108,11 @@ export default function Footer() {
             <p className="hlt-footer-mobile-tagline">
               Luxury private car services for international travelers in Northern Vietnam.
             </p>
+            <div className="hlt-footer-mobile-licence">
+              <strong>HOANG LUXURY TRAVEL</strong>
+              <span>REGISTERED BUSINESS · VIETNAM</span>
+              <span>Transport licence No. 15260263</span>
+            </div>
           </div>
 
           <div className="hlt-footer-mobile-card-divider">

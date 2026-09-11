@@ -125,7 +125,7 @@ export default function ExperienceSlider() {
           <h2 id="experience-slider-title">The Hoang Luxury Experience</h2>
           <span aria-hidden="true" />
         </div>
-        <p>Private journeys. Exceptional destinations.</p>
+        <p>Private journeys. Exceptional service.</p>
       </header>
 
       <div

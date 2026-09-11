@@ -1228,6 +1228,51 @@
     text-align: center !important;
   }
 
+  /* Giấy phép kinh doanh vận tải, dưới tagline */
+  .hlt-footer-mobile-licence {
+    margin: 8px auto 0;
+    padding-top: 7px;
+    max-width: 100%;
+    border-top: 1px solid rgba(197, 161, 90, 0.22);
+    font-family: "Cormorant", Georgia, serif;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .hlt-footer-mobile-licence strong,
+  .hlt-footer-mobile-licence span {
+    display: block;
+  }
+
+  .hlt-footer-mobile-licence strong {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #c5a15a;
+    letter-spacing: 0.14em;
+  }
+
+  .hlt-footer-mobile-licence span {
+    margin-top: 2px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #a89f91;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .hlt-footer-mobile-licence span:last-child {
+    font-size: 11px;
+    color: #d9cdb8;
+    letter-spacing: 0.02em;
+  }
+
+  /* Máy rất hẹp: cột brand chỉ ~140px, cho xuống dòng thay vì tràn */
+  @media (max-width: 359px) {
+    .hlt-footer-mobile-licence span {
+      white-space: normal;
+    }
+  }
+
   .hlt-footer-mobile-card-divider {
     position: relative;
     width: 1px;
