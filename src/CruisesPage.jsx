@@ -5,10 +5,12 @@ import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { cruiseData } from "./config/cruises.js";
 import { cruiseImages, preferenceIconImages } from "./config/assets.js";
 import { whatsappUrl } from "./data.js";
+import usePageEntered from "./hooks/usePageEntered.js";
 import "./styles/cruises.css";
 
 export default function CruisesPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const pageEntered = usePageEntered();
 
   const toggleFaq = (index) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
@@ -29,7 +31,9 @@ export default function CruisesPage() {
   };
 
   return (
-    <div className="hlt-site hlt-cruises-site">
+    <div
+      className={`hlt-site hlt-cruises-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}
+    >
       <Header />
 
       <main className="hlt-cruises-main">

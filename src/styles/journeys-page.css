@@ -298,8 +298,8 @@
   flex: none;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   border: 1.5px solid #c5a15a;
   background: #081a15;
@@ -307,10 +307,12 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.hlt-jcard-point-icon svg {
-  width: 18px;
-  height: 18px;
-  stroke: #d4af37;
+/* Icon minh hoạ vàng cho từng điểm; 40px ≈ 71% vòng tròn để góc không lòi ra */
+.hlt-jcard-point-icon img {
+  width: 40px;
+  height: 40px;
+  display: block;
+  object-fit: contain;
 }
 
 .hlt-jcard-point-text small {
@@ -339,22 +341,35 @@
   color: #667085;
 }
 
+/* Đường nối hai icon vẽ từ điểm đón: tâm icon 2 luôn nằm dưới đáy điểm đón
+   14px (gap) + 28px (nửa icon) = 42px, không phụ thuộc chiều cao chữ. */
 .hlt-jcard-route-sep {
+  display: none;
+}
+
+.hlt-jcard-point:first-child {
+  position: relative;
+}
+
+.hlt-jcard-point:first-child::before {
+  content: "";
   position: absolute;
-  top: 40px;
-  bottom: 40px;
-  left: 36px;
+  top: 28px;
+  bottom: -42px;
+  left: 27.5px;
   width: 1px;
   background: #c5a15a;
   z-index: 1;
 }
 
-.hlt-jcard-route-sep::after {
+/* Hình thoi ở giữa đoạn lộ ra: (56px + 100% + 14px) / 2 */
+.hlt-jcard-point:first-child::after {
   content: "◆";
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: calc(50% + 35px);
+  left: 28px;
   transform: translate(-50%, -50%);
+  z-index: 1;
   font-size: 8px;
   color: #c5a15a;
   background: #faf6ed;

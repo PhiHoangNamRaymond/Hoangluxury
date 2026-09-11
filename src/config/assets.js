@@ -64,15 +64,27 @@ import routeSaPaArtUrl from "../../assets/route-art-sa-pa.webp";
 import routeTaXuaArtUrl from "../../assets/route-art-ta-xua-custom.webp";
 
 /* Full Artwork Photos for Journeys Catalog Page (/journeys/) */
-import journeyCaoBangImgUrl from "../../assets/Cao bang.png";
-import journeyCatBaImgUrl from "../../assets/Cat ba.png";
-import journeyHaGiangImgUrl from "../../assets/Ha giang.png";
+import journeyCaoBangImgUrl from "../../assets/ha-noi-to-cao-bang-private-car-transfer-hoang-luxury-travel.png";
+import journeyCatBaImgUrl from "../../assets/ha-noi-to-cat-ba-private-car-transfer-hoang-luxury-travel.png";
+import journeyHaGiangImgUrl from "../../assets/ha-noi-to-ha-giang-private-car-transfer-hoang-luxury-travel.png";
 import journeyHaLongImgUrl from "../../assets/Ha long.png";
 import journeyMocChauImgUrl from "../../assets/Moc chau.png";
-import journeyMuCangChaiImgUrl from "../../assets/Mu Cang Chai.png";
-import journeyNinhBinhImgUrl from "../../assets/Ninh Binh.png";
+import journeyMuCangChaiImgUrl from "../../assets/ha-noi-to-mu-cang-chai-private-car-transfer-hoang-luxury-travel.png";
+import journeyNinhBinhImgUrl from "../../assets/ha-noi-to-ninh-binh-private-car-transfer-hoang-luxury-travel.png";
 import journeySaPaImgUrl from "../../assets/ảnh sapa.png";
 import journeyTaXuaImgUrl from "../../assets/Ta xua.png";
+
+/* Icon điểm đón / điểm trả trong thẻ /journeys/ (nền bàn cờ đã được tách thành trong suốt) */
+import journeyPickupIconUrl from "../../assets/ha-noi-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeySaPaIconUrl from "../../assets/ha-noi-to-sapa-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyHaLongIconUrl from "../../assets/ha-noi-to-ha-long-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyNinhBinhIconUrl from "../../assets/ha-noi-to-ninh-binh-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyHaGiangIconUrl from "../../assets/ha-noi-to-ha-giang-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyCatBaIconUrl from "../../assets/ha-noi-to-cat-ba-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyCaoBangIconUrl from "../../assets/ha-noi-to-cao-bang-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyMuCangChaiIconUrl from "../../assets/ha-noi-to-mu-cang-chai-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyMocChauIconUrl from "../../assets/ha-noi-to-moc-chau-private-car-transfer-hoang-luxury-travel-icon.png";
+import journeyTaXuaIconUrl from "../../assets/ha-noi-to-ta-xua-private-car-transfer-hoang-luxury-travel-icon.png";
 
 import routeViewAllButtonUrl from "../../assets/route-view-all-button-2026.webp";
 import serviceAirportUrl from "../../assets/service-airport-2026.webp";
@@ -221,6 +233,20 @@ export const journeyCardImages = [
   journeyMuCangChaiImgUrl,
   journeyMocChauImgUrl,
   journeyTaXuaImgUrl,
+];
+
+/* Icon điểm trả cho 9 thẻ /journeys/, cùng thứ tự với journeyCardImages */
+export { journeyPickupIconUrl };
+export const journeyIconImages = [
+  journeySaPaIconUrl,
+  journeyHaLongIconUrl,
+  journeyNinhBinhIconUrl,
+  journeyHaGiangIconUrl,
+  journeyCatBaIconUrl,
+  journeyCaoBangIconUrl,
+  journeyMuCangChaiIconUrl,
+  journeyMocChauIconUrl,
+  journeyTaXuaIconUrl,
 ];
 
 export const cruiseImages = {

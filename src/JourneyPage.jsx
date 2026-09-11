@@ -3,6 +3,7 @@ import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import usePageEntered from "./hooks/usePageEntered.js";
 import { whatsappUrl } from "./data.js";
 import {
   catalogBackgroundUrl,
@@ -173,6 +174,7 @@ function Icon({ type, className }) {
 
 export default function JourneyPage({ slug }) {
   const journey = journeys[slug];
+  const pageEntered = usePageEntered();
 
   // index.html chỉ có một <title> tĩnh dùng chung cho mọi trang; đặt riêng
   // cho từng tuyến để kết quả tìm kiếm không hiện trùng tiêu đề.
@@ -198,7 +200,9 @@ export default function JourneyPage({ slug }) {
   ];
 
   return (
-    <div className="hlt-site hlt-journey-site">
+    <div
+      className={`hlt-site hlt-journey-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}
+    >
       <Header />
 
       <main className="hlt-journey">
