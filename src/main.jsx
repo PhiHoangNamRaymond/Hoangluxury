@@ -29,12 +29,21 @@ const RootPage = journey
   ? () => <JourneyPage slug={journey} />
   : pages[normalizedPath] || App;
 
-// Hiệu ứng vào trang. Bỏ qua /booking và /catalog: một bên là biểu mẫu
-// nhiều bước, một bên chỉ có ảnh bìa — cả hai không hợp với chuyển động.
-const KHONG_HIEU_UNG = ["/booking", "/catalog"];
-if (!KHONG_HIEU_UNG.includes(normalizedPath)) {
-  document.documentElement.classList.add("hlt-page-anim");
-}
+// Catalog và Booking có animation riêng. Mọi trang còn lại dùng transition
+// chung trong page-transition.css; toggle giúp trạng thái luôn đúng cả khi HMR.
+const pagesWithOwnTransition = new Set([
+  "/booking",
+  "/catalog",
+  "/cruises",
+  "/ha-long-cruises",
+  "/feedback",
+  "/journeys",
+  "/routes",
+]);
+document.documentElement.classList.toggle(
+  "hlt-page-anim",
+  !journey && !pagesWithOwnTransition.has(normalizedPath),
+);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

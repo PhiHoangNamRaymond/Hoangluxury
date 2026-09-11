@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import { feedbackReviewImages, servicesBackgroundUrl } from "./config/assets.js";
+import usePageEntered from "./hooks/usePageEntered.js";
 
 const feedbackStats = [
   { icon: "world", value: "12,686+", label: "Successful Transfers" },
@@ -214,6 +215,7 @@ function CountryFlag({ country }) {
 
 export default function FeedbackPage() {
   const [rating, setRating] = useState(0);
+  const pageEntered = usePageEntered();
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -225,7 +227,9 @@ export default function FeedbackPage() {
   }, []);
 
   return (
-    <div className="hlt-site hlt-feedback-site">
+    <div
+      className={`hlt-site hlt-feedback-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}
+    >
       <Header />
       <main
         className="hlt-feedback-main"

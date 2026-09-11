@@ -3,8 +3,9 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
+import usePageEntered from "./hooks/usePageEntered.js";
 import { whatsappUrl, catalogPageUrl } from "./data.js";
-import { journeyCardImages } from "./config/assets.js";
+import { journeyCardImages, journeyIconImages, journeyPickupIconUrl } from "./config/assets.js";
 
 const allRoutesData = [
   {
@@ -12,6 +13,7 @@ const allRoutesData = [
     name: "SA PA",
     slug: "sapa",
     image: journeyCardImages[0],
+    icon: journeyIconImages[0],
     routeLine: "Hanoi → Sa Pa",
     time: "5-6 Hours",
     vehicle: "Limo Lux",
@@ -24,6 +26,7 @@ const allRoutesData = [
     name: "HA LONG",
     slug: "ha-long",
     image: journeyCardImages[1],
+    icon: journeyIconImages[1],
     routeLine: "Hanoi → Ha Long",
     time: "2.5-3.0 Hours",
     vehicle: "Limo Lux",
@@ -36,6 +39,7 @@ const allRoutesData = [
     name: "NINH BINH",
     slug: "ninh-binh",
     image: journeyCardImages[2],
+    icon: journeyIconImages[2],
     routeLine: "Hanoi → Ninh Binh",
     time: "1.5-2.0 Hours",
     vehicle: "Limo Lux",
@@ -48,6 +52,7 @@ const allRoutesData = [
     name: "HA GIANG",
     slug: "ha-giang",
     image: journeyCardImages[3],
+    icon: journeyIconImages[3],
     routeLine: "Hanoi → Ha Giang",
     time: "6.0-7.0 Hours",
     vehicle: "Limo Lux",
@@ -60,6 +65,7 @@ const allRoutesData = [
     name: "CAT BA",
     slug: "cat-ba",
     image: journeyCardImages[4],
+    icon: journeyIconImages[4],
     routeLine: "Hanoi → Cat Ba",
     time: "3.5-4.0 Hours",
     vehicle: "Limo Lux",
@@ -72,6 +78,7 @@ const allRoutesData = [
     name: "CAO BANG",
     slug: "cao-bang",
     image: journeyCardImages[5],
+    icon: journeyIconImages[5],
     routeLine: "Hanoi → Cao Bang",
     time: "6.0-7.0 Hours",
     vehicle: "Limo Lux",
@@ -84,6 +91,7 @@ const allRoutesData = [
     name: "MU CANG CHAI",
     slug: "mu-cang-chai",
     image: journeyCardImages[6],
+    icon: journeyIconImages[6],
     routeLine: "Hanoi → Mu Cang Chai",
     time: "6.5-7.5 Hours",
     vehicle: "Limo Lux",
@@ -96,6 +104,7 @@ const allRoutesData = [
     name: "MOC CHAU",
     slug: "moc-chau",
     image: journeyCardImages[7],
+    icon: journeyIconImages[7],
     routeLine: "Hanoi → Moc Chau",
     time: "4.0-4.5 Hours",
     vehicle: "Limo Lux",
@@ -108,6 +117,7 @@ const allRoutesData = [
     name: "TA XUA",
     slug: "ta-xua",
     image: journeyCardImages[8],
+    icon: journeyIconImages[8],
     routeLine: "Hanoi → Ta Xua",
     time: "4.5-5.5 Hours",
     vehicle: "Limo Lux",
@@ -193,8 +203,12 @@ const guarantees = [
 ];
 
 export default function JourneysPage() {
+  const pageEntered = usePageEntered();
+
   return (
-    <div className="hlt-site hlt-journeys-site">
+    <div
+      className={`hlt-site hlt-journeys-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}
+    >
       <Header />
 
       <main
@@ -290,9 +304,7 @@ export default function JourneysPage() {
                   <div className="hlt-jcard-route">
                     <div className="hlt-jcard-point">
                       <span className="hlt-jcard-point-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                          <path d="M3 10h18 M3.5 9.5 L12 4 L20.5 9.5 Z M6 10.5 v8 M10 10.5 v8 M14 10.5 v8 M18 10.5 v8 M2.5 20.5 h19" />
-                        </svg>
+                        <img src={journeyPickupIconUrl} alt="" loading="lazy" />
                       </span>
                       <div className="hlt-jcard-point-text">
                         <small>PICK-UP IN</small>
@@ -305,9 +317,7 @@ export default function JourneysPage() {
 
                     <div className="hlt-jcard-point">
                       <span className="hlt-jcard-point-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                          <path d="M3 18.5 L8.5 9 L12.5 14 L15.5 9.5 L21 18.5 Z M2 19 h20" />
-                        </svg>
+                        <img src={item.icon} alt="" loading="lazy" />
                       </span>
                       <div className="hlt-jcard-point-text">
                         <small>DROP-OFF IN</small>
