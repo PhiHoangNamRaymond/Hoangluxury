@@ -29,6 +29,13 @@ const RootPage = journey
   ? () => <JourneyPage slug={journey} />
   : pages[normalizedPath] || App;
 
+// Hiệu ứng vào trang. Bỏ qua /booking và /catalog: một bên là biểu mẫu
+// nhiều bước, một bên chỉ có ảnh bìa — cả hai không hợp với chuyển động.
+const KHONG_HIEU_UNG = ["/booking", "/catalog"];
+if (!KHONG_HIEU_UNG.includes(normalizedPath)) {
+  document.documentElement.classList.add("hlt-page-anim");
+}
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RootPage />

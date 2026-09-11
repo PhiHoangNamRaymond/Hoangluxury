@@ -96,14 +96,19 @@ export default function Fleet() {
 
           <div className="hlt-route-content">
             <div className="hlt-route-heading">
-              <p>Curated Journeys</p>
+              <p>YOUR JOURNEY</p>
               <h2>Popular Transfer Routes</h2>
               <div className="hlt-route-heading-ornament" />
             </div>
 
             <div className="hlt-route-grid">
               {popularRoutes.map((route, index) => (
-                <article className="hlt-route-card" key={route}>
+                <a
+                  className="hlt-route-card"
+                  key={route}
+                  href={`/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`}
+                  aria-label={`Hanoi / Noi Bai to ${route}`}
+                >
                   <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>
                   {routeArtwork[index] ? (
                     <span className="hlt-route-artwork" aria-hidden="true">
@@ -120,7 +125,7 @@ export default function Fleet() {
                   <h3>Hanoi / Noi Bai</h3>
                   <p>{route}</p>
                   <span className="hlt-route-card-ornament" aria-hidden="true" />
-                </article>
+                </a>
               ))}
             </div>
 

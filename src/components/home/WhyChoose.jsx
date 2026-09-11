@@ -15,7 +15,7 @@ export default function WhyChoose() {
           </h2>
           <div className="hlt-gold-line" />
           <p>
-            <strong>Hoang Luxury Travel</strong> is a 5-star personalized transfer service in Vietnam, offering private and comfortable transportation from Hanoi and Noi Bai International Airport to tourist destinations across the Northwest mountains.
+            <strong>Hoang Luxury Travel</strong> is a trusted 5-star private transportation provider in Vietnam, specializing in private car with driver services, tailored to each journey for greater flexibility, comfort and personalization from Hanoi/Noi Bai Airport to destinations across Northern Vietnam.
           </p>
         </div>
 

@@ -179,7 +179,7 @@ export default function Hero() {
         <div className="hlt-hero-content">
           <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
           <h1 className="hlt-hero-title">
-            <span className="hlt-hero-title-white">PRIVATE LUXURY</span>
+            <span className="hlt-hero-title-white">LUXURY PRIVATE</span>
             <span className="hlt-hero-title-gold">CAR TRANSFER</span>
           </h1>
 
@@ -193,8 +193,7 @@ export default function Hero() {
           </div>
 
           <p className="hlt-hero-desc">
-            Luxury private car services for international travelers across Northern Vietnam,
-            specializing in airport transfers, long-distance travel, and personalized journeys.
+            Private transfer/car with driver services across Northern Vietnam, specializing in airport transfers, long-distance and intercity journeys. 
           </p>
 
           <div className="hlt-actions">
