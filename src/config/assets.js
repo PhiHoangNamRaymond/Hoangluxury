@@ -2,9 +2,6 @@ import bookingProcessBackgroundUrl from "../../assets/booking-process-background
 import catalogBackgroundUrl from "../../assets/catalog-background.png";
 import catalogOpenBookUrl from "../../assets/catalog-open-book-2026.webp";
 import curatedMountainDecorationUrl from "../../assets/curated-mountain-decoration.png";
-import experienceChauffeurArrivalUrl from "../../assets/experience-chauffeur-arrival.png";
-import experienceFlowerGirlUrl from "../../assets/experience-flower-girl.png";
-import experienceVietnamFlagUrl from "../../assets/experience-vietnam-flag.webp";
 import experienceSlide01Url from "../../assets/experience-slider/1.png";
 import experienceSlide02Url from "../../assets/experience-slider/2.png";
 import experienceSlide15Url from "../../assets/experience-slider/15.png";
@@ -85,6 +82,22 @@ import journeyCaoBangIconUrl from "../../assets/ha-noi-to-cao-bang-private-car-t
 import journeyMuCangChaiIconUrl from "../../assets/ha-noi-to-mu-cang-chai-private-car-transfer-hoang-luxury-travel-icon.png";
 import journeyMocChauIconUrl from "../../assets/ha-noi-to-moc-chau-private-car-transfer-hoang-luxury-travel-icon.png";
 import journeyTaXuaIconUrl from "../../assets/ha-noi-to-ta-xua-private-car-transfer-hoang-luxury-travel-icon.png";
+
+/* 4 icon cho dải chỉ số trang Feedback */
+import feedbackStatLicensedUrl from "../../assets/feedback-stat-licensed.png";
+import feedbackStatFlagUrl from "../../assets/feedback-stat-flag.png";
+import feedbackStatStarUrl from "../../assets/feedback-stat-star.png";
+import feedbackStatPrivateCarUrl from "../../assets/feedback-stat-private-car.png";
+
+/* 8 ảnh review khách hàng trang Feedback, theo thứ tự câu chuyện (tên file đã SEO) */
+import feedbackReview1Url from "../../assets/feedback-reviews/ha-noi-to-sapa-private-car-hoang-luxury-travel.jpg";
+import feedbackReview2Url from "../../assets/feedback-reviews/ha-noi-to-ha-long-private-car-hoang-luxury-travel.jpg";
+import feedbackReview3Url from "../../assets/feedback-reviews/ha-noi-to-ha-giang-private-car-hoang-luxury-travel.jpg";
+import feedbackReview4Url from "../../assets/feedback-reviews/ha-noi-to-mu-cang-chai-private-transfer-hoang-luxury-travel.jpg";
+import feedbackReview5Url from "../../assets/feedback-reviews/representative-office-of-hoang-luxury-travel-hanoi-to-sapa-private-transfer.jpg";
+import feedbackReview6Url from "../../assets/feedback-reviews/ha-noi-to-ninh-binh-private-transfer-hoang-luxury-travel.jpg";
+import feedbackReview7Url from "../../assets/feedback-reviews/ha-noi-to-ha-giang-private-transfer-hoang-luxury-travel.jpg";
+import feedbackReview8Url from "../../assets/feedback-reviews/hoang-luxury-travel-private-car-interior.jpg";
 
 import routeViewAllButtonUrl from "../../assets/route-view-all-button-2026.webp";
 import serviceAirportUrl from "../../assets/service-airport-2026.webp";
@@ -171,14 +184,14 @@ export const experienceImages = [
 }));
 
 export const feedbackReviewImages = [
-  experienceChauffeurArrivalUrl,
-  heroReceptionLobbyUrl,
-  serviceBusinessUrl,
-  serviceCustomTripUrl,
-  vehicleLimoPrimeUrl,
-  heroFleetWeddingUrl,
-  experienceFlowerGirlUrl,
-  experienceVietnamFlagUrl,
+  feedbackReview1Url,
+  feedbackReview2Url,
+  feedbackReview3Url,
+  feedbackReview4Url,
+  feedbackReview5Url,
+  feedbackReview6Url,
+  feedbackReview7Url,
+  feedbackReview8Url,
 ];
 
 export const serviceImages = {
@@ -247,6 +260,14 @@ export const journeyIconImages = [
   journeyMuCangChaiIconUrl,
   journeyMocChauIconUrl,
   journeyTaXuaIconUrl,
+];
+
+/* Icon dải chỉ số trang Feedback, theo thứ tự feedbackStats */
+export const feedbackStatIcons = [
+  feedbackStatLicensedUrl,
+  feedbackStatFlagUrl,
+  feedbackStatStarUrl,
+  feedbackStatPrivateCarUrl,
 ];
 
 export const cruiseImages = {

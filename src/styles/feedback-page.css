@@ -91,23 +91,23 @@
   border-left: 1px solid rgba(190, 139, 48, .52);
 }
 
-.hlt-feedback-stats svg {
+.hlt-feedback-stats img {
   width: clamp(42px, 3.8vw, 54px);
   height: clamp(42px, 3.8vw, 54px);
   margin-bottom: 7px;
-  fill: none;
-  stroke: #c28a2d;
-  stroke-width: 1.65;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  display: block;
+  object-fit: contain;
 }
 
+/* nowrap: "100% Private" rộng hơn vùng chữ vài px ở 1440px; khối căn giữa
+   nên chữ lấn đều vào padding hai bên, vẫn cách vạch chia cột ~16–23px. */
 .hlt-feedback-stats strong {
   color: #b47b20;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(30px, 3vw, 40px);
   font-weight: 500;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .hlt-feedback-stats span {
@@ -243,9 +243,10 @@
   line-height: 1.32;
 }
 
+/* Cờ + "Guest from …" (không đăng tên khách và ngày) */
 .hlt-feedback-review-author {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 8px;
   margin-top: auto;
@@ -265,38 +266,15 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, .12);
 }
 
-.hlt-feedback-review-author > span {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
+/* Được xuống dòng: "Guest from the United Kingdom" gần bằng chiều rộng thẻ */
 .hlt-feedback-review-author strong {
-  overflow: hidden;
+  min-width: 0;
   color: #252824;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
   font-weight: 700;
   line-height: 1.2;
-  text-overflow: ellipsis;
   text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.hlt-feedback-review-author small,
-.hlt-feedback-review-author time {
-  color: #4b4b45;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
-  line-height: 1.2;
-}
-
-.hlt-feedback-review-author time {
-  align-self: end;
-  padding-bottom: 1px;
-  text-align: right;
-  white-space: nowrap;
 }
 
 .hlt-feedback-form-section {
@@ -694,7 +672,7 @@
     border-top: 1px solid rgba(190, 139, 48, .38);
   }
 
-  .hlt-feedback-stats svg {
+  .hlt-feedback-stats img {
     width: 40px;
     height: 40px;
     margin-bottom: 6px;

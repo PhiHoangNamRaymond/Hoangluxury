@@ -277,9 +277,10 @@
   background: #faf6ed;
 }
 
+/* Icon căn giữa theo khối chữ để khoảng icon → vạch kẻ → icon đều nhau */
 .hlt-jcard-point {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
 }
 
@@ -287,10 +288,7 @@
   flex: 1;
 }
 
-.hlt-jcard-point:first-child .hlt-jcard-point-text {
-  padding-bottom: 14px;
-  border-bottom: 1px dashed rgba(197, 161, 90, 0.45);
-}
+/* Vạch kẻ nét đứt giữa hai điểm nay là .hlt-jcard-route-sep (xem bên dưới). */
 
 .hlt-jcard-point-icon {
   position: relative;
@@ -341,40 +339,55 @@
   color: #667085;
 }
 
-/* Đường nối hai icon vẽ từ điểm đón: tâm icon 2 luôn nằm dưới đáy điểm đón
-   14px (gap) + 28px (nửa icon) = 42px, không phụ thuộc chiều cao chữ. */
+/* Vạch kẻ nét đứt là phần tử riêng giữa hai điểm, cách mỗi bên 14px (gap),
+   chỉ chạy dưới cột chữ. Icon căn giữa theo điểm của nó, nên khoảng
+   icon → vạch → icon đều nhau dù chữ cao hơn hay thấp hơn icon. */
 .hlt-jcard-route-sep {
-  display: none;
+  position: relative;
+  height: 0;
+  margin-left: 70px; /* 56px icon + 14px khoảng cách tới chữ */
+  border-top: 1px dashed rgba(197, 161, 90, 0.45);
 }
 
-.hlt-jcard-point:first-child {
+/* Hình thoi trên vạch, thẳng cột với tâm icon (28px - 70px = -42px) */
+.hlt-jcard-route-sep::after {
+  content: "◆";
+  position: absolute;
+  top: -.5px;
+  left: -42px;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  font-size: 8px;
+  color: #c5a15a;
+  background: #faf6ed;
+  padding: 3px 0;
+  line-height: 1;
+}
+
+/* Đường nối dọc: hai nửa gặp nhau ở tâm vạch (14px gap + .5px) */
+.hlt-jcard-point:first-child,
+.hlt-jcard-point:last-child {
   position: relative;
 }
 
-.hlt-jcard-point:first-child::before {
+.hlt-jcard-point:first-child::before,
+.hlt-jcard-point:last-child::before {
   content: "";
   position: absolute;
-  top: 28px;
-  bottom: -42px;
   left: 27.5px;
   width: 1px;
   background: #c5a15a;
   z-index: 1;
 }
 
-/* Hình thoi ở giữa đoạn lộ ra: (56px + 100% + 14px) / 2 */
-.hlt-jcard-point:first-child::after {
-  content: "◆";
-  position: absolute;
-  top: calc(50% + 35px);
-  left: 28px;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  font-size: 8px;
-  color: #c5a15a;
-  background: #faf6ed;
-  padding: 3px 0;
-  line-height: 1;
+.hlt-jcard-point:first-child::before {
+  top: 50%;
+  bottom: -14.5px;
+}
+
+.hlt-jcard-point:last-child::before {
+  top: -14.5px;
+  bottom: 50%;
 }
 
 /* Action Buttons */
@@ -1254,5 +1267,54 @@
   .hlt-journeys-guarantee-item + .hlt-journeys-guarantee-item,
   .hlt-journeys-guarantee-item:nth-child(2n + 1) {
     border-left: 1px solid rgba(197, 161, 90, .34);
+  }
+}
+
+/* ==========================================================================
+   Thanh thông số trên ảnh thẻ PC.
+   TIME / VEHICLE / SERVICE luôn 1 dòng. Cột đo bằng em nên giống nhau ở mọi
+   thẻ (đường kẻ thẳng hàng) và co giãn cùng cỡ chữ; cỡ chữ theo độ rộng ảnh
+   (container query trên .hlt-jcard-media), tối đa 16px.
+   ROUTE lấy phần còn lại; tuyến dài xuống dòng trước "→" (nbsp trong JSX).
+   Độ rộng em lấy từ giá trị dài nhất: "2.5-3.0 Hours", "Limo Lux",
+   "Private Transfer" + 0.5em đệm.
+   ========================================================================== */
+@media (min-width: 641px) {
+  .hlt-jcard-media {
+    container-type: inline-size;
+  }
+
+  .hlt-jcard-stats {
+    font-size: clamp(11px, 3.75cqi, 16px);
+    grid-template-columns: minmax(0, 1fr) 6em 5.2em 6.9em;
+  }
+
+  .hlt-jcard-stat {
+    padding: 0 .25em;
+  }
+
+  .hlt-jcard-stat-label {
+    font-size: .75em;
+    white-space: nowrap;
+  }
+
+  .hlt-jcard-stat-label svg {
+    width: 1.08em;
+    height: 1.08em;
+  }
+
+  .hlt-jcard-stat-val,
+  .hlt-jcard-route-name,
+  .hlt-jcard-route-approx {
+    font-size: 1em;
+  }
+
+  .hlt-jcard-stat:not(.hlt-jcard-stat-route) .hlt-jcard-stat-val {
+    white-space: nowrap;
+  }
+
+  .hlt-jcard-route-name {
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 }
