@@ -273,7 +273,9 @@ export default function JourneysPage() {
                           <span>ROUTE</span>
                         </span>
                         <strong className="hlt-jcard-stat-val">
-                          <span className="hlt-jcard-route-name">{item.routeLine}</span>
+                          {/* Khoảng trắng sau "→" thành không ngắt: tuyến dài chỉ xuống dòng
+                              trước mũi tên ("Hanoi" / "→ Mu Cang Chai"). */}
+                          <span className="hlt-jcard-route-name">{item.routeLine.replace(/ (?=[^→]*$)/g, "\u00a0")}</span>
                           <span className="hlt-jcard-route-approx">{item.approxTime}</span>
                         </strong>
                       </div>
@@ -309,7 +311,7 @@ export default function JourneysPage() {
                       <div className="hlt-jcard-point-text">
                         <small>PICK-UP IN</small>
                         <strong>Hanoi / Noi Bai</strong>
-                        <p>Hotels, Residences or<br />Noi Bai Airport</p>
+                        <p>Hotels, Residences or Noi Bai Airport</p>
                       </div>
                     </div>
 
