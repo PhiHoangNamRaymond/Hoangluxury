@@ -99,6 +99,33 @@ import feedbackReview6Url from "../../assets/feedback-reviews/ha-noi-to-ninh-bin
 import feedbackReview7Url from "../../assets/feedback-reviews/ha-noi-to-ha-giang-private-transfer-hoang-luxury-travel.jpg";
 import feedbackReview8Url from "../../assets/feedback-reviews/hoang-luxury-travel-private-car-interior.jpg";
 
+/* 4 icon dải thông tin dưới banner trang tuyến (/journey/<slug>/) */
+import journeyFactRouteUrl from "../../assets/journey-fact-route.png";
+import journeyFactTimeUrl from "../../assets/journey-fact-time.png";
+import journeyFactVehicleUrl from "../../assets/journey-fact-vehicle.png";
+import journeyFactRatesUrl from "../../assets/journey-fact-rates.png";
+
+/* 4 ảnh thẻ Journey Experience trang tuyến (JPEG 800×600 đã tối ưu) */
+import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.jpg";
+import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.jpg";
+import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.jpg";
+import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.jpg";
+
+/* Cùng thứ tự với journeyExperience trong config/journeys.js */
+export const journeyExperienceImages = [
+  journeyExpComfortUrl,
+  journeyExpGreetUrl,
+  journeyExpLuggageUrl,
+  journeyExpStopsUrl,
+];
+
+export const journeyFactIcons = {
+  route: journeyFactRouteUrl,
+  time: journeyFactTimeUrl,
+  vehicle: journeyFactVehicleUrl,
+  rates: journeyFactRatesUrl,
+};
+
 import routeViewAllButtonUrl from "../../assets/route-view-all-button-2026.webp";
 import serviceAirportUrl from "../../assets/service-airport-2026.webp";
 import serviceAirportIconUrl from "../../assets/service-icon-airport.webp";

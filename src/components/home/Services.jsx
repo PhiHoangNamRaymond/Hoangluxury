@@ -16,7 +16,7 @@ export default function Services() {
       <div className="hlt-container">
         <div className="hlt-services-heading">
           <p>Our Services</p>
-          <h2>Private Luxury Transfer</h2>
+          <h2>Private Car Transfer</h2>
           <div className="hlt-services-ornament" />
         </div>
 

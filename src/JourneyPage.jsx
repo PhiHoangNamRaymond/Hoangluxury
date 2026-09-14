@@ -4,172 +4,218 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { whatsappUrl } from "./data.js";
+import { catalogPageUrl, whatsappUrl } from "./data.js";
 import {
   catalogBackgroundUrl,
   fleetImages,
   heroBannerUrl,
-  serviceImages,
+  journeyExperienceImages,
+  journeyFactIcons,
 } from "./config/assets.js";
 import {
   journeyExperience,
+  journeyExperienceStats,
   journeyFaq,
   journeyFeatures,
-  journeyIncluded,
+  journeyHighlights,
   journeyVehicles,
   journeys,
 } from "./config/journeys.js";
 
-const experienceImages = [
-  serviceImages.sapa,
-  serviceImages.custom,
-  serviceImages.haGiang,
-  serviceImages.airport,
-];
-
-function Icon({ type, className }) {
+// Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
+// vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
+function LineIcon({ type, className }) {
   const shapes = {
-    // Car front outline for What's Included & Transit path
-    carFront: (
+    shield: (
       <>
-        <rect x="3.5" y="16.5" width="2" height="3.5" rx="0.8" fill="#b88a38" stroke="none" />
-        <rect x="18.5" y="16.5" width="2" height="3.5" rx="0.8" fill="#b88a38" stroke="none" />
-        <path d="M4.5 11 L6.8 5.8 C7.2 4.8 8.1 4.2 9.2 4.2 h5.6 c1.1 0 2 .6 2.4 1.6 L19.5 11 v6 a1 1 0 0 1-1 1 h-1 a1 1 0 0 1-1-1 v-0.8 H7.5 V17 a1 1 0 0 1-1 1 h-1 a1 1 0 0 1-1-1 v-6 Z" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M6.5 10.5 L8 6.2 h8 l1.5 4.3 Z" fill="none" stroke="#b88a38" strokeWidth="1.2" strokeLinejoin="round" />
-        <rect x="6.2" y="12.5" width="2.8" height="1.8" rx="0.8" fill="none" stroke="#b88a38" strokeWidth="1.1" />
-        <rect x="15" y="12.5" width="2.8" height="1.8" rx="0.8" fill="none" stroke="#b88a38" strokeWidth="1.1" />
-        <path d="M10.2 13.8 h3.6" stroke="#b88a38" strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M50 11C43 18 32 24 18 25v19c0 22 15 36 32 44 17-8 32-22 32-44V25c-14-1-25-7-32-14Z" />
+        <path d="m36 51 10 10 20-20" />
       </>
     ),
-    // Chauffeur with peaked cap & uniform
-    driver: (
-      <>
-        <path d="M6.5 8 C6.5 5.5 9 4 12 4 s5.5 1.5 5.5 4" fill="none" stroke="#b88a38" strokeWidth="1.4" />
-        <path d="M4.5 8.2 h15" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
-        <circle cx="12" cy="6.2" r="0.8" fill="#b88a38" stroke="none" />
-        <circle cx="12" cy="11.8" r="2.8" fill="none" stroke="#b88a38" strokeWidth="1.4" />
-        <path d="M6.5 20 c0-3 2.5-5 5.5-5 s5.5 2 5.5 5" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M10.5 16.5 L12 18.5 L13.5 16.5" stroke="#b88a38" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-      </>
-    ),
-    // Bottled Water
-    waterBottle: (
-      <>
-        <rect x="10" y="2.5" width="4" height="2.5" rx="0.6" fill="none" stroke="#b88a38" strokeWidth="1.3" />
-        <path d="M10.5 5 v2 L8.5 9.5 v10 a1.5 1.5 0 0 0 1.5 1.5 h4 a1.5 1.5 0 0 0 1.5-1.5 v-10 L13.5 7 V5" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinejoin="round" />
-        <rect x="8.5" y="11.5" width="7" height="5" fill="none" stroke="#b88a38" strokeWidth="1.2" />
-        <path d="M10.5 14 h3" stroke="#b88a38" strokeWidth="1.2" strokeLinecap="round" />
-      </>
-    ),
-    // Wi-Fi Onboard
-    wifi: (
-      <>
-        <path d="M5 8.5 C8.8 5.5 15.2 5.5 19 8.5" fill="none" stroke="#b88a38" strokeWidth="1.6" strokeLinecap="round" />
-        <path d="M7.8 12 C10.3 10 13.7 10 16.2 12" fill="none" stroke="#b88a38" strokeWidth="1.6" strokeLinecap="round" />
-        <path d="M10.2 15.5 C11.3 14.5 12.7 14.5 13.8 15.5" fill="none" stroke="#b88a38" strokeWidth="1.6" strokeLinecap="round" />
-        <circle cx="12" cy="18.5" r="1.2" fill="#b88a38" stroke="none" />
-      </>
-    ),
-    // Tolls & Parking
-    parking: (
-      <>
-        <circle cx="12" cy="12" r="9" fill="none" stroke="#b88a38" strokeWidth="1.5" />
-        <path d="M10 16.5 V7.5 h3.2 a2.5 2.5 0 0 1 0 5 H10" fill="none" stroke="#b88a38" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      </>
-    ),
-    // 24/7 Support
-    headset: (
-      <>
-        <path d="M5.5 13.5 V11 C5.5 7.4 8.4 4.5 12 4.5 s6.5 2.9 6.5 6.5 v2.5" fill="none" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
-        <rect x="4" y="12" width="3" height="5" rx="1.5" fill="none" stroke="#b88a38" strokeWidth="1.4" />
-        <rect x="17" y="12" width="3" height="5" rx="1.5" fill="none" stroke="#b88a38" strokeWidth="1.4" />
-        <path d="M18.5 15 v1.5 a2.5 2.5 0 0 1-2.5 2.5 h-3" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-        <circle cx="12" cy="19" r="0.9" fill="#b88a38" stroke="none" />
-      </>
-    ),
-    // Top crest emblem (M-peaks with base)
-    emblem: (
-      <>
-        <path d="M5 13 L9.5 4.5 L14 9.5 L18.5 4.5 L23 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <path d="M8 13 L11.5 8 L14 9.5 L16.5 8 L20 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6" />
-        <path d="M4 15.5 h20" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      </>
-    ),
-    // Map pin marker with filled dot
-    marker: (
-      <>
-        <path d="M12 21.5 C15.5 17 18 13.5 18 9.5 A6 6 0 1 0 6 9.5 C6 13.5 8.5 17 12 21.5 Z" fill="#b88a38" stroke="#b88a38" strokeWidth="1" />
-        <circle cx="12" cy="9.5" r="2.2" fill="#ffffff" stroke="none" />
-      </>
-    ),
-    // Pagoda / Temple with pediment, architrave, 4 pillars & stepped base
-    pagoda: (
-      <>
-        <path d="M3.5 9.5 L12 4 L20.5 9.5 Z" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinejoin="round" />
-        <path d="M3 10 h18" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M6 10.5 v8 M10 10.5 v8 M14 10.5 v8 M18 10.5 v8" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M4.5 18.5 h15" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M2.5 20.5 h19" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
-      </>
-    ),
-    // Mountain peaks for Sapa
-    mountain: (
-      <>
-        <path d="M3 18.5 L8.5 9 L12.5 14 L15.5 9.5 L21 18.5 Z" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinejoin="round" />
-        <path d="M8.5 9 L10.5 13.5 M15.5 9.5 L14 13" stroke="#b88a38" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M2 19 h20" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-      </>
-    ),
-    // Luxury reclining seat
-    seat: (
-      <>
-        <circle cx="9.2" cy="4.8" r="1.8" fill="none" stroke="#b88a38" strokeWidth="1.4" />
-        <path d="M7.5 8 h3.2 a2 2 0 0 1 2 2 v4.5 a2 2 0 0 0 2 2 h2.6" fill="none" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M6 18 h7" stroke="#b88a38" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M6 10.5 v7" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M17 16.5 l2 2" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-      </>
-    ),
-    // Calendar with grid
     calendar: (
       <>
-        <rect x="3.5" y="4.5" width="17" height="16" rx="2.5" fill="none" stroke="#b88a38" strokeWidth="1.5" />
-        <path d="M8 2.5 v4 M16 2.5 v4 M3.5 9.5 h17" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" />
-        <circle cx="7.5" cy="13" r="1" fill="#b88a38" stroke="none" />
-        <circle cx="12" cy="13" r="1" fill="#b88a38" stroke="none" />
-        <circle cx="16.5" cy="13" r="1" fill="#b88a38" stroke="none" />
-        <circle cx="7.5" cy="17" r="1" fill="#b88a38" stroke="none" />
-        <circle cx="12" cy="17" r="1" fill="#b88a38" stroke="none" />
-        <circle cx="16.5" cy="17" r="1" fill="#b88a38" stroke="none" />
+        <rect x="10" y="23" width="80" height="68" rx="9" />
+        <path d="M10 40h80" />
+        <rect x="24" y="11" width="9" height="23" rx="4.5" />
+        <rect x="67" y="11" width="9" height="23" rx="4.5" />
+        <rect x="22.5" y="51" width="11.5" height="11.5" rx="1.5" />
+        <rect x="44.2" y="51" width="11.5" height="11.5" rx="1.5" />
+        <rect x="66" y="51" width="11.5" height="11.5" rx="1.5" />
+        <rect x="22.5" y="70" width="11.5" height="11.5" rx="1.5" />
+        <rect x="44.2" y="70" width="11.5" height="11.5" rx="1.5" />
+        <rect x="66" y="70" width="11.5" height="11.5" rx="1.5" />
       </>
     ),
-    // Transparent pricing coin with $
-    price: (
+    chauffeur: (
       <>
-        <circle cx="12" cy="12" r="9.2" fill="none" stroke="#b88a38" strokeWidth="1.5" />
-        <path d="M14.5 9.2 c-.6-.7-1.5-1-2.5-1 -1.7 0-2.8 .9-2.8 2 s1 1.7 2.6 2 c1.8 .4 2.8 .9 2.8 2.1 0 1.3-1.2 2.1-2.9 2.1 -1.3 0-2.3-.4-3-1.1 M12 6.5 v11" fill="none" stroke="#b88a38" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M24 22 47 13q3-1 6 0l23 9q5 3 1 7l-5 3.5H28L23 29q-4-4 1-7Z" />
+        <circle cx="50" cy="23.5" r="3.2" />
+        <path d="M28 32.5v4q22-5 44 0v-4M30 37.5q20 7 40 0" />
+        <path d="M31 40.5v2.5q-4 0-3.5 5t4.5 5q3 12 18 12.5 15-.5 18-12.5 4 0 4.5-5t-3.5-5v-2.5" />
+        <path d="M38 65 22 71q-10 4-10 14v6h76v-6q0-10-10-14l-16-6" />
+        <path d="m38 66 5 12-4 3 7 9M62 66l-5 12 4 3-7 9" />
+        <path d="M46.5 69h7l2 3-3 5 2 13h-7l2-13-3-5Z" />
       </>
     ),
-    pin: <><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
-    clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v6l4 2" /></>,
-    tag: <><path d="M3 12V4h8l9 9-8 8-9-9Z" /><circle cx="7.5" cy="7.5" r="1.4" /></>,
-    bay: <><path d="M3.6 15.4c1.8 0 1.6-6.4 4.4-6.4s2.6 6.4 4.4 6.4" /><path d="M13.4 15.4c1.4 0 1.3-4.2 3.2-4.2s1.9 4.2 3.4 4.2" /><path d="M3 18.4c1.6 0 1.6 1.2 3.2 1.2s1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2" /></>,
-    passengers: <><circle cx="12" cy="7" r="3" /><path d="M6 21v-2a6 6 0 0 1 12 0v2" /></>,
-    luggage: <><rect x="5" y="7" width="14" height="14" rx="2" /><path d="M9 7V4h6v3M9 11v6M15 11v6" /></>,
-    route: <><path d="M4 20c6 0 4-8 10-8s6 8 6 8" /><circle cx="4" cy="20" r="1.5" /></>,
-    camera: <><rect x="3" y="7" width="18" height="13" rx="2" /><circle cx="12" cy="13.5" r="3.5" /><path d="M9 7l1.5-3h3L15 7" /></>,
-    smile: <><circle cx="12" cy="12" r="9" /><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01" /></>,
-    road: <><path d="M8 3 5 21M16 3l3 18M12 4v3M12 11v3M12 18v3" /></>,
-    sparkle: <><path d="m12 3 2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Z" /></>,
-    globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c3 3.4 4.2 6.4 4.2 9S15 17.6 12 21c-3-3.4-4.2-6.4-4.2-9S9 6.4 12 3Z" /></>,
-    star: <path d="m12 3 2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.4l6-.8L12 3Z" />,
-    check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
+    clock: (
+      <>
+        <circle cx="50" cy="50" r="38" />
+        <path d="M50 27v23l14 11" />
+      </>
+    ),
+    passenger: (
+      <>
+        <circle cx="50" cy="32" r="18.5" />
+        <path d="M22 87q-4 0-4-4v-5c0-15 14-26 32-26s32 11 32 26v5q0 4-4 4Z" />
+      </>
+    ),
+    luggage: (
+      <>
+        <path d="M40 28.5V14a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v14.5" />
+        <rect x="26.5" y="28.5" width="47" height="55.5" rx="7" />
+        <path d="M37.6 41v32M50 41v32M62.4 41v32" />
+        <circle cx="34" cy="89" r="3.5" />
+        <circle cx="66" cy="89" r="3.5" />
+      </>
+    ),
+    // Xe nhìn chính diện + vòng tròn dấu tích ở góc dưới phải
+    carCheck: (
+      <>
+        <path d="M22 40 29 25q3-5 8-5h26q5 0 8 5l7 15M19 40h61" />
+        <rect x="10" y="34" width="8" height="6.5" rx="2" />
+        <rect x="81" y="34" width="8" height="6.5" rx="2" />
+        <path d="M20 41 13 47.5V74q0 3 3 3h20.5M81 41l6.5 6.5V59" />
+        <path d="M13 74v6.5q0 3 3 3h6q3 0 3-3V77" />
+        <path d="M15 50.5 31 51.5l2.8 7.4-15.5-.8Z" />
+        <path d="M66 51.5 81 50.5l-1.4 5" />
+        <path d="M34 51h29l-4.5 11.2h-20Z" />
+        <path d="M38.2 55.3h20.6M39.8 58.7h17.4" />
+        <rect x="36.5" y="65.5" width="23" height="8.5" rx="2" />
+        <circle cx="77.4" cy="71.4" r="15.5" />
+        <path d="m70 72.2 4.7 4.8 10.3-10.4" />
+      </>
+    ),
+    star: <path d="M50 10 61.8 34l26.4 3.8-19.1 18.6 4.5 26.3L50 70.3 26.4 82.7l4.5-26.3-19.1-18.6L38.2 34Z" />,
+    globe: (
+      <>
+        <circle cx="50" cy="50" r="38" />
+        <path d="M12 50h76M50 12c11 11 16 24 16 38s-5 27-16 38c-11-11-16-24-16-38s5-27 16-38ZM17 31h66M17 69h66" />
+      </>
+    ),
+    headset: (
+      <>
+        <path d="M18 58v-8a32 32 0 0 1 64 0v8" />
+        <rect x="12" y="52" width="14" height="24" rx="6" />
+        <rect x="74" y="52" width="14" height="24" rx="6" />
+        <path d="M81 76v4a10 10 0 0 1-10 10H58" />
+        <rect x="44" y="85.5" width="14" height="9" rx="4.5" />
+      </>
+    ),
+    // ----- Service Highlights -----
+    thumbsUp: (
+      <>
+        <rect x="12" y="44" width="18" height="44" rx="3" />
+        <path d="M30 48 44 22q3-7 9-5 6 3 4 11l-4 14h24q8 1 7 9l-5 28q-2 8-10 8H30" />
+      </>
+    ),
+    car: (
+      <>
+        <path d="M22 40 29 25q3-5 8-5h26q5 0 8 5l7 15M19 40h62" />
+        <rect x="10" y="34" width="8" height="6.5" rx="2" />
+        <rect x="82" y="34" width="8" height="6.5" rx="2" />
+        <path d="M20 41 13 47.5V74q0 3 3 3h68q3 0 3-3V47.5L80 41" />
+        <path d="M13 74v6.5q0 3 3 3h6q3 0 3-3V77M87 74v6.5q0 3-3 3h-6q-3 0-3-3V77" />
+        <path d="M15 50.5 31 51.5l2.8 7.4-15.5-.8ZM85 50.5 69 51.5l-2.8 7.4 15.5-.8Z" />
+        <path d="M38 65h24" />
+      </>
+    ),
+    noPickup: (
+      <>
+        <circle cx="41" cy="40" r="13.5" />
+        <path d="M16 86q-4 0-4-4c0-15 13-26 29-26s29 11 29 26q0 4-4 4Z" />
+        <circle cx="75.4" cy="32.7" r="16.5" />
+        <path d="m68.4 25.7 14 14M82.4 25.7l-14 14" />
+      </>
+    ),
+    bottle: (
+      <>
+        <rect x="40" y="7" width="20" height="10" rx="3" />
+        <path d="M46 9.5v5M50 9.5v5M54 9.5v5M44 17v4h12v-4" />
+        <path d="M44 21 36 30q-2 3-2 6v50q0 5 5 5h22q5 0 5-5V36q0-3-2-6l-8-9" />
+        <path d="M34 40h32M34 61h32" />
+        <path d="M50 44c-4 5-6 8-6 10.5a6 6 0 0 0 12 0C56 52 54 49 50 44Z" />
+        <path d="M34 72q8-4 16 0t16 0M34 81q8-4 16 0t16 0" />
+      </>
+    ),
+    music: (
+      <>
+        <path d="M36.8 74V24.5L85 13.5v55M36.8 38.5 85 27.5" />
+        <circle cx="26" cy="75" r="11" />
+        <circle cx="75" cy="68.5" r="11" />
+      </>
+    ),
+    tagPlus: (
+      <>
+        <path d="M60 15.5h23a5 5 0 0 1 5 5v22q0 3-2 5L42 91q-3 3-6 0L15 70q-3-3 0-6L57 18q1.5-2.5 3-2.5Z" />
+        <circle cx="72.6" cy="31.5" r="5" />
+        <path d="M50 43v21.5M39.3 53.8h21.4" />
+      </>
+    ),
+    // Hai mũi tên xoay vòng (khứ hồi)
+    roundTrip: (
+      <>
+        <path d="M16.5 43.5C20 28 34 17 50 17s27 7 35 22" />
+        <path d="M88.7 29v18l-16.5-7.5" />
+        <path d="M83.5 56.5C80 72 66 83 50 83s-27-7-35-22" />
+        <path d="M11.3 71V53l16.5 7.5" />
+      </>
+    ),
+    // Hai ghim bản đồ nối bằng đường nét đứt (hành trình tự chọn)
+    routePins: (
+      <>
+        <path d="M22.6 82c-8-9-14-16-14-23.5a14 14 0 0 1 28 0c0 7.5-6 14.5-14 23.5Z" />
+        <circle cx="22.6" cy="58.5" r="5.2" />
+        <ellipse cx="22.6" cy="85" rx="13.5" ry="4" />
+        <path d="M78.7 44c-7-8-12.5-14-12.5-20.8a12.5 12.5 0 0 1 25 0c0 6.8-5.5 12.8-12.5 20.8Z" />
+        <circle cx="78.7" cy="23.2" r="4.6" />
+        <ellipse cx="78.7" cy="47" rx="12.3" ry="3.6" />
+        <path d="M37 81c18-2 35-9 41.5-26" strokeDasharray="5 8" />
+      </>
+    ),
+    pagoda: (
+      <>
+        <path d="M50 7v8M43.5 16.5h13" />
+        <path d="M43.5 16.5Q38 26 26 26q-4 0-3-6M56.5 16.5Q62 26 74 26q4 0 3-6M28 28.5h44" />
+        <rect x="34" y="31" width="32" height="7.5" rx="1.5" />
+        <path d="M34 38.5Q26 47 15 46q-4 0-2.5-6M66 38.5Q74 47 85 46q4 0 2.5-6M19 51h62" />
+        <path d="M28.5 51v24M35.5 51v24M64.5 51v24M71.5 51v24" />
+        <path d="M43 75V63a7 7 0 0 1 14 0v12" />
+        <rect x="19" y="75" width="62" height="6" rx="1.5" />
+        <rect x="11" y="81" width="78" height="10" rx="2" />
+      </>
+    ),
+    mountain: (
+      <>
+        <path d="M10.5 73h82L66.2 38.3 51.8 57" />
+        <path d="M10.5 73 45.5 26.3 59.4 44.7" />
+        <path d="M26.3 73 45 48.6 63.8 73" />
+      </>
+    ),
+    bay: (
+      <>
+        <path d="M14 68c4 0 5-26 15-28 10 2 11 28 16 28" />
+        <path d="M44 68c4 0 5-16 13-18 8 2 9 18 14 18" />
+        <path d="M70 68c3 0 4-10 9-11 5 1 6 11 9 11" />
+        <path d="M10 79q5-4 10 0t10 0 10 0 10 0 10 0 10 0 10 0 10 0" />
+      </>
+    ),
   };
 
-  shapes.car = shapes.carFront;
-  shapes.water = shapes.waterBottle;
-
-  return <svg className={className} viewBox="0 0 24 24" aria-hidden="true">{shapes[type]}</svg>;
+  return (
+    <svg className={className} viewBox="0 0 100 100" aria-hidden="true">
+      {shapes[type] || shapes.mountain}
+    </svg>
+  );
 }
 
 export default function JourneyPage({ slug }) {
@@ -192,11 +238,20 @@ export default function JourneyPage({ slug }) {
     };
   }, [journey]);
 
+  // Dải thông tin dưới banner. Cột thứ 5 (href) biến cả ô thành liên kết.
   const facts = [
-    ["pin", "Route", journey.routeLabel, journey.distance],
-    ["clock", "Time", journey.duration, journey.durationNote],
-    ["car", "Vehicle", "Limo Lux / Limo Prime /", "VF9 Luxury"],
-    ["tag", "Price", journey.price || "On request", "Private transfer"],
+    [journeyFactIcons.route, "Route", `Hanoi to ${journey.name},`, journey.distance],
+    [journeyFactIcons.time, "Time", journey.duration, journey.durationNote],
+    [journeyFactIcons.vehicle, "Vehicle", "Limo Lux / Limo Prime /", "VIP Luxury"],
+    [journeyFactIcons.rates, "Rates", "View Official Catalog /", "Transparent pricing", catalogPageUrl],
+  ];
+
+  // 4 gói hành trình (theo mẫu); "car" dùng icon xe vàng của dải thông tin.
+  const journeyOptions = [
+    { icon: "car", title: "One-Way Transfer", lines: [`Hanoi / Noi Bai → ${journey.name}`, "Flexible departure."] },
+    { icon: "roundTrip", title: "Round Trip", lines: ["Two scheduled transfers", "Return date confirmed."] },
+    { icon: "calendar", title: "3 Days 2 Nights", lines: ["Dedicated vehicle throughout", "1 full local service day."], featured: true },
+    { icon: "routePins", title: "Custom Trip", lines: ["Built around your plans", "Flexible dates & itinerary."] },
   ];
 
   return (
@@ -210,12 +265,20 @@ export default function JourneyPage({ slug }) {
           className="hlt-journey-hero"
           style={{ "--journey-hero-img": `url(${heroBannerUrl})` }}
         >
+          <div className="hlt-journey-hero-main">
           <div className="hlt-container">
             <div className="hlt-journey-hero-content">
               <p className="hlt-journey-eyebrow">Private Luxury Transfer</p>
               <h1>
                 <span>Hanoi</span>
-                <span className="hlt-journey-title-accent">{journey.titleAccent}</span>
+                <span className="hlt-journey-title-to">to</span>
+                {/* --dest-len: CSS co cỡ chữ để tên dài ("Mu Cang Chai") vẫn nằm 1 dòng */}
+                <span
+                  className="hlt-journey-title-accent"
+                  style={{ "--dest-len": journey.name.length }}
+                >
+                  {journey.name}
+                </span>
               </h1>
               <p className="hlt-journey-lead">{journey.intro}</p>
               <div className="hlt-journey-actions">
@@ -233,109 +296,66 @@ export default function JourneyPage({ slug }) {
               </div>
             </div>
           </div>
-        </section>
+          </div>
 
-        {/* Floating Facts Bar */}
-        <div className="hlt-journey-facts-floating">
-          <div className="hlt-container">
-            <div className="hlt-journey-facts">
-              {facts.map(([icon, label, value, note]) => (
-                <div className="hlt-journey-fact" key={label}>
-                  <Icon type={icon} className="hlt-journey-fact-icon" />
-                  <div>
-                    <span>{label}</span>
-                    <strong>{value}</strong>
-                    <small>{note}</small>
-                  </div>
-                </div>
-              ))}
+          {/* Dải thông tin xanh đậm gắn liền đáy banner */}
+          <div className="hlt-journey-hero-facts">
+            <div className="hlt-container">
+              <div className="hlt-journey-facts">
+                {facts.map(([icon, label, value, note, href]) => {
+                  const Tag = href ? "a" : "div";
+                  return (
+                    <Tag className="hlt-journey-fact" key={label} {...(href ? { href } : {})}>
+                      <img className="hlt-journey-fact-icon" src={icon} alt="" />
+                      <div>
+                        <span>{label}</span>
+                        <strong>{value}</strong>
+                        <small>{note}</small>
+                      </div>
+                    </Tag>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
         <section className="hlt-journey-section hlt-journey-transit-section">
-          <div className="hlt-journey-bg-accent hlt-journey-bg-left" aria-hidden="true">
-            <svg viewBox="0 0 320 320" fill="none">
-              <path d="M0,0 C130,40 190,140 220,320" stroke="url(#goldGradLeft1)" strokeWidth="1.5" opacity="0.4" />
-              <path d="M0,45 C110,85 160,170 185,320" stroke="url(#goldGradLeft2)" strokeWidth="1.2" opacity="0.3" />
-              <path d="M0,95 C90,135 130,200 145,320" stroke="url(#goldGradLeft3)" strokeWidth="1" opacity="0.2" />
-              <defs>
-                <linearGradient id="goldGradLeft1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#c5a15a" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#c5a15a" stopOpacity="0" />
-                </linearGradient>
-                <linearGradient id="goldGradLeft2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#d4af37" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#d4af37" stopOpacity="0" />
-                </linearGradient>
-                <linearGradient id="goldGradLeft3" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#ecd8ad" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#ecd8ad" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div className="hlt-journey-bg-accent hlt-journey-bg-right" aria-hidden="true">
-            <svg viewBox="0 0 320 320" fill="none">
-              <path d="M320,0 C190,40 130,140 100,320" stroke="url(#goldGradRight1)" strokeWidth="1.5" opacity="0.4" />
-              <path d="M320,45 C210,85 160,170 135,320" stroke="url(#goldGradRight2)" strokeWidth="1.2" opacity="0.3" />
-              <path d="M320,95 C230,135 190,200 175,320" stroke="url(#goldGradRight3)" strokeWidth="1" opacity="0.2" />
-              <defs>
-                <linearGradient id="goldGradRight1" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#c5a15a" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#c5a15a" stopOpacity="0" />
-                </linearGradient>
-                <linearGradient id="goldGradRight2" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#d4af37" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#d4af37" stopOpacity="0" />
-                </linearGradient>
-                <linearGradient id="goldGradRight3" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#ecd8ad" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#ecd8ad" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
           <div className="hlt-container">
-            <div className="hlt-journey-heading">
-              <div className="hlt-journey-emblem-wrap">
-                <Icon type="emblem" className="hlt-journey-emblem" />
-              </div>
-              <p className="hlt-journey-kicker">Seamless from start to finish</p>
+            {/* Theo mẫu: chỉ tiêu đề có vạch vàng hai bên + một dòng mô tả */}
+            <div className="hlt-journey-heading hlt-journey-heading-lined">
               <h2>Door-to-Door Private Transfer</h2>
-              <div className="hlt-journey-ornament" />
               <p className="hlt-journey-sub">{journey.leadIn}</p>
             </div>
 
             <div className="hlt-journey-transit">
               <article className="hlt-journey-point">
-                <span className="hlt-journey-point-badge">
-                  <Icon type="pagoda" />
-                </span>
-                <div className="hlt-journey-point-info">
-                  <p>Pick-up in</p>
-                  <h3>Hanoi / Noi Bai</h3>
-                  <small>Hotels, Residences or<br />Noi Bai Airport</small>
+                <p className="hlt-journey-point-label">Pick-up in</p>
+                <div className="hlt-journey-point-row">
+                  <LineIcon type="pagoda" className="hlt-journey-point-icon" />
+                  <div className="hlt-journey-point-info">
+                    <h3>Hanoi / Noi Bai</h3>
+                    <small>Hotels, Residences or Noi Bai Airport</small>
+                  </div>
                 </div>
               </article>
 
               <div className="hlt-journey-path" aria-hidden="true">
-                <span className="hlt-journey-path-pin"><Icon type="marker" /></span>
-                <span className="hlt-journey-path-line" />
-                <span className="hlt-journey-path-car"><Icon type="carFront" /></span>
-                <span className="hlt-journey-path-line" />
-                <span className="hlt-journey-path-pin"><Icon type="marker" /></span>
+                <span className="hlt-journey-path-line is-start" />
+                <span className="hlt-journey-path-car">
+                  <img src={journeyFactIcons.vehicle} alt="" />
+                </span>
+                <span className="hlt-journey-path-line is-end" />
               </div>
 
               <article className="hlt-journey-point">
-                <span className="hlt-journey-point-badge">
-                  <Icon type={journey.badgeIcon} />
-                </span>
-                <div className="hlt-journey-point-info">
-                  <p>Drop-off in</p>
-                  <h3>{journey.name}</h3>
-                  <small>{journey.dropoffNote}</small>
+                <p className="hlt-journey-point-label">Drop-off in</p>
+                <div className="hlt-journey-point-row">
+                  <LineIcon type={journey.badgeIcon} className="hlt-journey-point-icon" />
+                  <div className="hlt-journey-point-info">
+                    <h3>{journey.name}</h3>
+                    <small>{journey.dropoffNote}</small>
+                  </div>
                 </div>
               </article>
             </div>
@@ -343,11 +363,11 @@ export default function JourneyPage({ slug }) {
             <div className="hlt-journey-features">
               {journeyFeatures.map(([icon, title, text]) => (
                 <article key={title} className="hlt-journey-feature-col">
-                  <div className="hlt-journey-feature-icon-wrap">
-                    <Icon type={icon} className="hlt-journey-feature-icon" />
+                  <LineIcon type={icon} className="hlt-journey-feature-icon" />
+                  <div className="hlt-journey-feature-text">
+                    <h3>{title}</h3>
+                    <p>{text}</p>
                   </div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
                 </article>
               ))}
             </div>
@@ -356,41 +376,103 @@ export default function JourneyPage({ slug }) {
 
         <section className="hlt-journey-section hlt-journey-vehicles">
           <div className="hlt-container">
-            <p className="hlt-journey-kicker hlt-journey-kicker-center">Our Vehicles</p>
+            <div className="hlt-journey-heading hlt-journey-heading-lined">
+              <h2>Our Vehicles</h2>
+            </div>
             <div className="hlt-journey-vehicle-grid">
               {journeyVehicles.map((vehicle) => (
-                <article key={vehicle.name}>
+                <article className="hlt-journey-vehicle-card" key={vehicle.name}>
                   <div className="hlt-journey-vehicle-img">
                     <img src={fleetImages[vehicle.image]} alt={vehicle.name} />
                   </div>
-                  <h3>{vehicle.name}</h3>
-                  <div className="hlt-journey-vehicle-specs">
-                    <span><Icon type="passengers" />{vehicle.passengers}</span>
-                    <span><Icon type="luggage" />{vehicle.luggage}</span>
+                  <div className="hlt-journey-vehicle-body">
+                    <h3>{vehicle.name}</h3>
+                    <div className="hlt-journey-vehicle-specs">
+                      <div className="hlt-journey-vehicle-spec">
+                        <LineIcon type="passenger" className="hlt-journey-vehicle-icon" />
+                        <div>
+                          <strong>{vehicle.passengers}</strong>
+                          <small>Passengers</small>
+                        </div>
+                      </div>
+                      <div className="hlt-journey-vehicle-spec">
+                        <LineIcon type="luggage" className="hlt-journey-vehicle-icon" />
+                        <div>
+                          <strong>{vehicle.luggage}</strong>
+                          <small>Luggage</small>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </article>
               ))}
             </div>
+
+            <p className="hlt-journey-vehicle-note">
+              <LineIcon type="carCheck" className="hlt-journey-vehicle-note-icon" />
+              Your vehicle details are confirmed before departure
+            </p>
           </div>
         </section>
 
-        <section className="hlt-journey-section hlt-journey-experience">
+        {/* Theo mẫu: 4 gói hành trình, dẫn tới bảng giá hoặc WhatsApp */}
+        <section className="hlt-journey-section hlt-journey-options">
           <div className="hlt-container">
-            <div className="hlt-journey-heading">
-              <p className="hlt-journey-kicker">Our Promise</p>
-              <h2 className="hlt-journey-title-serif">Journey Experience</h2>
+            <div className="hlt-journey-heading hlt-journey-heading-lined">
+              {/* --title-len: mobile tự thu cỡ chữ để tiêu đề nằm 1 dòng (như mẫu) */}
+              <h2 style={{ "--title-len": `Choose Your ${journey.name} Journey`.length }}>
+                Choose Your {journey.name} Journey
+              </h2>
               <p className="hlt-journey-sub">
-                Scenic routes, exceptional comfort, and personalized service
-                for a journey that&apos;s as memorable as your destination.
+                Choose a direct transfer or keep your private vehicle and driver throughout your stay.
               </p>
             </div>
 
+            <div className="hlt-journey-options-grid">
+              {journeyOptions.map((option) => (
+                <article
+                  className={`hlt-journey-option${option.featured ? " is-featured" : ""}`}
+                  key={option.title}
+                >
+                  {option.featured && <span className="hlt-journey-option-badge">Most Popular</span>}
+                  {option.icon === "car" ? (
+                    <img className="hlt-journey-option-icon" src={journeyFactIcons.vehicle} alt="" />
+                  ) : (
+                    <LineIcon type={option.icon} className="hlt-journey-option-icon" />
+                  )}
+                  <h3>{option.title}</h3>
+                  <p>{option.lines[0]}<br />{option.lines[1]}</p>
+                </article>
+              ))}
+            </div>
+
+            <p className="hlt-journey-options-note">Detailed rates are available in our official catalog.</p>
+            <div className="hlt-journey-options-actions">
+              <a className="hlt-btn hlt-btn-gold" href={catalogPageUrl}>View Pricing Catalog</a>
+              <a
+                className="hlt-btn hlt-journey-btn-dark"
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Customize via WhatsApp
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Theo mẫu: nền xanh đậm, 4 thẻ ảnh + dải số liệu dùng chung mọi tuyến */}
+        <section className="hlt-journey-section hlt-journey-experience">
+          <div className="hlt-container">
+            <div className="hlt-journey-heading hlt-journey-heading-lined is-light">
+              <h2>Journey Experience</h2>
+            </div>
+
             <div className="hlt-journey-experience-grid">
-              {journeyExperience.map(([icon, title, text], index) => (
-                <article key={title}>
-                  <img src={experienceImages[index]} alt="" />
+              {journeyExperience.map(([title, text], index) => (
+                <article className="hlt-journey-experience-card" key={title}>
+                  <img src={journeyExperienceImages[index]} alt="" loading="lazy" />
                   <div className="hlt-journey-experience-body">
-                    <span><Icon type={icon} /></span>
                     <h3>{title}</h3>
                     <p>{text}</p>
                   </div>
@@ -398,63 +480,39 @@ export default function JourneyPage({ slug }) {
               ))}
             </div>
 
-            <div className="hlt-journey-stats">
-              <div className="hlt-journey-stat hlt-journey-stat-rating">
-                <p>Exceptional service,<br />every time</p>
-                <strong>{journey.stats.rating}</strong>
-                <div className="hlt-journey-stars" aria-hidden="true">
-                  {[0, 1, 2, 3, 4].map((star) => <Icon type="star" key={star} />)}
+            <div className="hlt-journey-xstats">
+              {journeyExperienceStats.map(([icon, value, label]) => (
+                <div className="hlt-journey-xstat" key={label}>
+                  <LineIcon type={icon} className="hlt-journey-xstat-icon" />
+                  <div>
+                    <strong>{value}</strong>
+                    <span>{label}</span>
+                  </div>
                 </div>
-                <small>{journey.stats.ratingNote}</small>
-              </div>
-
-              {/* Luôn hiện: bảng phải đủ 4 cột ở mọi tuyến. */}
-              <div className="hlt-journey-stat">
-                <Icon type="route" className="hlt-journey-stat-icon" />
-                <strong>{journey.stats.transfers}</strong>
-                <span>{journey.stats.transfersLabel}</span>
-              </div>
-
-              <div className="hlt-journey-stat">
-                <Icon type="globe" className="hlt-journey-stat-icon" />
-                <strong>{journey.stats.countries}</strong>
-                <span>Countries<br />Served</span>
-              </div>
-
-              <div className="hlt-journey-stat">
-                <Icon type="headset" className="hlt-journey-stat-icon" />
-                <strong>{journey.stats.support}</strong>
-                <span>Customer<br />Support</span>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
         <section className="hlt-journey-section hlt-journey-details">
           <div className="hlt-container">
-            {/* WHAT'S INCLUDED */}
-            <div className="hlt-jincluded-card">
-              <h2 className="hlt-jincluded-title">WHAT&apos;S INCLUDED</h2>
-              <div className="hlt-jincluded-grid">
-                {journeyIncluded.map(([icon, text]) => (
-                  <div key={text} className="hlt-jincluded-item">
-                    <div className="hlt-jincluded-icon-box">
-                      <Icon type={icon} className="hlt-jincluded-icon" />
-                    </div>
-                    <span className="hlt-jincluded-text">{text}</span>
-                  </div>
-                ))}
-              </div>
+            {/* Service Highlights (theo mẫu): 6 ô icon + nhãn trong khung viền vàng */}
+            <div className="hlt-journey-heading hlt-journey-heading-lined">
+              <h2>Service Highlights</h2>
+            </div>
+            <div className="hlt-journey-highlights">
+              {journeyHighlights.map(([icon, text]) => (
+                <div className="hlt-journey-highlight" key={text}>
+                  <LineIcon type={icon} className="hlt-journey-highlight-icon" />
+                  <span>{text}</span>
+                </div>
+              ))}
             </div>
 
             {/* FREQUENTLY ASKED QUESTIONS (2 cột theo mẫu) */}
             <div className="hlt-jfaq-section">
-              <div className="hlt-jfaq-header">
-                <span className="hlt-jfaq-line" aria-hidden="true" />
-                <span className="hlt-jfaq-dot" aria-hidden="true" />
-                <h2 className="hlt-jfaq-title">FREQUENTLY ASKED QUESTIONS</h2>
-                <span className="hlt-jfaq-dot" aria-hidden="true" />
-                <span className="hlt-jfaq-line" aria-hidden="true" />
+              <div className="hlt-journey-heading hlt-journey-heading-lined">
+                <h2>Frequently Asked Questions</h2>
               </div>
 
               <div className="hlt-jfaq-grid">

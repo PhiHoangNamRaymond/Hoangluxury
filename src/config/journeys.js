@@ -1,41 +1,49 @@
 // Dữ liệu cho các trang tuyến (/journey/<slug>/).
 //
-// QUAN TRỌNG: `price` và khối `stats` là số liệu kinh doanh thật sẽ hiển thị
-// công khai. Chỉ tuyến Sapa đang lấy theo bản thiết kế bạn gửi; ba tuyến còn
-// lại để `price: null` nên trang sẽ hiện "On request" thay vì bịa ra một con
-// số. Điền giá thật vào đây khi có.
+// QUAN TRỌNG: journeyExperienceStats là số liệu kinh doanh thật, hiển thị công
+// khai và dùng chung cho mọi tuyến (lấy theo bản thiết kế khách gửi).
+// `price` hiện không hiển thị trên trang (cột Rates dẫn tới Catalog) nhưng giữ
+// lại để dùng khi cần; tuyến chưa có giá để `null`.
 
-const sharedStats = {
-  rating: "4.9 / 5",
-  // Số dùng chung cho mọi tuyến để bảng luôn đủ 4 cột. Tuyến nào có số
-  // riêng thì ghi đè bên dưới.
-  transfers: "800+",
-  transfersLabel: "Transfers Completed",
-  ratingNote: "Based on 200+ verified reviews from international travelers.",
-  countries: "20+",
-  support: "24/7",
-};
+// Section Journey Experience: 4 thẻ ảnh (ảnh ghép trong JourneyPage.jsx).
+export const journeyExperience = [
+  ["Comfortable Ride", "Spacious, quiet, and smooth journey."],
+  ["Personal Meet & Greet", "Your driver welcomes you at the airport with a blank name board."],
+  ["Luggage Assistance", "Your driver helps with loading and unloading."],
+  ["Flexible Stops", "Stop for photos, coffee, or local experiences."],
+];
 
+// Dải số liệu dưới 4 thẻ Journey Experience. Icon là LineIcon.
+export const journeyExperienceStats = [
+  ["star", "4.9/5", "Guest Rating"],
+  ["chauffeur", "8+ Years", "Driver Experience"],
+  ["globe", "20+", "Countries Served"],
+  ["headset", "24/7", "Customer Support"],
+];
+
+// Dải 4 điểm mạnh dưới hai thẻ đón / trả (theo ảnh mẫu). Icon là LineIcon.
 export const journeyFeatures = [
-  ["seat", "Privacy & Comfort", "Enjoy your trip in a private cabin with space to relax and peace of mind."],
-  ["calendar", "Flexible Schedule", "Depart anytime that suits you. We are available on your preferred time."],
-  ["driver", "Professional Drivers", "Experienced, courteous, and knowledgeable drivers ensure a safe and smooth journey."],
-  ["price", "Transparent Pricing", "Clear, upfront rates with no hidden fees or surprises."],
+  ["shield", "100% Private", "Your vehicle is reserved exclusively for you."],
+  ["chauffeur", "Professional Drivers", "Experienced, courteous and safety-focused."],
+  ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
+  ["clock", "On-Time Pick-up", "Pick-up time confirmed before departure."],
 ];
 
+// Chỉ lưu con số; nhãn "Passengers" / "Luggage" nằm ở dòng dưới trong JSX (theo mẫu).
 export const journeyVehicles = [
-  { image: "limoLux", name: "LIMO LUX", passengers: "1 – 4 Passengers", luggage: "2 Luggage" },
-  { image: "limoGreen", name: "LIMO PRIME", passengers: "1 – 6 Passengers", luggage: "4 Luggage" },
-  { image: "vf9", name: "VIP LUXURY", passengers: "1 – 6 Passengers", luggage: "4 Luggage" },
+  { image: "limoLux", name: "LIMO LUX", passengers: "1 – 4", luggage: "2" },
+  { image: "limoGreen", name: "LIMO PRIME", passengers: "1 – 6", luggage: "4" },
+  { image: "vf9", name: "VIP LUXURY", passengers: "1 – 6", luggage: "4" },
 ];
 
-export const journeyIncluded = [
-  ["carFront", "Private Car"],
-  ["driver", "Experienced Driver"],
-  ["waterBottle", "Bottled Water"],
-  ["wifi", "Wi-Fi Onboard"],
-  ["parking", "Tolls & Parking"],
-  ["headset", "24/7 Support"],
+// Dải "Service Highlights" (theo mẫu). Icon là LineIcon.
+export const journeyHighlights = [
+  ["thumbsUp", "Polite & Reliable"],
+  ["car", "Vehicle Confirmed"],
+  ["noPickup", "No Extra Pick-Ups"],
+  ["bottle", "Bottled Water"],
+  ["music", "Music on Request"],
+  ["tagPlus", "All-Inclusive Pricing"],
 ];
 
 export const journeyFaq = [
@@ -65,13 +73,6 @@ export const journeyFaq = [
   ],
 ];
 
-export const journeyExperience = [
-  ["seat", "COMFORTABLE RIDE", "Spacious, quiet, and smooth journey."],
-  ["smile", "RELAX & ENJOY", "Sit back, unwind, and enjoy the journey stress-free."],
-  ["route", "SCENIC ROUTE", "Breathtaking views along the coast and limestone bay."],
-  ["camera", "FLEXIBLE STOPS", "Stop for photos, coffee, or local experiences."],
-];
-
 export const journeys = {
   sapa: {
     name: "Sapa",
@@ -87,7 +88,6 @@ export const journeys = {
     price: "From 3,300,000 VND",
     dropoffNote: "Hotels, Resorts or Town Center",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfers: "800+", transfersLabel: "Sapa Transfers" },
   },
   "ha-giang": {
     name: "Ha Giang",
@@ -103,7 +103,6 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Homestays or City Center",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfersLabel: "Ha Giang Transfers" },
   },
   "ninh-binh": {
     name: "Ninh Binh",
@@ -119,7 +118,6 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Resorts or Tam Coc area",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfersLabel: "Ninh Binh Transfers" },
   },
   "ha-long": {
     name: "Ha Long",
@@ -135,7 +133,6 @@ export const journeys = {
     price: "From 2,000,000 VND",
     dropoffNote: "Hotels, Resorts or Town Center",
     badgeIcon: "bay",
-    stats: { ...sharedStats, transfers: "800+", transfersLabel: "Ha Long Transfers" },
   },
   "cat-ba": {
     name: "Cat Ba",
@@ -151,7 +148,6 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Resorts or Town Center",
     badgeIcon: "bay",
-    stats: { ...sharedStats, transfersLabel: "Cat Ba Transfers" },
   },
   "cao-bang": {
     name: "Cao Bang",
@@ -167,7 +163,6 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Homestays or Ban Gioc Area",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfersLabel: "Cao Bang Transfers" },
   },
   "mu-cang-chai": {
     name: "Mu Cang Chai",
@@ -183,7 +178,6 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Resorts or Terraced Valleys",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfersLabel: "Mu Cang Chai Transfers" },
   },
   "moc-chau": {
     name: "Moc Chau",
@@ -199,7 +193,6 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Resorts or Farmstay Areas",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfersLabel: "Moc Chau Transfers" },
   },
   "ta-xua": {
     name: "Ta Xua",
@@ -215,6 +208,5 @@ export const journeys = {
     price: null,
     dropoffNote: "Hotels, Homestays or Town Center",
     badgeIcon: "mountain",
-    stats: { ...sharedStats, transfersLabel: "Ta Xua Transfers" },
   },
 };

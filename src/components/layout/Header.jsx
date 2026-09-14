@@ -171,6 +171,31 @@ export default function Header() {
     };
   }, [isHomePage]);
 
+  // Link "#section" ở footer (Services, Home, Journey…) cuộn giống hệt link header;
+  // nếu để trình duyệt tự nhảy anchor thì vị trí dừng lệch so với header.
+  useEffect(() => {
+    if (!isHomePage) return undefined;
+
+    const handleFooterClick = (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) return;
+
+      const link = event.target.closest?.(".hlt-footer a[href^='#']");
+      const href = link?.getAttribute("href");
+      if (!href || href.length === 1) return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      event.preventDefault();
+      setActiveHref(href);
+      scrollToSection(target);
+      window.history.replaceState(null, "", href);
+    };
+
+    document.addEventListener("click", handleFooterClick);
+    return () => document.removeEventListener("click", handleFooterClick);
+  }, [isHomePage]);
+
   const handleNavigation = (event, href, resolvedHref) => {
     setMenuOpen(false);
     setMobileJourneysOpen(false);
