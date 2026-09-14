@@ -8,6 +8,8 @@
   --jr-cream-2: #f3ebdc;
   --jr-gold: #c5a15a;
   --jr-gold-soft: rgba(197, 161, 90, .32);
+  /* Xanh đậm của dải Route / Time / Vehicle / Rates; thẻ xe dùng chung */
+  --jr-facts-bg: #061e17;
   --jr-ink: #25221d;
   --jr-muted: #4f483f;
   background: var(--jr-cream);
@@ -29,42 +31,93 @@
 
 /* ---------- Hero ---------- */
 
+/* Theo mẫu: ảnh tràn viền, chữ căn trái trên lớp phủ xanh đậm, dải thông tin
+   xanh đậm gắn liền đáy banner (không còn nổi đè lên section sau). */
+/* Nền xanh đậm phía sau header; ảnh chỉ nằm ở khối giữa header và dải
+   thông tin nên dải thông tin không che bánh xe. */
 .hlt-journey-hero {
   position: relative;
   display: flex;
-  align-items: center;
-  min-height: clamp(420px, 36vw, 520px);
-  padding: 92px 0 clamp(80px, 7.4vw, 108px);
-  background:
-    linear-gradient(90deg, rgba(4, 12, 10, .88) 0%, rgba(4, 12, 10, .62) 34%, rgba(4, 12, 10, .12) 66%, transparent 84%),
-    var(--journey-hero-img);
-  background-size: cover;
-  background-position: center;
+  flex-direction: column;
+  padding-top: 92px;
+  background: var(--jr-dark);
   color: #fff;
 }
 
+/* ~34vw sát tỉ lệ ảnh gốc (1440×623): ảnh co theo chiều ngang, không bị cắt
+   hai bên, cả chiếc xe nằm lọt khung. Lớp tối chỉ phủ nửa trái cho chữ,
+   trong suốt từ ~60% (trước thân xe). */
+.hlt-journey-hero-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: clamp(440px, 34vw, 540px);
+  padding: clamp(20px, 2vw, 30px) 0;
+  background:
+    linear-gradient(90deg, rgba(4, 20, 15, .92) 0%, rgba(4, 20, 15, .72) 26%, rgba(4, 20, 15, .2) 48%, transparent 60%),
+    var(--journey-hero-img);
+  background-size: cover;
+  background-position: center 72%;
+}
+
+/* container: tên tuyến co cỡ chữ theo độ rộng khối này (100cqi) */
 .hlt-journey-hero-content {
-  /* Bản thiết kế thụt chữ vào thêm ~42px so với mép thanh thông số. */
-  max-width: min(600px, 56vw);
-  padding-left: clamp(0px, 3.4vw, 46px);
+  max-width: min(560px, 56vw);
+  container-type: inline-size;
+}
+
+@media (min-width: 861px) {
+  /* Hero dùng cùng nhịp 88% như mẫu: mép chữ gần logo và thẳng hàng với
+     dải Route / Time / Vehicle / Rates ở phía dưới. */
+  .hlt-journey-hero-main > .hlt-container {
+    width: min(88%, 1384px);
+  }
+
+  .hlt-journey-hero-facts > .hlt-container {
+    width: min(88%, 1384px);
+  }
+
+  .hlt-journey-hero-content {
+    max-width: min(600px, 56vw);
+  }
+
+  .hlt-journey-hero .hlt-journey-actions {
+    width: min(100%, 530px);
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .hlt-journey-hero .hlt-journey-actions .hlt-btn {
+    flex: 1 1 0;
+    padding-inline: clamp(18px, 1.35vw, 24px);
+    font-size: clamp(13px, .95vw, 15px);
+    white-space: nowrap;
+  }
+
+  .hlt-journey-hero .hlt-journey-actions .hlt-btn-gold {
+    flex-grow: 1.15;
+  }
 }
 
 .hlt-journey-eyebrow {
-  margin: 0 0 16px;
-  font-size: clamp(12px, 1.35vw, 17px);
-  font-weight: 600;
-  letter-spacing: .24em;
+  margin: 0 0 8px;
+  font-size: clamp(13px, 1.08vw, 16px);
+  font-weight: 700;
+  letter-spacing: .16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .9);
+  color: var(--jr-gold);
 }
 
+/* inline-flex: vạch vàng hai bên chữ "TO" dài đúng bằng dòng tên dài nhất */
 .hlt-journey-hero h1 {
-  margin: 0 0 14px;
+  display: inline-flex;
+  flex-direction: column;
+  margin: 0 0 12px;
   font-family: var(--hlt-font-family);
-  font-size: clamp(42px, 5.8vw, 76px);
-  line-height: .88;
+  font-size: clamp(42px, 5.25vw, 72px);
+  line-height: .9;
   font-weight: 700;
-  letter-spacing: .035em;
+  letter-spacing: .03em;
   text-transform: uppercase;
 }
 
@@ -72,150 +125,170 @@
   display: block;
 }
 
-.hlt-journey-title-accent {
+.hlt-journey-hero h1 .hlt-journey-title-to {
+  display: flex;
+  align-items: center;
+  gap: .4em;
+  margin: .12em 0 .08em;
+  font-size: .36em;
+  line-height: 1;
+  letter-spacing: .14em;
   color: var(--jr-gold);
 }
 
+.hlt-journey-title-to::before,
+.hlt-journey-title-to::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--jr-gold));
+}
+
+.hlt-journey-title-to::after {
+  background: linear-gradient(90deg, var(--jr-gold), transparent);
+}
+
+/* Tên ngắn giữ cỡ h1 (1em); tên dài co lại cho vừa 1 dòng.
+   Đo thực tế ~.65em mỗi ký tự Cormorant đậm in hoa kèm letter-spacing;
+   dùng .68 để chừa dư vài px. */
+.hlt-journey-hero h1 .hlt-journey-title-accent {
+  font-size: min(1em, calc(100cqi / (var(--dest-len, 6) * .68)));
+  white-space: nowrap;
+}
+
+/* Vàng ánh kim như mẫu; color làm phương án dự phòng */
+.hlt-journey-title-accent {
+  color: #d9b14a;
+  background: linear-gradient(180deg, #f6dc8c 0%, #d9b14a 52%, #b8862e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .hlt-journey-lead {
-  max-width: 340px;
-  margin: 0 0 22px;
+  max-width: 390px;
+  margin: 0 0 16px;
   font-size: clamp(14px, 1.05vw, 16px);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, .88);
+  line-height: 1.48;
+  color: rgba(255, 255, 255, .92);
 }
 
 .hlt-journey-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 16px;
 }
 
-
-.hlt-journey-facts-floating {
-  position: relative;
-  z-index: 10;
-  height: 0;
+/* booking-process.css dùng trùng class này cho khối CTA và đặt
+   flex-direction: column; banner cần hai nút nằm ngang như mẫu. */
+.hlt-journey-hero .hlt-journey-actions {
+  flex-direction: row;
 }
 
+.hlt-journey-actions .hlt-btn {
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 22px;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.hlt-journey-actions .hlt-btn-outline {
+  color: #fff !important;
+  border-color: var(--jr-gold);
+  background: rgba(4, 20, 15, .45);
+}
+
+.hlt-journey-hero-facts {
+  background: var(--jr-facts-bg);
+  border-top: 1px solid rgba(197, 161, 90, .7);
+  border-bottom: 1px solid rgba(197, 161, 90, .45);
+}
+
+/* Theo ảnh mẫu: icon lớn căn giữa theo khối chữ, cả cụm nằm giữa cột,
+   nhãn serif vàng đậm, hai dòng giá trị sans-serif trắng. */
 .hlt-journey-facts {
-  position: relative;
-  z-index: 10;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  transform: translateY(-50%);
-  margin-top: 0;
-  padding: clamp(18px, 2.15vw, 28px) clamp(14px, 2vw, 26px);
-  border: 1px solid var(--jr-gold-soft);
-  border-radius: 4px;
-  background: var(--jr-dark);
-  box-shadow: 0 22px 44px rgba(11, 28, 23, .26);
+  padding: clamp(16px, 1.7vw, 24px) 0;
 }
 
 .hlt-journey-fact {
   display: flex;
-  align-items: flex-start;
-  gap: clamp(14px, 1.8vw, 22px);
-  padding: 2px clamp(10px, 1.6vw, 22px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.3vw, 18px);
+  padding: 4px clamp(10px, 1.4vw, 22px);
+  color: inherit;
+  text-decoration: none;
 }
 
 .hlt-journey-fact + .hlt-journey-fact {
-  border-left: 1px solid rgba(201, 162, 74, .22);
+  border-left: 1px solid rgba(197, 161, 90, .55);
 }
 
+/* Icon PNG màu --jr-gold (#c5a15a), cùng màu nhãn bên cạnh */
 .hlt-journey-fact-icon {
   flex: none;
-  width: clamp(28px, 3vw, 38px);
-  height: clamp(28px, 3vw, 38px);
-  margin-top: 1px;
-  fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  display: block;
+  width: clamp(40px, 3.75vw, 54px);
+  height: clamp(40px, 3.75vw, 54px);
+  object-fit: contain;
 }
 
 .hlt-journey-fact span {
   display: block;
-  margin-bottom: 9px;
-  font-size: clamp(11px, .92vw, 12.5px);
+  margin-bottom: 5px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(14px, 1.15vw, 17px);
   font-weight: 700;
-  letter-spacing: .19em;
+  line-height: 1.1;
+  letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--jr-gold);
 }
 
-/* Hai dòng dưới nhãn cùng cỡ và gần cùng độ sáng — trước đây dòng phụ bị
-   giảm còn 62% và nhỏ hơn nên đọc rất mờ. */
+/* !important: ".hlt-site *" (index.css) ép Cormorant !important cho toàn site;
+   ảnh mẫu dùng chữ không chân cho hai dòng giá trị. Selector này cụ thể hơn
+   nên thắng khi cùng !important. */
 .hlt-journey-fact strong,
 .hlt-journey-fact small {
   display: block;
-  font-size: clamp(13.5px, 1.15vw, 15.5px);
-  font-weight: 500;
-  line-height: 1.5;
-  color: #f4eee3;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(12.5px, 1vw, 14.5px);
+  font-weight: 400;
+  line-height: 1.4;
+  color: #fff;
 }
 
 .hlt-journey-fact small {
-  margin-top: 5px;
-  color: rgba(244, 238, 227, .86);
+  color: rgba(255, 255, 255, .88);
+}
+
+a.hlt-journey-fact:hover strong,
+a.hlt-journey-fact:focus-visible strong {
+  text-decoration: underline;
+  text-decoration-color: var(--jr-gold);
+  text-underline-offset: 3px;
+}
+
+/* Một cột trên mobile: cụm căn trái cho dễ đọc */
+@media (max-width: 600px) {
+  .hlt-journey-fact {
+    justify-content: flex-start;
+    padding-left: 0;
+  }
 }
 
 /* ---------- Section Seamless From Start To Finish ---------- */
 
+/* Theo mẫu: nền kem trơn, sát dải thông tin phía trên */
 .hlt-journey-transit-section {
   position: relative;
-  overflow: hidden;
-  padding: clamp(72px, 6.8vw, 96px) 0 clamp(56px, 6vw, 92px);
-  background: radial-gradient(ellipse at 50% 25%, #fcf9f2 0%, #fcf9f2 40%, #f6eee0 100%);
-}
-
-.hlt-journey-bg-accent {
-  position: absolute;
-  top: 0;
-  pointer-events: none;
-  z-index: 0;
-  width: clamp(220px, 25vw, 360px);
-  height: clamp(220px, 25vw, 360px);
-}
-
-.hlt-journey-bg-left {
-  left: 0;
-}
-
-.hlt-journey-bg-right {
-  right: 0;
-}
-
-.hlt-journey-bg-accent svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.hlt-journey-transit-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: clamp(240px, 28vw, 420px);
-  height: clamp(240px, 28vw, 420px);
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(circle at 0% 0%, rgba(220, 195, 140, 0.35) 0%, rgba(230, 210, 165, 0.15) 40%, transparent 70%);
-  border-bottom-right-radius: 100%;
-}
-
-.hlt-journey-transit-section::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: clamp(240px, 28vw, 420px);
-  height: clamp(240px, 28vw, 420px);
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(circle at 100% 0%, rgba(220, 195, 140, 0.35) 0%, rgba(230, 210, 165, 0.15) 40%, transparent 70%);
-  border-bottom-left-radius: 100%;
+  padding: clamp(36px, 3.6vw, 54px) 0 clamp(56px, 6vw, 92px);
+  background: var(--jr-cream);
 }
 
 .hlt-journey-transit-section .hlt-container {
@@ -229,44 +302,6 @@
   text-align: center;
 }
 
-.hlt-journey-emblem-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 12px;
-}
-
-.hlt-journey-emblem {
-  width: 30px;
-  height: 16px;
-  fill: none;
-  stroke: #c5a15a;
-}
-
-.hlt-journey-kicker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin: 0 0 14px;
-  font-size: clamp(12px, 1.1vw, 14px);
-  font-weight: 700;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: #b88a38;
-}
-
-.hlt-journey-kicker::before,
-.hlt-journey-kicker::after {
-  content: "";
-  width: clamp(36px, 7vw, 90px);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #c5a15a);
-}
-
-.hlt-journey-kicker::after {
-  background: linear-gradient(90deg, #c5a15a, transparent);
-}
-
 .hlt-journey-heading h2 {
   margin: 0 0 14px;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
@@ -275,45 +310,6 @@
   line-height: 1.06;
   letter-spacing: .015em;
   color: #17242a;
-}
-
-.hlt-journey-ornament {
-  width: 130px;
-  height: 14px;
-  margin: 0 auto 16px;
-  position: relative;
-}
-
-.hlt-journey-ornament::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(184, 134, 54, .65), transparent);
-}
-
-.hlt-journey-ornament::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 8px;
-  height: 8px;
-  background: #c5a15a;
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.hlt-journey-title-serif {
-  margin: 0 0 14px;
-  font-family: var(--hlt-font-family);
-  font-size: clamp(30px, 3.5vw, 46px);
-  font-weight: 600;
-  line-height: 1.06;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--jr-ink);
 }
 
 .hlt-journey-sub {
@@ -326,73 +322,99 @@
 
 /* ---------- Điểm đón / điểm trả ---------- */
 
+/* Tiêu đề section Door-to-Door: chữ in hoa, vạch vàng hai bên (theo mẫu).
+   Class riêng để không đổi tiêu đề Journey Experience dùng chung .hlt-journey-heading. */
+/* 1100px: đủ chỗ cho tiêu đề 1 dòng cùng hai vạch vàng (như mẫu) */
+.hlt-journey-heading-lined {
+  max-width: 1100px;
+  margin-bottom: clamp(22px, 2.4vw, 34px);
+}
+
+.hlt-journey-heading-lined h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 1.8vw, 26px);
+  margin: 0 0 10px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(24px, 2.5vw, 36px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--jr-ink);
+}
+
+.hlt-journey-heading-lined h2::before,
+.hlt-journey-heading-lined h2::after {
+  content: "";
+  flex: 0 1 clamp(36px, 9vw, 150px);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--jr-gold));
+}
+
+.hlt-journey-heading-lined h2::after {
+  background: linear-gradient(90deg, var(--jr-gold), transparent);
+}
+
+.hlt-journey-heading-lined .hlt-journey-sub {
+  max-width: 900px;
+  color: var(--jr-muted);
+  text-wrap: balance;
+}
+
+/* ---------- Điểm đón / điểm trả ---------- */
+
 .hlt-journey-transit {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(130px, 1.35fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 360px) minmax(150px, 320px) minmax(0, 360px);
+  justify-content: center;
   align-items: center;
-  gap: clamp(12px, 2vw, 24px);
+  gap: clamp(8px, 1.4vw, 18px);
   margin-bottom: clamp(48px, 5.4vw, 80px);
 }
 
 .hlt-journey-point {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 1.8vw, 22px);
-  padding: clamp(18px, 2.1vw, 26px) clamp(20px, 2.3vw, 28px);
-  border: 1.5px solid rgba(220, 195, 140, 0.55);
-  border-radius: 20px;
-  background: #fffdfa;
-  box-shadow:
-    0 14px 34px rgba(180, 145, 80, 0.12),
-    0 2px 8px rgba(0, 0, 0, 0.03);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  padding: clamp(14px, 1.5vw, 20px) clamp(16px, 1.8vw, 24px) clamp(16px, 1.7vw, 22px);
+  border: 1.5px solid rgba(197, 161, 90, .75);
+  border-radius: 10px;
+  background: #fffaf1;
+  box-shadow: 0 10px 26px rgba(180, 145, 80, .1);
 }
 
-.hlt-journey-point:hover {
-  transform: translateY(-2px);
-  border-color: rgba(201, 162, 74, 0.85);
-  box-shadow:
-    0 18px 42px rgba(180, 145, 80, 0.18),
-    0 4px 12px rgba(0, 0, 0, 0.04);
-}
-
-.hlt-journey-point-badge {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: clamp(58px, 5.2vw, 68px);
-  height: clamp(58px, 5.2vw, 68px);
-  border: 1.5px solid rgba(197, 161, 90, 0.55);
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff 0%, #faf5ec 100%);
-  box-shadow:
-    0 4px 14px rgba(197, 161, 90, 0.14),
-    inset 0 0 10px rgba(255, 255, 255, 0.8);
-}
-
-.hlt-journey-point-badge svg {
-  width: clamp(28px, 2.6vw, 34px);
-  height: clamp(28px, 2.6vw, 34px);
-  fill: none;
-  stroke: #b88636;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.hlt-journey-point-info p {
-  margin: 0 0 4px;
-  font-size: clamp(10.5px, .92vw, 12px);
+.hlt-journey-point-label {
+  margin: 0 0 clamp(10px, 1.1vw, 14px);
+  text-align: center;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(14px, 1.15vw, 17px);
   font-weight: 700;
-  letter-spacing: .18em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: #b88636;
 }
 
+.hlt-journey-point-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 18px);
+}
+
+/* Nét dày bo tròn như bộ icon mẫu, màu vàng của trang */
+.hlt-journey-point-icon {
+  flex: none;
+  width: clamp(48px, 4.4vw, 62px);
+  height: clamp(48px, 4.4vw, 62px);
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .hlt-journey-point-info h3 {
-  margin: 0 0 5px;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(21px, 2vw, 28px);
+  margin: 0 0 3px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(18px, 1.6vw, 22px);
   font-weight: 700;
   line-height: 1.15;
   color: #17242a;
@@ -400,142 +422,140 @@
 
 .hlt-journey-point-info small {
   display: block;
-  font-size: clamp(12px, 1.05vw, 13.5px);
-  line-height: 1.45;
-  color: #667085;
+  font-size: clamp(12.5px, 1vw, 14px);
+  line-height: 1.4;
+  color: var(--jr-muted);
 }
 
+/* Mũi tên nét đứt chỉ ra hai thẻ, xe ở giữa */
 .hlt-journey-path {
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-}
-
-.hlt-journey-path-pin {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #b88636;
-}
-
-.hlt-journey-path-pin svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: #b88636;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 .hlt-journey-path-line {
+  position: relative;
   flex: 1;
+  min-width: 24px;
   height: 0;
-  border-top: 2px dotted #c5a15a;
-  margin: 0 8px;
-  min-width: 20px;
+  border-top: 2px dashed var(--jr-gold);
+}
+
+/* Đầu mũi tên: góc vuông hai cạnh viền, xoay 45° */
+.hlt-journey-path-line::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 9px;
+  height: 9px;
+  border: solid var(--jr-gold);
+  border-width: 0 0 2px 2px;
+}
+
+.hlt-journey-path-line.is-start::before {
+  left: 0;
+  transform: rotate(45deg);
+}
+
+.hlt-journey-path-line.is-end::before {
+  right: 0;
+  transform: rotate(-135deg);
 }
 
 .hlt-journey-path-car {
   flex: none;
   display: grid;
   place-items: center;
-  width: clamp(74px, 6.4vw, 86px);
-  height: clamp(74px, 6.4vw, 86px);
-  border: 2px solid #c5a15a;
+  width: clamp(62px, 5.4vw, 78px);
+  height: clamp(62px, 5.4vw, 78px);
+  margin: 0 clamp(8px, 1vw, 14px);
+  border: 2px solid var(--jr-gold);
   border-radius: 50%;
-  background: #ffffff;
+  background: #fffaf1;
   box-shadow:
-    0 8px 26px rgba(197, 161, 90, 0.28),
-    0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: transform .25s ease, box-shadow .25s ease;
+    0 0 0 5px rgba(197, 161, 90, .14),
+    0 8px 22px rgba(197, 161, 90, .25);
 }
 
-.hlt-journey-path-car:hover {
-  transform: scale(1.06);
-  box-shadow: 0 12px 32px rgba(197, 161, 90, 0.38);
-}
-
-.hlt-journey-path-car svg {
-  width: clamp(40px, 3.6vw, 48px);
-  height: clamp(40px, 3.6vw, 48px);
-  color: #b88a38;
+.hlt-journey-path-car img {
+  width: 58%;
+  height: 58%;
+  display: block;
+  object-fit: contain;
 }
 
 /* ---------- Bốn điểm mạnh ---------- */
 
+/* Theo mẫu: icon nét dày bên trái, tiêu đề in hoa + mô tả bên phải,
+   cả cụm căn giữa cột, vạch vàng dọc ngăn các mục. */
 .hlt-journey-features {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: stretch;
+  align-items: center;
 }
 
 .hlt-journey-feature-col {
-  padding: 0 clamp(12px, 1.8vw, 28px);
-  text-align: center;
-}
-
-.hlt-journey-feature-col + .hlt-journey-feature-col {
-  border-left: 1px solid rgba(197, 161, 90, 0.28);
-}
-
-.hlt-journey-feature-icon-wrap {
-  width: clamp(48px, 4.4vw, 56px);
-  height: clamp(48px, 4.4vw, 56px);
-  margin: 0 auto 16px;
-  border: 1.5px solid rgba(197, 161, 90, 0.5);
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff 0%, #faf4ea 100%);
-  box-shadow:
-    0 4px 14px rgba(197, 161, 90, 0.12),
-    inset 0 0 8px rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform .25s ease, border-color .25s ease;
+  gap: clamp(12px, 1.3vw, 18px);
+  padding: 4px clamp(14px, 1.8vw, 28px);
+  text-align: left;
 }
 
-.hlt-journey-feature-col:hover .hlt-journey-feature-icon-wrap {
-  transform: translateY(-2px);
-  border-color: #c5a15a;
+.hlt-journey-feature-col + .hlt-journey-feature-col {
+  border-left: 1px solid rgba(197, 161, 90, .45);
 }
 
+/* LineIcon nét dày bo tròn, cùng màu vàng với icon điểm đón / trả */
 .hlt-journey-feature-icon {
-  width: clamp(24px, 2.2vw, 28px);
-  height: clamp(24px, 2.2vw, 28px);
+  flex: none;
+  width: clamp(42px, 3.8vw, 54px);
+  height: clamp(42px, 3.8vw, 54px);
   fill: none;
-  stroke: #b88636;
-  stroke-width: 1.5;
+  stroke: var(--jr-gold);
+  stroke-width: 5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .hlt-journey-feature-col h3 {
-  margin: 0 0 8px;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(17px, 1.5vw, 21px);
+  margin: 0 0 4px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(14px, 1.1vw, 16px);
   font-weight: 700;
   line-height: 1.2;
+  letter-spacing: .04em;
+  text-transform: uppercase;
   color: #17242a;
 }
 
 .hlt-journey-feature-col p {
-  margin: 0 auto;
-  max-width: 230px;
-  font-size: clamp(12.5px, 1.02vw, 14px);
-  line-height: 1.55;
-  color: #625a4f;
+  margin: 0;
+  max-width: 200px;
+  font-size: clamp(12.5px, 1vw, 14px);
+  line-height: 1.45;
+  color: var(--jr-muted);
+}
+
+/* Như mẫu: dải điểm mạnh rộng hơn khung nội dung 1180px để tiêu đề nằm 1 dòng.
+   Dưới 1280px cột quá hẹp nên vẫn cho tiêu đề xuống dòng. */
+@media (min-width: 1280px) {
+  .hlt-journey-features {
+    width: min(1320px, 92vw);
+    margin-left: 50%;
+    translate: -50% 0;
+  }
+
+  .hlt-journey-feature-col h3 {
+    white-space: nowrap;
+  }
 }
 
 /* ---------- Đội xe ---------- */
 
-.hlt-journey-kicker-center {
-  margin-bottom: clamp(22px, 2.6vw, 32px);
-}
-
+/* Theo mẫu: thẻ viền vàng, ảnh trên, khối xanh đậm dưới với tên xe trắng
+   và hàng thông số (icon vàng + số / nhãn hai dòng). */
 .hlt-journey-vehicles {
   padding-top: 0;
 }
@@ -546,81 +566,277 @@
   gap: clamp(14px, 1.8vw, 24px);
 }
 
-.hlt-journey-vehicle-grid article {
+.hlt-journey-vehicle-card {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(201, 162, 74, .3);
-  border-radius: 4px;
-  background: #fff;
-  text-align: center;
+  border: 1.5px solid var(--jr-gold);
+  border-radius: 8px;
+  background: var(--jr-facts-bg);
+  box-shadow: 0 12px 28px rgba(11, 28, 23, .18);
 }
 
 .hlt-journey-vehicle-img {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9.5;
   overflow: hidden;
 }
 
 .hlt-journey-vehicle-img img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
 }
 
-.hlt-journey-vehicle-grid h3 {
-  margin: 15px 0 11px;
+.hlt-journey-vehicle-body {
+  flex: 1;
+  padding: clamp(12px, 1.3vw, 18px) clamp(12px, 1.4vw, 20px) clamp(14px, 1.5vw, 20px);
+  border-top: 1px solid rgba(197, 161, 90, .55);
+  background: var(--jr-facts-bg);
+  text-align: center;
+}
+
+.hlt-journey-vehicle-body h3 {
+  margin: 0 0 clamp(10px, 1vw, 14px);
   font-family: var(--hlt-font-family);
-  font-size: clamp(17px, 1.7vw, 23px);
+  font-size: clamp(18px, 1.7vw, 24px);
   font-weight: 600;
-  letter-spacing: .09em;
+  line-height: 1.15;
+  letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--jr-gold);
+  color: #fff;
 }
 
 .hlt-journey-vehicle-specs {
   display: flex;
   justify-content: center;
-  gap: clamp(16px, 2.4vw, 34px);
-  padding: 11px 12px;
-  border-top: 1px solid rgba(201, 162, 74, .22);
+  gap: clamp(22px, 3vw, 44px);
 }
 
-.hlt-journey-vehicle-specs span {
-  display: inline-flex;
+.hlt-journey-vehicle-spec {
+  display: flex;
   align-items: center;
-  gap: 7px;
-  font-size: 12.5px;
-  color: var(--jr-muted);
+  gap: 10px;
+  text-align: left;
 }
 
-.hlt-journey-vehicle-specs svg {
-  width: 17px;
-  height: 17px;
+.hlt-journey-vehicle-icon {
+  flex: none;
+  width: clamp(26px, 2.2vw, 32px);
+  height: clamp(26px, 2.2vw, 32px);
   fill: none;
   stroke: var(--jr-gold);
-  stroke-width: 1.5;
+  stroke-width: 5.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-/* ---------- Trải nghiệm hành trình ---------- */
+/* !important: thắng ".hlt-site *" ép Cormorant (như dải thông tin dưới banner) */
+.hlt-journey-vehicle-spec strong,
+.hlt-journey-vehicle-spec small {
+  display: block;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.hlt-journey-vehicle-spec strong {
+  font-size: clamp(13px, 1.05vw, 15px);
+  font-weight: 700;
+}
+
+.hlt-journey-vehicle-spec small {
+  font-size: clamp(12px, .95vw, 13.5px);
+  color: rgba(255, 255, 255, .85);
+}
+
+/* Ghi chú dưới 3 thẻ xe (theo mẫu): khung nền kem viền vàng, icon xe + dấu tích */
+.hlt-journey-vehicle-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(18px, 2vw, 26px) auto 0;
+  padding: 9px clamp(18px, 2vw, 28px);
+  border: 1.5px solid rgba(197, 161, 90, .75);
+  border-radius: 10px;
+  background: #fffaf1;
+  box-shadow: 0 6px 16px rgba(180, 145, 80, .1);
+  font-family: var(--hlt-font-family);
+  font-size: clamp(14px, 1.15vw, 17px);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--jr-ink);
+  text-align: center;
+}
+
+/* Icon nhiều chi tiết: to hơn và nét mảnh hơn các icon khác để không bị dính nét */
+.hlt-journey-vehicle-note-icon {
+  flex: none;
+  width: clamp(28px, 2.5vw, 36px);
+  height: clamp(28px, 2.5vw, 36px);
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Chọn hành trình (theo mẫu) ----------
+   4 thẻ nền kem viền vàng; thẻ nổi bật nền xanh đậm (cùng dải thông tin)
+   với nhãn "Most Popular" vắt qua mép trên; ghi chú + 2 nút bên dưới. */
+
+.hlt-journey-options {
+  padding-top: 0;
+}
+
+.hlt-journey-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 22px);
+  align-items: stretch;
+  /* Chừa chỗ cho nửa trên của nhãn "Most Popular" */
+  padding-top: 14px;
+}
+
+.hlt-journey-option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(22px, 2.2vw, 30px) clamp(14px, 1.4vw, 20px) clamp(18px, 1.8vw, 24px);
+  border: 1.5px solid rgba(197, 161, 90, .55);
+  border-radius: 8px;
+  background: #fffaf1;
+  box-shadow: 0 8px 22px rgba(180, 145, 80, .08);
+  text-align: center;
+}
+
+.hlt-journey-option.is-featured {
+  border-color: var(--jr-gold);
+  background: var(--jr-facts-bg);
+  box-shadow: 0 14px 30px rgba(6, 30, 23, .28);
+}
+
+.hlt-journey-option-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5px 18px;
+  border-radius: 4px;
+  background: linear-gradient(100deg, #c29226 0%, #d9b14a 48%, #fade7b 71%, #dab74f 87%, #c7972b 100%);
+  font-family: var(--hlt-font-family);
+  font-size: clamp(11px, .9vw, 13px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #111;
+}
+
+/* Dùng cho cả LineIcon (svg) lẫn icon xe PNG */
+.hlt-journey-option-icon {
+  width: clamp(40px, 3.6vw, 52px);
+  height: clamp(40px, 3.6vw, 52px);
+  margin-bottom: clamp(10px, 1vw, 14px);
+  object-fit: contain;
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-option h3 {
+  margin: 0 0 6px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(16px, 1.35vw, 20px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #17242a;
+}
+
+.hlt-journey-option p {
+  margin: 0;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.5;
+  color: var(--jr-muted);
+}
+
+.hlt-journey-option.is-featured h3 {
+  color: #fff;
+}
+
+.hlt-journey-option.is-featured p {
+  color: rgba(255, 255, 255, .85);
+}
+
+.hlt-journey-options-note {
+  margin: clamp(16px, 1.8vw, 22px) 0 12px;
+  font-size: clamp(13px, 1vw, 14.5px);
+  color: var(--jr-muted);
+  text-align: center;
+}
+
+.hlt-journey-options-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.hlt-journey-options-actions .hlt-btn {
+  min-width: clamp(220px, 22vw, 300px);
+  min-height: 50px;
+  font-size: clamp(14px, 1.15vw, 17px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* Nút xanh đậm viền vàng, cùng màu dải thông tin */
+.hlt-journey-btn-dark {
+  border: 1.5px solid var(--jr-gold);
+  background: var(--jr-facts-bg);
+  color: #fff !important;
+}
+
+/* ---------- Journey Experience (theo mẫu) ----------
+   Nền xanh đậm (cùng dải thông tin), 4 thẻ ảnh viền vàng thân kem,
+   dải số liệu viền vàng: số vàng + nhãn trắng. */
 
 .hlt-journey-experience {
-  background: var(--jr-cream-2);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(197, 161, 90, .08), transparent 60%),
+    var(--jr-facts-bg);
+}
+
+.hlt-journey-heading-lined.is-light h2 {
+  color: #fff;
 }
 
 .hlt-journey-experience-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(12px, 1.5vw, 20px);
-  margin-bottom: clamp(34px, 4vw, 52px);
+  gap: clamp(12px, 1.6vw, 22px);
 }
 
-.hlt-journey-experience-grid article {
+.hlt-journey-experience-card {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  border-radius: 4px;
-  background: var(--jr-dark);
+  border: 1.5px solid var(--jr-gold);
+  border-radius: 8px;
+  background: #fffaf1;
 }
 
-.hlt-journey-experience-grid img {
+.hlt-journey-experience-card img {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -628,318 +844,184 @@
 }
 
 .hlt-journey-experience-body {
-  position: relative;
-  padding: 26px 16px 20px;
+  flex: 1;
+  padding: clamp(12px, 1.3vw, 18px) clamp(12px, 1.3vw, 18px) clamp(14px, 1.5vw, 20px);
   text-align: center;
 }
 
-.hlt-journey-experience-body span {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  transform: translateX(-50%);
-  border: 1px solid rgba(201, 162, 74, .5);
-  border-radius: 50%;
-  background: var(--jr-dark);
-}
-
-.hlt-journey-experience-body svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
 .hlt-journey-experience-body h3 {
-  margin: 0 0 8px;
-  font-size: 12.5px;
+  margin: 0 0 6px;
+  font-family: var(--hlt-font-family);
+  font-size: clamp(15px, 1.25vw, 18px);
   font-weight: 700;
-  letter-spacing: .15em;
+  line-height: 1.2;
+  letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--jr-gold);
+  color: #17242a;
 }
 
 .hlt-journey-experience-body p {
   margin: 0;
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: rgba(243, 236, 224, .78);
+  font-size: clamp(13px, 1vw, 14.5px);
+  line-height: 1.45;
+  color: var(--jr-muted);
 }
 
-/* ---------- Bảng số liệu ---------- */
-
-.hlt-journey-stats {
+.hlt-journey-xstats {
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(22px, 2.4vw, 32px);
+  padding: clamp(16px, 1.8vw, 24px) 0;
+  border: 1.5px solid rgba(197, 161, 90, .7);
+  border-radius: 8px;
+}
+
+.hlt-journey-xstat {
+  display: flex;
   align-items: center;
-  padding: clamp(26px, 3.2vw, 42px) clamp(18px, 2.4vw, 34px);
-  border: 1px solid var(--jr-gold-soft);
-  border-radius: 4px;
-  background: var(--jr-dark);
-  text-align: center;
+  justify-content: center;
+  gap: clamp(12px, 1.3vw, 18px);
+  padding: 4px clamp(10px, 1.4vw, 22px);
 }
 
-.hlt-journey-stat {
-  padding: 0 clamp(12px, 2vw, 28px);
+.hlt-journey-xstat + .hlt-journey-xstat {
+  border-left: 1px solid rgba(197, 161, 90, .55);
 }
 
-.hlt-journey-stat + .hlt-journey-stat {
-  border-left: 1px solid rgba(201, 162, 74, .24);
-}
-
-.hlt-journey-stat-icon {
-  width: 44px;
-  height: 44px;
-  margin-bottom: 8px;
+.hlt-journey-xstat-icon {
+  flex: none;
+  width: clamp(38px, 3.4vw, 50px);
+  height: clamp(38px, 3.4vw, 50px);
   fill: none;
   stroke: var(--jr-gold);
-  stroke-width: 1.3;
+  stroke-width: 5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.hlt-journey-stat strong {
+.hlt-journey-xstat strong {
   display: block;
   font-family: var(--hlt-font-family);
-  font-size: clamp(30px, 3.4vw, 48px);
-  font-weight: 600;
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 700;
   line-height: 1.05;
+  text-transform: uppercase;
   color: var(--jr-gold);
 }
 
-.hlt-journey-stat span {
+/* !important: thắng ".hlt-site *" ép Cormorant (như dải thông tin dưới banner) */
+.hlt-journey-xstat span {
   display: block;
-  margin-top: 6px;
-  font-size: clamp(13px, 1.15vw, 16px);
+  margin-top: 3px;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(12.5px, 1vw, 14.5px);
   line-height: 1.3;
-  color: #f3ece0;
+  color: rgba(255, 255, 255, .9);
 }
 
-.hlt-journey-stat-rating p {
-  margin: 0 0 10px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: rgba(243, 236, 224, .72);
+@media (max-width: 1080px) {
+  .hlt-journey-experience-grid,
+  .hlt-journey-xstats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlt-journey-experience-grid {
+    row-gap: 18px;
+  }
+
+  .hlt-journey-xstats {
+    row-gap: 18px;
+  }
+
+  .hlt-journey-xstat:nth-child(3) {
+    border-left: 0;
+  }
 }
 
-.hlt-journey-stars {
-  display: flex;
-  justify-content: center;
-  gap: 4px;
-  margin: 8px 0 10px;
+/* Mobile: thẻ 1 cột, dải số liệu vẫn 2 cột cho gọn */
+@media (max-width: 600px) {
+  .hlt-journey-experience-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlt-journey-xstat {
+    justify-content: flex-start;
+    padding-left: 12px;
+  }
 }
 
-.hlt-journey-stars svg {
-  width: 19px;
-  height: 19px;
-  fill: var(--jr-gold);
-  stroke: none;
-}
+/* ---------- Service Highlights (theo mẫu) ----------
+   Khung viền vàng chia 6 ô bằng vạch dọc: icon vàng trên, nhãn dưới. */
 
-.hlt-journey-stat-rating small {
-  display: block;
-  font-size: 12px;
-  line-height: 1.5;
-  color: rgba(243, 236, 224, .66);
-}
-
-/* ---------- WHAT'S INCLUDED (Card trên FAQ) ---------- */
-
-.hlt-jincluded-card {
-  position: relative;
-  border: 1px solid #eccd95;
-  border-radius: 8px;
-  background: var(--jr-cream, #faf6ed);
-  margin-bottom: clamp(48px, 5vw, 68px);
-}
-
-.hlt-jincluded-title {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  padding: 0 clamp(16px, 2.2vw, 28px);
-  background: var(--jr-cream, #faf6ed);
-  font-family: var(--hlt-font-family);
-  font-size: clamp(18px, 2vw, 26px);
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  text-align: center;
-  color: #17242a;
-  white-space: nowrap;
-}
-
-.hlt-jincluded-grid {
+.hlt-journey-highlights {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  align-items: center;
-  padding: clamp(26px, 3vw, 36px) 0 clamp(20px, 2.4vw, 28px);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  padding: clamp(16px, 1.8vw, 24px) 0;
+  border: 1.5px solid rgba(197, 161, 90, .6);
+  border-radius: 10px;
+  background: #fffaf1;
 }
 
-.hlt-jincluded-item {
-  position: relative;
+.hlt-journey-highlight {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 0 clamp(6px, 1vw, 14px);
+  gap: clamp(8px, .9vw, 12px);
+  padding: 4px clamp(8px, 1vw, 14px);
   text-align: center;
-  transition: transform .22s ease;
 }
 
-.hlt-jincluded-item:hover {
-  transform: translateY(-2px);
+.hlt-journey-highlight + .hlt-journey-highlight {
+  border-left: 1px solid rgba(197, 161, 90, .45);
 }
 
-.hlt-jincluded-icon-box {
-  display: grid;
-  place-items: center;
-  margin-bottom: clamp(10px, 1.2vw, 14px);
+.hlt-journey-highlight-icon {
+  width: clamp(36px, 3.2vw, 46px);
+  height: clamp(36px, 3.2vw, 46px);
+  fill: none;
+  stroke: var(--jr-gold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.hlt-jincluded-icon {
-  width: clamp(34px, 3.2vw, 42px);
-  height: clamp(34px, 3.2vw, 42px);
-}
-
-.hlt-jincluded-text {
-  font-size: clamp(12.5px, 1.05vw, 14px);
-  font-weight: 600;
-  line-height: 1.35;
+/* !important: thắng ".hlt-site *" ép Cormorant; mẫu dùng chữ không chân */
+.hlt-journey-highlight span {
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(12.5px, 1vw, 14.5px);
+  line-height: 1.3;
   color: #2b2823;
-  letter-spacing: .01em;
-  white-space: nowrap;
 }
 
-/* Vertical dividers between items */
-@media (min-width: 861px) {
-  .hlt-jincluded-item:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 14%;
-    bottom: 14%;
-    width: 1px;
-    background: #edd8ba;
-  }
-}
-
-@media (max-width: 860px) and (min-width: 581px) {
-  .hlt-jincluded-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px 0;
-    padding: 28px 12px 20px;
-  }
-  .hlt-jincluded-item:not(:nth-child(3n))::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 14%;
-    bottom: 14%;
-    width: 1px;
-    background: #edd8ba;
-  }
-}
-
-@media (max-width: 580px) {
-  .hlt-jincluded-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 0;
-    padding: 24px 8px 16px;
-  }
-  .hlt-jincluded-item:not(:nth-child(2n))::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 14%;
-    bottom: 14%;
-    width: 1px;
-    background: #edd8ba;
-  }
-  .hlt-jincluded-text {
-    white-space: normal;
-  }
-}
-
-/* ---------- FREQUENTLY ASKED QUESTIONS (2 Cột Theo Mẫu) ---------- */
+/* ---------- FAQ 2 cột (theo mẫu) ---------- */
 
 .hlt-jfaq-section {
-  margin-top: clamp(48px, 5.5vw, 70px);
-}
-
-.hlt-jfaq-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(10px, 1.2vw, 16px);
-  margin-bottom: clamp(24px, 2.8vw, 36px);
-}
-
-.hlt-jfaq-line {
-  display: block;
-  width: clamp(40px, 8vw, 110px);
-  height: 1px;
-  background: #eccd95;
-}
-
-.hlt-jfaq-dot {
-  display: block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #c5a15a;
-  flex: none;
-}
-
-.hlt-jfaq-title {
-  margin: 0;
-  font-family: var(--hlt-font-family);
-  font-size: clamp(18px, 2vw, 26px);
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  text-align: center;
-  color: #17242a;
+  margin-top: clamp(40px, 4.6vw, 60px);
 }
 
 .hlt-jfaq-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(12px, 1.6vw, 20px);
+  gap: clamp(10px, 1.4vw, 18px) clamp(14px, 2vw, 28px);
 }
 
 .hlt-jfaq-col {
   display: flex;
   flex-direction: column;
-  gap: clamp(10px, 1.2vw, 14px);
+  gap: clamp(8px, .9vw, 12px);
 }
 
 .hlt-jfaq-item {
-  border: 1px solid #eccd95;
+  border: 1px solid rgba(197, 161, 90, .55);
   border-radius: 8px;
-  background: rgba(255, 253, 248, 0.85);
+  background: #fffaf1;
   transition: border-color .2s ease, box-shadow .2s ease;
 }
 
-.hlt-jfaq-item:hover {
-  border-color: #c5a15a;
-  box-shadow: 0 4px 16px rgba(184, 138, 56, 0.08);
-}
-
+.hlt-jfaq-item:hover,
 .hlt-jfaq-item[open] {
-  border-color: #c5a15a;
-  box-shadow: 0 4px 18px rgba(184, 138, 56, 0.1);
+  border-color: var(--jr-gold);
+  box-shadow: 0 4px 16px rgba(184, 138, 56, .1);
 }
 
 .hlt-jfaq-summary {
@@ -947,10 +1029,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: clamp(14px, 1.4vw, 18px) clamp(16px, 1.8vw, 22px);
-  font-size: clamp(13px, 1.05vw, 14.5px);
-  font-weight: 600;
-  color: #25221d;
+  padding: clamp(10px, 1.1vw, 14px) clamp(14px, 1.6vw, 20px);
   cursor: pointer;
   list-style: none;
 }
@@ -959,35 +1038,55 @@
   display: none;
 }
 
+/* !important: như trên, câu hỏi dùng chữ không chân theo mẫu */
+.hlt-jfaq-summary > span:first-child {
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.4;
+  color: #25221d;
+}
+
+/* Lato !important: dấu "+" của Cormorant (ép bởi ".hlt-site *") quá mảnh và nhỏ */
 .hlt-jfaq-plus {
   flex: none;
-  font-size: 22px;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 28px;
+  font-weight: 400;
   line-height: 1;
-  font-weight: 300;
-  color: #c5a15a;
-  transition: transform .25s ease, color .2s ease;
+  color: var(--jr-gold);
+  transition: transform .25s ease;
 }
 
 .hlt-jfaq-item[open] .hlt-jfaq-plus {
   transform: rotate(45deg);
-  color: #b88a38;
 }
 
-.hlt-jfaq-item[open] .hlt-jfaq-summary {
+.hlt-jfaq-item[open] .hlt-jfaq-summary > span:first-child {
   color: #b88a38;
 }
 
 .hlt-jfaq-answer {
-  padding: 0 clamp(16px, 1.8vw, 22px) clamp(14px, 1.4vw, 18px);
-  border-top: 1px dashed rgba(201, 162, 74, 0.28);
+  padding: 0 clamp(14px, 1.6vw, 20px) clamp(12px, 1.3vw, 16px);
+  border-top: 1px dashed rgba(197, 161, 90, .3);
 }
 
 .hlt-jfaq-answer p {
   margin: 0;
   padding-top: 10px;
-  font-size: clamp(12.5px, 1vw, 13.5px);
-  line-height: 1.65;
-  color: #554e44;
+  font-size: clamp(13px, 1vw, 14px);
+  line-height: 1.6;
+  color: var(--jr-muted);
+}
+
+@media (max-width: 1080px) {
+  .hlt-journey-highlights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 18px;
+  }
+
+  .hlt-journey-highlight:nth-child(4) {
+    border-left: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -996,6 +1095,19 @@
   }
 }
 
+@media (max-width: 480px) {
+  .hlt-journey-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlt-journey-highlight:nth-child(4) {
+    border-left: 1px solid rgba(197, 161, 90, .45);
+  }
+
+  .hlt-journey-highlight:nth-child(odd) {
+    border-left: 0;
+  }
+}
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1080px) {
@@ -1022,18 +1134,10 @@
     margin-top: 30px;
   }
 
-  .hlt-journey-experience-grid {
+  /* Hàng dưới cách xa hơn để chừa chỗ cho nhãn "Most Popular" */
+  .hlt-journey-options-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 26px 16px;
-  }
-
-  .hlt-journey-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 26px 0;
-  }
-
-  .hlt-journey-stat:nth-child(3) {
-    border-left: 0;
+    row-gap: 28px;
   }
 }
 
@@ -1043,21 +1147,51 @@
     padding-left: 0;
   }
 
-  .hlt-journey-hero {
-    background-position: 68% center;
+  /* Màn hẹp: ảnh bị cắt hai bên nên lệch về phải để còn thấy xe */
+  .hlt-journey-hero-main {
+    background-position: 78% 70%;
   }
 
+  /* Hai thẻ xếp dọc, mũi tên xoay thành lên / xuống */
   .hlt-journey-transit {
     grid-template-columns: minmax(0, 1fr);
-    max-width: 480px;
+    max-width: 440px;
     margin-left: auto;
     margin-right: auto;
-    gap: 16px;
+    gap: 6px;
   }
 
   .hlt-journey-path {
-    justify-content: center;
-    padding: 8px 0;
+    flex-direction: column;
+    height: 128px;
+  }
+
+  .hlt-journey-path-line {
+    min-width: 0;
+    min-height: 18px;
+    height: auto;
+    border-top: 0;
+    border-left: 2px dashed var(--jr-gold);
+  }
+
+  .hlt-journey-path-line::before {
+    top: auto;
+    left: -5.5px;
+  }
+
+  .hlt-journey-path-line.is-start::before {
+    top: 0;
+    transform: rotate(135deg);
+  }
+
+  .hlt-journey-path-line.is-end::before {
+    right: auto;
+    bottom: 0;
+    transform: rotate(-45deg);
+  }
+
+  .hlt-journey-path-car {
+    margin: 8px 0;
   }
 
   .hlt-journey-features {
@@ -1071,20 +1205,21 @@
 
   .hlt-journey-vehicle-grid {
     grid-template-columns: minmax(0, 1fr);
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
 @media (max-width: 600px) {
   .hlt-journey-facts,
   .hlt-journey-features,
-  .hlt-journey-experience-grid,
-  .hlt-journey-stats {
+  .hlt-journey-options-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .hlt-journey-fact + .hlt-journey-fact,
-  .hlt-journey-feature-col + .hlt-journey-feature-col,
-  .hlt-journey-stat + .hlt-journey-stat {
+  .hlt-journey-feature-col + .hlt-journey-feature-col {
     border-left: 0;
   }
 
@@ -1098,8 +1233,694 @@
     margin-top: 24px;
   }
 
+  /* Một cột: cụm icon + chữ căn trái cho dễ đọc */
+  .hlt-journey-feature-col {
+    justify-content: flex-start;
+    padding-left: 0;
+  }
+
   .hlt-journey-actions .hlt-btn {
     width: 100%;
   }
 }
 
+
+/* ==========================================================================
+   Banner trang tuyến trên mobile (theo mẫu). PC không đổi.
+   Ảnh xe phủ kín cả banner (kể cả phía sau khối thông tin); chữ căn trái,
+   2 nút rộng hết khung xếp dọc; khối Route / Time / Vehicle / Rates là lưới
+   2×2 viền vàng, nền xanh đậm bán trong suốt nổi trên ảnh.
+   Đặt cuối file + tiền tố .hlt-journey-hero để đè các rule mobile cũ
+   (danh sách 1 cột, vạch ngang giữa các mục).
+   ========================================================================== */
+@media (max-width: 600px) {
+  .hlt-journey-hero {
+    padding-top: 72px;
+    padding-bottom: 20px;
+    /* Ảnh ngang 1440×623 phủ kín banner cao ~740px sẽ bị phóng ~119%, xe rộng
+       gần gấp đôi màn hình. Như mẫu: ảnh chỉ là một dải giữa banner, rộng 190%
+       và neo mép phải để thấy trọn chiếc xe; trên / dưới là nền xanh đậm,
+       gradient làm mép dải hòa vào nền và làm tối nửa trái cho chữ. */
+    background:
+      linear-gradient(180deg, var(--jr-facts-bg) 0%, var(--jr-facts-bg) 13%, rgba(6, 30, 23, .22) 26%, rgba(6, 30, 23, .15) 52%, var(--jr-facts-bg) 64%),
+      linear-gradient(90deg, rgba(6, 30, 23, .75) 0%, rgba(6, 30, 23, .2) 55%, transparent 75%),
+      /* 25%: xe nằm giữa đoạn mô tả và hai nút (như mẫu), không bị nút che */
+      var(--journey-hero-img) 100% 25% / 190% auto no-repeat,
+      var(--jr-facts-bg);
+  }
+
+  .hlt-journey-hero-main {
+    min-height: 0;
+    padding: 22px 0 18px;
+    background: none;
+  }
+
+  .hlt-journey-hero-content {
+    max-width: 100%;
+  }
+
+  .hlt-journey-eyebrow {
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    letter-spacing: .12em;
+  }
+
+  .hlt-journey-hero h1 {
+    margin-bottom: 14px;
+    font-size: clamp(52px, 17vw, 68px);
+  }
+
+  /* Như mẫu: đoạn mô tả hẹp để lộ chiếc xe bên phải */
+  .hlt-journey-lead {
+    max-width: 62%;
+    margin-bottom: 22px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .hlt-journey-hero .hlt-journey-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hlt-journey-hero .hlt-journey-actions .hlt-btn {
+    width: 100%;
+    min-height: 48px;
+    font-size: 15px;
+  }
+
+  .hlt-journey-hero-facts {
+    background: none;
+    border: 0;
+  }
+
+  .hlt-journey-hero .hlt-journey-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0;
+    border: 1px solid rgba(197, 161, 90, .75);
+    border-radius: 10px;
+    background: rgba(4, 20, 15, .72);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  .hlt-journey-hero .hlt-journey-fact {
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    padding: 14px 10px;
+    border: 0;
+  }
+
+  .hlt-journey-hero .hlt-journey-fact:nth-child(even) {
+    border-left: 1px solid rgba(197, 161, 90, .45);
+  }
+
+  .hlt-journey-hero .hlt-journey-fact:nth-child(n + 3) {
+    border-top: 1px solid rgba(197, 161, 90, .45);
+  }
+
+  .hlt-journey-hero .hlt-journey-fact-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hlt-journey-hero .hlt-journey-fact span {
+    margin-bottom: 4px;
+    font-size: 13.5px;
+  }
+
+  .hlt-journey-hero .hlt-journey-fact strong,
+  .hlt-journey-hero .hlt-journey-fact small {
+    font-size: 12.5px;
+    line-height: 1.35;
+  }
+}
+
+
+/* ==========================================================================
+   Section Door-to-Door trên mobile (theo mẫu). PC không đổi.
+   Tiêu đề 2 dòng cỡ lớn, vạch vàng ngang dòng đầu; hai thẻ đón / trả nằm
+   ngang với vòng tròn xe + mũi tên nét đứt ở giữa (thay cho kiểu xếp dọc
+   của màn ≤860px); 4 điểm mạnh gom vào một khung viền vàng, mỗi mục một hàng.
+   Tiền tố .hlt-journey-transit-section để đè các rule responsive phía trên.
+   ========================================================================== */
+@media (max-width: 600px) {
+  .hlt-journey-transit-section {
+    padding: 34px 0 44px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-heading-lined {
+    margin-bottom: 22px;
+  }
+
+  /* Như mẫu: "DOOR-TO-DOOR" / "PRIVATE TRANSFER" hai dòng, vạch vàng chỉ nằm
+     ngang dòng đầu và tràn ra lề trang. Vạch dạng flex sẽ ép chữ thành 3 dòng
+     nên đặt tuyệt đối; dòng đầu rộng ~8.3em nên mỗi vạch = nửa khung − 4.15em. */
+  .hlt-journey-transit-section .hlt-journey-heading-lined h2 {
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    font-size: clamp(28px, 8vw, 32px);
+    line-height: 1.12;
+    letter-spacing: .04em;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-heading-lined h2::before,
+  .hlt-journey-transit-section .hlt-journey-heading-lined h2::after {
+    position: absolute;
+    top: .56em;
+    /* + 12px tràn lề − 12px khoảng cách tới chữ */
+    width: calc(50% - 4.15em);
+  }
+
+  .hlt-journey-transit-section .hlt-journey-heading-lined h2::before {
+    left: -12px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-heading-lined h2::after {
+    right: -12px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-sub {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-transit {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    max-width: none;
+    gap: 0;
+    margin-bottom: 22px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-point {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 7px 14px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-point-label {
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: .06em;
+  }
+
+  /* Icon + tên cạnh nhau, dòng mô tả xuống dưới căn giữa cả thẻ (như mẫu):
+     bỏ khung .point-info để h3 / small thành ô lưới của hàng. */
+  .hlt-journey-transit-section .hlt-journey-point-row {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    column-gap: 6px;
+    flex: 1;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-point-info {
+    display: contents;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-point-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-point-info h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-point-info small {
+    grid-column: 1 / -1;
+    align-self: end;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  /* Mũi tên lại nằm ngang, chỉ ra hai thẻ */
+  .hlt-journey-transit-section .hlt-journey-path {
+    flex-direction: row;
+    align-self: center;
+    height: auto;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line {
+    flex: none;
+    width: 19px;
+    min-width: 0;
+    min-height: 0;
+    height: 0;
+    margin: 0 1px;
+    border-left: 0;
+    border-top: 2px dashed var(--jr-gold);
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line::before {
+    top: -5px;
+    bottom: auto;
+    width: 7px;
+    height: 7px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line.is-start::before {
+    left: 0;
+    right: auto;
+    transform: rotate(45deg);
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line.is-end::before {
+    left: auto;
+    right: 0;
+    transform: rotate(-135deg);
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-car {
+    width: 48px;
+    height: 48px;
+    margin: 0 1px;
+    box-shadow:
+      0 0 0 4px rgba(197, 161, 90, .14),
+      0 6px 16px rgba(197, 161, 90, .25);
+  }
+
+  /* 4 điểm mạnh: một khung viền vàng, mỗi mục một hàng, vạch ngăn mảnh */
+  .hlt-journey-transit-section .hlt-journey-features {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0 16px;
+    border: 1.5px solid rgba(197, 161, 90, .6);
+    border-radius: 12px;
+    background: #fffaf1;
+    box-shadow: 0 10px 26px rgba(180, 145, 80, .1);
+  }
+
+  .hlt-journey-transit-section .hlt-journey-feature-col {
+    justify-content: flex-start;
+    gap: 16px;
+    margin: 0;
+    padding: 16px 0;
+    border: 0;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-feature-col + .hlt-journey-feature-col {
+    margin-top: 0;
+    border-left: 0;
+    border-top: 1px solid rgba(197, 161, 90, .35);
+  }
+
+  .hlt-journey-transit-section .hlt-journey-feature-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-feature-col h3 {
+    margin-bottom: 4px;
+    font-size: 16px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-feature-col p {
+    max-width: none;
+    font-size: 13.5px;
+  }
+}
+
+
+/* ==========================================================================
+   Section Our Vehicles trên mobile (theo mẫu). PC không đổi.
+   3 thẻ xe nằm ngang một hàng (thay cho kiểu xếp dọc của màn ≤860px); mỗi
+   thông số là icon + số, nhãn xuống dòng dưới; ghi chú là khung rộng hết hàng.
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* nowrap: tiêu đề giữ 1 dòng, vạch vàng co lại ở màn 320px */
+  .hlt-journey-vehicles .hlt-journey-heading-lined h2 {
+    font-size: clamp(24px, 8vw, 32px);
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+    gap: 6px;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-card {
+    border-width: 1px;
+    border-radius: 7px;
+  }
+
+  /* Ảnh cao hơn bản PC như mẫu (thẻ hẹp) */
+  .hlt-journey-vehicles .hlt-journey-vehicle-img {
+    aspect-ratio: 1 / .82;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-body {
+    padding: 10px 3px 11px;
+  }
+
+  /* Tên xe 1 dòng để 3 thẻ thẳng hàng như mẫu */
+  .hlt-journey-vehicles .hlt-journey-vehicle-body h3 {
+    margin-bottom: 8px;
+    font-size: clamp(13px, 4.1vw, 16px);
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-specs {
+    justify-content: space-evenly;
+    gap: 4px;
+  }
+
+  /* Icon + số cạnh nhau, nhãn nằm dưới: bỏ khung div để strong / small
+     thành ô lưới của thông số */
+  .hlt-journey-vehicles .hlt-journey-vehicle-spec {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    column-gap: 4px;
+    row-gap: 2px;
+    text-align: center;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-spec > div {
+    display: contents;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-icon {
+    width: clamp(15px, 4.5vw, 17px);
+    height: clamp(15px, 4.5vw, 17px);
+    stroke-width: 6;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-spec strong {
+    font-size: clamp(11px, 3.2vw, 12px);
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-spec small {
+    grid-column: 1 / -1;
+    font-size: clamp(9px, 2.7vw, 10px);
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-note {
+    width: 100%;
+    gap: 14px;
+    margin-top: 16px;
+    padding: 12px 18px;
+    font-family: "Lato", Arial, Helvetica, sans-serif !important;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-note-icon {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+
+/* ==========================================================================
+   Section Choose Your … Journey trên mobile (theo mẫu). PC không đổi.
+   Lưới 2×2 (thay cho 1 cột), thẻ nổi bật vẫn nền xanh đậm + nhãn Most
+   Popular; hai nút rộng hết khung xếp dọc.
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* Tiêu đề tự thu theo độ dài tên tuyến để nằm 1 dòng; tên dài (Mu Cang
+     Chai) chạm mức 15px thì cho xuống 2 dòng. 0.67em ≈ bề rộng trung bình
+     1 ký tự in hoa kể cả dấu cách (đo thực tế); 44px = 2 vạch + khoảng cách. */
+  .hlt-journey-options .hlt-journey-heading-lined {
+    container-type: inline-size;
+  }
+
+  .hlt-journey-options .hlt-journey-heading-lined h2 {
+    gap: 8px;
+    font-size: clamp(15px, calc((100cqi - 44px) / (var(--title-len, 24) * .67)), 24px);
+    letter-spacing: .02em;
+    text-wrap: balance;
+  }
+
+  .hlt-journey-options .hlt-journey-heading-lined h2::before,
+  .hlt-journey-options .hlt-journey-heading-lined h2::after {
+    flex: 0 0 14px;
+  }
+
+  .hlt-journey-options .hlt-journey-sub {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .hlt-journey-options .hlt-journey-options-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 10px;
+  }
+
+  .hlt-journey-options .hlt-journey-option {
+    padding: 16px 8px 14px;
+  }
+
+  /* Chừa chỗ cho nhãn Most Popular vắt qua mép trên */
+  .hlt-journey-options .hlt-journey-option.is-featured {
+    padding-top: 22px;
+  }
+
+  .hlt-journey-options .hlt-journey-option-badge {
+    padding: 4px 14px;
+    font-size: 11px;
+  }
+
+  .hlt-journey-options .hlt-journey-option-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+
+  .hlt-journey-options .hlt-journey-option h3 {
+    margin-bottom: 5px;
+    font-size: 14.5px;
+    letter-spacing: .02em;
+  }
+
+  .hlt-journey-options .hlt-journey-option p {
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  .hlt-journey-options .hlt-journey-options-note {
+    margin: 16px 0 12px;
+    font-size: 13.5px;
+  }
+
+  .hlt-journey-options .hlt-journey-options-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* nowrap + cỡ chữ theo vw: nút giữ 1 dòng căn giữa cả ở màn 320px */
+  .hlt-journey-options .hlt-journey-options-actions .hlt-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: clamp(15px, 4.8vw, 18px);
+    letter-spacing: .05em;
+    white-space: nowrap;
+  }
+}
+
+
+/* ==========================================================================
+   Section Journey Experience trên mobile (theo mẫu). PC không đổi.
+   4 thẻ ảnh lưới 2×2 (thay cho 1 cột); 4 số liệu nằm 1 hàng, mỗi số một ô
+   viền vàng riêng: icon trên, số vàng lớn, nhãn dưới.
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* Cỡ chữ theo vw để tiêu đề 1 dòng vẫn chừa chỗ cho 2 vạch vàng 22px */
+  .hlt-journey-experience .hlt-journey-heading-lined h2 {
+    gap: 10px;
+    font-size: clamp(19px, 6.1vw, 26px);
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+
+  .hlt-journey-experience .hlt-journey-heading-lined h2::before,
+  .hlt-journey-experience .hlt-journey-heading-lined h2::after {
+    flex: 0 0 22px;
+  }
+
+  .hlt-journey-experience .hlt-journey-experience-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .hlt-journey-experience .hlt-journey-experience-card {
+    border-width: 1px;
+    border-radius: 7px;
+  }
+
+  .hlt-journey-experience .hlt-journey-experience-body {
+    padding: 10px 6px 12px;
+  }
+
+  .hlt-journey-experience .hlt-journey-experience-body h3 {
+    margin-bottom: 4px;
+    font-size: clamp(12.5px, 3.7vw, 14px);
+    letter-spacing: .02em;
+  }
+
+  .hlt-journey-experience .hlt-journey-experience-body p {
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+
+  .hlt-journey-experience .hlt-journey-xstats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 14px;
+    padding: 0;
+    border: 0;
+  }
+
+  .hlt-journey-experience .hlt-journey-xstat {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 12px 3px 10px;
+    border: 1px solid rgba(197, 161, 90, .7);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  /* Đè vạch dọc / bỏ viền của các rule responsive phía trên */
+  .hlt-journey-experience .hlt-journey-xstat + .hlt-journey-xstat,
+  .hlt-journey-experience .hlt-journey-xstat:nth-child(3) {
+    border-left: 1px solid rgba(197, 161, 90, .7);
+  }
+
+  .hlt-journey-experience .hlt-journey-xstat-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Như mẫu "8+ Years" chữ thường; in hoa sẽ tràn ô hẹp */
+  .hlt-journey-experience .hlt-journey-xstat strong {
+    font-size: clamp(16px, 5vw, 21px);
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  /* Như mẫu: 5 sao dưới điểm đánh giá (chỉ mobile, không thêm vào JSX) */
+  .hlt-journey-experience .hlt-journey-xstat:first-child strong::after {
+    content: "★★★★★";
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    letter-spacing: .08em;
+  }
+
+  .hlt-journey-experience .hlt-journey-xstat span {
+    margin-top: 4px;
+    font-size: clamp(10px, 3vw, 11.5px);
+    line-height: 1.25;
+  }
+}
+
+
+/* ==========================================================================
+   Service Highlights + FAQ trên mobile (theo mẫu). PC không đổi.
+   6 ô tiện ích lưới 3×2 (thay cho 2 cột), vạch dọc giữa cột + vạch ngang
+   giữa 2 hàng; FAQ 1 cột, mỗi câu hỏi một khung gọn.
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* Tiêu đề 1 dòng, cỡ chữ theo bề rộng khung. Chữ cố định nên chia sẵn:
+     số ký tự × 0.67em (18 ký tự → 12.06, 26 ký tự → 17.4). */
+  .hlt-journey-details .hlt-journey-heading-lined {
+    container-type: inline-size;
+    margin-bottom: 16px;
+  }
+
+  .hlt-journey-details .hlt-journey-heading-lined h2 {
+    gap: 8px;
+    font-size: clamp(15px, calc((100cqi - 88px) / 12.06), 24px);
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+
+  .hlt-journey-details .hlt-journey-heading-lined h2::before,
+  .hlt-journey-details .hlt-journey-heading-lined h2::after {
+    flex: 0 0 36px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-section .hlt-journey-heading-lined h2 {
+    font-size: clamp(15px, calc((100cqi - 44px) / 17.4), 24px);
+  }
+
+  .hlt-journey-details .hlt-jfaq-section .hlt-journey-heading-lined h2::before,
+  .hlt-journey-details .hlt-jfaq-section .hlt-journey-heading-lined h2::after {
+    flex-basis: 14px;
+  }
+
+  .hlt-journey-details .hlt-journey-highlights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 0;
+    padding: 0 6px;
+  }
+
+  .hlt-journey-details .hlt-journey-highlight {
+    gap: 8px;
+    padding: 14px 4px 12px;
+    border-left: 0;
+  }
+
+  /* Vạch dọc giữa các cột (bỏ ở ô đầu mỗi hàng), vạch ngang giữa 2 hàng */
+  .hlt-journey-details .hlt-journey-highlight:not(:nth-child(3n + 1)) {
+    border-left: 1px solid rgba(197, 161, 90, .45);
+  }
+
+  .hlt-journey-details .hlt-journey-highlight:nth-child(n + 4) {
+    border-top: 1px solid rgba(197, 161, 90, .45);
+  }
+
+  .hlt-journey-details .hlt-journey-highlight-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* balance: màn 320px ngắt "No Extra / Pick-Ups" thay vì "Pick- / Ups" */
+  .hlt-journey-details .hlt-journey-highlight span {
+    font-size: clamp(11px, 3.2vw, 12.5px);
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .hlt-journey-details .hlt-jfaq-section {
+    margin-top: 30px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-grid,
+  .hlt-journey-details .hlt-jfaq-col {
+    gap: 7px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-summary {
+    padding: 9px 12px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-summary > span:first-child {
+    font-size: 14px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-plus {
+    font-size: 24px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-answer {
+    padding: 0 12px 12px;
+  }
+}

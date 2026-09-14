@@ -30,8 +30,8 @@ export default function Footer() {
           <h4>Quick Links</h4>
           <a href={sectionHref("#home")}>Home</a>
           <a href={catalogPageUrl}>Catalog</a>
-          <a href="/booking/">Booking</a>
           <a href={sectionHref("#routes")}>Journey</a>
+          <a href="/booking/">Booking</a>
           <a href={feedbackPageUrl}>Feedback</a>
         </div>
 
@@ -41,6 +41,7 @@ export default function Footer() {
           <a href={sectionHref("#services")}>Long-Distance Private Transfer</a>
           <a href={sectionHref("#services")}>Custom Private Trip</a>
           <a href={sectionHref("#services")}>Business Partner Transfer</a>
+          <a href="/journeys/">Private Transfer Routes</a>
         </div>
 
         <div className="hlt-footer-col hlt-footer-contact">

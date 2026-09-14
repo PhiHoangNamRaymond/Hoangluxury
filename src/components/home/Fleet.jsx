@@ -97,7 +97,7 @@ export default function Fleet() {
           <div className="hlt-route-content">
             <div className="hlt-route-heading">
               <p>YOUR JOURNEY</p>
-              <h2>Popular Transfer Routes</h2>
+              <h2>Private Transfer Routes</h2>
               <div className="hlt-route-heading-ornament" />
             </div>
 
