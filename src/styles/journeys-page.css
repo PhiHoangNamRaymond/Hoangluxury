@@ -1318,3 +1318,90 @@
     overflow-wrap: break-word;
   }
 }
+
+/* ==========================================================================
+   Dải thông số sát đáy ảnh, không còn hàng trống bên dưới chữ.
+   Trước: dải đặt tuyệt đối, mỗi cột min-height 58px (chừa sẵn chỗ cho tuyến
+   2 dòng) nên thẻ tuyến 1 dòng dư ~18px nền tối -> ảnh bị che nhiều hơn.
+   Nay tiêu đề + dải thông số xếp dọc ở đáy ảnh (flex), dải chỉ cao đúng nội
+   dung và tiêu đề luôn nằm ngay trên dải; lớp tối chuyển sang ::before.
+   ========================================================================== */
+@media (min-width: 641px) {
+  .hlt-jcard-media {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .hlt-jcard-media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 38%, rgba(4, 18, 14, .4) 66%, rgba(4, 18, 14, .85) 100%);
+  }
+
+  .hlt-jcard-overlay {
+    position: relative;
+    inset: auto;
+    padding: 20px 20px 10px;
+    background: none;
+  }
+
+  .hlt-jcard-stats {
+    position: relative;
+    bottom: auto;
+    padding: .55em 3px .6em;
+  }
+
+  .hlt-jcard-stat {
+    min-height: 0;
+  }
+}
+
+/* ==========================================================================
+   Căn lại khung ảnh 2 thẻ (ảnh 16:9, khung thẻ 16:13 nên chỉ thấy ~69% bề
+   ngang ở giữa):
+   - Ninh Binh: chủ thể lệch trái (chùa + thuyền) -> dời khung sang trái.
+     File ảnh có sẵn dải đen 75px (7%) ở đáy -> cho ảnh cao 107.5% neo mép
+     trên để dải đen nằm ngoài khung.
+   - Cao Bang: thác nước lệch phải -> dời khung sang phải.
+   ========================================================================== */
+@media (min-width: 641px) {
+  /* Ảnh cao 112% neo đáy: dải đen (6.9% × 112% ≈ 7.75%) nằm dưới khung,
+     mép trên bị cắt ~4% -> khung dịch xuống; ngang dồn hết sang trái. */
+  .hlt-jcard[data-slug="ninh-binh"] .hlt-jcard-media img {
+    top: auto;
+    bottom: -7.75%;
+    height: 112%;
+    object-position: 0% center;
+  }
+
+  /* Cao Bang: ảnh cao 120% neo đáy -> khung dồn hết xuống dưới
+     (mép trên cắt ~17% ảnh), thác vẫn giữa khung theo chiều ngang. */
+  .hlt-jcard[data-slug="cao-bang"] .hlt-jcard-media img {
+    top: auto;
+    bottom: 0;
+    height: 120%;
+    object-position: 68% bottom;
+  }
+}
+
+/* Mobile: ảnh gọn nằm trong luồng (không đặt tuyệt đối) nên dùng scale neo
+   mép trên để đẩy dải đen ra ngoài, không làm đổi chiều cao thẻ. */
+@media (max-width: 640px) {
+  /* scale 1.12 quanh điểm 35.6% chiều cao: mép nội dung (93.1%) chạm đáy
+     khung, dải đen ra ngoài, mép trên cắt ~4% (giống bản PC) */
+  .hlt-jcard[data-slug="ninh-binh"] .hlt-jcard-compact-media img {
+    object-position: 0% top;
+    transform: scale(1.12);
+    transform-origin: 0% 35.6%;
+  }
+
+  .hlt-jcard[data-slug="cao-bang"] .hlt-jcard-compact-media img {
+    object-position: 68% bottom;
+    transform: scale(1.2);
+    transform-origin: 68% bottom;
+  }
+}

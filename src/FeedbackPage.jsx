@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
-import { feedbackReviewImages, feedbackStatIcons, servicesBackgroundUrl } from "./config/assets.js";
+import {
+  curatedMountainDecorationUrl,
+  feedbackReviewImages,
+  feedbackStatIcons,
+  servicesBackgroundUrl,
+} from "./config/assets.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 const feedbackStats = [
@@ -16,58 +21,58 @@ const feedbackStats = [
 // lang: review tiếng Hàn / tiếng Trung giữ nguyên ngôn ngữ gốc.
 const guestReviews = [
   {
-    title: "Last-Minute Change, Handled",
+    title: "Trip Details Confirmed Before Departure",
     quote: "Our plans changed the night before the trip, so we were a little worried as everything was very last minute. But the Hoang Luxury team responded very quickly and helped us arrange everything again. Before the trip, they sent us all the details about the car, driver and pickup time. Everything was handled very quickly and smoothly, so we felt much more relaxed and comfortable. We were really happy with the support from the team.",
     country: "India",
     guest: "Guest from India",
     alt: "Hanoi to Sapa private car – Hoang Luxury Travel",
   },
   {
-    title: "On Time for the Cruise",
-    quote: "We needed a reliable car to take us to the Ha Long cruise port. We had quite a lot of luggage and also needed to make sure we arrived on time for the cruise. The driver came early, helped us with our luggage at the port and made sure everything went smoothly. We arrived comfortably and even earlier than expected.",
+    title: "On-Time Pick Up and Flexible Payment",
+    quote: "We needed a reliable car to take us to the Ha Long cruise port because we had quite a lot of luggage and needed to arrive on time for our cruise. The driver came early, helped us with our bags and got us there earlier than expected. When it was time to pay, we realised we didn’t have enough cash with us and felt a little worried. Luckily, the Hoang Team accepted card payment, so everything was sorted out quickly and easily.",
     country: "Saudi Arabia",
     guest: "Guest from Saudi Arabia",
     alt: "Hanoi to Ha Long private car – Hoang Luxury Travel",
   },
   {
-    title: "Better Than the Bus",
-    quote: "저는 버스를 타고 이동하는 걸 별로 좋아하지 않아요. 버스는 시끄럽고 좁아서 불편하거든요. 여러 가지를 알아본 후에 호앙 씨의 차량으로 사파까지 개인 차량을 이용해 가기로 결정했습니다. 솔직히 말씀드리면 저는 꽤 까다로운 편이에요. 예전에 하롱에서 서비스 이용을 하면서 몇 번 좋지 않은 경험을 한 적이 있어서 베트남의 서비스에 대해 그다지 좋은 인상을 가지고 있지는 않았어요. 그런데 이번에는 정말 만족스러웠습니다. 저와 아내 모두 모든 면에서 만족스러웠어요. 앞으로도 다시 이용하고 싶습니다. 좋은 서비스 제공해 주셔서 감사합니다.",
+    title: "100% Private and No Multiple Pick-Ups",
+    quote: "저는 버스를 타고 이동하는 걸 별로 좋아하지 않아요. 버스는 시끄럽고 좁아서 불편하거든요. 여러 가지를 알아본 후에 호앙 씨의 차량으로 사파까지 개인 차량을 이용해 가기로 결정했습니다. 솔직히 말씀드리면 저는 꽤 까다로운 편이에요. 예전에 하롱에서 서비스 이용을 하면서 몇 번 좋지 않은 경험을 한 적이 있어서 베트남의 서비스에 대해 그다지 좋은 인상을 가지고 있지는 않았어요. 그런데 이번에는 정말 만족스러웠습니다. 저와 아내 모두 모든 면에서 만족스러웠어요.",
     country: "South Korea",
     guest: "Guest from South Korea",
     lang: "ko",
     alt: "Hanoi to Ha Giang private car – Hoang Luxury Travel",
   },
   {
-    title: "Photos to Remember",
-    quote: "My family had a memorable experience at Garrya Mu Cang Chai. The scenery was absolutely beautiful and we would definitely come back again. The car service was excellent as well. Our driver was punctual, polite and very thoughtful. During the journey, he asked if he could take a few photos of our family and of course we said yes. At the end of the trip, we were so surprised to receive lots of lovely photos to keep as memories. It was such a nice touch and we really appreciated it.",
+    title: "Flexible Rest Stops",
+    quote: "My family and I had a really memorable experience at Garrya Mu Cang Chai. The scenery was absolutely beautiful and we would definitely love to come back again. The car service was also very good. Our driver was punctual, polite and thoughtful. There were lots of lovely views along the way, and he was always happy to stop so we could take photos. He told us we could stop wherever we liked, as long as it was a safe and permitted place to pull over. He also helped take some lovely family photos for us to keep as memories. It was a very comfortable and enjoyable journey.",
     country: "United Kingdom",
     guest: "Guest from the United Kingdom",
     alt: "Hanoi to Mu Cang Chai private transfer – Hoang Luxury Travel",
   },
   {
-    title: "Lost Camera, Found",
+    title: "24/7 WhatsApp Support",
     quote: "We had a really great experience! When we arrived back in Hanoi, we realised that we had left our camera at Hotel de la Coupole in Sapa. Hoang Luxury quickly helped us contact the hotel and arranged for a driver to bring the camera back to their office. As our flight was delayed, the Hoang team also helped us find a new flight and took us to the airport free of charge. Great service and we were very happy with everything.",
     country: "France",
     guest: "Guest from France",
     alt: "Representative Office of Hoang Luxury Travel – Hanoi to Sapa Private Transfer",
   },
   {
-    title: "Smoke-Free & Professional",
-    quote: "Hoang Luxury Travel’s service was excellent! Our driver was very professional. He never used his phone while driving and didn’t smoke, which was really important to me because I’m allergic to cigarette smoke. He also recommended some really good local places to eat. After we spent the evening exploring the market, he came back right on time to pick us up, helped us carry our things and drove our group back to the hotel. I’ll definitely choose this service again and highly recommend it to my friends.",
+    title: "Professional Drivers Safety-Focused",
+    quote: "Our group booked a private car to Sapa. We had quite a lot of luggage—six suitcases—and I discussed this with the Hoang Team before the trip. They said it would be fine and assured us there was nothing to worry about. I was genuinely surprised when two vehicles arrived to pick us up. They had arranged an additional support vehicle for our luggage. All of our bags were placed in the second car, leaving the main vehicle extremely spacious and comfortable. I was very impressed by this thoughtful arrangement. The service was flexible, attentive and professional.",
     country: "United States",
     guest: "Guest from the United States",
     alt: "Hanoi to Ninh Binh private transfer – Hoang Luxury Travel",
   },
   {
-    title: "An Extra Car for Luggage",
-    quote: "我们一行人预订了一辆私人包车去沙坝。因为行李比较多，一共有6个行李箱，所以出发前我特意跟 Hoang Team 沟通过这个问题。他们跟我说没问题，让我们完全不用担心。没想到当天来接我们的竟然有两辆车，我当时真的挺惊喜。他们另外安排了一辆车专门帮我们放行李，所有行李都放到了另一辆车上，这样主车里的空间就非常宽敞舒服。这个安排真的很不错，让我印象很深。整体服务非常灵活、细心，也很专业。",
+    title: "Smooth & Comfortable Journey",
+    quote: "Hoang Luxury Travel 的服务真的非常出色！我们的司机非常专业，开车时从不使用手机，也不吸烟。这对我来说非常重要，因为我对烟味过敏。他还热情地为我们推荐了一些很棒的当地餐厅。晚上逛完市场后，他准时回来接我们，帮我们提东西，并把我们一行人安全送回酒店。以后我一定还会选择这项服务，也会推荐给朋友。",
     country: "China",
     guest: "Guest from China",
     lang: "zh",
     alt: "Hanoi to Ha Giang private transfer – Hoang Luxury Travel",
   },
   {
-    title: "Worth the Late-Night Wait",
+    title: "Flexible Departure",
     quote: "It was my first time visiting Vietnam and our flight landed at Noi Bai Airport more than an hour late. It was already close to 1 a.m. We messaged Hoang Luxury to let them know. And then they replied very quickly, telling us not to worry and that the driver would wait for us. We even had some Phở at the airport because one of the airport staff told us it was the best one there. The driver never rushed us and waited patiently. When we finally met him, he helped with our suitcases and took us to a white SUV. We also asked him to take a photo of us as a memory of the trip. I really appreciated how professional and patient the service was.",
     country: "United States",
     guest: "Guest from the United States",
@@ -183,7 +188,16 @@ function CountryFlag({ country }) {
 
 export default function FeedbackPage() {
   const [rating, setRating] = useState(0);
+  const [expandedReviews, setExpandedReviews] = useState([]);
   const pageEntered = usePageEntered();
+
+  const toggleReview = (title) => {
+    setExpandedReviews((current) => (
+      current.includes(title)
+        ? current.filter((item) => item !== title)
+        : [...current, title]
+    ));
+  };
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -201,7 +215,10 @@ export default function FeedbackPage() {
       <Header />
       <main
         className="hlt-feedback-main"
-        style={{ "--feedback-background": `url(${servicesBackgroundUrl})` }}
+        style={{
+          "--feedback-background": `url(${servicesBackgroundUrl})`,
+          "--feedback-mountain-art": `url(${curatedMountainDecorationUrl})`,
+        }}
       >
         <section className="hlt-feedback-trust" aria-labelledby="feedback-title">
           <div className="hlt-container hlt-feedback-trust-inner">
@@ -231,20 +248,35 @@ export default function FeedbackPage() {
             </header>
 
             <div className="hlt-feedback-review-grid">
-              {guestReviews.map((review) => (
-                <article className="hlt-feedback-review-card" key={review.title}>
-                  <img src={review.image} alt={review.alt} loading="lazy" decoding="async" />
-                  <div className="hlt-feedback-review-body">
-                    <h3>{review.title}</h3>
-                    <div className="hlt-feedback-stars" aria-label="5 out of 5 stars">★★★★★</div>
-                    <blockquote lang={review.lang}>{review.quote}</blockquote>
-                    <div className="hlt-feedback-review-author">
-                      <CountryFlag country={review.country} />
-                      <strong>{review.guest}</strong>
+              {guestReviews.map((review) => {
+                const isExpanded = expandedReviews.includes(review.title);
+
+                return (
+                  <article className="hlt-feedback-review-card" key={review.title}>
+                    <img src={review.image} alt={review.alt} loading="lazy" decoding="async" />
+                    <div className="hlt-feedback-review-body">
+                      <h3>{review.title}</h3>
+                      <div className="hlt-feedback-stars" aria-label="5 out of 5 stars">★★★★★</div>
+                      <blockquote className={isExpanded ? "is-expanded" : ""} lang={review.lang}>
+                        {review.quote}
+                      </blockquote>
+                      <button
+                        type="button"
+                        className="hlt-feedback-review-more"
+                        aria-expanded={isExpanded}
+                        onClick={() => toggleReview(review.title)}
+                      >
+                        {isExpanded ? "Read less" : "Read more"}
+                        <span aria-hidden="true">→</span>
+                      </button>
+                      <div className="hlt-feedback-review-author">
+                        <CountryFlag country={review.country} />
+                        <strong>{review.guest}</strong>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

@@ -399,9 +399,12 @@ a.hlt-journey-fact:focus-visible strong {
   gap: clamp(12px, 1.4vw, 18px);
 }
 
-/* Nét dày bo tròn như bộ icon mẫu, màu vàng của trang */
+/* Nét dày bo tròn như bộ icon mẫu, màu vàng của trang.
+   Dùng cho cả ảnh icon tuyến (img) lẫn LineIcon dự phòng (svg). */
 .hlt-journey-point-icon {
   flex: none;
+  display: block;
+  object-fit: contain;
   width: clamp(48px, 4.4vw, 62px);
   height: clamp(48px, 4.4vw, 62px);
   fill: none;

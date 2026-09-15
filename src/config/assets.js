@@ -289,6 +289,19 @@ export const journeyIconImages = [
   journeyTaXuaIconUrl,
 ];
 
+/* Cùng bộ icon, tra theo slug cho trang tuyến /journey/<slug>/ */
+export const journeyIconBySlug = {
+  sapa: journeySaPaIconUrl,
+  "ha-long": journeyHaLongIconUrl,
+  "ninh-binh": journeyNinhBinhIconUrl,
+  "ha-giang": journeyHaGiangIconUrl,
+  "cat-ba": journeyCatBaIconUrl,
+  "cao-bang": journeyCaoBangIconUrl,
+  "mu-cang-chai": journeyMuCangChaiIconUrl,
+  "moc-chau": journeyMocChauIconUrl,
+  "ta-xua": journeyTaXuaIconUrl,
+};
+
 /* Icon dải chỉ số trang Feedback, theo thứ tự feedbackStats */
 export const feedbackStatIcons = [
   feedbackStatLicensedUrl,

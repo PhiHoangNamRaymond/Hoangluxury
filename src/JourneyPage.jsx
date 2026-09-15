@@ -11,6 +11,8 @@ import {
   heroBannerUrl,
   journeyExperienceImages,
   journeyFactIcons,
+  journeyIconBySlug,
+  journeyPickupIconUrl,
 } from "./config/assets.js";
 import {
   journeyExperience,
@@ -332,7 +334,7 @@ export default function JourneyPage({ slug }) {
               <article className="hlt-journey-point">
                 <p className="hlt-journey-point-label">Pick-up in</p>
                 <div className="hlt-journey-point-row">
-                  <LineIcon type="pagoda" className="hlt-journey-point-icon" />
+                  <img className="hlt-journey-point-icon" src={journeyPickupIconUrl} alt="" />
                   <div className="hlt-journey-point-info">
                     <h3>Hanoi / Noi Bai</h3>
                     <small>Hotels, Residences or Noi Bai Airport</small>
@@ -351,7 +353,12 @@ export default function JourneyPage({ slug }) {
               <article className="hlt-journey-point">
                 <p className="hlt-journey-point-label">Drop-off in</p>
                 <div className="hlt-journey-point-row">
-                  <LineIcon type={journey.badgeIcon} className="hlt-journey-point-icon" />
+                  {/* Icon riêng từng tuyến (cùng bộ với thẻ /journeys/); thiếu thì dùng icon vẽ */}
+                  {journeyIconBySlug[slug] ? (
+                    <img className="hlt-journey-point-icon" src={journeyIconBySlug[slug]} alt="" />
+                  ) : (
+                    <LineIcon type={journey.badgeIcon} className="hlt-journey-point-icon" />
+                  )}
                   <div className="hlt-journey-point-info">
                     <h3>{journey.name}</h3>
                     <small>{journey.dropoffNote}</small>

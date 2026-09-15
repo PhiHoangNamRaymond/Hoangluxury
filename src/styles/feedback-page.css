@@ -33,15 +33,22 @@
   content: "";
   position: absolute;
   z-index: -1;
-  left: 50%;
-  width: min(1120px, calc(100% - 48px));
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(190, 139, 48, .58), transparent);
-  transform: translateX(-50%);
 }
 
-.hlt-feedback-trust::before { content: none; }
-.hlt-feedback-trust::after { content: none; }
+/* Nét sơn thủy dùng chung ngôn ngữ hình ảnh với khu vực bản đồ ở Home.
+   Lớp xám rất nhẹ để tạo chiều sâu nhưng không cạnh tranh với tiêu đề và số liệu. */
+.hlt-feedback-trust::before {
+  inset: 92px 0 0;
+  background: var(--feedback-mountain-art) center 18px / 100% 100% no-repeat;
+  filter: none;
+  opacity: .27;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .25) 14%, #000 34%, #000 72%, rgba(0, 0, 0, .45) 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .25) 14%, #000 34%, #000 72%, rgba(0, 0, 0, .45) 88%, transparent 100%);
+}
+
+.hlt-feedback-trust::after {
+  content: none;
+}
 
 .hlt-feedback-trust-inner {
   width: min(1000px, calc(100% - 48px));
@@ -52,9 +59,9 @@
   margin: 0;
   color: #1f2826;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(32px, 3.4vw, 48px);
+  font-size: clamp(26px, 2.5vw, 36px);
   font-weight: 600;
-  line-height: .94;
+  line-height: 1;
   letter-spacing: .01em;
   text-transform: uppercase;
 }
@@ -140,7 +147,7 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: min(1120px, calc(100% - 48px));
+  width: min(1760px, calc(100% - clamp(28px, 6.9vw, 88px)));
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(190, 139, 48, .55), transparent);
   transform: translateX(-50%);
@@ -158,7 +165,7 @@
   margin: 0;
   color: #202927;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: clamp(34px, 3.6vw, 50px);
+  font-size: clamp(26px, 2.6vw, 38px);
   font-weight: 600;
   line-height: 1;
   letter-spacing: .015em;
@@ -174,20 +181,21 @@
 
 .hlt-feedback-review-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 24px 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
   margin-top: clamp(38px, 4vw, 56px);
 }
 
 .hlt-feedback-review-card {
   min-width: 0;
+  min-height: 228px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   overflow: hidden;
-  border: 1px solid rgba(163, 125, 63, .32);
-  border-radius: 2px;
-  background: rgba(255, 254, 250, .94);
-  box-shadow: 0 5px 14px rgba(78, 55, 22, .08);
+  border: 1px solid rgba(163, 125, 63, .28);
+  border-radius: 4px;
+  background: rgba(255, 254, 250, .9);
+  box-shadow: 0 3px 10px rgba(78, 55, 22, .07);
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 
@@ -198,49 +206,92 @@
 }
 
 .hlt-feedback-review-card > img {
-  width: 100%;
-  aspect-ratio: 1.6 / 1;
+  width: 38%;
+  flex: 0 0 38%;
   display: block;
   object-fit: cover;
   object-position: center;
-  border-bottom: 1px solid rgba(165, 119, 44, .32);
+  border-right: 1px solid rgba(165, 119, 44, .28);
 }
 
 .hlt-feedback-review-body {
-  min-height: 270px;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 14px 12px 10px;
-  text-align: center;
+  align-items: flex-start;
+  padding: 12px 14px 10px;
+  text-align: left;
 }
 
 .hlt-feedback-review-body h3 {
   margin: 0;
   color: #9b681d;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 19px;
+  font-size: clamp(15px, 1.25vw, 18px);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: .02em;
   text-transform: uppercase;
 }
 
 .hlt-feedback-stars {
-  margin-top: 7px;
+  margin-top: 4px;
   color: #d79b26;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1;
   letter-spacing: .11em;
 }
 
 .hlt-feedback-review-card blockquote {
-  margin: 16px 1px 14px;
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 8px 0 4px;
   color: #282824;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 15.5px;
+  font-size: clamp(13.5px, 1.05vw, 15px);
   font-style: normal;
-  line-height: 1.32;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.hlt-feedback-review-card blockquote.is-expanded {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+
+.hlt-feedback-review-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: auto 0 4px;
+  padding: 0;
+  border: 0;
+  color: #98651e;
+  background: transparent;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.hlt-feedback-review-more span {
+  font-size: 15px;
+  transition: transform .2s ease;
+}
+
+.hlt-feedback-review-more:hover span,
+.hlt-feedback-review-more:focus-visible span {
+  transform: translateX(3px);
+}
+
+.hlt-feedback-review-more:focus-visible {
+  outline: 1px solid #b9872f;
+  outline-offset: 3px;
 }
 
 /* Cờ + "Guest from …" (không đăng tên khách và ngày) */
@@ -248,18 +299,18 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 9px;
-  border-top: 1px solid rgba(187, 132, 41, .7);
+  gap: 7px;
+  width: 100%;
+  margin-top: 0;
+  padding-top: 4px;
   color: #343530;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   text-align: left;
 }
 
 .hlt-feedback-review-flag {
-  width: 27px;
-  height: 18px;
+  width: 22px;
+  height: 15px;
   display: block;
   flex: 0 0 auto;
   border: 1px solid rgba(31, 31, 28, .18);
@@ -271,7 +322,7 @@
   min-width: 0;
   color: #252824;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 700;
   line-height: 1.2;
   text-transform: uppercase;
@@ -632,7 +683,12 @@
     padding: 110px 0 12px;
   }
 
-  .hlt-feedback-trust::before { top: 108px; }
+  .hlt-feedback-trust::before {
+    inset: 92px -42% 0;
+    background-size: 100% 100%;
+    background-position: center 12px;
+    opacity: .27;
+  }
   .hlt-feedback-trust::after { content: none; }
 
   .hlt-feedback-trust-inner {
@@ -640,8 +696,8 @@
   }
 
   .hlt-feedback-trust h1 {
-    font-size: clamp(28px, 8.5vw, 38px);
-    line-height: .98;
+    font-size: clamp(22px, 6.4vw, 28px);
+    line-height: 1.05;
   }
 
   .hlt-feedback-trust > .hlt-container > p {
@@ -697,7 +753,7 @@
   }
 
   .hlt-feedback-reviews h2 {
-    font-size: 32px;
+    font-size: clamp(22px, 6.4vw, 26px);
   }
 
   .hlt-feedback-reviews header p {
@@ -714,12 +770,14 @@
   }
 
   .hlt-feedback-review-card > img {
-    aspect-ratio: 16 / 9;
+    width: 38%;
+    flex-basis: 38%;
+    aspect-ratio: auto;
   }
 
   .hlt-feedback-review-body {
     min-height: 0;
-    padding: 15px 16px 18px;
+    padding: 12px 12px 10px;
   }
 
   .hlt-feedback-review-card blockquote {
