@@ -10,6 +10,7 @@ import {
   fleetImages,
   heroBannerUrl,
   journeyExperienceImages,
+  servicesBackgroundUrl,
   journeyFactIcons,
   journeyIconBySlug,
   journeyPickupIconUrl,
@@ -469,7 +470,10 @@ export default function JourneyPage({ slug }) {
         </section>
 
         {/* Theo mẫu: nền xanh đậm, 4 thẻ ảnh + dải số liệu dùng chung mọi tuyến */}
-        <section className="hlt-journey-section hlt-journey-experience">
+        <section
+          className="hlt-journey-section hlt-journey-experience"
+          style={{ "--journey-experience-bg": `url(${servicesBackgroundUrl})` }}
+        >
           <div className="hlt-container">
             <div className="hlt-journey-heading hlt-journey-heading-lined is-light">
               <h2>Journey Experience</h2>
@@ -556,7 +560,7 @@ export default function JourneyPage({ slug }) {
 
       </main>
 
-      <JourneyCallToAction />
+      <JourneyCallToAction variant="route" />
       <ExperienceSlider />
       <Footer />
     </div>

@@ -1927,3 +1927,658 @@ a.hlt-journey-fact:focus-visible strong {
     padding: 0 12px 12px;
   }
 }
+
+/* ==========================================================================
+   "Ready to start your journey?" bản trang tuyến (variant="route", PC).
+   Nền núi xanh phủ lớp tối, tiêu đề vàng căn giữa, 3 bước 01 → 02 → 03,
+   2 nút WhatsApp (vàng) / Request Availability (viền vàng).
+   Selector dài để đè rule dùng chung của .hlt-journey-cta /
+   .hlt-booking-showcase-footer (nền phẳng, container lưới 2 cột).
+   Ở ≤960px khối CTA vẫn bị ẩn như cũ (booking-process.css).
+   ========================================================================== */
+section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 0;
+  border-top: 1px solid rgba(197, 161, 90, .48);
+  background-color: #0b1d17;
+  background-image:
+    linear-gradient(180deg, rgba(8, 40, 27, .7) 0%, rgba(10, 48, 32, .52) 45%, rgba(6, 30, 20, .84) 100%),
+    radial-gradient(ellipse at 50% 40%, rgba(12, 60, 36, .18), rgba(4, 22, 14, .55) 75%),
+    var(--journey-cta-bg);
+  background-position: center, center, center 30%;
+  background-size: cover, cover, cover;
+  background-repeat: no-repeat;
+}
+
+.hlt-journey-cta-route > .hlt-container {
+  display: block;
+  min-height: 0;
+  text-align: center;
+}
+
+.hlt-journey-cta-route-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: clamp(30px, 2.6vw, 40px) 0 clamp(30px, 2.6vw, 38px);
+}
+
+.hlt-journey-cta-route .hlt-journey-cta-route-head h3 {
+  margin: 0 0 8px;
+  color: #e3c06a;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 2.3vw, 36px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .6);
+}
+
+.hlt-journey-cta-route .hlt-journey-cta-route-head p {
+  max-width: none;
+  margin: 0;
+  color: rgba(255, 255, 255, .9);
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.5;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .7);
+}
+
+/* Vạch mảnh ngăn tiêu đề với 3 bước */
+.hlt-journey-cta-steps {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 2.6vw, 44px);
+  margin: clamp(20px, 1.8vw, 26px) 0 0;
+  padding: clamp(22px, 2vw, 30px) 0 0;
+  list-style: none;
+}
+
+.hlt-journey-cta-steps::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(760px, 80%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(197, 161, 90, .55), transparent);
+  transform: translateX(-50%);
+}
+
+.hlt-journey-cta-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
+
+.hlt-journey-cta-step-num {
+  color: #e3c06a;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 3.1vw, 48px);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.hlt-journey-cta-step-text strong,
+.hlt-journey-cta-step-text small {
+  display: block;
+  white-space: nowrap;
+}
+
+.hlt-journey-cta-step-text strong {
+  margin-bottom: 6px;
+  color: #fff;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(15px, 1.2vw, 18px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.hlt-journey-cta-step-text small {
+  color: rgba(255, 255, 255, .85);
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(12.5px, 1vw, 14px);
+  line-height: 1.3;
+}
+
+.hlt-journey-cta-arrow {
+  display: flex;
+  align-items: center;
+}
+
+.hlt-journey-cta-arrow svg {
+  width: 30px;
+  height: 12px;
+  fill: none;
+  stroke: #e3c06a;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-cta-route-actions {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-top: clamp(24px, 2.2vw, 32px);
+}
+
+.hlt-journey-cta-route .hlt-journey-cta-route-actions .hlt-btn {
+  min-width: clamp(250px, 21vw, 300px);
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 6px;
+  font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-size: clamp(15px, 1.2vw, 18px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.hlt-journey-cta-route .hlt-journey-cta-route-actions .hlt-btn-gold {
+  border: 1px solid #e8c874;
+  color: #1a140a !important;
+  background: linear-gradient(100deg, #b88a38 0%, #dcb865 45%, #f3dc93 62%, #d5ae55 82%, #b88a38 100%);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+.hlt-journey-cta-route .hlt-journey-cta-route-outline {
+  border: 1.5px solid #d4af5f;
+  color: #fff !important;
+  background: rgba(5, 20, 15, .55);
+}
+
+.hlt-journey-cta-route .hlt-journey-cta-route-outline:hover {
+  background: rgba(197, 161, 90, .16);
+}
+
+.hlt-journey-cta-route-wa {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.hlt-journey-cta-route-wa path:last-child {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Màn PC hẹp: 3 bước không đủ chỗ trên 1 hàng -> thu khe, cho phụ đề xuống dòng */
+@media (max-width: 1180px) {
+  .hlt-journey-cta-steps {
+    gap: 16px;
+  }
+
+  .hlt-journey-cta-step {
+    gap: 10px;
+  }
+
+  .hlt-journey-cta-step-text small {
+    white-space: normal;
+  }
+}
+
+/* Nhãn ngắn của bước và dòng thương hiệu chỉ dùng cho mobile */
+.hlt-journey-cta-step-short,
+.hlt-journey-cta-route-brand {
+  display: none;
+}
+
+/* ==========================================================================
+   "Ready to start your journey?" trang tuyến — bản mobile (theo mẫu).
+   Khối CTA dùng chung đang bị ẩn ở ≤960px bằng !important (booking-process.css,
+   booking-journey-refinements.css) và đổi nền kem; bản route hiện lại với
+   nền núi xanh: tiêu đề 2 dòng, 3 bước dạng số trên / nhãn ngắn dưới,
+   2 nút rộng hết khung, dòng logo | khẩu hiệu ở cuối.
+   ========================================================================== */
+@media (max-width: 960px) {
+  section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
+    display: block !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: 1px solid rgba(197, 161, 90, .48) !important;
+    border-bottom: 0 !important;
+    background-color: #0b1d17 !important;
+    background-image:
+      linear-gradient(180deg, rgba(8, 40, 27, .78) 0%, rgba(10, 48, 32, .66) 40%, rgba(6, 30, 20, .9) 100%),
+      var(--journey-cta-bg) !important;
+    background-position: center, 42% center !important;
+    background-size: cover, cover !important;
+    background-repeat: no-repeat !important;
+  }
+
+  .hlt-journey-cta-route-inner {
+    max-width: 440px;
+    padding: 34px 0 26px;
+  }
+
+  .hlt-journey-cta-route .hlt-journey-cta-route-head h3 {
+    max-width: 320px;
+    margin: 0 auto 10px;
+    font-size: clamp(28px, 8.6vw, 36px);
+    line-height: 1.05;
+    letter-spacing: .04em;
+  }
+
+  .hlt-journey-cta-route .hlt-journey-cta-route-head p {
+    max-width: 330px;
+    margin: 0 auto;
+    font-size: 14.5px;
+    line-height: 1.4;
+  }
+
+  /* 3 bước: số vàng trên, nhãn ngắn dưới, mũi tên nhỏ ở giữa */
+  .hlt-journey-cta-steps {
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2px;
+    margin-top: 20px;
+    padding-top: 0;
+  }
+
+  .hlt-journey-cta-steps::before {
+    content: none;
+  }
+
+  .hlt-journey-cta-step {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .hlt-journey-cta-step-num {
+    font-size: clamp(34px, 10vw, 42px);
+  }
+
+  .hlt-journey-cta-step-text strong,
+  .hlt-journey-cta-step-text small {
+    display: none;
+  }
+
+  .hlt-journey-cta-step-short {
+    display: block;
+    color: #fff;
+    font-family: "Lato", Arial, Helvetica, sans-serif !important;
+    font-size: clamp(10.5px, 3.1vw, 12.5px);
+    font-style: normal;
+    line-height: 1.25;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .hlt-journey-cta-arrow {
+    flex: none;
+    padding-top: clamp(12px, 3.8vw, 16px);
+  }
+
+  .hlt-journey-cta-arrow svg {
+    width: clamp(16px, 5vw, 22px);
+    height: 10px;
+  }
+
+  .hlt-journey-cta-route-actions {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .hlt-journey-cta-route .hlt-journey-cta-route-actions .hlt-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    font-size: clamp(16px, 4.8vw, 19px);
+  }
+
+  /* Dòng thương hiệu: logo + HOANG / LUXURY TRAVEL | khẩu hiệu */
+  .hlt-journey-cta-route-brand {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    text-align: left;
+  }
+
+  .hlt-journey-cta-route-brand img {
+    width: 46px;
+    height: 46px;
+    display: block;
+    object-fit: contain;
+  }
+
+  .hlt-journey-cta-route-brand-name strong,
+  .hlt-journey-cta-route-brand-name span {
+    display: block;
+    color: #e3c06a;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .hlt-journey-cta-route-brand-name strong {
+    font-size: 21px;
+    letter-spacing: .03em;
+  }
+
+  .hlt-journey-cta-route-brand-name span {
+    margin-top: 4px;
+    font-size: 11.5px;
+    letter-spacing: .06em;
+  }
+
+  .hlt-journey-cta-route-brand p {
+    margin: 0 0 0 6px;
+    padding-left: 14px;
+    border-left: 1px solid rgba(197, 161, 90, .6);
+    color: rgba(255, 255, 255, .9);
+    font-family: "Lato", Arial, Helvetica, sans-serif !important;
+    font-size: clamp(11.5px, 3.3vw, 13px);
+    line-height: 1.4;
+  }
+}
+
+/* Tinh chỉnh mobile: bước rộng theo nội dung (nhãn 1 dòng từ 360px như mẫu),
+   dòng thương hiệu gọn hơn để khẩu hiệu còn 2 dòng. */
+@media (max-width: 960px) {
+  .hlt-journey-cta-step {
+    flex: 0 1 auto;
+  }
+
+  .hlt-journey-cta-route-brand {
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .hlt-journey-cta-route-brand img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hlt-journey-cta-route-brand-name strong {
+    font-size: 19px;
+  }
+
+  .hlt-journey-cta-route-brand-name span {
+    font-size: 10.5px;
+  }
+
+  .hlt-journey-cta-route-brand p {
+    margin-left: 2px;
+    padding-left: 10px;
+    font-size: clamp(11px, 3.1vw, 13px);
+  }
+}
+
+@media (min-width: 360px) and (max-width: 960px) {
+  .hlt-journey-cta-step-short {
+    white-space: nowrap;
+  }
+}
+
+
+/* ==========================================================================
+   Trang tuyến: bớt khoảng trống, tăng cỡ chi tiết (icon, chữ) cho đỡ thưa.
+   Đặt cuối file để đè padding / cỡ icon của các khối phía trên.
+   ========================================================================== */
+@media (min-width: 961px) {
+  /* Khoảng cách giữa các section: ~82px -> ~56px */
+  .hlt-journey-section {
+    padding: clamp(40px, 3.6vw, 56px) 0;
+  }
+
+  .hlt-journey-vehicles,
+  .hlt-journey-options {
+    padding-top: 0;
+  }
+
+  .hlt-journey-transit-section {
+    padding: clamp(32px, 3vw, 44px) 0 clamp(44px, 3.9vw, 56px);
+  }
+
+  .hlt-journey-heading-lined {
+    margin-bottom: clamp(20px, 1.9vw, 28px);
+  }
+
+  .hlt-journey-transit {
+    margin-bottom: clamp(32px, 3vw, 44px);
+  }
+
+  .hlt-jfaq-section {
+    margin-top: clamp(32px, 3vw, 44px);
+  }
+
+  /* Điểm đón / trả + 4 điểm mạnh */
+  .hlt-journey-point-icon {
+    width: clamp(56px, 5vw, 72px);
+    height: clamp(56px, 5vw, 72px);
+  }
+
+  .hlt-journey-point-info h3 {
+    font-size: clamp(20px, 1.8vw, 25px);
+  }
+
+  .hlt-journey-point-info small {
+    font-size: clamp(13.5px, 1.1vw, 15.5px);
+  }
+
+  .hlt-journey-feature-icon {
+    width: clamp(50px, 4.4vw, 64px);
+    height: clamp(50px, 4.4vw, 64px);
+  }
+
+  .hlt-journey-feature-col h3 {
+    font-size: clamp(15px, 1.25vw, 18px);
+  }
+
+  .hlt-journey-feature-col p {
+    max-width: 230px;
+    font-size: clamp(13.5px, 1.1vw, 15.5px);
+  }
+
+  /* Đội xe */
+  .hlt-journey-vehicle-icon {
+    width: clamp(32px, 2.8vw, 40px);
+    height: clamp(32px, 2.8vw, 40px);
+  }
+
+  .hlt-journey-vehicle-spec strong {
+    font-size: clamp(14px, 1.2vw, 17px);
+  }
+
+  .hlt-journey-vehicle-spec small {
+    font-size: clamp(13px, 1.05vw, 15px);
+  }
+
+  .hlt-journey-vehicle-body h3 {
+    font-size: clamp(20px, 1.9vw, 27px);
+  }
+
+  .hlt-journey-vehicle-note {
+    padding: 11px clamp(22px, 2.2vw, 32px);
+    font-size: clamp(16px, 1.3vw, 19px);
+  }
+
+  .hlt-journey-vehicle-note-icon {
+    width: clamp(34px, 3.1vw, 46px);
+    height: clamp(34px, 3.1vw, 46px);
+  }
+
+  /* Chọn hành trình */
+  .hlt-journey-option-icon {
+    width: clamp(48px, 4.3vw, 62px);
+    height: clamp(48px, 4.3vw, 62px);
+  }
+
+  .hlt-journey-option h3 {
+    font-size: clamp(17px, 1.5vw, 22px);
+  }
+
+  .hlt-journey-option p {
+    font-size: clamp(14px, 1.15vw, 16.5px);
+  }
+
+  /* Journey Experience */
+  .hlt-journey-experience-body h3 {
+    font-size: clamp(16px, 1.4vw, 20px);
+  }
+
+  .hlt-journey-experience-body p {
+    font-size: clamp(14px, 1.1vw, 16px);
+  }
+
+  .hlt-journey-xstat-icon {
+    width: clamp(44px, 4vw, 58px);
+    height: clamp(44px, 4vw, 58px);
+  }
+
+  .hlt-journey-xstat strong {
+    font-size: clamp(26px, 2.6vw, 38px);
+  }
+
+  .hlt-journey-xstat span {
+    font-size: clamp(13.5px, 1.1vw, 16px);
+  }
+
+  /* Service Highlights */
+  .hlt-journey-highlight-icon {
+    width: clamp(44px, 4vw, 58px);
+    height: clamp(44px, 4vw, 58px);
+  }
+
+  .hlt-journey-highlight span {
+    font-size: clamp(13.5px, 1.15vw, 16.5px);
+  }
+}
+
+@media (max-width: 600px) {
+  /* Khoảng cách giữa các section: 48px -> 36px */
+  .hlt-journey-section {
+    padding: 36px 0;
+  }
+
+  .hlt-journey-vehicles,
+  .hlt-journey-options {
+    padding-top: 0;
+  }
+
+  .hlt-journey-transit-section {
+    padding: 28px 0 36px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-section {
+    margin-top: 26px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-feature-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .hlt-journey-options .hlt-journey-option-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .hlt-journey-experience .hlt-journey-xstat-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hlt-journey-details .hlt-journey-highlight-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hlt-journey-details .hlt-journey-highlight span {
+    font-size: clamp(11.5px, 3.4vw, 13.5px);
+  }
+}
+
+/* Chữ thẻ đón / trả to hơn nên nới khung thẻ (360 -> 430px) cho mô tả
+   nằm 1 dòng, dải giữa (xe + mũi tên) giữ nguyên. */
+@media (min-width: 1181px) {
+  .hlt-journey-transit {
+    grid-template-columns: minmax(0, 430px) minmax(150px, 300px) minmax(0, 430px);
+  }
+}
+
+
+/* ==========================================================================
+   Banner trang tuyến PC: chữ + nút to hơn để lấp khoảng trống trên / dưới
+   (trước: khối chữ cao ~335px trong ảnh 490–540px, trống ~80–100px mỗi bên).
+   Giữ nguyên ảnh để không cắt chiếc xe.
+   ========================================================================== */
+@media (min-width: 861px) {
+  .hlt-journey-hero-content {
+    max-width: min(660px, 56vw);
+  }
+
+  .hlt-journey-eyebrow {
+    margin-bottom: 12px;
+    font-size: clamp(14px, 1.2vw, 20px);
+  }
+
+  .hlt-journey-hero h1 {
+    margin-bottom: 18px;
+    font-size: clamp(56px, 6vw, 96px);
+  }
+
+  .hlt-journey-lead {
+    max-width: 480px;
+    margin-bottom: 24px;
+    font-size: clamp(15px, 1.25vw, 19px);
+    line-height: 1.5;
+  }
+
+  .hlt-journey-hero .hlt-journey-actions {
+    width: min(100%, 620px);
+    gap: 14px;
+  }
+
+  .hlt-journey-hero .hlt-journey-actions .hlt-btn {
+    min-height: clamp(50px, 3.9vw, 60px);
+    font-size: clamp(14px, 1.15vw, 18px);
+  }
+}
+
+/* Tên tuyến dài (Mu Cang Chai) không lấn sang thân xe: cột chữ tối đa 44vw,
+   tên co theo cột (container query ở .hlt-journey-hero-content). */
+@media (min-width: 861px) {
+  .hlt-journey-hero-content {
+    max-width: min(620px, 44vw);
+  }
+}
+
+/* Journey Experience dùng cùng nền với section "Private Car Transfer" trang Home
+   (ảnh services-background + lớp phủ rất nhẹ, như services-refinements.css). */
+.hlt-journey-experience {
+  background:
+    linear-gradient(180deg, rgba(13, 23, 21, .08), rgba(19, 33, 29, .14)),
+    var(--journey-experience-bg, var(--jr-facts-bg));
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 600px) {
+  .hlt-journey-experience {
+    background-position: center top;
+  }
+}

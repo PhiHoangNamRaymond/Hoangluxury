@@ -93,15 +93,24 @@ function FeedbackFormOrnament() {
 }
 
 function FeedbackFrameCorner({ position }) {
+  // Hoạ tiết góc khung (vẽ cho góc trên-trái, các góc khác xoay trong CSS).
+  // Hai đường viền do chính form vẽ (viền 1px + ::before inset 10px), SVG
+  // chỉ vẽ hoạ tiết, gốc toạ độ = mép ngoài viền, tỷ lệ 1:1 (viền trong ở 11.5,
+  // nên cả cụm dịch 1px theo đường chéo).
+  // Một cụm liền khối: 2 vòng xoắn nhỏ nằm trong khe giữa 2 viền, đuôi chạy
+  // nhập vào viền trong; vòng tròn nhỏ ở góc ngoài; lá nhỏ chĩa vào trong.
   return (
     <svg
       className={`hlt-feedback-frame-corner is-${position}`}
-      viewBox="0 0 48 48"
+      viewBox="0 0 32 32"
       aria-hidden="true"
     >
-      <path d="M47 5H20L15 1l-5 4H1v9l4 5v28" />
-      <path d="M1 9h8l6 6 6-6h12M9 1v8l6 6-6 6v12" />
-      <path d="m4 4 7 7m-7 3 10-10M15 1v8M1 15h8" />
+      <g transform="translate(1 1)">
+      <path d="M30 10.5H18.5c-4.3 0-7.3-2.6-7.3-5.6 0-2.3 1.7-3.9 3.8-3.9 1.8 0 3.1 1.3 3.1 2.8" />
+      <path d="M10.5 30V18.5c0-4.3-2.6-7.3-5.6-7.3-2.3 0-3.9 1.7-3.9 3.8 0 1.8 1.3 3.1 2.8 3.1" />
+      <circle cx="5.2" cy="5.2" r="2" />
+      <path d="M10.5 10.5c4.2.2 7.4 2.8 8.6 8.6-5.8-1.2-8.4-4.4-8.6-8.6Z" />
+      </g>
     </svg>
   );
 }
@@ -288,83 +297,91 @@ export default function FeedbackPage() {
             <FeedbackFrameCorner position="bottom-right" />
             <FeedbackFrameCorner position="bottom-left" />
 
-            <header>
-              <FeedbackFormOrnament />
-              <h2 id="feedback-form-title">Every Experience Matters to Us</h2>
-              <p>
-               We want every journey with Hoang Luxury Travel to be a comfortable and memorable experience. Your feedback helps us understand what we do well and where we can improve. Every comment is carefully reviewed by our team so we can continue improving our service.
-              </p>
-            </header>
+            <div className="hlt-feedback-form-layout">
+              <header className="hlt-feedback-form-intro">
+                <FeedbackFormOrnament />
+                <p className="hlt-feedback-form-kicker">Your Feedback Inspires Us</p>
+                <h2 id="feedback-form-title">
+                  <span>Every Experience</span>
+                  <span>Matters to Us</span>
+                </h2>
+                <p className="hlt-feedback-form-copy">
+                  We want every journey with Hoang Luxury Travel to be a memorable experience. Your feedback helps us understand what we do well and where we can improve.
+                </p>
+              </header>
 
-            <div className="hlt-feedback-form-fields">
-              <label className="hlt-feedback-booking-id">
-                <span>Booking ID</span>
-                <span className="hlt-feedback-form-control">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="4" y="7" width="16" height="14" rx="2" />
-                    <path d="M9 7V4h6v3M8 11h8M8 11v6M16 11v6" />
-                  </svg>
-                  <input
-                    required
-                    name="bookingId"
-                    placeholder="Enter your Booking ID — e.g. HLT-120826-RSKS001-001"
-                    autoComplete="off"
-                    maxLength="80"
-                  />
-                </span>
-              </label>
-
-              <fieldset className="hlt-feedback-rating">
-                <legend>How Was Your Experience</legend>
-                <div aria-label="Choose a rating from 1 to 5 stars">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <label
-                      className={value <= rating ? "is-selected" : ""}
-                      key={value}
-                      title={`${value} ${value === 1 ? "star" : "stars"}`}
-                    >
+              <div className="hlt-feedback-form-panel">
+                <div className="hlt-feedback-form-fields">
+                  <label className="hlt-feedback-booking-id">
+                    <span>Booking ID</span>
+                    <span className="hlt-feedback-form-control">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="7" width="16" height="14" rx="2" />
+                        <path d="M9 7V4h6v3M8 11h8M8 11v6M16 11v6" />
+                      </svg>
                       <input
                         required
-                        type="radio"
-                        name="rating"
-                        value={value}
-                        checked={rating === value}
-                        onChange={() => setRating(value)}
+                        name="bookingId"
+                        placeholder="Enter your Booking ID — e.g. HLT-120826-RSKS001-001"
+                        autoComplete="off"
+                        maxLength="80"
                       />
-                      <svg viewBox="0 0 48 48" aria-hidden="true">
-                        <path d="m24 4.5 5.9 12 13.2 1.9-9.5 9.3 2.2 13.1L24 34.6l-11.8 6.2 2.2-13.1-9.5-9.3 13.2-1.9L24 4.5Z" />
+                    </span>
+                  </label>
+
+                  <div className="hlt-feedback-rating" role="group" aria-labelledby="feedback-rating-label">
+                    <span id="feedback-rating-label">How Was Your Experience?</span>
+                    <div aria-label="Choose a rating from 1 to 5 stars">
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <label
+                          className={value <= rating ? "is-selected" : ""}
+                          key={value}
+                          title={`${value} ${value === 1 ? "star" : "stars"}`}
+                        >
+                          <input
+                            required
+                            type="radio"
+                            name="rating"
+                            value={value}
+                            checked={rating === value}
+                            onChange={() => setRating(value)}
+                          />
+                          <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="m24 4.5 5.9 12 13.2 1.9-9.5 9.3 2.2 13.1L24 34.6l-11.8 6.2 2.2-13.1-9.5-9.3 13.2-1.9L24 4.5Z" />
+                          </svg>
+                          <span className="hlt-sr-only">{value} out of 5 stars</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <label className="hlt-feedback-experience">
+                    <span>Tell Us About Your Experience</span>
+                    <span className="hlt-feedback-form-control is-textarea">
+                      <textarea
+                        required
+                        name="experience"
+                        placeholder="Please share your experience, including anything you particularly enjoyed or anything we could improve..."
+                        maxLength="5000"
+                      />
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 20h4L20 8l-4-4L4 16v4ZM14 6l4 4" />
                       </svg>
-                      <span className="hlt-sr-only">{value} out of 5 stars</span>
-                    </label>
-                  ))}
+                    </span>
+                  </label>
                 </div>
-              </fieldset>
 
-              <label className="hlt-feedback-experience">
-                <span>Tell Us About Your Experience</span>
-                <span className="hlt-feedback-form-control is-textarea">
-                  <textarea
-                    required
-                    name="experience"
-                    placeholder="Please share your experience, including anything you particularly enjoyed or anything we could improve..."
-                    maxLength="5000"
-                  />
+                <button type="submit">Send Feedback</button>
+
+                <p className="hlt-feedback-private">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 20h4L20 8l-4-4L4 16v4ZM14 6l4 4" />
+                    <rect x="5" y="10" width="14" height="11" rx="2" />
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
                   </svg>
-                </span>
-              </label>
+                  Your feedback will be reviewed privately by the Hoang Luxury Travel management team.
+                </p>
+              </div>
             </div>
-
-            <button type="submit">Send Feedback</button>
-
-            <p className="hlt-feedback-private">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="5" y="10" width="14" height="11" rx="2" />
-                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-              </svg>
-              Your feedback will be reviewed privately by the Hoang Luxury Travel management team.
-            </p>
           </form>
         </section>
       </main>

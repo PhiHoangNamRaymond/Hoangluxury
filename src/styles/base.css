@@ -3,6 +3,52 @@
    Paste into WordPress Custom HTML
 ================================ */
 
+/* Dấu gạch nối "-" của font Cormorant là nét xiên, vuốt nhọn nên trông như
+   dấu chéo ("HLT-120826", "5-6 Hours", "Door-to-Door"). Khai báo thêm một
+   face cùng tên "Cormorant" chỉ phủ U+002D, lấy nét ngang thẳng từ font serif
+   hệ thống; mọi chữ khác vẫn là Cormorant của Google Fonts. Face khai báo sau
+   được ưu tiên với ký tự trùng dải, và CSS này nạp sau link Google Fonts.
+   Gạch ngang dài "–" "—" của Cormorant vốn thẳng nên giữ nguyên.
+   QUAN TRỌNG: khai đúng 4 độ đậm Google đang tải (400/500/600/700), không
+   dùng dải "100 900". Với dải rộng, chữ đậm 800/900 (menu header, nút
+   WhatsApp) khớp đúng face này thay vì Cormorant 700, mà face chỉ có dấu "-"
+   nên mọi chữ khác rơi xuống font dự phòng Georgia đậm -> header dày hẳn. */
+@font-face {
+  font-family: "Cormorant";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Noto Serif"), local("NotoSerif-Regular"), local("Georgia");
+  unicode-range: U+002D;
+}
+
+@font-face {
+  font-family: "Cormorant";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Noto Serif"), local("NotoSerif-Regular"), local("Georgia");
+  unicode-range: U+002D;
+}
+
+@font-face {
+  font-family: "Cormorant";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Noto Serif"), local("NotoSerif-Regular"), local("Georgia");
+  unicode-range: U+002D;
+}
+
+@font-face {
+  font-family: "Cormorant";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Noto Serif"), local("NotoSerif-Regular"), local("Georgia");
+  unicode-range: U+002D;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 88px;

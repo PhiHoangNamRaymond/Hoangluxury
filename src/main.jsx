@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import BookingPage from "./BookingPage.jsx";
 import CatalogPage from "./CatalogPage.jsx";
 import CruisesPage from "./CruisesPage.jsx";
+import AboutPage from "./AboutPage.jsx";
 import FeedbackPage from "./FeedbackPage.jsx";
 import JourneyPage from "./JourneyPage.jsx";
 import JourneysPage from "./JourneysPage.jsx";
@@ -12,6 +13,7 @@ import "./styles/index.css";
 
 const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
 const pages = {
+  "/about": AboutPage,
   "/booking": BookingPage,
   "/catalog": CatalogPage,
   "/cruises": CruisesPage,
@@ -32,6 +34,7 @@ const RootPage = journey
 // Catalog và Booking có animation riêng. Mọi trang còn lại dùng transition
 // chung trong page-transition.css; toggle giúp trạng thái luôn đúng cả khi HMR.
 const pagesWithOwnTransition = new Set([
+  "/about",
   "/booking",
   "/catalog",
   "/cruises",
