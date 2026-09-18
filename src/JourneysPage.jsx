@@ -145,63 +145,6 @@ function CompactIcon({ type }) {
   );
 }
 
-const guarantees = [
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <path d="m9 12 2 2 4-4" />
-      </svg>
-    ),
-    title: "Private & Safe",
-    desc: "Professional drivers and reliable journey",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-      </svg>
-    ),
-    title: "Flexible Schedule",
-    desc: "Depart anytime that suits your plans",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.6 5H8.4a2 2 0 0 0-1.9 1.3L5 10 3 8" />
-        <rect x="3" y="10" width="18" height="8" rx="2" />
-        <path d="M7 14h.01M17 14h.01M5 18v2M19 18v2" />
-      </svg>
-    ),
-    title: "Door-to-Door",
-    desc: "Pick-up and drop-off at your exact location",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="16" y1="13" x2="8" y2="13" />
-        <line x1="16" y1="17" x2="8" y2="17" />
-        <circle cx="10" cy="9" r="1.5" />
-      </svg>
-    ),
-    title: "Clear Quotations",
-    desc: "Everything confirmed before your journey",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-      </svg>
-    ),
-    title: "24/7 Support",
-    desc: "We're here to assist you anytime",
-  },
-];
-
 export default function JourneysPage() {
   const pageEntered = usePageEntered();
 
@@ -230,7 +173,7 @@ export default function JourneysPage() {
               )}`;
 
               return (
-                <article className="hlt-jcard" key={item.num}>
+                <article className="hlt-jcard" data-slug={item.slug} key={item.num}>
                   {/* Bố cục gọn - CSS chỉ bật khối này ở mobile, PC vẫn dùng
                       nguyên thẻ đầy đủ bên dưới. */}
                   <div className="hlt-jcard-compact">
@@ -358,22 +301,6 @@ export default function JourneysPage() {
             })}
           </div>
 
-          {/* Tiêu đề chỉ hiện ở mobile — bản PC giữ nguyên như cũ. */}
-          <p className="hlt-journeys-kicker hlt-journeys-why-kicker">
-            Why Travelers Choose Us
-          </p>
-
-          <div id="journeys-guarantees" className="hlt-journeys-guarantees">
-            {guarantees.map((g) => (
-              <div className="hlt-journeys-guarantee-item" key={g.title}>
-                <div className="hlt-journeys-guarantee-icon">{g.icon}</div>
-                <div className="hlt-journeys-guarantee-text">
-                  <strong>{g.title}</strong>
-                  <p>{g.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
       </main>

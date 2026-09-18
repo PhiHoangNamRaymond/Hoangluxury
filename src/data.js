@@ -6,6 +6,7 @@ export const catalogUrl =
   "https://drive.google.com/file/d/1Z6b3reHt-M3aD4g15YoD2EYWMJmrgQhN/view?usp=drive_link";
 export const catalogPageUrl = "/catalog/";
 export const feedbackPageUrl = "/feedback/";
+export const aboutPageUrl = "/about/";
 
 export const popularRoutes = [
   "Sapa",
@@ -49,6 +50,7 @@ export const navLinks = [
   // Bấm vào chữ "Journey" thì cuộn xuống mục Curated Journeys ở trang chủ;
   // các mục trong dropdown vẫn giữ đích riêng của chúng.
   ["Journey", "#routes", journeyRoutes],
+  ["About", aboutPageUrl],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
   ["Feedback", feedbackPageUrl],

@@ -404,3 +404,19 @@
   font-weight: 700;
   text-align: center;
 }
+
+/* Thêm mục "About" làm menu dài hơn: ở PC hẹp (961–1439px) nút WhatsApp bị đẩy
+   ra ngoài mép phải. Co cỡ chữ / khoảng cách menu theo bề rộng màn. */
+@media (min-width: 961px) and (max-width: 1439px) {
+  #primary-navigation.hlt-nav {
+    gap: clamp(9px, 1.25vw, 20px);
+    font-size: clamp(12.5px, 1.08vw, 16px);
+    letter-spacing: .045em;
+  }
+
+  .hlt-header-inner .hlt-header-cta {
+    gap: 8px;
+    padding: 0 clamp(10px, 1vw, 16px);
+    font-size: clamp(12.5px, 1vw, 15px);
+  }
+}

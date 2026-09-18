@@ -10,7 +10,10 @@ import {
   fleetImages,
   heroBannerUrl,
   journeyExperienceImages,
+  servicesBackgroundUrl,
   journeyFactIcons,
+  journeyIconBySlug,
+  journeyPickupIconUrl,
 } from "./config/assets.js";
 import {
   journeyExperience,
@@ -332,7 +335,7 @@ export default function JourneyPage({ slug }) {
               <article className="hlt-journey-point">
                 <p className="hlt-journey-point-label">Pick-up in</p>
                 <div className="hlt-journey-point-row">
-                  <LineIcon type="pagoda" className="hlt-journey-point-icon" />
+                  <img className="hlt-journey-point-icon" src={journeyPickupIconUrl} alt="" />
                   <div className="hlt-journey-point-info">
                     <h3>Hanoi / Noi Bai</h3>
                     <small>Hotels, Residences or Noi Bai Airport</small>
@@ -351,7 +354,12 @@ export default function JourneyPage({ slug }) {
               <article className="hlt-journey-point">
                 <p className="hlt-journey-point-label">Drop-off in</p>
                 <div className="hlt-journey-point-row">
-                  <LineIcon type={journey.badgeIcon} className="hlt-journey-point-icon" />
+                  {/* Icon riêng từng tuyến (cùng bộ với thẻ /journeys/); thiếu thì dùng icon vẽ */}
+                  {journeyIconBySlug[slug] ? (
+                    <img className="hlt-journey-point-icon" src={journeyIconBySlug[slug]} alt="" />
+                  ) : (
+                    <LineIcon type={journey.badgeIcon} className="hlt-journey-point-icon" />
+                  )}
                   <div className="hlt-journey-point-info">
                     <h3>{journey.name}</h3>
                     <small>{journey.dropoffNote}</small>
@@ -462,7 +470,10 @@ export default function JourneyPage({ slug }) {
         </section>
 
         {/* Theo mẫu: nền xanh đậm, 4 thẻ ảnh + dải số liệu dùng chung mọi tuyến */}
-        <section className="hlt-journey-section hlt-journey-experience">
+        <section
+          className="hlt-journey-section hlt-journey-experience"
+          style={{ "--journey-experience-bg": `url(${servicesBackgroundUrl})` }}
+        >
           <div className="hlt-container">
             <div className="hlt-journey-heading hlt-journey-heading-lined is-light">
               <h2>Journey Experience</h2>
@@ -549,7 +560,7 @@ export default function JourneyPage({ slug }) {
 
       </main>
 
-      <JourneyCallToAction />
+      <JourneyCallToAction variant="route" />
       <ExperienceSlider />
       <Footer />
     </div>

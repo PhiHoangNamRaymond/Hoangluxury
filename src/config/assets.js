@@ -111,6 +111,11 @@ import journeyExpGreetUrl from "../../assets/journey-experience/journey-experien
 import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.jpg";
 import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.jpg";
 
+/* Nền dải "Ready to start your journey?" trang tuyến (cắt dải núi + mây từ Sapa2.png, JPEG 1920×565) */
+import journeyCtaMountainsImg from "../../assets/journey-cta-mountains.jpg";
+
+export const journeyCtaMountainsUrl = journeyCtaMountainsImg;
+
 /* Cùng thứ tự với journeyExperience trong config/journeys.js */
 export const journeyExperienceImages = [
   journeyExpComfortUrl,
@@ -289,6 +294,19 @@ export const journeyIconImages = [
   journeyTaXuaIconUrl,
 ];
 
+/* Cùng bộ icon, tra theo slug cho trang tuyến /journey/<slug>/ */
+export const journeyIconBySlug = {
+  sapa: journeySaPaIconUrl,
+  "ha-long": journeyHaLongIconUrl,
+  "ninh-binh": journeyNinhBinhIconUrl,
+  "ha-giang": journeyHaGiangIconUrl,
+  "cat-ba": journeyCatBaIconUrl,
+  "cao-bang": journeyCaoBangIconUrl,
+  "mu-cang-chai": journeyMuCangChaiIconUrl,
+  "moc-chau": journeyMocChauIconUrl,
+  "ta-xua": journeyTaXuaIconUrl,
+};
+
 /* Icon dải chỉ số trang Feedback, theo thứ tự feedbackStats */
 export const feedbackStatIcons = [
   feedbackStatLicensedUrl,
@@ -323,4 +341,16 @@ export const preferenceIconImages = {
   family: iconPrefFamilyUrl,
   luxury: iconPrefLuxuryUrl,
   scenic: iconPrefScenicUrl,
+};
+
+/* Trang About (/about/): ảnh JPEG đã tối ưu (cắt từ Sapa2.png, hero-reception-lobby-2026.png,
+   hero-operations-center-2026.png). Dải điểm đến dùng lại journeyCardImages. */
+import aboutHeroMountainsImg from "../../assets/about-hero-mountains.jpg";
+import aboutApproachReceptionImg from "../../assets/about-approach-reception.jpg";
+import aboutPeopleOperationsImg from "../../assets/about-people-operations.jpg";
+
+export const aboutImages = {
+  hero: aboutHeroMountainsImg,
+  approach: aboutApproachReceptionImg,
+  people: aboutPeopleOperationsImg,
 };
