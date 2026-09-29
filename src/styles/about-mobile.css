@@ -1,0 +1,435 @@
+/* ==========================================================================
+   Trang About (/about/) — bản mobile theo thiết kế mới.
+   Nạp sau about-page.css. Bản PC không đổi: các phần tử chỉ dùng cho mobile
+   (icon thẻ, nút trong banner, 3 điểm ở khối People) được ẩn ở PC.
+   ========================================================================== */
+.hlt-about-ic,
+.hlt-about-hero-btn,
+.hlt-about-hero-tag,
+.hlt-about-people-points {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  /* Thứ tự như mẫu: banner → Personal Approach → What Luxury → CTA →
+     People → Commitments → Licence. Ẩn dải số liệu, thư CEO và Explore
+     Northern Vietnam trên mobile. */
+  .hlt-about-main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hlt-about-hero { order: 1; }
+  .hlt-about-split:not(.is-reversed) { order: 2; }
+  .hlt-about-values { order: 3; }
+  .hlt-about-cta { order: 4; }
+  .hlt-about-split.is-reversed { order: 5; }
+  .hlt-about-commitments { order: 6; }
+  .hlt-about-licence { order: 7; }
+
+  .hlt-about-stats,
+  .hlt-about-ceo,
+  .hlt-about-destinations {
+    display: none;
+  }
+
+  /* --- Banner --- */
+  .hlt-about-hero-inner {
+    padding-top: 40px;
+    padding-bottom: 26px;
+  }
+
+  .hlt-about-hero h1 {
+    margin-bottom: 14px;
+    font-size: clamp(34px, 10.4vw, 44px);
+    line-height: 1.08;
+  }
+
+  .hlt-about-hero-lead {
+    max-width: 280px;
+    font-size: clamp(15px, 4.4vw, 18px);
+  }
+
+  .hlt-about-hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 50px;
+    margin-top: 22px;
+    padding: 0 20px;
+    border-radius: 999px;
+    color: #1a140a !important;
+    background: linear-gradient(100deg, #cfa24a 0%, #e8cd86 45%, #f6e4ad 62%, #dfba6b 82%, #cfa24a 100%);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .35);
+    font-size: clamp(13px, 3.7vw, 15px);
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .hlt-about-hero-btn .hlt-about-wa {
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+    border-radius: 50%;
+    background: #14261d;
+    color: #e8cd86;
+  }
+
+  .hlt-about-chevron {
+    width: 9px;
+    height: 15px;
+    margin-left: 2px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .hlt-about-hero-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0 0;
+    color: rgba(255, 255, 255, .85);
+    font-size: clamp(9.5px, 2.8vw, 11px);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  .hlt-about-hero-tag i {
+    margin: 0 10px;
+    font-style: normal;
+  }
+
+  .hlt-about-hero-tag span {
+    width: 22px;
+    height: 1px;
+    flex: none;
+    background: rgba(227, 192, 106, .9);
+  }
+
+  .hlt-about-hero-note {
+    display: none;
+  }
+
+  /* --- Personal Approach: chữ trước, ảnh phía dưới --- */
+  .hlt-about-split .hlt-about-split-copy,
+  .hlt-about-split.is-reversed .hlt-about-split-copy {
+    padding: 30px 22px 32px;
+    background: #fffdf8;
+  }
+
+  .hlt-about-kicker {
+    justify-content: flex-start;
+  }
+
+  .hlt-about-split h2 {
+    font-size: clamp(28px, 8.4vw, 36px);
+  }
+
+  .hlt-about-split-copy > p:not(.hlt-about-kicker) {
+    font-size: clamp(15px, 4.2vw, 17px);
+  }
+
+  .hlt-about-split-media {
+    aspect-ratio: 16 / 12;
+  }
+
+  /* --- What Luxury Means to Us: 3 thẻ icon --- */
+  .hlt-about-values {
+    padding: 30px 0 34px;
+  }
+
+  .hlt-about-values h2 {
+    margin-bottom: 20px;
+    font-size: clamp(28px, 8.4vw, 36px);
+  }
+
+  .hlt-about-values-grid {
+    gap: 12px;
+  }
+
+  .hlt-about-values-grid article,
+  .hlt-about-values-grid article + article {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border: 0;
+    border-radius: 12px;
+    background: #f6efe2;
+    text-align: left;
+  }
+
+  .hlt-about-values-grid p {
+    max-width: none;
+    margin: 0;
+    font-size: clamp(13.5px, 3.8vw, 15px);
+  }
+
+  .hlt-about-values-grid h3 {
+    font-size: clamp(17px, 4.8vw, 20px);
+  }
+
+  /* Icon tròn dùng chung cho các thẻ */
+  .hlt-about-ic {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex: none;
+    border-radius: 50%;
+    background: rgba(185, 138, 58, .12);
+  }
+
+  .hlt-about-ic svg {
+    width: 25px;
+    height: 25px;
+    fill: none;
+    stroke: var(--about-gold);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* --- CTA giữa trang --- */
+  .hlt-about-cta-inner {
+    align-items: flex-start;
+    gap: 18px;
+    padding-top: 34px;
+    padding-bottom: 34px;
+  }
+
+  .hlt-about-cta h2 {
+    font-size: clamp(28px, 8.4vw, 36px);
+  }
+
+  .hlt-about-cta-btn {
+    width: auto;
+    min-height: 50px;
+    padding: 0 22px;
+    border-radius: 999px;
+    font-size: clamp(13px, 3.7vw, 15px);
+  }
+
+  .hlt-about-cta-btn .hlt-about-wa {
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+    border-radius: 50%;
+    background: #14261d;
+    color: #e8cd86;
+  }
+
+  /* --- People: ảnh trên, 3 điểm dưới --- */
+  .hlt-about-signoff {
+    display: none;
+  }
+
+  .hlt-about-people-points {
+    display: grid;
+    gap: 18px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hlt-about-people-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .hlt-about-people-points strong {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--about-ink);
+    font-size: clamp(17px, 4.8vw, 20px);
+    font-weight: 600;
+  }
+
+  .hlt-about-people-points span {
+    display: block;
+    color: var(--about-muted);
+    font-size: clamp(13.5px, 3.8vw, 15px);
+    line-height: 1.45;
+  }
+
+  /* --- Commitments: 4 thẻ tối 2×2 --- */
+  .hlt-about-commitments {
+    padding: 30px 0 34px;
+  }
+
+  .hlt-about-commitments-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .hlt-about-commitments-grid article {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 14px;
+    border: 1px solid rgba(227, 192, 106, .45);
+    border-radius: 12px;
+    background: rgba(6, 26, 19, .55);
+  }
+
+  .hlt-about-commitment-num {
+    display: none;
+  }
+
+  .hlt-about-commitments-grid .hlt-about-ic {
+    width: 40px;
+    height: 40px;
+    background: rgba(227, 192, 106, .12);
+  }
+
+  .hlt-about-commitments-grid .hlt-about-ic svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--about-gold-light);
+  }
+
+  .hlt-about-commitments-grid h3 {
+    font-size: clamp(16px, 4.6vw, 19px);
+  }
+
+  .hlt-about-commitments-grid p {
+    font-size: clamp(12.5px, 3.5vw, 14px);
+  }
+
+  /* --- Licence --- */
+  .hlt-about-licence {
+    padding: 26px 0 30px;
+  }
+
+  .hlt-about-licence-inner {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hlt-about-licence-brand {
+    padding: 0 16px 0 0;
+    border-right: 1px solid rgba(185, 138, 58, .55);
+    border-bottom: 0;
+  }
+
+  .hlt-about-licence-brand img {
+    width: 62px;
+    margin: 0;
+  }
+
+  .hlt-about-licence-brand strong,
+  .hlt-about-licence-brand span {
+    display: none;
+  }
+
+  .hlt-about-licence-head {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .hlt-about-doc {
+    display: none;
+  }
+
+  .hlt-about-licence-head h2 {
+    font-size: clamp(19px, 5.4vw, 23px);
+  }
+
+  /* display: contents -> phần đầu, 2 thẻ và số giấy phép thành ô của lưới
+     ngoài, nên 2 thẻ trải hết bề ngang thay vì nằm trong cột phải hẹp */
+  .hlt-about-licence-body {
+    display: contents;
+  }
+
+  .hlt-about-licence-head {
+    grid-column: 2;
+  }
+
+  /* 2 thẻ nhỏ + số giấy phép nằm dưới, rộng hết hàng */
+  .hlt-about-licence-grid {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .hlt-about-licence-grid > div,
+  .hlt-about-licence-grid > div + div {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    border: 0;
+    border-radius: 10px;
+    background: #f6efe2;
+  }
+
+  .hlt-about-licence-grid .hlt-about-ic {
+    width: 34px;
+    height: 34px;
+    background: transparent;
+  }
+
+  .hlt-about-licence-grid .hlt-about-ic svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hlt-about-licence-grid h3 {
+    font-size: clamp(14.5px, 4vw, 16px);
+  }
+
+  .hlt-about-licence-grid p {
+    font-size: clamp(12.5px, 3.5vw, 14px);
+  }
+
+  .hlt-about-licence-foot {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 14px;
+  }
+
+  .hlt-about-licence-foot .is-gold {
+    display: none;
+  }
+}
+
+/* Thư CEO (PC): thư dài ~1100px nên ảnh tỉ lệ 3/4 cố định trông lọt thỏm.
+   Cho ảnh cao bằng đúng cột chữ và nới cột ảnh rộng hơn cho cân. */
+@media (min-width: 961px) {
+  /* Khung 1180px để thừa nhiều ở hai bên trên màn rộng -> nới khối thư */
+  .hlt-about-ceo-inner {
+    width: min(1560px, 92vw);
+    grid-template-columns: minmax(0, .46fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  /* Chữ ký giữ 1 dòng; khẩu hiệu nhường chỗ khi cột hẹp */
+  .hlt-about-ceo-signature {
+    white-space: nowrap;
+  }
+
+  .hlt-about-ceo-tag {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .hlt-about-ceo-media img {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .hlt-about-ceo-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

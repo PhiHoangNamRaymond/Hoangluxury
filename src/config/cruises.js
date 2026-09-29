@@ -2,13 +2,13 @@ export const cruiseData = {
   hero: {
     kicker: "HANDPICKED CRUISES · PRIVATE HANOI TRANSFER · PERSONAL SUPPORT",
     title: "LUXURY HA LONG CRUISES",
-    subtitle: "Exceptional journeys through Ha Long & Lan Ha Bay",
+    subtitle: "Find your ideal cruise in Ha Long Bay & Lan Ha Bay",
     description: "Handpicked 5-star cruises paired with private luxury chauffeur transfers from Hanoi. Personalized service, transparent pricing, and direct WhatsApp assistance.",
     usps: [
-      { icon: "diamond", label: "Handpicked Cruises" },
-      { icon: "van", label: "Private 7-Seat Transfer" },
-      { icon: "support", label: "Direct Support" },
-      { icon: "star", label: "Best Available Options" },
+      { icon: "diamond", label: "Cruises to Suit You" },
+      { icon: "van", label: "Private Car Transfers" },
+      { icon: "support", label: "24/7 WhatsApp Support" },
+      { icon: "tag", label: "Transparent Pricing" },
     ],
   },
   cruises: [
@@ -121,10 +121,10 @@ export const cruiseData = {
       { label: "Luxury Cruise", icon: "cruise" },
     ],
     features: [
-      { label: "Door-to-door pickup", icon: "pin" },
-      { label: "Private 7-Seat vehicle", icon: "seat" },
-      { label: "Flexible departure time", icon: "clock" },
-      { label: "Luggage assistance", icon: "luggage" },
+      { label: "Professional Driver", icon: "driver" },
+      { label: "Door-to-Door Pickup", icon: "pin" },
+      { label: "Flexible Departure Time", icon: "clock" },
+      { label: "On-Time Cruise Arrival", icon: "ship" },
     ],
   },
   experiences: {
@@ -166,10 +166,10 @@ export const cruiseData = {
       "Direct WhatsApp support",
     ],
     metrics: [
-      { value: "12,686+", label: "Successful Transfers", icon: "group" },
-      { value: "20+", label: "Countries Served", icon: "globe" },
       { value: "4.9 / 5", label: "Guest Rating", icon: "star" },
-      { value: "24/7", label: "Travel Support", icon: "headset" },
+      { value: "8+ Years", label: "Driver Experience", icon: "chauffeur" },
+      { value: "20+", label: "Countries Served", icon: "globe" },
+      { value: "24/7", label: "Customer Support", icon: "headset" },
     ],
   },
   moments: [

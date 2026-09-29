@@ -4,7 +4,7 @@ import Footer from "./components/layout/Footer.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { whatsappUrl, catalogPageUrl } from "./data.js";
+import { whatsappUrl, catalogPageUrl, getJourneyPageUrl } from "./data.js";
 import { journeyCardImages, journeyIconImages, journeyPickupIconUrl } from "./config/assets.js";
 
 const allRoutesData = [
@@ -168,6 +168,7 @@ export default function JourneysPage() {
 
           <div className="hlt-journeys-grid">
             {allRoutesData.map((item) => {
+              const routePageUrl = getJourneyPageUrl(item.name);
               const whatsappRouteUrl = `${whatsappUrl}&text=${encodeURIComponent(
                 `Hello Hoang Luxury Travel, I would like to book a private transfer from Hanoi to ${item.name}.`
               )}`;
@@ -179,7 +180,7 @@ export default function JourneysPage() {
                   <div className="hlt-jcard-compact">
                     <a
                       className="hlt-jcard-compact-media"
-                      href={`/journey/${item.slug}/`}
+                      href={routePageUrl}
                       tabIndex={-1}
                       aria-hidden="true"
                     >
@@ -193,7 +194,7 @@ export default function JourneysPage() {
                         <li><CompactIcon type="vehicle" />{item.vehicle}</li>
                         <li><CompactIcon type="service" />{item.service}</li>
                       </ul>
-                      <a className="hlt-jcard-compact-link" href={`/journey/${item.slug}/`}>
+                      <a className="hlt-jcard-compact-link" href={routePageUrl}>
                         View Route
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                           <path d="M4 12h15M13 6l6 6-6 6" />
@@ -274,7 +275,7 @@ export default function JourneysPage() {
 
                   <div className="hlt-jcard-actions">
                     <a
-                      href={`/journey/${item.slug}/`}
+                      href={routePageUrl}
                       className="hlt-jcard-btn hlt-jcard-btn-detail"
                     >
                       <span className="hlt-jcard-stars">★★★★★</span>
@@ -302,6 +303,38 @@ export default function JourneysPage() {
           </div>
 
         </div>
+
+        {/* Khối khép lại danh sách tuyến, dẫn khách sang form đặt xe. */}
+        <section className="hlt-journeys-outro">
+          <div className="hlt-container">
+            {/* Hoa gió: hai ngôi sao 4 cánh lồng nhau, lệch 45 độ, trong một vòng tròn. */}
+            <svg className="hlt-journeys-outro-mark" viewBox="0 0 44 44" aria-hidden="true">
+              <g transform="translate(22 22)">
+                <circle r="12.4" />
+                <path d="M 0 -16.5 L 2 -2 L 16.5 0 L 2 2 L 0 16.5 L -2 2 L -16.5 0 L -2 -2 Z" />
+                <path d="M 0 -9.6 L 1.3 -1.3 L 9.6 0 L 1.3 1.3 L 0 9.6 L -1.3 1.3 L -9.6 0 L -1.3 -1.3 Z" transform="rotate(45)" />
+              </g>
+            </svg>
+
+            <h2 className="hlt-journeys-outro-title">
+              <span className="hlt-journeys-outro-rule" aria-hidden="true" />
+              Looking for another destination?
+              <span className="hlt-journeys-outro-rule" aria-hidden="true" />
+            </h2>
+
+            <p className="hlt-journeys-outro-text">
+              We also arrange private transfers and custom journeys across Northern Vietnam.
+            </p>
+
+            <a className="hlt-journeys-outro-btn" href="/booking/">
+              <span>Request a custom journey</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="4" y1="12" x2="19" y2="12" />
+                <polyline points="12.5 5.5 19 12 12.5 18.5" />
+              </svg>
+            </a>
+          </div>
+        </section>
 
       </main>
 

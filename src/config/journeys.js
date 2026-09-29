@@ -7,10 +7,10 @@
 
 // Section Journey Experience: 4 thẻ ảnh (ảnh ghép trong JourneyPage.jsx).
 export const journeyExperience = [
-  ["Comfortable Ride", "Spacious, quiet, and smooth journey."],
-  ["Personal Meet & Greet", "Your driver welcomes you at the airport with a blank name board."],
-  ["Luggage Assistance", "Your driver helps with loading and unloading."],
-  ["Flexible Stops", "Stop for photos, coffee, or local experiences."],
+  ["Smooth & Comfortable", "Nappa leather seats, spacious comfort, less motion sickness."],
+  ["Personal Meet & Greet", "Your driver welcomes you at the airport with a clear name board."],
+  ["Luggage Assistance", "Your driver helps load and arrange your luggage."],
+  ["Flexible Stops", "Stop whenever you need. Coffee - Restroom - Photos"],
 ];
 
 // Dải số liệu dưới 4 thẻ Journey Experience. Icon là LineIcon.
@@ -39,7 +39,7 @@ export const journeyVehicles = [
 // Dải "Service Highlights" (theo mẫu). Icon là LineIcon.
 export const journeyHighlights = [
   ["thumbsUp", "Polite & Reliable"],
-  ["car", "Vehicle Confirmed"],
+  ["car", "Clean & Brand-new"],
   ["noPickup", "No Extra Pick-Ups"],
   ["bottle", "Bottled Water"],
   ["music", "Music on Request"],
@@ -48,52 +48,89 @@ export const journeyHighlights = [
 
 export const journeyFaq = [
   [
-    "How long does the transfer take?",
-    "Travel time varies depending on the route, departure time, and traffic conditions. We prioritize modern high-speed expressways wherever available to guarantee a smooth and punctual journey.",
+    "How can I book and confirm my booking?",
+    "You can book your private car with a driver through Hoang Luxury Travel in two simple ways: message us directly via WhatsApp for quick assistance and booking support, or click Booking and fill in your trip details. After receiving your request, our team will contact you to discuss your itinerary, confirm the details, and complete your private transfer booking. Your detailed trip information will be sent in a Booking Confirmation 24 hours before departure. Please review the details, then relax and enjoy your journey.",
   ],
   [
-    "Can we stop along the way?",
-    "Yes. Let your driver know and we can arrange stops for photos, coffee, or a short rest. Longer detours may affect the fare, and we will confirm any change with you first.",
+    "Is the price all-inclusive? Are there any hidden fees?",
+    "Yes, the quoted price includes everything in your agreed itinerary. Pricing depends on your route and specific needs. Our prices are transparent, with no hidden fees. If you request additional services outside the agreed itinerary, we’ll explain any extra charges in advance and only apply them with your approval.",
   ],
   [
-    "Is the price all-inclusive?",
-    "Yes. Our private transfer fares are fully transparent and inclusive of the private vehicle, chauffeur service, toll fees, parking, fuel, and bottled water with zero hidden surcharges.",
+    "Will I be charged extra if my pickup time changes or my flight is delayed?",
+    "No. If your pickup time changes or your flight is delayed, we will adjust your pickup accordingly, and your driver will wait at no extra charge. Just let us know as soon as possible so our team can make the arrangements.",
   ],
   [
-    "What vehicles are available?",
-    "We provide top-tier luxury vehicles including Limo Lux (1–4 passengers), Limo Prime (1–6 passengers), and VIP Luxury SUV (VinFast VF9, 1–6 passengers) with generous luggage capacity.",
+    "There are 5 of us with 6 large suitcases. Will there be enough space in the car?",
+    "Don’t worry. If you need more space, we’ll arrange a private car for your luggage so everyone can sit comfortably throughout the journey. Just let us know in advance how many people are travelling, along with the number and size of your suitcases, so we can have everything ready for you.",
   ],
   [
-    "What if our flight is delayed?",
-    "Share your flight number when booking and our dispatch team will monitor your flight in real-time. Your chauffeur will wait at the arrival terminal at no extra charge.",
+    "Can we make flexible stops along the way?",
+    "Yes, of course. During your private transfer, you can stop along the way for a restroom break, coffee, sightseeing, or photos. We are happy to make flexible stops whenever possible, as long as the location is safe and legally permitted for stopping or parking.",
   ],
   [
-    "How do I book?",
-    "You can book immediately by messaging us on WhatsApp for rapid confirmation, or submit our online availability request form. Our concierge team is available 24/7 to assist.",
+    "Do I need to pay a deposit? What payment methods do you accept?",
+    "You don’t need to pay anything before your trip. After you arrive at your destination, you can pay 100% of the total amount directly to your driver. We offer flexible payment options, including cash and card payments. If you choose to pay by card, a 3% processing fee applies for international card payments.",
+  ],
+  [
+    "Can you plan a personalized itinerary? How many hours are included in your full-day local car service?",
+    "Yes. We can help plan a personalized itinerary around your schedule and travel preferences, with useful local tips. If needed, we can also assist with restaurant and attraction reservations. If you already have your own itinerary, we are happy to review it free of charge and advise you on routes, travel times, traffic conditions, and whether your travel plan is practical in Vietnam. For our local service, there is no fixed hourly limit. Your private driver will be with you from early morning until late evening, taking you wherever you’d like to go, as long as the places you wish to visit are accessible by car.",
+  ],
+  [
+    "Do your drivers speak English?",
+    "Our professional drivers can communicate in basic English. If you need any additional help during your private transfer, you can contact us anytime via WhatsApp. Our English-speaking support team is available 24/7 to assist you throughout your journey.",
   ],
 ];
 
-export const journeys = {
-  sapa: {
-    name: "Sapa",
-    titleAccent: "TO SAPA",
-    intro:
-      "Premium private transfer between Hanoi and Sapa. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
-    leadIn:
-      "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Sapa, with comfort, safety, and peace of mind every step of the way.",
-    routeLabel: "Hanoi ↔ Sapa",
-    distance: "approx. 320 km",
-    duration: "5.5 - 6.5 hours",
-    durationNote: "approx.",
-    price: "From 3,300,000 VND",
-    dropoffNote: "Hotels, Resorts or Town Center",
-    badgeIcon: "mountain",
+const privateTransferPage = (destination, travelTime) => ({
+  seoTitle: `Hanoi to ${destination} Private Transfer | HOANG LUXURY TRAVEL`,
+  metaDescription:
+    `Book a Hanoi to ${destination} private transfer with a professional driver. Enjoy a private car, door-to-door pickup, flexible stops, transparent pricing and 24/7 WhatsApp support`,
+  eyebrow: "Private Transfer",
+  intro:
+    `Hoang Luxury Travel provides private transfers from Hanoi/Noi Bai Airport to ${destination} for international travelers who prefer privacy, comfort and safety.`,
+  secondaryActionLabel: "View Catalog",
+  secondaryActionHref: "/catalog/",
+  transitTitle: "Your Time. Your Space. Your Journey.",
+  transitLeadLines: [
+    `Private car from Hanoi or Noi Bai Airport to ${destination}.`,
+    "Door-to-door with your own driver and a journey designed around you.",
+  ],
+  features: [
+    ["shield", "100% Private", "No shared passengers and no multiple pick-ups."],
+    ["chauffeur", "Professional Drivers", "Experienced, courteous and safety-focused."],
+    ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
+    ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
+  ],
+  heroFacts: {
+    route: [`Hanoi / Noi Bai Airport ↔ ${destination}`, "Available in both directions"],
+    time: [`Approx. ${travelTime}`, "Depending on traffic"],
+    vehicle: ["Limo Lux", "Clean & Spacious"],
+    rates: ["Transparent All-Inclusive Pricing", "Cash & Card"],
   },
+});
+
+const sapaJourney = {
+  name: "Sapa",
+  titleAccent: "TO SAPA",
+  ...privateTransferPage("Sapa", "5 – 5.5 hours"),
+  leadIn:
+    "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Sapa, with comfort, safety, and peace of mind every step of the way.",
+  routeLabel: "Hanoi ↔ Sapa",
+  distance: "approx. 320 km",
+  duration: "5.5 - 6.5 hours",
+  durationNote: "approx.",
+  price: "From 3,300,000 VND",
+  dropoffNote: "Hotels, Resorts or Town Center",
+  badgeIcon: "mountain",
+};
+
+export const journeys = {
+  // Giữ URL cũ hoạt động cho các liên kết đã được chia sẻ trước đây.
+  sapa: sapaJourney,
   "ha-giang": {
     name: "Ha Giang",
     titleAccent: "TO HA GIANG",
-    intro:
-      "Premium private transfer between Hanoi and Ha Giang. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Ha Giang", "6 – 7 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ha Giang, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ha Giang",
@@ -107,8 +144,7 @@ export const journeys = {
   "ninh-binh": {
     name: "Ninh Binh",
     titleAccent: "TO NINH BINH",
-    intro:
-      "Premium private transfer between Hanoi and Ninh Binh. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Ninh Binh", "1.5 – 2 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ninh Binh, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ninh Binh",
@@ -122,8 +158,7 @@ export const journeys = {
   "ha-long": {
     name: "Ha Long",
     titleAccent: "TO HA LONG",
-    intro:
-      "Premium private transfer between Hanoi and Ha Long. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Ha Long", "2.5 – 3 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi to Ha Long International Airport or Ha Long with comfort, safety, and peace of mind at every step of the way.",
     routeLabel: "Hanoi ↔ Ha Long",
@@ -137,8 +172,7 @@ export const journeys = {
   "cat-ba": {
     name: "Cat Ba",
     titleAccent: "TO CAT BA",
-    intro:
-      "Premium private transfer between Hanoi and Cat Ba Island. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Cat Ba", "3.5 – 4 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Cat Ba Island, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Cat Ba",
@@ -152,8 +186,7 @@ export const journeys = {
   "cao-bang": {
     name: "Cao Bang",
     titleAccent: "TO CAO BANG",
-    intro:
-      "Premium private transfer between Hanoi and Cao Bang. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Cao Bang", "6 – 7 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Cao Bang, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Cao Bang",
@@ -167,8 +200,7 @@ export const journeys = {
   "mu-cang-chai": {
     name: "Mu Cang Chai",
     titleAccent: "TO MU CANG CHAI",
-    intro:
-      "Premium private transfer between Hanoi and Mu Cang Chai. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Mu Cang Chai", "6.5 – 7.5 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Mu Cang Chai, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Mu Cang Chai",
@@ -182,8 +214,7 @@ export const journeys = {
   "moc-chau": {
     name: "Moc Chau",
     titleAccent: "TO MOC CHAU",
-    intro:
-      "Premium private transfer between Hanoi and Moc Chau. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Moc Chau", "4 – 4.5 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Moc Chau, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Moc Chau",
@@ -197,8 +228,7 @@ export const journeys = {
   "ta-xua": {
     name: "Ta Xua",
     titleAccent: "TO TA XUA",
-    intro:
-      "Premium private transfer between Hanoi and Ta Xua. Door-to-door service with professional drivers, ensuring comfort, safety, and peace of mind.",
+    ...privateTransferPage("Ta Xua", "4.5 – 5.5 hours"),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ta Xua, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ta Xua",

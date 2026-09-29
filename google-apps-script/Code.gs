@@ -111,7 +111,7 @@ function doPost(event) {
       const noFlight = String(data.noFlight || "").toLowerCase() === "true";
       const row = [
         submittedAt,
-        createBookingId_(submittedAt),
+        createBookingId_(sheet, submittedAt, data.source),
         parseDate_(data.departureDate, "departureDate"),
         parseOptionalDate_(data.returnDate, "returnDate"),
         safeCell_(data.fullName),
@@ -433,11 +433,89 @@ function validateBooking_(data) {
   });
 }
 
-function createBookingId_(date) {
+/*
+  Booking ID theo định dạng: HLT-<ddMMyy>-<mã nguồn>-<số thứ tự trong ngày>
+  Ví dụ: HLT-100826-RKS001-001 (đặt ngày 10/08/2026, khách đến từ website).
+
+  RKS001 website Hoang Luxury Travel (mặc định)
+  RKS002 Facebook / Instagram
+  RKS003 khách sạn / đối tác
+  RKS004 nền tảng du lịch OTA
+  RKS005 Rentunr
+
+  Số thứ tự đếm riêng cho từng ngày và từng nguồn: booking thứ hai trong ngày
+  của cùng một nguồn sẽ là -002, thứ ba là -003.
+*/
+const BOOKING_SOURCE_CODES = {
+  web: "RKS001",
+  website: "RKS001",
+  direct: "RKS001",
+  facebook: "RKS002",
+  fb: "RKS002",
+  instagram: "RKS002",
+  ig: "RKS002",
+  social: "RKS002",
+  hotel: "RKS003",
+  partner: "RKS003",
+  ota: "RKS004",
+  rentunr: "RKS005",
+};
+const DEFAULT_BOOKING_SOURCE = "RKS001";
+
+function createBookingId_(sheet, date, sourceValue) {
   const timeZone = Session.getScriptTimeZone() || "Asia/Ho_Chi_Minh";
-  const timestamp = Utilities.formatDate(date, timeZone, "yyyyMMdd-HHmmss");
-  const suffix = Utilities.getUuid().slice(0, 4).toUpperCase();
-  return "HLT-" + timestamp + "-" + suffix;
+  const datePart = Utilities.formatDate(date, timeZone, "ddMMyy");
+  const prefix = "HLT-" + datePart + "-" + resolveBookingSource_(sourceValue) + "-";
+  return prefix + padBookingSequence_(nextBookingSequence_(sheet, prefix));
+}
+
+function resolveBookingSource_(value) {
+  const text = String(value || "").trim();
+
+  if (!text) return DEFAULT_BOOKING_SOURCE;
+  if (/^RKS\d{3}$/i.test(text)) return text.toUpperCase();
+
+  return BOOKING_SOURCE_CODES[text.toLowerCase()] || DEFAULT_BOOKING_SOURCE;
+}
+
+/* Lấy số lớn nhất đã dùng cho cùng ngày + nguồn rồi cộng 1, nên xoá hay thêm
+   dòng thủ công cũng không tạo ra mã trùng. */
+function nextBookingSequence_(sheet, prefix) {
+  const lastRow = sheet.getLastRow();
+
+  if (lastRow < BOOKING_FIRST_DATA_ROW) return 1;
+
+  const column = bookingIdColumn_(sheet);
+  const values = sheet
+    .getRange(BOOKING_FIRST_DATA_ROW, column, lastRow - BOOKING_FIRST_DATA_ROW + 1, 1)
+    .getDisplayValues();
+  let highest = 0;
+
+  values.forEach(function (row) {
+    const id = String(row[0] || "").trim().toUpperCase();
+
+    if (id.indexOf(prefix) !== 0) return;
+
+    const sequence = Number(id.slice(prefix.length));
+
+    if (sequence > highest) highest = sequence;
+  });
+
+  return highest + 1;
+}
+
+function bookingIdColumn_(sheet) {
+  const width = Math.max(sheet.getLastColumn(), BOOKING_HEADERS.length);
+  const headers = sheet.getRange(BOOKING_HEADER_ROW, 1, 1, width).getDisplayValues()[0];
+  const index = headers.indexOf("Booking ID");
+
+  return index >= 0 ? index + 1 : 2;
+}
+
+function padBookingSequence_(sequence) {
+  const text = String(sequence);
+
+  return text.length >= 3 ? text : ("000" + text).slice(-3);
 }
 
 function parseDate_(value, fieldName) {

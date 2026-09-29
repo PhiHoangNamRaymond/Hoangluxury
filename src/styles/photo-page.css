@@ -1,0 +1,483 @@
+/* ==========================================================================
+   Trang Photo Gallery (/photo/) — theo bản thiết kế.
+   Nền kem, banner ảnh núi bên phải, bộ lọc dạng viên thuốc, lưới album 4 cột,
+   phân trang và dải CTA xanh đậm ở cuối. Header / footer dùng chung với site.
+   ========================================================================== */
+
+.hlt-photo-site {
+  --photo-gold: #b98a3a;
+  --photo-gold-light: #e3c06a;
+  --photo-ink: #1d2a2e;
+  --photo-muted: #5b6468;
+  --photo-cream: #fdf8ef;
+  background: var(--photo-cream);
+}
+
+.hlt-photo-main {
+  color: var(--photo-ink);
+  background: var(--photo-cream);
+}
+
+/* ---------- Banner ---------- */
+.hlt-photo-hero {
+  position: relative;
+  padding-top: 92px;
+  background: var(--photo-cream);
+}
+
+.hlt-photo-hero::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 92px 0 0;
+  background:
+    linear-gradient(90deg, var(--photo-cream) 0%, var(--photo-cream) 26%, rgba(253, 248, 239, .72) 42%, rgba(253, 248, 239, .18) 62%, transparent 78%),
+    var(--photo-hero) center 62% / cover no-repeat;
+}
+
+.hlt-photo-hero-inner {
+  position: relative;
+  z-index: 1;
+  min-height: clamp(230px, 20vw, 300px);
+  padding: clamp(28px, 3vw, 44px) 0 clamp(26px, 2.6vw, 38px);
+}
+
+.hlt-photo-kicker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 10px;
+  color: var(--photo-gold);
+  font-size: clamp(12px, .95vw, 14px);
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.hlt-photo-kicker span {
+  width: clamp(40px, 6vw, 96px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--photo-gold), transparent);
+}
+
+.hlt-photo-hero h1 {
+  margin: 0 0 14px;
+  color: var(--photo-ink);
+  font-size: clamp(30px, 3.3vw, 50px);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.hlt-photo-lead {
+  max-width: 560px;
+  margin: 0;
+  color: var(--photo-muted);
+  font-size: clamp(14px, 1.15vw, 17px);
+  line-height: 1.5;
+}
+
+/* Chữ viết tay trên ảnh (như mẫu) */
+.hlt-photo-script {
+  position: absolute;
+  right: 6%;
+  bottom: clamp(24px, 3vw, 46px);
+  margin: 0;
+  color: var(--photo-gold-light);
+  font-family: "Segoe Script", "Brush Script MT", "Snell Roundhand", cursive !important;
+  font-size: clamp(16px, 1.5vw, 22px);
+  line-height: 1.5;
+  text-align: right;
+  rotate: -6deg;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .35);
+}
+
+.hlt-photo-script span {
+  display: block;
+}
+
+/* ---------- Bộ lọc ---------- */
+.hlt-photo-gallery {
+  padding: clamp(22px, 2.4vw, 34px) 0 clamp(34px, 3.6vw, 54px);
+}
+
+.hlt-photo-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hlt-photo-filter {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid rgba(185, 138, 58, .45);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--photo-ink);
+  font-family: var(--hlt-font-family);
+  font-size: clamp(13px, 1.05vw, 15px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.hlt-photo-filter:hover {
+  border-color: var(--photo-gold);
+  background: rgba(185, 138, 58, .1);
+}
+
+.hlt-photo-filter.is-active {
+  border-color: transparent;
+  color: #241a08;
+  background: linear-gradient(100deg, #c29226 0%, #d9b14a 48%, #f0d68a 71%, #d9b14a 87%, #c29226 100%);
+  box-shadow: 0 6px 16px rgba(160, 120, 40, .25);
+}
+
+.hlt-photo-count {
+  margin: clamp(14px, 1.4vw, 20px) 0 clamp(14px, 1.5vw, 22px);
+  color: var(--photo-gold);
+  font-size: clamp(13px, 1.05vw, 15px);
+  font-weight: 600;
+}
+
+/* ---------- Lưới album ---------- */
+.hlt-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.5vw, 22px);
+}
+
+.hlt-photo-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(185, 138, 58, .28);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(60, 45, 20, .08);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.hlt-photo-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(185, 138, 58, .6);
+  box-shadow: 0 16px 30px rgba(60, 45, 20, .16);
+}
+
+.hlt-photo-card-media {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3.1;
+}
+
+.hlt-photo-card-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+
+.hlt-photo-card:hover .hlt-photo-card-media img {
+  transform: scale(1.05);
+}
+
+.hlt-photo-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex: 1;
+  padding: 12px 14px 14px;
+}
+
+.hlt-photo-card-text {
+  min-width: 0;
+}
+
+.hlt-photo-card h2 {
+  margin: 0 0 7px;
+  color: var(--photo-ink);
+  font-size: clamp(16px, 1.3vw, 19px);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.hlt-photo-card-body p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0;
+  color: var(--photo-muted);
+  font-size: clamp(11.5px, .95vw, 13px);
+}
+
+.hlt-photo-card-body p span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hlt-photo-meta-ic {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  fill: none;
+  stroke: var(--photo-gold);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-photo-go svg {
+  width: clamp(26px, 2.2vw, 30px);
+  height: clamp(26px, 2.2vw, 30px);
+  display: block;
+  fill: none;
+  stroke: var(--photo-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .2s ease;
+}
+
+.hlt-photo-card-link:hover .hlt-photo-go svg {
+  transform: translateX(2px);
+}
+
+/* ---------- Phân trang ---------- */
+.hlt-photo-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: clamp(24px, 2.6vw, 38px);
+}
+
+.hlt-photo-page {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(185, 138, 58, .45);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--photo-ink);
+  font-family: var(--hlt-font-family);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+
+.hlt-photo-page svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-photo-page:hover:not(:disabled) {
+  background: rgba(185, 138, 58, .12);
+}
+
+.hlt-photo-page.is-active {
+  border-color: transparent;
+  color: #241a08;
+  background: linear-gradient(100deg, #c29226 0%, #d9b14a 48%, #f0d68a 71%, #d9b14a 87%, #c29226 100%);
+}
+
+.hlt-photo-page:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+/* ---------- CTA ---------- */
+.hlt-photo-cta {
+  padding: clamp(28px, 3vw, 46px) 0;
+  border-top: 1px solid rgba(197, 161, 90, .5);
+  background:
+    linear-gradient(90deg, rgba(5, 22, 16, .9) 0%, rgba(5, 22, 16, .7) 50%, rgba(5, 22, 16, .55) 100%),
+    var(--photo-cta-bg) center 45% / cover no-repeat;
+}
+
+.hlt-photo-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(20px, 2.4vw, 40px);
+}
+
+.hlt-photo-cta h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: clamp(26px, 2.5vw, 38px);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.hlt-photo-cta-copy > p {
+  margin: 0;
+  color: rgba(255, 255, 255, .88);
+  font-size: clamp(14px, 1.15vw, 17px);
+}
+
+.hlt-photo-cta-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin: clamp(14px, 1.4vw, 20px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hlt-photo-cta-points li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, .92);
+  font-size: clamp(12.5px, 1vw, 14.5px);
+}
+
+.hlt-photo-cta-points svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: var(--photo-gold-light);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-photo-cta-btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 28px;
+  border: 1px solid #e8c874;
+  border-radius: 999px;
+  color: #1a140a !important;
+  background: linear-gradient(100deg, #b88a38 0%, #dcb865 45%, #f3dc93 62%, #d5ae55 82%, #b88a38 100%);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, .35);
+  font-size: clamp(14px, 1.15vw, 16px);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlt-photo-wa,
+.hlt-photo-cta-arrow {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-photo-wa .is-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.hlt-photo-cta-script {
+  margin: 0;
+  color: var(--photo-gold-light);
+  font-family: "Segoe Script", "Brush Script MT", "Snell Roundhand", cursive !important;
+  font-size: clamp(15px, 1.4vw, 20px);
+  line-height: 1.6;
+  text-align: right;
+  rotate: -5deg;
+}
+
+.hlt-photo-cta-script span {
+  display: block;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  .hlt-photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .hlt-photo-hero::before {
+    background:
+      linear-gradient(180deg, rgba(253, 248, 239, .92) 0%, rgba(253, 248, 239, .72) 45%, rgba(253, 248, 239, .55) 100%),
+      var(--photo-hero) center / cover no-repeat;
+  }
+
+  /* Mobile: chữ viết tay xuống dưới đoạn mô tả, nền sáng hơn để chữ dễ đọc */
+  .hlt-photo-script {
+    position: static;
+    margin-top: 16px;
+    rotate: none;
+    text-align: left;
+    color: var(--photo-gold);
+    text-shadow: none;
+  }
+
+  .hlt-photo-hero-inner {
+    min-height: 0;
+  }
+
+  .hlt-photo-lead {
+    max-width: none;
+  }
+
+  .hlt-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlt-photo-cta-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hlt-photo-cta-script {
+    text-align: left;
+    rotate: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-photo-hero {
+    padding-top: 72px;
+  }
+
+  .hlt-photo-hero::before {
+    inset: 72px 0 0;
+  }
+
+  .hlt-photo-hero h1 {
+    font-size: clamp(28px, 8.4vw, 36px);
+  }
+
+  .hlt-photo-filters {
+    gap: 8px;
+  }
+
+  .hlt-photo-filter {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 12.5px;
+  }
+
+  .hlt-photo-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .hlt-photo-cta-btn {
+    width: 100%;
+  }
+}

@@ -13,36 +13,19 @@
   gap: 6px;
 }
 
-.hlt-nav-caret {
-  width: 11px;
-  height: 11px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform .22s ease;
-}
-
-.hlt-nav-group:hover .hlt-nav-caret,
-.hlt-nav-group:focus-within .hlt-nav-caret {
-  transform: rotate(180deg);
-}
-
 .hlt-nav-menu {
   position: absolute;
   top: 100%;
   left: 50%;
   z-index: 40;
-  display: grid;
   /* Menu absolute không có bề rộng tham chiếu, thiếu `width: max-content`
      thì cột co lại và chữ tràn ra ngoài hộp. */
   width: max-content;
-  gap: 2px;
+  max-width: calc(100vw - 32px);
   margin-top: 13px;
-  padding: 7px;
-  border: 1px solid rgba(216, 168, 73, .26);
-  border-radius: 5px;
+  padding: 15px 20px 17px;
+  border: 1px solid rgba(216, 168, 73, .3);
+  border-radius: 8px;
   /* Trùng đúng nền của .hlt-header trong theme-refinements.css. */
   background: rgba(7, 20, 17, .92);
   backdrop-filter: blur(12px);
@@ -89,13 +72,113 @@
   height: 13px;
 }
 
-.hlt-nav-menu > a {
-  padding: 10px 15px;
-  border-radius: 3px;
-  font-size: .88em;
-  letter-spacing: .04em;
+/* Dòng vàng ở đầu menu, bấm vào mở trang tổng hợp 9 cung đường. */
+.hlt-nav-menu-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 13px;
+  color: #d9b14a;
+  font-size: 1em;
+  letter-spacing: .05em;
   text-transform: none;
   white-space: nowrap;
+}
+
+.hlt-nav-menu-title::before,
+.hlt-nav-menu-title::after {
+  content: "";
+  width: 46px;
+  height: 1px;
+  background: rgba(216, 168, 73, .45);
+}
+
+.hlt-nav-menu-title:hover {
+  color: #f0cd79;
+}
+
+/* Hai cột cung đường bên trái, thẻ du thuyền bên phải. */
+.hlt-nav-menu-body {
+  display: flex;
+  align-items: stretch;
+}
+
+.hlt-nav-menu-col {
+  display: grid;
+  align-content: start;
+  padding: 0 22px;
+}
+
+.hlt-nav-menu-col:first-child {
+  padding-left: 6px;
+}
+
+.hlt-nav-menu-col + .hlt-nav-menu-col,
+.hlt-nav-menu-cruise {
+  border-left: 1px solid rgba(216, 168, 73, .2);
+}
+
+.hlt-nav-menu-col > a {
+  padding: 7px 2px;
+  font-size: .86em;
+  letter-spacing: .03em;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.hlt-nav-menu-cruise {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 7px;
+  width: 196px;
+  margin-left: 6px;
+  padding: 2px 10px 0 22px;
+  text-align: center;
+}
+
+.hlt-nav-menu-cruise-icon {
+  width: 38px;
+  height: 23px;
+  fill: none;
+  stroke: #d9b14a;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-nav-menu-cruise-title {
+  color: #d9b14a;
+  font-size: .82em;
+  letter-spacing: .12em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.hlt-nav-menu-cruise-text {
+  color: rgba(244, 238, 226, .72);
+  font-size: .74em;
+  letter-spacing: .02em;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.hlt-nav-menu-cruise-cta {
+  margin-top: 4px;
+  padding: 7px 20px;
+  border: 1px solid rgba(216, 168, 73, .55);
+  border-radius: 3px;
+  color: #d9b14a;
+  font-size: .7em;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.hlt-nav-menu-cruise:hover .hlt-nav-menu-cruise-cta {
+  background: #d9b14a;
+  color: #0b1a15;
 }
 
 /* Rê chuột chỉ đổi màu chữ, không đổi nền. Màu vàng lấy từ rule
@@ -122,10 +205,6 @@
   .hlt-nav-menu {
     opacity: 1;
     visibility: visible;
-  }
-
-  .hlt-nav-caret {
-    display: none;
   }
 
   /* Hide old dropdown on mobile */
@@ -349,17 +428,70 @@
   color: #d9b45c;
 }
 
-.hlt-mobile-journey-link.is-overview {
-  padding-top: 9px;
-  color: #e0bc6b;
+/* Dòng vàng mở trang tổng hợp 9 cung đường, giống menu Routes bản PC. */
+.hlt-mobile-journey-title {
+  display: block;
+  padding: 10px 7px 9px 17px;
+  color: #d9b14a;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 11.5px;
   font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
 }
 
-.hlt-mobile-journey-link.is-cruise {
-  margin-bottom: 3px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(197, 161, 90, .14);
-  color: #e2c37f;
+/* Thẻ du thuyền khép lại danh sách cung đường. */
+.hlt-mobile-journey-cruise {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  margin: 9px 10px 4px 17px;
+  padding: 12px 14px 13px;
+  border: 1px solid rgba(197, 161, 90, .4);
+  border-radius: 9px;
+  background: rgba(197, 161, 90, .07);
+  text-decoration: none;
+}
+
+.hlt-mobile-journey-cruise-icon {
+  width: 34px;
+  height: 21px;
+  margin-bottom: 2px;
+  fill: none;
+  stroke: #d9b14a;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-mobile-journey-cruise-title {
+  color: #d9b14a;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.hlt-mobile-journey-cruise-text {
+  color: rgba(244, 238, 226, .72);
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.hlt-mobile-journey-cruise-cta {
+  margin-top: 7px;
+  padding: 6px 16px;
+  border: 1px solid rgba(197, 161, 90, .55);
+  border-radius: 3px;
+  color: #d9b14a;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
 }
 
 .hlt-mobile-nav-active-bar {
@@ -405,18 +537,68 @@
   text-align: center;
 }
 
-/* Thêm mục "About" làm menu dài hơn: ở PC hẹp (961–1439px) nút WhatsApp bị đẩy
-   ra ngoài mép phải. Co cỡ chữ / khoảng cách menu theo bề rộng màn. */
-@media (min-width: 961px) and (max-width: 1439px) {
+/* Menu có thêm mục About + Photo nên dài hơn khung: nút WhatsApp bị đẩy ra
+   ngoài mép phải ở mọi khổ PC (đo được tràn ~85px ở 1440 / 1600 / 1920).
+   Cho cỡ chữ, khoảng cách menu và nút co giãn theo bề rộng màn. */
+@media (min-width: 961px) {
   #primary-navigation.hlt-nav {
-    gap: clamp(9px, 1.25vw, 20px);
-    font-size: clamp(12.5px, 1.08vw, 16px);
+    /* Giãn rộng hơn khi màn hình đủ chỗ: ~12px ở 1024px, ~24px từ 1440px trở lên. */
+    gap: clamp(9px, calc(2.9vw - 17.5px), 24px);
+    font-size: clamp(12.5px, 1.02vw, 17px);
     letter-spacing: .045em;
   }
 
   .hlt-header-inner .hlt-header-cta {
     gap: 8px;
-    padding: 0 clamp(10px, 1vw, 16px);
-    font-size: clamp(12.5px, 1vw, 15px);
+    padding: 0 clamp(10px, 1vw, 18px);
+    font-size: clamp(12.5px, .95vw, 15px);
+  }
+}
+
+/* 961–1120px: menu đã ở cỡ chữ nhỏ nhất mà nút WhatsApp vẫn tràn ~39px,
+   nên thu thêm logo, tên thương hiệu và nút. */
+@media (min-width: 961px) and (max-width: 1120px) {
+  .hlt-header-inner .hlt-brand-logo {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hlt-header-inner .hlt-brand-text strong {
+    font-size: 19px;
+  }
+
+  .hlt-header-inner .hlt-brand-text span {
+    font-size: 11px;
+    letter-spacing: .04em;
+  }
+
+  #primary-navigation.hlt-nav {
+    gap: clamp(7px, .8vw, 12px);
+    letter-spacing: .02em;
+  }
+
+  .hlt-header-inner .hlt-header-cta {
+    gap: 6px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+}
+
+/* 961–1000px (ngay trên ngưỡng chuyển menu ☰): vẫn tràn 2–20px */
+@media (min-width: 961px) and (max-width: 1000px) {
+  #primary-navigation.hlt-nav {
+    gap: 6px;
+    letter-spacing: 0;
+  }
+
+  .hlt-header-inner .hlt-header-cta {
+    gap: 5px;
+    padding: 0 8px;
+    font-size: 11.5px;
+  }
+
+  .hlt-header-inner .hlt-header-cta .hlt-phone-icon {
+    width: 16px;
+    height: 16px;
   }
 }

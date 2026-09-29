@@ -5,8 +5,8 @@ import { catalogPageUrl, whatsappUrl } from "../../data.js";
 // Ba bước đặt xe cho bản "route" (trang /journey/<slug>/): số, tiêu đề PC,
 // phụ đề PC, nhãn ngắn cho mobile.
 const bookingSteps = [
-  ["01", "Send Trip Details", "WhatsApp / Form", "Send Details"],
-  ["02", "Get Your Final Quote", "Vehicle · Schedule · Final price", "Get Final Quote"],
+  ["01", "Start Your Booking", "WhatsApp or Booking Form", "Start Your Booking"],
+  ["02", "Plan Your Trip", "Route · Vehicle · Final price", "Plan Your Trip"],
   ["03", "Confirm & Enjoy", "Driver ready for pick-up", "Confirm & Enjoy"],
 ];
 
@@ -34,7 +34,7 @@ export default function JourneyCallToAction({ variant }) {
           <div className="hlt-journey-cta-route-inner">
             <header className="hlt-journey-cta-route-head">
               <h3 id="journey-cta-title">Ready to start your journey?</h3>
-              <p>We are here to make your trip comfortable, safe, and unforgettable.</p>
+              <p>Driver - Vehicle - Pick-up Time confirmed before departure.</p>
             </header>
 
             <ol className="hlt-journey-cta-steps">
@@ -65,7 +65,7 @@ export default function JourneyCallToAction({ variant }) {
                 Book via WhatsApp
               </a>
               <a className="hlt-btn hlt-journey-cta-route-outline" href="/booking/">
-                Request Availability
+                Book via Form
               </a>
             </div>
 

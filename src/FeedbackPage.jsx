@@ -73,7 +73,7 @@ const guestReviews = [
   },
   {
     title: "Flexible Departure",
-    quote: "It was my first time visiting Vietnam and our flight landed at Noi Bai Airport more than an hour late. It was already close to 1 a.m. We messaged Hoang Luxury to let them know. And then they replied very quickly, telling us not to worry and that the driver would wait for us. We even had some Phở at the airport because one of the airport staff told us it was the best one there. The driver never rushed us and waited patiently. When we finally met him, he helped with our suitcases and took us to a white SUV. We also asked him to take a photo of us as a memory of the trip. I really appreciated how professional and patient the service was.",
+    quote: "It was my first time visiting Vietnam and our flight landed at Noi Bai Airport more than an hour late. It was already close to 1 a.m. We messaged Hoang Luxury to let them know. And then they replied very quickly, telling us not to worry and that the driver would wait for us. We even had some Pho at the airport because one of the airport staff told us it was the best one there. The driver never rushed us and waited patiently. When we finally met him, he helped with our suitcases and took us to a white SUV. We also asked him to take a photo of us as a memory of the trip. I really appreciated how professional and patient the service was.",
     country: "United States",
     guest: "Guest from the United States",
     alt: "Hoang Luxury Travel private car interior",
@@ -306,7 +306,9 @@ export default function FeedbackPage() {
                   <span>Matters to Us</span>
                 </h2>
                 <p className="hlt-feedback-form-copy">
-                  We want every journey with Hoang Luxury Travel to be a memorable experience. Your feedback helps us understand what we do well and where we can improve.
+                  We want every journey with Hoang Luxury Travel to be a comfortable and memorable experience.
+                  Your feedback helps us understand what we do well and where we can improve. Every comment is
+                  carefully reviewed by our team so we can continue improving our service.
                 </p>
               </header>
 
@@ -322,7 +324,7 @@ export default function FeedbackPage() {
                       <input
                         required
                         name="bookingId"
-                        placeholder="Enter your Booking ID — e.g. HLT-120826-RSKS001-001"
+                        placeholder="e.g. HLT-100826-RKS001-001"
                         autoComplete="off"
                         maxLength="80"
                       />

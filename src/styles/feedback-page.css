@@ -430,8 +430,9 @@
   left: -8%;
   height: 58%;
   background: var(--feedback-mountain-art) left bottom / 155% auto no-repeat;
-  opacity: .17;
-  filter: sepia(.2) saturate(.72);
+  /* Trước mờ .17 + giảm màu nên gần như không thấy nét vẽ; tăng độ rõ */
+  opacity: .42;
+  filter: none;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .72) 36%, #000 100%);
   mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, .72) 36%, #000 100%);
   pointer-events: none;
@@ -1113,5 +1114,17 @@
 
   .hlt-feedback-form-intro::after {
     height: 72%;
+  }
+}
+
+/* Icon ô tô là hình nằm ngang nên trong ô vuông chung nó trông nhỏ hơn ba icon
+   kia. Nới rộng riêng ô của nó, chiều cao giữ nguyên để hàng chữ vẫn thẳng. */
+.hlt-feedback-stats article:nth-child(4) img {
+  width: clamp(56px, 5.1vw, 72px);
+}
+
+@media (max-width: 600px) {
+  .hlt-feedback-stats article:nth-child(4) img {
+    width: 54px;
   }
 }

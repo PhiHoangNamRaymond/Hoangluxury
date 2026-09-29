@@ -6,9 +6,9 @@ import {
   routeViewAllButtonUrl,
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
-import { catalogPageUrl, fleet as fleetItems, popularRoutes } from "../../data.js";
+import { catalogPageUrl, fleet as fleetItems, getJourneyPageUrl, popularRoutes } from "../../data.js";
 
-function FleetSpecIcon({ spec }) {
+export function FleetSpecIcon({ spec }) {
   const type = spec.toLowerCase();
 
   if (type.includes("seat")) {
@@ -106,7 +106,7 @@ export default function Fleet() {
                 <a
                   className="hlt-route-card"
                   key={route}
-                  href={`/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`}
+                  href={getJourneyPageUrl(route)}
                   aria-label={`Hanoi / Noi Bai to ${route}`}
                 >
                   <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>

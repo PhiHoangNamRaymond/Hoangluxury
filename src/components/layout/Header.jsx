@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { logoUrl } from "../../config/assets.js";
-import { catalogPageUrl, feedbackPageUrl, navLinks, whatsappUrl } from "../../data.js";
+import { navLinks, routesMenu, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
 
 const normalizePath = (pathname) => pathname.replace(/\/+$/, "");
-const mobileJourneyLinks = navLinks.find(([label]) => label === "Journey")?.[2] ?? [];
 
 const getInitialActiveHref = () => {
   const currentPath = normalizePath(window.location.pathname);
@@ -45,12 +44,13 @@ export default function Header() {
     scrollAnimationFrame.current = null;
   };
 
-  const scrollToSection = (target) => {
-    cancelScrollAnimation();
+  // Mốc dừng của một mục: tiêu đề nằm ngay dưới header, chừa một khoảng nhỏ.
+  const sectionScrollTop = (target) => {
+    // Hero là mục đầu trang: về đúng đỉnh, canh theo tiêu đề sẽ cắt mất phần trên.
+    if (target.id === "home") return 0;
 
     const headerHeight =
       document.querySelector(".hlt-header")?.getBoundingClientRect().height ?? 0;
-    const startPosition = window.scrollY;
     const scrollAnchor =
       target.querySelector(
         ".hlt-services-heading, .hlt-fleet-heading, .hlt-route-heading, [data-section-heading]"
@@ -59,10 +59,15 @@ export default function Header() {
     const headingGap = Math.round(
       Math.max(12, Math.min(28, window.innerHeight * 0.025))
     );
-    const targetPosition = Math.max(
-      0,
-      anchorRect.top + startPosition - headerHeight - headingGap
-    );
+
+    return Math.max(0, anchorRect.top + window.scrollY - headerHeight - headingGap);
+  };
+
+  const scrollToSection = (target) => {
+    cancelScrollAnimation();
+
+    const startPosition = window.scrollY;
+    const targetPosition = sectionScrollTop(target);
     const distance = targetPosition - startPosition;
 
     if (Math.abs(distance) < 1) return;
@@ -155,18 +160,61 @@ export default function Header() {
     };
   }, [isHomePage]);
 
+  // Vào thẳng trang chủ kèm #section (bấm Services/Fleet từ Catalog, Booking,
+  // Feedback…): nhảy đúng mốc rồi canh lại mỗi khi ảnh, phông chữ tải xong làm
+  // trang cao thêm, nếu không điểm dừng sẽ lệch so với lúc bấm ngay ở trang chủ.
   useEffect(() => {
-    if (!isHomePage || !window.location.hash) return;
+    if (!isHomePage) return undefined;
 
-    const target = document.querySelector(window.location.hash);
-    if (!target) return;
+    const hash = window.location.hash;
+    if (!hash || hash.length < 2) return undefined;
 
-    const frame = requestAnimationFrame(() => {
-      requestAnimationFrame(() => scrollToSection(target));
-    });
+    const target = document.querySelector(hash);
+    if (!target) return undefined;
+
+    if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
+
+    let aligning = true;
+    let frame = null;
+    const timers = [];
+
+    const align = () => {
+      if (!aligning) return;
+      if (frame !== null) cancelAnimationFrame(frame);
+
+      frame = requestAnimationFrame(() => {
+        frame = null;
+        if (!aligning) return;
+
+        cancelScrollAnimation();
+        window.scrollTo({ top: sectionScrollTop(target), behavior: "instant" });
+      });
+    };
+
+    // Khách tự cuộn thì dừng canh ngay, không giật trang của họ.
+    const stopAligning = () => {
+      aligning = false;
+    };
+
+    align();
+    window.addEventListener("load", align);
+    [200, 500, 1000, 1800, 3000].forEach((delay) => timers.push(window.setTimeout(align, delay)));
+    timers.push(window.setTimeout(stopAligning, 3600));
+    document.fonts?.ready.then(align).catch(() => {});
+    window.addEventListener("wheel", stopAligning, { passive: true });
+    window.addEventListener("touchstart", stopAligning, { passive: true });
+    window.addEventListener("keydown", stopAligning);
+    window.addEventListener("mousedown", stopAligning);
 
     return () => {
-      cancelAnimationFrame(frame);
+      aligning = false;
+      window.removeEventListener("load", align);
+      window.removeEventListener("wheel", stopAligning);
+      window.removeEventListener("touchstart", stopAligning);
+      window.removeEventListener("keydown", stopAligning);
+      window.removeEventListener("mousedown", stopAligning);
+      timers.forEach((timer) => window.clearTimeout(timer));
+      if (frame !== null) cancelAnimationFrame(frame);
       cancelScrollAnimation();
     };
   }, [isHomePage]);
@@ -238,11 +286,6 @@ export default function Header() {
                   onClick={(event) => handleNavigation(event, href, resolvedHref)}
                 >
                   {label}
-                  {children && (
-                    <svg className="hlt-nav-caret" viewBox="0 0 12 12" aria-hidden="true">
-                      <path d="m3 4.5 3 3 3-3" />
-                    </svg>
-                  )}
                 </a>
               );
 
@@ -252,18 +295,34 @@ export default function Header() {
                 <div className="hlt-nav-group" key={label}>
                   {link}
                   <div className="hlt-nav-menu">
-                    {children.map(([childLabel, childHref]) => {
-                      const resolvedChildHref = navigationHref(childHref);
-                      return (
-                        <a
-                          href={resolvedChildHref}
-                          key={childLabel}
-                          onClick={(event) => handleNavigation(event, childHref, resolvedChildHref)}
-                        >
-                          {childLabel}
-                        </a>
-                      );
-                    })}
+                    <a className="hlt-nav-menu-title" href={routesMenu.titleUrl}>
+                      {routesMenu.title}
+                    </a>
+
+                    <div className="hlt-nav-menu-body">
+                      {[routesMenu.routes.slice(0, 5), routesMenu.routes.slice(5)].map((column, columnIndex) => (
+                        <div className="hlt-nav-menu-col" key={columnIndex}>
+                          {column.map(([childLabel, childHref]) => (
+                            <a href={childHref} key={childLabel}>
+                              {childLabel}
+                            </a>
+                          ))}
+                        </div>
+                      ))}
+
+                      <a className="hlt-nav-menu-cruise" href={routesMenu.cruise.url}>
+                        <svg className="hlt-nav-menu-cruise-icon" viewBox="0 0 40 24" aria-hidden="true">
+                          <path d="M4 16h32l-3.4 5.2a2 2 0 0 1-1.7.8H9.1a2 2 0 0 1-1.7-.8L4 16Z" />
+                          <path d="M8 16V9.4h24V16" />
+                          <path d="M13 9.4V6.2h14v3.2" />
+                          <path d="M20 6.2V2.4" />
+                          <path d="M14 12.6h4M22 12.6h4" />
+                        </svg>
+                        <span className="hlt-nav-menu-cruise-title">{routesMenu.cruise.title}</span>
+                        <span className="hlt-nav-menu-cruise-text">{routesMenu.cruise.text}</span>
+                        <span className="hlt-nav-menu-cruise-cta">{routesMenu.cruise.ctaLabel}</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               );
@@ -360,7 +419,7 @@ export default function Header() {
               onClick={() => setMobileJourneysOpen((open) => !open)}
             >
               {activeHref === "/journeys/" && <span className="hlt-mobile-nav-active-bar" />}
-              <span className="hlt-mobile-nav-label">Journeys</span>
+              <span className="hlt-mobile-nav-label">Routes</span>
               <svg
                 className={`hlt-mobile-nav-caret${mobileJourneysOpen ? " is-open" : ""}`}
                 viewBox="0 0 12 12"
@@ -375,35 +434,58 @@ export default function Header() {
               className={`hlt-mobile-journey-menu${mobileJourneysOpen ? " is-open" : ""}`}
               aria-hidden={!mobileJourneysOpen}
             >
+              {/* Cùng nội dung với menu Routes bản PC: dòng vàng dẫn sang trang
+                  tổng hợp, 9 cung đường, rồi thẻ du thuyền Hạ Long. */}
               <div className="hlt-mobile-journey-menu-inner">
-                {mobileJourneyLinks.map(([childLabel, childHref], index) => {
-                  const resolvedChildHref = navigationHref(childHref);
-                  const childPath = normalizePath(new URL(childHref, window.location.origin).pathname);
-                  const isChildActive = childPath === normalizePath(window.location.pathname);
-                  const displayLabel = index === 0 ? "All 9 Routes" : childLabel;
+                <a
+                  className="hlt-mobile-journey-title"
+                  href={routesMenu.titleUrl}
+                  tabIndex={mobileJourneysOpen ? 0 : -1}
+                >
+                  {routesMenu.title}
+                </a>
+
+                {routesMenu.routes.map(([childLabel, childHref]) => {
+                  const isChildActive =
+                    normalizePath(new URL(childHref, window.location.origin).pathname) ===
+                    normalizePath(window.location.pathname);
 
                   return (
                     <a
-                      className={`hlt-mobile-journey-link${index === 0 ? " is-overview" : ""}${index === 1 ? " is-cruise" : ""}${isChildActive ? " is-active" : ""}`}
-                      href={resolvedChildHref}
+                      className={`hlt-mobile-journey-link${isChildActive ? " is-active" : ""}`}
+                      href={childHref}
                       key={childLabel}
                       aria-current={isChildActive ? "page" : undefined}
                       tabIndex={mobileJourneysOpen ? 0 : -1}
-                      onClick={(event) => handleNavigation(event, childHref, resolvedChildHref)}
                     >
-                      {displayLabel}
+                      {childLabel}
                     </a>
                   );
                 })}
+
+                <a
+                  className="hlt-mobile-journey-cruise"
+                  href={routesMenu.cruise.url}
+                  tabIndex={mobileJourneysOpen ? 0 : -1}
+                >
+                  <svg className="hlt-mobile-journey-cruise-icon" viewBox="0 0 40 24" aria-hidden="true">
+                    <path d="M4 16h32l-3.4 5.2a2 2 0 0 1-1.7.8H9.1a2 2 0 0 1-1.7-.8L4 16Z" />
+                    <path d="M8 16V9.4h24V16" />
+                    <path d="M13 9.4V6.2h14v3.2" />
+                    <path d="M20 6.2V2.4" />
+                    <path d="M14 12.6h4M22 12.6h4" />
+                  </svg>
+                  <span className="hlt-mobile-journey-cruise-title">{routesMenu.cruise.title}</span>
+                  <span className="hlt-mobile-journey-cruise-text">{routesMenu.cruise.text}</span>
+                  <span className="hlt-mobile-journey-cruise-cta">{routesMenu.cruise.ctaLabel}</span>
+                </a>
               </div>
             </div>
           </div>
 
-          {[
-            ["Catalog", catalogPageUrl],
-            ["Booking", "/booking/"],
-            ["Feedback", feedbackPageUrl],
-          ].map(([label, href]) => {
+          {/* Các mục còn lại lấy thẳng từ navLinks để panel mobile luôn khớp
+              với menu trên header (Photo, Blog, Catalog, Booking, Feedback, About). */}
+          {navLinks.filter(([, href]) => !href.startsWith("#")).map(([label, href]) => {
             const resolvedHref = navigationHref(href);
             const isActive = activeHref === href;
             return (
@@ -422,7 +504,7 @@ export default function Header() {
 
         <div className="hlt-mobile-drawer-footer">
           <img src={logoUrl} alt="" className="hlt-mobile-drawer-watermark" aria-hidden="true" />
-          <p className="hlt-mobile-drawer-slogan">LUXURY. COMFORT. TRUST.</p>
+          <p className="hlt-mobile-drawer-slogan">LUXURY. COMFORT. PRIVATE.</p>
         </div>
       </aside>
 

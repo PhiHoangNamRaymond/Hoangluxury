@@ -1461,3 +1461,14 @@
     color: #f1d39a !important;
   }
 }
+
+/* Mobile: kéo khối chữ dưới logo trong thẻ footer lên sát logo hơn. */
+@media (max-width: 760px) {
+  .hlt-footer-mobile-logo {
+    margin: 0 auto !important;
+  }
+
+  .hlt-footer-mobile-brand-text {
+    margin-top: -5px !important;
+  }
+}

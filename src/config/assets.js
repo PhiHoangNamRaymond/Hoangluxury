@@ -7,7 +7,7 @@ import experienceSlide02Url from "../../assets/experience-slider/2.png";
 import experienceSlide15Url from "../../assets/experience-slider/15.png";
 import experienceSlide16Url from "../../assets/experience-slider/16.webp";
 import experienceSlide17Url from "../../assets/experience-slider/17.png";
-import experienceSlide18Url from "../../assets/experience-slider/18.png";
+import experienceSlide18Url from "../../assets/experience-slider/18-2.png";
 import experienceSlide20Url from "../../assets/experience-slider/20.png";
 import experienceSlide21Url from "../../assets/experience-slider/21.webp";
 import experienceSlide30Url from "../../assets/experience-slider/30.png";
@@ -90,14 +90,14 @@ import feedbackStatStarUrl from "../../assets/feedback-stat-star.png";
 import feedbackStatPrivateCarUrl from "../../assets/feedback-stat-private-car.png";
 
 /* 8 ảnh review khách hàng trang Feedback, theo thứ tự câu chuyện (tên file đã SEO) */
-import feedbackReview1Url from "../../assets/feedback-reviews/ha-noi-to-sapa-private-car-hoang-luxury-travel.jpg";
-import feedbackReview2Url from "../../assets/feedback-reviews/ha-noi-to-ha-long-private-car-hoang-luxury-travel.jpg";
-import feedbackReview3Url from "../../assets/feedback-reviews/ha-noi-to-ha-giang-private-car-hoang-luxury-travel.jpg";
-import feedbackReview4Url from "../../assets/feedback-reviews/ha-noi-to-mu-cang-chai-private-transfer-hoang-luxury-travel.jpg";
-import feedbackReview5Url from "../../assets/feedback-reviews/representative-office-of-hoang-luxury-travel-hanoi-to-sapa-private-transfer.jpg";
-import feedbackReview6Url from "../../assets/feedback-reviews/ha-noi-to-ninh-binh-private-transfer-hoang-luxury-travel.jpg";
-import feedbackReview7Url from "../../assets/feedback-reviews/ha-noi-to-ha-giang-private-transfer-hoang-luxury-travel.jpg";
-import feedbackReview8Url from "../../assets/feedback-reviews/hoang-luxury-travel-private-car-interior.jpg";
+import feedbackReview1Url from "../../assets/feedback-reviews/cards/ha-noi-to-sapa-private-car-hoang-luxury-travel.jpg";
+import feedbackReview2Url from "../../assets/feedback-reviews/cards/ha-noi-to-ha-long-private-car-hoang-luxury-travel.jpg";
+import feedbackReview3Url from "../../assets/feedback-reviews/cards/ha-noi-to-ha-giang-private-car-hoang-luxury-travel.jpg";
+import feedbackReview4Url from "../../assets/feedback-reviews/cards/ha-noi-to-mu-cang-chai-private-transfer-hoang-luxury-travel.jpg";
+import feedbackReview5Url from "../../assets/feedback-reviews/cards/representative-office-of-hoang-luxury-travel-hanoi-to-sapa-private-transfer.jpg";
+import feedbackReview6Url from "../../assets/feedback-reviews/cards/ha-noi-to-ninh-binh-private-transfer-hoang-luxury-travel.jpg";
+import feedbackReview7Url from "../../assets/feedback-reviews/cards/ha-noi-to-ha-giang-private-transfer-hoang-luxury-travel.jpg";
+import feedbackReview8Url from "../../assets/feedback-reviews/cards/hoang-luxury-travel-private-car-interior.jpg";
 
 /* 4 icon dải thông tin dưới banner trang tuyến (/journey/<slug>/) */
 import journeyFactRouteUrl from "../../assets/journey-fact-route.png";
@@ -106,10 +106,10 @@ import journeyFactVehicleUrl from "../../assets/journey-fact-vehicle.png";
 import journeyFactRatesUrl from "../../assets/journey-fact-rates.png";
 
 /* 4 ảnh thẻ Journey Experience trang tuyến (JPEG 800×600 đã tối ưu) */
-import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.jpg";
-import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.jpg";
-import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.jpg";
-import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.jpg";
+import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.webp";
+import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.webp";
+import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
+import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.webp";
 
 /* Nền dải "Ready to start your journey?" trang tuyến (cắt dải núi + mây từ Sapa2.png, JPEG 1920×565) */
 import journeyCtaMountainsImg from "../../assets/journey-cta-mountains.jpg";
@@ -214,6 +214,13 @@ export const experienceImages = [
   src,
   alt: `Hoang Luxury Travel experience ${index + 1}`,
 }));
+
+/* Dải ảnh chạy gần footer (ExperienceSlider): bỏ 2 ảnh thác nước 50 / 51.
+   Giữ chúng trong experienceImages vì trang /photo/ vẫn dùng. */
+export const experienceSliderImages = experienceImages
+  .filter((image) => image.src !== experienceSlide50Url && image.src !== experienceSlide51Url)
+  /* Ảnh ca nô đỏ là ảnh dọc, xe nằm ở ~68% chiều cao; mốc 80% đưa xe vào giữa khung */
+  .map((image) => (image.src === experienceSlide90Url ? { ...image, focus: "center 80%" } : image));
 
 export const feedbackReviewImages = [
   feedbackReview1Url,
@@ -348,9 +355,15 @@ export const preferenceIconImages = {
 import aboutHeroMountainsImg from "../../assets/about-hero-mountains.jpg";
 import aboutApproachReceptionImg from "../../assets/about-approach-reception.jpg";
 import aboutPeopleOperationsImg from "../../assets/about-people-operations.jpg";
+/* Ảnh dọc cho khối "A message from the CEO" (cắt từ experience-slider/70.png) */
+import aboutCeoMessageImg from "../../assets/about-ceo-message.jpg";
+/* Khối "The people behind your journey" dùng lại ảnh tài xế xếp hành lý */
+import aboutPeopleLuggageImg from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
 
 export const aboutImages = {
   hero: aboutHeroMountainsImg,
   approach: aboutApproachReceptionImg,
-  people: aboutPeopleOperationsImg,
+  people: aboutPeopleLuggageImg,
+  operations: aboutPeopleOperationsImg,
+  ceo: aboutCeoMessageImg,
 };

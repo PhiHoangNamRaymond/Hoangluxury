@@ -7,6 +7,7 @@ export const catalogUrl =
 export const catalogPageUrl = "/catalog/";
 export const feedbackPageUrl = "/feedback/";
 export const aboutPageUrl = "/about/";
+export const photoPageUrl = "/photo/";
 
 export const popularRoutes = [
   "Sapa",
@@ -22,24 +23,43 @@ export const popularRoutes = [
 
 export const cruisesPageUrl = "/cruises/";
 
-// Dropdown "Journey" liệt kê tuỳ chọn xem tất cả tuyến cùng các tuyến chính và du thuyền.
+export const getJourneyPageUrl = (route) => {
+  const routeSlug = route.toLowerCase().replace(/\s+/g, "-");
+  const destinationSlug = routeSlug === "sa-pa" ? "sapa" : routeSlug;
+  return `/journey/hanoi-to-${destinationSlug}-private-transfer/`;
+};
+
+const privateTransferRoutes = [
+  "Sapa",
+  "Ha Long",
+  "Ninh Binh",
+  "Ha Giang",
+  "Cat Ba",
+  "Cao Bang",
+  "Moc Chau",
+  "Mu Cang Chai",
+  "Ta Xua",
+].map((route) => [`Hanoi to ${route}`, getJourneyPageUrl(route)]);
+
+// Menu "Routes" trên header: 9 cung đường chia hai cột, tiêu đề vàng dẫn sang
+// trang tổng hợp, bên phải là thẻ giới thiệu du thuyền Hạ Long.
+export const routesMenu = {
+  title: "All Private Transfer Routes",
+  titleUrl: "/journeys/",
+  routes: privateTransferRoutes,
+  cruise: {
+    title: "Ha Long Bay Cruises",
+    text: "Discover Ha Long Bay on scenic cruise",
+    ctaLabel: "Explore",
+    url: cruisesPageUrl,
+  },
+};
+
+// Danh sách phẳng dùng cho panel mobile (mục đầu là trang tổng hợp 9 cung đường).
 const journeyRoutes = [
-  ["Private Transfer Routes", "/journeys/"],
-  ["Ha Long Bay Cruises", cruisesPageUrl],
-  ...[
-    "Sapa",
-    "Ha Long",
-    "Ninh Binh",
-    "Ha Giang",
-    "Cat Ba",
-    "Cao Bang",
-    "Moc Chau",
-    "Mu Cang Chai",
-    "Ta Xua",
-  ].map((route) => [
-    `Hanoi to ${route}`,
-    `/journey/${route.toLowerCase().replace(/\s+/g, "-")}/`,
-  ]),
+  [routesMenu.title, routesMenu.titleUrl],
+  [routesMenu.cruise.title, cruisesPageUrl],
+  ...privateTransferRoutes,
 ];
 
 // Phần tử thứ ba (tuỳ chọn) là danh sách con, hiện ra khi rê chuột vào mục cha.
@@ -47,13 +67,15 @@ export const navLinks = [
   ["Home", "#home"],
   ["Services", "#services"],
   ["Fleet", "#fleet"],
-  // Bấm vào chữ "Journey" thì cuộn xuống mục Curated Journeys ở trang chủ;
+  // Bấm vào chữ "Routes" thì cuộn xuống mục Curated Journeys ở trang chủ;
   // các mục trong dropdown vẫn giữ đích riêng của chúng.
-  ["Journey", "#routes", journeyRoutes],
-  ["About", aboutPageUrl],
+  ["Routes", "#routes", journeyRoutes],
+  ["Photo", photoPageUrl],
+  ["Blog", "/blog/"],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
   ["Feedback", feedbackPageUrl],
+  ["About", aboutPageUrl],
 ];
 
 export const heroSlides = [
@@ -62,12 +84,12 @@ export const heroSlides = [
     alt: "Private luxury SUV on a mountain pass at sunrise in Northern Vietnam",
   },
   {
-    image: "fleetWedding",
-    alt: "Fleet of white luxury SUVs decorated with flowers at a resort entrance",
-  },
-  {
     image: "convoyMountain",
     alt: "Convoy of luxury SUVs driving through a mountain village at dusk",
+  },
+  {
+    image: "fleetWedding",
+    alt: "Fleet of white luxury SUVs decorated with flowers at a resort entrance",
   },
   {
     image: "operationsCenter",
@@ -88,7 +110,7 @@ export const whyItems = [
   {
     icon: "car",
     title: "Customized VIP Service",
-    text: "We plan a personalized itinerary, provide useful travel information and local tips for each destination, and assist with restaurant and attraction reservations.",
+    text: "We plan a personalized itinerary, provide useful travel information and local tips for each destination.",
   },
   {
     icon: "whatsapp",
