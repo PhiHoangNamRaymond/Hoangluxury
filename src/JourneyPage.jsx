@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
+import { FleetSpecIcon } from "./components/home/Fleet.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { catalogPageUrl, whatsappUrl } from "./data.js";
+import { catalogPageUrl, fleet as fleetItems, whatsappUrl } from "./data.js";
 import {
   catalogBackgroundUrl,
   fleetImages,
@@ -21,7 +22,6 @@ import {
   journeyFaq,
   journeyFeatures,
   journeyHighlights,
-  journeyVehicles,
   journeys,
 } from "./config/journeys.js";
 
@@ -228,11 +228,11 @@ export default function JourneyPage({ slug }) {
   // cho từng tuyến để kết quả tìm kiếm không hiện trùng tiêu đề.
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = `Hanoi to ${journey.name} Private Car Transfer | Hoang Luxury Travel`;
+    document.title = journey.seoTitle || `Hanoi to ${journey.name} Private Car Transfer | Hoang Luxury Travel`;
 
     const description = document.querySelector('meta[name="description"]');
     const previousDescription = description?.getAttribute("content");
-    description?.setAttribute("content", journey.intro);
+    description?.setAttribute("content", journey.metaDescription || journey.intro);
 
     return () => {
       document.title = previousTitle;
@@ -241,19 +241,39 @@ export default function JourneyPage({ slug }) {
   }, [journey]);
 
   // Dải thông tin dưới banner. Cột thứ 5 (href) biến cả ô thành liên kết.
+  const heroFacts = journey.heroFacts;
   const facts = [
-    [journeyFactIcons.route, "Route", `Hanoi to ${journey.name},`, journey.distance],
-    [journeyFactIcons.time, "Time", journey.duration, journey.durationNote],
-    [journeyFactIcons.vehicle, "Vehicle", "Limo Lux / Limo Prime /", "VIP Luxury"],
-    [journeyFactIcons.rates, "Rates", "View Official Catalog /", "Transparent pricing", catalogPageUrl],
+    [journeyFactIcons.route, "Route", heroFacts?.route[0] || `Hanoi to ${journey.name},`, heroFacts?.route[1] || journey.distance],
+    [journeyFactIcons.time, "Time", heroFacts?.time[0] || journey.duration, heroFacts?.time[1] || journey.durationNote],
+    [journeyFactIcons.vehicle, "Vehicle", heroFacts?.vehicle[0] || "Limo Lux / Limo Prime /", heroFacts?.vehicle[1] || "VIP Luxury"],
+    [journeyFactIcons.rates, "Rates", heroFacts?.rates[0] || "View Official Catalog /", heroFacts?.rates[1] || "Transparent pricing", catalogPageUrl],
   ];
 
-  // 4 gói hành trình (theo mẫu); "car" dùng icon xe vàng của dải thông tin.
+  // 4 lựa chọn dịch vụ; nội dung điểm đến thay đổi theo từng trang tuyến.
   const journeyOptions = [
-    { icon: "car", title: "One-Way Transfer", lines: [`Hanoi / Noi Bai → ${journey.name}`, "Flexible departure."] },
-    { icon: "roundTrip", title: "Round Trip", lines: ["Two scheduled transfers", "Return date confirmed."] },
-    { icon: "calendar", title: "3 Days 2 Nights", lines: ["Dedicated vehicle throughout", "1 full local service day."], featured: true },
-    { icon: "routePins", title: "Custom Trip", lines: ["Built around your plans", "Flexible dates & itinerary."] },
+    {
+      icon: "car",
+      title: "One-Way Transfer",
+      lines: [`Hanoi / Noi Bai Airport → ${journey.name}`, journey.dropoffNote],
+    },
+    {
+      icon: "roundTrip",
+      title: "Round Trip",
+      lines: [
+        `Hanoi / Noi Bai Airport → ${journey.name}`,
+        `${journey.name} → Hanoi / Noi Bai Airport`,
+      ],
+    },
+    {
+      icon: "calendar",
+      title: "4 Days 3 Nights",
+      lines: ["Round-trip transfers included", "Private car & driver throughout your stay"],
+    },
+    {
+      icon: "routePins",
+      title: "Personalized Service",
+      lines: ["Travel advice. Trip planning.", "Timing and itinerary that suit your needs"],
+    },
   ];
 
   return (
@@ -270,7 +290,7 @@ export default function JourneyPage({ slug }) {
           <div className="hlt-journey-hero-main">
           <div className="hlt-container">
             <div className="hlt-journey-hero-content">
-              <p className="hlt-journey-eyebrow">Private Luxury Transfer</p>
+              <p className="hlt-journey-eyebrow">{journey.eyebrow || "Private Luxury Transfer"}</p>
               <h1>
                 <span>Hanoi</span>
                 <span className="hlt-journey-title-to">to</span>
@@ -292,8 +312,11 @@ export default function JourneyPage({ slug }) {
                   </span>
                   <span>Book via WhatsApp</span>
                 </a>
-                <a className="hlt-btn hlt-btn-outline" href="/booking/">
-                  Request Availability
+                <a
+                  className="hlt-btn hlt-btn-outline"
+                  href={journey.secondaryActionHref || "/booking/"}
+                >
+                  {journey.secondaryActionLabel || "Request Availability"}
                 </a>
               </div>
             </div>
@@ -326,8 +349,17 @@ export default function JourneyPage({ slug }) {
           <div className="hlt-container">
             {/* Theo mẫu: chỉ tiêu đề có vạch vàng hai bên + một dòng mô tả */}
             <div className="hlt-journey-heading hlt-journey-heading-lined">
-              <h2>Door-to-Door Private Transfer</h2>
-              <p className="hlt-journey-sub">{journey.leadIn}</p>
+              <h2>{journey.transitTitle || "Door-to-Door Private Transfer"}</h2>
+              <p className="hlt-journey-sub">
+                {journey.transitLeadLines
+                  ? journey.transitLeadLines.map((line, index) => (
+                    <React.Fragment key={line}>
+                      {index > 0 && <br />}
+                      {line}
+                    </React.Fragment>
+                  ))
+                  : journey.leadIn}
+              </p>
             </div>
 
             <div className="hlt-journey-transit">
@@ -368,7 +400,7 @@ export default function JourneyPage({ slug }) {
             </div>
 
             <div className="hlt-journey-features">
-              {journeyFeatures.map(([icon, title, text]) => (
+              {(journey.features || journeyFeatures).map(([icon, title, text]) => (
                 <article key={title} className="hlt-journey-feature-col">
                   <LineIcon type={icon} className="hlt-journey-feature-icon" />
                   <div className="hlt-journey-feature-text">
@@ -386,29 +418,27 @@ export default function JourneyPage({ slug }) {
             <div className="hlt-journey-heading hlt-journey-heading-lined">
               <h2>Our Vehicles</h2>
             </div>
-            <div className="hlt-journey-vehicle-grid">
-              {journeyVehicles.map((vehicle) => (
-                <article className="hlt-journey-vehicle-card" key={vehicle.name}>
-                  <div className="hlt-journey-vehicle-img">
+            <div className="hlt-fleet-grid">
+              {fleetItems.map((vehicle) => (
+                <article className="hlt-fleet-card" key={vehicle.name}>
+                  <h3>{vehicle.name}</h3>
+                  <div className="hlt-fleet-img">
                     <img src={fleetImages[vehicle.image]} alt={vehicle.name} />
                   </div>
-                  <div className="hlt-journey-vehicle-body">
-                    <h3>{vehicle.name}</h3>
-                    <div className="hlt-journey-vehicle-specs">
-                      <div className="hlt-journey-vehicle-spec">
-                        <LineIcon type="passenger" className="hlt-journey-vehicle-icon" />
-                        <div>
-                          <strong>{vehicle.passengers}</strong>
-                          <small>Passengers</small>
-                        </div>
-                      </div>
-                      <div className="hlt-journey-vehicle-spec">
-                        <LineIcon type="luggage" className="hlt-journey-vehicle-icon" />
-                        <div>
-                          <strong>{vehicle.luggage}</strong>
-                          <small>Luggage</small>
-                        </div>
-                      </div>
+                  <div className="hlt-fleet-body">
+                    <div className="hlt-fleet-specs">
+                      {vehicle.specs.map((spec) => {
+                        const journeySpec = vehicle.image === "limoLux" && spec === "Spacious"
+                          ? "Recommended"
+                          : spec;
+
+                        return (
+                          <span key={spec}>
+                            <FleetSpecIcon spec={journeySpec} />
+                            {journeySpec}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                 </article>
@@ -417,7 +447,7 @@ export default function JourneyPage({ slug }) {
 
             <p className="hlt-journey-vehicle-note">
               <LineIcon type="carCheck" className="hlt-journey-vehicle-note-icon" />
-              Your vehicle details are confirmed before departure
+              This is an actual photo of our vehicle
             </p>
           </div>
         </section>
@@ -431,7 +461,7 @@ export default function JourneyPage({ slug }) {
                 Choose Your {journey.name} Journey
               </h2>
               <p className="hlt-journey-sub">
-                Choose a direct transfer or keep your private vehicle and driver throughout your stay.
+                All trip details will be sent to you 24 hours before departure.
               </p>
             </div>
 
@@ -448,21 +478,24 @@ export default function JourneyPage({ slug }) {
                     <LineIcon type={option.icon} className="hlt-journey-option-icon" />
                   )}
                   <h3>{option.title}</h3>
-                  <p>{option.lines[0]}<br />{option.lines[1]}</p>
+                  <p>
+                    {option.lines.map((line) => <span key={line}>{line}</span>)}
+                  </p>
                 </article>
               ))}
             </div>
 
-            <p className="hlt-journey-options-note">Detailed rates are available in our official catalog.</p>
             <div className="hlt-journey-options-actions">
-              <a className="hlt-btn hlt-btn-gold" href={catalogPageUrl}>View Pricing Catalog</a>
+              <a className="hlt-btn hlt-btn-gold" href={catalogPageUrl}>
+                View {journey.name} Pricing
+              </a>
               <a
                 className="hlt-btn hlt-journey-btn-dark"
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Customize via WhatsApp
+                Booking Now
               </a>
             </div>
           </div>
@@ -526,32 +559,17 @@ export default function JourneyPage({ slug }) {
               </div>
 
               <div className="hlt-jfaq-grid">
-                <div className="hlt-jfaq-col">
-                  {journeyFaq.slice(0, Math.ceil(journeyFaq.length / 2)).map(([question, answer]) => (
-                    <details key={question} className="hlt-jfaq-item">
-                      <summary className="hlt-jfaq-summary">
-                        <span>{question}</span>
-                        <span className="hlt-jfaq-plus" aria-hidden="true">+</span>
-                      </summary>
-                      <div className="hlt-jfaq-answer">
-                        <p>{answer}</p>
-                      </div>
-                    </details>
-                  ))}
-                </div>
-                <div className="hlt-jfaq-col">
-                  {journeyFaq.slice(Math.ceil(journeyFaq.length / 2)).map(([question, answer]) => (
-                    <details key={question} className="hlt-jfaq-item">
-                      <summary className="hlt-jfaq-summary">
-                        <span>{question}</span>
-                        <span className="hlt-jfaq-plus" aria-hidden="true">+</span>
-                      </summary>
-                      <div className="hlt-jfaq-answer">
-                        <p>{answer}</p>
-                      </div>
-                    </details>
-                  ))}
-                </div>
+                {journeyFaq.map(([question, answer]) => (
+                  <details key={question} className="hlt-jfaq-item">
+                    <summary className="hlt-jfaq-summary">
+                      <span>{question}</span>
+                      <span className="hlt-jfaq-plus" aria-hidden="true">+</span>
+                    </summary>
+                    <div className="hlt-jfaq-answer">
+                      <p>{answer}</p>
+                    </div>
+                  </details>
+                ))}
               </div>
             </div>
           </div>

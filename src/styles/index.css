@@ -21,4 +21,7 @@
 @import "./journeys-page.css";
 @import "./cruises.css";
 @import "./about-page.css";
+@import "./about-mobile.css";
+@import "./photo-page.css";
+@import "./blog-page.css";
 @import "./page-transition.css";

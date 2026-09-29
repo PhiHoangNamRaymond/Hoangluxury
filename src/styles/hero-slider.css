@@ -381,3 +381,30 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   Mobile: bỏ dòng kicker và hoạ tiết vạch-vương miện dưới tiêu đề, kéo khung
+   hero cao thêm để ảnh ôm hết khung hình thay vì cụt ở lưng chừng.
+   ========================================================================== */
+@media (max-width: 960px) {
+  .hlt-hero {
+    min-height: clamp(560px, 86svh, 720px) !important;
+  }
+
+  .hlt-hero-kicker,
+  .hlt-hero-crown-divider {
+    display: none !important;
+  }
+
+  /* Khung viền vỏ sò trước đây chỉ ôm khối chữ; cho nó bám mép hero để ôm
+     trọn bức ảnh. Container phải bỏ position: relative thì khung mới lấy
+     .hlt-hero làm mốc. */
+  .hlt-hero > .hlt-container {
+    position: static !important;
+  }
+
+  /* Header cố định cao 72px đè lên đỉnh hero, nên chừa mép trên xuống dưới nó. */
+  .hlt-hero-mobile-frame {
+    inset: 84px 10px 14px !important;
+  }
+}

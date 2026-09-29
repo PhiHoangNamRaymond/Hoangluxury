@@ -1,0 +1,22 @@
+DirectoryIndex index.html
+
+RewriteEngine On
+RewriteBase /
+
+# Consolidate legacy aliases and old journey slugs on their canonical URLs.
+RewriteRule ^routes/?$ /journeys/ [R=301,L]
+RewriteRule ^ha-long-cruises/?$ /cruises/ [R=301,L]
+RewriteRule ^journey/sapa/?$ /journey/hanoi-to-sapa-private-transfer/ [R=301,L]
+RewriteRule ^journey/ha-long/?$ /journey/hanoi-to-ha-long-private-transfer/ [R=301,L]
+RewriteRule ^journey/ninh-binh/?$ /journey/hanoi-to-ninh-binh-private-transfer/ [R=301,L]
+RewriteRule ^journey/ha-giang/?$ /journey/hanoi-to-ha-giang-private-transfer/ [R=301,L]
+RewriteRule ^journey/cat-ba/?$ /journey/hanoi-to-cat-ba-private-transfer/ [R=301,L]
+RewriteRule ^journey/cao-bang/?$ /journey/hanoi-to-cao-bang-private-transfer/ [R=301,L]
+RewriteRule ^journey/mu-cang-chai/?$ /journey/hanoi-to-mu-cang-chai-private-transfer/ [R=301,L]
+RewriteRule ^journey/moc-chau/?$ /journey/hanoi-to-moc-chau-private-transfer/ [R=301,L]
+RewriteRule ^journey/ta-xua/?$ /journey/hanoi-to-ta-xua-private-transfer/ [R=301,L]
+
+# React/Vite SPA fallback.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

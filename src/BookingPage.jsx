@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import { whatsappUrl } from "./data.js";
 import { catalogBackgroundUrl } from "./config/assets.js";
 import { countries } from "./config/countries.js";
+import { dialCodes } from "./config/dial-codes.js";
+import { getBookingSource } from "./config/booking-source.js";
 
 const initialForm = {
   departureDate: "",
@@ -16,6 +18,7 @@ const initialForm = {
   passengers: "",
   country: "",
   fullName: "",
+  phoneCode: "+84",
   phone: "",
   journeyType: "",
   luggage: "",
@@ -28,7 +31,7 @@ const bookingEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
 const bookingSteps = [
   { number: 1, label: "Journey Route", fields: ["departureDate", "returnDate", "pickup", "dropoff"] },
   { number: 2, label: "Flight Details", fields: ["flight", "flightTimeZone"] },
-  { number: 3, label: "Passenger Details", fields: ["fullName", "phone", "country", "passengers"] },
+  { number: 3, label: "Passenger Details", fields: ["fullName", "phoneCode", "phone", "country", "passengers"] },
   { number: 4, label: "Ride Preferences", fields: ["journeyType", "luggage", "requirements"] },
   { number: 5, label: "Review & Send", fields: [] },
 ];
@@ -60,6 +63,171 @@ const highlights = [
   ["headset", "24/7 Support", "We are here whenever you need us."],
 ];
 
+/* Ảnh cờ 4:3 lấy theo mã ISO; alt là mã nước để vẫn đọc được nếu ảnh không tải */
+/* Nút ⓘ cạnh nhãn Luggage: bấm để mở bảng kích thước vali tham khảo */
+function LuggageHint() {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const onDocumentDown = (event) => {
+      if (!wrapRef.current?.contains(event.target)) setOpen(false);
+    };
+    const onKey = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", onDocumentDown);
+    document.addEventListener("keydown", onKey);
+
+    return () => {
+      document.removeEventListener("pointerdown", onDocumentDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <span className="hlt-book-hint" ref={wrapRef}>
+      <button
+        type="button"
+        className="hlt-book-hint-btn"
+        aria-expanded={open}
+        aria-label="Luggage size guide"
+        onClick={(event) => {
+          event.preventDefault();
+          setOpen((current) => !current);
+        }}
+      >
+        <svg viewBox="0 0 18 18" aria-hidden="true">
+          <circle cx="9" cy="9" r="7.4" />
+          <path d="M9 8.2v4.2" />
+          <path d="M9 5.4v.9" />
+        </svg>
+      </button>
+
+      {open && (
+        <span className="hlt-book-hint-panel" role="note">
+          <span className="hlt-book-hint-row"><b>Carry-on</b> approx. 55 × 36 × 23 cm</span>
+          <span className="hlt-book-hint-row"><b>Medium suitcase</b> approx. 65 × 43 × 26 cm</span>
+          <span className="hlt-book-hint-row"><b>Large suitcase</b> approx. 75 × 50 × 30 cm</span>
+          <span className="hlt-book-hint-eg">Example: 2 Medium, 1 Large</span>
+        </span>
+      )}
+    </span>
+  );
+}
+
+function DialFlag({ iso }) {
+  return (
+    <img
+      className="hlt-book-dial-flag"
+      src={`https://flagcdn.com/w40/${iso}.png`}
+      srcSet={`https://flagcdn.com/w80/${iso}.png 2x`}
+      width="21"
+      height="14"
+      alt={iso.toUpperCase()}
+      loading="lazy"
+    />
+  );
+}
+
+/* Ô chọn mã quốc gia: nút gọn chỉ hiện cờ + mã, bấm ra danh sách có ô tìm kiếm */
+function PhoneCodeSelect({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const wrapRef = useRef(null);
+  const searchRef = useRef(null);
+  const [pickedIso, setPickedIso] = useState("");
+  const selected = dialCodes.find((item) => item.code === value);
+  const iso = pickedIso || (selected ? selected.iso : "");
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const onDocumentDown = (event) => {
+      if (!wrapRef.current?.contains(event.target)) setOpen(false);
+    };
+    const onKey = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", onDocumentDown);
+    document.addEventListener("keydown", onKey);
+    searchRef.current?.focus();
+
+    return () => {
+      document.removeEventListener("pointerdown", onDocumentDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const text = query.trim().toLowerCase();
+  const list = text
+    ? dialCodes.filter(
+        (item) => item.country.toLowerCase().includes(text) || item.code.includes(text.replace(/^\+?/, "+"))
+      )
+    : dialCodes;
+
+  return (
+    <div className="hlt-book-dial" ref={wrapRef}>
+      <button
+        type="button"
+        className="hlt-book-dial-btn"
+        data-book-field="phoneCode"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={selected ? `Country calling code ${selected.code}` : "Select country calling code"}
+        onClick={() => setOpen((current) => !current)}
+      >
+        {iso ? <DialFlag iso={iso} /> : null}
+        <span className="hlt-book-dial-code">{selected ? selected.code : "Code"}</span>
+        <svg className="hlt-book-dial-caret" viewBox="0 0 12 8" aria-hidden="true">
+          <path d="M1 2.5 6 6.5l5-4" />
+        </svg>
+      </button>
+
+      {open && (
+        <div className="hlt-book-dial-panel">
+          <input
+            ref={searchRef}
+            type="text"
+            className="hlt-book-dial-search"
+            placeholder="Search country or code"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <ul className="hlt-book-dial-list" role="listbox">
+            {list.map((item) => (
+              <li key={`${item.country}-${item.code}`}>
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={item.code === value}
+                  title={item.country}
+                  aria-label={item.country + " " + item.code}
+                  className={item.code === value ? "is-selected" : undefined}
+                  onClick={() => {
+                    onChange(item.code);
+                    setPickedIso(item.iso);
+                    setOpen(false);
+                    setQuery("");
+                  }}
+                >
+                  <DialFlag iso={item.iso} />
+                  <span className="hlt-book-dial-code">{item.code}</span>
+                </button>
+              </li>
+            ))}
+            {list.length === 0 && <li className="hlt-book-dial-empty">No match</li>}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function BookingPage() {
   const [form, setForm] = useState(initialForm);
   const [currentStep, setCurrentStep] = useState(1);
@@ -78,10 +246,9 @@ export default function BookingPage() {
       return;
     }
 
+    // Mã quốc gia nằm ở ô chọn riêng nên ô số chỉ giữ chữ số
     if (name === "phone") {
-      const startsWithPlus = value.startsWith("+");
-      const digits = value.replace(/\D/g, "").slice(0, 15);
-      nextValue = `${startsWithPlus ? "+" : ""}${digits}`;
+      nextValue = value.replace(/\D/g, "").slice(0, 15);
     }
 
     setForm((current) => ({ ...current, [name]: nextValue }));
@@ -95,6 +262,17 @@ export default function BookingPage() {
     const step = bookingSteps.find(({ number }) => number === stepNumber);
 
     for (const fieldName of step.fields) {
+      // Mã quốc gia là nút tự dựng nên kiểm tra riêng, không qua checkValidity
+      if (fieldName === "phoneCode") {
+        if (!form.phoneCode) {
+          const trigger = document.querySelector('.hlt-book-form [data-book-field="phoneCode"]');
+          trigger?.focus();
+          trigger?.classList.add("is-invalid");
+          return false;
+        }
+        continue;
+      }
+
       const field = document.querySelector(`.hlt-book-form [name="${fieldName}"]`);
       if (field && !field.checkValidity()) {
         field.reportValidity();
@@ -123,13 +301,26 @@ export default function BookingPage() {
   const submitBooking = async (event) => {
     event.preventDefault();
 
+    if (!form.phoneCode) {
+      setSubmission({ state: "error", message: "Please select the country code for your phone number." });
+      return;
+    }
+
     if (!bookingEndpoint) {
       setSubmission({ state: "error", message: "Online booking is being configured. Please contact us via WhatsApp." });
       return;
     }
 
     setSubmission({ state: "loading", message: "Sending your booking request..." });
-    const payload = new URLSearchParams({ ...form, submittedFrom: window.location.href, clientTimestamp: new Date().toISOString() });
+    // Gộp mã quốc gia vào số điện thoại trước khi gửi, ví dụ "+84839779888"
+    const { phoneCode, ...rest } = form;
+    const payload = new URLSearchParams({
+      ...rest,
+      phone: `${phoneCode}${form.phone}`,
+      source: getBookingSource(),
+      submittedFrom: window.location.href,
+      clientTimestamp: new Date().toISOString(),
+    });
 
     try {
       await fetch(bookingEndpoint, { method: "POST", mode: "no-cors", credentials: "omit", keepalive: true, body: payload });
@@ -204,11 +395,12 @@ export default function BookingPage() {
             <label data-book-step="2"><span className="hlt-book-label-text">Flight Number <small>(Optional when not flying)</small></span><div className="hlt-book-control"><FormIcon type="plane" /><input required={!form.noFlight} disabled={form.noFlight} name="flight" value={form.flight} onChange={updateField} placeholder="e.g. VN 1222" /></div></label>
             <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour) <small>(Optional when not flying)</small></span><div className="hlt-book-control"><FormIcon type="clock" /><input required={!form.noFlight} disabled={form.noFlight} type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
-            <label data-book-step="3"><span className="hlt-book-label-text">Contact Number</span><div className="hlt-book-control"><FormIcon type="phone" /><input required type="tel" inputMode="tel" autoComplete="tel" pattern="[+]?[0-9]{7,15}" maxLength="16" title="Enter 7 to 15 digits, with an optional + at the beginning." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. +84839779888" /></div></label>
+            {/* Mã quốc gia chọn riêng để khách không quên điền (ví dụ +84) */}
+            <label data-book-step="3"><span className="hlt-book-label-text">Contact Number / WhatsApp</span><div className="hlt-book-control hlt-book-control-phone"><FormIcon type="phone" /><PhoneCodeSelect value={form.phoneCode} onChange={(code) => setForm((current) => ({ ...current, phoneCode: code }))} /><input required type="tel" inputMode="numeric" autoComplete="tel-national" pattern="[0-9]{6,15}" maxLength="15" title="Enter 6 to 15 digits, without the country code." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. 839779888" /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><select required name="country" value={form.country} onChange={updateField}><option value="" disabled>Select your country</option>{countries.map((country) => <option key={country} value={country}>{country}</option>)}</select></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Number of People</span><div className="hlt-book-control"><FormIcon type="passengers" /><select required name="passengers" value={form.passengers} onChange={updateField}><option value="" disabled>Select number of people</option>{[1,2,3,4,5,6].map((count) => <option key={count} value={count}>{count} {count === 1 ? "person" : "people"}</option>)}</select></div></label>
             <label data-book-step="4"><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>One-way</option><option>Round Trip</option><option>Custom Request</option></select></div></label>
-            <label data-book-step="4"><span className="hlt-book-label-text">Luggage</span><div className="hlt-book-control"><FormIcon type="luggage" /><input required name="luggage" value={form.luggage} onChange={updateField} placeholder="e.g. 2 suitcases, 1 carry-on" /></div></label>
+            <label data-book-step="4"><span className="hlt-book-label-text">Luggage <LuggageHint /></span><div className="hlt-book-control"><FormIcon type="luggage" /><input required name="luggage" value={form.luggage} onChange={updateField} placeholder="e.g. 2 Medium, 1 Large" /></div></label>
             <label className="hlt-book-requirements" data-book-step="4"><span className="hlt-book-label-text">Special Requirements <small>(Optional)</small></span><div className="hlt-book-control hlt-book-control-textarea"><FormIcon type="note" /><textarea name="requirements" value={form.requirements} onChange={updateField} placeholder="Tell us your requests, special needs, or other details." /></div></label>
           </div>
 

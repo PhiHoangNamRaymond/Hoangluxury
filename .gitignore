@@ -10,3 +10,6 @@ yarn-error.log*
 pnpm-debug.log*
 vite.*.log
 .vercel
+
+# Bản build đóng gói để gửi khách, nặng >100MB nên không đưa lên GitHub
+*.zip

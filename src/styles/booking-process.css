@@ -1435,8 +1435,8 @@
   }
 
   .hlt-process-car-icon-img {
-    width: 32px !important;
-    height: 32px !important;
+    width: 28px !important;
+    height: 28px !important;
     object-fit: contain;
     filter: brightness(0.12) !important;
   }
@@ -1479,8 +1479,8 @@
 
 /* Redesigned Car Icon in Booking Process Step 4 */
 .hlt-process-car-icon-img {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
   filter: brightness(0.12); /* Make it dark to match inline SVGs */
 }
@@ -1695,5 +1695,25 @@
 
   .hlt-booking-showcase {
     padding-top: 22px;
+  }
+}
+
+/* ==========================================================================
+   Mobile: thẻ xác nhận bỏ hai nhánh lá ở đầu thẻ; giá tổng để cùng cỡ chữ với
+   các dòng còn lại cho đều.
+   ========================================================================== */
+@media (max-width: 760px) {
+  .hlt-mobile-botanical-ornament {
+    display: none !important;
+  }
+
+  .hlt-mobile-price-val {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hlt-mobile-price-val {
+    font-size: 14px;
   }
 }

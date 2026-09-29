@@ -15,7 +15,7 @@ export default function Footer() {
           <strong>Hoang</strong>
           <span>Luxury Travel</span>
           <p>
-            Luxury private car services for international<br />
+            Private car services for international<br />
             travelers in Northern Vietnam.
           </p>
           {/* div thay vì span/strong/p: các rule .hlt-footer-brand span|strong|p là selector con cháu */}
@@ -64,7 +64,7 @@ export default function Footer() {
               <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" />
               <circle cx="12" cy="9" r="2.4" />
             </svg>
-            Duplex Villa 68 SP Hanoi, Viet Nam
+            Duplex Villa 6-8 SP Hanoi, Viet Nam
           </span>
           <a
             href="https://www.youtube.com/@HoangLuxuryTravel"
@@ -107,7 +107,7 @@ export default function Footer() {
               <span className="hlt-footer-mobile-brand-diamond" />
             </div>
             <p className="hlt-footer-mobile-tagline">
-              Luxury private car services for international travelers in Northern Vietnam.
+              Private car services for international travelers in Northern Vietnam.
             </p>
             <div className="hlt-footer-mobile-licence">
               <strong>HOANG LUXURY TRAVEL</strong>
@@ -164,7 +164,7 @@ export default function Footer() {
                   <circle cx="12" cy="10" r="3" />
                 </svg>
               </div>
-              <span>Duplex Villa 68 SP Hanoi, Viet Nam</span>
+              <span>Duplex Villa 6-8 SP Hanoi, Viet Nam</span>
             </div>
 
             <a

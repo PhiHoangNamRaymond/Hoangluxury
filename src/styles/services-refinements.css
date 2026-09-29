@@ -295,3 +295,45 @@
     transition: all 250ms ease;
   }
 }
+
+/* ==========================================================================
+   Mobile: thẻ Our Services trước đây thấp và chật hơn hẳn thẻ Why Choose ở
+   trên (97px so với 111px), tiêu đề dài lại bị cắt vì nowrap. Nới đệm, cho
+   tiêu đề xuống dòng và tăng cỡ chữ để hai khối cân nhau.
+   ========================================================================== */
+@media (max-width: 760px) {
+  .hlt-service-card {
+    grid-template-columns: minmax(104px, 36%) minmax(0, 1fr);
+    gap: 13px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .hlt-service-card h3 {
+    font-size: clamp(12.5px, 3.4vw, 14.5px);
+    line-height: 1.2;
+    white-space: normal;
+  }
+
+  .hlt-service-card p {
+    margin-top: 5px;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  .hlt-service-grid {
+    gap: 13px;
+  }
+}
+
+/* Chừa thêm khoảng nền sáng trước khi chuyển sang nền tối của Our Services,
+   chỗ này đang cụt ngay sau thẻ cuối. */
+@media (max-width: 600px) {
+  .hlt-why {
+    padding-bottom: 76px;
+  }
+
+  .hlt-services {
+    padding-top: 56px;
+  }
+}

@@ -81,14 +81,10 @@ export default function CruisesPage() {
               </div>
 
               <p className="hlt-cruise-hero-subtitle">
-                Exceptional journeys through Ha Long &amp; Lan Ha Bay
+                Find your ideal cruise in Ha Long Bay &amp; Lan Ha Bay
               </p>
               <p className="hlt-cruise-hero-bullets">
-                <span>Handpicked Cruises</span>
-                <span className="hlt-bullet-dot">·</span>
-                <span>Private Hanoi Transfer</span>
-                <span className="hlt-bullet-dot">·</span>
-                <span>Personal Support</span>
+                Choose your cruise. Let us help with the details.
               </p>
 
               <div className="hlt-cruise-hero-actions">
@@ -106,7 +102,7 @@ export default function CruisesPage() {
                       <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
                     </svg>
                   </span>
-                  <span>Ask on WhatsApp</span>
+                  <span>Chat on WhatsApp</span>
                 </a>
               </div>
             </div>
@@ -122,7 +118,7 @@ export default function CruisesPage() {
                     <path d="m12 21 4-12-4-6-4 6 4 12z" />
                   </svg>
                 </span>
-                <span>Handpicked Cruises</span>
+                <span>Cruises to Suit You</span>
               </div>
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
@@ -139,7 +135,7 @@ export default function CruisesPage() {
                     <path d="M 16.5,6.5 L 21,10.5 H 16.5 Z" />
                   </svg>
                 </span>
-                <span>Private 7-Seat Transfer</span>
+                <span>Private Car Transfers</span>
               </div>
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
@@ -149,16 +145,17 @@ export default function CruisesPage() {
                     <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
                   </svg>
                 </span>
-                <span>Direct Support</span>
+                <span>24/7 WhatsApp Support</span>
               </div>
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    <path d="M20.6 12.4 12.4 20.6a1.6 1.6 0 0 1-2.3 0L3 13.5V5a2 2 0 0 1 2-2h8.5l7.1 7.1a1.6 1.6 0 0 1 0 2.3Z" />
+                    <circle cx="8.3" cy="8.3" r="1.6" />
                   </svg>
                 </span>
-                <span>Best Available Options</span>
+                <span>Transparent Pricing</span>
               </div>
             </div>
           </div>
@@ -173,10 +170,10 @@ export default function CruisesPage() {
             <div className="hlt-cruise-row-top">
               <div className="hlt-cruise-catalog-intro">
                 <h2 className="hlt-cruise-catalog-title">
-                  Find Your Cruise
+                  Our Cruise Collection
                 </h2>
                 <p className="hlt-cruise-catalog-desc">
-                  Handpicked luxury cruises in Ha Long Bay &amp; Lan Ha Bay. Best service. Best value.
+                  Explore Ha Long Bay &amp; Lan Ha Bay cruises. Choose the itinerary, cabin and price that suit you.
                 </p>
                 <div className="hlt-cruise-gold-rule" aria-hidden="true" />
               </div>
@@ -207,9 +204,6 @@ export default function CruisesPage() {
                       <div className="hlt-cruise-card-meta">
                         <span className="hlt-cruise-card-rating">
                           <span className="hlt-star">★</span> {cruise.rating} <span className="hlt-cruise-reviews-count">({cruise.reviewsCount})</span>
-                        </span>
-                        <span className="hlt-cruise-card-price">
-                          From <strong>{cruise.priceVnd} VND</strong>
                         </span>
                       </div>
 
@@ -254,9 +248,6 @@ export default function CruisesPage() {
                       <div className="hlt-cruise-card-meta">
                         <span className="hlt-cruise-card-rating">
                           <span className="hlt-star">★</span> {cruise.rating} <span className="hlt-cruise-reviews-count">({cruise.reviewsCount})</span>
-                        </span>
-                        <span className="hlt-cruise-card-price">
-                          From <strong>{cruise.priceVnd} VND</strong>
                         </span>
                       </div>
 
@@ -404,6 +395,17 @@ export default function CruisesPage() {
               <div className="hlt-cruise-features-row">
                 <div className="hlt-cruise-feature-item">
                   <span className="hlt-feature-svg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M8.3 7.6V6.6a3.7 3.7 0 0 1 7.4 0v1" />
+                      <path d="M6.6 7.6h10.8" />
+                      <circle cx="12" cy="12.4" r="2.7" />
+                      <path d="M5 21v-.7c0-2.8 3.1-4.4 7-4.4s7 1.6 7 4.4V21" />
+                    </svg>
+                  </span>
+                  <span>Professional Driver</span>
+                </div>
+                <div className="hlt-cruise-feature-item">
+                  <span className="hlt-feature-svg">
                     <svg viewBox="0 0 28 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M7 4h12a1.5 1.5 0 0 1 1.5 1.5v1.5H5.5V5.5A1.5 1.5 0 0 1 7 4z" />
                       <line x1="8" y1="7" x2="8" y2="9.5" />
@@ -418,16 +420,7 @@ export default function CruisesPage() {
                       <path d="M22.3 17H26" />
                     </svg>
                   </span>
-                  <span>Door-to-door pickup</span>
-                </div>
-                <div className="hlt-cruise-feature-item">
-                  <span className="hlt-feature-svg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="9.5" />
-                      <path d="M8.5 8.5h7l-4.5 7.5" />
-                    </svg>
-                  </span>
-                  <span>Private 7-seat vehicle</span>
+                  <span>Door-to-Door Pickup</span>
                 </div>
                 <div className="hlt-cruise-feature-item">
                   <span className="hlt-feature-svg">
@@ -436,18 +429,18 @@ export default function CruisesPage() {
                       <polyline points="12 7 12 12 15.5 14" />
                     </svg>
                   </span>
-                  <span>Flexible departure time</span>
+                  <span>Flexible Departure Time</span>
                 </div>
                 <div className="hlt-cruise-feature-item">
                   <span className="hlt-feature-svg">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="5" y="7" width="14" height="14" rx="2" />
-                      <path d="M9 7V4.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 4.5V7" />
-                      <line x1="9" y1="12" x2="9" y2="16" />
-                      <line x1="15" y1="12" x2="15" y2="16" />
+                      <path d="M3.4 16.2h17.2l-1.7 3.2a2 2 0 0 1-1.8 1.1H6.9a2 2 0 0 1-1.8-1.1Z" />
+                      <path d="M6.1 16.2V10h11.8v6.2" />
+                      <path d="M9.4 10V7.3h5.2V10" />
+                      <path d="M12 7.3V4.5" />
                     </svg>
                   </span>
-                  <span>Luggage assistance</span>
+                  <span>On-Time Cruise Arrival</span>
                 </div>
               </div>
 
@@ -472,10 +465,11 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-exp-layout">
               <div className="hlt-cruise-exp-intro">
-                <h2>More Than a Night on the Bay</h2>
+                <h2>A Different View, A Slower Pace</h2>
                 <p>
-                  Wake up surrounded by limestone islands, savor refined dining, explore hidden caves
-                  and create unforgettable memories in one of the world's most extraordinary landscapes.
+                  Wake up to limestone islands beyond your window, explore quiet caves and linger over
+                  dinner as the sun sets over the bay. Take time to enjoy the scenery and the company
+                  of those beside you.
                 </p>
               </div>
 
@@ -554,57 +548,34 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-stats-layout">
               <div className="hlt-cruise-stats-left">
-                <h2>A More Personal Way to Experience Ha Long</h2>
+                <h2>Your Cruise, With Every Detail in Place</h2>
                 <ul className="hlt-cruise-benefits-list">
                   <li>
                     <span className="hlt-check-icon">✓</span>
-                    <span>Expert cruise recommendation</span>
+                    <span>Cruise advice tailored to your needs</span>
                   </li>
                   <li>
                     <span className="hlt-check-icon">✓</span>
-                    <span>Private transfer coordination</span>
+                    <span>Transparent pricing before you book</span>
                   </li>
                   <li>
                     <span className="hlt-check-icon">✓</span>
-                    <span>Cruise terminal assistance</span>
+                    <span>Private transfers arranged around your cruise</span>
                   </li>
                   <li>
                     <span className="hlt-check-icon">✓</span>
-                    <span>Direct WhatsApp support</span>
+                    <span>Pickup and boarding details confirmed in advance</span>
                   </li>
                 </ul>
               </div>
 
               <div className="hlt-cruise-stats-grid">
+                {/* Bốn số liệu dùng chung với dải Journey Experience ở trang tuyến:
+                    cùng bộ icon nét mảnh, cùng con số. */}
                 <div className="hlt-cruise-metric-box">
                   <div className="hlt-metric-svg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                  </div>
-                  <div className="hlt-metric-val">12,686+</div>
-                  <div className="hlt-metric-lbl">Successful Transfers</div>
-                </div>
-
-                <div className="hlt-cruise-metric-box">
-                  <div className="hlt-metric-svg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg>
-                  </div>
-                  <div className="hlt-metric-val">20+</div>
-                  <div className="hlt-metric-lbl">Countries Served</div>
-                </div>
-
-                <div className="hlt-cruise-metric-box">
-                  <div className="hlt-metric-svg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M50 12.5 61.6 36l25.9 3.8-18.8 18.3 4.5 25.8L50 71.7 26.8 83.9l4.5-25.8L12.5 39.8 38.4 36Z" />
                     </svg>
                   </div>
                   <div className="hlt-metric-val">4.9 / 5</div>
@@ -613,13 +584,41 @@ export default function CruisesPage() {
 
                 <div className="hlt-cruise-metric-box">
                   <div className="hlt-metric-svg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 26 50 12l28 14-6 7H28Z" />
+                      <path d="M28 33h44" />
+                      <path d="M32 38q0 22 18 22t18-22" />
+                      <path d="M16 90v-6q0-12 12-15l10-3 12 12 12-12 10 3q12 3 12 15v6" />
+                      <path d="M50 78v12" />
+                    </svg>
+                  </div>
+                  <div className="hlt-metric-val">8+ Years</div>
+                  <div className="hlt-metric-lbl">Driver Experience</div>
+                </div>
+
+                <div className="hlt-cruise-metric-box">
+                  <div className="hlt-metric-svg">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="50" cy="50" r="38" />
+                      <path d="M12 50h76M50 12c11 11 16 24 16 38s-5 27-16 38c-11-11-16-24-16-38s5-27 16-38ZM17 31h66M17 69h66" />
+                    </svg>
+                  </div>
+                  <div className="hlt-metric-val">20+</div>
+                  <div className="hlt-metric-lbl">Countries Served</div>
+                </div>
+
+                <div className="hlt-cruise-metric-box">
+                  <div className="hlt-metric-svg">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 58v-8a32 32 0 0 1 64 0v8" />
+                      <rect x="12" y="52" width="14" height="24" rx="6" />
+                      <rect x="74" y="52" width="14" height="24" rx="6" />
+                      <path d="M81 76v4a10 10 0 0 1-10 10H58" />
+                      <rect x="44" y="85.5" width="14" height="9" rx="4.5" />
                     </svg>
                   </div>
                   <div className="hlt-metric-val">24/7</div>
-                  <div className="hlt-metric-lbl">Travel Support</div>
+                  <div className="hlt-metric-lbl">Customer Support</div>
                 </div>
               </div>
             </div>

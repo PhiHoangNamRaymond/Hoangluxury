@@ -747,3 +747,316 @@
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   Dải số liệu dưới banner (theo bản thiết kế mới)
+   ========================================================================== */
+.hlt-about-stats {
+  border-bottom: 1px solid rgba(185, 138, 58, .35);
+  background: #fffdf8;
+}
+
+.hlt-about-stats-inner {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: clamp(16px, 1.6vw, 22px) 0;
+}
+
+.hlt-about-stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.2vw, 18px);
+  padding: 2px clamp(10px, 1.4vw, 22px);
+}
+
+.hlt-about-stat + .hlt-about-stat {
+  border-left: 1px solid rgba(185, 138, 58, .45);
+}
+
+.hlt-about-stat-icon {
+  width: clamp(28px, 2.4vw, 36px);
+  height: clamp(28px, 2.4vw, 36px);
+  flex: none;
+  fill: none;
+  stroke: var(--about-gold);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-about-stat strong,
+.hlt-about-stat span {
+  display: block;
+}
+
+.hlt-about-stat strong {
+  color: var(--about-ink);
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.hlt-about-stat span {
+  margin-top: 2px;
+  color: var(--about-muted);
+  font-size: clamp(12.5px, 1vw, 14.5px);
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   Thư ngỏ của CEO: ảnh dọc bên trái, nội dung bên phải
+   ========================================================================== */
+.hlt-about-ceo {
+  padding: clamp(34px, 3.4vw, 52px) 0;
+  background: var(--about-cream);
+}
+
+.hlt-about-ceo-inner {
+  display: grid;
+  grid-template-columns: minmax(0, .42fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(26px, 3.4vw, 52px);
+}
+
+.hlt-about-ceo-media {
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 14px 30px rgba(40, 30, 10, .18);
+}
+
+.hlt-about-ceo-media img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  display: block;
+  object-fit: cover;
+}
+
+.hlt-about-ceo-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 22px);
+  margin: 0;
+  color: var(--about-gold);
+  font-size: clamp(12px, .95vw, 14px);
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.hlt-about-ceo-kicker span {
+  flex: 0 1 clamp(40px, 8vw, 120px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--about-gold));
+}
+
+.hlt-about-ceo-kicker span:last-child {
+  background: linear-gradient(90deg, var(--about-gold), transparent);
+}
+
+.hlt-about-ceo-diamond {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 10px auto 0;
+  background: var(--about-gold);
+  rotate: 45deg;
+}
+
+.hlt-about-ceo-copy h2 {
+  margin: clamp(14px, 1.4vw, 20px) 0 clamp(14px, 1.4vw, 20px);
+  color: var(--about-gold);
+  font-size: clamp(22px, 2.05vw, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.hlt-about-ceo-copy > p:not(.hlt-about-ceo-kicker):not(.hlt-about-ceo-tag) {
+  margin: 0 0 clamp(10px, 1vw, 14px);
+  color: var(--about-muted);
+  font-size: clamp(14.5px, 1.15vw, 17px);
+  line-height: 1.55;
+}
+
+.hlt-about-ceo-highlight {
+  color: var(--about-gold) !important;
+  font-size: clamp(15px, 1.25vw, 18.5px) !important;
+}
+
+.hlt-about-ceo-sign {
+  margin-top: clamp(14px, 1.6vw, 22px);
+}
+
+/* Chữ ký: font viết tay của hệ thống, lùi về Cormorant nghiêng nếu máy không có */
+.hlt-about-ceo-signature {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--about-gold);
+  font-family: "Segoe Script", "Brush Script MT", "Snell Roundhand", cursive !important;
+  font-size: clamp(26px, 2.4vw, 34px);
+  line-height: 1.1;
+}
+
+.hlt-about-ceo-sign strong {
+  display: block;
+  color: var(--about-ink);
+  font-size: clamp(14px, 1.1vw, 16px);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.hlt-about-ceo-role {
+  display: block;
+  margin-top: 2px;
+  color: var(--about-muted);
+  font-size: clamp(13px, 1.05vw, 15px);
+}
+
+.hlt-about-ceo-tag {
+  margin: clamp(-30px, -2vw, -10px) 0 0;
+  color: rgba(185, 138, 58, .75);
+  font-size: clamp(9.5px, .8vw, 11.5px);
+  letter-spacing: .22em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+@media (max-width: 960px) {
+  .hlt-about-stats-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 0;
+  }
+
+  .hlt-about-stat:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .hlt-about-ceo-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hlt-about-ceo-media {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .hlt-about-ceo-tag {
+    margin-top: 16px;
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-about-stat {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .hlt-about-stat strong {
+    font-size: 20px;
+  }
+
+  .hlt-about-ceo-kicker {
+    letter-spacing: .12em;
+  }
+
+  .hlt-about-ceo-copy h2 {
+    font-size: clamp(20px, 5.8vw, 24px);
+  }
+}
+
+/* ==========================================================================
+   Thư CEO — chỉnh theo mẫu mới: tiêu đề căn trái, chữ to hơn, hàng cuối gồm
+   chữ ký (trái) và khẩu hiệu (phải) trên nền nét núi mờ.
+   ========================================================================== */
+.hlt-about-ceo-copy h2 {
+  font-size: clamp(22px, 2.15vw, 32px);
+  text-align: left;
+}
+
+.hlt-about-ceo-copy > p:not(.hlt-about-ceo-kicker):not(.hlt-about-ceo-tag) {
+  margin-bottom: clamp(12px, 1.1vw, 16px);
+  font-size: clamp(15px, 1.25vw, 18.5px);
+  line-height: 1.5;
+}
+
+.hlt-about-ceo-highlight {
+  font-size: clamp(15.5px, 1.35vw, 20px) !important;
+}
+
+.hlt-about-ceo-foot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: clamp(16px, 1.8vw, 26px);
+  padding-bottom: 4px;
+}
+
+/* Nét núi mờ ở góc phải dưới, không che chữ */
+.hlt-about-ceo-foot::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 14px;
+  width: min(300px, 46%);
+  height: 86px;
+  background: var(--about-ceo-art) right bottom / contain no-repeat;
+  opacity: .3;
+  pointer-events: none;
+}
+
+.hlt-about-ceo-sign {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+.hlt-about-ceo-signature {
+  margin-bottom: 8px;
+  font-size: clamp(30px, 2.9vw, 42px);
+}
+
+/* Vạch vàng mảnh trước khẩu hiệu (như mẫu) */
+.hlt-about-ceo-tag {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 20px);
+  flex: 0 1 auto;
+  margin: 0;
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+
+.hlt-about-ceo-tag::before {
+  content: "";
+  width: clamp(40px, 6vw, 90px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(185, 138, 58, .8));
+}
+
+@media (max-width: 960px) {
+  .hlt-about-ceo-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .hlt-about-ceo-foot::before {
+    width: 180px;
+    height: 60px;
+    bottom: 0;
+  }
+
+  .hlt-about-ceo-tag {
+    white-space: normal;
+  }
+}

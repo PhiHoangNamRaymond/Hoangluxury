@@ -341,6 +341,7 @@ a.hlt-journey-fact:focus-visible strong {
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: .06em;
+  white-space: nowrap;
   text-transform: uppercase;
   color: var(--jr-ink);
 }
@@ -563,6 +564,92 @@ a.hlt-journey-fact:focus-visible strong {
   padding-top: 0;
 }
 
+/* Giữ nền nguyên bản của trang tuyến nhưng dùng thiết kế thẻ xe từ Home. */
+.hlt-journey-vehicles .hlt-fleet-grid {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+  gap: clamp(14px, 1.4vw, 20px);
+}
+
+.hlt-journey-vehicles .hlt-fleet-card {
+  background: #071411;
+  border-color: rgba(197, 161, 90, .82);
+  box-shadow: none;
+}
+
+.hlt-journey-vehicles .hlt-fleet-card::before {
+  border-color: rgba(197, 161, 90, .58);
+}
+
+.hlt-journey-vehicles .hlt-fleet-card h3 {
+  color: #c5a15a;
+}
+
+.hlt-journey-vehicles .hlt-fleet-specs span {
+  color: #f2e9dc;
+}
+
+.hlt-journey-vehicles .hlt-fleet-specs svg {
+  color: #c5a15a;
+  stroke: #c5a15a;
+}
+
+.hlt-journey-vehicles .hlt-fleet-specs span + span {
+  border-color: rgba(197, 161, 90, .34);
+}
+
+@media (min-width: 601px) {
+  .hlt-journey-vehicles .hlt-fleet-card {
+    min-height: 0;
+    padding: 20px 9px 15px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-img {
+    /* Giữ đúng tỷ lệ hiển thị của thẻ Home để ảnh không bị crop/phóng quá mức. */
+    aspect-ratio: 1.29 / 1;
+    margin: 14px 0 14px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-specs {
+    min-height: 38px;
+    font-size: clamp(13px, .9vw, 15px);
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-specs span {
+    padding-inline: clamp(8px, .8vw, 14px);
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-journey-vehicles .hlt-fleet-card {
+    min-height: 0;
+    padding: 16px 10px 13px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-card::before {
+    inset: 5px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-card h3 {
+    font-size: clamp(21px, 6.2vw, 25px);
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-card h3::after {
+    height: 7px;
+    margin-top: 9px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-img {
+    aspect-ratio: 1.29 / 1;
+    margin: 11px auto 11px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-specs {
+    min-height: 0;
+    padding-bottom: 1px;
+  }
+}
+
 .hlt-journey-vehicle-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -757,19 +844,25 @@ a.hlt-journey-fact:focus-visible strong {
 .hlt-journey-option h3 {
   margin: 0 0 6px;
   font-family: var(--hlt-font-family);
-  font-size: clamp(16px, 1.35vw, 20px);
+  font-size: clamp(14px, 1.2vw, 18px);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: .04em;
+  white-space: nowrap;
   text-transform: uppercase;
   color: #17242a;
 }
 
 .hlt-journey-option p {
   margin: 0;
-  font-size: clamp(13px, 1.05vw, 15px);
+  font-size: clamp(11.5px, .9vw, 13.5px);
   line-height: 1.5;
   color: var(--jr-muted);
+}
+
+.hlt-journey-option p span {
+  display: block;
+  white-space: nowrap;
 }
 
 .hlt-journey-option.is-featured h3 {
@@ -792,6 +885,7 @@ a.hlt-journey-fact:focus-visible strong {
   flex-wrap: wrap;
   justify-content: center;
   gap: 14px;
+  margin-top: clamp(20px, 2.2vw, 30px);
 }
 
 .hlt-journey-options-actions .hlt-btn {
@@ -1005,13 +1099,9 @@ a.hlt-journey-fact:focus-visible strong {
 .hlt-jfaq-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(4, auto);
+  grid-auto-flow: column;
   gap: clamp(10px, 1.4vw, 18px) clamp(14px, 2vw, 28px);
-}
-
-.hlt-jfaq-col {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(8px, .9vw, 12px);
 }
 
 .hlt-jfaq-item {
@@ -1095,6 +1185,8 @@ a.hlt-journey-fact:focus-visible strong {
 @media (max-width: 768px) {
   .hlt-jfaq-grid {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-flow: row;
   }
 }
 
@@ -1378,32 +1470,31 @@ a.hlt-journey-fact:focus-visible strong {
     margin-bottom: 22px;
   }
 
-  /* Như mẫu: "DOOR-TO-DOOR" / "PRIVATE TRANSFER" hai dòng, vạch vàng chỉ nằm
-     ngang dòng đầu và tràn ra lề trang. Vạch dạng flex sẽ ép chữ thành 3 dòng
-     nên đặt tuyệt đối; dòng đầu rộng ~8.3em nên mỗi vạch = nửa khung − 4.15em. */
+  /* Giữ tiêu đề tuyến trên một dòng; chữ và hai vạch vàng cùng co theo màn hình. */
   .hlt-journey-transit-section .hlt-journey-heading-lined h2 {
-    display: block;
+    display: flex;
     position: relative;
+    gap: 6px;
     margin-bottom: 12px;
-    font-size: clamp(28px, 8vw, 32px);
+    font-size: min(4.4vw, 20px);
     line-height: 1.12;
-    letter-spacing: .04em;
+    letter-spacing: .015em;
+    white-space: nowrap;
   }
 
   .hlt-journey-transit-section .hlt-journey-heading-lined h2::before,
   .hlt-journey-transit-section .hlt-journey-heading-lined h2::after {
-    position: absolute;
-    top: .56em;
-    /* + 12px tràn lề − 12px khoảng cách tới chữ */
-    width: calc(50% - 4.15em);
+    position: static;
+    flex: 1 1 12px;
+    width: auto;
   }
 
   .hlt-journey-transit-section .hlt-journey-heading-lined h2::before {
-    left: -12px;
+    left: auto;
   }
 
   .hlt-journey-transit-section .hlt-journey-heading-lined h2::after {
-    right: -12px;
+    right: auto;
   }
 
   .hlt-journey-transit-section .hlt-journey-sub {
@@ -1679,8 +1770,8 @@ a.hlt-journey-fact:focus-visible strong {
   }
 
   .hlt-journey-options .hlt-journey-options-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px 10px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
 
   .hlt-journey-options .hlt-journey-option {
@@ -1705,7 +1796,7 @@ a.hlt-journey-fact:focus-visible strong {
 
   .hlt-journey-options .hlt-journey-option h3 {
     margin-bottom: 5px;
-    font-size: 14.5px;
+    font-size: 14px;
     letter-spacing: .02em;
   }
 
@@ -1722,6 +1813,7 @@ a.hlt-journey-fact:focus-visible strong {
   .hlt-journey-options .hlt-journey-options-actions {
     flex-direction: column;
     gap: 10px;
+    margin-top: 18px;
   }
 
   /* nowrap + cỡ chữ theo vw: nút giữ 1 dòng căn giữa cả ở màn 320px */
@@ -1906,8 +1998,7 @@ a.hlt-journey-fact:focus-visible strong {
     margin-top: 30px;
   }
 
-  .hlt-journey-details .hlt-jfaq-grid,
-  .hlt-journey-details .hlt-jfaq-col {
+  .hlt-journey-details .hlt-jfaq-grid {
     gap: 7px;
   }
 

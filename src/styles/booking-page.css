@@ -958,3 +958,223 @@
 .hlt-book-status {
   font-size: 14px;
 }
+
+/* Ô "Contact Number / WhatsApp": mã quốc gia ở ô chọn bên trái, số ở ô bên phải */
+.hlt-book-control-phone {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+
+
+.hlt-book-control.hlt-book-control-phone input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-left: 14px;
+}
+
+/* Ô này đã có cờ ở nút chọn mã nên bỏ icon điện thoại để không chồng lên cờ */
+.hlt-book-control-phone .hlt-book-field-icon {
+  display: none;
+}
+
+/* Nút chọn mã quốc gia: gọn, chỉ cờ + mã + mũi tên */
+.hlt-book-control-phone .hlt-book-dial {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.hlt-book-dial-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 10px 0 12px;
+  border: 1px solid rgba(190, 139, 48, .45);
+  border-radius: 8px;
+  background: #fffdf8;
+  color: #2c2a26;
+  font-family: var(--hlt-font-family);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.hlt-book-dial-btn:hover {
+  border-color: rgba(190, 139, 48, .8);
+}
+
+.hlt-book-dial-btn.is-invalid {
+  border-color: #c0392b;
+}
+
+.hlt-book-dial-flag {
+  flex: 0 0 auto;
+  width: 21px;
+  height: 14px;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(60, 45, 20, .16);
+  font-size: 10px;
+  line-height: 14px;
+  color: #6b6459;
+}
+
+.hlt-book-dial-caret {
+  width: 11px;
+  height: 7px;
+  fill: none;
+  stroke: #9b7a35;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Bảng chọn: ô tìm kiếm + danh sách nước */
+.hlt-book-dial-panel {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  width: min(268px, 80vw);
+  padding: 8px;
+  border: 1px solid rgba(190, 139, 48, .5);
+  border-radius: 10px;
+  background: #fffdf8;
+  box-shadow: 0 16px 34px rgba(60, 45, 20, .22);
+}
+
+.hlt-book-dial-search {
+  width: 100%;
+  min-height: 38px;
+  margin-bottom: 6px;
+  padding: 0 10px;
+  border: 1px solid rgba(190, 139, 48, .4);
+  border-radius: 7px;
+  background: #fff;
+  font-family: var(--hlt-font-family);
+  font-size: 14px;
+}
+
+.hlt-book-dial-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  max-height: 252px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.hlt-book-dial-list button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding: 7px 4px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #2c2a26;
+  font-family: var(--hlt-font-family);
+  font-size: 14.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hlt-book-dial-list button:hover,
+.hlt-book-dial-list button.is-selected {
+  background: rgba(190, 139, 48, .14);
+}
+
+.hlt-book-dial-list .hlt-book-dial-code {
+  color: #8a6a22;
+}
+
+.hlt-book-dial-empty {
+  grid-column: 1 / -1;
+  padding: 10px;
+  color: #6b6459;
+  font-size: 14px;
+}
+
+/* Nhãn Luggage có nút ⓘ mở bảng kích thước vali tham khảo */
+/* Bảng chú thích bám theo mép trái của ô nhập, không tràn ra ngoài khung */
+.hlt-book-fields label:has(.hlt-book-hint) {
+  position: relative;
+}
+
+.hlt-book-fields label:has(.hlt-book-hint) .hlt-book-label-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hlt-book-hint {
+  display: inline-flex;
+  align-items: center;
+}
+
+.hlt-book-hint-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #ba7c1c;
+  cursor: pointer;
+}
+
+.hlt-book-hint-btn svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.hlt-book-hint-btn:hover {
+  color: #8a6a22;
+}
+
+.hlt-book-hint-panel {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  display: grid;
+  gap: 5px;
+  width: max-content;
+  max-width: min(310px, 76vw);
+  padding: 11px 13px;
+  border: 1px solid rgba(190, 139, 48, .5);
+  border-radius: 10px;
+  background: #fffdf8;
+  box-shadow: 0 16px 34px rgba(60, 45, 20, .22);
+  color: #3a332a;
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.hlt-book-hint-row b {
+  color: #6b4d12;
+}
+
+.hlt-book-hint-eg {
+  padding-top: 7px;
+  border-top: 1px solid rgba(190, 139, 48, .25);
+  color: #6b6459;
+  font-style: italic;
+}

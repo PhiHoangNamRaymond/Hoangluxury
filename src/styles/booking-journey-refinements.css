@@ -133,11 +133,16 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   }
 }
 
-/* Giấy phép kinh doanh vận tải, dưới đoạn mô tả của footer PC */
+/* Giấy phép kinh doanh vận tải, dưới đoạn mô tả của footer PC.
+   Kéo cả cụm (đoạn mô tả + khối giấy phép) lên gần logo hơn. */
+.hlt-footer-compact .hlt-footer-brand p {
+  margin-top: 12px;
+}
+
 .hlt-footer-compact .hlt-footer-licence {
   grid-column: 1 / -1;
   justify-self: start;
-  margin-top: 16px;
+  margin-top: 10px;
   padding-top: 12px;
   border-top: 1px solid rgba(197, 161, 90, .28);
   font-family: "Cormorant", Georgia, "Times New Roman", serif;

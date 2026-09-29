@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { experienceImages } from "../../config/assets.js";
+import { experienceSliderImages as experienceImages } from "../../config/assets.js";
 
 const DEFAULT_SCROLL_SPEED = 64;
 const REDUCED_MOTION_SCROLL_SPEED = 28;
@@ -158,6 +158,8 @@ export default function ExperienceSlider() {
                   loading="lazy"
                   decoding="async"
                   draggable="false"
+                  /* focus: mốc cắt riêng cho ảnh có chủ thể lệch khỏi giữa khung */
+                  style={image.focus ? { objectPosition: image.focus } : undefined}
                 />
               </figure>
             );
