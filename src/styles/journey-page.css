@@ -2582,3 +2582,32 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     background-position: center top;
   }
 }
+
+/* Journey Experience PC: 4 thẻ rộng hơn khung nội dung (như dải điểm mạnh)
+   để tiêu đề thẻ luôn nằm 1 dòng; dải số liệu rộng theo cho thẳng mép. */
+@media (min-width: 961px) {
+  .hlt-journey-experience .hlt-journey-experience-grid,
+  .hlt-journey-experience .hlt-journey-xstats {
+    width: min(1400px, 94vw);
+    margin-left: 50%;
+    translate: -50% 0;
+  }
+
+  .hlt-journey-experience .hlt-journey-experience-body {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .hlt-journey-experience .hlt-journey-experience-body h3 {
+    font-size: clamp(14px, 1.4vw, 21px);
+    letter-spacing: .03em;
+    white-space: nowrap;
+  }
+}
+
+/* 961–1080px lưới còn 2 cột (thẻ rộng ~450px) nên tiêu đề được to hơn */
+@media (min-width: 961px) and (max-width: 1080px) {
+  .hlt-journey-experience .hlt-journey-experience-body h3 {
+    font-size: 19px;
+  }
+}

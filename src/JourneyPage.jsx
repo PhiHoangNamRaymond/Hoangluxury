@@ -51,13 +51,12 @@ function LineIcon({ type, className }) {
     ),
     chauffeur: (
       <>
-        <path d="M24 22 47 13q3-1 6 0l23 9q5 3 1 7l-5 3.5H28L23 29q-4-4 1-7Z" />
-        <circle cx="50" cy="23.5" r="3.2" />
-        <path d="M28 32.5v4q22-5 44 0v-4M30 37.5q20 7 40 0" />
-        <path d="M31 40.5v2.5q-4 0-3.5 5t4.5 5q3 12 18 12.5 15-.5 18-12.5 4 0 4.5-5t-3.5-5v-2.5" />
-        <path d="M38 65 22 71q-10 4-10 14v6h76v-6q0-10-10-14l-16-6" />
-        <path d="m38 66 5 12-4 3 7 9M62 66l-5 12 4 3-7 9" />
-        <path d="M46.5 69h7l2 3-3 5 2 13h-7l2-13-3-5Z" />
+        {/* Vẽ lại tối giản: ít nét, khoảng hở rộng để nét dày 5 không dính nhau */}
+        <path d="M22 26 50 12l28 14-6 7H28Z" />
+        <path d="M28 33h44" />
+        <path d="M32 38q0 22 18 22t18-22" />
+        <path d="M16 90v-6q0-12 12-15l10-3 12 12 12-12 10 3q12 3 12 15v6" />
+        <path d="M50 78v12" />
       </>
     ),
     clock: (

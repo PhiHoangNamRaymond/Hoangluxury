@@ -106,10 +106,10 @@ import journeyFactVehicleUrl from "../../assets/journey-fact-vehicle.png";
 import journeyFactRatesUrl from "../../assets/journey-fact-rates.png";
 
 /* 4 ảnh thẻ Journey Experience trang tuyến (JPEG 800×600 đã tối ưu) */
-import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.jpg";
-import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.jpg";
-import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.jpg";
-import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.jpg";
+import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.webp";
+import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.webp";
+import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
+import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.webp";
 
 /* Nền dải "Ready to start your journey?" trang tuyến (cắt dải núi + mây từ Sapa2.png, JPEG 1920×565) */
 import journeyCtaMountainsImg from "../../assets/journey-cta-mountains.jpg";
