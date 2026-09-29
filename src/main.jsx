@@ -12,6 +12,7 @@ import JourneyPage from "./JourneyPage.jsx";
 import JourneysPage from "./JourneysPage.jsx";
 import { journeys } from "./config/journeys.js";
 import { captureBookingSource } from "./config/booking-source.js";
+import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import "./styles/index.css";
 
 // Nhớ nguồn khách (?src= / ?utm_source=) để ghép vào Booking ID khi đặt xe.
@@ -147,3 +148,6 @@ createRoot(document.getElementById("root")).render(
     <RootPage />
   </StrictMode>
 );
+
+// Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
+setupImageSkeletons();
