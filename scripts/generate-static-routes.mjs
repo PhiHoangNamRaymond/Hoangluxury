@@ -138,3 +138,16 @@ for (const route of routes) {
 }
 
 console.log(`Generated ${routes.length} route-specific HTML files.`);
+
+// Sitemap sinh cùng lúc với các trang tĩnh để không bao giờ lệch với routes ở trên.
+// Ghi đè bản trong dist/ do Vite chép từ public/.
+const sitemapUrls = ["/"].concat(routes.map((route) => route.path));
+const sitemap =
+  '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+  sitemapUrls.map((path) => `  <url><loc>${origin}${path}</loc></url>`).join("\n") +
+  "\n</urlset>\n";
+await writeFile(resolve(distDir, "sitemap.xml"), sitemap, "utf8");
+
+console.log(`Generated sitemap.xml with ${sitemapUrls.length} URLs.`);
+
