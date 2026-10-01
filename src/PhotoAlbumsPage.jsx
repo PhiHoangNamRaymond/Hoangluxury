@@ -114,7 +114,7 @@ export default function PhotoAlbumsPage() {
           </div>
         </section>
 
-        {/* Bá» lá»c + lÆ°á»i album */}
+        {/* Bộ lọc + lưới album */}
         <section className="hlt-photo-gallery" aria-label="Photo albums">
           <div className="hlt-container">
             <div className="hlt-photo-filters" role="group" aria-label="Filter albums by category">
@@ -139,7 +139,7 @@ export default function PhotoAlbumsPage() {
               {visible.map((item) => (
                 <article className="hlt-photo-card" key={item.title}>
                   <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)}>
-                    <img src={item.image} alt={`${item.title} â ${item.place}`} loading="lazy" />
+                    <img src={item.image} alt={`${item.title} – ${item.place}`} loading="lazy" />
                   </a>
                   <a className="hlt-photo-card-caption" href={photoAlbumUrl(item.slug)}>
                     {item.title}
