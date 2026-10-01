@@ -12,6 +12,9 @@ import {
   heroBannerUrl,
   journeyExperienceImages,
   servicesBackgroundUrl,
+  journeyBannerBySlug,
+  journeyChauffeurIconUrl,
+  journeyCarIconUrl,
   journeyFactIcons,
   journeyIconBySlug,
   journeyPickupIconUrl,
@@ -28,6 +31,14 @@ import {
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
 function LineIcon({ type, className }) {
+  // Tài xế và xe dùng icon thiết kế sẵn, không vẽ bằng path như các icon còn lại.
+  if (type === "chauffeur") {
+    return <img className={className} src={journeyChauffeurIconUrl} alt="" aria-hidden="true" />;
+  }
+  if (type === "car") {
+    return <img className={className} src={journeyCarIconUrl} alt="" aria-hidden="true" />;
+  }
+
   const shapes = {
     shield: (
       <>
@@ -240,33 +251,42 @@ export default function JourneyPage({ slug }) {
     };
   }, [journey]);
 
-  // Dải thông tin dưới banner. Cột thứ 5 (href) biến cả ô thành liên kết.
+  // Dải thông tin dưới banner. Cột thứ 5 (href) biến cả ô thành liên kết;
+  // ô Rates để chữ thường, không dẫn đi đâu.
   const heroFacts = journey.heroFacts;
   const facts = [
     [journeyFactIcons.route, "Route", heroFacts?.route[0] || `Hanoi to ${journey.name},`, heroFacts?.route[1] || journey.distance],
     [journeyFactIcons.time, "Time", heroFacts?.time[0] || journey.duration, heroFacts?.time[1] || journey.durationNote],
     [journeyFactIcons.vehicle, "Vehicle", heroFacts?.vehicle[0] || "Limo Lux / Limo Prime /", heroFacts?.vehicle[1] || "VIP Luxury"],
-    [journeyFactIcons.rates, "Rates", heroFacts?.rates[0] || "View Official Catalog /", heroFacts?.rates[1] || "Transparent pricing", catalogPageUrl],
+    [journeyFactIcons.rates, "Rates", heroFacts?.rates[0] || "Transparent All-Inclusive Pricing", heroFacts?.rates[1] || "Cash & Card"],
   ];
+
+  /* Mặc định đón tại Hà Nội; tuyến nối tỉnh (Sapa → Ha Long…) khai điểm đón
+     riêng trong config. */
+  const originLabel = journey.originLabel || "Hanoi / Noi Bai Airport";
+  const originShort = journey.originShort || "Hanoi / Noi Bai";
+  const originNote = journey.originNote || "Hotels, Residences or Noi Bai Airport";
+  const originIcon = journeyIconBySlug[journey.originIconSlug] || journeyPickupIconUrl;
 
   // 4 lựa chọn dịch vụ; nội dung điểm đến thay đổi theo từng trang tuyến.
   const journeyOptions = [
     {
       icon: "car",
       title: "One-Way Transfer",
-      lines: [`Hanoi / Noi Bai Airport → ${journey.name}`, journey.dropoffNote],
+      lines: [`${originLabel} → ${journey.name}`, journey.dropoffNote],
     },
     {
       icon: "roundTrip",
       title: "Round Trip",
       lines: [
-        `Hanoi / Noi Bai Airport → ${journey.name}`,
-        `${journey.name} → Hanoi / Noi Bai Airport`,
+        `${originLabel} → ${journey.name}`,
+        `${journey.name} → ${originLabel}`,
       ],
     },
     {
       icon: "calendar",
       title: "4 Days 3 Nights",
+      featured: true,
       lines: ["Round-trip transfers included", "Private car & driver throughout your stay"],
     },
     {
@@ -285,14 +305,14 @@ export default function JourneyPage({ slug }) {
       <main className="hlt-journey">
         <section
           className="hlt-journey-hero"
-          style={{ "--journey-hero-img": `url(${heroBannerUrl})` }}
+          style={{ "--journey-hero-img": `url(${journeyBannerBySlug[slug] || heroBannerUrl})` }}
         >
           <div className="hlt-journey-hero-main">
           <div className="hlt-container">
             <div className="hlt-journey-hero-content">
               <p className="hlt-journey-eyebrow">{journey.eyebrow || "Private Luxury Transfer"}</p>
               <h1>
-                <span>Hanoi</span>
+                <span>{journey.titlePrefix || "Hanoi"}</span>
                 <span className="hlt-journey-title-to">to</span>
                 {/* --dest-len: CSS co cỡ chữ để tên dài ("Mu Cang Chai") vẫn nằm 1 dòng */}
                 <span
@@ -366,10 +386,10 @@ export default function JourneyPage({ slug }) {
               <article className="hlt-journey-point">
                 <p className="hlt-journey-point-label">Pick-up in</p>
                 <div className="hlt-journey-point-row">
-                  <img className="hlt-journey-point-icon" src={journeyPickupIconUrl} alt="" />
+                  <img className="hlt-journey-point-icon" src={originIcon} alt="" />
                   <div className="hlt-journey-point-info">
-                    <h3>Hanoi / Noi Bai</h3>
-                    <small>Hotels, Residences or Noi Bai Airport</small>
+                    <h3>{originShort}</h3>
+                    <small>{originNote}</small>
                   </div>
                 </div>
               </article>
@@ -421,11 +441,11 @@ export default function JourneyPage({ slug }) {
             <div className="hlt-fleet-grid">
               {fleetItems.map((vehicle) => (
                 <article className="hlt-fleet-card" key={vehicle.name}>
-                  <h3>{vehicle.name}</h3>
                   <div className="hlt-fleet-img">
                     <img src={fleetImages[vehicle.image]} alt={vehicle.name} />
                   </div>
                   <div className="hlt-fleet-body">
+                    <h3>{vehicle.name}</h3>
                     <div className="hlt-fleet-specs">
                       {vehicle.specs.map((spec) => {
                         const journeySpec = vehicle.image === "limoLux" && spec === "Spacious"
@@ -461,7 +481,7 @@ export default function JourneyPage({ slug }) {
                 Choose Your {journey.name} Journey
               </h2>
               <p className="hlt-journey-sub">
-                All trip details will be sent to you 24 hours before departure.
+                All trip details will be sent to you 48 hours before departure.
               </p>
             </div>
 

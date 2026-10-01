@@ -29,24 +29,36 @@ export const getJourneyPageUrl = (route) => {
   return `/journey/hanoi-to-${destinationSlug}-private-transfer/`;
 };
 
-const privateTransferRoutes = [
-  "Sapa",
-  "Ha Long",
-  "Ninh Binh",
-  "Ha Giang",
-  "Cat Ba",
-  "Cao Bang",
-  "Moc Chau",
-  "Mu Cang Chai",
-  "Ta Xua",
-].map((route) => [`Hanoi to ${route}`, getJourneyPageUrl(route)]);
+const hanoiRoute = (route) => [`Hanoi to ${route}`, getJourneyPageUrl(route)];
 
-// Menu "Routes" trên header: 9 cung đường chia hai cột, tiêu đề vàng dẫn sang
-// trang tổng hợp, bên phải là thẻ giới thiệu du thuyền Hạ Long.
+const routesOverviewUrl = "/journeys/";
+/* Tuyến nối tỉnh: slug đặt theo đúng tên tuyến, ví dụ
+   /journey/sapa-to-ha-long-private-transfer/ */
+const cityRoute = (label) => [
+  label,
+  `/journey/${label.toLowerCase().replace(/\s+/g, "-")}-private-transfer/`,
+];
+
+// Menu "Routes" trên header: ba cột cung đường, tiêu đề vàng dẫn sang trang
+// tổng hợp, bên phải là thẻ giới thiệu du thuyền Hạ Long.
+const routeColumns = [
+  ["Sapa", "Ha Long", "Ninh Binh", "Ha Giang", "Cat Ba"].map(hanoiRoute),
+  ["Cao Bang", "Pu Luong", "Moc Chau", "Mu Cang Chai", "Ta Xua"].map(hanoiRoute),
+  [
+    "Sapa to Ha Long",
+    "Sapa to Ninh Binh",
+    "Sapa to Ha Giang",
+    "Sapa to Mu Cang Chai",
+    "Ha Long to Sapa",
+    "Ninh Binh to Sapa",
+  ].map(cityRoute),
+];
+
 export const routesMenu = {
   title: "All Private Transfer Routes",
-  titleUrl: "/journeys/",
-  routes: privateTransferRoutes,
+  titleUrl: routesOverviewUrl,
+  columns: routeColumns,
+  routes: routeColumns.flat(),
   cruise: {
     title: "Ha Long Bay Cruises",
     text: "Discover Ha Long Bay on scenic cruise",
@@ -55,11 +67,11 @@ export const routesMenu = {
   },
 };
 
-// Danh sách phẳng dùng cho panel mobile (mục đầu là trang tổng hợp 9 cung đường).
+// Danh sách phẳng dùng cho panel mobile (mục đầu là trang tổng hợp cung đường).
 const journeyRoutes = [
   [routesMenu.title, routesMenu.titleUrl],
   [routesMenu.cruise.title, cruisesPageUrl],
-  ...privateTransferRoutes,
+  ...routesMenu.routes,
 ];
 
 // Phần tử thứ ba (tuỳ chọn) là danh sách con, hiện ra khi rê chuột vào mục cha.
@@ -70,12 +82,12 @@ export const navLinks = [
   // Bấm vào chữ "Routes" thì cuộn xuống mục Curated Journeys ở trang chủ;
   // các mục trong dropdown vẫn giữ đích riêng của chúng.
   ["Routes", "#routes", journeyRoutes],
-  ["Photo", photoPageUrl],
-  ["Blog", "/blog/"],
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
+  ["Photo", photoPageUrl],
   ["Feedback", feedbackPageUrl],
-  ["About", aboutPageUrl],
+  ["Blog", "/blog/"],
+  ["About Us", aboutPageUrl],
 ];
 
 export const heroSlides = [

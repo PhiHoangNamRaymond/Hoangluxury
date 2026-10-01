@@ -564,7 +564,7 @@ a.hlt-journey-fact:focus-visible strong {
   padding-top: 0;
 }
 
-/* Giữ nền nguyên bản của trang tuyến nhưng dùng thiết kế thẻ xe từ Home. */
+/* Route cards: full-width photo above a compact green information panel. */
 .hlt-journey-vehicles .hlt-fleet-grid {
   width: min(100%, 1180px);
   margin-inline: auto;
@@ -572,18 +572,42 @@ a.hlt-journey-fact:focus-visible strong {
 }
 
 .hlt-journey-vehicles .hlt-fleet-card {
+  min-height: 0;
+  padding: 0;
+  border-radius: 5px;
+  overflow: hidden;
   background: #071411;
   border-color: rgba(197, 161, 90, .82);
   box-shadow: none;
 }
 
 .hlt-journey-vehicles .hlt-fleet-card::before {
-  border-color: rgba(197, 161, 90, .58);
+  display: none;
 }
 
 .hlt-journey-vehicles .hlt-fleet-card h3 {
-  color: #c5a15a;
+  color: #f2e9dc;
+  font-size: clamp(18px, 1.5vw, 23px);
+  letter-spacing: .12em;
+  line-height: 1.2;
+  margin: 0 0 14px;
+  text-align: center;
 }
+
+.hlt-journey-vehicles .hlt-fleet-card h3::after { display: none; }
+.hlt-journey-vehicles .hlt-fleet-img {
+  width: 100%;
+  aspect-ratio: 1.72 / 1;
+  margin: 0;
+  border-radius: 0;
+}
+.hlt-journey-vehicles .hlt-fleet-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hlt-journey-vehicles .hlt-fleet-body { padding: 18px 8px 16px; }
 
 .hlt-journey-vehicles .hlt-fleet-specs span {
   color: #f2e9dc;
@@ -599,50 +623,23 @@ a.hlt-journey-fact:focus-visible strong {
 }
 
 @media (min-width: 601px) {
-  .hlt-journey-vehicles .hlt-fleet-card {
-    min-height: 0;
-    padding: 20px 9px 15px;
-  }
-
-  .hlt-journey-vehicles .hlt-fleet-img {
-    /* Giữ đúng tỷ lệ hiển thị của thẻ Home để ảnh không bị crop/phóng quá mức. */
-    aspect-ratio: 1.29 / 1;
-    margin: 14px 0 14px;
-  }
-
   .hlt-journey-vehicles .hlt-fleet-specs {
     min-height: 38px;
     font-size: clamp(13px, .9vw, 15px);
   }
 
   .hlt-journey-vehicles .hlt-fleet-specs span {
-    padding-inline: clamp(8px, .8vw, 14px);
+    padding-inline: clamp(5px, .6vw, 10px);
+    gap: 6px;
   }
 }
 
 @media (max-width: 600px) {
-  .hlt-journey-vehicles .hlt-fleet-card {
-    min-height: 0;
-    padding: 16px 10px 13px;
-  }
-
-  .hlt-journey-vehicles .hlt-fleet-card::before {
-    inset: 5px;
-  }
-
   .hlt-journey-vehicles .hlt-fleet-card h3 {
-    font-size: clamp(21px, 6.2vw, 25px);
+    font-size: 19px;
+    margin-bottom: 12px;
   }
-
-  .hlt-journey-vehicles .hlt-fleet-card h3::after {
-    height: 7px;
-    margin-top: 9px;
-  }
-
-  .hlt-journey-vehicles .hlt-fleet-img {
-    aspect-ratio: 1.29 / 1;
-    margin: 11px auto 11px;
-  }
+  .hlt-journey-vehicles .hlt-fleet-body { padding: 14px 7px; }
 
   .hlt-journey-vehicles .hlt-fleet-specs {
     min-height: 0;
@@ -1099,8 +1096,7 @@ a.hlt-journey-fact:focus-visible strong {
 .hlt-jfaq-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(4, auto);
-  grid-auto-flow: column;
+  align-items: start;
   gap: clamp(10px, 1.4vw, 18px) clamp(14px, 2vw, 28px);
 }
 
@@ -1185,8 +1181,6 @@ a.hlt-journey-fact:focus-visible strong {
 @media (max-width: 768px) {
   .hlt-jfaq-grid {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    grid-auto-flow: row;
   }
 }
 
@@ -2700,5 +2694,36 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
 @media (min-width: 961px) and (max-width: 1080px) {
   .hlt-journey-experience .hlt-journey-experience-body h3 {
     font-size: 19px;
+  }
+}
+
+/* Icon tài xế là ảnh PNG nên cần object-fit để nằm gọn trong khung như icon vẽ. */
+img.hlt-journey-feature-icon,
+img.hlt-journey-xstat-icon,
+img.hlt-journey-highlight-icon,
+img.hlt-journey-option-icon,
+img.hlt-journey-point-icon {
+  object-fit: contain;
+}
+
+/* Icon xe rộng hơn cao: giữ chiều cao bằng các icon vẽ, để bề ngang tự giãn
+   nên nó không bị trông nhỏ hơn những icon cùng hàng. */
+.hlt-journey-highlight img.hlt-journey-highlight-icon {
+  width: auto;
+  max-width: 100%;
+}
+
+/* Lưới FAQ hai cột: mọi ô cao bằng ô câu hỏi dài nhất (tiêu đề 2 dòng),
+   tính theo đúng cỡ chữ + padding của summary nên co giãn cùng breakpoint. */
+@media (min-width: 769px) {
+  .hlt-jfaq-summary {
+    min-height: calc(2 * 1.4 * clamp(13px, 1.05vw, 15px) + 2 * clamp(10px, 1.1vw, 14px));
+  }
+}
+
+/* Dải 769–899px cột hẹp hơn nên câu dài nhất xuống 3 dòng: nâng đáy lên 3 dòng. */
+@media (min-width: 769px) and (max-width: 899px) {
+  .hlt-jfaq-summary {
+    min-height: calc(3 * 1.4 * clamp(13px, 1.05vw, 15px) + 2 * clamp(10px, 1.1vw, 14px));
   }
 }

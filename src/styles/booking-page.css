@@ -1172,9 +1172,17 @@
   color: #6b4d12;
 }
 
-.hlt-book-hint-eg {
-  padding-top: 7px;
-  border-top: 1px solid rgba(190, 139, 48, .25);
-  color: #6b6459;
-  font-style: italic;
+
+/* Từ 781px trở lên ô nhập hạ xuống 13px, nên chữ "+84" cũng xuống theo cho
+   bằng số điện thoại gõ bên cạnh (dưới mức đó cả hai đã cùng 15px). */
+@media (min-width: 781px) {
+  .hlt-book-dial-btn {
+    font-size: 13px;
+  }
+}
+
+/* Icon xe nét đặc ở ô "Private Luxury Cars": tô đầy thay vì vẽ nét. */
+.hlt-book-highlights .hlt-book-icon-solid {
+  fill: currentColor;
+  stroke: none;
 }

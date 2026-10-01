@@ -49,7 +49,7 @@ export const journeyHighlights = [
 export const journeyFaq = [
   [
     "How can I book and confirm my booking?",
-    "You can book your private car with a driver through Hoang Luxury Travel in two simple ways: message us directly via WhatsApp for quick assistance and booking support, or click Booking and fill in your trip details. After receiving your request, our team will contact you to discuss your itinerary, confirm the details, and complete your private transfer booking. Your detailed trip information will be sent in a Booking Confirmation 24 hours before departure. Please review the details, then relax and enjoy your journey.",
+    "You can book your private car with a driver through Hoang Luxury Travel in two simple ways: message us directly via WhatsApp for quick assistance and booking support, or click Booking and fill in your trip details. After receiving your request, our team will contact you to discuss your itinerary, confirm the details, and complete your private transfer booking. Your detailed trip information will be sent in a Booking Confirmation 48 hours before departure. Please review the details, then relax and enjoy your journey.",
   ],
   [
     "Is the price all-inclusive? Are there any hidden fees?",
@@ -98,8 +98,8 @@ const privateTransferPage = (destination, travelTime) => ({
   features: [
     ["shield", "100% Private", "No shared passengers and no multiple pick-ups."],
     ["chauffeur", "Professional Drivers", "Experienced, courteous and safety-focused."],
-    ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
     ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
+    ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
   ],
   heroFacts: {
     route: [`Hanoi / Noi Bai Airport ↔ ${destination}`, "Available in both directions"],
@@ -107,6 +107,41 @@ const privateTransferPage = (destination, travelTime) => ({
     vehicle: ["Limo Lux", "Clean & Spacious"],
     rates: ["Transparent All-Inclusive Pricing", "Cash & Card"],
   },
+});
+
+/* Tuyến nối tỉnh (không xuất phát từ Hà Nội). Cùng bố cục trang với tuyến
+   Hanoi to…, chỉ đổi điểm đón. */
+const cityTransferPage = (origin, destination, travelTime) => ({
+  seoTitle: `${origin} to ${destination} Private Transfer | HOANG LUXURY TRAVEL`,
+  metaDescription:
+    `Book a ${origin} to ${destination} private transfer with a professional driver. Private car, door-to-door pickup, flexible stops, transparent pricing and 24/7 WhatsApp support`,
+  eyebrow: "Private Transfer",
+  intro:
+    `Hoang Luxury Travel provides private transfers from ${origin} to ${destination} for international travelers who prefer privacy, comfort and safety.`,
+  secondaryActionLabel: "View Catalog",
+  secondaryActionHref: "/catalog/",
+  transitTitle: "Your Time. Your Space. Your Journey.",
+  transitLeadLines: [
+    `Private car from ${origin} to ${destination}.`,
+    "Door-to-door with your own driver and a journey designed around you.",
+  ],
+  features: [
+    ["shield", "100% Private", "No shared passengers and no multiple pick-ups."],
+    ["chauffeur", "Professional Drivers", "Experienced, courteous and safety-focused."],
+    ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
+    ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
+  ],
+  heroFacts: {
+    route: [`${origin} ↔ ${destination}`, "Available in both directions"],
+    time: [`Approx. ${travelTime}`, "Depending on traffic"],
+    vehicle: ["Limo Lux", "Clean & Spacious"],
+    rates: ["Transparent All-Inclusive Pricing", "Cash & Card"],
+  },
+  leadIn:
+    `Enjoy a seamless, private journey from ${origin} to ${destination}, with comfort, safety, and peace of mind every step of the way.`,
+  routeLabel: `${origin} ↔ ${destination}`,
+  durationNote: "approx.",
+  price: null,
 });
 
 const sapaJourney = {
@@ -237,6 +272,107 @@ export const journeys = {
     durationNote: "approx.",
     price: null,
     dropoffNote: "Hotels, Homestays or Town Center",
+    badgeIcon: "mountain",
+  },
+  /* ----- Tuyến mới: Pu Luong và các tuyến nối tỉnh -----
+     Quãng đường và thời gian là số ước lượng, cần khách xác nhận lại theo
+     lịch chạy thực tế trước khi công bố. */
+  "pu-luong": {
+    name: "Pu Luong",
+    titleAccent: "TO PU LUONG",
+    ...privateTransferPage("Pu Luong", "3.5 – 4 hours"),
+    leadIn:
+      "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Pu Luong, with comfort, safety, and peace of mind every step of the way.",
+    routeLabel: "Hanoi ↔ Pu Luong",
+    distance: "approx. 160 km",
+    duration: "3.5 - 4.0 hours",
+    durationNote: "approx.",
+    price: null,
+    dropoffNote: "Hotels, Resorts or Homestay Valleys",
+    badgeIcon: "mountain",
+  },
+  "sapa-to-ha-long": {
+    name: "Ha Long",
+    titleAccent: "TO HA LONG",
+    titlePrefix: "Sapa",
+    ...cityTransferPage("Sapa", "Ha Long", "8.5 – 9.5 hours"),
+    originLabel: "Sapa",
+    originShort: "Sapa",
+    originNote: "Hotels, Resorts or Town Center",
+    originIconSlug: "sapa",
+    distance: "approx. 500 km",
+    duration: "8.5 - 9.5 hours",
+    dropoffNote: "Hotels, Resorts or Cruise Harbour",
+    badgeIcon: "bay",
+  },
+  "sapa-to-ninh-binh": {
+    name: "Ninh Binh",
+    titleAccent: "TO NINH BINH",
+    titlePrefix: "Sapa",
+    ...cityTransferPage("Sapa", "Ninh Binh", "7 – 8 hours"),
+    originLabel: "Sapa",
+    originShort: "Sapa",
+    originNote: "Hotels, Resorts or Town Center",
+    originIconSlug: "sapa",
+    distance: "approx. 420 km",
+    duration: "7.0 - 8.0 hours",
+    dropoffNote: "Hotels, Resorts or Tam Coc area",
+    badgeIcon: "mountain",
+  },
+  "sapa-to-ha-giang": {
+    name: "Ha Giang",
+    titleAccent: "TO HA GIANG",
+    titlePrefix: "Sapa",
+    ...cityTransferPage("Sapa", "Ha Giang", "6.5 – 7.5 hours"),
+    originLabel: "Sapa",
+    originShort: "Sapa",
+    originNote: "Hotels, Resorts or Town Center",
+    originIconSlug: "sapa",
+    distance: "approx. 270 km",
+    duration: "6.5 - 7.5 hours",
+    dropoffNote: "Hotels, Homestays or City Center",
+    badgeIcon: "mountain",
+  },
+  "sapa-to-mu-cang-chai": {
+    name: "Mu Cang Chai",
+    titleAccent: "TO MU CANG CHAI",
+    titlePrefix: "Sapa",
+    ...cityTransferPage("Sapa", "Mu Cang Chai", "4.5 – 5.5 hours"),
+    originLabel: "Sapa",
+    originShort: "Sapa",
+    originNote: "Hotels, Resorts or Town Center",
+    originIconSlug: "sapa",
+    distance: "approx. 180 km",
+    duration: "4.5 - 5.5 hours",
+    dropoffNote: "Hotels, Resorts or Terraced Valleys",
+    badgeIcon: "mountain",
+  },
+  "ha-long-to-sapa": {
+    name: "Sapa",
+    titleAccent: "TO SAPA",
+    titlePrefix: "Ha Long",
+    ...cityTransferPage("Ha Long", "Sapa", "8.5 – 9.5 hours"),
+    originLabel: "Ha Long",
+    originShort: "Ha Long",
+    originNote: "Hotels, Resorts or Cruise Harbour",
+    originIconSlug: "ha-long",
+    distance: "approx. 500 km",
+    duration: "8.5 - 9.5 hours",
+    dropoffNote: "Hotels, Resorts or Town Center",
+    badgeIcon: "mountain",
+  },
+  "ninh-binh-to-sapa": {
+    name: "Sapa",
+    titleAccent: "TO SAPA",
+    titlePrefix: "Ninh Binh",
+    ...cityTransferPage("Ninh Binh", "Sapa", "7 – 8 hours"),
+    originLabel: "Ninh Binh",
+    originShort: "Ninh Binh",
+    originNote: "Hotels, Resorts or Tam Coc area",
+    originIconSlug: "ninh-binh",
+    distance: "approx. 420 km",
+    duration: "7.0 - 8.0 hours",
+    dropoffNote: "Hotels, Resorts or Town Center",
     badgeIcon: "mountain",
   },
 };

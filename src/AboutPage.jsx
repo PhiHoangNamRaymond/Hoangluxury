@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import {
+  aboutCeoSignatureUrl,
+  aboutDestinationImages,
   aboutImages,
-  curatedMountainDecorationUrl,
-  journeyCardImages,
-  journeyCtaMountainsUrl,
-  logoUrl,
+  aboutStatIcons,
+  logoGoldUrl,
   servicesBackgroundUrl,
 } from "./config/assets.js";
 import { getJourneyPageUrl, whatsappUrl } from "./data.js";
@@ -16,7 +17,7 @@ import usePageEntered from "./hooks/usePageEntered.js";
 const luxuryValues = [
   ["Your Time Matters", "We plan around your schedule, so you can travel without feeling rushed.", "calendar"],
   ["Space to Relax", "Enjoy the comfort and privacy of having your own space throughout the journey.", "shield"],
-  ["Care in Every Detail", "From your first message to your arrival, we take care of the details along the way.", "diamond"],
+  ["Care in Every Detail", "Thoughtful touches make your journey feel more comfortable, personal and effortless.", "diamond"],
 ];
 
 const commitments = [
@@ -54,49 +55,21 @@ const destinations = [
   ["Mu Cang Chai", "mu-cang-chai"],
   ["Moc Chau", "moc-chau"],
   ["Ta Xua", "ta-xua"],
-].map(([name, slug], index) => ({ name, slug, image: journeyCardImages[index] }));
+].map(([name, slug], index) => ({ name, slug, image: aboutDestinationImages[index] }));
 
 // 5 ảnh hàng trên, 4 ảnh hàng dưới, theo thứ tự trong mẫu
 const destinationRows = [[0, 1, 2, 3, 5], [7, 4, 6, 8]].map((row) => row.map((index) => destinations[index]));
 
-// Dải số liệu dưới banner (theo mẫu). Icon vẽ nét, cùng màu vàng của trang.
+// Dải số liệu dưới banner. Icon là PNG khách gửi, đặt ở assets/about-stats/.
 const aboutStats = [
-  ["journeys", "12,686+", "Journeys Completed"],
+  ["travelers", "12,686+", "Travelers Who Trust Us"],
   ["countries", "20+", "Countries"],
   ["rating", "4.9/5", "Guest Rating"],
   ["support", "24/7", "WhatsApp Support"],
 ];
 
 function StatIcon({ type }) {
-  const shapes = {
-    journeys: (
-      <>
-        <circle cx="9" cy="8" r="3.4" />
-        <circle cx="21" cy="8" r="3.4" />
-        <path d="M2.5 21v-2.5c0-3 2.9-4.8 6.5-4.8s6.5 1.8 6.5 4.8V21M15.5 14.2c3.7-.5 8 1.1 8 4.3V21" />
-      </>
-    ),
-    countries: (
-      <>
-        <circle cx="15" cy="12" r="10" />
-        <path d="M5 12h20M15 2a17 17 0 0 1 0 20 17 17 0 0 1 0-20" />
-      </>
-    ),
-    rating: <path d="m15 2.5 3.9 7.9 8.6 1.2-6.2 6.1 1.5 8.6-7.8-4.1-7.8 4.1 1.5-8.6-6.2-6.1 8.6-1.2Z" />,
-    support: (
-      <>
-        <path d="M4 17v-5a11 11 0 0 1 22 0v5" />
-        <path d="M26 16.5a2.8 2.8 0 0 1 0 5.5h-2.5v-5.5ZM4 16.5a2.8 2.8 0 0 0 0 5.5h2.5v-5.5Z" />
-        <path d="M26 22v1.5c0 2-2 3.5-5 3.5h-3" />
-      </>
-    ),
-  };
-
-  return (
-    <svg className="hlt-about-stat-icon" viewBox="0 0 30 30" aria-hidden="true">
-      {shapes[type]}
-    </svg>
-  );
+  return <img className="hlt-about-stat-icon" src={aboutStatIcons[type]} alt="" aria-hidden="true" />;
 }
 
 // Icon nét dùng cho các thẻ ở bản mobile (giá trị, cam kết, giấy phép, People)
@@ -216,7 +189,7 @@ export default function AboutPage() {
         {/* Hero */}
         <section
           className="hlt-about-hero"
-          style={{ "--about-hero": `url(${aboutImages.hero})` }}
+          style={{ "--about-hero": `url(${aboutImages.heroBanner})` }}
           aria-labelledby="about-title"
         >
           <div className="hlt-container hlt-about-hero-inner">
@@ -250,11 +223,7 @@ export default function AboutPage() {
                 <span />
               </p>
             </div>
-            <p className="hlt-about-hero-note">
-              Mountains create
-              <br />
-              a kinder pace of life.
-            </p>
+            <p className="hlt-about-hero-note">Slow down. Breathe deeply. Let the mountains surround you.</p>
           </div>
         </section>
 
@@ -289,13 +258,9 @@ export default function AboutPage() {
               around comfort, privacy and flexibility. Our approach is simple: understand your travel plans,
               prepare every detail with care, and give you the freedom to enjoy the journey at your own pace.
             </p>
-            <a className="hlt-about-text-link" href="#about-commitments">
-              Learn more about us
-              <ArrowIcon />
-            </a>
           </div>
           <div className="hlt-about-split-media">
-            <img src={aboutImages.approach} alt="Hoang Luxury Travel reception" loading="lazy" />
+            <img src={aboutImages.approach} alt="Planning a private journey through Northern Vietnam" loading="lazy" />
           </div>
         </section>
 
@@ -321,7 +286,7 @@ export default function AboutPage() {
         {/* People */}
         <section className="hlt-about-split is-reversed" aria-labelledby="about-people-title">
           <div className="hlt-about-split-media">
-            <img src={aboutImages.people} alt="Hoang Luxury Travel driver loading a guest's luggage" loading="lazy" />
+            <img src={aboutImages.people} alt="Hoang Luxury Travel driver handling a suitcase at a hotel entrance" loading="lazy" />
           </div>
           <div className="hlt-about-split-copy">
             <Kicker>The People Behind Your Journey</Kicker>
@@ -383,7 +348,7 @@ export default function AboutPage() {
         <section className="hlt-about-licence" aria-labelledby="about-licence-title">
           <div className="hlt-container hlt-about-licence-inner">
             <div className="hlt-about-licence-brand">
-              <img src={logoUrl} alt="" />
+              <img src={logoGoldUrl} alt="" />
               <strong>Hoang</strong>
               <span>Luxury Travel</span>
             </div>
@@ -438,64 +403,65 @@ export default function AboutPage() {
                 <span aria-hidden="true" />
               </p>
               <span className="hlt-about-ceo-diamond" aria-hidden="true" />
-              <h2 id="about-ceo-title">A journey often begins long before the day we actually set off.</h2>
+              <h2 id="about-ceo-title">
+                Every trip is looked forward to and prepared for long before the day of departure.
+              </h2>
               <p>
-                It may begin with a wish to see a new part of the world, explore somewhere new with family, return
-                to a place full of memories, or take a few days away from our usual routine to experience something
-                different.
+                After many years of accompanying thousands of guests, I have come to understand one thing very
+                clearly: no two journeys are ever the same.
               </p>
               <p>
-                From that first thought, each journey gradually takes shape &ndash; a departure date, a destination,
-                the people we will travel with, and the things we hope to see, feel and experience.
-              </p>
-              <p>
-                After being part of thousands of journeys over the years, I have come to understand one thing very
-                clearly: no two journeys are the same.
-              </p>
-              <p>
-                Some guests are visiting Vietnam for the first time with their families. Some have looked forward to
-                this trip for a long time, eager to spend time with the people they love. Others have travelled a very
-                long way just to see, experience and learn more about another country for the first time. Some choose
-                to travel alone, stepping away from the hustle and bustle of everyday life to find a little peace and
-                quiet. And sometimes, an unplanned stop becomes one of the most memorable moments of all because the
-                view outside the window is too beautiful to just drive past.
+                Behind the journey is a person with their own stories, plans, expectations and reasons for
+                travelling. That is why we have never seen our work as simply taking someone from one place to
+                another.
               </p>
               <p className="hlt-about-ceo-highlight">
-                Those moments may seem small, but they are often the ones people remember the longest.
+                Private transfer is the service we provide, but the experience throughout the journey is what truly
+                matters to us.
               </p>
               <p>
-                Perhaps that is why I have never seen our work as simply taking someone from one place to another.
-                Behind every booking is a person with their own plans, their own reasons for travelling and their own
-                hopes for the journey ahead.
+                Our responsibility begins with listening carefully to our guests&rsquo; needs. It continues through
+                every stage of preparation, including confirming the itinerary, preparing the vehicle, coordinating
+                with the driver and making sure all important details are clear before departure and it does not end
+                until your journey is complete.
               </p>
               <p>
-                Our role is to support you with care and dedication: to listen carefully, prepare thoughtfully and
-                be there when you need us.
+                At Hoang Luxury Travel, every trip follows a clear process and is carefully managed. I set high
+                standards for professionalism, consistency and attention to detail because I believe even the
+                smallest things can make a real difference to your experience.
               </p>
               <p>
-                Along the way, our guests also become part of Hoang Luxury Travel&rsquo;s story. Sometimes, they share
-                a photo with us. Sometimes, a few kind words. Some recommend us to their friends; others return to
-                travel with us again. And sometimes, it is simply a smile and a thank you at the end of the journey.
-              </p>
-              <p className="hlt-about-ceo-highlight">For us, that is enough.</p>
-              <p>
-                We may only be with you for a very small part of your trip, but during that time, we hope you feel
-                comfortable, never rushed and always cared for.
+                I also believe that trust is not built through grand promises. It is built through the small things
+                done properly: arriving on time, providing clear information, preparing the vehicle carefully,
+                respecting your privacy and being available whenever you need support.
               </p>
               <p>
-                Your story will always be your own. We are simply grateful to share a part of that journey with you.
+                When a guest entrusts us with part of their journey, we understand that they are also entrusting us
+                with their time, their safety and their peace of mind. That is a responsibility we always take
+                seriously.
               </p>
-              {/* Chữ ký bên trái, khẩu hiệu bên phải, nền là nét núi mờ (như mẫu) */}
-              <div
-                className="hlt-about-ceo-foot"
-                style={{ "--about-ceo-art": `url(${curatedMountainDecorationUrl})` }}
-              >
+              <p className="hlt-about-ceo-highlight">
+                For me, my wish is very simple: to provide the best possible experience for every guest who chooses
+                and trusts us.
+              </p>
+              <p>
+                We may only accompany you for a small part of your time in Vietnam but during that time, I hope you
+                feel comfortable, unhurried and genuinely cared for. The journey will always be yours.
+              </p>
+              <p>
+                We are grateful for the trust you place in us and for the opportunity to be part of it.
+              </p>
+              {/* Chữ ký CEO */}
+              <div className="hlt-about-ceo-foot">
                 <div className="hlt-about-ceo-sign">
-                  <span className="hlt-about-ceo-signature">Hoang Hieu</span>
+                  <img
+                    className="hlt-about-ceo-signature-img"
+                    src={aboutCeoSignatureUrl}
+                    alt="Hoang Hieu"
+                  />
                   <strong>Hoang Hieu</strong>
                   <span className="hlt-about-ceo-role">CEO, Hoang Luxury Travel</span>
                 </div>
-                <p className="hlt-about-ceo-tag" aria-hidden="true">People &nbsp;Places &nbsp;A More Meaningful Tomorrow</p>
               </div>
             </div>
           </div>
@@ -507,7 +473,7 @@ export default function AboutPage() {
             <h2 id="about-destinations-title" className="hlt-about-lined-title is-caps">
               Explore Northern Vietnam
             </h2>
-            <p className="hlt-about-destinations-sub">Remarkable places. Thoughtfully planned journeys.</p>
+            <p className="hlt-about-destinations-sub">Breathtaking places. Unforgettable experiences.</p>
             {destinationRows.map((row, rowIndex) => (
               <div className={`hlt-about-destination-row is-row-${rowIndex + 1}`} key={rowIndex}>
                 {row.map((item) => (
@@ -525,29 +491,14 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section
-          className="hlt-about-cta"
-          style={{ "--about-cta-bg": `url(${journeyCtaMountainsUrl})` }}
-          aria-labelledby="about-cta-title"
-        >
-          <div className="hlt-container hlt-about-cta-inner">
-            <div>
-              <h2 id="about-cta-title">
-                Every Journey Begins
-                <br />
-                with a Conversation.
-              </h2>
-              <p>Share your plans. Let us take care of the details.</p>
-            </div>
-            <a className="hlt-about-cta-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon />
-              Plan Your Journey
-            </a>
-          </div>
-        </section>
       </main>
 
+      {/* CTA dùng chung với trang chủ; đặt ngay trước Footer để hai dải liền nền */}
+      <JourneyCallToAction
+        className="hlt-journey-cta-about"
+        title="Every Journey Begins with a Conversation?"
+        text="Share your plans. Let us take care of the details."
+      />
       <Footer />
     </div>
   );

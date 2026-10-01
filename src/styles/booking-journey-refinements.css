@@ -134,9 +134,10 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 }
 
 /* Giấy phép kinh doanh vận tải, dưới đoạn mô tả của footer PC.
-   Kéo cả cụm (đoạn mô tả + khối giấy phép) lên gần logo hơn. */
+   Cụm này (đoạn mô tả + khối giấy phép) từng bị kéo lên sát logo quá, hạ
+   xuống cho thoáng. */
 .hlt-footer-compact .hlt-footer-brand p {
-  margin-top: 12px;
+  margin-top: 24px;
 }
 
 .hlt-footer-compact .hlt-footer-licence {
@@ -653,5 +654,47 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     margin: 0 auto 16px !important;
     object-fit: contain !important;
     mix-blend-mode: screen !important;
+  }
+}
+
+/* ==========================================================================
+   Footer PC: ba cột Quick Links / Services / Contact Us trải đúng bằng cụm
+   chữ bên cột thương hiệu — dòng đầu ngang "Private car services…", dòng cuối
+   ngang "Transport licence No…". Số dòng mỗi cột khác nhau nên khoảng cách
+   dòng phải đặt riêng.
+   ========================================================================== */
+@media (min-width: 1101px) {
+  .hlt-footer-compact .hlt-footer-col a:first-of-type {
+    margin-top: 1px;
+  }
+
+  .hlt-footer-compact .hlt-footer-col:not(.hlt-footer-contact) a + a {
+    margin-top: 6.1px;
+  }
+
+  .hlt-footer-compact .hlt-footer-contact a + a,
+  .hlt-footer-compact .hlt-footer-contact a + span,
+  .hlt-footer-compact .hlt-footer-contact span + a {
+    margin-top: 14.9px;
+  }
+}
+
+/* Trang About dùng chung dải CTA của trang chủ nhưng tiêu đề dài hơn:
+   nới cột chữ và giữ tiêu đề trên một dòng ở bản PC. */
+@media (min-width: 1101px) {
+  .hlt-journey-cta-about > .hlt-container {
+    grid-template-columns: minmax(0, auto) minmax(0, auto);
+    justify-content: space-between;
+    gap: 28px;
+  }
+
+  /* Tiêu đề dài hơn bản trang chủ nên hạ cỡ chữ để giữ đúng một dòng. */
+  .hlt-journey-cta-about h3 {
+    font-size: 25px;
+    white-space: nowrap;
+  }
+
+  .hlt-journey-cta-about .hlt-showcase-actions .hlt-btn {
+    min-width: 240px;
   }
 }

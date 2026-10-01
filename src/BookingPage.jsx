@@ -37,6 +37,15 @@ const bookingSteps = [
 ];
 
 function FormIcon({ type, className = "hlt-book-field-icon" }) {
+  // Ô "Private Luxury Cars" dùng icon xe nét đặc (khách gửi), không phải nét viền.
+  if (type === "carSolid") {
+    return (
+      <svg className={`${className} hlt-book-icon-solid`} viewBox="86 263 1082 765" aria-hidden="true">
+        <path fillRule="evenodd" d="M356 263 H898 q42 0 57 39 L1013 452 h84 q71 0 71 60 q0 58 -71 58 q33 20 33 66 V930 h-30 v70 q0 28 -28 28 H976 q-28 0 -28 -28 V930 H306 v70 q0 28 -28 28 H182 q-28 0 -28 -28 V930 h-30 V636 q0 -46 33 -66 q-71 0 -71 -58 q0 -60 71 -60 h84 L299 302 q15 -39 57 -39 Z M372 336 q-30 0 -40 28 l-62 172 q-8 22 16 22 H968 q24 0 16 -22 l-62 -172 q-10 -28 -40 -28 Z M178 654 q-4 -14 10 -12 l186 30 q14 2 14 16 v52 q0 16 -15 12 l-186 -42 q-12 -3 -12 -15 Z M1076 654 q4 -14 -10 -12 l-186 30 q-14 2 -14 16 v52 q0 16 15 12 l186 -42 q12 -3 12 -15 Z M444 694 H810 q22 0 14 20 l-28 62 q-6 14 -22 14 H480 q-16 0 -22 -14 l-28 -62 q-8 -20 14 -20 Z M205 862 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0 Z M973 862 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0 Z" />
+      </svg>
+    );
+  }
+
   const icons = {
     calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4M16 3v4M3 10h18" /></>,
     location: <><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
@@ -58,7 +67,7 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
 
 const highlights = [
   ["shield", "Safe & Professional", "Experienced drivers, your safety is our priority."],
-  ["car", " Private Luxury Cars", "Modern, clean, and reserved just for you."],
+  ["carSolid", " Private Luxury Cars", "Modern, clean, and reserved just for you."],
   ["clock", "On-Time Service", "Always on time, so you never have to wait."],
   ["headset", "24/7 Support", "We are here whenever you need us."],
 ];
@@ -112,7 +121,6 @@ function LuggageHint() {
           <span className="hlt-book-hint-row"><b>Carry-on</b> approx. 55 × 36 × 23 cm</span>
           <span className="hlt-book-hint-row"><b>Medium suitcase</b> approx. 65 × 43 × 26 cm</span>
           <span className="hlt-book-hint-row"><b>Large suitcase</b> approx. 75 × 50 × 30 cm</span>
-          <span className="hlt-book-hint-eg">Example: 2 Medium, 1 Large</span>
         </span>
       )}
     </span>

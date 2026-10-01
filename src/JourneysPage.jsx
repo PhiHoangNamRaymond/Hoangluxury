@@ -5,7 +5,12 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { whatsappUrl, catalogPageUrl, getJourneyPageUrl } from "./data.js";
-import { journeyCardImages, journeyIconImages, journeyPickupIconUrl } from "./config/assets.js";
+import {
+  journeyCardImages,
+  journeyIconImages,
+  journeyPickupIconUrl,
+  journeysOutroWheelUrl,
+} from "./config/assets.js";
 
 const allRoutesData = [
   {
@@ -308,13 +313,7 @@ export default function JourneysPage() {
         <section className="hlt-journeys-outro">
           <div className="hlt-container">
             {/* Hoa gió: hai ngôi sao 4 cánh lồng nhau, lệch 45 độ, trong một vòng tròn. */}
-            <svg className="hlt-journeys-outro-mark" viewBox="0 0 44 44" aria-hidden="true">
-              <g transform="translate(22 22)">
-                <circle r="12.4" />
-                <path d="M 0 -16.5 L 2 -2 L 16.5 0 L 2 2 L 0 16.5 L -2 2 L -16.5 0 L -2 -2 Z" />
-                <path d="M 0 -9.6 L 1.3 -1.3 L 9.6 0 L 1.3 1.3 L 0 9.6 L -1.3 1.3 L -9.6 0 L -1.3 -1.3 Z" transform="rotate(45)" />
-              </g>
-            </svg>
+            <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} alt="" aria-hidden="true" />
 
             <h2 className="hlt-journeys-outro-title">
               <span className="hlt-journeys-outro-rule" aria-hidden="true" />

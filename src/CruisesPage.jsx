@@ -3,7 +3,7 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { cruiseData } from "./config/cruises.js";
-import { cruiseImages, preferenceIconImages } from "./config/assets.js";
+import { cruiseImages, journeyChauffeurIconUrl, preferenceIconImages } from "./config/assets.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import "./styles/cruises.css";
@@ -584,13 +584,8 @@ export default function CruisesPage() {
 
                 <div className="hlt-cruise-metric-box">
                   <div className="hlt-metric-svg">
-                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 26 50 12l28 14-6 7H28Z" />
-                      <path d="M28 33h44" />
-                      <path d="M32 38q0 22 18 22t18-22" />
-                      <path d="M16 90v-6q0-12 12-15l10-3 12 12 12-12 10 3q12 3 12 15v6" />
-                      <path d="M50 78v12" />
-                    </svg>
+                    {/* Dùng chung icon tài xế với trang tuyến */}
+                    <img src={journeyChauffeurIconUrl} alt="" aria-hidden="true" />
                   </div>
                   <div className="hlt-metric-val">8+ Years</div>
                   <div className="hlt-metric-lbl">Driver Experience</div>

@@ -466,17 +466,6 @@
   display: block;
 }
 
-.hlt-feedback-form-kicker {
-  margin: 0 0 12px;
-  color: #ac7621;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: .25em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
 .hlt-feedback-form-copy {
   max-width: 480px;
   margin: 25px auto 0;
@@ -897,11 +886,6 @@
     background-size: 145% auto;
   }
 
-  .hlt-feedback-form-kicker {
-    margin-bottom: 10px;
-    font-size: 11px;
-    letter-spacing: .19em;
-  }
 
   .hlt-feedback-form-copy {
     max-width: 500px;
@@ -1127,4 +1111,30 @@
   .hlt-feedback-stats article:nth-child(4) img {
     width: 54px;
   }
+}
+
+/* Thông báo sau khi bấm Send Feedback. */
+.hlt-feedback-submit-note {
+  margin: 12px 0 0;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.hlt-feedback-submit-note.is-success {
+  color: #2f6b45;
+}
+
+.hlt-feedback-submit-note.is-error {
+  color: #a8341f;
+}
+
+.hlt-feedback-submit-note.is-loading {
+  color: #6b6459;
+}
+
+.hlt-feedback-form button[type="submit"]:disabled {
+  opacity: .72;
+  cursor: progress;
 }

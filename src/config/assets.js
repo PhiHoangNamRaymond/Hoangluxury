@@ -28,6 +28,10 @@ import heroOperationsCenterUrl from "../../assets/opt/hero-operations-center-202
 import heroReceptionLobbyUrl from "../../assets/opt/hero-reception-lobby-2026.jpg";
 import heroMobileBannerUrl from "../../assets/home-banner-mobile-2026.webp";
 import logoUrl from "../../assets/opt/hoang-luxury-logo-crown-2026.png";
+/* Bản logo toàn vàng, đã cắt sát nét - dùng cho khối giấy phép trang About. */
+import logoGoldUrl from "../../assets/hoang-luxury-logo-gold.png";
+/* Chữ ký CEO (ảnh khách gửi, đã tách nền). */
+import aboutCeoSignatureUrl from "../../assets/about-ceo-signature.png";
 
 /* Cruise Page Assets */
 import cruiseHeroHalongUrl from "../../assets/opt/cruise-hero-halong.jpg";
@@ -72,6 +76,24 @@ import journeySaPaImgUrl from "../../assets/opt/ảnh sapa.jpg";
 import journeyTaXuaImgUrl from "../../assets/opt/Ta xua.jpg";
 
 /* Icon điểm đón / điểm trả trong thẻ /journeys/ (nền bàn cờ đã được tách thành trong suốt) */
+/* Bánh lái vàng ở khối kết trang /journeys/ */
+import journeysOutroWheelUrl from "../../assets/journeys-outro-wheel.png";
+/* Icon tài xế (thay cho nét vẽ tay) dùng ở mục Professional Drivers */
+import journeyChauffeurIconUrl from "../../assets/journey-icon-chauffeur.png";
+import journeyCarIconUrl from "../../assets/journey-icon-car.png";
+
+/* Ảnh banner riêng cho từng trang cung đường (đặt tên theo điểm đến) */
+import bannerSapaUrl from "../../assets/opt/journey-banners/sapa.jpg";
+import bannerHaLongUrl from "../../assets/opt/journey-banners/ha-long.jpg";
+import bannerHaLongBayUrl from "../../assets/opt/journey-banners/ha-long-bay.jpg";
+import bannerNinhBinhUrl from "../../assets/opt/journey-banners/ninh-binh.jpg";
+import bannerNinhBinhTempleUrl from "../../assets/opt/journey-banners/ninh-binh-temple.jpg";
+import bannerHaGiangUrl from "../../assets/opt/journey-banners/ha-giang.jpg";
+import bannerCatBaUrl from "../../assets/opt/journey-banners/cat-ba.jpg";
+import bannerCaoBangUrl from "../../assets/opt/journey-banners/cao-bang.jpg";
+import bannerMocChauUrl from "../../assets/opt/journey-banners/moc-chau.jpg";
+import bannerMuCangChaiUrl from "../../assets/opt/journey-banners/mu-cang-chai.jpg";
+import bannerTaXuaUrl from "../../assets/opt/journey-banners/ta-xua.jpg";
 import journeyPickupIconUrl from "../../assets/ha-noi-private-car-transfer-hoang-luxury-travel-icon.png";
 import journeySaPaIconUrl from "../../assets/ha-noi-to-sapa-private-car-transfer-hoang-luxury-travel-icon.png";
 import journeyHaLongIconUrl from "../../assets/ha-noi-to-ha-long-private-car-transfer-hoang-luxury-travel-icon.png";
@@ -90,7 +112,7 @@ import feedbackStatStarUrl from "../../assets/feedback-stat-star.png";
 import feedbackStatPrivateCarUrl from "../../assets/feedback-stat-private-car.png";
 
 /* 8 ảnh review khách hàng trang Feedback, theo thứ tự câu chuyện (tên file đã SEO) */
-import feedbackReview1Url from "../../assets/feedback-reviews/cards/ha-noi-to-sapa-private-car-hoang-luxury-travel.jpg";
+import feedbackReview1Url from "../../assets/feedback-reviews/cards/hoang-luxury-travel-private-car-hotel-pickup.jpg";
 import feedbackReview2Url from "../../assets/feedback-reviews/cards/ha-noi-to-ha-long-private-car-hoang-luxury-travel.jpg";
 import feedbackReview3Url from "../../assets/feedback-reviews/cards/ha-noi-to-ha-giang-private-car-hoang-luxury-travel.jpg";
 import feedbackReview4Url from "../../assets/feedback-reviews/cards/ha-noi-to-mu-cang-chai-private-transfer-hoang-luxury-travel.jpg";
@@ -107,7 +129,7 @@ import journeyFactRatesUrl from "../../assets/journey-fact-rates.png";
 
 /* 4 ảnh thẻ Journey Experience trang tuyến (JPEG 800×600 đã tối ưu) */
 import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.webp";
-import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.webp";
+import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet-enhanced.png";
 import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
 import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.webp";
 
@@ -115,6 +137,27 @@ import journeyExpStopsUrl from "../../assets/journey-experience/journey-experien
 import journeyCtaMountainsImg from "../../assets/journey-cta-mountains.jpg";
 
 export const journeyCtaMountainsUrl = journeyCtaMountainsImg;
+export { journeysOutroWheelUrl, journeyChauffeurIconUrl, journeyCarIconUrl };
+
+/* Banner đầu trang cho từng tuyến. Tuyến nối tỉnh dùng ảnh của điểm đến;
+   tuyến nào chưa có ảnh riêng (Pu Luong) thì trang tự dùng banner chung. */
+export const journeyBannerBySlug = {
+  sapa: bannerSapaUrl,
+  "ha-long": bannerHaLongUrl,
+  "ninh-binh": bannerNinhBinhUrl,
+  "ha-giang": bannerHaGiangUrl,
+  "cat-ba": bannerCatBaUrl,
+  "cao-bang": bannerCaoBangUrl,
+  "moc-chau": bannerMocChauUrl,
+  "mu-cang-chai": bannerMuCangChaiUrl,
+  "ta-xua": bannerTaXuaUrl,
+  "sapa-to-ha-long": bannerHaLongBayUrl,
+  "sapa-to-ninh-binh": bannerNinhBinhTempleUrl,
+  "sapa-to-ha-giang": bannerHaGiangUrl,
+  "sapa-to-mu-cang-chai": bannerMuCangChaiUrl,
+  "ha-long-to-sapa": bannerSapaUrl,
+  "ninh-binh-to-sapa": bannerSapaUrl,
+};
 
 /* Cùng thứ tự với journeyExperience trong config/journeys.js */
 export const journeyExperienceImages = [
@@ -168,6 +211,8 @@ export {
   footerFlourishDividerUrl,
   heroBannerUrl,
   logoUrl,
+  logoGoldUrl,
+  aboutCeoSignatureUrl,
   routeViewAllButtonUrl,
   servicesBackgroundUrl,
   vietnamRoutesMapUrl,
@@ -215,12 +260,22 @@ export const experienceImages = [
   alt: `Hoang Luxury Travel experience ${index + 1}`,
 }));
 
+/* Ảnh dọc bị khung ngang của slider cắt trên dưới. Mốc chung là 38% (hợp với
+   ảnh chân dung), vài ảnh chủ thể nằm thấp hơn nên chỉnh riêng ở đây. */
+const experienceSliderFocus = new Map([
+  [experienceSlide90Url, "center 80%"], // ca nô đỏ nằm ở ~68% chiều cao
+  [experienceSlide30Url, "center 58%"], // cụm thuyền hoa chụp từ trên xuống
+]);
+
 /* Dải ảnh chạy gần footer (ExperienceSlider): bỏ 2 ảnh thác nước 50 / 51.
    Giữ chúng trong experienceImages vì trang /photo/ vẫn dùng. */
 export const experienceSliderImages = experienceImages
   .filter((image) => image.src !== experienceSlide50Url && image.src !== experienceSlide51Url)
-  /* Ảnh ca nô đỏ là ảnh dọc, xe nằm ở ~68% chiều cao; mốc 80% đưa xe vào giữa khung */
-  .map((image) => (image.src === experienceSlide90Url ? { ...image, focus: "center 80%" } : image));
+  .map((image) =>
+    experienceSliderFocus.has(image.src)
+      ? { ...image, focus: experienceSliderFocus.get(image.src) }
+      : image
+  );
 
 export const feedbackReviewImages = [
   feedbackReview1Url,
@@ -312,6 +367,14 @@ export const journeyIconBySlug = {
   "mu-cang-chai": journeyMuCangChaiIconUrl,
   "moc-chau": journeyMocChauIconUrl,
   "ta-xua": journeyTaXuaIconUrl,
+  /* Tuyến nối tỉnh dùng lại icon của điểm đến. Pu Luong chưa có icon riêng
+     nên trang tự vẽ icon thay thế. */
+  "sapa-to-ha-long": journeyHaLongIconUrl,
+  "sapa-to-ninh-binh": journeyNinhBinhIconUrl,
+  "sapa-to-ha-giang": journeyHaGiangIconUrl,
+  "sapa-to-mu-cang-chai": journeyMuCangChaiIconUrl,
+  "ha-long-to-sapa": journeySaPaIconUrl,
+  "ninh-binh-to-sapa": journeySaPaIconUrl,
 };
 
 /* Icon dải chỉ số trang Feedback, theo thứ tự feedbackStats */
@@ -353,16 +416,60 @@ export const preferenceIconImages = {
 /* Trang About (/about/): ảnh JPEG đã tối ưu (cắt từ Sapa2.png, hero-reception-lobby-2026.png,
    hero-operations-center-2026.png). Dải điểm đến dùng lại journeyCardImages. */
 import aboutHeroMountainsImg from "../../assets/about-hero-mountains.jpg";
-import aboutApproachReceptionImg from "../../assets/about-approach-reception.jpg";
+/* Banner riêng của trang About; `hero` phía dưới vẫn là ảnh núi dùng chung
+   cho trang Blog và /photo/albums/ nên không đổi theo. */
+import aboutHeroTerracesImg from "../../assets/about-hero-terraces-sunrise.jpg";
+import aboutApproachJourneyPlansImg from "../../assets/about-approach-journey-plans.jpg";
 import aboutPeopleOperationsImg from "../../assets/about-people-operations.jpg";
 /* Ảnh dọc cho khối "A message from the CEO" (cắt từ experience-slider/70.png) */
 import aboutCeoMessageImg from "../../assets/opt/about-ceo-message.jpg";
-/* Khối "The people behind your journey" dùng lại ảnh tài xế xếp hành lý */
-import aboutPeopleLuggageImg from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
+/* Khối "The people behind your journey" - ảnh riêng, không dùng chung với
+   thẻ Journey Experience của các trang cung đường. */
+import aboutPeopleLuggageImg from "../../assets/about-people-luggage-hotel.jpg";
+
+/* Icon dải số liệu trang About (khách gửi, PNG nền trong suốt). */
+import aboutStatTravelersImg from "../../assets/about-stats/01-journeys-completed-people-128.png";
+import aboutStatCountriesImg from "../../assets/about-stats/02-countries-globe-128.png";
+import aboutStatRatingImg from "../../assets/about-stats/03-guest-rating-star-128.png";
+import aboutStatSupportImg from "../../assets/about-stats/04-whatsapp-support-headset-128.png";
+
+export const aboutStatIcons = {
+  travelers: aboutStatTravelersImg,
+  countries: aboutStatCountriesImg,
+  rating: aboutStatRatingImg,
+  support: aboutStatSupportImg,
+};
+
+/* Ảnh dải "Explore Northern Vietnam" ở trang About: cắt sẵn đúng khung 16:11
+   của thẻ (640x440) nên không bị thu nhỏ 7 lần từ bản 1600x900 như trước. */
+import aboutDestSapaImg from "../../assets/about-destinations/sapa.jpg";
+import aboutDestHaLongImg from "../../assets/about-destinations/ha-long.jpg";
+import aboutDestNinhBinhImg from "../../assets/about-destinations/ninh-binh.jpg";
+import aboutDestHaGiangImg from "../../assets/about-destinations/ha-giang.jpg";
+import aboutDestCatBaImg from "../../assets/about-destinations/cat-ba.jpg";
+import aboutDestCaoBangImg from "../../assets/about-destinations/cao-bang.jpg";
+import aboutDestMuCangChaiImg from "../../assets/about-destinations/mu-cang-chai.jpg";
+import aboutDestMocChauImg from "../../assets/about-destinations/moc-chau.jpg";
+import aboutDestTaXuaImg from "../../assets/about-destinations/ta-xua.jpg";
+
+/* Cùng thứ tự với journeyCardImages. */
+export const aboutDestinationImages = [
+  aboutDestSapaImg,
+  aboutDestHaLongImg,
+  aboutDestNinhBinhImg,
+  aboutDestHaGiangImg,
+  aboutDestCatBaImg,
+  aboutDestCaoBangImg,
+  aboutDestMuCangChaiImg,
+  aboutDestMocChauImg,
+  aboutDestTaXuaImg,
+];
 
 export const aboutImages = {
+
   hero: aboutHeroMountainsImg,
-  approach: aboutApproachReceptionImg,
+  heroBanner: aboutHeroTerracesImg,
+  approach: aboutApproachJourneyPlansImg,
   people: aboutPeopleLuggageImg,
   operations: aboutPeopleOperationsImg,
   ceo: aboutCeoMessageImg,

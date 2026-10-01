@@ -9,6 +9,9 @@ import {
 } from "./config/assets.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
+// DÃ¹ng chung Web App vá»i form Äáº·t xe; phÃ¢n biá»t báº±ng tham sá» form=feedback.
+const feedbackEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
+
 const feedbackStats = [
   { icon: feedbackStatIcons[0], value: "Licensed", label: "Transport Operator" },
   { icon: feedbackStatIcons[1], value: "20+", label: "Guest Nationalities" },
@@ -16,60 +19,60 @@ const feedbackStats = [
   { icon: feedbackStatIcons[3], value: "100% Private", label: "Private Car" },
 ];
 
-// Review thật của khách, theo thứ tự ảnh trong feedbackReviewImages.
-// Không đăng tên khách và ngày; "guest" hiển thị ở dòng tác giả.
-// lang: review tiếng Hàn / tiếng Trung giữ nguyên ngôn ngữ gốc.
+// Review tháº­t cá»§a khÃ¡ch, theo thá»© tá»± áº£nh trong feedbackReviewImages.
+// KhÃ´ng ÄÄng tÃªn khÃ¡ch vÃ  ngÃ y; "guest" hiá»n thá» á» dÃ²ng tÃ¡c giáº£.
+// lang: review tiáº¿ng HÃ n / tiáº¿ng Trung giá»¯ nguyÃªn ngÃ´n ngá»¯ gá»c.
 const guestReviews = [
   {
     title: "Trip Details Confirmed Before Departure",
     quote: "Our plans changed the night before the trip, so we were a little worried as everything was very last minute. But the Hoang Luxury team responded very quickly and helped us arrange everything again. Before the trip, they sent us all the details about the car, driver and pickup time. Everything was handled very quickly and smoothly, so we felt much more relaxed and comfortable. We were really happy with the support from the team.",
     country: "India",
     guest: "Guest from India",
-    alt: "Hanoi to Sapa private car – Hoang Luxury Travel",
+    alt: "Guests beside a private car at a hotel entrance â Hoang Luxury Travel",
   },
   {
     title: "On-Time Pick Up and Flexible Payment",
-    quote: "We needed a reliable car to take us to the Ha Long cruise port because we had quite a lot of luggage and needed to arrive on time for our cruise. The driver came early, helped us with our bags and got us there earlier than expected. When it was time to pay, we realised we didn’t have enough cash with us and felt a little worried. Luckily, the Hoang Team accepted card payment, so everything was sorted out quickly and easily.",
+    quote: "We needed a reliable car to take us to the Ha Long cruise port because we had quite a lot of luggage and needed to arrive on time for our cruise. The driver came early, helped us with our bags and got us there earlier than expected. When it was time to pay, we realised we didnât have enough cash with us and felt a little worried. Luckily, the Hoang Team accepted card payment, so everything was sorted out quickly and easily.",
     country: "Saudi Arabia",
     guest: "Guest from Saudi Arabia",
-    alt: "Hanoi to Ha Long private car – Hoang Luxury Travel",
+    alt: "Hanoi to Ha Long private car â Hoang Luxury Travel",
   },
   {
     title: "100% Private and No Multiple Pick-Ups",
-    quote: "저는 버스를 타고 이동하는 걸 별로 좋아하지 않아요. 버스는 시끄럽고 좁아서 불편하거든요. 여러 가지를 알아본 후에 호앙 씨의 차량으로 사파까지 개인 차량을 이용해 가기로 결정했습니다. 솔직히 말씀드리면 저는 꽤 까다로운 편이에요. 예전에 하롱에서 서비스 이용을 하면서 몇 번 좋지 않은 경험을 한 적이 있어서 베트남의 서비스에 대해 그다지 좋은 인상을 가지고 있지는 않았어요. 그런데 이번에는 정말 만족스러웠습니다. 저와 아내 모두 모든 면에서 만족스러웠어요.",
+    quote: "ì ë ë²ì¤ë¥¼ íê³  ì´ëíë ê±¸ ë³ë¡ ì¢ìíì§ ììì. ë²ì¤ë ìëë½ê³  ì¢ìì ë¶í¸íê±°ë ì. ì¬ë¬ ê°ì§ë¥¼ ììë³¸ íì í¸ì ì¨ì ì°¨ëì¼ë¡ ì¬íê¹ì§ ê°ì¸ ì°¨ëì ì´ì©í´ ê°ê¸°ë¡ ê²°ì íìµëë¤. ìì§í ë§ìëë¦¬ë©´ ì ë ê½¤ ê¹ë¤ë¡ì´ í¸ì´ìì. ìì ì íë¡±ìì ìë¹ì¤ ì´ì©ì íë©´ì ëª ë² ì¢ì§ ìì ê²½íì í ì ì´ ìì´ì ë² í¸ë¨ì ìë¹ì¤ì ëí´ ê·¸ë¤ì§ ì¢ì ì¸ìì ê°ì§ê³  ìì§ë ììì´ì. ê·¸ë°ë° ì´ë²ìë ì ë§ ë§ì¡±ì¤ë¬ì ìµëë¤. ì ì ìë´ ëª¨ë ëª¨ë  ë©´ìì ë§ì¡±ì¤ë¬ì ì´ì.",
     country: "South Korea",
     guest: "Guest from South Korea",
     lang: "ko",
-    alt: "Hanoi to Ha Giang private car – Hoang Luxury Travel",
+    alt: "Hanoi to Ha Giang private car â Hoang Luxury Travel",
   },
   {
     title: "Flexible Rest Stops",
     quote: "My family and I had a really memorable experience at Garrya Mu Cang Chai. The scenery was absolutely beautiful and we would definitely love to come back again. The car service was also very good. Our driver was punctual, polite and thoughtful. There were lots of lovely views along the way, and he was always happy to stop so we could take photos. He told us we could stop wherever we liked, as long as it was a safe and permitted place to pull over. He also helped take some lovely family photos for us to keep as memories. It was a very comfortable and enjoyable journey.",
     country: "United Kingdom",
     guest: "Guest from the United Kingdom",
-    alt: "Hanoi to Mu Cang Chai private transfer – Hoang Luxury Travel",
+    alt: "Hanoi to Mu Cang Chai private transfer â Hoang Luxury Travel",
   },
   {
     title: "24/7 WhatsApp Support",
     quote: "We had a really great experience! When we arrived back in Hanoi, we realised that we had left our camera at Hotel de la Coupole in Sapa. Hoang Luxury quickly helped us contact the hotel and arranged for a driver to bring the camera back to their office. As our flight was delayed, the Hoang team also helped us find a new flight and took us to the airport free of charge. Great service and we were very happy with everything.",
     country: "France",
     guest: "Guest from France",
-    alt: "Representative Office of Hoang Luxury Travel – Hanoi to Sapa Private Transfer",
+    alt: "Representative Office of Hoang Luxury Travel â Hanoi to Sapa Private Transfer",
   },
   {
     title: "Professional Drivers Safety-Focused",
-    quote: "Our group booked a private car to Sapa. We had quite a lot of luggage—six suitcases—and I discussed this with the Hoang Team before the trip. They said it would be fine and assured us there was nothing to worry about. I was genuinely surprised when two vehicles arrived to pick us up. They had arranged an additional support vehicle for our luggage. All of our bags were placed in the second car, leaving the main vehicle extremely spacious and comfortable. I was very impressed by this thoughtful arrangement. The service was flexible, attentive and professional.",
+    quote: "Our group booked a private car to Sapa. We had quite a lot of luggageâsix suitcasesâand I discussed this with the Hoang Team before the trip. They said it would be fine and assured us there was nothing to worry about. I was genuinely surprised when two vehicles arrived to pick us up. They had arranged an additional support vehicle for our luggage. All of our bags were placed in the second car, leaving the main vehicle extremely spacious and comfortable. I was very impressed by this thoughtful arrangement. The service was flexible, attentive and professional.",
     country: "United States",
     guest: "Guest from the United States",
-    alt: "Hanoi to Ninh Binh private transfer – Hoang Luxury Travel",
+    alt: "Hanoi to Ninh Binh private transfer â Hoang Luxury Travel",
   },
   {
     title: "Smooth & Comfortable Journey",
-    quote: "Hoang Luxury Travel 的服务真的非常出色！我们的司机非常专业，开车时从不使用手机，也不吸烟。这对我来说非常重要，因为我对烟味过敏。他还热情地为我们推荐了一些很棒的当地餐厅。晚上逛完市场后，他准时回来接我们，帮我们提东西，并把我们一行人安全送回酒店。以后我一定还会选择这项服务，也会推荐给朋友。",
+    quote: "Hoang Luxury Travel çæå¡ççéå¸¸åºè²ï¼æä»¬çå¸æºéå¸¸ä¸ä¸ï¼å¼è½¦æ¶ä»ä¸ä½¿ç¨ææºï¼ä¹ä¸å¸çãè¿å¯¹ææ¥è¯´éå¸¸éè¦ï¼å ä¸ºæå¯¹çå³è¿æãä»è¿ç­æå°ä¸ºæä»¬æ¨èäºä¸äºå¾æ£çå½å°é¤åãæä¸éå®å¸åºåï¼ä»åæ¶åæ¥æ¥æä»¬ï¼å¸®æä»¬æä¸è¥¿ï¼å¹¶ææä»¬ä¸è¡äººå®å¨éåéåºãä»¥åæä¸å®è¿ä¼éæ©è¿é¡¹æå¡ï¼ä¹ä¼æ¨èç»æåã",
     country: "China",
     guest: "Guest from China",
     lang: "zh",
-    alt: "Hanoi to Ha Giang private transfer – Hoang Luxury Travel",
+    alt: "Hanoi to Ha Giang private transfer â Hoang Luxury Travel",
   },
   {
     title: "Flexible Departure",
@@ -93,12 +96,12 @@ function FeedbackFormOrnament() {
 }
 
 function FeedbackFrameCorner({ position }) {
-  // Hoạ tiết góc khung (vẽ cho góc trên-trái, các góc khác xoay trong CSS).
-  // Hai đường viền do chính form vẽ (viền 1px + ::before inset 10px), SVG
-  // chỉ vẽ hoạ tiết, gốc toạ độ = mép ngoài viền, tỷ lệ 1:1 (viền trong ở 11.5,
-  // nên cả cụm dịch 1px theo đường chéo).
-  // Một cụm liền khối: 2 vòng xoắn nhỏ nằm trong khe giữa 2 viền, đuôi chạy
-  // nhập vào viền trong; vòng tròn nhỏ ở góc ngoài; lá nhỏ chĩa vào trong.
+  // Hoáº¡ tiáº¿t gÃ³c khung (váº½ cho gÃ³c trÃªn-trÃ¡i, cÃ¡c gÃ³c khÃ¡c xoay trong CSS).
+  // Hai ÄÆ°á»ng viá»n do chÃ­nh form váº½ (viá»n 1px + ::before inset 10px), SVG
+  // chá» váº½ hoáº¡ tiáº¿t, gá»c toáº¡ Äá» = mÃ©p ngoÃ i viá»n, tá»· lá» 1:1 (viá»n trong á» 11.5,
+  // nÃªn cáº£ cá»¥m dá»ch 1px theo ÄÆ°á»ng chÃ©o).
+  // Má»t cá»¥m liá»n khá»i: 2 vÃ²ng xoáº¯n nhá» náº±m trong khe giá»¯a 2 viá»n, ÄuÃ´i cháº¡y
+  // nháº­p vÃ o viá»n trong; vÃ²ng trÃ²n nhá» á» gÃ³c ngoÃ i; lÃ¡ nhá» chÄ©a vÃ o trong.
   return (
     <svg
       className={`hlt-feedback-frame-corner is-${position}`}
@@ -150,7 +153,7 @@ function CountryFlag({ country }) {
     );
   }
 
-  // Cờ Ả Rập Xê Út rút gọn: nền xanh, dòng chữ và thanh kiếm cách điệu màu trắng.
+  // Cá» áº¢ Ráº­p XÃª Ãt rÃºt gá»n: ná»n xanh, dÃ²ng chá»¯ vÃ  thanh kiáº¿m cÃ¡ch Äiá»u mÃ u tráº¯ng.
   if (country === "Saudi Arabia") {
     return (
       <svg className="hlt-feedback-review-flag" viewBox="0 0 30 20" aria-hidden="true">
@@ -199,6 +202,46 @@ export default function FeedbackPage() {
   const [rating, setRating] = useState(0);
   const [expandedReviews, setExpandedReviews] = useState([]);
   const pageEntered = usePageEntered();
+  const [bookingId, setBookingId] = useState("");
+  const [experience, setExperience] = useState("");
+  const [submission, setSubmission] = useState({ state: "idle", message: "" });
+
+
+  const submitFeedback = async (event) => {
+    event.preventDefault();
+
+    if (!feedbackEndpoint) {
+      setSubmission({ state: "error", message: "Feedback is being configured. Please contact us via WhatsApp." });
+      return;
+    }
+
+    setSubmission({ state: "loading", message: "Sending your feedback..." });
+
+    const payload = new URLSearchParams({
+      form: "feedback",
+      bookingId: bookingId.trim(),
+      rating: String(rating),
+      feedback: experience.trim(),
+      submittedFrom: window.location.href,
+      clientTimestamp: new Date().toISOString(),
+    });
+
+    try {
+      await fetch(feedbackEndpoint, {
+        method: "POST",
+        mode: "no-cors",
+        credentials: "omit",
+        keepalive: true,
+        body: payload,
+      });
+      setBookingId("");
+      setExperience("");
+      setRating(0);
+      setSubmission({ state: "success", message: "Thank you. Your feedback has been sent to our management team." });
+    } catch {
+      setSubmission({ state: "error", message: "We could not send your feedback. Please try again or contact us via WhatsApp." });
+    }
+  };
 
   const toggleReview = (title) => {
     setExpandedReviews((current) => (
@@ -265,7 +308,7 @@ export default function FeedbackPage() {
                     <img src={review.image} alt={review.alt} loading="lazy" decoding="async" />
                     <div className="hlt-feedback-review-body">
                       <h3>{review.title}</h3>
-                      <div className="hlt-feedback-stars" aria-label="5 out of 5 stars">★★★★★</div>
+                      <div className="hlt-feedback-stars" aria-label="5 out of 5 stars">âââââ</div>
                       <blockquote className={isExpanded ? "is-expanded" : ""} lang={review.lang}>
                         {review.quote}
                       </blockquote>
@@ -276,7 +319,7 @@ export default function FeedbackPage() {
                         onClick={() => toggleReview(review.title)}
                       >
                         {isExpanded ? "Read less" : "Read more"}
-                        <span aria-hidden="true">→</span>
+                        <span aria-hidden="true">â</span>
                       </button>
                       <div className="hlt-feedback-review-author">
                         <CountryFlag country={review.country} />
@@ -291,7 +334,7 @@ export default function FeedbackPage() {
         </section>
 
         <section className="hlt-feedback-form-section" aria-labelledby="feedback-form-title">
-          <form className="hlt-feedback-form" onSubmit={(event) => event.preventDefault()}>
+          <form className="hlt-feedback-form" onSubmit={submitFeedback}>
             <FeedbackFrameCorner position="top-left" />
             <FeedbackFrameCorner position="top-right" />
             <FeedbackFrameCorner position="bottom-right" />
@@ -300,7 +343,6 @@ export default function FeedbackPage() {
             <div className="hlt-feedback-form-layout">
               <header className="hlt-feedback-form-intro">
                 <FeedbackFormOrnament />
-                <p className="hlt-feedback-form-kicker">Your Feedback Inspires Us</p>
                 <h2 id="feedback-form-title">
                   <span>Every Experience</span>
                   <span>Matters to Us</span>
@@ -327,6 +369,8 @@ export default function FeedbackPage() {
                         placeholder="e.g. HLT-100826-RKS001-001"
                         autoComplete="off"
                         maxLength="80"
+                        value={bookingId}
+                        onChange={(event) => setBookingId(event.target.value)}
                       />
                     </span>
                   </label>
@@ -365,6 +409,8 @@ export default function FeedbackPage() {
                         name="experience"
                         placeholder="Please share your experience, including anything you particularly enjoyed or anything we could improve..."
                         maxLength="5000"
+                        value={experience}
+                        onChange={(event) => setExperience(event.target.value)}
                       />
                       <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M4 20h4L20 8l-4-4L4 16v4ZM14 6l4 4" />
@@ -373,7 +419,18 @@ export default function FeedbackPage() {
                   </label>
                 </div>
 
-                <button type="submit">Send Feedback</button>
+                <button type="submit" disabled={submission.state === "loading"}>
+                  {submission.state === "loading" ? "Sending…" : "Send Feedback"}
+                </button>
+
+                {submission.message && (
+                  <p
+                    className={`hlt-feedback-submit-note is-${submission.state}`}
+                    role={submission.state === "error" ? "alert" : "status"}
+                  >
+                    {submission.message}
+                  </p>
+                )}
 
                 <p className="hlt-feedback-private">
                   <svg viewBox="0 0 24 24" aria-hidden="true">

@@ -22,7 +22,6 @@
   .hlt-about-hero { order: 1; }
   .hlt-about-split:not(.is-reversed) { order: 2; }
   .hlt-about-values { order: 3; }
-  .hlt-about-cta { order: 4; }
   .hlt-about-split.is-reversed { order: 5; }
   .hlt-about-commitments { order: 6; }
   .hlt-about-licence { order: 7; }
@@ -194,35 +193,6 @@
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
-  }
-
-  /* --- CTA giữa trang --- */
-  .hlt-about-cta-inner {
-    align-items: flex-start;
-    gap: 18px;
-    padding-top: 34px;
-    padding-bottom: 34px;
-  }
-
-  .hlt-about-cta h2 {
-    font-size: clamp(28px, 8.4vw, 36px);
-  }
-
-  .hlt-about-cta-btn {
-    width: auto;
-    min-height: 50px;
-    padding: 0 22px;
-    border-radius: 999px;
-    font-size: clamp(13px, 3.7vw, 15px);
-  }
-
-  .hlt-about-cta-btn .hlt-about-wa {
-    width: 26px;
-    height: 26px;
-    padding: 4px;
-    border-radius: 50%;
-    background: #14261d;
-    color: #e8cd86;
   }
 
   /* --- People: ảnh trên, 3 điểm dưới --- */
@@ -410,16 +380,6 @@
     width: min(1560px, 92vw);
     grid-template-columns: minmax(0, .46fr) minmax(0, 1fr);
     align-items: stretch;
-  }
-
-  /* Chữ ký giữ 1 dòng; khẩu hiệu nhường chỗ khi cột hẹp */
-  .hlt-about-ceo-signature {
-    white-space: nowrap;
-  }
-
-  .hlt-about-ceo-tag {
-    min-width: 0;
-    flex-shrink: 1;
   }
 
   .hlt-about-ceo-media img {

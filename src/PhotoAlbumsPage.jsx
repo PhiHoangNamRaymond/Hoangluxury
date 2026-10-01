@@ -1,79 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import { aboutImages, journeyCtaMountainsUrl } from "./config/assets.js";
 import {
-  aboutImages,
-  experienceImages,
-  journeyCardImages,
-  journeyCtaMountainsUrl,
-} from "./config/assets.js";
+  ALL_PHOTO_CATEGORIES,
+  photoAlbums,
+  photoAlbumUrl,
+  photoCategories,
+} from "./config/photo-albums.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
-const ALL = "All";
+const ALL = ALL_PHOTO_CATEGORIES;
 const PER_PAGE = 12;
-
-/* Danh mục theo mẫu; thứ tự này cũng là thứ tự nút lọc. */
-const categories = [
-  ALL,
-  "Natural Journey",
-  "Couple & Honeymoon",
-  "Local Heritage",
-  "Family Memories",
-  "Cinematic Travel",
-  "Proposal & Celebration",
-];
-
-/* Album ảnh: [tiêu đề, địa điểm, danh mục, ảnh].
-   Ảnh đang dùng lại kho ảnh sẵn có của trang (ảnh minh hoạ). */
-const albums = [
-  ["Sapa Sunrise Story", "Sapa", "Natural Journey", journeyCardImages[0]],
-  ["Mountain Love Story", "Ha Giang", "Couple & Honeymoon", experienceImages[9].src],
-  ["Colors of Local Life", "Ha Giang", "Local Heritage", experienceImages[15].src],
-  ["A Family Day in Ninh Binh", "Ninh Binh", "Family Memories", journeyCardImages[2]],
-  ["Dreamy Moments in Moc Chau", "Moc Chau", "Natural Journey", journeyCardImages[7]],
-  ["She Said Yes", "Sapa", "Proposal & Celebration", experienceImages[13].src],
-  ["Golden Terraces", "Mu Cang Chai", "Cinematic Travel", journeyCardImages[6]],
-  ["People Make the Journey", "Sapa", "Local Heritage", experienceImages[5].src],
-  ["A Peaceful Escape", "Ha Long", "Natural Journey", experienceImages[6].src],
-  ["On the Road to Ha Giang", "Ha Giang", "Cinematic Travel", journeyCardImages[3]],
-  ["Little Smiles, Big Stories", "Sapa", "Family Memories", experienceImages[16].src],
-  ["Sunset Memories in Ha Long", "Ha Long", "Natural Journey", journeyCardImages[1]],
-  ["Morning Mist in Ta Xua", "Ta Xua", "Cinematic Travel", journeyCardImages[8]],
-  ["Ban Gioc in Bloom", "Cao Bang", "Natural Journey", journeyCardImages[5]],
-  ["Island Days in Cat Ba", "Cat Ba", "Family Memories", journeyCardImages[4]],
-  ["A Toast to the View", "Sapa", "Couple & Honeymoon", experienceImages[11].src],
-].map(([title, place, category, image]) => ({ title, place, category, image }));
-
-function PinIcon() {
-  return (
-    <svg className="hlt-photo-meta-ic" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 21.5s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" />
-      <circle cx="12" cy="9.2" r="2.5" />
-    </svg>
-  );
-}
-
-function TagIcon() {
-  return (
-    <svg className="hlt-photo-meta-ic" viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="3" y="5" width="18" height="14" rx="2.5" />
-      <path d="M3 15.5 8.5 11l4.5 4 3-2.5 5 4.5" />
-      <circle cx="8.3" cy="9" r="1.4" />
-    </svg>
-  );
-}
-
-function ArrowCircle() {
-  return (
-    <span className="hlt-photo-go" aria-hidden="true">
-      <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10.5" />
-        <path d="M8 12h8M12.5 8.5 16 12l-3.5 3.5" />
-      </svg>
-    </span>
-  );
-}
+const categories = photoCategories;
+const albums = photoAlbums;
 
 function WhatsAppIcon() {
   return (
@@ -105,14 +46,22 @@ const ctaPoints = [
   ],
 ];
 
-export default function PhotoPage() {
+/* /photo/albums/?style=<tên danh mục>: mũi tên ở trang /photo/ dẫn sang đây
+   kèm sẵn bộ lọc của đúng phong cách vừa bấm. */
+function categoryFromUrl() {
+  const wanted = new URLSearchParams(window.location.search).get("style");
+  if (!wanted) return ALL;
+  return categories.find((item) => item.toLowerCase() === wanted.toLowerCase()) || ALL;
+}
+
+export default function PhotoAlbumsPage() {
   const pageEntered = usePageEntered();
-  const [activeCategory, setActiveCategory] = useState(ALL);
+  const [activeCategory, setActiveCategory] = useState(categoryFromUrl);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = "Photo Gallery | Hoang Luxury Travel";
+    document.title = "Photo Albums | Hoang Luxury Travel";
     return () => {
       document.title = previousTitle;
     };
@@ -165,7 +114,7 @@ export default function PhotoPage() {
           </div>
         </section>
 
-        {/* Bộ lọc + lưới album */}
+        {/* Bá» lá»c + lÆ°á»i album */}
         <section className="hlt-photo-gallery" aria-label="Photo albums">
           <div className="hlt-container">
             <div className="hlt-photo-filters" role="group" aria-label="Filter albums by category">
@@ -189,33 +138,12 @@ export default function PhotoPage() {
             <div className="hlt-photo-grid">
               {visible.map((item) => (
                 <article className="hlt-photo-card" key={item.title}>
-                  <a className="hlt-photo-card-media" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                    <img src={item.image} alt={`${item.title} – ${item.place}`} loading="lazy" />
+                  <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)}>
+                    <img src={item.image} alt={`${item.title} â ${item.place}`} loading="lazy" />
                   </a>
-                  <div className="hlt-photo-card-body">
-                    <div className="hlt-photo-card-text">
-                      <h2>{item.title}</h2>
-                      <p>
-                        <span>
-                          <PinIcon />
-                          {item.place}
-                        </span>
-                        <span>
-                          <TagIcon />
-                          {item.category}
-                        </span>
-                      </p>
-                    </div>
-                    <a
-                      className="hlt-photo-card-link"
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Ask about ${item.title}`}
-                    >
-                      <ArrowCircle />
-                    </a>
-                  </div>
+                  <a className="hlt-photo-card-caption" href={photoAlbumUrl(item.slug)}>
+                    {item.title}
+                  </a>
                 </article>
               ))}
             </div>

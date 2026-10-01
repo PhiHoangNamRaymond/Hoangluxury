@@ -22,7 +22,12 @@ function WhatsAppIcon() {
 // variant="route": thiết kế riêng cho trang tuyến (PC) — nền núi xanh,
 // 3 bước 01 → 02 → 03 và 2 nút WhatsApp / Request Availability.
 // Mặc định giữ nguyên thiết kế cũ cho Home, Catalog, /journeys/.
-export default function JourneyCallToAction({ variant }) {
+export default function JourneyCallToAction({
+  variant,
+  className = "",
+  title = "Ready to start your journey?",
+  text = "We are here to make your trip comfortable, safe and unforgettable.",
+}) {
   if (variant === "route") {
     return (
       <section
@@ -86,15 +91,15 @@ export default function JourneyCallToAction({ variant }) {
 
   return (
     <section
-      className="hlt-booking-showcase-footer hlt-journey-cta"
+      className={`hlt-booking-showcase-footer hlt-journey-cta${className ? ` ${className}` : ""}`}
       aria-labelledby="journey-cta-title"
     >
       <div className="hlt-container">
         {/* Desktop View */}
         <div className="hlt-journey-desktop-view">
           <div>
-            <h3 id="journey-cta-title">Ready to start your journey?</h3>
-            <p>We are here to make your trip comfortable, safe and unforgettable.</p>
+            <h3 id="journey-cta-title">{title}</h3>
+            <p>{text}</p>
           </div>
           <div className="hlt-showcase-actions">
             <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">

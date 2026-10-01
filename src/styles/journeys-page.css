@@ -1414,14 +1414,12 @@
   text-align: center;
 }
 
+/* Bánh lái vàng: to hơn hoạ tiết cũ để cân với tiêu đề bên dưới. */
 .hlt-journeys-outro-mark {
-  width: clamp(30px, 2.8vw, 40px);
-  height: clamp(30px, 2.8vw, 40px);
-  margin-bottom: clamp(10px, 1.2vw, 16px);
-  fill: none;
-  stroke: #C5A15A;
-  stroke-width: 1.1;
-  stroke-linejoin: round;
+  width: clamp(54px, 4.8vw, 72px);
+  height: auto;
+  margin-bottom: clamp(12px, 1.4vw, 18px);
+  object-fit: contain;
 }
 
 .hlt-journeys-outro-title {
