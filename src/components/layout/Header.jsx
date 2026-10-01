@@ -121,48 +121,13 @@ export default function Header() {
     };
   }, [menuOpen]);
 
-  useEffect(() => {
-    if (!isHomePage) return undefined;
+  // Mục vàng trên header chỉ đổi khi khách bấm vào nó (hoặc theo trang đang mở),
+  // không chạy theo vị trí cuộn — cuộn qua các mục mà đèn vàng nhảy liên tục
+  // thì rối mắt.
 
-    const sectionLinks = navLinks.filter(([, href]) => href.startsWith("#"));
-    let observerFrame = null;
-
-    const updateActiveSection = () => {
-      observerFrame = null;
-      if (scrollAnimationFrame.current !== null) return;
-
-      const headerHeight =
-        document.querySelector(".hlt-header")?.getBoundingClientRect().height ?? 0;
-      const marker = window.scrollY + headerHeight + Math.max(28, window.innerHeight * 0.18);
-      let nextHref = "#home";
-
-      sectionLinks.forEach(([, href]) => {
-        const section = document.querySelector(href);
-        if (section && section.offsetTop <= marker) nextHref = href;
-      });
-
-      setActiveHref(nextHref);
-    };
-
-    const scheduleUpdate = () => {
-      if (observerFrame !== null) return;
-      observerFrame = requestAnimationFrame(updateActiveSection);
-    };
-
-    scheduleUpdate();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-
-    return () => {
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-      if (observerFrame !== null) cancelAnimationFrame(observerFrame);
-    };
-  }, [isHomePage]);
-
-  // Vào thẳng trang chủ kèm #section (bấm Services/Fleet từ Catalog, Booking,
-  // Feedback…): nhảy đúng mốc rồi canh lại mỗi khi ảnh, phông chữ tải xong làm
-  // trang cao thêm, nếu không điểm dừng sẽ lệch so với lúc bấm ngay ở trang chủ.
+  // Vào thẳng trang chủ kèm #section (bấm Services/Fleet từ Catalog, Photo…):
+  // nhảy một phát tới đúng mốc. Sau đó chỉ canh lại khi ảnh tải xong làm mốc
+  // lệch hẳn (>24px) — canh liên tục sẽ thành giật lên giật xuống.
   useEffect(() => {
     if (!isHomePage) return undefined;
 
@@ -174,11 +139,15 @@ export default function Header() {
 
     if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
 
+    const DRIFT_TOLERANCE = 24;
+    const MAX_CORRECTIONS = 2;
+
     let aligning = true;
+    let corrections = 0;
     let frame = null;
     const timers = [];
 
-    const align = () => {
+    const align = (isFirstJump) => {
       if (!aligning) return;
       if (frame !== null) cancelAnimationFrame(frame);
 
@@ -186,21 +155,32 @@ export default function Header() {
         frame = null;
         if (!aligning) return;
 
+        const top = sectionScrollTop(target);
+
+        if (!isFirstJump) {
+          // Lệch ít thì bỏ qua, và chỉ sửa tối đa hai lần.
+          if (Math.abs(top - window.scrollY) <= DRIFT_TOLERANCE) return;
+          if (corrections >= MAX_CORRECTIONS) return;
+          corrections += 1;
+        }
+
         cancelScrollAnimation();
-        window.scrollTo({ top: sectionScrollTop(target), behavior: "instant" });
+        window.scrollTo({ top, behavior: "instant" });
       });
     };
+
+    const correct = () => align(false);
 
     // Khách tự cuộn thì dừng canh ngay, không giật trang của họ.
     const stopAligning = () => {
       aligning = false;
     };
 
-    align();
-    window.addEventListener("load", align);
-    [200, 500, 1000, 1800, 3000].forEach((delay) => timers.push(window.setTimeout(align, delay)));
-    timers.push(window.setTimeout(stopAligning, 3600));
-    document.fonts?.ready.then(align).catch(() => {});
+    align(true);
+    window.addEventListener("load", correct);
+    timers.push(window.setTimeout(correct, 900));
+    timers.push(window.setTimeout(stopAligning, 2200));
+    document.fonts?.ready.then(correct).catch(() => {});
     window.addEventListener("wheel", stopAligning, { passive: true });
     window.addEventListener("touchstart", stopAligning, { passive: true });
     window.addEventListener("keydown", stopAligning);
@@ -208,7 +188,7 @@ export default function Header() {
 
     return () => {
       aligning = false;
-      window.removeEventListener("load", align);
+      window.removeEventListener("load", correct);
       window.removeEventListener("wheel", stopAligning);
       window.removeEventListener("touchstart", stopAligning);
       window.removeEventListener("keydown", stopAligning);
@@ -300,7 +280,7 @@ export default function Header() {
                     </a>
 
                     <div className="hlt-nav-menu-body">
-                      {[routesMenu.routes.slice(0, 5), routesMenu.routes.slice(5)].map((column, columnIndex) => (
+                      {routesMenu.columns.map((column, columnIndex) => (
                         <div className="hlt-nav-menu-col" key={columnIndex}>
                           {column.map(([childLabel, childHref]) => (
                             <a href={childHref} key={childLabel}>

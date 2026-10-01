@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Khung xương cho ảnh — xem src/lib/image-skeleton.js.
+   Nạp cuối cùng để đè được nền của các khối ảnh ở những trang khác.
+   ========================================================================== */
+
+@keyframes hlt-img-skeleton {
+  from {
+    background-position: 140% 0;
+  }
+
+  to {
+    background-position: -40% 0;
+  }
+}
+
+@keyframes hlt-img-appear {
+  from {
+    opacity: 0;
+    transform: scale(1.012);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Ảnh chưa tải: nền vàng nhạt cùng tông với site, vệt sáng chạy ngang.
+   Khi ảnh tải xong, chính ảnh phủ lên nền này nên không cần xoá gì. */
+img.hlt-img-pending {
+  background-color: rgba(197, 161, 90, .12);
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 28%,
+    rgba(255, 255, 255, .34) 48%,
+    rgba(255, 255, 255, 0) 68%
+  );
+  background-repeat: no-repeat;
+  background-size: 180% 100%;
+  animation: hlt-img-skeleton 1.3s ease-in-out infinite;
+}
+
+/* Nền tối thì vệt sáng trắng quá gắt, dịu lại cho hợp. */
+.hlt-services img.hlt-img-pending,
+.hlt-fleet img.hlt-img-pending,
+.hlt-experience-slider img.hlt-img-pending,
+.hlt-journey-site img.hlt-img-pending,
+.hlt-cruise-hero img.hlt-img-pending,
+.hlt-booking-site img.hlt-img-pending {
+  background-color: rgba(197, 161, 90, .09);
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 28%,
+    rgba(255, 255, 255, .16) 48%,
+    rgba(255, 255, 255, 0) 68%
+  );
+}
+
+img.is-loaded {
+  animation: hlt-img-appear .45s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img.hlt-img-pending {
+    animation: none;
+  }
+
+  img.is-loaded {
+    animation: none;
+  }
+}

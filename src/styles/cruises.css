@@ -1052,6 +1052,12 @@
   stroke: #d9b14a;
 }
 
+.hlt-metric-svg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .hlt-metric-val {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(24px, 2.3vw, 30px);

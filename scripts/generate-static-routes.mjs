@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { journeys } from "../src/config/journeys.js";
+import { photoAlbumRows } from "../src/config/photo-album-list.js";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = resolve(projectRoot, "dist");
@@ -22,7 +23,13 @@ const routes = [
   },
   {
     path: "/photo/",
-    title: "Photo Gallery | Hoang Luxury Travel",
+    title: "Photo Experience | Hoang Luxury Travel",
+    description:
+      "Private travel photography across Northern Vietnam: six photo styles, half-day and full-day experiences with Hoang Luxury Travel.",
+  },
+  {
+    path: "/photo/albums/",
+    title: "Photo Albums | Hoang Luxury Travel",
     description:
       "Real photographs from private journeys across Northern Vietnam with Hoang Luxury Travel.",
   },
@@ -67,6 +74,13 @@ const canonicalJourneySlugByKey = {
   "mu-cang-chai": "hanoi-to-mu-cang-chai-private-transfer",
   "moc-chau": "hanoi-to-moc-chau-private-transfer",
   "ta-xua": "hanoi-to-ta-xua-private-transfer",
+  "pu-luong": "hanoi-to-pu-luong-private-transfer",
+  "sapa-to-ha-long": "sapa-to-ha-long-private-transfer",
+  "sapa-to-ninh-binh": "sapa-to-ninh-binh-private-transfer",
+  "sapa-to-ha-giang": "sapa-to-ha-giang-private-transfer",
+  "sapa-to-mu-cang-chai": "sapa-to-mu-cang-chai-private-transfer",
+  "ha-long-to-sapa": "ha-long-to-sapa-private-transfer",
+  "ninh-binh-to-sapa": "ninh-binh-to-sapa-private-transfer",
 };
 
 for (const [key, slug] of Object.entries(canonicalJourneySlugByKey)) {
@@ -75,6 +89,14 @@ for (const [key, slug] of Object.entries(canonicalJourneySlugByKey)) {
     path: `/journey/${slug}/`,
     title: journey.seoTitle,
     description: journey.metaDescription || journey.intro,
+  });
+}
+
+for (const album of photoAlbumRows) {
+  routes.push({
+    path: `/photo/albums/${album.slug}/`,
+    title: `${album.title} | Hoang Luxury Travel`,
+    description: `${album.title} - ${album.category} photos from ${album.place}, by Hoang Luxury Travel.`,
   });
 }
 

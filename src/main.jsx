@@ -6,12 +6,16 @@ import CatalogPage from "./CatalogPage.jsx";
 import CruisesPage from "./CruisesPage.jsx";
 import AboutPage from "./AboutPage.jsx";
 import PhotoPage from "./PhotoPage.jsx";
+import PhotoAlbumsPage from "./PhotoAlbumsPage.jsx";
+import PhotoAlbumPage from "./PhotoAlbumPage.jsx";
 import BlogPage from "./BlogPage.jsx";
 import FeedbackPage from "./FeedbackPage.jsx";
 import JourneyPage from "./JourneyPage.jsx";
 import JourneysPage from "./JourneysPage.jsx";
 import { journeys } from "./config/journeys.js";
+import { photoAlbumBySlug } from "./config/photo-albums.js";
 import { captureBookingSource } from "./config/booking-source.js";
+import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import "./styles/index.css";
 
 // Nhớ nguồn khách (?src= / ?utm_source=) để ghép vào Booking ID khi đặt xe.
@@ -21,6 +25,7 @@ const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
 const pages = {
   "/about": AboutPage,
   "/photo": PhotoPage,
+  "/photo/albums": PhotoAlbumsPage,
   "/blog": BlogPage,
   "/booking": BookingPage,
   "/catalog": CatalogPage,
@@ -30,6 +35,11 @@ const pages = {
   "/journeys": JourneysPage,
   "/routes": JourneysPage,
 };
+
+// /photo/albums/<slug>/ - một album ảnh; slug lạ thì rơi về trang chủ.
+const requestedAlbumSlug = normalizedPath.match(/^\/photo\/albums\/([a-z0-9-]+)$/)?.[1];
+
+const albumSlug = requestedAlbumSlug && photoAlbumBySlug[requestedAlbumSlug] ? requestedAlbumSlug : null;
 
 // /journey/<slug>/ - slug lạ thì rơi về trang chủ như mọi đường dẫn không khớp.
 const requestedJourneySlug = normalizedPath.match(/^\/journey\/([a-z0-9-]+)$/)?.[1];
@@ -43,6 +53,13 @@ const canonicalJourneySlugByLegacy = {
   "mu-cang-chai": "hanoi-to-mu-cang-chai-private-transfer",
   "moc-chau": "hanoi-to-moc-chau-private-transfer",
   "ta-xua": "hanoi-to-ta-xua-private-transfer",
+  "pu-luong": "hanoi-to-pu-luong-private-transfer",
+  "sapa-to-ha-long": "sapa-to-ha-long-private-transfer",
+  "sapa-to-ninh-binh": "sapa-to-ninh-binh-private-transfer",
+  "sapa-to-ha-giang": "sapa-to-ha-giang-private-transfer",
+  "sapa-to-mu-cang-chai": "sapa-to-mu-cang-chai-private-transfer",
+  "ha-long-to-sapa": "ha-long-to-sapa-private-transfer",
+  "ninh-binh-to-sapa": "ninh-binh-to-sapa-private-transfer",
 };
 const legacyJourneySlugByCanonical = Object.fromEntries(
   Object.entries(canonicalJourneySlugByLegacy).map(([legacy, canonical]) => [canonical, legacy]),
@@ -103,13 +120,21 @@ const routeSeo = {
 
 const canonicalPath = journey
   ? `/journey/${canonicalJourneySlugByLegacy[journey]}/`
-  : canonicalPathByAlias[normalizedPath] || (pages[normalizedPath] ? `${normalizedPath}/` : "/");
+  : albumSlug
+    ? `/photo/albums/${albumSlug}/`
+    : canonicalPathByAlias[normalizedPath] || (pages[normalizedPath] ? `${normalizedPath}/` : "/");
+const album = albumSlug ? photoAlbumBySlug[albumSlug] : null;
 const seo = journey
   ? {
       title: journeys[journey].seoTitle,
       description: journeys[journey].metaDescription || journeys[journey].intro,
     }
-  : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
+  : album
+    ? {
+        title: `${album.title} | Hoang Luxury Travel`,
+        description: `${album.title} - ${album.category} photos from ${album.place}, by Hoang Luxury Travel.`,
+      }
+    : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
 const canonicalUrl = `https://hoangluxury.travel${canonicalPath}`;
 
 document.title = seo.title;
@@ -121,7 +146,9 @@ document.querySelector('meta[property="og:url"]')?.setAttribute("content", canon
 
 const RootPage = journey
   ? () => <JourneyPage slug={journey} />
-  : pages[normalizedPath] || App;
+  : albumSlug
+    ? () => <PhotoAlbumPage slug={albumSlug} />
+    : pages[normalizedPath] || App;
 
 // Catalog và Booking có animation riêng. Mọi trang còn lại dùng transition
 // chung trong page-transition.css; toggle giúp trạng thái luôn đúng cả khi HMR.
@@ -129,6 +156,7 @@ const pagesWithOwnTransition = new Set([
   "/blog",
   "/about",
   "/photo",
+  "/photo/albums",
   "/booking",
   "/catalog",
   "/cruises",
@@ -139,7 +167,7 @@ const pagesWithOwnTransition = new Set([
 ]);
 document.documentElement.classList.toggle(
   "hlt-page-anim",
-  !journey && !pagesWithOwnTransition.has(normalizedPath),
+  !journey && !albumSlug && !pagesWithOwnTransition.has(normalizedPath),
 );
 
 createRoot(document.getElementById("root")).render(
@@ -147,3 +175,6 @@ createRoot(document.getElementById("root")).render(
     <RootPage />
   </StrictMode>
 );
+
+// Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
+setupImageSkeletons();
