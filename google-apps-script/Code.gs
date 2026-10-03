@@ -9,7 +9,7 @@
  *   SPREADSHEET_ID   id của Google Sheet. Bỏ qua được nếu project gắn sẵn
  *                    vào file Sheet (mở bằng Extensions > Apps Script).
  *   SHEET_NAME       tuỳ chọn, mặc định "Bookings"
- *   FEEDBACK_SHEET   tuỳ chọn, mặc định "Feedback"
+ *   FEEDBACK_SHEET_NAME tuỳ chọn, mặc định "Feedback" (hỗ trợ FEEDBACK_SHEET cũ)
  *
  * Sau khi sửa file này phải Deploy > Manage deployments > New version,
  * nếu không website vẫn gọi vào bản cũ.
@@ -91,16 +91,25 @@ function doGet() {
 
 function doPost(event) {
   try {
+    if (!event || !event.postData || String(event.postData.contents || "").length > 32768) {
+      throw new Error("Invalid request size");
+    }
+    if (!/^application\/x-www-form-urlencoded(?:;|$)/i.test(event.postData.type || "")) {
+      throw new Error("Unsupported content type");
+    }
     const data = event && event.parameter ? event.parameter : {};
 
     // Bẫy bot: nhận im lặng, không lưu.
     if (data.website) return jsonResponse_({ ok: true });
 
     const formType = String(data.form || "booking").trim().toLowerCase();
+    if (formType !== "booking" && formType !== "feedback") throw new Error("Invalid form");
+    validateFieldBounds_(data);
     return formType === "feedback" ? saveFeedback_(data) : saveBooking_(data);
   } catch (error) {
-    console.error(error);
-    return jsonResponse_({ ok: false, error: String(error && error.message || error) });
+    // Never echo exceptions: they may contain spreadsheet IDs or customer data.
+    console.error("HLT form request rejected or failed");
+    return jsonResponse_({ ok: false, error: "Unable to process request. Please contact us via WhatsApp." });
   }
 }
 
@@ -201,9 +210,10 @@ function saveFeedback_(data) {
 }
 
 function parseRating_(value) {
-  const rating = Number(String(value || "").trim());
-  if (!rating || rating < 1 || rating > 5) return "";
-  return Math.round(rating);
+  const text = String(value || "").trim();
+  if (!text || text === "0") return ""; // Rating remains optional.
+  if (!/^[1-5]$/.test(text)) throw new Error("Invalid rating");
+  return Number(text);
 }
 
 /* ------------------------------------------------------------------ *
@@ -303,6 +313,11 @@ function getBookingSheet_() {
 }
 
 function getFeedbackSheet_() {
+  const name = PropertiesService.getScriptProperties().getProperty("FEEDBACK_SHEET_NAME");
+  if (name) {
+    const spreadsheet = getSpreadsheet_();
+    return spreadsheet.getSheetByName(name) || spreadsheet.insertSheet(name);
+  }
   return getSheetByProperty_("FEEDBACK_SHEET", "Feedback");
 }
 
@@ -387,6 +402,26 @@ function validateBooking_(data) {
       throw new Error("Missing " + required[i]);
     }
   }
+  if (!/^\+?[0-9]{6,19}$/.test(String(data.phone).trim())) throw new Error("Invalid phone");
+  parsePassengers_(data.passengers);
+  const departure = parseDate_(data.departureDate, "departureDate");
+  const returning = parseOptionalDate_(data.returnDate, "returnDate");
+  if (returning && returning < departure) throw new Error("Invalid return date");
+  if (JOURNEY_TYPES.indexOf(String(data.journeyType || "").trim()) < 0) throw new Error("Invalid journey type");
+}
+
+function validateFieldBounds_(data) {
+  const limits = { fullName:160, country:120, nationality:120, phone:24, passengers:2,
+    luggage:300, departureDate:10, returnDate:10, flight:40, flightTimeZone:40,
+    pickup:500, dropoff:500, journeyType:40, requirements:4000, bookingId:100,
+    feedback:4000, experience:4000, rating:1, source:20, website:300,
+    submittedFrom:2048, clientTimestamp:40, form:20, noFlight:5 };
+  Object.keys(data).forEach(function (key) {
+    if (!Object.prototype.hasOwnProperty.call(limits, key) ||
+        String(data[key]).length > limits[key] || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(String(data[key]))) {
+      throw new Error("Invalid field");
+    }
+  });
 }
 
 function parseDate_(value, fieldName) {
@@ -394,14 +429,11 @@ function parseDate_(value, fieldName) {
   if (!text) throw new Error("Missing " + fieldName);
 
   const parts = text.split("-");
-  if (parts.length === 3) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text) && Number(parts[0]) >= 2000 && Number(parts[0]) <= 2100) {
     const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-    if (!isNaN(date.getTime())) return date;
+    if (date.getFullYear() === Number(parts[0]) && date.getMonth() === Number(parts[1]) - 1 && date.getDate() === Number(parts[2])) return date;
   }
-
-  const fallback = new Date(text);
-  if (isNaN(fallback.getTime())) throw new Error("Invalid " + fieldName);
-  return fallback;
+  throw new Error("Invalid " + fieldName);
 }
 
 function parseOptionalDate_(value, fieldName) {
@@ -412,8 +444,8 @@ function parseOptionalDate_(value, fieldName) {
 
 function parsePassengers_(value) {
   const text = String(value || "").trim();
-  const number = parseInt(text, 10);
-  return isNaN(number) ? safeCell_(text) : number;
+  if (!/^[1-6]$/.test(text)) throw new Error("Invalid passengers");
+  return Number(text);
 }
 
 function safeCell_(value) {

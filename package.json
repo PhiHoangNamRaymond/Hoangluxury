@@ -4,17 +4,27 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "code": "vite --host 0.0.0.0",
-    "dev": "vite --host 0.0.0.0",
-    "start": "vite --host 0.0.0.0",
-    "build": "vite build && node scripts/generate-static-routes.mjs",
-    "preview": "vite preview --host 0.0.0.0"
+    "code": "node scripts/check-public-config.mjs development && vite --host 0.0.0.0",
+    "dev": "node scripts/check-public-config.mjs development && vite --host 0.0.0.0",
+    "start": "node scripts/check-public-config.mjs development && vite --host 0.0.0.0",
+    "build": "node scripts/check-public-config.mjs && vite build && node scripts/generate-static-routes.mjs",
+    "preview": "vite preview --host 0.0.0.0",
+    "test:blog-security": "node --test tests/blog-security.test.mjs",
+    "test:blog": "node --test tests/blog-security.test.mjs tests/blog-runtime.test.mjs tests/blog-components.test.mjs",
+    "test:security": "node --test tests/blog-security.test.mjs tests/blog-runtime.test.mjs tests/blog-components.test.mjs tests/project-security.test.mjs",
+    "security:secrets": "node scripts/check-secrets.mjs",
+    "security:audit": "npm audit --audit-level=moderate"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "dompurify": "^3.4.16",
+    "marked": "^18.0.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "jsdom": "^29.1.1",
     "vite": "^6.0.7"
   }
 }

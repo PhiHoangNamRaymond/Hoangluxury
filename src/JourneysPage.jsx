@@ -4,7 +4,7 @@ import Footer from "./components/layout/Footer.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { whatsappUrl, catalogPageUrl, getJourneyPageUrl } from "./data.js";
+import { whatsappUrl, getJourneyPageUrl } from "./data.js";
 import {
   journeyCardImages,
   journeyIconImages,

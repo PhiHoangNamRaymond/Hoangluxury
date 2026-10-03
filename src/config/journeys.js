@@ -29,13 +29,6 @@ export const journeyFeatures = [
   ["clock", "On-Time Pick-up", "Pick-up time confirmed before departure."],
 ];
 
-// Chỉ lưu con số; nhãn "Passengers" / "Luggage" nằm ở dòng dưới trong JSX (theo mẫu).
-export const journeyVehicles = [
-  { image: "limoLux", name: "LIMO LUX", passengers: "1 – 4", luggage: "2" },
-  { image: "limoGreen", name: "LIMO PRIME", passengers: "1 – 6", luggage: "4" },
-  { image: "vf9", name: "VIP LUXURY", passengers: "1 – 6", luggage: "4" },
-];
-
 // Dải "Service Highlights" (theo mẫu). Icon là LineIcon.
 export const journeyHighlights = [
   ["thumbsUp", "Polite & Reliable"],

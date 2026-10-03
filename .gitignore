@@ -1,15 +1,70 @@
+# Dependencies, generated builds and tool caches
 node_modules/
-dist/
+/dist/
 .vite/
+.cache/
 .VSCodeCounter/
-.env
-.env.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-vite.*.log
-.vercel
+.eslintcache
+*.tsbuildinfo
 
-# Bản build đóng gói để gửi khách, nặng >100MB nên không đưa lên GitHub
+# Real environment files are local/server-only. Keep placeholder templates.
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.template
+!.env.*.template
+
+# Deployment and Supabase CLI local state (not schema or migrations)
+.vercel/
+/supabase/.temp/
+/supabase/.branches/
+
+# Credentials, private keys and local account configuration
+/secrets/
+/credentials/
+*service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+.npmrc.local
+.claude/settings.local.json
+.claude/*.local.json
+
+# Logs, tests, temporary files and OS metadata
+*.log
+/logs/
+/coverage/
+/playwright-report/
+/test-results/
+/tmp/
+/temp/
+*.tmp
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Private database exports/backups; keep supabase/*.sql source scripts
+/backups/
+/database-backups/
+/supabase/backups/
+*.dump
+*.backup
+*.sql.gz
+*.sqlite
+*.sqlite3
+*.db
+
+# Packaged releases are not source files
 *.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+
+# Keep source, article Markdown/images, API code, SQL migrations,
+# package-lock.json, public/.htaccess and vercel.json in version control.

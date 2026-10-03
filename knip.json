@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreDependencies": ["npm"],
+  "entry": ["api/**/*.js", "supabase/functions/**/*.js", "scripts/**/*.mjs", "tests/**/*.mjs"],
+  "project": ["src/**/*.{js,jsx}", "api/**/*.js", "supabase/functions/**/*.js", "scripts/**/*.mjs", "tests/**/*.mjs"]
+}

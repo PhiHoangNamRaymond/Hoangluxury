@@ -6,6 +6,7 @@ import { catalogBackgroundUrl } from "./config/assets.js";
 import { countries } from "./config/countries.js";
 import { dialCodes } from "./config/dial-codes.js";
 import { getBookingSource } from "./config/booking-source.js";
+import { validFormsEndpoint, formTextError } from "./lib/public-config.js";
 
 const initialForm = {
   departureDate: "",
@@ -26,7 +27,8 @@ const initialForm = {
   website: "",
 };
 
-const bookingEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
+const configuredBookingEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
+const bookingEndpoint = validFormsEndpoint(configuredBookingEndpoint) ? configuredBookingEndpoint : "";
 
 const bookingSteps = [
   { number: 1, label: "Journey Route", fields: ["departureDate", "returnDate", "pickup", "dropoff"] },
@@ -308,6 +310,9 @@ export default function BookingPage() {
 
   const submitBooking = async (event) => {
     event.preventDefault();
+    if (submission.state === "loading") return;
+    const inputError = formTextError(form);
+    if (inputError) { setSubmission({ state: "error", message: inputError }); return; }
 
     if (!form.phoneCode) {
       setSubmission({ state: "error", message: "Please select the country code for your phone number." });

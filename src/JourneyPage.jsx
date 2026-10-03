@@ -7,7 +7,6 @@ import Header from "./components/layout/Header.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { catalogPageUrl, fleet as fleetItems, whatsappUrl } from "./data.js";
 import {
-  catalogBackgroundUrl,
   fleetImages,
   heroBannerUrl,
   journeyExperienceImages,

@@ -8,9 +8,11 @@ import {
   servicesBackgroundUrl,
 } from "./config/assets.js";
 import usePageEntered from "./hooks/usePageEntered.js";
+import { validFormsEndpoint, formTextError } from "./lib/public-config.js";
 
 // Dùng chung Web App với form đặt xe; phân biệt bằng tham số form=feedback.
-const feedbackEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
+const configuredFeedbackEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
+const feedbackEndpoint = validFormsEndpoint(configuredFeedbackEndpoint) ? configuredFeedbackEndpoint : "";
 
 const feedbackStats = [
   { icon: feedbackStatIcons[0], value: "Licensed", label: "Transport Operator" },
@@ -209,6 +211,9 @@ export default function FeedbackPage() {
 
   const submitFeedback = async (event) => {
     event.preventDefault();
+    if (submission.state === "loading") return;
+    const inputError = formTextError({ bookingId, experience });
+    if (inputError) { setSubmission({ state: "error", message: inputError }); return; }
 
     if (!feedbackEndpoint) {
       setSubmission({ state: "error", message: "Feedback is being configured. Please contact us via WhatsApp." });

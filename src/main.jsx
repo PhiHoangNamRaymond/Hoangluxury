@@ -1,22 +1,27 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import BookingPage from "./BookingPage.jsx";
-import CatalogPage from "./CatalogPage.jsx";
-import CruisesPage from "./CruisesPage.jsx";
-import AboutPage from "./AboutPage.jsx";
-import PhotoPage from "./PhotoPage.jsx";
-import PhotoAlbumsPage from "./PhotoAlbumsPage.jsx";
-import PhotoAlbumPage from "./PhotoAlbumPage.jsx";
-import BlogPage from "./BlogPage.jsx";
-import FeedbackPage from "./FeedbackPage.jsx";
-import JourneyPage from "./JourneyPage.jsx";
-import JourneysPage from "./JourneysPage.jsx";
 import { journeys } from "./config/journeys.js";
 import { photoAlbumBySlug } from "./config/photo-albums.js";
 import { captureBookingSource } from "./config/booking-source.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import "./styles/index.css";
+
+// Chỉ tải mã trang phụ khi đường dẫn cần đến; giữ trang chủ và CSS chung
+// trong entry để không đổi bố cục hay thứ tự cascade hiện tại.
+const BookingPage = lazy(() => import("./BookingPage.jsx"));
+const CatalogPage = lazy(() => import("./CatalogPage.jsx"));
+const CruisesPage = lazy(() => import("./CruisesPage.jsx"));
+const AboutPage = lazy(() => import("./AboutPage.jsx"));
+const PhotoPage = lazy(() => import("./PhotoPage.jsx"));
+const PhotoAlbumsPage = lazy(() => import("./PhotoAlbumsPage.jsx"));
+const PhotoAlbumPage = lazy(() => import("./PhotoAlbumPage.jsx"));
+const BlogPage = lazy(() => import("./BlogPage.jsx"));
+const BlogArticlePage = lazy(() => import("./BlogArticlePage.jsx"));
+const FeedbackPage = lazy(() => import("./FeedbackPage.jsx"));
+const JourneyPage = lazy(() => import("./JourneyPage.jsx"));
+const JourneysPage = lazy(() => import("./JourneysPage.jsx"));
+const AdminApp = lazy(() => import("./admin/AdminApp.jsx"));
 
 // Nhớ nguồn khách (?src= / ?utm_source=) để ghép vào Booking ID khi đặt xe.
 captureBookingSource();
@@ -35,6 +40,10 @@ const pages = {
   "/journeys": JourneysPage,
   "/routes": JourneysPage,
 };
+
+// Blog resolve trực tiếp từ DB; bài không tồn tại có màn hình riêng, không về home.
+const requestedPostSlug = normalizedPath.match(/^\/blog\/([^/]+)$/)?.[1];
+const postSlug = requestedPostSlug || null;
 
 // /photo/albums/<slug>/ - một album ảnh; slug lạ thì rơi về trang chủ.
 const requestedAlbumSlug = normalizedPath.match(/^\/photo\/albums\/([a-z0-9-]+)$/)?.[1];
@@ -120,21 +129,26 @@ const routeSeo = {
 
 const canonicalPath = journey
   ? `/journey/${canonicalJourneySlugByLegacy[journey]}/`
-  : albumSlug
-    ? `/photo/albums/${albumSlug}/`
-    : canonicalPathByAlias[normalizedPath] || (pages[normalizedPath] ? `${normalizedPath}/` : "/");
+  : postSlug
+    ? `/blog/${postSlug}/`
+    : albumSlug
+      ? `/photo/albums/${albumSlug}/`
+      : normalizedPath === "/admin" ? "/admin/"
+        : canonicalPathByAlias[normalizedPath] || (pages[normalizedPath] ? `${normalizedPath}/` : "/");
 const album = albumSlug ? photoAlbumBySlug[albumSlug] : null;
 const seo = journey
   ? {
       title: journeys[journey].seoTitle,
       description: journeys[journey].metaDescription || journeys[journey].intro,
     }
-  : album
-    ? {
-        title: `${album.title} | Hoang Luxury Travel`,
-        description: `${album.title} - ${album.category} photos from ${album.place}, by Hoang Luxury Travel.`,
-      }
-    : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
+  : postSlug
+    ? routeSeo["/blog"]
+    : album
+      ? {
+          title: `${album.title} | Hoang Luxury Travel`,
+          description: `${album.title} - ${album.category} photos from ${album.place}, by Hoang Luxury Travel.`,
+        }
+      : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
 const canonicalUrl = `https://hoangluxury.travel${canonicalPath}`;
 
 document.title = seo.title;
@@ -144,11 +158,16 @@ document.querySelector('meta[property="og:title"]')?.setAttribute("content", seo
 document.querySelector('meta[property="og:description"]')?.setAttribute("content", seo.description);
 document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl);
 
-const RootPage = journey
-  ? () => <JourneyPage slug={journey} />
-  : albumSlug
-    ? () => <PhotoAlbumPage slug={albumSlug} />
-    : pages[normalizedPath] || App;
+const isAdminRoute = normalizedPath === "/admin";
+const RootPage = isAdminRoute
+  ? AdminApp
+  : journey
+    ? () => <JourneyPage slug={journey} />
+    : postSlug
+      ? () => <BlogArticlePage slug={postSlug} />
+      : albumSlug
+        ? () => <PhotoAlbumPage slug={albumSlug} />
+        : pages[normalizedPath] || App;
 
 // Catalog và Booking có animation riêng. Mọi trang còn lại dùng transition
 // chung trong page-transition.css; toggle giúp trạng thái luôn đúng cả khi HMR.
@@ -167,12 +186,14 @@ const pagesWithOwnTransition = new Set([
 ]);
 document.documentElement.classList.toggle(
   "hlt-page-anim",
-  !journey && !albumSlug && !pagesWithOwnTransition.has(normalizedPath),
+  !journey && !albumSlug && !postSlug && !isAdminRoute && !pagesWithOwnTransition.has(normalizedPath),
 );
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RootPage />
+    <Suspense fallback={null}>
+      <RootPage />
+    </Suspense>
   </StrictMode>
 );
 

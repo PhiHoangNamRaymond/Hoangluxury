@@ -10,7 +10,7 @@
    Khách vào thẳng website thì luôn là RKS001. Muốn tách nguồn khác thì gắn
    ?src= vào link chiến dịch, ví dụ /booking/?src=RKS002 hoặc ?utm_source=facebook.
    Mã được nhớ theo phiên truy cập nên khách bấm qua vài trang vẫn giữ nguyên. */
-export const defaultBookingSource = "RKS001";
+const defaultBookingSource = "RKS001";
 
 const sourceByKeyword = [
   ["facebook", "RKS002"],
