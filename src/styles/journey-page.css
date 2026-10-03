@@ -647,96 +647,6 @@ a.hlt-journey-fact:focus-visible strong {
   }
 }
 
-.hlt-journey-vehicle-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 1.8vw, 24px);
-}
-
-.hlt-journey-vehicle-card {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1.5px solid var(--jr-gold);
-  border-radius: 8px;
-  background: var(--jr-facts-bg);
-  box-shadow: 0 12px 28px rgba(11, 28, 23, .18);
-}
-
-.hlt-journey-vehicle-img {
-  aspect-ratio: 16 / 9.5;
-  overflow: hidden;
-}
-
-.hlt-journey-vehicle-img img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.hlt-journey-vehicle-body {
-  flex: 1;
-  padding: clamp(12px, 1.3vw, 18px) clamp(12px, 1.4vw, 20px) clamp(14px, 1.5vw, 20px);
-  border-top: 1px solid rgba(197, 161, 90, .55);
-  background: var(--jr-facts-bg);
-  text-align: center;
-}
-
-.hlt-journey-vehicle-body h3 {
-  margin: 0 0 clamp(10px, 1vw, 14px);
-  font-family: var(--hlt-font-family);
-  font-size: clamp(18px, 1.7vw, 24px);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: #fff;
-}
-
-.hlt-journey-vehicle-specs {
-  display: flex;
-  justify-content: center;
-  gap: clamp(22px, 3vw, 44px);
-}
-
-.hlt-journey-vehicle-spec {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-align: left;
-}
-
-.hlt-journey-vehicle-icon {
-  flex: none;
-  width: clamp(26px, 2.2vw, 32px);
-  height: clamp(26px, 2.2vw, 32px);
-  fill: none;
-  stroke: var(--jr-gold);
-  stroke-width: 5.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* !important: thắng ".hlt-site *" ép Cormorant (như dải thông tin dưới banner) */
-.hlt-journey-vehicle-spec strong,
-.hlt-journey-vehicle-spec small {
-  display: block;
-  font-family: "Lato", Arial, Helvetica, sans-serif !important;
-  line-height: 1.25;
-  color: #fff;
-}
-
-.hlt-journey-vehicle-spec strong {
-  font-size: clamp(13px, 1.05vw, 15px);
-  font-weight: 700;
-}
-
-.hlt-journey-vehicle-spec small {
-  font-size: clamp(12px, .95vw, 13.5px);
-  color: rgba(255, 255, 255, .85);
-}
-
 /* Ghi chú dưới 3 thẻ xe (theo mẫu): khung nền kem viền vàng, icon xe + dấu tích */
 .hlt-journey-vehicle-note {
   display: flex;
@@ -868,13 +778,6 @@ a.hlt-journey-fact:focus-visible strong {
 
 .hlt-journey-option.is-featured p {
   color: rgba(255, 255, 255, .85);
-}
-
-.hlt-journey-options-note {
-  margin: clamp(16px, 1.8vw, 22px) 0 12px;
-  font-size: clamp(13px, 1vw, 14.5px);
-  color: var(--jr-muted);
-  text-align: center;
 }
 
 .hlt-journey-options-actions {
@@ -1292,12 +1195,6 @@ a.hlt-journey-fact:focus-visible strong {
     border-left: 0;
   }
 
-  .hlt-journey-vehicle-grid {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 
 @media (max-width: 600px) {
@@ -1332,7 +1229,6 @@ a.hlt-journey-fact:focus-visible strong {
     width: 100%;
   }
 }
-
 
 /* ==========================================================================
    Banner trang tuyến trên mobile (theo mẫu). PC không đổi.
@@ -1446,7 +1342,6 @@ a.hlt-journey-fact:focus-visible strong {
     line-height: 1.35;
   }
 }
-
 
 /* ==========================================================================
    Section Door-to-Door trên mobile (theo mẫu). PC không đổi.
@@ -1636,11 +1531,10 @@ a.hlt-journey-fact:focus-visible strong {
   }
 }
 
-
 /* ==========================================================================
    Section Our Vehicles trên mobile (theo mẫu). PC không đổi.
-   3 thẻ xe nằm ngang một hàng (thay cho kiểu xếp dọc của màn ≤860px); mỗi
-   thông số là icon + số, nhãn xuống dòng dưới; ghi chú là khung rộng hết hàng.
+   Tiêu đề giữ một dòng; ghi chú là khung rộng hết hàng.
+   Thẻ xe hiện dùng các quy tắc .hlt-fleet-* ở phần Đội xe bên trên.
    ========================================================================== */
 @media (max-width: 600px) {
   /* nowrap: tiêu đề giữ 1 dòng, vạch vàng co lại ở màn 320px */
@@ -1648,70 +1542,6 @@ a.hlt-journey-fact:focus-visible strong {
     font-size: clamp(24px, 8vw, 32px);
     letter-spacing: .04em;
     white-space: nowrap;
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    max-width: none;
-    gap: 6px;
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-card {
-    border-width: 1px;
-    border-radius: 7px;
-  }
-
-  /* Ảnh cao hơn bản PC như mẫu (thẻ hẹp) */
-  .hlt-journey-vehicles .hlt-journey-vehicle-img {
-    aspect-ratio: 1 / .82;
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-body {
-    padding: 10px 3px 11px;
-  }
-
-  /* Tên xe 1 dòng để 3 thẻ thẳng hàng như mẫu */
-  .hlt-journey-vehicles .hlt-journey-vehicle-body h3 {
-    margin-bottom: 8px;
-    font-size: clamp(13px, 4.1vw, 16px);
-    letter-spacing: .02em;
-    white-space: nowrap;
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-specs {
-    justify-content: space-evenly;
-    gap: 4px;
-  }
-
-  /* Icon + số cạnh nhau, nhãn nằm dưới: bỏ khung div để strong / small
-     thành ô lưới của thông số */
-  .hlt-journey-vehicles .hlt-journey-vehicle-spec {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-    align-items: center;
-    column-gap: 4px;
-    row-gap: 2px;
-    text-align: center;
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-spec > div {
-    display: contents;
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-icon {
-    width: clamp(15px, 4.5vw, 17px);
-    height: clamp(15px, 4.5vw, 17px);
-    stroke-width: 6;
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-spec strong {
-    font-size: clamp(11px, 3.2vw, 12px);
-  }
-
-  .hlt-journey-vehicles .hlt-journey-vehicle-spec small {
-    grid-column: 1 / -1;
-    font-size: clamp(9px, 2.7vw, 10px);
   }
 
   .hlt-journey-vehicles .hlt-journey-vehicle-note {
@@ -1731,7 +1561,6 @@ a.hlt-journey-fact:focus-visible strong {
     height: 42px;
   }
 }
-
 
 /* ==========================================================================
    Section Choose Your … Journey trên mobile (theo mẫu). PC không đổi.
@@ -1799,11 +1628,6 @@ a.hlt-journey-fact:focus-visible strong {
     line-height: 1.45;
   }
 
-  .hlt-journey-options .hlt-journey-options-note {
-    margin: 16px 0 12px;
-    font-size: 13.5px;
-  }
-
   .hlt-journey-options .hlt-journey-options-actions {
     flex-direction: column;
     gap: 10px;
@@ -1822,7 +1646,6 @@ a.hlt-journey-fact:focus-visible strong {
     white-space: nowrap;
   }
 }
-
 
 /* ==========================================================================
    Section Journey Experience trên mobile (theo mẫu). PC không đổi.
@@ -1919,7 +1742,6 @@ a.hlt-journey-fact:focus-visible strong {
     line-height: 1.25;
   }
 }
-
 
 /* ==========================================================================
    Service Highlights + FAQ trên mobile (theo mẫu). PC không đổi.
@@ -2418,7 +2240,6 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   }
 }
 
-
 /* ==========================================================================
    Trang tuyến: bớt khoảng trống, tăng cỡ chi tiết (icon, chữ) cho đỡ thưa.
    Đặt cuối file để đè padding / cỡ icon của các khối phía trên.
@@ -2479,22 +2300,6 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   }
 
   /* Đội xe */
-  .hlt-journey-vehicle-icon {
-    width: clamp(32px, 2.8vw, 40px);
-    height: clamp(32px, 2.8vw, 40px);
-  }
-
-  .hlt-journey-vehicle-spec strong {
-    font-size: clamp(14px, 1.2vw, 17px);
-  }
-
-  .hlt-journey-vehicle-spec small {
-    font-size: clamp(13px, 1.05vw, 15px);
-  }
-
-  .hlt-journey-vehicle-body h3 {
-    font-size: clamp(20px, 1.9vw, 27px);
-  }
 
   .hlt-journey-vehicle-note {
     padding: 11px clamp(22px, 2.2vw, 32px);
@@ -2604,7 +2409,6 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     grid-template-columns: minmax(0, 430px) minmax(150px, 300px) minmax(0, 430px);
   }
 }
-
 
 /* ==========================================================================
    Banner trang tuyến PC: chữ + nút to hơn để lấp khoảng trống trên / dưới

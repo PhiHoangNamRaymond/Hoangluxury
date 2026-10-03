@@ -1,13 +1,14 @@
+import { safeCatalogUrl } from "./lib/public-config.js";
+
 export const whatsappUrl =
   "https://wa.me/84839779888?text=Hello%20Hoang%20Luxury%20Travel%2C%20I%20would%20like%20to%20book%20a%20private%20transfer.";
 
-export const catalogUrl =
-  import.meta.env.VITE_CATALOG_URL ||
-  "https://drive.google.com/file/d/1Z6b3reHt-M3aD4g15YoD2EYWMJmrgQhN/view?usp=drive_link";
+export const catalogUrl = safeCatalogUrl(import.meta.env.VITE_CATALOG_URL,
+  "https://drive.google.com/file/d/1Z6b3reHt-M3aD4g15YoD2EYWMJmrgQhN/view?usp=drive_link");
 export const catalogPageUrl = "/catalog/";
 export const feedbackPageUrl = "/feedback/";
-export const aboutPageUrl = "/about/";
-export const photoPageUrl = "/photo/";
+const aboutPageUrl = "/about/";
+const photoPageUrl = "/photo/";
 
 export const popularRoutes = [
   "Sapa",
@@ -21,7 +22,7 @@ export const popularRoutes = [
   "Ta Xua",
 ];
 
-export const cruisesPageUrl = "/cruises/";
+const cruisesPageUrl = "/cruises/";
 
 export const getJourneyPageUrl = (route) => {
   const routeSlug = route.toLowerCase().replace(/\s+/g, "-");

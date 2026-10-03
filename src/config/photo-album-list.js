@@ -14,7 +14,7 @@ export const photoCategories = [
   "Proposal & Celebration",
 ];
 
-export function slugifyAlbum(title) {
+function slugifyAlbum(title) {
   return title
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")

@@ -1,7 +1,27 @@
 DirectoryIndex index.html
 
+# Static production hardening; keep existing privacy/redirect rules on hosting.
+Options -Indexes
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; frame-src 'none'; upgrade-insecure-requests"
+  Header always set Cache-Control "no-store" "expr=%{REQUEST_URI} =~ m#^/admin(?:/|$)#"
+</IfModule>
+
+# Never serve source, credentials or database exports even if mis-uploaded.
+<FilesMatch "(?i)(^\.|\.(?:env|sql|gs|log|pem|key|p12|pfx|dump|backup|zip|map)$|^(?:package(?:-lock)?\.json|README\.md|SECURITY\.md)$)">
+  Require all denied
+</FilesMatch>
+
 RewriteEngine On
 RewriteBase /
+
+RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
+RewriteRule ^(?:src|api|supabase|google-apps-script|tests|scripts|node_modules|backups|credentials|secrets)(?:/|$) - [F,L,NC]
 
 # Consolidate legacy aliases and old journey slugs on their canonical URLs.
 RewriteRule ^routes/?$ /journeys/ [R=301,L]

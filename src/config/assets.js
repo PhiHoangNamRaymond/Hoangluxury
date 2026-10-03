@@ -217,10 +217,7 @@ export {
   servicesBackgroundUrl,
   vietnamRoutesMapUrl,
   whatsappQrUrl,
-  whyDriverIconUrl,
-  whyPricingIconUrl,
   whyVehicleIconUrl,
-  whyWhatsappIconUrl,
 };
 
 export const heroSlideImages = {

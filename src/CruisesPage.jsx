@@ -6,7 +6,6 @@ import { cruiseData } from "./config/cruises.js";
 import { cruiseImages, journeyChauffeurIconUrl, preferenceIconImages } from "./config/assets.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import "./styles/cruises.css";
 
 export default function CruisesPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
@@ -14,13 +13,6 @@ export default function CruisesPage() {
 
   const toggleFaq = (index) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
-  };
-
-  const getCruiseInquiryUrl = (cruiseName) => {
-    const text = encodeURIComponent(
-      `Hello Hoang Luxury Travel, I would like to inquire about booking ${cruiseName} with Private Transfer from Hanoi.`
-    );
-    return `https://wa.me/84839779888?text=${text}`;
   };
 
   const getCustomInquiryUrl = (topic) => {

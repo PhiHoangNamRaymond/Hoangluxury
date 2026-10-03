@@ -1,0 +1,4 @@
+[functions.invite-writer]
+enabled = true
+verify_jwt = false
+entrypoint = "./functions/invite-writer/index.js"

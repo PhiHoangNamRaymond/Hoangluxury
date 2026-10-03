@@ -1,8 +1,11 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { loadEnv } from "vite";
+import { createClient } from "@supabase/supabase-js";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { journeys } from "../src/config/journeys.js";
 import { photoAlbumRows } from "../src/config/photo-album-list.js";
+import { fetchPublicBlog } from "../src/lib/public-blog.js";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = resolve(projectRoot, "dist");
@@ -10,6 +13,7 @@ const shell = await readFile(resolve(distDir, "index.html"), "utf8");
 const origin = "https://hoangluxury.travel";
 
 const routes = [
+  { path: "/admin/", title: "Quản trị blog | Hoang Luxury Travel", description: "Private blog administration.", private: true },
   {
     path: "/blog/",
     title: "Travel Blog | Hoang Luxury Travel",
@@ -100,6 +104,29 @@ for (const album of photoAlbumRows) {
   });
 }
 
+
+// Snapshot SEO tại lúc build: chỉ dùng publishable/anon key, không đọc nháp.
+// Bài mới vẫn hiện runtime ngay; muốn cập nhật HTML SEO/sitemap cần build/upload.
+const env = { ...loadEnv("production", projectRoot, "VITE_"), ...process.env };
+let blogArticles = [];
+if (env.VITE_SUPABASE_URL && env.VITE_SUPABASE_ANON_KEY) {
+  const client = createClient(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  });
+  try {
+    ({ articles: blogArticles } = await fetchPublicBlog(client, { signal: AbortSignal.timeout(30_000) }));
+  } catch {
+    throw new Error("Không đọc được blog công khai từ Supabase để build SEO. Kiểm tra cấu hình/schema/mạng; không upload dist của lần build lỗi.");
+  }
+}
+for (const article of blogArticles) {
+  routes.push({
+    path: `/blog/${article.slug}/`,
+    title: `${article.title} | Hoang Luxury Travel`,
+    description: article.metaDescription || article.excerpt,
+  });
+}
+
 const escapeAttribute = (value) =>
   value
     .replaceAll("&", "&amp;")
@@ -107,13 +134,13 @@ const escapeAttribute = (value) =>
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
 
-function renderRoute({ path, title, description }) {
+function renderRoute({ path, title, description, private: isPrivate }) {
   const url = `${origin}${path}`;
   const safeTitle = escapeAttribute(title);
   const safeDescription = escapeAttribute(description);
   const safeUrl = escapeAttribute(url);
 
-  return shell
+  const html = shell
     .replace(/<title>.*?<\/title>/s, `<title>${safeTitle}</title>`)
     .replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/>/s,
@@ -129,6 +156,7 @@ function renderRoute({ path, title, description }) {
       `<meta property="og:description" content="${safeDescription}" />`,
     )
     .replace(/<meta property="og:url" content="[^"]*"\s*\/>/, `<meta property="og:url" content="${safeUrl}" />`);
+  return isPrivate ? html.replace("</head>", '<meta name="robots" content="noindex, nofollow" /></head>') : html;
 }
 
 for (const route of routes) {
@@ -141,7 +169,7 @@ console.log(`Generated ${routes.length} route-specific HTML files.`);
 
 // Sitemap sinh cùng lúc với các trang tĩnh để không bao giờ lệch với routes ở trên.
 // Ghi đè bản trong dist/ do Vite chép từ public/.
-const sitemapUrls = ["/"].concat(routes.map((route) => route.path));
+const sitemapUrls = ["/"].concat(routes.filter((route) => !route.private).map((route) => route.path));
 const sitemap =
   '<?xml version="1.0" encoding="UTF-8"?>\n' +
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

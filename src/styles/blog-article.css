@@ -1,0 +1,387 @@
+/* Trang một bài blog: /blog/<slug>/
+   Cột chữ hẹp để dễ đọc, nền kem giống phần còn lại của blog. */
+
+.hlt-article-main {
+  padding-top: var(--hlt-header-height, 74px);
+  background: #fdfaf4;
+  color: #1b2b33;
+}
+
+.hlt-article-shell {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: clamp(22px, 2.6vw, 38px) 0 clamp(30px, 3.4vw, 50px);
+}
+
+/* ---------- Đường dẫn ---------- */
+
+.hlt-article-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: #6b7b84;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlt-article-crumbs a {
+  color: #a97c22;
+}
+
+.hlt-article-crumbs a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Đầu bài ---------- */
+
+.hlt-article-head {
+  margin-top: clamp(16px, 1.8vw, 24px);
+}
+
+.hlt-article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.hlt-article-tags li {
+  padding: 4px 11px;
+  border: 1px solid rgba(185, 138, 58, .4);
+  border-radius: 999px;
+  background: #fff;
+  color: #8a6a2c;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.hlt-article-head h1 {
+  margin: 0;
+  color: #16232a;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.hlt-article-lead {
+  margin: 14px 0 0;
+  color: #4a5a62;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(15px, 1.25vw, 17.5px);
+  line-height: 1.6;
+}
+
+.hlt-article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(185, 138, 58, .28);
+  color: #6b7b84;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 12.5px;
+}
+
+/* ---------- Ảnh bìa ---------- */
+
+.hlt-article-cover {
+  margin: clamp(20px, 2.4vw, 32px) 0 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #efe7da;
+}
+
+.hlt-article-cover img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------- Nội dung ---------- */
+
+.hlt-article-body {
+  margin-top: clamp(22px, 2.6vw, 36px);
+  color: #2b3940;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.75;
+}
+
+.hlt-article-body > :first-child {
+  margin-top: 0;
+}
+
+.hlt-article-body h2 {
+  margin: clamp(28px, 3vw, 42px) 0 12px;
+  color: #16232a;
+  font-family: "Cormorant", Georgia, serif !important;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hlt-article-body h3 {
+  margin: clamp(22px, 2.4vw, 30px) 0 10px;
+  color: #16232a;
+  font-family: "Cormorant", Georgia, serif !important;
+  font-size: clamp(19px, 1.8vw, 24px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.hlt-article-body p {
+  margin: 0 0 clamp(14px, 1.4vw, 20px);
+}
+
+.hlt-article-body a {
+  color: #a97c22;
+  text-decoration: underline;
+  text-decoration-color: rgba(185, 138, 58, .5);
+  text-underline-offset: 3px;
+}
+
+.hlt-article-body a:hover {
+  text-decoration-color: #a97c22;
+}
+
+.hlt-article-body strong {
+  color: #16232a;
+  font-weight: 700;
+}
+
+.hlt-article-body ul,
+.hlt-article-body ol {
+  margin: 0 0 clamp(14px, 1.4vw, 20px);
+  padding-left: 22px;
+}
+
+.hlt-article-body li {
+  margin-bottom: 7px;
+}
+
+.hlt-article-body li::marker {
+  color: #b98a3a;
+}
+
+.hlt-article-body blockquote {
+  margin: clamp(20px, 2.2vw, 28px) 0;
+  padding: 2px 0 2px 20px;
+  border-left: 3px solid #c9a24a;
+  color: #4a5a62;
+  font-family: "Cormorant", Georgia, serif !important;
+  font-size: clamp(18px, 1.7vw, 23px);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.hlt-article-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.hlt-article-body img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: clamp(20px, 2.4vw, 32px) 0;
+  border-radius: 8px;
+  background: #efe7da;
+}
+
+.hlt-article-body hr {
+  margin: clamp(26px, 3vw, 40px) 0;
+  border: 0;
+  border-top: 1px solid rgba(185, 138, 58, .32);
+}
+
+.hlt-article-body code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(185, 138, 58, .12);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  font-size: .9em;
+}
+
+.hlt-article-body table {
+  width: 100%;
+  margin: 0 0 clamp(14px, 1.4vw, 20px);
+  border-collapse: collapse;
+  font-size: .95em;
+}
+
+.hlt-article-body th,
+.hlt-article-body td {
+  padding: 9px 12px;
+  border: 1px solid rgba(185, 138, 58, .3);
+  text-align: left;
+}
+
+.hlt-article-body th {
+  background: rgba(185, 138, 58, .12);
+  font-weight: 700;
+}
+
+/* ---------- Cuối bài ---------- */
+
+.hlt-article-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: clamp(26px, 3vw, 40px);
+  padding-top: clamp(18px, 2vw, 26px);
+  border-top: 1px solid rgba(185, 138, 58, .28);
+}
+
+.hlt-article-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #e4b45c, #c68f22);
+  color: #2a1d05;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.hlt-article-cta:hover {
+  filter: brightness(1.05);
+}
+
+.hlt-article-back {
+  color: #6b7b84;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.hlt-article-back:hover {
+  color: #a97c22;
+}
+
+.hlt-article-arrow {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Bài liên quan ---------- */
+
+.hlt-article-related {
+  padding: clamp(26px, 3vw, 44px) 0 clamp(32px, 3.6vw, 52px);
+  background: #fff;
+  border-top: 1px solid rgba(185, 138, 58, .25);
+}
+
+.hlt-article-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 20px);
+}
+
+.hlt-article-related-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border: 1px solid rgba(185, 138, 58, .3);
+  border-radius: 7px;
+  background: #fdfaf4;
+}
+
+.hlt-article-related-card:hover {
+  border-color: rgba(185, 138, 58, .7);
+}
+
+.hlt-article-related-card img,
+.hlt-article-related-blank {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  background: #efe7da;
+}
+
+.hlt-article-related-card > span {
+  display: block;
+  padding: 12px 14px 14px;
+}
+
+.hlt-article-related-card strong {
+  display: block;
+  color: #16232a;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: clamp(16px, 1.35vw, 19px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hlt-article-related-card small {
+  display: block;
+  margin-top: 6px;
+  color: #6b7b84;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .hlt-article-related-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlt-article-foot {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .hlt-article-cta {
+    justify-content: center;
+  }
+}
+
+/* .hlt-site * ép font Cormorant cho mọi thẻ con, nên phải chỉ rõ các thẻ
+   trong thân bài dùng chữ không chân; tiêu đề và trích dẫn giữ Cormorant. */
+.hlt-article-body p,
+.hlt-article-body li,
+.hlt-article-body a,
+.hlt-article-body strong,
+.hlt-article-body em,
+.hlt-article-body td,
+.hlt-article-body th,
+.hlt-article-body figcaption {
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+}
+
+.hlt-article-body blockquote p {
+  font-family: "Cormorant", Georgia, serif !important;
+}
+
+.hlt-article-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
