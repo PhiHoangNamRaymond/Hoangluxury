@@ -155,10 +155,12 @@ export default function BlogPage() {
                         {article.imageUrl && <img src={article.imageUrl} alt={article.imageAlt} loading="lazy" />}
                       </div>
                       <div className="hlt-blog-card-copy">
-                        <span className="hlt-blog-tag">{article.topics[0] || article.destinations[0] || "Travel journal"}</span>
+                        <p className="hlt-blog-card-meta">
+                          {article.destinations[0] && <span className="hlt-blog-tag">{article.destinations[0]}</span>}
+                          {article.topics[0] && <span className="hlt-blog-card-topic">{article.topics[0]}</span>}
+                        </p>
                         <h3>{article.title}</h3>
                         <p>{article.excerpt}</p>
-                        <span className="hlt-blog-card-link">Read story <Icon name="arrow" /></span>
                       </div>
                     </a>
                   </article>
