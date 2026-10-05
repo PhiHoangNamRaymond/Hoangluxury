@@ -4,13 +4,14 @@ import { logoGoldUrl } from "../config/assets.js";
 import useSession from "./useSession.js";
 import LoginScreen from "./LoginScreen.jsx";
 import PasswordScreen from "./PasswordScreen.jsx";
+import EmailCallbackScreen from "./EmailCallbackScreen.jsx";
 import ArticleList from "./ArticleList.jsx";
 import ArticleEditor from "./ArticleEditor.jsx";
 import UserManager from "./UserManager.jsx";
 import "../styles/admin.css";
 
 export default function AdminApp() {
-  const { loading, session, profile, error, flow, authError, clearFlow, retry } = useSession();
+  const { loading, session, profile, error, flow, authError, clearFlow, retry, callback, acceptCallback } = useSession();
   const [changePassword, setChangePassword] = useState(false);
   const [view, setView] = useState({ name: "articles" });
   const [reloadKey, setReloadKey] = useState(0);
@@ -42,7 +43,8 @@ export default function AdminApp() {
     );
   }
 
-  if (flow && authError) return <LoginScreen notice={authError} />;
+  if (callback) return <EmailCallbackScreen callback={callback} session={session} onAccepted={acceptCallback} onCancel={clearFlow} />;
+  if (authError && !session) return <LoginScreen notice={authError} />;
   if ((flow || changePassword) && session) return <PasswordScreen flow={changePassword ? "change" : flow} session={session}
     onDone={() => { setChangePassword(false); clearFlow(); }} />;
 

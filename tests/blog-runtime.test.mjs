@@ -30,8 +30,12 @@ test("Markdown strips executable HTML, unsafe links, SVG and CSS but keeps forma
 });
 
 test("password callbacks detect invitation, recovery and expired links without retaining tokens", () => {
-  assert.equal(readAuthFlow("https://example.com/admin/?flow=invite#access_token=SECRET").flow, "invite");
-  assert.equal(readAuthFlow("https://example.com/admin/#type=recovery&access_token=SECRET").flow, "recovery");
+  assert.equal(readAuthFlow("https://example.com/admin/?flow=invite#access_token=SECRET").flow, "");
+  assert.ok(readAuthFlow("https://example.com/admin/#type=recovery&access_token=SECRET").error);
+  const token = "a".repeat(64);
+  assert.deepEqual(readAuthFlow(`https://example.com/admin/?type=recovery&token_hash=${token}`).callback, { type: "recovery", token_hash: token });
+  assert.equal(readAuthFlow(`https://example.com/blog/?type=recovery&token_hash=${token}`).callback, null);
+  assert.equal(readAuthFlow("https://example.com/admin/?flow=recovery").flow, "");
   assert.equal(readAuthFlow("https://example.com/admin/?flow=evil").flow, "");
   assert.ok(readAuthFlow("https://example.com/admin/#error=access_denied&error_code=otp_expired").error);
   assert.ok(passwordError("short", "short"));
@@ -177,7 +181,7 @@ test("invitation verifies real JWT, assigns role in DB and uses trusted redirect
   assert.equal(response.headers.get("Access-Control-Allow-Origin"), "http://localhost:5173");
   assert.deepEqual(await response.json(), { ok: true, email: "writer@example.com" });
   assert.deepEqual(calls[0], ["getUser", "actual-jwt"]);
-  assert.deepEqual(calls[1][2], { data: { full_name: "Writer" }, redirectTo: "http://localhost:5173/admin/?flow=invite" });
+  assert.deepEqual(calls[1][2], { data: { full_name: "Writer" }, redirectTo: "http://localhost:5173/admin/?type=invite" });
   assert.deepEqual(calls[2], ["activate", { full_name: "Writer", role: "writer", active: true }]);
 });
 

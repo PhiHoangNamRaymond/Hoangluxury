@@ -118,9 +118,11 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
       const path = await uploadImage(file);
       const markdown = `\n![Mô tả ảnh](${blogImageUrl(path)})\n`;
       const area = bodyRef.current;
-      const at = area ? area.selectionStart : form.body.length;
-      const next = form.body.slice(0, at) + markdown + form.body.slice(at);
-      update({ body: next });
+      const cursor = area?.selectionStart;
+      setForm((current) => {
+        const at = cursor == null ? current.body.length : Math.min(cursor, current.body.length);
+        return { ...current, body: current.body.slice(0, at) + markdown + current.body.slice(at) };
+      });
       setStatus({ state: "idle", message: "" });
     } catch (error) {
       setStatus({ state: "error", message: `Không tải được ảnh: ${error.message}` });

@@ -44,14 +44,15 @@ based on only one page or viewport: responsive rules and dynamic states matter.
 Copy `.env.example` to `.env` and provide:
 
 - `VITE_CATALOG_URL`: the public Google Drive link for the catalog or price list.
-- `VITE_BOOKING_SHEET_ENDPOINT`: the deployed Google Apps Script Web App URL ending in `/exec`.
+- `VITE_FORMS_PROXY_URL`: the deployed Supabase `forms-proxy` HTTPS endpoint.
+- `VITE_TURNSTILE_SITE_KEY`: the public Cloudflare Turnstile site key.
 
 Restart the Vite development server after changing `.env`.
 
-The browser submits bookings to Google Apps Script with `no-cors`. This allows
-the cross-origin request but makes the response opaque, so the page can confirm
-that submission was attempted, not that the row was successfully stored. The
-concierge team should confirm each booking with the customer.
+Forms use a server-verified CAPTCHA proxy and require a readable positive server
+acknowledgement. Missing configuration fails closed; WhatsApp remains available.
+The concierge team still confirms journey availability/pricing with the customer.
+The legacy VITE_BOOKING_SHEET_ENDPOINT is no longer used by the form UI.
 
 ## Deployment
 
@@ -66,17 +67,12 @@ and leave the Output Directory as `dist`.
 
 ## Google Sheets booking integration
 
-1. Open the destination workbook in Google Sheets. If it still shows the
-   `.xlsx` badge, use **File > Save as Google Sheets** first.
-2. Open **Extensions > Apps Script** and paste the contents of `google-apps-script/Code.gs`.
-3. In **Project Settings > Script properties**, add `SPREADSHEET_ID` with the ID from the private Sheet URL. Optionally add `SHEET_NAME`; the default is `Bookings`.
-4. Set the Apps Script project time zone to **(GMT+07:00) Ho Chi Minh City**,
-   then run `setupBookingsSheet` once and approve the requested Google Sheets
-   permission.
-5. Select **Deploy > New deployment > Web app**. Run as yourself and allow access to anyone who can submit the public booking form.
-6. Put the deployed `/exec` URL in `.env` as `VITE_BOOKING_SHEET_ENDPOINT`, then restart Vite.
-
-The spreadsheet ID stays in Apps Script properties and is not bundled into React. The Web App endpoint remains visible to the browser because client-side code cannot securely hide or encrypt a request destination.
+Follow [Forms security migration and setup](google-apps-script/README.md) on a
+separate test Sheet first. The migration adds a private request ledger, server
+shared secret, rate controls, verified CAPTCHA and one-time guest feedback links.
+Existing booking/feedback columns are preserved. Do not deploy only the frontend:
+the new form and both server deployments must be configured together.
+Spreadsheet IDs and server secrets never belong in VITE_ variables or Git.
 
 ## Blog administration and security
 

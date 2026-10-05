@@ -6,7 +6,7 @@ export default async function handler(request, response) {
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const key = process.env.BLOG_SERVER_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   const client = url && key ? createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } }) : null;
-  const serve = createInviteHandler({ client, allowedOrigins: process.env.BLOG_ALLOWED_ORIGINS || "https://hoangluxury.travel,https://www.hoangluxury.travel,http://localhost:5173,http://127.0.0.1:5173" });
+  const serve = createInviteHandler({ client, allowedOrigins: process.env.BLOG_ALLOWED_ORIGINS || "https://hoangluxury.travel,https://www.hoangluxury.travel" });
   const method = request.method || "GET";
   const headers = new Headers();
   for (const [name, value] of Object.entries(request.headers)) {

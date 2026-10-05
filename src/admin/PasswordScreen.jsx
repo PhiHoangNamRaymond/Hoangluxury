@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import { supabase } from "../lib/supabase.js";
-import { passwordError } from "../lib/auth-flow.js";
+import { passwordError, passwordSetupAllowed, clearPasswordSetup } from "../lib/auth-flow.js";
 
 export default function PasswordScreen({ flow, session, onDone }) {
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [status, setStatus] = useState({ state: "idle", message: "" });
-  const changing = flow === "change";
+  const changing = !passwordSetupAllowed(session, flow);
   const submit = async (event) => {
     event.preventDefault();
+    if (status.state === "loading") return;
     const validation = passwordError(password, confirmation);
     if (validation) { setStatus({ state: "error", message: validation }); return; }
     setStatus({ state: "loading", message: "Đang lưu mật khẩu…" });
     try {
-      if (changing) {
+      const requiresCurrentPassword = !passwordSetupAllowed(session, flow);
+      if (requiresCurrentPassword) {
+        if (!currentPassword) throw new Error("Hãy nhập mật khẩu hiện tại hoặc mở lại link email hợp lệ.");
         const { error } = await supabase.auth.signInWithPassword({ email: session.user.email, password: currentPassword });
         if (error) throw new Error("Mật khẩu hiện tại không đúng hoặc phiên không hợp lệ.");
       }
-      const { error } = await supabase.auth.updateUser({ password });
+      const { error } = await supabase.auth.updateUser({ password, ...(requiresCurrentPassword ? { current_password: currentPassword } : {}) });
       if (error) throw error;
       setPassword(""); setConfirmation(""); setCurrentPassword("");
+      clearPasswordSetup();
       setStatus({ state: "success", message: "Đã lưu mật khẩu. Bạn có thể vào trang quản trị." });
     } catch (error) { setStatus({ state: "error", message: error.message }); }
   };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import {
@@ -8,11 +8,13 @@ import {
   servicesBackgroundUrl,
 } from "./config/assets.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { validFormsEndpoint, formTextError } from "./lib/public-config.js";
+import { formTextError } from "./lib/public-config.js";
+import { validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
+import Turnstile from "./components/Turnstile.jsx";
 
 // Dùng chung Web App với form đặt xe; phân biệt bằng tham số form=feedback.
-const configuredFeedbackEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
-const feedbackEndpoint = validFormsEndpoint(configuredFeedbackEndpoint) ? configuredFeedbackEndpoint : "";
+const configuredFeedbackEndpoint = import.meta.env.VITE_FORMS_PROXY_URL?.trim();
+const feedbackEndpoint = validFormsProxy(configuredFeedbackEndpoint) ? configuredFeedbackEndpoint : "";
 
 const feedbackStats = [
   { icon: feedbackStatIcons[0], value: "Licensed", label: "Transport Operator" },
@@ -204,9 +206,19 @@ export default function FeedbackPage() {
   const [rating, setRating] = useState(0);
   const [expandedReviews, setExpandedReviews] = useState([]);
   const pageEntered = usePageEntered();
-  const [bookingId, setBookingId] = useState("");
+  const [feedbackLink] = useState(() => {
+    const query = new URLSearchParams(window.location.search);
+    return {bookingId:query.get("bookingId") || "", token:query.get("token") || ""};
+  });
+  const [bookingId, setBookingId] = useState(feedbackLink.bookingId);
   const [experience, setExperience] = useState("");
   const [submission, setSubmission] = useState({ state: "idle", message: "" });
+  const [turnstileToken,setTurnstileToken] = useState("");
+  const [verificationReset,setVerificationReset] = useState(0);
+  const requestRef = useRef(null);
+  useEffect(() => {
+    if (feedbackLink.token) window.history.replaceState(null,"",window.location.pathname);
+  },[feedbackLink]);
 
 
   const submitFeedback = async (event) => {
@@ -215,36 +227,33 @@ export default function FeedbackPage() {
     const inputError = formTextError({ bookingId, experience });
     if (inputError) { setSubmission({ state: "error", message: inputError }); return; }
 
-    if (!feedbackEndpoint) {
+    if (!feedbackEndpoint || !turnstileToken || !feedbackLink.token) {
       setSubmission({ state: "error", message: "Feedback is being configured. Please contact us via WhatsApp." });
       return;
     }
 
     setSubmission({ state: "loading", message: "Sending your feedback..." });
 
-    const payload = new URLSearchParams({
+    const fields = {
       form: "feedback",
       bookingId: bookingId.trim(),
       rating: String(rating),
       feedback: experience.trim(),
-      submittedFrom: window.location.href,
-      clientTimestamp: new Date().toISOString(),
-    });
+      feedbackToken: feedbackLink.token,
+      submittedFrom: window.location.origin + window.location.pathname,
+    };
+    const payload = {...fields,requestId:requestIdFor(requestRef,fields),turnstileToken,clientTimestamp:new Date().toISOString()};
 
     try {
-      await fetch(feedbackEndpoint, {
-        method: "POST",
-        mode: "no-cors",
-        credentials: "omit",
-        keepalive: true,
-        body: payload,
-      });
+      await submitForm(feedbackEndpoint,payload);
       setBookingId("");
       setExperience("");
       setRating(0);
       setSubmission({ state: "success", message: "Thank you. Your feedback has been sent to our management team." });
     } catch {
       setSubmission({ state: "error", message: "We could not send your feedback. Please try again or contact us via WhatsApp." });
+    } finally {
+      setTurnstileToken(""); setVerificationReset((value) => value + 1);
     }
   };
 
@@ -424,7 +433,10 @@ export default function FeedbackPage() {
                   </label>
                 </div>
 
-                <button type="submit" disabled={submission.state === "loading"}>
+                {!feedbackLink.token && <p>Please use the personal feedback link provided by our team, or contact us via WhatsApp.</p>}
+                {!feedbackEndpoint && <p>Online feedback is being configured. Please contact our team directly.</p>}
+                <Turnstile action="feedback" onToken={setTurnstileToken} resetKey={verificationReset} />
+                <button type="submit" disabled={submission.state === "loading" || submission.state === "success" || !feedbackLink.token || !turnstileToken || !feedbackEndpoint}>
                   {submission.state === "loading" ? "Sending…" : "Send Feedback"}
                 </button>
 

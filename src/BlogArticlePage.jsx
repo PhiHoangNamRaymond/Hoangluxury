@@ -71,12 +71,36 @@ export default function BlogArticlePage({ slug }) {
   if (!article) return (
     <div className={`hlt-site hlt-blog-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}>
       <Header />
-      <main className="hlt-article-main"><div className="hlt-blog-empty" role="status">
-        <h1>{loading ? "Loading story…" : error ? "Unable to load this story" : "Article not found"}</h1>
-        <p>{error || (!loading && "This article is unavailable or hasn't been published yet.")}</p>
-        {error && <button type="button" className="hlt-blog-dark-btn" onClick={retry}>Try again</button>}
-        {!loading && <a href="/blog/">Back to Travel Blog</a>}
-      </div></main>
+      <main className="hlt-article-main">
+        <div className="hlt-article-missing" role="status">
+          <span className="hlt-article-missing-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <path d="M12 6h16l8 8v28H12z" />
+              <path d="M28 6v8h8M19 24h10M19 31h7" />
+            </svg>
+          </span>
+          <h1>{loading ? "Loading story…" : error ? "Unable to load this story" : "Article not found"}</h1>
+          <p>
+            {error || (!loading && "This story may have been moved, or it hasn't been published yet.")}
+          </p>
+          <div className="hlt-article-missing-actions">
+            {error && (
+              <button type="button" className="hlt-article-cta" onClick={retry}>
+                Try again
+              </button>
+            )}
+            {!loading && (
+              <>
+                <a className="hlt-article-cta" href="/blog/">
+                  Browse all stories
+                  <ArrowIcon />
+                </a>
+                <a className="hlt-article-back" href="/">Back to homepage</a>
+              </>
+            )}
+          </div>
+        </div>
+      </main>
       <Footer />
     </div>
   );

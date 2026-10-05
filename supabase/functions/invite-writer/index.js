@@ -73,7 +73,7 @@ export function createInviteHandler({ client, allowedOrigins, logger = (event) =
       if (permitted !== true) return reply(429, { ok: false, error: "Đã đạt giới hạn lời mời. Thử lại sau một giờ." });
       const { data: invited, error: inviteError } = await client.auth.admin.inviteUserByEmail(email, {
         data: { full_name: fullName },
-        redirectTo: `${origin || origins[0]}/admin/?flow=invite`,
+        redirectTo: `${origin || origins[0]}/admin/?type=invite`,
       });
       if (inviteError) {
         const already = /already|registered|exists/i.test(inviteError.message);
@@ -100,5 +100,5 @@ if (typeof Deno !== "undefined") {
   const key = Deno.env.get("BLOG_SERVER_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   const url = Deno.env.get("SUPABASE_URL");
   const client = url && key ? createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } }) : null;
-  Deno.serve(createInviteHandler({ client, allowedOrigins: Deno.env.get("BLOG_ALLOWED_ORIGINS") || "https://hoangluxury.travel,https://www.hoangluxury.travel,http://localhost:5173,http://127.0.0.1:5173" }));
+  Deno.serve(createInviteHandler({ client, allowedOrigins: Deno.env.get("BLOG_ALLOWED_ORIGINS") || "https://hoangluxury.travel,https://www.hoangluxury.travel" }));
 }

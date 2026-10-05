@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { supabase, supabaseReady, initialAuthFlow } from "../lib/supabase.js";
+import { clearPasswordSetup, passwordSetupAllowed } from "../lib/auth-flow.js";
 
 /**
  * Theo dõi phiên đăng nhập và hồ sơ (vai trò) của người đang dùng.
  * Trả về { loading, session, profile, error }.
  */
 export default function useSession() {
-  const [identity, setIdentity] = useState({ loading: true, session: null, error: "", flow: initialAuthFlow.flow });
+  const [identity, setIdentity] = useState({ loading: true, session: null, error: "", flow: "" });
+  const [callback, setCallback] = useState(initialAuthFlow.callback);
   const [revision, setRevision] = useState(0);
   const userId = identity.session?.user.id;
   const [state, setState] = useState({
@@ -35,9 +37,9 @@ export default function useSession() {
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       // Callback phải đồng bộ: gọi DB/Auth ở đây có thể deadlock SDK.
       events += 1;
+      if (event === "SIGNED_OUT") clearPasswordSetup();
       if (alive) setIdentity((current) => ({ loading: false, session, error: event === "INITIAL_SESSION" ? initialAuthFlow.error : "",
-        flow: event === "PASSWORD_RECOVERY" ? "recovery"
-          : event === "SIGNED_OUT" || (event === "SIGNED_IN" && current.error) ? "" : current.flow }));
+        flow: passwordSetupAllowed(session, current.flow) ? current.flow : "" }));
     });
 
     return () => {
@@ -64,7 +66,9 @@ export default function useSession() {
 
   return { ...state, session: supabaseReady ? identity.session : null,
     loading: supabaseReady ? identity.loading || state.loading || Boolean(userId && userId !== state.session?.user.id) : false,
-    flow: identity.flow, authError: identity.error,
-    clearFlow: () => { window.history.replaceState(null, "", "/admin/"); setIdentity((current) => ({ ...current, flow: "", error: "" })); },
+    flow: passwordSetupAllowed(identity.session, identity.flow) ? identity.flow : "", authError: identity.error,
+    callback,
+    acceptCallback: (session, flow) => { setCallback(null); setIdentity({ loading: false, session, flow, error: "" }); },
+    clearFlow: () => { clearPasswordSetup(); setCallback(null); window.history.replaceState(null, "", "/admin/"); setIdentity((current) => ({ ...current, flow: "", error: "" })); },
     retry: () => setRevision((value) => value + 1) };
 }

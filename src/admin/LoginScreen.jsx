@@ -15,7 +15,7 @@ export default function LoginScreen({ notice }) {
     try {
       if (mode === "reset") {
         const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-          redirectTo: `${window.location.origin}/admin/?flow=recovery`,
+          redirectTo: `${window.location.origin}/admin/?type=recovery`,
         });
         setStatus(
           error
