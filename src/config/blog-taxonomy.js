@@ -19,7 +19,7 @@ export const blogDestinations = [
 export const blogTopics = [
   "Plan Your Trip",
   "Itineraries",
-  "Getting There",
+  "Transport",
   "Where to Stay",
   "Things to Do",
   "Food & Drink",

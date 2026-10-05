@@ -11,9 +11,13 @@ export default function Footer() {
       {/* Desktop Footer Grid - 100% Intact */}
       <div className="hlt-container hlt-footer-grid hlt-footer-desktop-view">
         <div className="hlt-footer-brand">
-          <img src={logoUrl} alt="Hoang Luxury Travel" />
-          <strong>Hoang</strong>
-          <span>Luxury Travel</span>
+          <div className="hlt-footer-brand-heading">
+            <img src={logoUrl} alt="Hoang Luxury Travel" width="92" height="92" />
+            <div className="hlt-footer-brand-wordmark">
+              <strong>Hoang</strong>
+              <span>Luxury Travel</span>
+            </div>
+          </div>
           <p>
             Private car services for international<br />
             travelers in Northern Vietnam.
@@ -30,7 +34,7 @@ export default function Footer() {
           <h4>Quick Links</h4>
           <a href={sectionHref("#home")}>Home</a>
           <a href={catalogPageUrl}>Catalog</a>
-          <a href={sectionHref("#routes")}>Journey</a>
+          <a href={sectionHref("#routes")}>Routes</a>
           <a href="/booking/">Booking</a>
           <a href={feedbackPageUrl}>Feedback</a>
         </div>

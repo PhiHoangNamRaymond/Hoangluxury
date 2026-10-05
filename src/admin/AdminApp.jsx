@@ -8,6 +8,7 @@ import EmailCallbackScreen from "./EmailCallbackScreen.jsx";
 import ArticleList from "./ArticleList.jsx";
 import ArticleEditor from "./ArticleEditor.jsx";
 import UserManager from "./UserManager.jsx";
+import AccountMenu from "./AccountMenu.jsx";
 import "../styles/admin.css";
 
 export default function AdminApp() {
@@ -124,16 +125,7 @@ export default function AdminApp() {
           <a href="/blog/" target="_blank" rel="noopener noreferrer">Xem blog</a>
         </nav>
 
-        <div className="hlt-admin-me">
-          <button type="button" className="hlt-admin-link-btn" onClick={() => setChangePassword(true)}>Đổi mật khẩu</button>
-          <span>
-            <strong>{profile.full_name || profile.email}</strong>
-            <small>{isAdmin ? "Admin" : "Writer"}</small>
-          </span>
-          <button type="button" className="hlt-admin-link-btn" onClick={() => supabase.auth.signOut()}>
-            Đăng xuất
-          </button>
-        </div>
+        <AccountMenu profile={profile} onChangePassword={() => setChangePassword(true)} />
       </header>
 
       <main className="hlt-admin-main">

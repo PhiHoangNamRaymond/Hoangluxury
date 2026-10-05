@@ -128,66 +128,90 @@ test("article normalization and combined search filters work", () => {
   assert.equal(filterBlogArticles([article], { destination: "Ha Giang" }).length, 0);
 });
 
+const PASSWORD = "Qx7mRt2PvLd9KwNs";
+
 function inviteFixture(overrides = {}) {
   const calls = [];
   const client = {
     rpc: async () => ({ data: overrides.limited ? false : true, error: overrides.limitError }),
     auth: {
       getUser: async (token) => { calls.push(["getUser", token]); return overrides.invalidToken ? { error: new Error("bad") } : { data: { user: { id: "caller", user_metadata: { role: "admin" } } } }; },
-      admin: { inviteUserByEmail: async (email, options) => { calls.push(["invite", email, options]); return { data: { user: { id: "invited" } }, error: overrides.inviteError }; } },
+      admin: {
+        createUser: async (options) => { calls.push(["create", options]); return { data: { user: { id: "created" } }, error: overrides.createError }; },
+        updateUserById: async (id, patch) => { calls.push(["reset", id, patch]); return { data: { user: { id } }, error: overrides.resetError }; },
+      },
     },
     from: () => {
       const query = {
         select: () => query, eq: () => query,
         maybeSingle: async () => ({ data: { role: overrides.role || "admin", active: overrides.active !== false }, error: overrides.profileError }),
         update: (patch) => { calls.push(["activate", patch]); return query; },
-        single: async () => ({ data: { id: "invited" }, error: overrides.activationError }),
+        single: async () => ({ data: { id: "created" }, error: overrides.activationError }),
       };
       return query;
     },
   };
   const serve = createInviteHandler({ client, allowedOrigins: "https://hoangluxury.travel,http://localhost:5173", logger: () => {} });
-  const request = (body = { email: "Writer@Example.com", fullName: "Writer", role: "writer" }, headers = {}) => new Request("https://edge.invalid", {
+  const request = (body = { email: "Writer@Example.com", fullName: "Writer", role: "writer", password: PASSWORD }, headers = {}) => new Request("https://edge.invalid", {
     method: "POST", headers: { Origin: "http://localhost:5173", Authorization: "Bearer actual-jwt", "Content-Type": "application/json", ...headers },
     body: typeof body === "string" ? body : JSON.stringify(body),
   });
   return { serve, calls, request };
 }
 
-test("invitation rejects absent/invalid JWT, writers and inactive admins before sending mail", async () => {
+test("account creation rejects absent/invalid JWT, writers and inactive admins before touching Auth", async () => {
   for (const [overrides, headers, status] of [[{}, { Authorization: "" }, 401], [{ invalidToken: true }, {}, 401],
     [{ role: "writer" }, {}, 403], [{ active: false }, {}, 403], [{ profileError: new Error("DB") }, {}, 503]]) {
     const { serve, request, calls } = inviteFixture(overrides);
     assert.equal((await serve(request(undefined, headers))).status, status);
-    assert.equal(calls.some(([name]) => name === "invite"), false);
+    assert.equal(calls.some(([name]) => name === "create" || name === "reset"), false);
   }
 });
 
-test("invitation allowlist, preflight and validation never allow arbitrary redirects", async () => {
+test("account allowlist, preflight and validation reject weak passwords and bad payloads", async () => {
   const { serve, request, calls } = inviteFixture();
   assert.equal((await serve(request(undefined, { Origin: "https://evil.invalid" }))).status, 403);
   assert.equal((await serve(new Request("https://edge.invalid", { method: "OPTIONS", headers: { Origin: "http://localhost:5173" } }))).status, 204);
   assert.equal((await serve(new Request("https://edge.invalid"))).status, 405);
-  for (const body of ["broken json", { email: "bad" }, { email: "ok@example.com", role: "super-admin" }, "x".repeat(9000)]) {
+  for (const body of ["broken json", { email: "ok@example.com", password: PASSWORD, role: "super-admin" },
+    { email: "bad", password: PASSWORD }, { email: "ok@example.com" }, { email: "ok@example.com", password: "short" },
+    { email: "ok@example.com", password: `bad ${PASSWORD}` }, { action: "reset", userId: "not-a-uuid", password: PASSWORD },
+    "x".repeat(9000)]) {
     assert.ok([400, 413].includes((await serve(request(body))).status));
   }
-  assert.equal(calls.some(([name]) => name === "invite"), false);
+  assert.equal(calls.some(([name]) => name === "create" || name === "reset"), false);
 });
 
-test("invitation verifies real JWT, assigns role in DB and uses trusted redirect", async () => {
+test("account creation verifies real JWT, confirms the email itself and assigns role in DB", async () => {
   const { serve, request, calls } = inviteFixture();
   const response = await serve(request());
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("Access-Control-Allow-Origin"), "http://localhost:5173");
   assert.deepEqual(await response.json(), { ok: true, email: "writer@example.com" });
   assert.deepEqual(calls[0], ["getUser", "actual-jwt"]);
-  assert.deepEqual(calls[1][2], { data: { full_name: "Writer" }, redirectTo: "http://localhost:5173/admin/?type=invite" });
+  assert.deepEqual(calls[1][1], { email: "writer@example.com", password: PASSWORD, email_confirm: true, user_metadata: { full_name: "Writer" } });
   assert.deepEqual(calls[2], ["activate", { full_name: "Writer", role: "writer", active: true }]);
 });
 
-test("invitation does not report success for duplicate, email limit or partial activation", async () => {
-  for (const [overrides, status] of [[{ inviteError: { message: "already registered" } }, 409],
-    [{ inviteError: { message: "rate limit", status: 429 } }, 429], [{ activationError: new Error("DB") }, 500]]) {
+test("password reset needs an admin and a real account id, and never creates a user", async () => {
+  const id = "3f6b1c2d-4e5a-4b7c-8d9e-0a1b2c3d4e5f";
+  const { serve, request, calls } = inviteFixture();
+  const response = await serve(request({ action: "reset", userId: id, password: PASSWORD }));
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { ok: true });
+  assert.deepEqual(calls[1], ["reset", id, { password: PASSWORD }]);
+  assert.equal(calls.some(([name]) => name === "create"), false);
+
+  for (const [overrides, status] of [[{ role: "writer" }, 403], [{ resetError: new Error("gone") }, 400]]) {
+    const other = inviteFixture(overrides);
+    assert.equal((await other.serve(other.request({ action: "reset", userId: id, password: PASSWORD }))).status, status);
+  }
+});
+
+test("account creation does not report success for duplicate, rate limit or partial activation", async () => {
+  for (const [overrides, status] of [[{ createError: { message: "already registered" } }, 409],
+    [{ createError: { message: "rate limit", status: 429 } }, 429], [{ limited: true }, 429],
+    [{ limitError: new Error("no rpc") }, 503], [{ activationError: new Error("DB") }, 500]]) {
     const { serve, request } = inviteFixture(overrides);
     const response = await serve(request());
     assert.equal(response.status, status);

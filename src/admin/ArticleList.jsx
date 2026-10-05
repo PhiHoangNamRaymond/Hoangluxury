@@ -2,30 +2,39 @@ import React, { useEffect, useMemo, useState } from "react";
 import { supabase, blogImageUrl } from "../lib/supabase.js";
 
 function statusOf(article) {
-  if (article.status !== "published") return { label: "Nháp", tone: "draft" };
+  if (article.status !== "published") return { label: "Nháp", tone: "draft", key: "draft" };
   if (article.publish_at && new Date(article.publish_at) > new Date()) {
-    return { label: "Hẹn lịch", tone: "scheduled" };
+    return { label: "Hẹn lịch", tone: "scheduled", key: "scheduled" };
   }
-  return { label: "Đang hiện", tone: "live" };
+  return { label: "Đang hiện", tone: "live", key: "live" };
 }
 
+/** Tách ngày và giờ ra hai dòng cho cột hẹp. */
 function formatWhen(article) {
   const value = article.publish_at || article.updated_at;
-  if (!value) return "";
-  return new Date(value).toLocaleString("vi-VN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  if (!value) return { date: "", time: "" };
+  const at = new Date(value);
+  if (Number.isNaN(at.getTime())) return { date: "", time: "" };
+  return {
+    date: at.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" }),
+    time: at.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }),
+  };
 }
+
+const statusFilters = [
+  ["all", "Tất cả"],
+  ["live", "Đang hiện"],
+  ["scheduled", "Hẹn lịch"],
+  ["draft", "Nháp"],
+];
 
 export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [scope, setScope] = useState("mine");
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const isAdmin = profile.role === "admin";
 
@@ -35,7 +44,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
 
     supabase
       .from("articles")
-      .select("id, slug, title, excerpt, cover_path, status, publish_at, updated_at, author_id, profiles!articles_author_id_fkey (full_name, email)")
+      .select("id, slug, title, cover_path, destinations, topics, status, publish_at, updated_at, author_id, profiles!articles_author_id_fkey (full_name, email)")
       .order("updated_at", { ascending: false })
       .then(({ data, error: queryError }) => {
         if (!alive) return;
@@ -49,16 +58,44 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
     };
   }, [reloadKey]);
 
-  const visible = useMemo(
+  const scoped = useMemo(
     () => (isAdmin && scope === "all" ? articles : articles.filter((item) => item.author_id === profile.id)),
     [articles, scope, isAdmin, profile.id],
   );
 
+  const visible = useMemo(() => {
+    const text = query.trim().toLocaleLowerCase();
+    return scoped.filter((article) => {
+      if (statusFilter !== "all" && statusOf(article).key !== statusFilter) return false;
+      if (!text) return true;
+      return `${article.title} ${(article.destinations || []).join(" ")} ${(article.topics || []).join(" ")}`
+        .toLocaleLowerCase()
+        .includes(text);
+    });
+  }, [scoped, query, statusFilter]);
+
+  const counts = useMemo(() => {
+    const result = { all: scoped.length, live: 0, scheduled: 0, draft: 0 };
+    scoped.forEach((article) => { result[statusOf(article).key] += 1; });
+    return result;
+  }, [scoped]);
+
+  const filtering = Boolean(query.trim()) || statusFilter !== "all";
+
   return (
     <div className="hlt-admin-list">
       <div className="hlt-admin-list-bar">
-        <div>
-          <h2>Bài viết</h2>
+        <h2>
+          Bài viết
+          {!loading && <span className="hlt-admin-count">{counts.all}</span>}
+        </h2>
+        <button type="button" className="hlt-admin-btn" onClick={onNew}>
+          Viết bài mới
+        </button>
+      </div>
+
+      {Boolean(scoped.length) && (
+        <div className="hlt-admin-toolbar">
           {isAdmin && (
             <div className="hlt-admin-scope" role="group" aria-label="Phạm vi">
               <button type="button" className={scope === "mine" ? "is-on" : ""} onClick={() => setScope("mine")}>
@@ -69,58 +106,122 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
               </button>
             </div>
           )}
+
+          <div className="hlt-admin-chips" role="group" aria-label="Lọc theo trạng thái">
+            {statusFilters.map(([key, label]) => (
+              <button
+                type="button"
+                key={key}
+                className={statusFilter === key ? "is-on" : ""}
+                onClick={() => setStatusFilter(key)}
+              >
+                {label}
+                <b>{counts[key]}</b>
+              </button>
+            ))}
+          </div>
+
+          <label className="hlt-admin-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m16 16 4.5 4.5" />
+            </svg>
+            <input
+              type="search"
+              placeholder="Tìm theo tiêu đề, điểm đến, chủ đề…"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+          </label>
         </div>
-        <button type="button" className="hlt-admin-btn" onClick={onNew}>
-          Viết bài mới
-        </button>
-      </div>
+      )}
 
       {error && <p className="hlt-admin-note is-error">{error}</p>}
       {loading && <p className="hlt-admin-note is-loading">Đang tải…</p>}
 
-      {!loading && !error && !visible.length && (
+      {!loading && !error && !scoped.length && (
         <div className="hlt-admin-empty">
           <p>Chưa có bài nào.</p>
           <button type="button" className="hlt-admin-btn" onClick={onNew}>Viết bài đầu tiên</button>
         </div>
       )}
 
-      <ul className="hlt-admin-rows">
-        {visible.map((article) => {
-          const badge = statusOf(article);
-          const mine = article.author_id === profile.id;
-          return (
-            <li key={article.id} className="hlt-admin-row">
-              <button className="hlt-admin-row-edit" type="button" onClick={() => onEdit(article)} disabled={!mine && !isAdmin}>
-                {article.cover_path ? (
-                  <img src={blogImageUrl(article.cover_path)} alt="" loading="lazy" />
-                ) : (
-                  <span className="hlt-admin-thumb-blank" />
-                )}
-                <span className="hlt-admin-row-copy">
-                  <strong>{article.title || "(chưa có tiêu đề)"}</strong>
-                  <small>
-                    <span className={`hlt-admin-badge is-${badge.tone}`}>{badge.label}</span>
-                    {formatWhen(article)}
-                    {isAdmin && !mine && article.profiles && <> · {article.profiles.full_name || article.profiles.email}</>}
-                  </small>
-                </span>
-              </button>
-                {badge.tone === "live" && (
-                  <a
-                    className="hlt-admin-row-link"
-                    href={`/blog/${article.slug}/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(event) => event.stopPropagation()}
+      {!loading && !error && Boolean(scoped.length) && !visible.length && (
+        <div className="hlt-admin-empty">
+          <p>Không có bài nào khớp bộ lọc.</p>
+          <button
+            type="button"
+            className="hlt-admin-btn is-ghost"
+            onClick={() => { setQuery(""); setStatusFilter("all"); }}
+          >
+            Bỏ bộ lọc
+          </button>
+        </div>
+      )}
+
+      {Boolean(visible.length) && (
+        <div className="hlt-admin-grid">
+          <div className="hlt-admin-grid-head" aria-hidden="true">
+            <span>Bài viết</span>
+            <span>Trạng thái</span>
+            <span>{filtering ? "Thời gian" : "Cập nhật"}</span>
+            <span />
+          </div>
+
+          <ul className="hlt-admin-rows">
+            {visible.map((article) => {
+              const badge = statusOf(article);
+              const when = formatWhen(article);
+              const mine = article.author_id === profile.id;
+              const tags = [...(article.destinations || []), ...(article.topics || [])];
+              const author = article.profiles?.full_name || article.profiles?.email;
+
+              return (
+                <li key={article.id} className="hlt-admin-row">
+                  <button
+                    className="hlt-admin-row-main"
+                    type="button"
+                    onClick={() => onEdit(article)}
+                    disabled={!mine && !isAdmin}
                   >
-                    Xem trên web
-                  </a>
-                )}
-            </li>
-          );
-        })}
-      </ul>
+                    {article.cover_path ? (
+                      <img src={blogImageUrl(article.cover_path)} alt="" loading="lazy" />
+                    ) : (
+                      <span className="hlt-admin-thumb-blank" aria-hidden="true" />
+                    )}
+                    <span className="hlt-admin-row-copy">
+                      <strong>{article.title || "(chưa có tiêu đề)"}</strong>
+                      <small>
+                        {tags.length ? tags.slice(0, 3).join(" · ") : "Chưa gắn điểm đến hay chủ đề"}
+                        {isAdmin && scope === "all" && author && <> &middot; {author}</>}
+                      </small>
+                    </span>
+                  </button>
+
+                  <span className="hlt-admin-row-status">
+                    <span className={`hlt-admin-badge is-${badge.tone}`}>{badge.label}</span>
+                  </span>
+
+                  <span className="hlt-admin-row-when">
+                    <b>{when.date}</b>
+                    <i>{when.time}</i>
+                  </span>
+
+                  <span className="hlt-admin-row-actions">
+                    {badge.tone === "live" ? (
+                      <a href={`/blog/${article.slug}/`} target="_blank" rel="noopener noreferrer">
+                        Xem
+                      </a>
+                    ) : (
+                      <span className="hlt-admin-row-dash" aria-hidden="true">—</span>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

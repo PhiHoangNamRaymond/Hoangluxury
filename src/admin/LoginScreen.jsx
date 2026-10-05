@@ -5,7 +5,6 @@ import { logoGoldUrl } from "../config/assets.js";
 export default function LoginScreen({ notice }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState("signIn"); // signIn | reset
   const [status, setStatus] = useState({ state: "idle", message: "" });
 
   const submit = async (event) => {
@@ -13,18 +12,6 @@ export default function LoginScreen({ notice }) {
     if (status.state === "loading") return;
     setStatus({ state: "loading", message: "" });
     try {
-      if (mode === "reset") {
-        const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-          redirectTo: `${window.location.origin}/admin/?type=recovery`,
-        });
-        setStatus(
-          error
-            ? { state: "error", message: "Không gửi được yêu cầu. Hãy thử lại sau hoặc liên hệ quản trị viên." }
-            : { state: "success", message: "Nếu email có tài khoản, bạn sẽ nhận được link đặt lại mật khẩu. Hãy kiểm tra hộp thư." },
-        );
-        return;
-      }
-
       const { error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
@@ -58,25 +45,19 @@ export default function LoginScreen({ notice }) {
           />
         </label>
 
-        {mode === "signIn" && (
-          <label>
-            <span>Mật khẩu</span>
-            <input
-              required
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </label>
-        )}
+        <label>
+          <span>Mật khẩu</span>
+          <input
+            required
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </label>
 
         <button type="submit" disabled={status.state === "loading"}>
-          {status.state === "loading"
-            ? "Đang xử lý…"
-            : mode === "signIn"
-              ? "Đăng nhập"
-              : "Gửi email đặt lại mật khẩu"}
+          {status.state === "loading" ? "Đang xử lý…" : "Đăng nhập"}
         </button>
 
         {status.message && (
@@ -85,16 +66,9 @@ export default function LoginScreen({ notice }) {
           </p>
         )}
 
-        <button
-          type="button"
-          className="hlt-admin-link-btn"
-          onClick={() => {
-            setMode(mode === "signIn" ? "reset" : "signIn");
-            setStatus({ state: "idle", message: "" });
-          }}
-        >
-          {mode === "signIn" ? "Quên mật khẩu?" : "Quay lại đăng nhập"}
-        </button>
+        <p className="hlt-admin-login-help">
+          Quên mật khẩu? Nhờ quản trị viên đặt lại giúp trong mục Tài khoản.
+        </p>
       </form>
     </div>
   );

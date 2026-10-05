@@ -464,7 +464,7 @@ export default function Header() {
           </div>
 
           {/* Các mục còn lại lấy thẳng từ navLinks để panel mobile luôn khớp
-              với menu trên header (Photo, Blog, Catalog, Booking, Feedback, About). */}
+              với menu trên header (Photo, Blog, Catalog, Booking, About). */}
           {navLinks.filter(([, href]) => !href.startsWith("#")).map(([label, href]) => {
             const resolvedHref = navigationHref(href);
             const isActive = activeHref === href;

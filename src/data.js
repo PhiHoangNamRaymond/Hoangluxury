@@ -86,7 +86,6 @@ export const navLinks = [
   ["Catalog", catalogPageUrl],
   ["Booking", "/booking/"],
   ["Photo", photoPageUrl],
-  ["Feedback", feedbackPageUrl],
   ["Blog", "/blog/"],
   ["About Us", aboutPageUrl],
 ];

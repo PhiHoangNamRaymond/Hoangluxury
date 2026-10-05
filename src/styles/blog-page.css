@@ -64,11 +64,9 @@
 .hlt-blog-card-image { aspect-ratio: 1.8; width: 100%; overflow: hidden; }
 .hlt-blog-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
 .hlt-blog-card:hover img { transform: scale(1.04); }
-.hlt-blog-card-copy { padding: 13px 13px 12px; display: flex; flex: 1; flex-direction: column; align-items: start; }
+.hlt-blog-card-copy { padding: 13px 13px 16px; display: flex; flex: 1; flex-direction: column; align-items: start; }
 .hlt-blog-card-copy h3 { font-size: 22px; margin: 10px 0 9px; }
 .hlt-blog-card-copy p { font-size: 11px; line-height: 1.55; color: #60707b; margin-bottom: 16px; }
-.hlt-blog-card-link { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: #596b71; display: flex; width: 100%; align-items: center; justify-content: space-between; margin-top: auto; }
-.hlt-blog-card-link svg { width: 17px; color: #ac843c; }
 .hlt-blog-load { display: flex; justify-content: center; padding-top: 22px; }
 .hlt-blog-dark-btn { display: inline-flex; gap: 10px; align-items: center; justify-content: center; background: #05281f; color: white; border: 1px solid #b7974e; border-radius: 4px; min-height: 42px; padding: 10px 28px; text-transform: uppercase; font: 700 11px "Lato",sans-serif; letter-spacing: .08em; }
 .hlt-blog-dark-btn svg { width: 17px; color: #e5bf67; }
@@ -180,3 +178,23 @@
 /* Ô ảnh trống khi bài chưa có ảnh bìa, giữ đúng khung để lưới không lệch. */
 .hlt-blog-rank-blank { width: 76px; height: 52px; border-radius: 3px; background: #efe7da; flex: none; }
 .hlt-blog-card-image:empty { aspect-ratio: 16 / 10; background: #efe7da; }
+
+/* Thẻ bài: hàng nhãn gồm địa điểm (viên vàng) và chủ đề (chữ thường).
+   Bỏ dòng "Read story" nên đoạn tóm tắt là phần cuối, không cần đẩy xuống đáy. */
+.hlt-blog-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 0;
+}
+
+.hlt-blog-card-topic {
+  color: #60707b;
+  font: 600 10.5px/1.2 "Lato", sans-serif;
+  letter-spacing: .04em;
+}
+
+.hlt-blog-card-copy p:not(.hlt-blog-card-meta) {
+  margin-bottom: 0;
+}
