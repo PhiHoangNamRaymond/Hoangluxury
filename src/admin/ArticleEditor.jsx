@@ -14,6 +14,11 @@ function toLocalInput(iso) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
+/* Mốc sớm nhất cho ô hẹn lịch: chặn người viết chọn nhầm giờ đã qua. */
+function nowLocalInput() {
+  return toLocalInput(new Date().toISOString());
+}
+
 function fromLocalInput(value) {
   if (!value) return null;
   const date = new Date(value);
@@ -152,6 +157,15 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
       return;
     }
 
+    if (nextStatus === "published" && form.publish_at && new Date(form.publish_at) <= new Date()) {
+      const when = new Date(form.publish_at).toLocaleString("vi-VN");
+      const message = `Giờ hẹn ${when} đã trôi qua nên bài sẽ hiện trên web ngay bây giờ.\n\nBấm OK để đăng ngay, hoặc Cancel để chọn lại giờ khác.`;
+      if (!window.confirm(message)) {
+        setStatus({ state: "error", message: "Giờ hẹn đã qua. Hãy chọn một mốc trong tương lai rồi lưu lại." });
+        return;
+      }
+    }
+
     setStatus({ state: "loading", message: "Đang lưu…" });
 
     const payload = {
@@ -199,7 +213,15 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
     onDone();
   };
 
-  const scheduled = form.publish_at && new Date(form.publish_at) > new Date();
+  /* Giờ hẹn có thể trôi qua trong lúc đang soạn bài, nên nhãn và nút phải
+     tự tính lại theo đồng hồ chứ không chỉ khi form thay đổi. */
+  const [clock, setClock] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = window.setInterval(() => setClock(Date.now()), 15_000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const scheduled = Boolean(form.publish_at) && new Date(form.publish_at).getTime() > clock;
+  const stalePlan = Boolean(form.publish_at) && !scheduled;
 
   if (!ready) return <p className="hlt-admin-note is-loading">Đang tải bài…</p>;
   if (loadFailed) return <div><p className="hlt-admin-note is-error">{status.message}</p><button type="button" className="hlt-admin-btn" onClick={onCancel}>Về danh sách</button></div>;
@@ -293,15 +315,23 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
               <span>Giờ đăng</span>
               <input
                 type="datetime-local"
+                min={nowLocalInput()}
                 value={toLocalInput(form.publish_at)}
                 onChange={(event) => update({ publish_at: fromLocalInput(event.target.value) })}
               />
               <small>
                 Để trống = đăng ngay. Giờ hiển thị theo múi giờ thiết bị. Bài hẹn lịch được đọc công khai sau giờ hẹn; trang đang mở tự cập nhật khoảng mỗi phút.
+                Đừng hẹn sát quá — mốc giờ có thể trôi qua trong lúc bạn còn đang soạn bài.
               </small>
             </label>
             {scheduled && (
               <p className="hlt-admin-note is-info">Bài sẽ tự lên web vào {new Date(form.publish_at).toLocaleString("vi-VN")}.</p>
+            )}
+            {stalePlan && (
+              <p className="hlt-admin-note is-error">
+                Giờ hẹn {new Date(form.publish_at).toLocaleString("vi-VN")} đã trôi qua. Lưu bây giờ là bài lên web ngay;
+                muốn hẹn tiếp thì chọn lại một mốc xa hơn.
+              </p>
             )}
             <label className="hlt-admin-check">
               <input type="checkbox" checked={form.featured} onChange={(event) => update({ featured: event.target.checked })} />

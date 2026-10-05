@@ -98,12 +98,12 @@ test("Apps Script responses/logs do not expose internal errors or submitted data
   assert.equal(JSON.parse(c.doPost({...event,parameter:{website:"bot"}}).text).ok,false,"honeypot cannot bypass proxy authentication");
 });
 
-test("invitation fails closed on missing limiter, rejects MIME, and logs only security metadata", async () => {
+test("account creation fails closed on missing limiter, rejects MIME/weak passwords, and logs only security metadata", async () => {
   const events=[]; let invites=0; let limit={data:false};
   const query={select:()=>query,eq:()=>query,maybeSingle:async()=>({data:{role:"admin",active:true}})};
-  const client={auth:{getUser:async()=>({data:{user:{id:"actor"}}}),admin:{inviteUserByEmail:async()=>{invites++;return {};}}},from:()=>query,rpc:async()=>limit};
+  const client={auth:{getUser:async()=>({data:{user:{id:"actor"}}}),admin:{createUser:async()=>{invites++;return {};}}},from:()=>query,rpc:async()=>limit};
   const serve=createInviteHandler({client,allowedOrigins:"https://hoangluxury.travel",logger:(event)=>events.push(event)});
-  const request=(type="application/json")=>new Request("https://api.invalid",{method:"POST",headers:{Origin:"https://hoangluxury.travel",Authorization:"Bearer fake-sensitive-token","Content-Type":type},body:JSON.stringify({email:"private@example.invalid"})});
+  const request=(type="application/json")=>new Request("https://api.invalid",{method:"POST",headers:{Origin:"https://hoangluxury.travel",Authorization:"Bearer fake-sensitive-token","Content-Type":type},body:JSON.stringify({email:"private@example.invalid",password:"Qx7mRt2PvLd9KwNs"})});
   assert.equal((await serve(request("text/plain"))).status,415);
   assert.equal((await serve(request())).status,429);
   limit={error:new Error("internal DB error")};

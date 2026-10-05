@@ -94,52 +94,65 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
 @media (min-width: 961px) {
   .hlt-footer-compact .hlt-footer-brand {
-    grid-template-columns: 92px minmax(0, 1fr);
-    grid-template-rows: 31px 16px auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
     align-content: start;
     column-gap: 8px;
-    padding-top: 0;
+    padding-top: 6px;
   }
 
-  .hlt-footer-compact .hlt-footer-brand img {
-    grid-column: 1;
-    grid-row: 1 / 4;
-    align-self: start;
-    transform: translateY(-17px);
+  /* Keep the mark and wordmark together, even when the web font is unavailable. */
+  .hlt-footer-compact .hlt-footer-brand-heading {
+    --footer-brand-logo-size: clamp(40px, calc(10vw - 56px), 56px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    min-height: 56px;
+    /* Align the visible gold mark, accounting for the PNG's transparent left edge. */
+    padding-left: calc(20px - var(--footer-brand-logo-size) * .19);
   }
 
-  .hlt-footer-compact .hlt-footer-brand strong {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
+  .hlt-footer-compact .hlt-footer-brand-heading img {
+    flex: 0 0 auto;
+    width: var(--footer-brand-logo-size);
+    height: auto;
+    aspect-ratio: 1;
+    margin: 0;
+    transform: none;
   }
 
-  .hlt-footer-compact .hlt-footer-brand span {
-    grid-column: 2;
-    grid-row: 2;
+  .hlt-footer-compact .hlt-footer-brand-wordmark {
+    min-width: 0;
+    align-self: flex-start;
+  }
+
+  .hlt-footer-compact .hlt-footer-brand-wordmark strong {
+    font-size: clamp(18px, 1.8vw, 28px);
+    line-height: 1;
+  }
+
+  .hlt-footer-compact .hlt-footer-brand-wordmark span {
+    font-size: clamp(8px, .75vw, 12px);
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   .hlt-footer-compact .hlt-footer-brand p {
     grid-column: 1 / -1;
-    grid-row: 3;
-    margin: 31px 0 0 20px;
+    grid-row: 2;
+    margin: 8px 0 0 20px;
     max-width: none;
     white-space: nowrap;
   }
 
   .hlt-footer-compact .hlt-footer-licence {
-    grid-row: 4;
+    grid-row: 3;
     margin-left: 20px;
   }
 }
 
-/* Giấy phép kinh doanh vận tải, dưới đoạn mô tả của footer PC.
-   Cụm này (đoạn mô tả + khối giấy phép) từng bị kéo lên sát logo quá, hạ
-   xuống cho thoáng. */
-.hlt-footer-compact .hlt-footer-brand p {
-  margin-top: 24px;
-}
-
+/* Keep licence details below the description without moving the brand heading. */
 .hlt-footer-compact .hlt-footer-licence {
   grid-column: 1 / -1;
   justify-self: start;
@@ -203,6 +216,11 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     padding-top: 48px;
     padding-bottom: 42px;
     background-image: var(--booking-process-bg);
+  }
+
+  /* Fill the section so a bottom-aligned image cannot expose a blank band at the top. */
+  .hlt-fleet + .hlt-booking-showcase {
+    background-size: cover;
   }
 
   .hlt-booking-showcase-main {

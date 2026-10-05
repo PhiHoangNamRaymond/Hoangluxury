@@ -169,8 +169,8 @@ const RootPage = isAdminRoute
         ? () => <PhotoAlbumPage slug={albumSlug} />
         : pages[normalizedPath] || App;
 
-// Catalog và Booking có animation riêng. Mọi trang còn lại dùng transition
-// chung trong page-transition.css; toggle giúp trạng thái luôn đúng cả khi HMR.
+// Home hiển thị ngay, không chạy hiệu ứng trượt nội dung khi vào trang.
+// Các trang có transition riêng giữ nguyên; toggle cũng xóa class cũ khi HMR.
 const pagesWithOwnTransition = new Set([
   "/blog",
   "/about",
@@ -186,7 +186,7 @@ const pagesWithOwnTransition = new Set([
 ]);
 document.documentElement.classList.toggle(
   "hlt-page-anim",
-  !journey && !albumSlug && !postSlug && !isAdminRoute && !pagesWithOwnTransition.has(normalizedPath),
+  RootPage !== App && !journey && !albumSlug && !postSlug && !isAdminRoute && !pagesWithOwnTransition.has(normalizedPath),
 );
 
 createRoot(document.getElementById("root")).render(
