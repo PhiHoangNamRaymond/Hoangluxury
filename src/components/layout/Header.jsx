@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { logoUrl } from "../../config/assets.js";
 import { navLinks, routesMenu, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
@@ -63,14 +63,14 @@ export default function Header() {
     return Math.max(0, anchorRect.top + window.scrollY - headerHeight - headingGap);
   };
 
-  const scrollToSection = (target) => {
+  const scrollToSection = (target, onComplete) => {
     cancelScrollAnimation();
 
     const startPosition = window.scrollY;
     const targetPosition = sectionScrollTop(target);
     const distance = targetPosition - startPosition;
 
-    if (Math.abs(distance) < 1) return;
+    if (Math.abs(distance) < 1) { onComplete?.(); return; }
 
     const duration = Math.max(650, Math.min(1000, Math.abs(distance) * 0.42));
     let startTime;
@@ -93,6 +93,7 @@ export default function Header() {
         scrollAnimationFrame.current = requestAnimationFrame(animateScroll);
       } else {
         scrollAnimationFrame.current = null;
+        onComplete?.();
       }
     };
 
@@ -125,35 +126,48 @@ export default function Header() {
   // không chạy theo vị trí cuộn — cuộn qua các mục mà đèn vàng nhảy liên tục
   // thì rối mắt.
 
-  // Vào thẳng trang chủ kèm #section (bấm Services/Fleet từ Catalog, Photo…):
-  // nhảy một phát tới đúng mốc. Sau đó chỉ canh lại khi ảnh tải xong làm mốc
-  // lệch hẳn (>24px) — canh liên tục sẽ thành giật lên giật xuống.
-  useEffect(() => {
+  // Services/Fleet từ trang khác: bắt đầu ở đỉnh Home rồi dùng cùng animation
+  // với nút trên Home. Chỉ sửa lệch do ảnh/font sau khi cuộn đã hoàn tất.
+  useLayoutEffect(() => {
     if (!isHomePage) return undefined;
 
     const hash = window.location.hash;
     if (!hash || hash.length < 2) return undefined;
 
-    const target = document.querySelector(hash);
+    const target = document.getElementById(hash.slice(1));
     if (!target) return undefined;
 
     if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
+    const animateFromTop = ["#services", "#fleet"].includes(hash);
+    if (animateFromTop) window.scrollTo({ top: 0, behavior: "instant" });
 
     const DRIFT_TOLERANCE = 24;
     const MAX_CORRECTIONS = 2;
 
     let aligning = true;
+    let animating = false;
+    let initialPending = true;
     let corrections = 0;
     let frame = null;
     const timers = [];
 
     const align = (isFirstJump) => {
-      if (!aligning) return;
+      if (!aligning || animating || (!isFirstJump && initialPending)) return;
       if (frame !== null) cancelAnimationFrame(frame);
 
       frame = requestAnimationFrame(() => {
         frame = null;
         if (!aligning) return;
+        initialPending = false;
+
+        if (isFirstJump && animateFromTop) {
+          animating = true;
+          scrollToSection(target, () => {
+            animating = false;
+            align(false);
+          });
+          return;
+        }
 
         const top = sectionScrollTop(target);
 
@@ -225,6 +239,7 @@ export default function Header() {
   }, [isHomePage]);
 
   const handleNavigation = (event, href, resolvedHref) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     setMenuOpen(false);
     setMobileJourneysOpen(false);
     setActiveHref(href);
