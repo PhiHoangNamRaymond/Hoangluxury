@@ -385,3 +385,80 @@
 .hlt-article-body code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
 }
+
+/* ---------- Không tìm thấy bài / đang tải / lỗi ---------- */
+
+.hlt-article-missing {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  width: min(560px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 110px) 0 clamp(64px, 9vw, 130px);
+  text-align: center;
+}
+
+.hlt-article-missing-mark {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 4px;
+  border: 1px solid rgba(185, 138, 58, .4);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.hlt-article-missing-mark svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: #b98a3a;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hlt-article-missing h1 {
+  margin: 0;
+  color: #16232a;
+  font-family: "Cormorant", Georgia, serif;
+  font-size: clamp(27px, 3.1vw, 40px);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.hlt-article-missing p {
+  max-width: 420px;
+  margin: 0;
+  color: #4a5a62;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+}
+
+.hlt-article-missing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 22px;
+  margin-top: 10px;
+}
+
+.hlt-article-missing-actions button.hlt-article-cta {
+  border: 0;
+  cursor: pointer;
+}
+
+/* Footer có dải chuyển màu mặc định, các trang khác tắt bằng cách đặt CTA ngay
+   trước nó. Trang báo không tìm thấy bài không có CTA nên phải tắt trực tiếp. */
+.hlt-blog-site .hlt-footer.hlt-footer-compact::before {
+  content: none;
+}
+
+/* Nội dung ngắn thì đẩy footer xuống đáy màn hình thay vì lửng lơ giữa trang. */
+.hlt-article-missing {
+  min-height: calc(100vh - var(--hlt-header-height, 74px) - 360px);
+  align-content: center;
+}

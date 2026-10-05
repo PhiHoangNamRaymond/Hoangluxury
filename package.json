@@ -11,7 +11,7 @@
     "preview": "vite preview --host 0.0.0.0",
     "test:blog-security": "node --test tests/blog-security.test.mjs",
     "test:blog": "node --test tests/blog-security.test.mjs tests/blog-runtime.test.mjs tests/blog-components.test.mjs",
-    "test:security": "node --test tests/blog-security.test.mjs tests/blog-runtime.test.mjs tests/blog-components.test.mjs tests/project-security.test.mjs",
+    "test:security": "node --test tests/blog-security.test.mjs tests/blog-runtime.test.mjs tests/blog-components.test.mjs tests/project-security.test.mjs tests/forms-security.test.mjs tests/auth-sdk.test.mjs",
     "security:secrets": "node scripts/check-secrets.mjs",
     "security:audit": "npm audit --audit-level=moderate"
   },

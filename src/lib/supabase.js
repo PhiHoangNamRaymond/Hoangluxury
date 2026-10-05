@@ -15,15 +15,26 @@ export const initialAuthFlow = typeof window === "undefined"
   ? { flow: "", error: "" }
   : readAuthFlow(window.location.href);
 
-export const supabase = supabaseReady
+const adminPage = typeof window !== "undefined" && /^\/admin\/?$/.test(window.location.pathname);
+// Strip callback credentials immediately; do not keep them in history/referrers.
+if (typeof window !== "undefined" && (initialAuthFlow.callback || initialAuthFlow.error)) {
+  window.history.replaceState(null, "", window.location.pathname);
+}
+export const supabase = supabaseReady && adminPage
   ? createClient(url, anonKey, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
-        detectSessionInUrl: true,
+        detectSessionInUrl: false,
       },
     })
   : null;
+
+// Email verification must not overwrite the editor's existing persisted session.
+export const callbackSupabase = supabaseReady && adminPage
+  ? createClient(url, anonKey, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: "hlt-email-callback" },
+    }) : null;
 
 // Tuyệt đối không dùng phiên admin/writer khi đọc blog công khai.
 export const publicSupabase = supabaseReady
@@ -37,5 +48,5 @@ export function blogImageUrl(path) {
   if (!path) return "";
   if (/^https?:\/\//i.test(path)) return path;
   if (/^[a-z][a-z\d+.-]*:/i.test(path) || path.startsWith("//")) return "";
-  return supabase?.storage.from("blog-images").getPublicUrl(path).data.publicUrl || "";
+  return publicSupabase?.storage.from("blog-images").getPublicUrl(path).data.publicUrl || "";
 }

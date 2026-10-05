@@ -99,6 +99,13 @@ function doPost(event) {
     }
     const data = event && event.parameter ? event.parameter : {};
 
+    // This endpoint is public at Google's gateway, but writes are server-only.
+    // CAPTCHA is verified by forms-proxy; never accept a browser-supplied verdict.
+    requireProxy_(data.proxySecret);
+    if (event.parameters) Object.keys(event.parameters).forEach(function (key) {
+      if (event.parameters[key].length !== 1) throw new Error("Duplicate field");
+    });
+
     // Bẫy bot: nhận im lặng, không lưu.
     if (data.website) return jsonResponse_({ ok: true });
 
@@ -124,6 +131,8 @@ function saveBooking_(data) {
   lock.waitLock(10000);
 
   try {
+    const request = beginRequest_(data, "booking");
+    if (request.duplicate) return jsonResponse_({ ok: true });
     const sheet = getBookingSheet_();
     const headerRow = resolveHeaderRow_(sheet, BOOKING_HEADERS, DEFAULT_BOOKING_HEADER_ROW);
     ensureHeaders_(sheet, headerRow, BOOKING_HEADERS);
@@ -158,6 +167,7 @@ function saveBooking_(data) {
     sheet.getRange(targetRow, 1, 1, BOOKING_HEADERS.length).setValues([row]);
     formatBookingRow_(sheet, targetRow, 1);
     SpreadsheetApp.flush();
+    finishRequest_(request);
   } finally {
     lock.releaseLock();
   }
@@ -191,6 +201,9 @@ function saveFeedback_(data) {
   lock.waitLock(10000);
 
   try {
+    const request = beginRequest_(data, "feedback");
+    if (request.duplicate) return jsonResponse_({ ok: true });
+    consumeFeedbackToken_(data, request.key);
     const sheet = getFeedbackSheet_();
     const headerRow = resolveHeaderRow_(sheet, FEEDBACK_HEADERS, DEFAULT_FEEDBACK_HEADER_ROW);
     ensureHeaders_(sheet, headerRow, FEEDBACK_HEADERS);
@@ -202,6 +215,7 @@ function saveFeedback_(data) {
     sheet.getRange(targetRow, 2).setNumberFormat("0");
     sheet.getRange(targetRow, 3, 1, 2).setNumberFormat("@");
     SpreadsheetApp.flush();
+    finishRequest_(request);
   } finally {
     lock.releaseLock();
   }
@@ -415,13 +429,135 @@ function validateFieldBounds_(data) {
     luggage:300, departureDate:10, returnDate:10, flight:40, flightTimeZone:40,
     pickup:500, dropoff:500, journeyType:40, requirements:4000, bookingId:100,
     feedback:4000, experience:4000, rating:1, source:20, website:300,
-    submittedFrom:2048, clientTimestamp:40, form:20, noFlight:5 };
+    submittedFrom:2048, clientTimestamp:40, form:20, noFlight:5,
+    proxySecret:256, requestId:36, feedbackToken:64 };
   Object.keys(data).forEach(function (key) {
     if (!Object.prototype.hasOwnProperty.call(limits, key) ||
         String(data[key]).length > limits[key] || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(String(data[key]))) {
       throw new Error("Invalid field");
     }
   });
+}
+
+/* Security metadata stays in a separate private tab; existing columns unchanged.
+ * Pending records are deliberately not retried automatically after an uncertain
+ * write: operator reconciliation prevents duplicate bookings on partial failure.
+ */
+function requireProxy_(value) {
+  const expected = PropertiesService.getScriptProperties().getProperty("FORMS_PROXY_SECRET") || "";
+  if (expected.length < 32 || expected.length > 256 || !constantTimeEqual_(expected, String(value || ""))) throw new Error("Unauthorized proxy");
+}
+
+function constantTimeEqual_(a, b) {
+  let difference = a.length ^ b.length;
+  for (let i = 0; i < a.length; i += 1) difference |= a.charCodeAt(i) ^ (b.charCodeAt(i) || 0);
+  return difference === 0;
+}
+
+function securityHash_(value) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, String(value), Utilities.Charset.UTF_8)
+    .map(function (byte) { return ("0" + ((byte + 256) % 256).toString(16)).slice(-2); }).join("");
+}
+
+function requestFingerprint_(data) {
+  const ignored = ["proxySecret", "requestId", "submittedFrom", "clientTimestamp"];
+  const fields = Object.keys(data).filter(function (key) { return ignored.indexOf(key) < 0; }).sort()
+    .map(function (key) { return [key, String(data[key])]; });
+  return securityHash_(JSON.stringify(fields));
+}
+
+function beginRequest_(data, form) {
+  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(String(data.requestId || ""))) throw new Error("Invalid request ID");
+  const ledger = getSheetByProperty_("FORM_REQUESTS_SHEET_NAME", "Form Requests");
+  const headers = ["Request ID", "Fingerprint", "State", "Created At", "Form"];
+  ensureHeaders_(ledger, 1, headers);
+  const fingerprint = requestFingerprint_(data);
+  const count = ledger.getLastRow() - 1;
+  const records = count > 0 ? ledger.getRange(2, 1, count, 3).getDisplayValues() : [];
+  for (let i = 0; i < records.length; i += 1) {
+    if (records[i][0] !== data.requestId) continue;
+    if (records[i][1] !== fingerprint || records[i][2] !== "done") throw new Error("Conflicting or pending request");
+    return { duplicate: true };
+  }
+  if (count >= 10000) throw new Error("Request ledger requires operator maintenance");
+  enforceFormRate_(data, form);
+  if (form === "feedback") validateFeedbackToken_(data);
+  const row = ledger.getLastRow() + 1;
+  ledger.getRange(row,1,1,5).setValues([[data.requestId,fingerprint,"pending",new Date(),form]]);
+  SpreadsheetApp.flush();
+  return {ledger:ledger,row:row,key:data.requestId,duplicate:false};
+}
+
+function finishRequest_(request) {
+  request.ledger.getRange(request.row,3).setValues([["done"]]);
+  SpreadsheetApp.flush();
+}
+
+function enforceFormRate_(data, form) {
+  const properties = PropertiesService.getScriptProperties();
+  const now = Date.now();
+  const windowId = String(Math.floor(now / 3600000));
+  // HMAC-like salted identifier avoids storing customer phone numbers in logs.
+  const subject = securityHash_(properties.getProperty("FORMS_PROXY_SECRET") + ":" + form + ":" + (form === "booking" ? String(data.phone).replace(/^\+/, "") : data.feedbackToken));
+  const keys = ["form-rate:global", "form-rate:" + subject];
+  const limit = Number(properties.getProperty("FORM_HOURLY_LIMIT") || "100");
+  if (!Number.isInteger(limit) || limit < 1 || limit > 5000) throw new Error("Invalid rate configuration");
+  const all = properties.getProperties(); let liveSubjects = 0;
+  Object.keys(all).filter(function (key) { return key.indexOf("form-rate:") === 0; }).forEach(function (key) {
+    const record = JSON.parse(all[key]);
+    if (record.window !== windowId) properties.deleteProperty(key);
+    else if (key !== "form-rate:global") liveSubjects += 1;
+  });
+  if (liveSubjects >= 500 && !all[keys[1]]) throw new Error("Rate storage full");
+  keys.forEach(function (key,index) {
+    const saved = properties.getProperty(key);
+    const record = saved ? JSON.parse(saved) : {window:windowId,count:0};
+    if (record.count >= (index === 0 ? limit : 5)) throw new Error("Form rate limit");
+    properties.setProperty(key,JSON.stringify({window:windowId,count:record.count + 1}));
+  });
+}
+
+function validateFeedbackToken_(data) {
+  if (!/^[a-f0-9]{64}$/.test(String(data.feedbackToken || ""))) throw new Error("Feedback link required");
+  const key = "feedback-token:" + securityHash_(data.feedbackToken);
+  const saved = PropertiesService.getScriptProperties().getProperty(key);
+  const record = saved ? JSON.parse(saved) : null;
+  if (!record || record.expires < Date.now() || record.used || record.bookingId !== String(data.bookingId).trim()) throw new Error("Invalid feedback link");
+  return {key:key,record:record};
+}
+
+function consumeFeedbackToken_(data, requestId) {
+  const verified = validateFeedbackToken_(data);
+  verified.record.used = requestId;
+  PropertiesService.getScriptProperties().setProperty(verified.key,JSON.stringify(verified.record));
+}
+
+// Run by an operator in the editor, never exposed through doGet/doPost.
+// Select a booking row (not header) in the private Bookings tab first.
+function createFeedbackLinkFromSelection() {
+  const sheet = getBookingSheet_();
+  const active = getSpreadsheet_().getActiveSheet();
+  if (active.getSheetId() !== sheet.getSheetId()) throw new Error("Select a booking in Bookings first");
+  const row = active.getActiveRange().getRow();
+  const header = resolveHeaderRow_(sheet,BOOKING_HEADERS,DEFAULT_BOOKING_HEADER_ROW);
+  if (row <= header) throw new Error("Select a booking row");
+  const bookingId = String(sheet.getRange(row,1).getDisplayValue()).trim();
+  if (!/^HLT-[0-9]{6}-RKS00[1-5]-[0-9]{3,}$/.test(bookingId)) throw new Error("Invalid booking ID");
+  const lock = LockService.getScriptLock(); lock.waitLock(10000);
+  try {
+    const properties = PropertiesService.getScriptProperties();
+    const all = properties.getProperties(); let count = 0;
+    Object.keys(all).filter(function (key) { return key.indexOf("feedback-token:") === 0; }).forEach(function (key) {
+      const record = JSON.parse(all[key]);
+      if (record.expires < Date.now()) properties.deleteProperty(key); else count += 1;
+    });
+    if (count >= 1000) throw new Error("Feedback token storage full");
+    const token = (Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, "").toLowerCase();
+    properties.setProperty("feedback-token:" + securityHash_(token),JSON.stringify({bookingId:bookingId,expires:Date.now() + 7*86400000,used:null}));
+    const url = "https://hoangluxury.travel/feedback/?bookingId=" + encodeURIComponent(bookingId) + "&token=" + token;
+    // Private dialog, not execution logs or public endpoint.
+    SpreadsheetApp.getUi().alert("Guest feedback link (valid 7 days, one submission)",url,SpreadsheetApp.getUi().ButtonSet.OK);
+  } finally { lock.releaseLock(); }
 }
 
 function parseDate_(value, fieldName) {

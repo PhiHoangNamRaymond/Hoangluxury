@@ -5,6 +5,34 @@ import vm from "node:vm";
 import { readFile } from "node:fs/promises";
 import { publicEnvError, publicConfigError, safeCatalogUrl, validFormsEndpoint, formTextError } from "../src/lib/public-config.js";
 import { createInviteHandler } from "../supabase/functions/invite-writer/index.js";
+import { renderRoute } from "../scripts/render-route.mjs";
+import { acceptEmailCallback, installEmailSession } from "../src/lib/email-callback.js";
+
+test("SEO metadata is escaped literally without replacement amplification", () => {
+  const shell = '<html><head><title>Old</title><meta name="description" content="Old" /><link rel="canonical" href="https://old.invalid" /><meta property="og:title" content="Old" /><meta property="og:description" content="Old" /><meta property="og:url" content="Old" /></head><body>Keep me</body></html>';
+  for (const text of ["$'".repeat(100), "$& $`", '<script>"&']) {
+    const result = renderRoute(shell, "https://hoangluxury.travel", {path:"/blog/test/",title:text,description:text});
+    assert.equal((result.match(/<html>/g) || []).length, 1);
+    assert.ok(result.length < shell.length + text.length * 30 + 1000);
+    assert.ok(result.includes(text.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")));
+    assert.doesNotMatch(result, /<script>/);
+  }
+});
+
+test("email callback is verified in isolation and does not switch sessions until confirmed", async () => {
+  const calls = [];
+  const candidate = {user:{id:"target",email:"target@example.invalid"},access_token:"fixture-only",refresh_token:"fixture-refresh"};
+  const verifier = {auth:{verifyOtp:async (input) => { calls.push(input); return {data:{session:candidate}}; }}};
+  const client = {auth:{setSession:async () => {calls.push("install");return {data:{session:candidate}};}}};
+  await assert.rejects(acceptEmailCallback(verifier,{type:"recovery"}));
+  assert.equal(calls.length,0);
+  const verified = await acceptEmailCallback(verifier,{type:"recovery",token_hash:"a".repeat(64)});
+  assert.equal(calls.length,1);
+  assert.equal(verified.user.id,"target");
+  assert.equal((await installEmailSession(client,verified)).user.id,"target");
+  assert.equal(calls.at(-1),"install");
+  await assert.rejects(acceptEmailCallback({auth:{verifyOtp:async()=>({error:new Error("expired")})}},{type:"invite",token_hash:"b".repeat(64)}));
+});
 
 test("public env guards reject misplaced server keys and unsafe destinations without echoing secrets", () => {
   const fakeSecret = "sb_secret_ThisIsOnlyAnOfflineTestValue";
@@ -67,7 +95,7 @@ test("Apps Script responses/logs do not expose internal errors or submitted data
     assert.equal(output.ok,false); assert.doesNotMatch(JSON.stringify(output),/private-spreadsheet|guest@email/);
   }
   assert.doesNotMatch(logs.join(" "),/private-spreadsheet|guest@email/);
-  assert.equal(JSON.parse(c.doPost({...event,parameter:{website:"bot"}}).text).ok,true);
+  assert.equal(JSON.parse(c.doPost({...event,parameter:{website:"bot"}}).text).ok,false,"honeypot cannot bypass proxy authentication");
 });
 
 test("invitation fails closed on missing limiter, rejects MIME, and logs only security metadata", async () => {
@@ -91,7 +119,7 @@ test("production header configurations block scripts/frames and keep admin uncac
   const apache=await readFile(new URL("../public/.htaccess",import.meta.url),"utf8");
   const vercel=JSON.parse(await readFile(new URL("../vercel.json",import.meta.url),"utf8"));
   const headers=Object.fromEntries(vercel.headers[0].headers.map(({key,value})=>[key,value]));
-  assert.match(headers["Content-Security-Policy"],/script-src 'self';/);
+  assert.match(headers["Content-Security-Policy"],/script-src 'self' https:\/\/challenges.cloudflare.com;/);
   assert.doesNotMatch(headers["Content-Security-Policy"],/script-src[^;]*(unsafe-inline|unsafe-eval)/);
   for(const directive of ["object-src 'none'","base-uri 'none'","frame-ancestors 'none'","form-action 'none'"]) assert.ok(headers["Content-Security-Policy"].includes(directive));
   assert.equal(headers["Referrer-Policy"],"no-referrer");

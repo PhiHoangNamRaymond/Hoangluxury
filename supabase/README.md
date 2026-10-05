@@ -63,24 +63,43 @@ Authentication → URL Configuration:
 
 ```text
 https://hoangluxury.travel/admin/
-https://hoangluxury.travel/admin/?flow=invite
-https://hoangluxury.travel/admin/?flow=recovery
-http://localhost:5173/admin/
-http://localhost:5173/admin/?flow=invite
-http://localhost:5173/admin/?flow=recovery
+https://hoangluxury.travel/admin/?type=invite
+https://hoangluxury.travel/admin/?type=recovery
 ```
 
-Nếu dùng www/127.0.0.1 thì thêm cùng ba URL cho origin đó. Không thêm `.com` nếu
-khách không dùng. Không dùng wildcard rộng production. Giữ port local 5173.
+Nếu dùng www thì thêm cùng ba URL cho origin đó. Local/staging dùng project
+riêng với origin/port cụ thể, không thêm localhost vào project production.
+Không thêm `.com` nếu khách không dùng. Không dùng wildcard rộng production.
 
 Trong Authentication → Email / SMTP Settings, cấu hình **custom SMTP** để mời
 người ngoài organization và reset ổn định. Điền thông tin nhà cung cấp mail,
 sender email/name, xác minh miền gửi. Password SMTP chỉ lưu trên Supabase.
 Email mặc định bị giới hạn người nhận/tốc độ, không coi là SMTP production.
 
-Giữ email Invite/Reset dùng `{{ .ConfirmationURL }}` của Supabase. Không thay
-bằng link admin thiếu token. Web này xử lý implicit callback; không đổi sang PKCE
-hoặc mẫu OTP tùy biến mà chưa bổ sung code tương ứng.
+**Bắt buộc thay email templates trước khi dùng bản web mới.** Trong Authentication
+→ Email Templates, thay link chính của cả Invite User và Reset Password bằng:
+
+```html
+<a href="{{ .RedirectTo }}&amp;token_hash={{ .TokenHash }}">Confirm your email link</a>
+```
+
+Function mời gửi RedirectTo `/admin/?type=invite`; quên mật khẩu gửi
+`/admin/?type=recovery`. Template trên giữ query `type` rồi thêm TokenHash.
+Chỉ gửi email qua hai luồng này; lời mời tạo tay trong Dashboard có thể thiếu
+RedirectTo/query đúng. Không thay bằng link thiếu token hoặc dùng ConfirmationURL
+kiểu cũ (fragment access_token) — bản mới chủ động từ chối kiểu đó.
+
+Web không tự đăng nhập từ URL. Người nhận bấm kiểm tra link; Supabase xác minh
+token một lần trong client không persist, rồi web hiển thị **email tài khoản**.
+Chỉ khi xác nhận đúng tài khoản mới đổi phiên/đặt mật khẩu. Bấm Huỷ giữ phiên cũ;
+link đã kiểm tra có thể đã dùng, xin email mới. Token bị xóa khỏi thanh địa chỉ.
+Reload giữa chừng không giữ quyền đặt mật khẩu; yêu cầu link mới nếu cần.
+
+Trong Auth password settings, bật yêu cầu **current password** cho thay đổi từ
+phiên đăng nhập thông thường nếu project hỗ trợ. Web gửi current_password nhưng
+backend vẫn phải enforce; test recovery/invite hợp lệ có hoạt động với setting này.
+Không coi frontend reauthentication hoặc secure-change ngoại lệ phiên mới <24h
+là bằng chứng backend luôn yêu cầu mật khẩu cũ. Test riêng project staging trước.
 
 ## 5. Deploy mời writer — không cần backend trên Hostinger
 
@@ -90,10 +109,11 @@ hoặc mẫu OTP tùy biến mà chưa bổ sung code tương ứng.
 3. Thêm `BLOG_ALLOWED_ORIGINS`, giá trị một dòng:
 
 ```text
-https://hoangluxury.travel,http://localhost:5173
+https://hoangluxury.travel,https://www.hoangluxury.travel
 ```
 
-   Thêm www/127.0.0.1 chỉ nếu dùng, không có `/` cuối. Có thể bỏ local sau khi test.
+   Bỏ www nếu không dùng, không có `/` cuối. Dev/staging dùng cấu hình function
+   riêng; không thêm localhost vào production.
 4. Edge Functions → Deploy a new function → Via Editor; đặt tên **invite-writer**.
 5. Copy toàn bộ `supabase/functions/invite-writer/index.js` thay nội dung mặc định
    `index.ts` trong editor. JavaScript này hợp lệ trong TypeScript; chỉ cần một file.
@@ -115,7 +135,7 @@ trên Hostinger. Mỗi lần sửa function cần deploy lại; lưu nguồn tro
 
 Lấy **Project URL** (Connect / Data API tùy giao diện) và **Settings → API Keys →
 Publishable key**. Anon legacy cũng được. Trong `.env.local` ở gốc project,
-**giữ biến booking/catalog đang có**, thêm:
+giữ biến catalog đang có, thêm:
 
 ```dotenv
 VITE_SUPABASE_URL=https://your-project.supabase.co
@@ -127,6 +147,8 @@ hoặc database password. Hai giá trị public nằm trong bundle theo thiết 
 mới là bảo mật. Không đưa `BLOG_SERVER_KEY` vào frontend env.
 Build có bước chặn secret/service-role key trước khi Vite sinh bundle. Nếu đã
 upload/commit khóa trước đó, guard này không thu hồi khóa; phải đổi khóa riêng.
+Booking/feedback mới cần cấu hình thêm theo `google-apps-script/README.md`.
+Biến VITE_BOOKING_SHEET_ENDPOINT cũ không còn được form sử dụng.
 
 Terminal trong project:
 
@@ -150,7 +172,8 @@ Nếu port 5173 đang bận, dừng server cũ hoặc chạy chính xác:
 4. Đăng bài, reload blog; tìm kiếm/lọc/thẻ bài/link trực tiếp và tên tác giả đúng.
 5. Hẹn lịch vài phút tới: trước giờ không hiện, sau giờ reload sẽ hiện. Trang đang
    mở kiểm tra lại khoảng mỗi phút; giờ input là múi giờ thiết bị, không cron.
-6. Admin → Tài khoản → mời email mới làm Writer. Họ bấm email, đặt mật khẩu 15+
+6. Admin → Tài khoản → mời email mới làm Writer. Họ bấm email, kiểm tra link và
+   xác nhận đúng email hiển thị, đặt mật khẩu 15+
    ký tự hai lần, vào quản trị; không quản lý account/sửa bài người khác.
 7. Khóa writer: không ghi/upload được nữa, bài đã đăng còn. Mở khóa thì viết lại.
 8. Đổi mật khẩu (cần mật khẩu hiện tại); logout/login mới. Thử Quên mật khẩu →
@@ -194,7 +217,7 @@ callback: test bằng mạng được phép.
 | Invite 401 gateway | Verify JWT đã tắt, có bearer phiên user (không phải publishable key)? |
 | CORS/không gọi function | Tên invite-writer, allowed origin, đã deploy |
 | Không nhận email | SMTP, sender xác minh, spam, Auth logs, hạn mức |
-| Link sai/hết hạn | Redirect đúng origin/port/query, ConfirmationURL; xin link mới |
+| Link sai/hết hạn | Template TokenHash, RedirectTo đúng origin/port/query type; xin link mới |
 | Email gửi nhưng activation lỗi | Kiểm tra Auth users/profiles; kích hoạt đúng user, không mời lại liên tục |
 | Upload lỗi | JPG/PNG/WebP/GIF ≤5 MB, active, bucket/policy |
 | URL bài trả server 404 | SPA fallback và upload đúng root |

@@ -6,7 +6,9 @@ import { catalogBackgroundUrl } from "./config/assets.js";
 import { countries } from "./config/countries.js";
 import { dialCodes } from "./config/dial-codes.js";
 import { getBookingSource } from "./config/booking-source.js";
-import { validFormsEndpoint, formTextError } from "./lib/public-config.js";
+import { formTextError } from "./lib/public-config.js";
+import { validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
+import Turnstile from "./components/Turnstile.jsx";
 
 const initialForm = {
   departureDate: "",
@@ -27,8 +29,8 @@ const initialForm = {
   website: "",
 };
 
-const configuredBookingEndpoint = import.meta.env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
-const bookingEndpoint = validFormsEndpoint(configuredBookingEndpoint) ? configuredBookingEndpoint : "";
+const configuredBookingEndpoint = import.meta.env.VITE_FORMS_PROXY_URL?.trim();
+const bookingEndpoint = validFormsProxy(configuredBookingEndpoint) ? configuredBookingEndpoint : "";
 
 const bookingSteps = [
   { number: 1, label: "Journey Route", fields: ["departureDate", "returnDate", "pickup", "dropoff"] },
@@ -242,6 +244,9 @@ export default function BookingPage() {
   const [form, setForm] = useState(initialForm);
   const [currentStep, setCurrentStep] = useState(1);
   const [submission, setSubmission] = useState({ state: "idle", message: "" });
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [verificationReset, setVerificationReset] = useState(0);
+  const requestRef = useRef(null);
 
   const updateField = (event) => {
     const { checked, name, type, value } = event.target;
@@ -319,7 +324,7 @@ export default function BookingPage() {
       return;
     }
 
-    if (!bookingEndpoint) {
+    if (!bookingEndpoint || !turnstileToken) {
       setSubmission({ state: "error", message: "Online booking is being configured. Please contact us via WhatsApp." });
       return;
     }
@@ -327,16 +332,19 @@ export default function BookingPage() {
     setSubmission({ state: "loading", message: "Sending your booking request..." });
     // Gộp mã quốc gia vào số điện thoại trước khi gửi, ví dụ "+84839779888"
     const { phoneCode, ...rest } = form;
-    const payload = new URLSearchParams({
+    const fields = {
       ...rest,
+      form: "booking",
       phone: `${phoneCode}${form.phone}`,
       source: getBookingSource(),
-      submittedFrom: window.location.href,
-      clientTimestamp: new Date().toISOString(),
-    });
+      submittedFrom: window.location.origin + window.location.pathname,
+    };
+    const payload = { ...fields, requestId:requestIdFor(requestRef,fields), turnstileToken,
+      clientTimestamp:new Date().toISOString() };
 
     try {
-      await fetch(bookingEndpoint, { method: "POST", mode: "no-cors", credentials: "omit", keepalive: true, body: payload });
+      await submitForm(bookingEndpoint, payload);
+      requestRef.current = null;
       setForm(initialForm);
       setCurrentStep(1);
       setSubmission({
@@ -345,6 +353,8 @@ export default function BookingPage() {
       });
     } catch {
       setSubmission({ state: "error", message: "We could not send your request. Please try again or contact us via WhatsApp." });
+    } finally {
+      setTurnstileToken(""); setVerificationReset((value) => value + 1);
     }
   };
 
@@ -429,8 +439,10 @@ export default function BookingPage() {
             {currentStep < bookingSteps.length && <button className="is-next" type="button" onClick={goToNextStep}>Continue <span aria-hidden="true">→</span></button>}
           </div>
 
+          <Turnstile action="booking" onToken={setTurnstileToken} resetKey={verificationReset} />
+          {!bookingEndpoint && <p>Online booking is being configured. Please contact us via WhatsApp.</p>}
           <div className="hlt-book-actions">
-            <button type="submit" disabled={submission.state === "loading"}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
+            <button type="submit" disabled={submission.state === "loading" || !turnstileToken || !bookingEndpoint}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
           </div>
           {submission.message && submission.state !== "success" && <p className={`hlt-book-status is-${submission.state}`} role="status" aria-live="polite">{submission.message}</p>}

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { journeys } from "../src/config/journeys.js";
 import { photoAlbumRows } from "../src/config/photo-album-list.js";
 import { fetchPublicBlog } from "../src/lib/public-blog.js";
+import { renderRoute } from "./render-route.mjs";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = resolve(projectRoot, "dist");
@@ -127,42 +128,10 @@ for (const article of blogArticles) {
   });
 }
 
-const escapeAttribute = (value) =>
-  value
-    .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-
-function renderRoute({ path, title, description, private: isPrivate }) {
-  const url = `${origin}${path}`;
-  const safeTitle = escapeAttribute(title);
-  const safeDescription = escapeAttribute(description);
-  const safeUrl = escapeAttribute(url);
-
-  const html = shell
-    .replace(/<title>.*?<\/title>/s, `<title>${safeTitle}</title>`)
-    .replace(
-      /<meta\s+name="description"\s+content="[^"]*"\s*\/>/s,
-      `<meta name="description" content="${safeDescription}" />`,
-    )
-    .replace(/<link rel="canonical" href="[^"]*"\s*\/>/, `<link rel="canonical" href="${safeUrl}" />`)
-    .replace(
-      /<meta property="og:title" content="[^"]*"\s*\/>/,
-      `<meta property="og:title" content="${safeTitle}" />`,
-    )
-    .replace(
-      /<meta\s+property="og:description"\s+content="[^"]*"\s*\/>/s,
-      `<meta property="og:description" content="${safeDescription}" />`,
-    )
-    .replace(/<meta property="og:url" content="[^"]*"\s*\/>/, `<meta property="og:url" content="${safeUrl}" />`);
-  return isPrivate ? html.replace("</head>", '<meta name="robots" content="noindex, nofollow" /></head>') : html;
-}
-
 for (const route of routes) {
   const outputPath = resolve(distDir, route.path.slice(1), "index.html");
   await mkdir(dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, renderRoute(route), "utf8");
+  await writeFile(outputPath, renderRoute(shell, origin, route), "utf8");
 }
 
 console.log(`Generated ${routes.length} route-specific HTML files.`);
