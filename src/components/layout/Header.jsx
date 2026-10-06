@@ -126,7 +126,7 @@ export default function Header() {
   // không chạy theo vị trí cuộn — cuộn qua các mục mà đèn vàng nhảy liên tục
   // thì rối mắt.
 
-  // Services/Fleet từ trang khác: bắt đầu ở đỉnh Home rồi dùng cùng animation
+  // Services/Fleet/Routes từ trang khác: bắt đầu ở đỉnh Home rồi dùng cùng animation
   // với nút trên Home. Chỉ sửa lệch do ảnh/font sau khi cuộn đã hoàn tất.
   useLayoutEffect(() => {
     if (!isHomePage) return undefined;
@@ -138,7 +138,7 @@ export default function Header() {
     if (!target) return undefined;
 
     if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
-    const animateFromTop = ["#services", "#fleet"].includes(hash);
+    const animateFromTop = ["#services", "#fleet", "#routes"].includes(hash);
     if (animateFromTop) window.scrollTo({ top: 0, behavior: "instant" });
 
     const DRIFT_TOLERANCE = 24;
@@ -406,23 +406,32 @@ export default function Header() {
           })}
 
           <div className="hlt-mobile-journey-group">
-            <button
-              className={`hlt-mobile-nav-link hlt-mobile-nav-toggle${activeHref === "/journeys/" ? " is-active" : ""}`}
-              type="button"
-              aria-expanded={mobileJourneysOpen}
-              aria-controls="mobile-journey-menu"
-              onClick={() => setMobileJourneysOpen((open) => !open)}
-            >
-              {activeHref === "/journeys/" && <span className="hlt-mobile-nav-active-bar" />}
-              <span className="hlt-mobile-nav-label">Routes</span>
-              <svg
-                className={`hlt-mobile-nav-caret${mobileJourneysOpen ? " is-open" : ""}`}
-                viewBox="0 0 12 12"
-                aria-hidden="true"
+            <div className="hlt-mobile-route-row">
+              <a
+                className={`hlt-mobile-nav-link${activeHref === "#routes" || activeHref === "/journeys/" ? " is-active" : ""}`}
+                href={navigationHref("#routes")}
+                onClick={(event) => handleNavigation(event, "#routes", navigationHref("#routes"))}
               >
-                <path d="m3 4.5 3 3 3-3" />
-              </svg>
-            </button>
+                {(activeHref === "#routes" || activeHref === "/journeys/") && <span className="hlt-mobile-nav-active-bar" />}
+                <span className="hlt-mobile-nav-label">Routes</span>
+              </a>
+              <button
+                className="hlt-mobile-nav-link hlt-mobile-nav-toggle hlt-mobile-route-toggle"
+                type="button"
+                aria-label={mobileJourneysOpen ? "Close routes menu" : "Open routes menu"}
+                aria-expanded={mobileJourneysOpen}
+                aria-controls="mobile-journey-menu"
+                onClick={() => setMobileJourneysOpen((open) => !open)}
+              >
+                <svg
+                  className={`hlt-mobile-nav-caret${mobileJourneysOpen ? " is-open" : ""}`}
+                  viewBox="0 0 12 12"
+                  aria-hidden="true"
+                >
+                  <path d="m3 4.5 3 3 3-3" />
+                </svg>
+              </button>
+            </div>
 
             <div
               id="mobile-journey-menu"
@@ -479,7 +488,7 @@ export default function Header() {
           </div>
 
           {/* Các mục còn lại lấy thẳng từ navLinks để panel mobile luôn khớp
-              với menu trên header (Photo, Blog, Catalog, Booking, About). */}
+              với menu trên header (Catalog, Booking, Feedback, Photo, Blog, About). */}
           {navLinks.filter(([, href]) => !href.startsWith("#")).map(([label, href]) => {
             const resolvedHref = navigationHref(href);
             const isActive = activeHref === href;

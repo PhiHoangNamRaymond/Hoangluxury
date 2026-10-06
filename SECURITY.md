@@ -22,7 +22,7 @@ proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
 | A03 Supply chain | Lockfile, npm audit, reproducible npm ci | Audit continuously; enable Dependabot and secret scanning in GitHub |
 | A04 Cryptography | HTTPS endpoints, server-key build guard; no custom password hashing | TLS Full (strict), origin certificate; Supabase encrypts/stores passwords, secure backups |
 | A05 Injection | React escaping, one DOMPurify renderer, no executable Markdown HTML; parameterized SDK queries; Sheets formula escaping + VM regression tests | No arbitrary server code/file execution; validate upload bytes server-side if assurance required |
-| A06 Insecure design | DB-level article bounds; atomic invitation limiter; forms CAPTCHA/secret/rate/idempotency controls, one-time feedback links | Deploy/configure/test both form servers; quota, retention and transaction migration planning |
+| A06 Insecure design | DB-level article bounds; atomic invitation limiter; forms CAPTCHA/secret/rate/idempotency controls; public feedback with manually entered IDs | Deploy/configure/test both form servers; quota, retention and transaction migration planning |
 | A07 Authentication | Verified bearer + active role; isolated email-token verification with explicit account confirmation; ordinary changes submit current_password; new passwords 15–128 characters | Change email templates; enforce backend current-password/minimum length; Auth rate limits; CMS MFA/AAL2 not implemented |
 | A08 Integrity | Writer cannot assign another author or own role; metadata cannot grant privileges; upload paths UUID + random ID, SVG/HTML denied | Signed/reviewed releases; inspect storage files, do not trust client MIME alone |
 | A09 Logging | Role/active changes recorded privately; invitation request ID/actor/status only, no token/email/body | Monitor Auth/Function logs, alert on 401/403/429/5xx, retention/access policy |
@@ -46,7 +46,8 @@ proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
    Turnstile, matching server secret, Apps Script New version and forms-proxy.
    Existing columns remain, a private request ledger is added. Frontend requires
    proxy URL and public site key; deploying only UI leaves forms closed. Feedback
-   requires an operator-issued one-time link. Do not restore an unprotected GAS
+   is public by owner request, not proof of a real booking; update GAS as well as
+   the UI when migrating from invitation links. Do not restore an unprotected GAS
    version as a workaround. Reconcile pending writes before manually retrying.
 5. Follow the updated email-template migration in `supabase/README.md`: TokenHash
    and exact `?type=invite/recovery` redirects, no automatic implicit callback.
@@ -93,7 +94,10 @@ proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
   within the page, not a browser reload. The Sheet ledger provides deduplication,
   not a DB transaction; uncertain pending writes fail closed and need reconciliation.
   At 10,000 ledger records, writes stop pending reviewed maintenance/DB migration.
-  Feedback links are bearer capabilities: holders can submit; keep delivery private.
+  Feedback no longer requires invitation links, per owner request. Anyone passing
+  CAPTCHA can submit an entered Booking ID; no customer/booking ownership is
+  verified. Per-ID rate limiting is not identity verification and IDs can be
+  changed; preserve the global cap and moderate feedback before using it publicly.
 - Storage bucket is public, including draft images. MIME/size limits and UUID paths
   are enforced, but content sniffing/re-encoding/AV on a trusted server is not
   implemented. Never store confidential files/customer documents there.

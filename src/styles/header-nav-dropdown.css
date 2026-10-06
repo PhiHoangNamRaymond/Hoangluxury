@@ -362,6 +362,23 @@
   flex: 1;
 }
 
+.hlt-mobile-route-row {
+  display: flex;
+  border-bottom: 1px solid rgba(197, 161, 90, 0.12);
+}
+
+.hlt-mobile-route-row > .hlt-mobile-nav-link {
+  flex: 1;
+  border-bottom: 0;
+}
+
+.hlt-mobile-route-row > .hlt-mobile-route-toggle {
+  flex: 0 0 44px;
+  width: 44px;
+  min-height: 44px;
+  justify-content: center;
+}
+
 .hlt-mobile-nav-caret {
   width: 13px;
   height: 13px;

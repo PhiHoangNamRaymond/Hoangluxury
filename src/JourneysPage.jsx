@@ -312,13 +312,10 @@ export default function JourneysPage() {
         {/* Khối khép lại danh sách tuyến, dẫn khách sang form đặt xe. */}
         <section className="hlt-journeys-outro">
           <div className="hlt-container">
-            {/* Hoa gió: hai ngôi sao 4 cánh lồng nhau, lệch 45 độ, trong một vòng tròn. */}
-            <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} alt="" aria-hidden="true" />
+            <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} width="1254" height="1254" loading="lazy" decoding="async" alt="" aria-hidden="true" />
 
             <h2 className="hlt-journeys-outro-title">
-              <span className="hlt-journeys-outro-rule" aria-hidden="true" />
               Looking for another destination?
-              <span className="hlt-journeys-outro-rule" aria-hidden="true" />
             </h2>
 
             <p className="hlt-journeys-outro-text">

@@ -595,6 +595,7 @@
 .hlt-admin-editor-main { display: grid; gap: 16px; }
 
 .hlt-admin-field { display: grid; gap: 5px; }
+.hlt-admin-field-note { margin: 0; color: var(--ad-muted); font-size: 12.5px; line-height: 1.6; }
 .hlt-admin-field > span { font-size: 12px; font-weight: 700; color: #4a5a62; }
 .hlt-admin-field small { color: var(--ad-muted); font-size: 12px; }
 .hlt-admin-field small b { color: var(--ad-gold-dark); }

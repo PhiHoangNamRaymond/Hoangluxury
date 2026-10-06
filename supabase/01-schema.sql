@@ -196,14 +196,14 @@ create policy "articles_public_read"
   to anon
   using (public.article_is_live(status, publish_at));
 
--- Người đã đăng nhập: thấy bài của mình, bài đã lên, và admin thấy tất cả.
+-- Người đã đăng nhập: cả nhóm biên tập thấy mọi bài, kể cả nháp của người khác.
 drop policy if exists "articles_member_read" on public.articles;
 create policy "articles_member_read"
   on public.articles for select
   to authenticated
   using (
     public.article_is_live(status, publish_at)
-    or author_id = auth.uid()
+    or public.is_active_member()
     or public.is_admin()
   );
 
@@ -214,13 +214,15 @@ create policy "articles_insert_own"
   to authenticated
   with check (author_id = auth.uid() and public.is_active_member());
 
--- Sửa: bài của mình, hoặc admin sửa mọi bài.
+-- Sửa: mọi thành viên đang hoạt động sửa được mọi bài. Đổi tác giả thì không —
+-- xem trigger articles_lock_author trong 05-writer-collaboration.sql.
 drop policy if exists "articles_update_own_or_admin" on public.articles;
-create policy "articles_update_own_or_admin"
+drop policy if exists "articles_update_member" on public.articles;
+create policy "articles_update_member"
   on public.articles for update
   to authenticated
-  using ((author_id = auth.uid() and public.is_active_member()) or public.is_admin())
-  with check ((author_id = auth.uid() and public.is_active_member()) or public.is_admin());
+  using (public.is_active_member() or public.is_admin())
+  with check (public.is_active_member() or public.is_admin());
 
 -- Xoá: bài của mình, hoặc admin xoá mọi bài.
 drop policy if exists "articles_delete_own_or_admin" on public.articles;

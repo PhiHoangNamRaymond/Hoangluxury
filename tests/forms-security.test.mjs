@@ -12,6 +12,36 @@ const secret = "offline-fixture-not-a-live-secret-123456789";
 const proxyUrl = "https://fixture.supabase.co/functions/v1/forms-proxy";
 const booking = {form:"booking",fullName:"Offline Guest",phone:"+84839779888",departureDate:"2026-10-20",pickup:"Airport",dropoff:"Hotel",passengers:"4",journeyType:"One-way"};
 
+test("booking free-text fields inherit disabled browser spellcheck and autocorrect", async () => {
+  const source = await readFile(new URL("../src/BookingPage.jsx", import.meta.url), "utf8");
+  assert.match(source, /<form[^>]+spellCheck=\{false\}[^>]+autoCorrect="off"/);
+  assert.doesNotMatch(source, /spellCheck=\{true\}|autoCorrect="on"/);
+});
+
+test("booking phone input accepts only digits and caps typed/pasted values at 15", async () => {
+  const source = await readFile(new URL("../src/BookingPage.jsx", import.meta.url), "utf8");
+  const start = source.indexOf("const updateField =");
+  const end = source.indexOf("const closeSuccessPopup", start);
+  assert.ok(start >= 0 && end > start);
+  const handlerSource = source.slice(start, end);
+  assert.match(source, /pattern="\[0-9\]\{6,15\}" maxLength="15"/);
+  for (const [value, expected] of [
+    ["123456789012345", "123456789012345"],
+    ["12345678901234567890", "123456789012345"],
+    ["123 456-78901234567890", "123456789012345"],
+    ["abc123xyz456", "123456"],
+    ["", ""],
+  ]) {
+    let form = {phone:""};
+    vm.runInNewContext(handlerSource + '\nupdateField(event);', {
+      event:{target:{name:"phone",type:"tel",value}},
+      setForm:(update) => { form = update(form); },
+    });
+    assert.equal(form.phone, expected);
+    assert.ok(form.phone.length <= 15);
+  }
+});
+
 async function fixture() {
   const props = new Map([["FORMS_PROXY_SECRET",secret]]);
   const sheets = new Map();
@@ -52,20 +82,69 @@ test("GAS denies direct writes and deduplicates identical bookings without accep
   assert.equal(f.sheets.get("Bookings").rows.length,3);
 });
 
-test("GAS rejects forged/expired/mismatched feedback and permits one signed-capability submission plus identical retry",async () => {
+test("GAS accepts public feedback with a manually entered ID and deduplicates retries without a booking lookup",async () => {
   const f = await fixture();
-  const token = "a".repeat(64), bookingId = "HLT-051026-RKS001-001";
-  const data = {form:"feedback",bookingId,rating:"5",feedback:"Offline test",proxySecret:secret,requestId:randomUUID(),feedbackToken:token};
-  assert.equal(f.post(data).ok,false);
-  const key = "feedback-token:" + f.context.securityHash_(token);
-  f.props.set(key,JSON.stringify({bookingId,expires:Date.now()+60000,used:null}));
-  assert.equal(f.post({...data,bookingId:"nonexistent"}).ok,false);
+  const data = {form:"feedback",bookingId:"test",rating:"5",feedback:"Offline test",proxySecret:secret,requestId:randomUUID()};
   assert.equal(f.post(data).ok,true);
   assert.equal(f.post(data).ok,true);
-  assert.equal(f.post({...data,requestId:randomUUID()}).ok,false);
   assert.equal(f.sheets.get("Feedback").rows.length,2);
-  f.props.set(key,JSON.stringify({bookingId,expires:Date.now()-1,used:null}));
-  assert.equal(f.post({...data,requestId:randomUUID()}).ok,false);
+  assert.deepEqual(f.sheets.get("Feedback").rows[1],["test",5,"Offline test",""]);
+  assert.equal(f.sheets.has("Bookings"),false,"feedback must not look up/create the bookings sheet");
+  assert.equal(f.post({...data,feedback:"Changed content"}).ok,false,"changed payload cannot reuse a request ID");
+  assert.equal(f.post({...data,requestId:randomUUID()}).ok,true,"new feedback is not limited to one lifetime submission per ID");
+  assert.equal(f.sheets.get("Feedback").rows.length,3);
+  assert.equal([...f.props.keys()].some((key)=>key.startsWith("feedback-token:")),false);
+});
+
+test("public feedback still requires the proxy secret and validates input and spreadsheet formulas",async () => {
+  const f = await fixture();
+  const fields = {form:"feedback",bookingId:"test",rating:"5",feedback:"Offline test",requestId:randomUUID()};
+  assert.equal(f.post(fields).ok,false);
+  for (const changes of [{proxySecret:"wrong"},{bookingId:" "},{feedback:" "},{rating:""},{rating:"0"},{rating:"6"},{rating:"1.5"},{feedback:"x".repeat(4001)},{bookingId:"x".repeat(101)}]) {
+    assert.equal(f.post({...fields,proxySecret:secret,...changes}).ok,false);
+  }
+  assert.equal(f.sheets.has("Feedback"),false);
+  assert.equal(f.post({...fields,proxySecret:secret,bookingId:"=123",feedback:"=SUM(1,2)"}).ok,true);
+  assert.deepEqual(f.sheets.get("Feedback").rows[1],["'=123",5,"'=SUM(1,2)",""]);
+});
+
+test("public feedback rate limits entered IDs, preserves the global cap and prevents uncertain retries",async () => {
+  const f = await fixture();
+  const fields = {form:"feedback",bookingId:"Manual-ID",rating:"5",feedback:"Offline test",proxySecret:secret};
+  for(let i=0;i<5;i++) assert.equal(f.post({...fields,requestId:randomUUID()}).ok,true);
+  assert.equal(f.post({...fields,bookingId:" manual-id ",requestId:randomUUID()}).ok,false);
+  assert.equal(f.post({...fields,bookingId:"another-id",requestId:randomUUID()}).ok,true);
+  assert.equal(f.sheets.get("Feedback").rows.length,7);
+  const global = await fixture(); global.props.set("FORM_HOURLY_LIMIT","2");
+  for(const bookingId of ["a","b"]) assert.equal(global.post({...fields,bookingId,requestId:randomUUID()}).ok,true);
+  assert.equal(global.post({...fields,bookingId:"c",requestId:randomUUID()}).ok,false);
+  const pending = await fixture();
+  const data = {...fields,requestId:randomUUID()};
+  pending.context.finishRequest_=()=>{throw new Error("Simulated partial failure");};
+  assert.equal(pending.post(data).ok,false);
+  assert.equal(pending.post(data).ok,false);
+  assert.equal(pending.sheets.get("Feedback").rows.length,2);
+});
+
+test("public feedback goes through CAPTCHA verification and the protected GAS writer without an invitation",async () => {
+  const f = await fixture(); let forwarded=0;
+  let captcha = {success:true,hostname:"localhost",action:"feedback"};
+  const handler = createFormsHandler({endpoint,proxySecret:secret,turnstileSecret:"offline",allowedOrigins:"http://localhost:5173",fetcher:async (url,options)=>{
+    if(url.includes("siteverify")) return Response.json(captcha);
+    forwarded++;
+    assert.equal(options.body.has("feedbackToken"),false);
+    return Response.json(f.post(Object.fromEntries(options.body)));
+  }});
+  const request = (changes={}) => new Request("https://edge.invalid",{method:"POST",headers:{Origin:"http://localhost:5173","Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({form:"feedback",bookingId:"test",rating:"5",feedback:"Offline test",requestId:randomUUID(),turnstileToken:"offline-token",...changes})});
+  assert.equal((await handler(request())).status,200);
+  assert.equal(forwarded,1);
+  assert.equal(f.sheets.get("Feedback").rows.length,2);
+  assert.equal((await handler(request({turnstileToken:""}))).status,400);
+  for(const invalid of [{success:false},{success:true,hostname:"wrong.invalid",action:"feedback"},{success:true,hostname:"localhost",action:"booking"}]) {
+    captcha=invalid;
+    assert.equal((await handler(request())).status,400);
+  }
+  assert.equal(forwarded,1,"failed CAPTCHA must never reach GAS");
 });
 
 test("GAS rate limits new writes and refuses replay after uncertain partial failure",async () => {

@@ -125,6 +125,16 @@ const routeSeo = {
     description:
       "Explore private transfer routes from Hanoi and Noi Bai Airport to destinations across Northern Vietnam.",
   },
+  "/photo": {
+    title: "Photo Experience | Hoang Luxury Travel",
+    description:
+      "Private travel photography across Northern Vietnam: six photo styles, half-day and full-day experiences with Hoang Luxury Travel.",
+  },
+  "/photo/albums": {
+    title: "Photo Albums | Hoang Luxury Travel",
+    description:
+      "Real photographs from private journeys across Northern Vietnam with Hoang Luxury Travel.",
+  },
 };
 
 const canonicalPath = journey

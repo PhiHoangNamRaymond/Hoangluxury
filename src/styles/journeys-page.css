@@ -93,7 +93,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(20px, 2.4vw, 32px);
-  margin-bottom: clamp(28px, 3.2vw, 38px);
+  margin-bottom: 0;
 }
 
 .hlt-jcard {
@@ -1410,23 +1410,26 @@
    Nút dẫn sang form đặt xe ở /booking/.
    ========================================================================== */
 .hlt-journeys-outro {
-  padding: clamp(30px, 3.4vw, 48px) 0 clamp(34px, 3.8vw, 56px);
+  padding: clamp(34px, 3.8vw, 56px) 0;
   text-align: center;
+}
+
+.hlt-journeys-outro > .hlt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Bánh lái vàng: to hơn hoạ tiết cũ để cân với tiêu đề bên dưới. */
 .hlt-journeys-outro-mark {
+  display: block;
   width: clamp(54px, 4.8vw, 72px);
   height: auto;
-  margin-bottom: clamp(12px, 1.4vw, 18px);
+  margin: 0 auto clamp(12px, 1.4vw, 18px);
   object-fit: contain;
 }
 
 .hlt-journeys-outro-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(14px, 2vw, 28px);
   margin: 0 0 clamp(8px, 1vw, 12px);
   color: #241B12;
   font-size: clamp(23px, 2.5vw, 35px);
@@ -1434,41 +1437,6 @@
   letter-spacing: .012em;
   line-height: 1.2;
   text-transform: uppercase;
-}
-
-/* Vạch kẻ dừng trước hình thoi (nhờ padding + background-clip) để nét kẻ không
-   chạy xuyên vào trong hình thoi. */
-.hlt-journeys-outro-rule {
-  position: relative;
-  flex: 1 1 auto;
-  max-width: clamp(56px, 14vw, 215px);
-  height: 1px;
-  padding-right: 14px;
-  background: linear-gradient(90deg, rgba(197, 161, 90, 0), rgba(197, 161, 90, .8));
-  background-clip: content-box;
-}
-
-.hlt-journeys-outro-rule:last-child {
-  padding-right: 0;
-  padding-left: 14px;
-  background: linear-gradient(90deg, rgba(197, 161, 90, .8), rgba(197, 161, 90, 0));
-  background-clip: content-box;
-}
-
-.hlt-journeys-outro-rule::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 7px;
-  height: 7px;
-  border: 1px solid #C5A15A;
-  transform: translateY(-50%) rotate(45deg);
-}
-
-.hlt-journeys-outro-rule:last-child::after {
-  right: auto;
-  left: 0;
 }
 
 .hlt-journeys-outro-text {
@@ -1513,12 +1481,7 @@
 
 @media (max-width: 600px) {
   .hlt-journeys-outro {
-    padding: 26px 0 30px;
-  }
-
-  /* Hẹp quá thì bỏ hai vạch để tiêu đề không bị bóp thành nhiều dòng vụn. */
-  .hlt-journeys-outro-rule {
-    display: none;
+    padding: 30px 0;
   }
 
   .hlt-journeys-outro-title {

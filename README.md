@@ -69,7 +69,9 @@ and leave the Output Directory as `dist`.
 
 Follow [Forms security migration and setup](google-apps-script/README.md) on a
 separate test Sheet first. The migration adds a private request ledger, server
-shared secret, rate controls, verified CAPTCHA and one-time guest feedback links.
+shared secret, rate controls and verified CAPTCHA. Feedback is public: guests
+enter their Booking ID manually; no invitation link or proof of a real booking
+is required. Update both the frontend and Apps Script when changing this flow.
 Existing booking/feedback columns are preserved. Do not deploy only the frontend:
 the new form and both server deployments must be configured together.
 Spreadsheet IDs and server secrets never belong in VITE_ variables or Git.
