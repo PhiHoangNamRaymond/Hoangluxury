@@ -41,7 +41,7 @@ const bookingSteps = [
 ];
 
 function FormIcon({ type, className = "hlt-book-field-icon" }) {
-  // Ô "Private Luxury Cars" dùng icon xe nét đặc (khách gửi), không phải nét viền.
+  // Ô "Private Cars" dùng icon xe nét đặc (khách gửi), không phải nét viền.
   if (type === "carSolid") {
     return (
       <svg className={`${className} hlt-book-icon-solid`} viewBox="86 263 1082 765" aria-hidden="true">
@@ -71,7 +71,7 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
 
 const highlights = [
   ["shield", "Safe & Professional", "Experienced drivers, your safety is our priority."],
-  ["carSolid", " Private Luxury Cars", "Modern, clean, and reserved just for you."],
+  ["carSolid", "Private Cars", "Modern, clean, and reserved just for you."],
   ["clock", "On-Time Service", "Always on time, so you never have to wait."],
   ["headset", "24/7 Support", "We are here whenever you need us."],
 ];
@@ -388,7 +388,7 @@ export default function BookingPage() {
           </a>
         </aside>
 
-        <form className="hlt-book-form" data-current-step={currentStep} onSubmit={submitBooking}>
+        <form className="hlt-book-form" data-current-step={currentStep} onSubmit={submitBooking} spellCheck={false} autoCorrect="off">
           <header>
             <div className="hlt-book-form-icon"><FormIcon type="calendar" className="hlt-book-form-heading-icon" /></div>
             <div><h2 id="booking-page-title">Book Your Private Transfer</h2><p>Choose your preferred option: message us on WhatsApp or fill out the form below.</p></div>

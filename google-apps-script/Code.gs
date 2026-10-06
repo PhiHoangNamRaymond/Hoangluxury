@@ -203,7 +203,6 @@ function saveFeedback_(data) {
   try {
     const request = beginRequest_(data, "feedback");
     if (request.duplicate) return jsonResponse_({ ok: true });
-    consumeFeedbackToken_(data, request.key);
     const sheet = getFeedbackSheet_();
     const headerRow = resolveHeaderRow_(sheet, FEEDBACK_HEADERS, DEFAULT_FEEDBACK_HEADER_ROW);
     ensureHeaders_(sheet, headerRow, FEEDBACK_HEADERS);
@@ -225,7 +224,6 @@ function saveFeedback_(data) {
 
 function parseRating_(value) {
   const text = String(value || "").trim();
-  if (!text || text === "0") return ""; // Rating remains optional.
   if (!/^[1-5]$/.test(text)) throw new Error("Invalid rating");
   return Number(text);
 }
@@ -430,7 +428,7 @@ function validateFieldBounds_(data) {
     pickup:500, dropoff:500, journeyType:40, requirements:4000, bookingId:100,
     feedback:4000, experience:4000, rating:1, source:20, website:300,
     submittedFrom:2048, clientTimestamp:40, form:20, noFlight:5,
-    proxySecret:256, requestId:36, feedbackToken:64 };
+    proxySecret:256, requestId:36 };
   Object.keys(data).forEach(function (key) {
     if (!Object.prototype.hasOwnProperty.call(limits, key) ||
         String(data[key]).length > limits[key] || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(String(data[key]))) {
@@ -481,7 +479,6 @@ function beginRequest_(data, form) {
   }
   if (count >= 10000) throw new Error("Request ledger requires operator maintenance");
   enforceFormRate_(data, form);
-  if (form === "feedback") validateFeedbackToken_(data);
   const row = ledger.getLastRow() + 1;
   ledger.getRange(row,1,1,5).setValues([[data.requestId,fingerprint,"pending",new Date(),form]]);
   SpreadsheetApp.flush();
@@ -497,8 +494,9 @@ function enforceFormRate_(data, form) {
   const properties = PropertiesService.getScriptProperties();
   const now = Date.now();
   const windowId = String(Math.floor(now / 3600000));
-  // HMAC-like salted identifier avoids storing customer phone numbers in logs.
-  const subject = securityHash_(properties.getProperty("FORMS_PROXY_SECRET") + ":" + form + ":" + (form === "booking" ? String(data.phone).replace(/^\+/, "") : data.feedbackToken));
+  // Salted identifier avoids storing phone numbers/entered IDs in rate records.
+  // Feedback is public: its entered Booking ID is not proof of a real booking.
+  const subject = securityHash_(properties.getProperty("FORMS_PROXY_SECRET") + ":" + form + ":" + (form === "booking" ? String(data.phone).replace(/^\+/, "") : String(data.bookingId || "").trim().toLowerCase()));
   const keys = ["form-rate:global", "form-rate:" + subject];
   const limit = Number(properties.getProperty("FORM_HOURLY_LIMIT") || "100");
   if (!Number.isInteger(limit) || limit < 1 || limit > 5000) throw new Error("Invalid rate configuration");
@@ -515,49 +513,6 @@ function enforceFormRate_(data, form) {
     if (record.count >= (index === 0 ? limit : 5)) throw new Error("Form rate limit");
     properties.setProperty(key,JSON.stringify({window:windowId,count:record.count + 1}));
   });
-}
-
-function validateFeedbackToken_(data) {
-  if (!/^[a-f0-9]{64}$/.test(String(data.feedbackToken || ""))) throw new Error("Feedback link required");
-  const key = "feedback-token:" + securityHash_(data.feedbackToken);
-  const saved = PropertiesService.getScriptProperties().getProperty(key);
-  const record = saved ? JSON.parse(saved) : null;
-  if (!record || record.expires < Date.now() || record.used || record.bookingId !== String(data.bookingId).trim()) throw new Error("Invalid feedback link");
-  return {key:key,record:record};
-}
-
-function consumeFeedbackToken_(data, requestId) {
-  const verified = validateFeedbackToken_(data);
-  verified.record.used = requestId;
-  PropertiesService.getScriptProperties().setProperty(verified.key,JSON.stringify(verified.record));
-}
-
-// Run by an operator in the editor, never exposed through doGet/doPost.
-// Select a booking row (not header) in the private Bookings tab first.
-function createFeedbackLinkFromSelection() {
-  const sheet = getBookingSheet_();
-  const active = getSpreadsheet_().getActiveSheet();
-  if (active.getSheetId() !== sheet.getSheetId()) throw new Error("Select a booking in Bookings first");
-  const row = active.getActiveRange().getRow();
-  const header = resolveHeaderRow_(sheet,BOOKING_HEADERS,DEFAULT_BOOKING_HEADER_ROW);
-  if (row <= header) throw new Error("Select a booking row");
-  const bookingId = String(sheet.getRange(row,1).getDisplayValue()).trim();
-  if (!/^HLT-[0-9]{6}-RKS00[1-5]-[0-9]{3,}$/.test(bookingId)) throw new Error("Invalid booking ID");
-  const lock = LockService.getScriptLock(); lock.waitLock(10000);
-  try {
-    const properties = PropertiesService.getScriptProperties();
-    const all = properties.getProperties(); let count = 0;
-    Object.keys(all).filter(function (key) { return key.indexOf("feedback-token:") === 0; }).forEach(function (key) {
-      const record = JSON.parse(all[key]);
-      if (record.expires < Date.now()) properties.deleteProperty(key); else count += 1;
-    });
-    if (count >= 1000) throw new Error("Feedback token storage full");
-    const token = (Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, "").toLowerCase();
-    properties.setProperty("feedback-token:" + securityHash_(token),JSON.stringify({bookingId:bookingId,expires:Date.now() + 7*86400000,used:null}));
-    const url = "https://hoangluxury.travel/feedback/?bookingId=" + encodeURIComponent(bookingId) + "&token=" + token;
-    // Private dialog, not execution logs or public endpoint.
-    SpreadsheetApp.getUi().alert("Guest feedback link (valid 7 days, one submission)",url,SpreadsheetApp.getUi().ButtonSet.OK);
-  } finally { lock.releaseLock(); }
 }
 
 function parseDate_(value, fieldName) {

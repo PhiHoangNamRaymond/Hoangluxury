@@ -36,15 +36,13 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const isAdmin = profile.role === "admin";
-
   useEffect(() => {
     let alive = true;
     setLoading(true);
 
     supabase
       .from("articles")
-      .select("id, slug, title, cover_path, destinations, topics, status, publish_at, updated_at, author_id, profiles!articles_author_id_fkey (full_name, email)")
+      .select("id, slug, title, cover_path, destinations, topics, status, publish_at, updated_at, author_id")
       .order("updated_at", { ascending: false })
       .then(({ data, error: queryError }) => {
         if (!alive) return;
@@ -58,9 +56,10 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
     };
   }, [reloadKey]);
 
+  // Cả nhóm biên tập đọc được mọi bài; bộ lọc này chỉ để xem cho gọn.
   const scoped = useMemo(
-    () => (isAdmin && scope === "all" ? articles : articles.filter((item) => item.author_id === profile.id)),
-    [articles, scope, isAdmin, profile.id],
+    () => (scope === "all" ? articles : articles.filter((item) => item.author_id === profile.id)),
+    [articles, scope, profile.id],
   );
 
   const visible = useMemo(() => {
@@ -96,16 +95,14 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
 
       {Boolean(scoped.length) && (
         <div className="hlt-admin-toolbar">
-          {isAdmin && (
-            <div className="hlt-admin-scope" role="group" aria-label="Phạm vi">
-              <button type="button" className={scope === "mine" ? "is-on" : ""} onClick={() => setScope("mine")}>
-                Bài của tôi
-              </button>
-              <button type="button" className={scope === "all" ? "is-on" : ""} onClick={() => setScope("all")}>
-                Tất cả bài
-              </button>
-            </div>
-          )}
+          <div className="hlt-admin-scope" role="group" aria-label="Phạm vi">
+            <button type="button" className={scope === "mine" ? "is-on" : ""} onClick={() => setScope("mine")}>
+              Bài của tôi
+            </button>
+            <button type="button" className={scope === "all" ? "is-on" : ""} onClick={() => setScope("all")}>
+              Tất cả bài
+            </button>
+          </div>
 
           <div className="hlt-admin-chips" role="group" aria-label="Lọc theo trạng thái">
             {statusFilters.map(([key, label]) => (
@@ -172,9 +169,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
             {visible.map((article) => {
               const badge = statusOf(article);
               const when = formatWhen(article);
-              const mine = article.author_id === profile.id;
               const tags = [...(article.destinations || []), ...(article.topics || [])];
-              const author = article.profiles?.full_name || article.profiles?.email;
 
               return (
                 <li key={article.id} className="hlt-admin-row">
@@ -182,7 +177,6 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
                     className="hlt-admin-row-main"
                     type="button"
                     onClick={() => onEdit(article)}
-                    disabled={!mine && !isAdmin}
                   >
                     {article.cover_path ? (
                       <img src={blogImageUrl(article.cover_path)} alt="" loading="lazy" />
@@ -193,7 +187,6 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
                       <strong>{article.title || "(chưa có tiêu đề)"}</strong>
                       <small>
                         {tags.length ? tags.slice(0, 3).join(" · ") : "Chưa gắn điểm đến hay chủ đề"}
-                        {isAdmin && scope === "all" && author && <> &middot; {author}</>}
                       </small>
                     </span>
                   </button>

@@ -223,6 +223,9 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
   const scheduled = Boolean(form.publish_at) && new Date(form.publish_at).getTime() > clock;
   const stalePlan = Boolean(form.publish_at) && !scheduled;
 
+  /* Cả nhóm cùng sửa được mọi bài, nhưng xoá thì vẫn chỉ tác giả hoặc admin. */
+  const canDelete = isNew || profile.role === "admin" || (article?.author_id || profile.id) === profile.id;
+
   if (!ready) return <p className="hlt-admin-note is-loading">Đang tải bài…</p>;
   if (loadFailed) return <div><p className="hlt-admin-note is-error">{status.message}</p><button type="button" className="hlt-admin-btn" onClick={onCancel}>Về danh sách</button></div>;
 
@@ -394,9 +397,15 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
 
           {!isNew && (
             <div className="hlt-admin-panel">
-              <button type="button" className="hlt-admin-btn is-danger" onClick={remove} disabled={status.state === "loading"}>
-                Xoá bài này
-              </button>
+              {canDelete ? (
+                <button type="button" className="hlt-admin-btn is-danger" onClick={remove} disabled={status.state === "loading"}>
+                  Xoá bài này
+                </button>
+              ) : (
+                <p className="hlt-admin-field-note">
+                  Bài này do người khác viết. Bạn sửa được nhưng không xoá được — nhờ tác giả hoặc admin xoá giúp.
+                </p>
+              )}
             </div>
           )}
         </aside>

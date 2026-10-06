@@ -1181,7 +1181,7 @@
   }
 }
 
-/* Icon xe nét đặc ở ô "Private Luxury Cars": tô đầy thay vì vẽ nét. */
+/* Icon xe nét đặc ở ô "Private Cars": tô đầy thay vì vẽ nét. */
 .hlt-book-highlights .hlt-book-icon-solid {
   fill: currentColor;
   stroke: none;

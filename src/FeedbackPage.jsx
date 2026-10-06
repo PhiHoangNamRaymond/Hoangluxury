@@ -206,19 +206,53 @@ export default function FeedbackPage() {
   const [rating, setRating] = useState(0);
   const [expandedReviews, setExpandedReviews] = useState([]);
   const pageEntered = usePageEntered();
-  const [feedbackLink] = useState(() => {
-    const query = new URLSearchParams(window.location.search);
-    return {bookingId:query.get("bookingId") || "", token:query.get("token") || ""};
-  });
-  const [bookingId, setBookingId] = useState(feedbackLink.bookingId);
+  const [bookingId, setBookingId] = useState("");
   const [experience, setExperience] = useState("");
   const [submission, setSubmission] = useState({ state: "idle", message: "" });
   const [turnstileToken,setTurnstileToken] = useState("");
   const [verificationReset,setVerificationReset] = useState(0);
   const requestRef = useRef(null);
+  const successPopupRef = useRef(null);
+  const bookingIdRef = useRef(null);
+
+  const closeSuccessPopup = () => {
+    setSubmission({ state: "idle", message: "" });
+  };
+
   useEffect(() => {
-    if (feedbackLink.token) window.history.replaceState(null,"",window.location.pathname);
-  },[feedbackLink]);
+    if (submission.state !== "success") return;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    successPopupRef.current?.querySelector(".hlt-book-success-done")?.focus();
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setSubmission({ state: "idle", message: "" });
+      } else if (event.key === "Tab") {
+        const buttons = Array.from(successPopupRef.current?.querySelectorAll("button") || []);
+        if (!buttons.length) return;
+        event.preventDefault();
+        const index = buttons.indexOf(document.activeElement);
+        const nextIndex = (index + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length;
+        buttons[nextIndex].focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+      if (previousFocus?.isConnected && !previousFocus.disabled) previousFocus.focus();
+      else bookingIdRef.current?.focus();
+    };
+  }, [submission.state]);
+
+  useEffect(() => {
+    // Old invitation links are no longer used; don't retain their token in the URL.
+    const query = new URLSearchParams(window.location.search);
+    if (query.has("token")) window.history.replaceState(null,"",window.location.pathname);
+  },[]);
 
 
   const submitFeedback = async (event) => {
@@ -226,8 +260,12 @@ export default function FeedbackPage() {
     if (submission.state === "loading") return;
     const inputError = formTextError({ bookingId, experience });
     if (inputError) { setSubmission({ state: "error", message: inputError }); return; }
+    if (!bookingId.trim() || !experience.trim() || rating < 1 || rating > 5) {
+      setSubmission({ state: "error", message: "Please enter your Booking ID, choose a rating and write your feedback." });
+      return;
+    }
 
-    if (!feedbackEndpoint || !turnstileToken || !feedbackLink.token) {
+    if (!feedbackEndpoint || !turnstileToken) {
       setSubmission({ state: "error", message: "Feedback is being configured. Please contact us via WhatsApp." });
       return;
     }
@@ -239,7 +277,6 @@ export default function FeedbackPage() {
       bookingId: bookingId.trim(),
       rating: String(rating),
       feedback: experience.trim(),
-      feedbackToken: feedbackLink.token,
       submittedFrom: window.location.origin + window.location.pathname,
     };
     const payload = {...fields,requestId:requestIdFor(requestRef,fields),turnstileToken,clientTimestamp:new Date().toISOString()};
@@ -378,6 +415,7 @@ export default function FeedbackPage() {
                         <path d="M9 7V4h6v3M8 11h8M8 11v6M16 11v6" />
                       </svg>
                       <input
+                        ref={bookingIdRef}
                         required
                         name="bookingId"
                         placeholder="e.g. HLT-100826-RKS001-001"
@@ -422,7 +460,7 @@ export default function FeedbackPage() {
                         required
                         name="experience"
                         placeholder="Please share your experience, including anything you particularly enjoyed or anything we could improve..."
-                        maxLength="5000"
+                        maxLength="4000"
                         value={experience}
                         onChange={(event) => setExperience(event.target.value)}
                       />
@@ -433,14 +471,13 @@ export default function FeedbackPage() {
                   </label>
                 </div>
 
-                {!feedbackLink.token && <p>Please use the personal feedback link provided by our team, or contact us via WhatsApp.</p>}
                 {!feedbackEndpoint && <p>Online feedback is being configured. Please contact our team directly.</p>}
                 <Turnstile action="feedback" onToken={setTurnstileToken} resetKey={verificationReset} />
-                <button type="submit" disabled={submission.state === "loading" || submission.state === "success" || !feedbackLink.token || !turnstileToken || !feedbackEndpoint}>
+                <button type="submit" disabled={submission.state === "loading" || submission.state === "success" || !turnstileToken || !feedbackEndpoint}>
                   {submission.state === "loading" ? "Sending…" : "Send Feedback"}
                 </button>
 
-                {submission.message && (
+                {submission.message && submission.state !== "success" && (
                   <p
                     className={`hlt-feedback-submit-note is-${submission.state}`}
                     role={submission.state === "error" ? "alert" : "status"}
@@ -462,6 +499,31 @@ export default function FeedbackPage() {
         </section>
       </main>
       <Footer />
+      {submission.state === "success" && (
+        <div
+          className="hlt-book-success-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeSuccessPopup();
+          }}
+        >
+          <section
+            ref={successPopupRef}
+            className="hlt-book-success-popup"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="feedback-success-title"
+            aria-describedby="feedback-success-message"
+          >
+            <button type="button" className="hlt-book-success-close" onClick={closeSuccessPopup} aria-label="Close thank you message">×</button>
+            <div className="hlt-book-success-icon" aria-hidden="true">✓</div>
+            <p className="hlt-book-success-kicker">Feedback Received</p>
+            <h2 id="feedback-success-title">Thank You</h2>
+            <p id="feedback-success-message">Your feedback has been sent to our management team. Thank you for helping us improve our service.</p>
+            <button type="button" className="hlt-book-success-done" onClick={closeSuccessPopup}>Done</button>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

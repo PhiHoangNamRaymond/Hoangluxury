@@ -8,6 +8,7 @@ const schema = await readFile(new URL("../supabase/01-schema.sql", import.meta.u
 const migration = await readFile(new URL("../supabase/02-lock-permissions.sql", import.meta.url), "utf8");
 const runtimeMigration = await readFile(new URL("../supabase/03-blog-runtime.sql", import.meta.url), "utf8");
 const hardening = await readFile(new URL("../supabase/04-security-hardening.sql", import.meta.url), "utf8");
+const collaboration = await readFile(new URL("../supabase/05-writer-collaboration.sql", import.meta.url), "utf8");
 const ids = {
   admin: "00000000-0000-0000-0000-000000000001",
   writer: "00000000-0000-0000-0000-000000000002",
@@ -115,11 +116,19 @@ async function securityCases(t, db) {
     assert.deepEqual((await db.query("select slug from public.articles order by slug")).rows.map((row) => row.slug), ["live-one", "live-two"]);
     assert.deepEqual((await db.query("select * from public.public_article_authors() order by id")).rows, [{ id: ids.writer, full_name: "writer" }, { id: ids.other, full_name: "other" }]);
   }));
-  await t.test("writer edits own articles only", () => asRole(db, "authenticated", ids.writer, async () => {
+  await t.test("writer edits every article but deletes only their own", () => asRole(db, "authenticated", ids.writer, async () => {
     assert.equal((await db.query("update public.articles set title='Updated' where slug='draft-one' returning id")).rows.length, 1);
-    assert.equal((await db.query("update public.articles set title='Stolen' where slug='live-two' returning id")).rows.length, 0);
+    assert.equal((await db.query("update public.articles set title='Helped' where slug='live-two' returning id")).rows.length, 1);
+    assert.equal((await db.query("select title from public.articles where slug='live-two'")).rows[0].title, "Helped");
     assert.equal((await db.query("delete from public.articles where slug='live-two' returning id")).rows.length, 0);
     await denied(db, "insert into public.articles (slug, title, author_id) values ('forged', 'Forged', $1)", [ids.other]);
+  }));
+  await t.test("writer sees other members drafts but cannot steal authorship", () => asRole(db, "authenticated", ids.writer, async () => {
+    assert.ok((await db.query("select id from public.articles where slug='scheduled'")).rows.length);
+    await assert.rejects(db.query("update public.articles set author_id=$1 where slug='live-two'", [ids.writer]), (error) => error.code === "42501");
+  }));
+  await t.test("blocked member loses read access to every draft", () => asRole(db, "authenticated", ids.blocked, async () => {
+    assert.deepEqual((await db.query("select slug from public.articles order by slug")).rows.map((row) => row.slug), ["live-one", "live-two"]);
   }));
   await t.test("blocked member cannot write or upload", async () => {
     await asRole(db, "authenticated", ids.blocked, () => denied(db, "insert into public.articles (slug, title, author_id) values ('blocked', 'Blocked', $1)", [ids.blocked]));
@@ -188,6 +197,8 @@ for (const mode of ["fresh schema", "upgrade from permissive policies"]) {
       }
       await db.exec(hardening);
       await db.exec(hardening); // Idempotent upgrade.
+      await db.exec(collaboration);
+      await db.exec(collaboration); // Idempotent upgrade.
       await securityCases(t, db);
       await t.test("blocked users cannot read private drafts through old sessions", async () => {
         await db.query("insert into public.articles(slug,title,author_id) values('blocked-draft','Private',$1)", [ids.blocked]);
