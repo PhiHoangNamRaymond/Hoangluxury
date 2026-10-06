@@ -312,7 +312,7 @@ export default function JourneysPage() {
         {/* Khối khép lại danh sách tuyến, dẫn khách sang form đặt xe. */}
         <section className="hlt-journeys-outro">
           <div className="hlt-container">
-            <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} width="1254" height="1254" loading="lazy" decoding="async" alt="" aria-hidden="true" />
+            <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} width="216" height="216" loading="lazy" decoding="async" alt="" aria-hidden="true" />
 
             <h2 className="hlt-journeys-outro-title">
               Looking for another destination?

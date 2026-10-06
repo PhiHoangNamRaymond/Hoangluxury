@@ -1,4 +1,4 @@
-# Security review — 2026-10-05
+# Security review — 2026-10-06
 
 Review/hardening against [OWASP Top 10:2025](https://top10.owasp.org/2025/en/) and
 selected requirements of [ASVS 5.0](https://github.com/OWASP/ASVS/tree/v5.0.0/5.0).
@@ -7,41 +7,51 @@ Local source/tests were reviewed, not a penetration test of production.
 
 ## Threat model and evidence
 
-Public static React pages use an isolated anonymous Supabase client. A writer
-is untrusted relative to other writers/admins; access rules must hold when they
-bypass the UI and call the Data API directly. Active admins can publish any
-article, invite accounts and change permissions. The Edge Function holds a
+Public static React pages use an isolated anonymous Supabase client. Active
+writers are one editorial team: by owner decision they read and edit every
+article, including other people's drafts. They remain untrusted for deletion,
+authorship and account management, and every rule must hold when they bypass the
+UI and call the Data API directly. Active admins can publish or delete any
+article, create accounts and change permissions. The Edge Function holds a
 server key; it verifies JWT with Auth and reads role/active from DB, never metadata.
-Public booking/feedback sends personal data through a CAPTCHA-verifying Edge
-proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
+Accounts are created by an admin with a password set in the browser and handed
+over out of band; the product sends no email, so no mail provider is in the trust
+boundary. Public booking/feedback sends personal data through a CAPTCHA-verifying
+Edge proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
 
 | OWASP 2025 area | Local controls / verification | Remaining production work |
 |---|---|---|
-| A01 Access control | Actual PostgreSQL RLS tests: cross-author writes denied, inactive accounts denied, private profiles, server-only invitation limiter | Run migrations; inspect extra policies, exposed schemas and Storage grants |
+| A01 Access control | Actual PostgreSQL RLS tests: cross-author delete denied, authorship change denied by trigger, inactive accounts lose all draft reads, private profiles, server-only account limiter. Shared cross-author editing is deliberate, not an oversight | Run migrations including 05; inspect extra policies, exposed schemas and Storage grants |
 | A02 Misconfiguration | Apache/Vercel CSP, nosniff, anti-framing, no-referrer, admin no-store; source/env denial on Apache | Verify actual HTTP headers on Hostinger/Cloudflare; upload only dist |
 | A03 Supply chain | Lockfile, npm audit, reproducible npm ci | Audit continuously; enable Dependabot and secret scanning in GitHub |
 | A04 Cryptography | HTTPS endpoints, server-key build guard; no custom password hashing | TLS Full (strict), origin certificate; Supabase encrypts/stores passwords, secure backups |
 | A05 Injection | React escaping, one DOMPurify renderer, no executable Markdown HTML; parameterized SDK queries; Sheets formula escaping + VM regression tests | No arbitrary server code/file execution; validate upload bytes server-side if assurance required |
-| A06 Insecure design | DB-level article bounds; atomic invitation limiter; forms CAPTCHA/secret/rate/idempotency controls; public feedback with manually entered IDs | Deploy/configure/test both form servers; quota, retention and transaction migration planning |
-| A07 Authentication | Verified bearer + active role; isolated email-token verification with explicit account confirmation; ordinary changes submit current_password; new passwords 15–128 characters | Change email templates; enforce backend current-password/minimum length; Auth rate limits; CMS MFA/AAL2 not implemented |
-| A08 Integrity | Writer cannot assign another author or own role; metadata cannot grant privileges; upload paths UUID + random ID, SVG/HTML denied | Signed/reviewed releases; inspect storage files, do not trust client MIME alone |
-| A09 Logging | Role/active changes recorded privately; invitation request ID/actor/status only, no token/email/body | Monitor Auth/Function logs, alert on 401/403/429/5xx, retention/access policy |
+| A06 Insecure design | DB-level article bounds; atomic account-creation limiter (10/admin/hour, `consume_blog_invite`); forms CAPTCHA/secret/rate/idempotency controls; public feedback with manually entered IDs | Deploy/configure/test both form servers; quota, retention and transaction migration planning |
+| A07 Authentication | Verified bearer + active role; no email-token flow reachable, so no mail-based account takeover path; initial passwords generated with `crypto.getRandomValues` (20 chars, 56-char alphabet); ordinary changes submit current_password; all passwords 15–128 characters, rejected server-side too | Enforce backend current-password/minimum length; Auth rate limits; CMS MFA/AAL2 not implemented; initial password travels over whatever channel the admin picks — out of scope for this codebase |
+| A08 Integrity | Writer cannot assign another author (trigger `articles_lock_author`) or change their own role; metadata cannot grant privileges; upload paths UUID + random ID, SVG/HTML denied | Signed/reviewed releases; inspect storage files, do not trust client MIME alone |
+| A09 Logging | Role/active changes recorded privately; account-handler request ID/actor/status only, no password, token, email or body | Monitor Auth/Function logs, alert on 401/403/429/5xx, retention/access policy |
 | A10 Exceptions | API fails closed if role/limit DB unavailable, bounded/timeout JSON body, generic Apps Script failures; load errors not empty-success | Test outages/backups on staging, no real bookings for tests |
 
 ## Apply changes in the correct order
 
-1. Back up Supabase DB first. New project: run `supabase/01-schema.sql`, then
-   `supabase/04-security-hardening.sql`. Existing project: `02-lock-permissions.sql`,
-   `03-blog-runtime.sql`, then `04-security-hardening.sql` in SQL Editor. These are
-   local scripts, NOT automatically executed by build. No data is deleted.
+1. Back up Supabase DB first. New project: run `supabase/01-schema.sql`,
+   `04-security-hardening.sql`, then `05-writer-collaboration.sql`. Existing project:
+   `02-lock-permissions.sql`, `03-blog-runtime.sql`, `04-security-hardening.sql`,
+   then `05-writer-collaboration.sql` in SQL Editor. These are local scripts, NOT
+   automatically executed by build. No data is deleted. Skipping 05 leaves the
+   older own-articles-only model in place; the UI will then appear broken for
+   writers rather than insecure.
 2. Migration 04 leaves the content constraint NOT VALID to preserve legacy rows.
    Review old data, then run `alter table public.articles validate constraint
    articles_input_bounds;`. If validation fails, correct the offending data;
    do not delete all posts or disable RLS. New/changed rows are checked immediately.
-3. Deploy the updated `supabase/functions/invite-writer/index.js`. Keep handler
-   authentication. `verify_jwt=false` only concerns the gateway/preflight. Set exact
-   `BLOG_ALLOWED_ORIGINS`, remove local origins from production when no longer needed.
-   The handler fails closed (503) if migration 04 has not been installed.
+3. Deploy the updated `supabase/functions/invite-writer/index.js` (name unchanged;
+   it now creates accounts and resets passwords instead of sending invitations).
+   Keep handler authentication. `verify_jwt=false` only concerns the gateway/preflight.
+   Set exact `BLOG_ALLOWED_ORIGINS`, remove local origins from production when no
+   longer needed. The handler fails closed (503) if migration 04 has not been
+   installed, and rejects any password shorter than 15 characters or containing
+   control characters before it reaches Auth.
 4. Follow `google-apps-script/README.md` on a separate Sheet/project first. Configure
    Turnstile, matching server secret, Apps Script New version and forms-proxy.
    Existing columns remain, a private request ledger is added. Frontend requires
@@ -49,16 +59,17 @@ proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
    is public by owner request, not proof of a real booking; update GAS as well as
    the UI when migrating from invitation links. Do not restore an unprotected GAS
    version as a workaround. Reconcile pending writes before manually retrying.
-5. Follow the updated email-template migration in `supabase/README.md`: TokenHash
-   and exact `?type=invite/recovery` redirects, no automatic implicit callback.
-   Old fragment links are rejected; resend after templates/deployment match.
-   Authentication settings: disable public signups, set password minimum **15**,
-   review Auth rate limits, exact callback allowlist, custom SMTP. Frontend password
-   length/reauthentication is NOT a substitute for backend current-password rules.
-   Check compatibility with valid invite/recovery flows. Existing passwords are not
-   changed by this patch. Enable MFA for Supabase/GitHub/Hostinger owner accounts;
-   this does not automatically add MFA to CMS writers/admins.
-6. Run `npm ci`, `npm run test:security`, `npm run security:secrets`,
+5. Authentication settings: disable public signups, set password minimum **15**,
+   review Auth rate limits. No SMTP, email template or redirect allowlist is
+   required — the product sends no mail and the UI exposes no "forgot password"
+   link. Frontend password length/reauthentication is NOT a substitute for backend
+   current-password rules. Existing passwords are not changed by this patch.
+   Enable MFA for Supabase/GitHub/Hostinger owner accounts; this does not
+   automatically add MFA to CMS writers/admins. If the email-invitation flow is
+   ever re-enabled, the template requirements in `supabase/email-templates/README.md`
+   apply again: TokenHash with exact `?type=invite/recovery` redirects, never
+   `{{ .ConfirmationURL }}`, whose fragment tokens the client rejects by design.
+6. Run `npm ci`, `npm test`, `npm run security:secrets`,
    `npm run security:audit`, `npm run build`. Upload only contents of `dist/` to
    Hostinger's intended website. Include its hidden `.htaccess`; never upload env,
    SQL, Apps Script, source, repo or zip backups.
@@ -102,7 +113,7 @@ proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
   are enforced, but content sniffing/re-encoding/AV on a trusted server is not
   implemented. Never store confidential files/customer documents there.
 - Private role_audit stores UUID/role/status, not email/body. Trusted-server edits
-  may have null actor_id; correlate invitation request IDs with Auth logs. Only
+  may have null actor_id; correlate account-handler request IDs with Auth logs. Only
   SQL administrators inspect this schema. Define retention (e.g. 90 days) with the
   owner before scheduling deletion; no automatic deletion added here.
 - The secret check finds known Supabase server-key/private-key formats in current
@@ -118,21 +129,27 @@ proxy to a secret-protected Apps Script endpoint. Missing config fails closed.
 ## Reproduction and sources
 
 Latest results are recorded in the private final audit report outside the source
-repository. Run `npm run test:security`, `npm run security:secrets`,
-`npm run security:audit`, `npm run build` again before releasing. No live SQL,
-email, password, DNS or privacy configuration was changed by this local patch.
+repository. Run `npm test`, `npm run security:secrets`,
+`npm run security:audit`, `npm run build` again before releasing. `npm test` is the
+full suite including routing/SEO regressions; `npm run test:security` is the
+security-only subset. No live SQL, password, DNS or privacy configuration was
+changed by this local patch.
 
-Tests use actual PostgreSQL RLS in PGlite plus mocked SDK/email/Google services;
+Tests use actual PostgreSQL RLS in PGlite plus mocked SDK/Google services;
 they do not mutate live users, passwords or bookings. Header tests compare source
 configuration, not a running Apache instance. Build checks compilation/static routes.
 `npm audit` covers known npm advisories at the time of execution, not all flaws.
 An additional installed-SDK fixture verifies that implicit URL tokens cannot
 replace persisted accounts. Renderer regressions cover literal metadata; React
 tests cover explicit account consent, forged recovery and inline-upload data loss.
+Account-handler tests cover weak/control-character passwords, non-admin callers,
+origin allowlisting and the reset path; RLS tests cover shared editing, delete
+isolation and the authorship-change trigger.
 
-Production remains blocked until email templates, backend password rules,
-form deployments/secrets/widget, RLS/grants and hosting headers are verified on
-staging. Passing local tests is not a production-readiness certificate.
+Production remains blocked until backend password rules, form
+deployments/secrets/widget, RLS/grants (including migration 05) and hosting
+headers are verified on staging. Passing local tests is not a
+production-readiness certificate.
 
 - [OWASP authentication guidance](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 - [OWASP browser headers](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html)

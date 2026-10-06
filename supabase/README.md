@@ -2,8 +2,12 @@
 
 Supabase chạy trên cloud. Không cần tải Supabase/Docker, không cần CLI nếu dùng
 Dashboard như dưới đây. Code có quản trị, blog công khai, upload ảnh, hẹn lịch,
-mời writer và đặt/đổi mật khẩu. Build web không tự tạo DB hay deploy function.
+tạo tài khoản người viết và đổi mật khẩu. Build web không tự tạo DB hay deploy function.
 Tài liệu chỉ chứa placeholder; không commit/gửi qua chat mật khẩu hoặc secret key.
+
+**Hệ thống không gửi email nào.** Admin tạo tài khoản kèm mật khẩu ngay trong
+trang quản trị rồi chuyển cho người viết. Vì vậy không phải cấu hình SMTP,
+không phải sửa mẫu email, không phụ thuộc hộp thư của ai.
 
 ## 1. Tạo project
 
@@ -14,27 +18,35 @@ Tài liệu chỉ chứa placeholder; không commit/gửi qua chat mật khẩu 
 
 ## 2. Chạy SQL
 
-- **Project mới:** SQL Editor → New query → copy toàn bộ `01-schema.sql` → Run,
-  sau đó chạy `04-security-hardening.sql`.
-- **Đã chạy schema cũ:** sao lưu trước, chạy lần lượt `02-lock-permissions.sql`
-  rồi `03-blog-runtime.sql`, cuối cùng `04-security-hardening.sql`. Không xóa bảng để nâng cấp.
+- **Project mới:** SQL Editor → New query → chạy lần lượt `01-schema.sql`,
+  `04-security-hardening.sql`, `05-writer-collaboration.sql`.
+- **Đã chạy schema cũ:** sao lưu trước, chạy lần lượt `02-lock-permissions.sql`,
+  `03-blog-runtime.sql`, `04-security-hardening.sql`, `05-writer-collaboration.sql`.
+  Không xoá bảng để nâng cấp.
 
-Không có lỗi mới tiếp tục. Table Editor phải có `profiles`, `articles`; Storage
-phải có `blog-images`. Migration giữ bài/ảnh/tài khoản. Nếu tự thêm policy khác,
-rà lại vì các policy cho phép có thể cộng quyền. SQL không tự chạy khi build.
+Cả năm file chạy lại nhiều lần đều an toàn. Không có lỗi mới tiếp tục. Table Editor
+phải có `profiles`, `articles`; Storage phải có `blog-images`. Migration giữ
+bài/ảnh/tài khoản. Nếu tự thêm policy khác, rà lại vì các policy cho phép có thể
+cộng quyền. SQL không tự chạy khi build.
 
 | Người | Quyền DB |
 |---|---|
 | Khách | Chỉ bài published đã tới giờ; tên tác giả qua RPC, không email/role |
-| Writer active | Thêm/sửa/xóa bài mình; upload/xóa ảnh thư mục UUID mình |
-| Khóa/chưa kích hoạt | Không ghi/upload/đọc nháp; vẫn đọc bài công khai/trạng thái hồ sơ mình |
-| Admin active | Quản lý bài/tài khoản; mời qua server có xác thực |
+| Writer active | Đọc và **sửa mọi bài** kể cả nháp người khác; chỉ **xoá bài của mình**; upload/xoá ảnh trong thư mục UUID của mình |
+| Khoá/chưa kích hoạt | Không ghi/upload, không đọc nháp của ai kể cả của mình; vẫn đọc bài công khai và hồ sơ mình |
+| Admin active | Toàn quyền bài viết kể cả xoá; tạo và quản lý tài khoản qua hàm máy chủ có xác thực |
+
+Writer sửa bài của nhau là **cố ý** — cả nhóm cùng biên tập. Hai ranh giới vẫn
+giữ: không xoá bài người khác, và không đổi được trường tác giả (trigger
+`articles_lock_author` chặn, vì đổi tác giả là đường vòng để giành quyền xoá).
 
 User mới mặc định `writer, active=false`, không cấp quyền qua metadata.
 Bucket ảnh **công khai**, kể cả ảnh dùng trong nháp: không upload ảnh bí mật.
 Chỉ nhận JPG/PNG/WebP/GIF tối đa 5 MB, không SVG/HTML.
 
 ## 3. Admin đầu tiên
+
+Tài khoản đầu tiên phải tạo tay vì chưa có admin nào để bấm nút.
 
 1. Sau SQL, Authentication → Users → Add user / Create new user.
 2. Điền email thật, mật khẩu riêng 15+ ký tự, bật Auto Confirm User nếu có.
@@ -51,57 +63,32 @@ Phải trả đúng 1 dòng admin/active=true. Nếu 0 dòng, kiểm tra email v
 Không commit kết quả chứa email thật. Rà admin cũ: `select id, email, role, active
 from public.profiles where role='admin';` — migration không đoán ai là admin thật.
 
+Từ tài khoản này trở đi, mọi tài khoản khác tạo trong giao diện quản trị, kể cả
+admin thứ hai. Không phải mở lại SQL Editor nữa.
+
 Trong cấu hình Authentication, tắt **Allow new users to sign up** vì CMS chỉ nhận
-người được mời. Giữ đăng nhập email/password. API admin vẫn tạo/mời được user.
+người được admin tạo. Giữ đăng nhập email/password. API admin vẫn tạo được user.
 
-## 4. URL email và SMTP
+## 4. Những thứ KHÔNG cần cấu hình
 
-Authentication → URL Configuration:
+Hệ thống không gửi email, nên bỏ qua toàn bộ các mục sau:
 
-- Site URL: `https://hoangluxury.travel`.
-- Redirect URLs: thêm từng dòng, rồi lưu:
+- **SMTP.** Không cần nhà cung cấp mail, không cần xác minh tên miền gửi.
+- **Email templates.** Không cần sửa Invite User hay Reset Password.
+- **Redirect URLs.** Không có link email nào quay về web.
 
-```text
-https://hoangluxury.travel/admin/
-https://hoangluxury.travel/admin/?type=invite
-https://hoangluxury.travel/admin/?type=recovery
-```
+Site URL trong Authentication → URL Configuration cứ để `https://hoangluxury.travel`
+cho đúng, nhưng không có luồng nào phụ thuộc vào nó.
 
-Nếu dùng www thì thêm cùng ba URL cho origin đó. Local/staging dùng project
-riêng với origin/port cụ thể, không thêm localhost vào project production.
-Không thêm `.com` nếu khách không dùng. Không dùng wildcard rộng production.
+Mã xử lý link email vẫn còn trong `src/lib/auth-flow.js` và
+`src/admin/EmailCallbackScreen.jsx`, hiện không có gì kích hoạt. Nếu sau này
+muốn bật lại luồng mời qua email, xem `supabase/email-templates/README.md` —
+trong đó có mẫu thư và lời giải thích vì sao không được dùng `{{ .ConfirmationURL }}`.
 
-Trong Authentication → Email / SMTP Settings, cấu hình **custom SMTP** để mời
-người ngoài organization và reset ổn định. Điền thông tin nhà cung cấp mail,
-sender email/name, xác minh miền gửi. Password SMTP chỉ lưu trên Supabase.
-Email mặc định bị giới hạn người nhận/tốc độ, không coi là SMTP production.
+## 5. Deploy hàm quản lý tài khoản — không cần backend trên Hostinger
 
-**Bắt buộc thay email templates trước khi dùng bản web mới.** Trong Authentication
-→ Email Templates, thay link chính của cả Invite User và Reset Password bằng:
-
-```html
-<a href="{{ .RedirectTo }}&amp;token_hash={{ .TokenHash }}">Confirm your email link</a>
-```
-
-Function mời gửi RedirectTo `/admin/?type=invite`; quên mật khẩu gửi
-`/admin/?type=recovery`. Template trên giữ query `type` rồi thêm TokenHash.
-Chỉ gửi email qua hai luồng này; lời mời tạo tay trong Dashboard có thể thiếu
-RedirectTo/query đúng. Không thay bằng link thiếu token hoặc dùng ConfirmationURL
-kiểu cũ (fragment access_token) — bản mới chủ động từ chối kiểu đó.
-
-Web không tự đăng nhập từ URL. Người nhận bấm kiểm tra link; Supabase xác minh
-token một lần trong client không persist, rồi web hiển thị **email tài khoản**.
-Chỉ khi xác nhận đúng tài khoản mới đổi phiên/đặt mật khẩu. Bấm Huỷ giữ phiên cũ;
-link đã kiểm tra có thể đã dùng, xin email mới. Token bị xóa khỏi thanh địa chỉ.
-Reload giữa chừng không giữ quyền đặt mật khẩu; yêu cầu link mới nếu cần.
-
-Trong Auth password settings, bật yêu cầu **current password** cho thay đổi từ
-phiên đăng nhập thông thường nếu project hỗ trợ. Web gửi current_password nhưng
-backend vẫn phải enforce; test recovery/invite hợp lệ có hoạt động với setting này.
-Không coi frontend reauthentication hoặc secure-change ngoại lệ phiên mới <24h
-là bằng chứng backend luôn yêu cầu mật khẩu cũ. Test riêng project staging trước.
-
-## 5. Deploy mời writer — không cần backend trên Hostinger
+Tạo tài khoản và đặt lại mật khẩu cần khoá service_role, không được để trong
+trình duyệt, nên hai việc này đi qua một Edge Function.
 
 1. Settings → API Keys: lấy **secret key** (`sb_secret_…`); không gửi qua chat.
 2. Edge Functions → Secrets: thêm `BLOG_SERVER_KEY` bằng secret key trên.
@@ -115,25 +102,33 @@ https://hoangluxury.travel,https://www.hoangluxury.travel
    Bỏ www nếu không dùng, không có `/` cuối. Dev/staging dùng cấu hình function
    riêng; không thêm localhost vào production.
 4. Edge Functions → Deploy a new function → Via Editor; đặt tên **invite-writer**.
+   Tên này giao diện quản trị gọi thẳng, đặt khác là hỏng.
 5. Copy toàn bộ `supabase/functions/invite-writer/index.js` thay nội dung mặc định
    `index.ts` trong editor. JavaScript này hợp lệ trong TypeScript; chỉ cần một file.
 6. Deploy. Trong cấu hình function, tắt **Verify JWT / Enforce JWT Verification**
    của gateway, tương ứng `verify_jwt=false` trong `supabase/config.toml`.
 7. **Không bỏ xác thực trong code:** mỗi POST tự xác minh bearer bằng
    `auth.getUser(token)` rồi tra DB `role=admin, active=true`. Tắt gateway hỗ trợ
-   JWT hiện đại/CORS, không mở API mời cho khách. Không token/admin phải trả 401/403.
+   JWT hiện đại/CORS, không mở API cho khách. Không token/không admin trả 401/403.
+
+Hàm nhận hai việc. `action` mặc định là tạo tài khoản: nhận email, họ tên, vai trò
+và mật khẩu, gọi `auth.admin.createUser` với `email_confirm` nên tài khoản dùng
+được ngay và Supabase không gửi thư xác nhận nào. `action: "reset"` nhận id tài
+khoản và mật khẩu mới, gọi `auth.admin.updateUserById`. Mật khẩu do trình duyệt
+sinh ngẫu nhiên hoặc admin tự gõ, bắt buộc 15–128 ký tự, đi thẳng vào Auth và
+không được ghi lại ở đâu khác — kể cả log của function.
 
 Web tự gọi function của Project URL; không phải dán thêm URL API vào frontend.
-Function mới yêu cầu migration 04: giới hạn 10 lần mời mỗi admin mỗi giờ, dùng
-DB atomic nên không reset khi function khởi động lại. Chưa có migration sẽ từ
-chối gửi email (503), không tự bỏ qua giới hạn. Request ID/status có trong Function
-logs; thay đổi role/active được lưu trong bảng riêng `blog_private.role_audit`.
-`api/invite-writer.js` chỉ là adapter tùy chọn cho Vercel. Không upload/cài Node
-trên Hostinger. Mỗi lần sửa function cần deploy lại; lưu nguồn trong repo.
+Function yêu cầu migration 04: giới hạn 10 tài khoản mỗi admin mỗi giờ, dùng
+DB atomic nên không reset khi function khởi động lại. Chưa có migration 04 sẽ
+từ chối (503), không tự bỏ qua giới hạn. Request ID/status có trong Function logs;
+thay đổi role/active lưu trong bảng riêng `blog_private.role_audit`.
+`api/invite-writer.js` chỉ là adapter tuỳ chọn cho Vercel, hiện không có gì gọi tới.
+Không upload/cài Node trên Hostinger. Mỗi lần sửa function cần deploy lại.
 
 ## 6. Env public và local
 
-Lấy **Project URL** (Connect / Data API tùy giao diện) và **Settings → API Keys →
+Lấy **Project URL** (Connect / Data API tuỳ giao diện) và **Settings → API Keys →
 Publishable key**. Anon legacy cũng được. Trong `.env.local` ở gốc project,
 giữ biến catalog đang có, thêm:
 
@@ -146,15 +141,15 @@ Tên biến ANON_KEY có thể chứa `sb_publishable_…`. Không điền secre
 hoặc database password. Hai giá trị public nằm trong bundle theo thiết kế; RLS
 mới là bảo mật. Không đưa `BLOG_SERVER_KEY` vào frontend env.
 Build có bước chặn secret/service-role key trước khi Vite sinh bundle. Nếu đã
-upload/commit khóa trước đó, guard này không thu hồi khóa; phải đổi khóa riêng.
-Booking/feedback mới cần cấu hình thêm theo `google-apps-script/README.md`.
+upload/commit khoá trước đó, guard này không thu hồi khoá; phải đổi khoá riêng.
+Booking/feedback cần cấu hình thêm theo `google-apps-script/README.md`.
 Biến VITE_BOOKING_SHEET_ENDPOINT cũ không còn được form sử dụng.
 
 Terminal trong project:
 
 ```bash
 npm ci
-npm run test:blog
+npm test
 npm run dev
 ```
 
@@ -170,24 +165,30 @@ Nếu port 5173 đang bận, dừng server cũ hoặc chạy chính xác:
 3. Mở blog/URL nháp cửa sổ riêng tư: nháp không hiện. Blog public dùng client anon
    riêng, kể cả admin đang đăng nhập.
 4. Đăng bài, reload blog; tìm kiếm/lọc/thẻ bài/link trực tiếp và tên tác giả đúng.
-5. Hẹn lịch vài phút tới: trước giờ không hiện, sau giờ reload sẽ hiện. Trang đang
-   mở kiểm tra lại khoảng mỗi phút; giờ input là múi giờ thiết bị, không cron.
-6. Admin → Tài khoản → mời email mới làm Writer. Họ bấm email, kiểm tra link và
-   xác nhận đúng email hiển thị, đặt mật khẩu 15+
-   ký tự hai lần, vào quản trị; không quản lý account/sửa bài người khác.
-7. Khóa writer: không ghi/upload được nữa, bài đã đăng còn. Mở khóa thì viết lại.
-8. Đổi mật khẩu (cần mật khẩu hiện tại); logout/login mới. Thử Quên mật khẩu →
-   email → đặt lại → logout/login bằng mật khẩu mới.
-9. Slug lạ có Article not found/noindex, không về home. Static SPA vẫn HTTP 200;
-   không phải 404 HTTP thật, cần backend/server routing nếu yêu cầu strict 404.
+5. Hẹn lịch **ít nhất 10 phút** tới: trước giờ không hiện, sau giờ reload sẽ hiện.
+   Trang đang mở kiểm tra lại khoảng mỗi phút; giờ input là múi giờ thiết bị, không cron.
+   Đừng hẹn sát quá: mốc giờ trôi qua trong lúc còn đang soạn thì bài lên ngay khi lưu.
+   Giao diện sẽ cảnh báo và hỏi lại trước khi lưu trong trường hợp đó.
+6. Admin → Tài khoản → điền email và họ tên, chọn vai trò Writer, bấm **Tạo tài khoản**.
+   Chép ba dòng trong khung vàng gửi cho người đó. Họ đăng nhập, mở menu tài khoản
+   góc phải đổi mật khẩu. Kiểm tra: họ **không** vào được mục Tài khoản.
+7. Với tài khoản writer vừa tạo: mở một bài của admin, sửa và lưu được;
+   nhưng chỗ nút xoá chỉ hiện dòng chữ giải thích, không có nút đỏ. Mở bài của
+   chính họ thì nút xoá xuất hiện.
+8. Quên mật khẩu: admin vào mục Tài khoản, bấm **Đặt lại mật khẩu** ở dòng của
+   người đó, gửi mật khẩu mới trong khung vàng. Mật khẩu cũ không dùng được nữa.
+9. Khoá writer: không ghi/upload được nữa, không mở được nháp của ai nữa, nhưng
+   bài họ đã đăng vẫn còn và vẫn ghi đúng tên tác giả. Mở khoá thì viết lại bình thường.
+10. Slug lạ có Article not found/noindex, không về home. Static SPA vẫn HTTP 200;
+    không phải 404 HTTP thật, cần backend/server routing nếu yêu cầu strict 404.
 
-Tests repo dùng DB trong bộ nhớ/mock API, không xác nhận SMTP/Auth/email thật.
+Tests repo dùng DB trong bộ nhớ/mock API, không xác nhận Auth thật.
 Sau setup phải test live bằng tài khoản/dữ liệu thử, không thông tin khách thật.
 
 ## 8. Build/upload web chính `.travel`
 
 ```bash
-npm run test:blog
+npm test
 npm run build
 ```
 
@@ -195,7 +196,8 @@ Build lấy snapshot **bài công khai** để sinh HTML SEO/sitemap. Nếu có 
 nhưng DB lỗi, build báo lỗi: không upload dist của lần lỗi đó. Không dùng secret
 key để build. Bài đăng mới vẫn hiện runtime ngay không cần upload lại; riêng
 HTML SEO server-side, sitemap/link preview cần **build/upload lại** để cập nhật.
-Đây không phải SSR, không đảm bảo Google tự index hoặc tự đổi tên miền.
+Bài hẹn lịch tự lên web đúng giờ với người đọc, nhưng HTML SEO riêng của bài đó
+chỉ có sau lần build kế tiếp. Đây không phải SSR, không đảm bảo Google tự index.
 
 Hostinger → Websites → **hoangluxury.travel** → File Manager: sao lưu bản cũ,
 upload **nội dung bên trong dist/** vào document root (thường public_html), không
@@ -204,30 +206,32 @@ Không upload env/src/node_modules/secret key/cả repo.
 
 Nếu đang dùng private/404/noindex riêng theo yêu cầu khách, giữ và đối chiếu
 cấu hình trước upload; đừng vô tình public web. CMS không đổi DNS, redirect
-`.com`, Cloudflare hay private/noindex. Chặn IP/quốc gia có thể chặn cả email
-callback: test bằng mạng được phép.
+`.com`, Cloudflare hay private/noindex. Chặn IP/quốc gia có thể chặn cả truy cập
+trang quản trị: test bằng mạng được phép.
 
 ## Gỡ lỗi
 
 | Lỗi | Kiểm tra |
 |---|---|
 | Chưa cấu hình | Hai env public, restart Vite/rebuild |
-| Không hồ sơ/đã khóa | Tạo user sau SQL? Profile/role/active đúng? |
+| Không hồ sơ/đã khoá | Tạo user sau SQL? Profile/role/active đúng? |
 | Blog lỗi thiếu reading_minutes/RPC | SQL mới hoặc 02 rồi 03? Data API bật/schema public exposed? |
-| Invite 401 gateway | Verify JWT đã tắt, có bearer phiên user (không phải publishable key)? |
-| CORS/không gọi function | Tên invite-writer, allowed origin, đã deploy |
-| Không nhận email | SMTP, sender xác minh, spam, Auth logs, hạn mức |
-| Link sai/hết hạn | Template TokenHash, RedirectTo đúng origin/port/query type; xin link mới |
-| Email gửi nhưng activation lỗi | Kiểm tra Auth users/profiles; kích hoạt đúng user, không mời lại liên tục |
+| Writer không mở được bài người khác | Đã chạy `05-writer-collaboration.sql` chưa? |
+| Writer xoá được bài người khác | Policy lạ cộng thêm quyền DELETE; rà `pg_policies` trên `public.articles` |
+| Tạo tài khoản báo 401 gateway | Verify JWT đã tắt, có bearer phiên user (không phải publishable key)? |
+| CORS/không gọi được function | Tên đúng `invite-writer`, origin nằm trong `BLOG_ALLOWED_ORIGINS`, đã deploy bản mới |
+| Tạo tài khoản báo 503 | Chưa chạy migration 04 (thiếu `consume_blog_invite`), hoặc thiếu `BLOG_SERVER_KEY` |
+| Tạo tài khoản báo 429 | Quá 10 tài khoản trong một giờ của cùng admin; đợi hoặc dùng admin khác |
+| Email đã có tài khoản (409) | Dùng nút Đặt lại mật khẩu thay vì tạo mới |
+| Bài hẹn lịch lên sớm | Giờ hẹn đã trôi qua lúc bấm lưu; đối chiếu `publish_at` với `updated_at` trong DB |
 | Upload lỗi | JPG/PNG/WebP/GIF ≤5 MB, active, bucket/policy |
 | URL bài trả server 404 | SPA fallback và upload đúng root |
 
-Gitignore không xóa bí mật đã commit; nếu lộ, đổi/thu hồi và xử lý lịch sử riêng.
+Gitignore không xoá bí mật đã commit; nếu lộ, đổi/thu hồi và xử lý lịch sử riêng.
 Các mẫu blog Markdown cũ đã đưa ra khỏi project; viết/đăng bằng CMS tại `/admin/`.
 Vẫn cần sự đồng ý chủ sở hữu trước khi public source/nội dung/ảnh.
 
 Tài liệu chính thức: [Edge Functions Dashboard](https://supabase.com/docs/guides/functions/quickstart-dashboard),
 [API keys](https://supabase.com/docs/guides/api/api-keys),
-[Redirect URLs](https://supabase.com/docs/guides/auth/redirect-urls),
-[SMTP](https://supabase.com/docs/guides/auth/auth-smtp),
-[RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
+[RLS](https://supabase.com/docs/guides/database/postgres/row-level-security),
+[Supabase production checklist](https://supabase.com/docs/guides/deployment/going-into-prod).
