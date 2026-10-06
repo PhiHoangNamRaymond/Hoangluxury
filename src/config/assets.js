@@ -68,12 +68,12 @@ import routeTaXuaArtUrl from "../../assets/opt/route-art-ta-xua-custom.webp";
 import journeyCaoBangImgUrl from "../../assets/opt/ha-noi-to-cao-bang-private-car-transfer-hoang-luxury-travel.jpg";
 import journeyCatBaImgUrl from "../../assets/opt/ha-noi-to-cat-ba-private-car-transfer-hoang-luxury-travel.jpg";
 import journeyHaGiangImgUrl from "../../assets/opt/ha-noi-to-ha-giang-private-car-transfer-hoang-luxury-travel.jpg";
-import journeyHaLongImgUrl from "../../assets/opt/Ha long.jpg";
-import journeyMocChauImgUrl from "../../assets/opt/Moc chau.jpg";
+import journeyHaLongImgUrl from "../../assets/opt/ha-long.jpg";
+import journeyMocChauImgUrl from "../../assets/opt/moc-chau.jpg";
 import journeyMuCangChaiImgUrl from "../../assets/opt/ha-noi-to-mu-cang-chai-private-car-transfer-hoang-luxury-travel.jpg";
 import journeyNinhBinhImgUrl from "../../assets/opt/ha-noi-to-ninh-binh-private-car-transfer-hoang-luxury-travel.jpg";
-import journeySaPaImgUrl from "../../assets/opt/ảnh sapa.jpg";
-import journeyTaXuaImgUrl from "../../assets/opt/Ta xua.jpg";
+import journeySaPaImgUrl from "../../assets/opt/sapa.jpg";
+import journeyTaXuaImgUrl from "../../assets/opt/ta-xua.jpg";
 
 /* Icon điểm đón / điểm trả trong thẻ /journeys/ (nền bàn cờ đã được tách thành trong suốt) */
 /* Bánh lái vàng ở khối kết trang /journeys/ */
@@ -127,9 +127,9 @@ import journeyFactTimeUrl from "../../assets/journey-fact-time.png";
 import journeyFactVehicleUrl from "../../assets/journey-fact-vehicle.png";
 import journeyFactRatesUrl from "../../assets/journey-fact-rates.png";
 
-/* 4 ảnh thẻ Journey Experience trang tuyến (JPEG 800×600 đã tối ưu) */
+/* 4 ảnh thẻ Journey Experience trang tuyến (WebP 1080×810 đã tối ưu) */
 import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.webp";
-import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet-enhanced.png";
+import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.webp";
 import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
 import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.webp";
 

@@ -32,7 +32,8 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [scope, setScope] = useState("mine");
+  // Cả nhóm cùng biên tập nên mặc định mở ở "Tất cả bài"; lọc về bài mình khi cần.
+  const [scope, setScope] = useState("all");
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -93,7 +94,10 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
         </button>
       </div>
 
-      {Boolean(scoped.length) && (
+      {/* Thanh công cụ bám theo tổng số bài đọc được, không bám theo phạm vi đang
+          chọn: nếu không thì người chưa có bài nào của mình sẽ mất luôn nút
+          chuyển sang "Tất cả bài" và tưởng là trống rỗng. */}
+      {Boolean(articles.length) && (
         <div className="hlt-admin-toolbar">
           <div className="hlt-admin-scope" role="group" aria-label="Phạm vi">
             <button type="button" className={scope === "mine" ? "is-on" : ""} onClick={() => setScope("mine")}>
@@ -136,7 +140,16 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
       {error && <p className="hlt-admin-note is-error">{error}</p>}
       {loading && <p className="hlt-admin-note is-loading">Đang tải…</p>}
 
-      {!loading && !error && !scoped.length && (
+      {!loading && !error && !scoped.length && Boolean(articles.length) && (
+        <div className="hlt-admin-empty">
+          <p>Bạn chưa viết bài nào. Cả nhóm hiện có {articles.length} bài.</p>
+          <button type="button" className="hlt-admin-btn" onClick={() => setScope("all")}>
+            Xem tất cả bài
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && !articles.length && (
         <div className="hlt-admin-empty">
           <p>Chưa có bài nào.</p>
           <button type="button" className="hlt-admin-btn" onClick={onNew}>Viết bài đầu tiên</button>
