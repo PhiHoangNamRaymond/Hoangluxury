@@ -86,7 +86,6 @@ import journeyCarIconUrl from "../../assets/journey-icon-car.png";
 /* Ảnh banner riêng cho từng trang cung đường (đặt tên theo điểm đến) */
 import bannerSapaUrl from "../../assets/opt/journey-banners/sapa.jpg";
 import bannerHaLongUrl from "../../assets/opt/journey-banners/ha-long.jpg";
-import bannerHaLongBayUrl from "../../assets/opt/journey-banners/ha-long-bay.jpg";
 import bannerNinhBinhUrl from "../../assets/opt/journey-banners/ninh-binh.jpg";
 import bannerNinhBinhTempleUrl from "../../assets/opt/journey-banners/ninh-binh-temple.jpg";
 import bannerHaGiangUrl from "../../assets/opt/journey-banners/ha-giang.jpg";
@@ -191,7 +190,7 @@ export const journeyBannerBySlug = {
   "mu-cang-chai": bannerMuCangChaiUrl,
   "ta-xua": bannerTaXuaUrl,
   "pu-luong": bannerPuLuongUrl,
-  "sapa-to-ha-long": bannerHaLongBayUrl,
+  "sapa-to-ha-long": bannerHaLongUrl,
   "sapa-to-ninh-binh": bannerNinhBinhTempleUrl,
   "sapa-to-ha-giang": bannerHaGiangUrl,
   "sapa-to-mu-cang-chai": bannerMuCangChaiUrl,
