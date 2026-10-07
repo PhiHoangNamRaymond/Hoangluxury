@@ -5,7 +5,7 @@ React/Vite homepage for Hoang Luxury Travel.
 ## Scripts
 
 ```bash
-npm install
+npm ci
 npm run dev
 npm run build
 npm run preview
@@ -78,18 +78,23 @@ Spreadsheet IDs and server secrets never belong in VITE_ variables or Git.
 
 ## Blog administration and security
 
-See [One-time Supabase + Hostinger setup and test checklist](supabase/README.md).
+See [One-time Supabase setup and hosting test checklist](supabase/README.md).
 Public blog reads published/due articles through a separate anonymous client.
-Admin supports sanitized Markdown, images, scheduling, writer invitations via
-Supabase Edge Functions and password flows. Existing databases need
-`02-lock-permissions.sql`, `03-blog-runtime.sql`, then `04-security-hardening.sql`;
-new projects run `01-schema.sql` then `04-security-hardening.sql`. Builds do not apply SQL.
+Admin supports sanitized Markdown, images, scheduling, account creation and
+password resets via Supabase Edge Functions. The current account workflow sends
+no email: the admin securely shares the credentials with the writer. Existing
+databases need `02-lock-permissions.sql`, `03-blog-runtime.sql`,
+`04-security-hardening.sql`, then `05-writer-collaboration.sql`; new projects run
+`01-schema.sql`, `04-security-hardening.sql`, then `05-writer-collaboration.sql`.
+Back up an existing database before migrations. Builds do not apply SQL.
+Active writers intentionally read/edit all articles, including drafts, but can
+only delete their own articles and cannot change an article's author.
 New posts appear without redeploying. Route HTML SEO and sitemap are build-time
 snapshots: rebuild/upload to update them. SPA fallback is not a real HTTP 404.
 
 Run `npm run test:blog` for offline DB permissions, public API, HTML sanitization,
-upload/password validation and invitation authorization tests. It does not
-connect to live Supabase or validate live auth/email.
+upload/password validation and account-management authorization tests. It does
+not connect to live Supabase or validate live authentication.
 
 This README contains instructions, variable names and placeholders, not real
 credentials. Never commit real env files, server keys, passwords, database dumps
@@ -103,3 +108,48 @@ Apps Script validation/error redaction and production header configuration.
 `npm run security:secrets` checks known secret formats without printing values;
 `npm run security:audit` checks npm advisories. These do not certify production.
 Apply SQL and redeploy the Edge Function/Apps Script before testing the new controls.
+
+## Vercel release checklist
+
+1. In the same Supabase project used by the frontend, open Edge Functions →
+   Secrets. If this deployment needs blog account management, add its exact
+   origin to the existing `BLOG_ALLOWED_ORIGINS` value, preserving other intended
+   origins. Example: `https://hoangluxury.travel,https://www.hoangluxury.travel,https://hoangluxury.vercel.app`.
+   No trailing slash, path or wildcard. Save the secret; a secret-only change
+   does not require redeploying the function. Function code changes do.
+   See [Supabase secrets](https://supabase.com/docs/guides/functions/secrets).
+2. In Vercel's project settings, check Environment Variables for Production
+   (and Preview if used): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,
+   `VITE_FORMS_PROXY_URL`, `VITE_TURNSTILE_SITE_KEY`. `VITE_CATALOG_URL` is optional
+   when using the app's existing catalog fallback. The Supabase frontend key
+   must be publishable/anon, never secret/service-role. Server secrets stay in
+   Supabase/Apps Script, not Vercel frontend variables or Git.
+3. The deployed browser origin must also be allowed by `FORMS_ALLOWED_ORIGINS`
+   and the Turnstile widget's hostname configuration. Keep an already-working
+   form configuration; do not weaken CAPTCHA or use wildcard origins. Preview
+   URLs need their own deliberately allowed origins or a separate staging setup.
+4. Review `git status --short`. Include referenced new source files and images,
+   including `src/admin/AdminModal.jsx`, with the commit. Do not commit `.env`,
+   `.env.local`, `dist/`, `node_modules/`, secrets or customer data. Gitignore
+   does not protect files already tracked or old commits.
+5. Run `npm ci`, `npm test`, `npm run security:secrets`, `npm run security:audit`,
+   `npm run build`, and `git diff --check`. A clean npm audit only covers known
+   advisories; the secret scanner checks known formats, not all possible secrets
+   or Git history. Review changes before committing and pushing.
+6. Vercel Root Directory must be this repository, Build Command `npm run build`,
+   Output Directory `dist`. Deploy the new commit; environment-variable changes
+   require a new deployment to enter the frontend bundle.
+7. Test the deployed site using dummy data: direct route loading, booking and
+   feedback acknowledgements/popups, admin login, account creation/reset, writer
+   permissions, and anonymous rejection of draft articles. Use a staging
+   Sheet/project where possible; do not send real customer data for tests.
+8. Inspect `/admin/` response headers after deployment: `Cache-Control: no-store`
+   and `X-Robots-Tag: noindex, nofollow`. The configuration also sets targeted
+   CDN no-store headers; Vercel consumes `Vercel-CDN-Cache-Control` so it is not
+   visible in the browser response. The admin HTML shell contains no private
+   account data, and noindex is not authorization. If the live headers differ,
+   check the deployed commit and project root before declaring this complete.
+   See [Vercel cache-control headers](https://vercel.com/docs/caching/cache-control-headers).
+
+Offline tests/builds do not prove the live database policies, deployed server
+code, dashboard environment variables or end-to-end production behavior.

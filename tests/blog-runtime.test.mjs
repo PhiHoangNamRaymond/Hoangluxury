@@ -9,7 +9,7 @@ import { renderMarkdown } from "../src/lib/markdown.js";
 import { readAuthFlow, passwordError } from "../src/lib/auth-flow.js";
 import { publicConfigError } from "../src/lib/public-config.js";
 import { fetchPublicBlog, normalizePublicArticle, validBlogSlug } from "../src/lib/public-blog.js";
-import { blogImageExtension } from "../src/lib/blog-upload.js";
+import { blogImageExtension, blogImageError, blogImageMaxBytes, formatBytes } from "../src/lib/blog-upload.js";
 import { filterBlogArticles } from "../src/config/blog.js";
 import { createInviteHandler } from "../supabase/functions/invite-writer/index.js";
 
@@ -45,6 +45,15 @@ test("password callbacks detect invitation, recovery and expired links without r
 
 test("uploads reject SVG, unsupported and oversized images", () => {
   assert.equal(blogImageExtension({ type: "image/jpeg", size: 100 }), ".jpg");
+  assert.equal(blogImageError({ type: "image/jpeg", size: blogImageMaxBytes }), "");
+  // Người viết phải biết ảnh nặng bao nhiêu và giới hạn là bao nhiêu, không chỉ "quá lớn".
+  const tooBig = blogImageError({ type: "image/png", size: 8_700_000 });
+  assert.match(tooBig, /8,3 MB/);
+  assert.match(tooBig, /5 MB/);
+  assert.equal(blogImageError({ type: "image/png", size: 0 }), "Tệp rỗng, không có dữ liệu ảnh.");
+  assert.match(blogImageError({ type: "image/svg+xml", size: 100 }), /SVG/);
+  assert.equal(blogImageError(undefined), blogImageError({ type: "text/html", size: 10 }));
+  assert.deepEqual([formatBytes(900), formatBytes(2048), formatBytes(5 * 1024 * 1024)], ["900 B", "2 KB", "5,0 MB"]);
   for (const file of [{ type: "image/svg+xml", size: 100 }, { type: "text/html", size: 100 },
     { type: "image/png", size: 5242881 }, { type: "image/png", size: 0 }]) assert.throws(() => blogImageExtension(file));
 });

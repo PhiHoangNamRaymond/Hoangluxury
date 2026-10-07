@@ -18,6 +18,13 @@
   background: var(--photo-cream);
 }
 
+/* Footer có sẵn dải chuyển màu ::before loang lên trên. Ở đây phía trên footer
+   là nền kem nên vệt tối đó lộ rõ thành một mảng xám; tắt đi như trang catalog,
+   feedback và blog đã làm. */
+.hlt-photo-site .hlt-footer.hlt-footer-compact::before {
+  content: none;
+}
+
 /* ---------- Banner ---------- */
 .hlt-photo-hero {
   position: relative;

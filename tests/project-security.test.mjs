@@ -127,5 +127,13 @@ test("production header configurations block scripts/frames and keep admin uncac
   assert.match(apache,/Options -Indexes/);
   assert.match(apache,/Require all denied/);
   assert.ok(apache.includes("RewriteRule (^|/)\\.(?!well-known(?:/|$)) - [F,L]"));
-  assert.equal(vercel.headers[1].headers[0].value,"no-store");
+  for (const source of ["/admin", "/admin/:path*"]) {
+    const rule = vercel.headers.find((rule) => rule.source === source);
+    assert.ok(rule, `Missing admin header rule: ${source}`);
+    const adminHeaders = Object.fromEntries(rule.headers.map(({key,value}) => [key,value]));
+    for (const key of ["Cache-Control", "CDN-Cache-Control", "Vercel-CDN-Cache-Control"]) {
+      assert.equal(adminHeaders[key], "no-store", `${source}: ${key}`);
+    }
+    assert.equal(adminHeaders["X-Robots-Tag"], "noindex, nofollow");
+  }
 });

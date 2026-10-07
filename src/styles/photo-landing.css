@@ -10,8 +10,106 @@
   background: #fff;
 }
 
+/* Container mặc định của site là 1180px, hẹp hơn hẳn các trang cùng kiểu lưới
+   thẻ (/journeys/ 1380, /cruises/ 1320, trang chủ 1344) nên lề hai bên thừa ra
+   rất nhiều ở màn rộng. Khai riêng cho trang này, lấy đúng mức của /journeys/.
+   Chặn ở 761px trở lên để không đè quy tắc lề 28px của điện thoại trong
+   footer-responsive.css — bề ngang nhỏ vốn đã vừa, không cần đụng tới. */
+@media (min-width: 761px) {
+  .hlt-photo-landing .hlt-container {
+    width: min(1380px, 94%);
+  }
+}
+
 .hlt-pl-main {
   padding-top: var(--hlt-header-height, 74px);
+}
+
+/* ---------- Banner đầu trang ---------- */
+
+/* Ảnh nền đã có sẵn dòng chữ viết tay ở mép phải, nên neo nền về bên phải để
+   phần chữ đó không bị cắt mất khi khung hẹp lại. */
+.hlt-pl-hero {
+  position: relative;
+  overflow: hidden;
+  background: #10140f var(--pl-hero) right center / cover no-repeat;
+}
+
+.hlt-pl-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(7, 11, 8, .95) 0%,
+    rgba(7, 11, 8, .9) 24%,
+    rgba(7, 11, 8, .68) 42%,
+    rgba(7, 11, 8, .3) 60%,
+    rgba(7, 11, 8, .06) 76%,
+    transparent 88%
+  );
+}
+
+.hlt-pl-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  min-height: clamp(300px, 25vw, 410px);
+  padding: clamp(34px, 3.4vw, 54px) 0;
+}
+
+.hlt-pl-hero-kicker {
+  margin: 0 0 clamp(10px, 1vw, 14px);
+  color: #e3c06a;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: clamp(10.5px, .85vw, 12px);
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.hlt-pl-hero h1 {
+  max-width: 18ch;
+  margin: 0 0 clamp(12px, 1.3vw, 18px);
+  color: #fff;
+  font-size: clamp(31px, 3.5vw, 53px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.01em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .35);
+}
+
+.hlt-pl-hero-lead {
+  max-width: 46ch;
+  margin: 0 0 clamp(20px, 2.2vw, 30px);
+  color: rgba(255, 255, 255, .86);
+  font-size: clamp(14px, 1.1vw, 16.5px);
+  line-height: 1.55;
+}
+
+.hlt-pl-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(10px, 1vw, 16px);
+}
+
+/* Dùng chung .hlt-btn với banner các trang khác, chỉ thu nhỏ lại cho vừa dải này
+   đúng như .hlt-journey-actions đang làm ở trang tuyến. */
+.hlt-pl-hero-actions .hlt-btn {
+  min-width: 0;
+  min-height: 44px;
+  gap: 10px;
+  padding: 0 22px;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.hlt-pl-hero-actions .hlt-btn-outline {
+  color: #fff !important;
+  border-color: var(--pl-gold-soft);
+  background: rgba(6, 16, 10, .45);
 }
 
 /* ---------- Tiêu đề chung của từng dải ---------- */
@@ -20,6 +118,16 @@
   margin: 0 auto clamp(26px, 3vw, 40px);
   max-width: 760px;
   text-align: center;
+}
+
+/* Câu dẫn của dải phong cách dài hơn hẳn các dải khác; nới khung riêng cho nó
+   để nằm gọn một dòng trên màn hình rộng, màn hẹp vẫn tự xuống dòng. */
+.hlt-pl-head.is-wide {
+  max-width: 1000px;
+}
+
+.hlt-pl-head.is-wide .hlt-pl-lead {
+  max-width: 1000px;
 }
 
 .hlt-pl-eyebrow {
@@ -106,10 +214,10 @@
 
 .hlt-pl-style-body {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: clamp(10px, 1vw, 16px);
   align-items: start;
-  padding: clamp(12px, 1.3vw, 17px) clamp(13px, 1.4vw, 18px) 8px;
+  padding: clamp(12px, 1.3vw, 17px) clamp(13px, 1.4vw, 18px) clamp(13px, 1.4vw, 18px);
 }
 
 .hlt-pl-style-no {
@@ -137,50 +245,6 @@
   line-height: 1.5;
 }
 
-.hlt-pl-style-go {
-  display: block;
-  width: clamp(26px, 2.2vw, 31px);
-  color: var(--pl-gold);
-}
-
-.hlt-pl-style-go svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform .2s ease;
-}
-
-.hlt-pl-style-go:hover svg {
-  transform: translateX(2px);
-}
-
-.hlt-pl-style-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 14px;
-  margin: auto 0 0;
-  padding: 0 clamp(13px, 1.4vw, 18px) clamp(12px, 1.3vw, 16px);
-  list-style: none;
-}
-
-.hlt-pl-style-tags a {
-  color: #7b6a4c;
-  font-family: "Lato", Arial, Helvetica, sans-serif !important;
-  font-size: clamp(11px, .88vw, 12.5px);
-  text-decoration: underline;
-  text-decoration-color: rgba(197, 161, 90, .55);
-  text-underline-offset: 3px;
-}
-
-.hlt-pl-style-tags a:hover {
-  color: var(--pl-gold);
-}
-
 /* ---------- 2. Hai gói dịch vụ ---------- */
 
 .hlt-pl-plans {
@@ -196,7 +260,9 @@
 
 .hlt-pl-plan {
   display: grid;
-  grid-template-columns: minmax(0, 30%) minmax(0, 1fr);
+  /* Cột ảnh đủ rộng để khung xấp xỉ 9:16; hẹp hơn thì ảnh phong cảnh bị ép
+     thành dải dọc và gần như không còn nhìn ra cảnh gì. */
+  grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
   overflow: hidden;
   border: 1px solid rgba(197, 161, 90, .34);
   border-radius: 10px;
@@ -278,20 +344,12 @@
   line-height: 1.4;
 }
 
-.hlt-pl-plan-chip {
-  margin: 13px 0 0;
-  padding: 6px 11px;
-  border-radius: 5px;
-  background: rgba(197, 161, 90, .16);
-  color: #6f6252;
-  font-family: "Lato", Arial, Helvetica, sans-serif !important;
-  font-size: clamp(11px, .88vw, 12.5px);
-  line-height: 1.4;
-}
 
 .hlt-pl-plan-foot {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  /* Cột giá/nút lấy đúng bề ngang cần thiết; ghi chú bên phải nhận phần còn lại
+     và tự xuống dòng, nhờ vậy nhãn nút không bị vỡ làm đôi. */
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 6px clamp(18px, 2.1vw, 30px);
   align-items: center;
   margin-top: auto;
@@ -311,16 +369,11 @@
   line-height: 1;
 }
 
-.hlt-pl-plan-price span {
-  font-family: "Lato", Arial, Helvetica, sans-serif !important;
-  font-size: clamp(11px, .9vw, 13px);
-  font-weight: 700;
-  letter-spacing: .08em;
-}
 
 .hlt-pl-plan-btn {
   grid-column: 1;
   display: inline-flex;
+  white-space: nowrap;
   align-items: center;
   justify-content: center;
   gap: 9px;
@@ -625,6 +678,34 @@
 /* ---------- Điện thoại ---------- */
 
 @media (max-width: 640px) {
+  /* Khung hẹp chỉ thấy khoảng một phần ba bề ngang ảnh. Neo về 64% để giữ đôi
+     nhân vật và cắt bỏ dòng chữ viết tay ở mép phải, nếu không nó đè lên nút. */
+  .hlt-pl-hero {
+    background-position: 64% center;
+  }
+
+  /* Đổi sang phủ dọc: ở bề ngang này không còn vùng tối riêng bên trái để đặt chữ. */
+  .hlt-pl-hero::before {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 11, 8, .84) 0%,
+      rgba(7, 11, 8, .64) 48%,
+      rgba(7, 11, 8, .8) 100%
+    );
+  }
+
+  .hlt-pl-hero-inner {
+    min-height: clamp(330px, 62vw, 400px);
+  }
+
+  .hlt-pl-hero h1 {
+    max-width: none;
+  }
+
+  .hlt-pl-hero-actions .hlt-btn {
+    width: 100%;
+  }
+
   .hlt-pl-style-grid {
     grid-template-columns: minmax(0, 1fr);
   }

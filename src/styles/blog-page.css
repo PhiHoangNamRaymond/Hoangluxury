@@ -20,7 +20,9 @@
 .hlt-blog-hero .hlt-blog-eyebrow { display: table; padding-bottom: 6px; margin-bottom: 12px; border-bottom: 1px solid #c4a05a; }
 .hlt-blog-hero h1 { font-size: clamp(40px,4.1vw,66px); line-height: .95; text-wrap: balance; color: #fff; }
 .hlt-blog-hero h1 em { color: #f0cd75; font-style: normal; }
-.hlt-blog-main .hlt-blog-hero-intro { font-size: 16px; line-height: 1.4; margin-top: 18px; max-width: 600px; }
+/* Dòng 5 ép mọi <p> trong trang blog sang Lato; riêng câu dẫn ở banner phải trả
+   về serif cho khớp banner các trang khác (/photo/, /photo/albums/, /journey/). */
+.hlt-blog-main .hlt-blog-hero-intro { font-family: var(--hlt-font-family) !important; font-size: clamp(15px, 1.2vw, 17.5px); line-height: 1.55; margin-top: 18px; max-width: 600px; }
 .hlt-blog-main .hlt-blog-signature { position: absolute; right: 0; bottom: 36px; font: italic 28px/1.2 "Cormorant",serif; color: #f3ce79; transform: rotate(-8deg); }
 .hlt-blog-signature span { padding-left: 22px; }
 .hlt-blog-editorial { padding-block: 22px 38px; scroll-margin-top: 110px; }
@@ -89,7 +91,8 @@
 .hlt-blog-destination-feature, .hlt-blog-destination-grid > div { display: block; position: relative; isolation: isolate; overflow: hidden; border-radius: 5px; color: #fff; background: #09291f; }
 .hlt-blog-destination-feature>img, .hlt-blog-destination-grid img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .4s; }
 .hlt-blog-destination-feature::after, .hlt-blog-destination-grid > div::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg,#001f19ed,transparent); z-index: -1; }
-.hlt-blog-destination-feature { min-height: 158px; padding: 18px; }
+.hlt-blog-destination-feature { width: 100%; min-height: 158px; padding: 18px; border: 0; font: inherit; text-align: left; }
+.hlt-blog-destination-feature:focus-visible { outline: 2px solid #b98124; outline-offset: 3px; }
 .hlt-blog-destination-feature small { font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
 .hlt-blog-destination-feature h3 { font-size: 39px; margin-block: 6px; color: #fff; }
 .hlt-blog-destination-feature p { font-size: 10px; }
@@ -197,4 +200,51 @@
 
 .hlt-blog-card-copy p:not(.hlt-blog-card-meta) {
   margin-bottom: 0;
+}
+
+/* Reuse the Ha Long cruise CTA layout, overlay and gold button; Blog copy only. */
+.hlt-blog-story-cta .hlt-cruise-cta-text { min-width: 0; }
+.hlt-blog-story-cta .hlt-blog-story-eyebrow {
+  display: table;
+  margin: 0 0 7px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #c7a35d;
+  color: #eed07f;
+  font: 800 11px/1.4 "Lato", Arial, sans-serif !important;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  max-width: none;
+}
+.hlt-blog-story-cta h2 {
+  font-family: "Cormorant", Georgia, serif !important;
+  font-size: clamp(28px, 2.7vw, 40px);
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+.hlt-blog-story-cta .hlt-blog-story-description {
+  max-width: 560px;
+  font-family: "Lato", Arial, sans-serif !important;
+}
+.hlt-blog-story-cta .hlt-blog-story-button {
+  flex: none;
+  gap: 16px;
+  text-transform: uppercase !important;
+  font-family: "Lato", Arial, sans-serif !important;
+}
+.hlt-blog-story-button svg { width: 18px; height: 18px; flex: none; }
+.hlt-blog-story-button:focus-visible { outline: 3px solid #eed07f; outline-offset: 4px; }
+.hlt-blog-story-actions {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+@media (max-width: 768px) {
+  .hlt-blog-story-cta .hlt-blog-story-eyebrow { margin-inline: auto; }
+  .hlt-blog-story-cta .hlt-blog-story-description { max-width: 560px; }
+  .hlt-blog-story-button { min-height: 46px; white-space: normal; }
+  .hlt-blog-story-actions { width: 100%; flex-direction: column; }
+  .hlt-blog-story-actions .hlt-blog-story-button { width: 100%; }
 }

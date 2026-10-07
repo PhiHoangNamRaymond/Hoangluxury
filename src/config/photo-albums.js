@@ -1,6 +1,6 @@
 // Ghép ảnh vào danh sách album ở photo-album-list.js. Ảnh hiện lấy từ kho ảnh
 // sẵn có của site, thay bằng ảnh chụp thật khi có bộ ảnh của từng album.
-import { experienceImages, journeyCardImages } from "./assets.js";
+import { albumPhotosBySlug, experienceImages, journeyCardImages } from "./assets.js";
 import { photoAlbumRows } from "./photo-album-list.js";
 
 export {
@@ -43,11 +43,16 @@ function galleryFor(cover, seed) {
   return photos;
 }
 
-export const photoAlbums = photoAlbumRows.map((row, index) => ({
-  ...row,
-  image: covers[index],
-  photos: galleryFor(covers[index], index + 1),
-}));
+/* Album đã có bộ ảnh chụp thật thì dùng luôn, ảnh đầu tiên làm ảnh bìa;
+   những album còn lại vẫn ghép tạm từ kho ảnh chung như trước. */
+export const photoAlbums = photoAlbumRows.map((row, index) => {
+  const shot = albumPhotosBySlug[row.slug];
+  return {
+    ...row,
+    image: shot ? shot[0] : covers[index],
+    photos: shot || galleryFor(covers[index], index + 1),
+  };
+});
 
 export const photoAlbumBySlug = Object.fromEntries(
   photoAlbums.map((album) => [album.slug, album]),

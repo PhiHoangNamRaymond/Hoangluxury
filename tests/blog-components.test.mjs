@@ -18,15 +18,27 @@ const { createRoot } = await import("react-dom/client");
 const { act } = React;
 const host = document.getElementById("root");
 
-async function component(path, stubName) {
-  const fileUrl = new URL(`../${path}`, import.meta.url);
+/* Biên dịch một module thành data: URL. Node không nạp được .jsx thô từ đĩa nên
+   import .jsx tương đối cũng phải biên dịch đệ quy; .js thì trỏ thẳng file URL. */
+async function compile(fileUrl, stubName) {
   let source = await readFile(fileUrl, "utf8");
   source = source.replace(/import \{([^}]+)\} from "\.\.\/lib\/supabase\.js";/,
     (_match,names) => `const {${names}} = globalThis.${stubName};`)
-    .replaceAll('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
-    .replace(/from "(\.\.\/[^\"]+)"/g, (_match,relative) => `from ${JSON.stringify(new URL(relative,fileUrl).href)}`);
-  const { code } = await transformWithEsbuild(source, path, { loader: path.endsWith("jsx") ? "jsx" : "js", jsx: "transform" });
-  return (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
+    .replaceAll('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`);
+
+  for (const [, relative] of [...source.matchAll(/from "(\.\.?\/[^"]+)"/g)]) {
+    const target = new URL(relative, fileUrl);
+    const resolved = relative.endsWith(".jsx") ? await compile(target, stubName) : target.href;
+    source = source.replaceAll(`from "${relative}"`, `from ${JSON.stringify(resolved)}`);
+  }
+
+  const name = fileUrl.pathname;
+  const { code } = await transformWithEsbuild(source, name, { loader: name.endsWith("jsx") ? "jsx" : "js", jsx: "transform" });
+  return `data:text/javascript;base64,${Buffer.from(code).toString("base64")}`;
+}
+
+async function component(path, stubName) {
+  return (await import(await compile(new URL(`../${path}`, import.meta.url), stubName))).default;
 }
 
 async function fill(input, value) {
@@ -186,9 +198,252 @@ test("expired recovery error is retained for UI; normal sign-in clears stale cal
   } finally { await act(async () => root.unmount()); }
 });
 
+test("Explore Sapa behaves like the destination filter without navigating to a transfer page", async () => {
+  const fileUrl = new URL("../src/BlogPage.jsx", import.meta.url);
+  let source = await readFile(fileUrl, "utf8");
+  source = source
+    .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
+    .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
+    .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
+    .replace('import { aboutImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";', 'const aboutImages = {hero:"/fixture.png"}; const journeyCardImages = Array(9).fill("/fixture.png"); const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";')
+    .replace('import { whatsappUrl } from "./data.js";', 'const whatsappUrl = "https://wa.me/fixture";')
+    .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
+    .replace('import usePublicBlog from "./hooks/usePublicBlog.js";', 'const usePublicBlog = () => globalThis.__blogFilterFixture;')
+    .replace('from "./config/blog.js"', `from ${JSON.stringify(new URL("../src/config/blog.js", import.meta.url).href)}`);
+  const { code } = await transformWithEsbuild(source, "BlogPage.jsx", { loader:"jsx", jsx:"transform" });
+  const BlogPage = (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
+  globalThis.__blogFilterFixture = {
+    loading:false, error:"", retry:() => {},
+    articles:Array.from({length:16}, (_,index) => ({
+      slug:`guide-${index}`, title:`Guide ${index}`, excerpt:"A local guide.",
+      destinations:[index % 2 ? "Ha Long" : "Sapa"], topics:[index % 3 ? "Travel Tips" : "Food & Drink"],
+      author:"Fixture", readingMinutes:3, imageUrl:"", featured:index === 0,
+    })),
+  };
+  const previousMatchMedia = window.matchMedia;
+  const previousScroll = window.HTMLElement.prototype.scrollIntoView;
+  window.matchMedia = () => ({matches:true});
+  let scrolls = [];
+  window.HTMLElement.prototype.scrollIntoView = function(options) { scrolls.push({element:this,options}); };
+  const destinationButton = (name) => [...host.querySelectorAll('[aria-label="Filter articles by destination"] button')].find((button) => button.textContent === name);
+  const snapshot = () => ({
+    destination:[...host.querySelectorAll('[aria-label="Filter articles by destination"] button')].filter((button) => button.getAttribute("aria-pressed") === "true").map((button) => button.textContent),
+    topic:[...host.querySelectorAll('[aria-label="Filter articles by topic"] button')].filter((button) => button.getAttribute("aria-pressed") === "true").map((button) => button.textContent),
+    query:host.querySelector('input[type="search"]').value, sort:host.querySelector("select").value,
+    title:host.querySelector(".hlt-blog-feed .hlt-blog-section-heading h2").textContent,
+    articles:[...host.querySelectorAll(".hlt-blog-card h3")].map((heading) => heading.textContent),
+    results:host.querySelector(".hlt-blog-results")?.textContent,
+  });
+  try {
+    for (const initial of [null,"Sapa","Ha Long"]) {
+      let expected;
+      for (const trigger of ["filter","card"]) {
+        const root = createRoot(host);
+        try {
+          await act(async () => root.render(React.createElement(BlogPage)));
+          const story = host.querySelector('.hlt-blog-story-cta');
+          assert.equal(story.getAttribute('aria-labelledby'), 'blog-story-title');
+          assert.equal(story.querySelector('.hlt-blog-story-eyebrow').textContent, 'LOCAL EXPERIENCE. MEANINGFUL JOURNEY');
+          assert.equal(story.querySelector('h2').textContent, 'Discover Vietnam in Your Own Way');
+          assert.equal(story.querySelector('.hlt-blog-story-description').textContent, 'Our stories go beyond the destinations — they’re about people, culture and the moments that make travel truly meaningful.');
+          assert.equal(story.querySelector('a').textContent, 'Explore Our Story');
+          assert.equal(story.querySelector('a').getAttribute('href'), '/about/');
+          assert.equal(story.querySelectorAll('a').length, 1);
+          assert.match(story.style.backgroundImage, /fixture-blog-sunrise/);
+          const plan = host.querySelector(".hlt-blog-plan");
+          assert.equal(plan.querySelector("h2").textContent,"EXPLORE VIETNAM");
+          assert.equal(plan.querySelector("p").textContent,"More Than a Destination. Travel is also about the people you meet, the culture you experience and the stories you remember long after the journey.");
+          assert.equal(plan.querySelector("a").textContent,"Plan your journey");
+          assert.equal(plan.querySelector("a").getAttribute("href"),"https://wa.me/fixture");
+          if (initial) await act(async () => destinationButton(initial).click());
+          if (initial === "Ha Long") {
+            await act(async () => [...host.querySelectorAll('[aria-label="Filter articles by topic"] button')].find((button) => button.textContent === "Travel Tips").click());
+            await fill(host.querySelector('input[type="search"]'),"guide");
+            await act(async () => {
+              const select = host.querySelector("select"); select.value="oldest";
+              select.dispatchEvent(new window.Event("change",{bubbles:true}));
+            });
+          }
+          const loadMore = host.querySelector(".hlt-blog-load button");
+          if (loadMore) await act(async () => loadMore.click());
+          scrolls=[];
+          const card=host.querySelector(".hlt-blog-destination-feature");
+          assert.equal(card.tagName,"BUTTON");
+          assert.equal(card.hasAttribute("href"),false);
+          const url=window.location.href;
+          await act(async () => (trigger === "filter" ? destinationButton("Sapa") : card).click());
+          assert.equal(window.location.href,url,"stays on Blog");
+          if (trigger === "filter") expected=snapshot();
+          else {
+            assert.deepEqual(snapshot(),expected,"same toggle, combined filters, sort and pagination as Destinations");
+            assert.equal(card.getAttribute("aria-pressed"),destinationButton("Sapa").getAttribute("aria-pressed"));
+            assert.equal(scrolls.length,1);
+            assert.equal(scrolls[0].element,host.querySelector(".hlt-blog-editorial"));
+            assert.equal(scrolls[0].options.behavior,"instant","respects reduced motion");
+          }
+        } finally { await act(async () => root.unmount()); }
+      }
+    }
+  } finally {
+    window.matchMedia=previousMatchMedia;
+    window.HTMLElement.prototype.scrollIntoView=previousScroll;
+    delete globalThis.__blogFilterFixture;
+  }
+});
+
+test("About uses the Blog CTA design and background without changing its contact/catalog destinations", async () => {
+  let source = await readFile(new URL("../src/AboutPage.jsx", import.meta.url), "utf8");
+  source = source
+    .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
+    .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
+    .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
+    .replace(/import \{[^}]+\} from "\.\/config\/assets.js";/, `
+      const aboutCeoSignatureUrl = "/signature.png", logoGoldUrl = "/logo.png", servicesBackgroundUrl = "/mountains.png";
+      const aboutImages = {}, aboutStatIcons = {}, aboutDestinationImages = Array(10).fill("/fixture.png");
+      const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";
+    `)
+    .replace('import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";', 'const catalogPageUrl = "/catalog/", getJourneyPageUrl = () => "/journeys/", whatsappUrl = "https://wa.me/fixture";')
+    .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;');
+  const { code } = await transformWithEsbuild(source, "AboutPage.jsx", { loader:"jsx", jsx:"transform" });
+  const AboutPage = (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
+  const root = createRoot(host);
+  try {
+    await act(async () => root.render(React.createElement(AboutPage)));
+    const cta = host.querySelector('.hlt-blog-story-cta');
+    assert.ok(cta.classList.contains('hlt-cruise-cta-section'));
+    assert.ok(cta.querySelector('.hlt-cruise-cta-overlay'));
+    assert.match(cta.style.backgroundImage, /fixture-blog-sunrise/);
+    assert.equal(cta.getAttribute('aria-labelledby'), 'about-cta-title');
+    assert.equal(cta.querySelector('h2').textContent, 'Every Journey Begins with a Conversation?');
+    assert.equal(cta.querySelector('.hlt-blog-story-description').textContent, 'Share your plans. Let us take care of the details.');
+    const links = [...cta.querySelectorAll('a')];
+    assert.deepEqual(links.map(el => [el.textContent, el.getAttribute('href')]), [
+      ['Book via WhatsApp', 'https://wa.me/fixture'], ['View Catalog', '/catalog/'],
+    ]);
+    assert.ok(links.every(el => el.classList.contains('hlt-blog-story-button')));
+    assert.equal(links[0].getAttribute('rel'), 'noopener noreferrer');
+    assert.equal(host.querySelector('.hlt-journey-cta-about'), null);
+  } finally { await act(async () => root.unmount()); }
+});
+
 test.after(() => {
   dom.window.close();
   delete globalThis.__passwordFixture; delete globalThis.__sessionFixture;
   delete globalThis.__expiredFixture;
   delete globalThis.window; delete globalThis.document; delete globalThis.IS_REACT_ACT_ENVIRONMENT;
+});
+
+test("account dialog only calls the server after confirmation and shows the credentials once", async () => {
+  const calls = [];
+  const people = [
+    { id: "admin-1", email: "admin@example.invalid", full_name: "Admin", role: "admin", active: true },
+    { id: "writer-1", email: "writer@example.invalid", full_name: "Writer", role: "writer", active: true },
+  ];
+  const query = { select: () => query, order: () => query, then: (resolve) => resolve({ data: people, error: null }) };
+  globalThis.__usersFixture = { supabase: {
+    from: () => query,
+    auth: { getSession: async () => ({ data: { session: { access_token: "offline-token" } } }) },
+    functions: { invoke: async (name, options) => { calls.push([name, options.body]); return { data: { ok: true, email: options.body.email } }; } },
+  } };
+
+  const UserManager = await component("src/admin/UserManager.jsx", "__usersFixture");
+  const root = createRoot(host);
+  try {
+    await act(async () => root.render(React.createElement(UserManager, { profile: people[0] })));
+    const button = (label) => [...host.querySelectorAll("button")].find((node) => node.textContent.trim() === label);
+
+    // Biểu mẫu chỉ xuất hiện trong hộp thoại, không nằm sẵn trên trang.
+    assert.equal(host.querySelector("form"), null);
+    assert.ok(button("Thêm người viết"));
+
+    await act(async () => button("Thêm người viết").click());
+    const dialog = host.querySelector('[role="dialog"]');
+    assert.ok(dialog, "bấm Thêm người viết phải mở hộp thoại");
+    assert.equal(dialog.getAttribute("aria-modal"), "true");
+
+    // Mật khẩu được sinh sẵn, đủ dài theo luật của máy chủ.
+    const password = dialog.querySelector(".hlt-admin-pass-row input").value;
+    assert.ok(password.length >= 15, `mật khẩu sinh sẵn quá ngắn: ${password.length}`);
+
+    await fill(dialog.querySelector('input[type="email"]'), "new@example.invalid");
+    await act(async () => host.querySelector("form").dispatchEvent(new window.Event("submit", { bubbles: true, cancelable: true })));
+
+    assert.deepEqual(calls, [["invite-writer", { email: "new@example.invalid", fullName: "", role: "writer", password }]]);
+    assert.match(host.textContent, /Đã tạo tài khoản/);
+    assert.match(host.textContent, /new@example\.invalid/);
+    assert.ok(host.textContent.includes(password), "màn thành công phải hiện mật khẩu để admin chép lại");
+
+    await act(async () => button("Xong").click());
+    assert.equal(host.querySelector('[role="dialog"]'), null);
+    assert.equal(host.textContent.includes(password), false, "đóng hộp thoại là mật khẩu không còn trên màn");
+
+    // Đặt lại mật khẩu phải hỏi trước, chưa hỏi thì không được gọi máy chủ.
+    await act(async () => button("Đặt lại mật khẩu").click());
+    assert.match(host.querySelector('[role="dialog"]').textContent, /Mật khẩu hiện tại sẽ ngừng hoạt động/);
+    assert.equal(calls.length, 1, "mới mở hộp thoại hỏi lại mà đã gọi máy chủ");
+
+    await act(async () => button("Huỷ").click());
+    assert.equal(calls.length, 1, "bấm Huỷ vẫn không được gọi máy chủ");
+
+    await act(async () => button("Đặt lại mật khẩu").click());
+    const confirmLabel = [...host.querySelectorAll(".hlt-admin-modal-foot button")].find((node) => node.textContent.trim() === "Đặt lại mật khẩu");
+    await act(async () => confirmLabel.click());
+    assert.equal(calls.length, 2);
+    assert.equal(calls[1][1].action, "reset");
+    assert.equal(calls[1][1].userId, "writer-1");
+    assert.ok(calls[1][1].password.length >= 15);
+    assert.match(host.textContent, /Đã đặt lại mật khẩu/);
+  } finally {
+    await act(async () => root.unmount());
+  }
+});
+
+test("a schedule that lapsed while writing asks before going live, and never publishes silently", async () => {
+  const saved = [];
+  const insert = { select: () => insert, single: async () => ({ data: { id: "new" }, error: null }) };
+  globalThis.__scheduleFixture = { supabase: {
+    from: () => ({ insert: (row) => { saved.push(row); return insert; } }),
+    storage: { from: () => ({ upload: async () => ({ error: null }) }) },
+  }, blogImageUrl: () => "" };
+
+  const Editor = await component("src/admin/ArticleEditor.jsx", "__scheduleFixture");
+  const root = createRoot(host);
+  const confirms = [];
+  const realConfirm = window.confirm;
+  try {
+    await act(async () => root.render(React.createElement(Editor, { profile: { id: "w" }, onDone: () => {}, onCancel: () => {} })));
+    await fill(host.querySelector('input[name="title"], .hlt-admin-field input'), "Bài thử");
+    const when = host.querySelector('input[type="datetime-local"]');
+    assert.ok(when, "phải có ô chọn giờ đăng");
+    assert.ok(when.getAttribute("min"), "ô giờ đăng phải chặn mốc quá khứ bằng thuộc tính min");
+
+    // Mốc giờ đã trôi qua: giao diện phải cảnh báo ngay, không đợi tới lúc lưu.
+    const pad = (n) => String(n).padStart(2, "0");
+    const past = new Date(Date.now() - 60 * 60 * 1000);
+    const local = `${past.getFullYear()}-${pad(past.getMonth() + 1)}-${pad(past.getDate())}T${pad(past.getHours())}:${pad(past.getMinutes())}`;
+    await fill(when, local);
+    assert.match(host.textContent, /đã trôi qua/);
+
+    const body = host.querySelector("textarea.hlt-admin-body");
+    await fill(body, "Nội dung thử");
+    const publish = [...host.querySelectorAll("button")].find((node) => /Đăng bài|Lưu và hẹn lịch/.test(node.textContent));
+
+    // Bấm Cancel ở câu hỏi thì tuyệt đối không được ghi gì.
+    window.confirm = (message) => { confirms.push(message); return false; };
+    await act(async () => publish.click());
+    assert.equal(confirms.length, 1);
+    assert.match(confirms[0], /đã trôi qua/);
+    assert.equal(saved.length, 0, "người dùng đã từ chối mà bài vẫn được ghi");
+
+    // Bấm OK thì mới ghi, và ghi đúng mốc giờ đã chọn.
+    window.confirm = () => true;
+    await act(async () => publish.click());
+    assert.equal(saved.length, 1);
+    assert.equal(saved[0].status, "published");
+    assert.equal(new Date(saved[0].publish_at).toISOString(), new Date(local).toISOString());
+  } finally {
+    window.confirm = realConfirm;
+    await act(async () => root.unmount());
+    delete globalThis.__scheduleFixture;
+  }
 });

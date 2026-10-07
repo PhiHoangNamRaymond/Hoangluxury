@@ -24,7 +24,7 @@ export const journeyExperienceStats = [
 // Dải 4 điểm mạnh dưới hai thẻ đón / trả (theo ảnh mẫu). Icon là LineIcon.
 export const journeyFeatures = [
   ["shield", "100% Private", "Your vehicle is reserved exclusively for you."],
-  ["chauffeur", "Professional Drivers", "Experienced, courteous and safety-focused."],
+  ["driver", "Professional Drivers", "Experienced, courteous and safety-focused."],
   ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
   ["clock", "On-Time Pick-up", "Pick-up time confirmed before departure."],
 ];
@@ -90,7 +90,7 @@ const privateTransferPage = (destination, travelTime) => ({
   ],
   features: [
     ["shield", "100% Private", "No shared passengers and no multiple pick-ups."],
-    ["chauffeur", "Professional Drivers", "Experienced, courteous and safety-focused."],
+    ["driver", "Professional Drivers", "Experienced, courteous and safety-focused."],
     ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
     ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
   ],
@@ -120,7 +120,7 @@ const cityTransferPage = (origin, destination, travelTime) => ({
   ],
   features: [
     ["shield", "100% Private", "No shared passengers and no multiple pick-ups."],
-    ["chauffeur", "Professional Drivers", "Experienced, courteous and safety-focused."],
+    ["driver", "Professional Drivers", "Experienced, courteous and safety-focused."],
     ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
     ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
   ],

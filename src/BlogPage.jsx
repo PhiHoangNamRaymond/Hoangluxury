@@ -1,11 +1,10 @@
 import React, { useMemo, useRef, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
-import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
-import { aboutImages, journeyCardImages } from "./config/assets.js";
+import { aboutImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";
 import { blogArticleUrl, blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.js";
 import usePublicBlog from "./hooks/usePublicBlog.js";
-import { getJourneyPageUrl, whatsappUrl } from "./data.js";
+import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 const images = { hero: aboutImages.hero, sapa: journeyCardImages[0] };
@@ -184,17 +183,27 @@ export default function BlogPage() {
             </div>
 
             <aside className="hlt-blog-sidebar" aria-label="Travel inspiration">
-              <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.hero}")` }}><h2>Plan Your Journey</h2><p>Turn inspiration into a perfectly planned trip. Our team is here to create a private, seamless journey just for you.</p><PlanButton /></section>
+              <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.hero}")` }}><h2>EXPLORE VIETNAM</h2><p>More Than a Destination. Travel is also about the people you meet, the culture you experience and the stories you remember long after the journey.</p><PlanButton /></section>
               <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><a href={blogArticleUrl(article.slug)}><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></a></li>)}</ol></section>
 
-              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><a className="hlt-blog-destination-feature" href={getJourneyPageUrl("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><h3>Sapa</h3><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></a><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
+              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => toggleDestination("Sapa", true)}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><h3>Sapa</h3><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
             </aside>
           </div>
         </div>
 
       </main>
 
-      <JourneyCallToAction />
+      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="blog-story-title" style={{ backgroundImage: `url(${blogStoryBackgroundUrl})` }}>
+        <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
+        <div className="hlt-container hlt-cruise-cta-content">
+          <div className="hlt-cruise-cta-text">
+            <p className="hlt-blog-story-eyebrow">LOCAL EXPERIENCE. MEANINGFUL JOURNEY</p>
+            <h2 id="blog-story-title">Discover Vietnam in Your Own Way</h2>
+            <p className="hlt-blog-story-description">Our stories go beyond the destinations — they&rsquo;re about people, culture and the moments that make travel truly meaningful.</p>
+          </div>
+          <a className="hlt-cruise-btn-gold hlt-blog-story-button" href="/about/">Explore Our Story<Icon name="arrow" /></a>
+        </div>
+      </section>
       <Footer />
     </div>
   );
