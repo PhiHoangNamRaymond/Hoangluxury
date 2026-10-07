@@ -439,11 +439,15 @@ export default function BookingPage() {
             {currentStep < bookingSteps.length && <button className="is-next" type="button" onClick={goToNextStep}>Continue <span aria-hidden="true">→</span></button>}
           </div>
 
-          <Turnstile action="booking" onToken={setTurnstileToken} resetKey={verificationReset} />
           {!bookingEndpoint && <p>Online booking is being configured. Please contact us via WhatsApp.</p>}
-          <div className="hlt-book-actions">
-            <button type="submit" disabled={submission.state === "loading" || !turnstileToken || !bookingEndpoint}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
+          <div className="hlt-book-checkout">
+            <div className="hlt-book-verification">
+              <Turnstile action="booking" onToken={setTurnstileToken} resetKey={verificationReset} />
+            </div>
+            <div className="hlt-book-actions">
+              <button type="submit" disabled={submission.state === "loading" || !turnstileToken || !bookingEndpoint}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
+            </div>
           </div>
           {submission.message && submission.state !== "success" && <p className={`hlt-book-status is-${submission.state}`} role="status" aria-live="polite">{submission.message}</p>}
           <p className="hlt-book-secure">Your information is secure and will only be used to process your booking.</p>

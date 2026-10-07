@@ -5,15 +5,15 @@
 
 export const blogDestinations = [
   "Sapa",
-  "Ha Giang",
   "Ha Long",
   "Ninh Binh",
+  "Ha Giang",
+  "Cat Ba",
   "Cao Bang",
   "Pu Luong",
+  "Moc Chau",
   "Mu Cang Chai",
   "Ta Xua",
-  "Cat Ba",
-  "Moc Chau",
 ];
 
 export const blogTopics = [

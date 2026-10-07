@@ -1,4 +1,4 @@
-# Setup blog một lần: Supabase + Hostinger
+# Setup blog một lần: Supabase + Vercel / Hostinger
 
 Supabase chạy trên cloud. Không cần tải Supabase/Docker, không cần CLI nếu dùng
 Dashboard như dưới đây. Code có quản trị, blog công khai, upload ảnh, hẹn lịch,
@@ -101,6 +101,17 @@ https://hoangluxury.travel,https://www.hoangluxury.travel
 
    Bỏ www nếu không dùng, không có `/` cuối. Dev/staging dùng cấu hình function
    riêng; không thêm localhost vào production.
+   Nếu dùng Vercel tại `https://hoangluxury.vercel.app`, thêm đúng origin này
+   vào giá trị hiện có, giữ lại các domain đang sử dụng:
+
+```text
+https://hoangluxury.travel,https://www.hoangluxury.travel,https://hoangluxury.vercel.app
+```
+
+   Lưu Secrets là function đọc được giá trị mới, không cần deploy lại nếu chỉ
+   đổi secret. Không dùng wildcard hay thêm `/admin/` vào origin. Đây là cấu
+   hình riêng cho quản lý tài khoản blog; không thay `FORMS_ALLOWED_ORIGINS`
+   đang hoạt động. Xem [tài liệu Secrets](https://supabase.com/docs/guides/functions/secrets).
 4. Edge Functions → Deploy a new function → Via Editor; đặt tên **invite-writer**.
    Tên này giao diện quản trị gọi thẳng, đặt khác là hỏng.
 5. Copy toàn bộ `supabase/functions/invite-writer/index.js` thay nội dung mặc định
@@ -185,7 +196,20 @@ Nếu port 5173 đang bận, dừng server cũ hoặc chạy chính xác:
 Tests repo dùng DB trong bộ nhớ/mock API, không xác nhận Auth thật.
 Sau setup phải test live bằng tài khoản/dữ liệu thử, không thông tin khách thật.
 
-## 8. Build/upload web chính `.travel`
+## 8. Build và phát hành
+
+### Vercel
+
+Làm theo [Vercel release checklist](../README.md#vercel-release-checklist).
+Đặt bốn biến frontend trong Vercel → Project Settings → Environment Variables:
+`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_FORMS_PROXY_URL`,
+`VITE_TURNSTILE_SITE_KEY`. Dùng cùng cấu hình public đã test, không sao chép
+secret/service-role. Chọn Production, thêm Preview nếu cần kiểm tra bản preview.
+Sau khi đổi env phải tạo deployment mới. Build `npm run build`, output `dist`.
+Không cần upload `dist/` thủ công hay tạo Supabase project mới nếu project hiện
+tại đã hoạt động. Migrations/Edge Functions không được Vercel tự cập nhật.
+
+### Hostinger — web chính `.travel`
 
 ```bash
 npm test

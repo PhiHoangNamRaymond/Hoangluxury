@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { renderMarkdown } from "../lib/markdown.js";
-import { blogImageAccept, blogImageExtension } from "../lib/blog-upload.js";
+import { blogImageAccept, blogImageExtension, blogImageError, blogImageHint } from "../lib/blog-upload.js";
 import { supabase, blogImageUrl } from "../lib/supabase.js";
 import { blogDestinations, blogTopics } from "../config/blog-taxonomy.js";
 import { slugify } from "../lib/slugify.js";
@@ -100,24 +100,36 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
     return path;
   };
 
+  /* Báo ngay cạnh chỗ chọn ảnh. Dải trạng thái nằm trên đầu trang, người đang
+     cuộn xuống cuối bài sẽ không nhìn thấy nó. */
+  const [uploadError, setUploadError] = useState({ where: "", message: "" });
+  const rejectUpload = (where, file) => {
+    const invalid = blogImageError(file);
+    if (invalid) setUploadError({ where, message: invalid });
+    else setUploadError({ where: "", message: "" });
+    return invalid;
+  };
+
   const onCoverChange = async (event) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    event.target.value = "";
+    if (!file || rejectUpload("cover", file)) return;
     setStatus({ state: "loading", message: "Đang tải ảnh bìa…" });
     try {
       const path = await uploadImage(file);
       update({ cover_path: path });
       setStatus({ state: "idle", message: "" });
     } catch (error) {
-      setStatus({ state: "error", message: `Không tải được ảnh: ${error.message}` });
+      setStatus({ state: "idle", message: "" });
+      setUploadError({ where: "cover", message: `Không tải được ảnh: ${error.message}` });
     }
-    event.target.value = "";
   };
 
   /** Chèn ảnh vào đúng vị trí con trỏ trong nội dung. */
   const onInlineImage = async (event) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    event.target.value = "";
+    if (!file || rejectUpload("inline", file)) return;
     setStatus({ state: "loading", message: "Đang tải ảnh…" });
     try {
       const path = await uploadImage(file);
@@ -130,9 +142,9 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
       });
       setStatus({ state: "idle", message: "" });
     } catch (error) {
-      setStatus({ state: "error", message: `Không tải được ảnh: ${error.message}` });
+      setStatus({ state: "idle", message: "" });
+      setUploadError({ where: "inline", message: `Không tải được ảnh: ${error.message}` });
     }
-    event.target.value = "";
   };
 
   const save = async (nextStatus) => {
@@ -280,7 +292,7 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
             <span className="hlt-admin-field-head">
               Nội dung
               <span className="hlt-admin-field-tools">
-                <label className="hlt-admin-upload">
+                <label className="hlt-admin-upload" title={blogImageHint}>
                   Chèn ảnh
                   <input type="file" accept={blogImageAccept} onChange={onInlineImage} disabled={status.state === "loading"} />
                 </label>
@@ -289,6 +301,9 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
                 </button>
               </span>
             </span>
+            {uploadError.where === "inline" && (
+              <p className="hlt-admin-note is-error" role="alert">{uploadError.message}</p>
+            )}
             {preview ? (
               <div className="hlt-admin-preview hlt-article-body" dangerouslySetInnerHTML={{ __html: previewHtml }} />
             ) : (
@@ -356,6 +371,10 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
                 Chọn ảnh bìa
                 <input type="file" accept={blogImageAccept} onChange={onCoverChange} disabled={status.state === "loading"} />
               </label>
+            )}
+            <p className="hlt-admin-field-note">{blogImageHint}</p>
+            {uploadError.where === "cover" && (
+              <p className="hlt-admin-note is-error" role="alert">{uploadError.message}</p>
             )}
             <label className="hlt-admin-field">
               <span>Mô tả ảnh</span>

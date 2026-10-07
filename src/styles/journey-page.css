@@ -576,7 +576,9 @@ a.hlt-journey-fact:focus-visible strong {
   padding: 0;
   border-radius: 5px;
   overflow: hidden;
-  background: #071411;
+  /* Cùng tông xanh với dải thông tin ngay dưới banner, thay cho #071411 mà
+     trang chủ dùng; chỉ đổi trong phạm vi trang tuyến. */
+  background: var(--jr-facts-bg);
   border-color: rgba(197, 161, 90, .82);
   box-shadow: none;
 }

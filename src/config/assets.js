@@ -80,6 +80,7 @@ import journeyTaXuaImgUrl from "../../assets/opt/ta-xua.jpg";
 import journeysOutroWheelUrl from "../../assets/journeys-outro-wheel.png";
 /* Icon tài xế (thay cho nét vẽ tay) dùng ở mục Professional Drivers */
 import journeyChauffeurIconUrl from "../../assets/journey-icon-chauffeur.png";
+import journeyChauffeurGoldIconUrl from "../../assets/journey-icon-chauffeur-gold.png";
 import journeyCarIconUrl from "../../assets/journey-icon-car.png";
 
 /* Ảnh banner riêng cho từng trang cung đường (đặt tên theo điểm đến) */
@@ -94,6 +95,7 @@ import bannerCaoBangUrl from "../../assets/opt/journey-banners/cao-bang.jpg";
 import bannerMocChauUrl from "../../assets/opt/journey-banners/moc-chau.jpg";
 import bannerMuCangChaiUrl from "../../assets/opt/journey-banners/mu-cang-chai.jpg";
 import bannerTaXuaUrl from "../../assets/opt/journey-banners/ta-xua.jpg";
+import bannerPuLuongUrl from "../../assets/opt/journey-banners/pu-luong.jpg";
 import journeyPickupIconUrl from "../../assets/ha-noi-private-car-transfer-hoang-luxury-travel-icon.png";
 import journeySaPaIconUrl from "../../assets/ha-noi-to-sapa-private-car-transfer-hoang-luxury-travel-icon.png";
 import journeyHaLongIconUrl from "../../assets/ha-noi-to-ha-long-private-car-transfer-hoang-luxury-travel-icon.png";
@@ -136,11 +138,48 @@ import journeyExpStopsUrl from "../../assets/journey-experience/journey-experien
 /* Nền dải "Ready to start your journey?" trang tuyến (cắt dải núi + mây từ Sapa2.png, JPEG 1920×565) */
 import journeyCtaMountainsImg from "../../assets/journey-cta-mountains.jpg";
 
+/* Nền CTA riêng cho Blog: ảnh bình minh do khách cung cấp. */
+import blogStoryBackgroundImg from "../../assets/blog-story-background.jpg";
+export const blogStoryBackgroundUrl = blogStoryBackgroundImg;
+
+/* Banner đầu trang /photo/ (WebP 2000×668, chữ viết tay nằm sẵn trong ảnh) */
+import photoLandingBannerImg from "../../assets/photo-landing-banner.webp";
+
+export const photoLandingBannerUrl = photoLandingBannerImg;
+
+/* Bộ ảnh thật của từng album (WebP 1024×1536). Album nào chưa có bộ ảnh riêng
+   thì photo-albums.js vẫn lấy ảnh tạm từ kho chung. Khoá là slug của album. */
+import toastPhoto01 from "../../assets/photo-albums/a-toast-to-the-view/01.webp";
+import toastPhoto02 from "../../assets/photo-albums/a-toast-to-the-view/02.webp";
+import toastPhoto03 from "../../assets/photo-albums/a-toast-to-the-view/03.webp";
+import toastPhoto04 from "../../assets/photo-albums/a-toast-to-the-view/04.webp";
+import toastPhoto05 from "../../assets/photo-albums/a-toast-to-the-view/05.webp";
+import toastPhoto06 from "../../assets/photo-albums/a-toast-to-the-view/06.webp";
+import toastPhoto07 from "../../assets/photo-albums/a-toast-to-the-view/07.webp";
+import toastPhoto08 from "../../assets/photo-albums/a-toast-to-the-view/08.webp";
+import toastPhoto09 from "../../assets/photo-albums/a-toast-to-the-view/09.webp";
+import toastPhoto10 from "../../assets/photo-albums/a-toast-to-the-view/10.webp";
+
+export const albumPhotosBySlug = {
+  "a-toast-to-the-view": [
+    toastPhoto01,
+    toastPhoto02,
+    toastPhoto03,
+    toastPhoto04,
+    toastPhoto05,
+    toastPhoto06,
+    toastPhoto07,
+    toastPhoto08,
+    toastPhoto09,
+    toastPhoto10,
+  ],
+};
+
 export const journeyCtaMountainsUrl = journeyCtaMountainsImg;
-export { journeysOutroWheelUrl, journeyChauffeurIconUrl, journeyCarIconUrl };
+export { journeysOutroWheelUrl, journeyChauffeurIconUrl, journeyChauffeurGoldIconUrl, journeyCarIconUrl };
 
 /* Banner đầu trang cho từng tuyến. Tuyến nối tỉnh dùng ảnh của điểm đến;
-   tuyến nào chưa có ảnh riêng (Pu Luong) thì trang tự dùng banner chung. */
+   tuyến nào chưa có ảnh riêng thì trang tự dùng banner chung. */
 export const journeyBannerBySlug = {
   sapa: bannerSapaUrl,
   "ha-long": bannerHaLongUrl,
@@ -151,6 +190,7 @@ export const journeyBannerBySlug = {
   "moc-chau": bannerMocChauUrl,
   "mu-cang-chai": bannerMuCangChaiUrl,
   "ta-xua": bannerTaXuaUrl,
+  "pu-luong": bannerPuLuongUrl,
   "sapa-to-ha-long": bannerHaLongBayUrl,
   "sapa-to-ninh-binh": bannerNinhBinhTempleUrl,
   "sapa-to-ha-giang": bannerHaGiangUrl,

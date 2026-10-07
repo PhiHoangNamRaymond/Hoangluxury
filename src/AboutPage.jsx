@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
-import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import {
   aboutCeoSignatureUrl,
   aboutDestinationImages,
   aboutImages,
   aboutStatIcons,
+  blogStoryBackgroundUrl,
   logoGoldUrl,
   servicesBackgroundUrl,
 } from "./config/assets.js";
-import { getJourneyPageUrl, whatsappUrl } from "./data.js";
+import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
@@ -493,12 +493,21 @@ export default function AboutPage() {
 
       </main>
 
-      {/* CTA dùng chung với trang chủ; đặt ngay trước Footer để hai dải liền nền */}
-      <JourneyCallToAction
-        className="hlt-journey-cta-about"
-        title="Every Journey Begins with a Conversation?"
-        text="Share your plans. Let us take care of the details."
-      />
+      {/* Match the Blog CTA design while preserving the About actions and copy. */}
+      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="about-cta-title" style={{ backgroundImage: `url(${blogStoryBackgroundUrl})` }}>
+        <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
+        <div className="hlt-container hlt-cruise-cta-content">
+          <div className="hlt-cruise-cta-text">
+            <p className="hlt-blog-story-eyebrow">LOCAL EXPERIENCE. MEANINGFUL JOURNEY</p>
+            <h2 id="about-cta-title">Every Journey Begins with a Conversation?</h2>
+            <p className="hlt-blog-story-description">Share your plans. Let us take care of the details.</p>
+          </div>
+          <div className="hlt-blog-story-actions">
+            <a className="hlt-cruise-btn-gold hlt-blog-story-button" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Book via WhatsApp<ArrowIcon /></a>
+            <a className="hlt-cruise-btn-gold hlt-blog-story-button" href={catalogPageUrl}>View Catalog<ArrowIcon /></a>
+          </div>
+        </div>
+      </section>
       <Footer />
     </div>
   );

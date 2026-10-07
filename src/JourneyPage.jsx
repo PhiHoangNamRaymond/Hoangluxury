@@ -12,8 +12,8 @@ import {
   journeyExperienceImages,
   servicesBackgroundUrl,
   journeyBannerBySlug,
-  journeyChauffeurIconUrl,
   journeyCarIconUrl,
+  journeyChauffeurGoldIconUrl,
   journeyFactIcons,
   journeyIconBySlug,
   journeyPickupIconUrl,
@@ -30,9 +30,10 @@ import {
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
 function LineIcon({ type, className }) {
-  // Tài xế và xe dùng icon thiết kế sẵn, không vẽ bằng path như các icon còn lại.
-  if (type === "chauffeur") {
-    return <img className={className} src={journeyChauffeurIconUrl} alt="" aria-hidden="true" />;
+  // "driver" dùng ảnh hoạ tiết chi tiết (đã tô lại đúng màu vàng của hàng icon);
+  // "chauffeur" là bản vẽ nét, dùng ở dải số liệu. Icon xe vẫn là ảnh thiết kế sẵn.
+  if (type === "driver") {
+    return <img className={className} src={journeyChauffeurGoldIconUrl} alt="" aria-hidden="true" />;
   }
   if (type === "car") {
     return <img className={className} src={journeyCarIconUrl} alt="" aria-hidden="true" />;

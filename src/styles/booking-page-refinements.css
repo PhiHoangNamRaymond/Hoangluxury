@@ -210,11 +210,79 @@
   }
 }
 
-/* Keep the desktop booking form compact and centered. */
+.hlt-book-checkout {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.hlt-book-verification {
+  min-width: 0;
+  min-height: 65px;
+}
+
+.hlt-book-verification [role="alert"] {
+  margin: 5px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.hlt-book-checkout .hlt-book-actions {
+  margin-top: 0;
+}
+
+/* Keep the CAPTCHA fully visible at its native size, beside the desktop CTAs. */
 @media (min-width: 1101px) {
   .hlt-book-shell {
     width: min(1120px, calc(100% - 48px));
     grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .hlt-book-checkout {
+    grid-template-columns: 300px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hlt-book-verification iframe {
+    display: block;
+  }
+
+  .hlt-book-checkout .hlt-book-actions {
+    gap: 10px;
+  }
+
+  .hlt-book-checkout .hlt-book-actions button,
+  .hlt-book-checkout .hlt-book-actions a {
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 6px;
+    text-align: center;
+  }
+}
+
+/* Short laptop viewports: save vertical space without scaling or clipping. */
+@media (min-width: 1101px) and (max-height: 800px) {
+  .hlt-book-shell {
+    margin-top: -198px;
+  }
+
+  .hlt-book-form > header {
+    margin-bottom: 8px;
+  }
+
+  .hlt-book-fields {
+    row-gap: 5px;
+  }
+
+  .hlt-book-fields textarea {
+    min-height: 46px;
+    height: 46px;
+  }
+
+  .hlt-book-checkout {
+    margin-top: 8px;
   }
 }
 

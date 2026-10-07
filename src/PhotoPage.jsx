@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
-import { experienceImages, journeyCardImages, journeyCtaMountainsUrl } from "./config/assets.js";
+import { experienceImages, journeyCardImages, journeyCtaMountainsUrl, photoLandingBannerUrl } from "./config/assets.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
@@ -10,109 +10,106 @@ import usePageEntered from "./hooks/usePageEntered.js";
 
 const albumsUrl = "/photo/albums/";
 
-/* 6 phong cách chụp. `category` phải khớp đúng tên danh mục ở PhotoAlbumsPage
-   để bộ lọc bên đó nhận ra. */
+/* 6 phong cách chụp. `title` là chữ hiện trên thẻ; `category` là khoá lọc nên
+   phải khớp đúng tên danh mục trong photo-album-list.js, không đổi theo tiêu đề. */
 const styles = [
   {
+    title: "Nature & Landscapes",
     category: "Natural Journey",
-    text: "Real moments, natural emotions, the beauty of your journey as it happens.",
-    tags: ["Candid", "Travel", "Real Moments"],
+    text: "Preserve your experiences set against beautiful mountains, forests and open landscapes.",
     image: journeyCardImages[0],
   },
   {
+    title: "Couples & Honeymoons",
     category: "Couple & Honeymoon",
-    text: "Romantic and meaningful photos for couples, honeymoons and love stories.",
-    tags: ["Couple", "Honeymoon", "Love Story"],
+    text: "Romantic photos keep memories of your love story and the joy of travelling together.",
     image: experienceImages[9].src,
   },
   {
+    title: "Local Culture",
     category: "Local Heritage",
     text: "Immerse in local culture with traditional attire and authentic settings.",
-    tags: ["Culture", "Traditional Costume", "Local Life"],
     image: experienceImages[15].src,
   },
   {
+    title: "Family Moments",
     category: "Family Memories",
-    text: "Warm, joyful and natural photos for families of all sizes.",
-    tags: ["Family", "Kids", "Togetherness"],
+    text: "Natural family photos filled with laughter, love and the joy of being together.",
     image: journeyCardImages[2],
   },
   {
+    title: "Cinematic Travel",
     category: "Cinematic Travel",
-    text: "Epic landscapes, drone perspectives and cinematic storytelling.",
-    tags: ["Cinematic", "Drone", "Editorial"],
+    text: "Epic landscapes, drone perspectives and cinematic atmosphere.",
     image: journeyCardImages[6],
   },
   {
+    title: "Proposals & Celebrations",
     category: "Proposal & Celebration",
-    text: "Capture life’s special moments — proposals, anniversaries, birthdays and more.",
-    tags: ["Proposal", "Celebration", "Special Moment"],
+    text: "Capture life’s special moments including proposals, anniversaries, birthdays and more.",
     image: experienceImages[13].src,
   },
 ];
 
-/* Hai gói dịch vụ. Giá niêm yết bằng USD theo yêu cầu của khách. */
+/* Hai gói dịch vụ. Giá niêm yết bằng USD theo yêu cầu của khách (chỉ hiện ký
+   hiệu $, không kèm chữ USD). */
 const packages = [
   {
     id: "half-day",
-    name: "Half-Day Experience",
+    name: "Half-Day Photo Experience",
     meta: ["Morning or afternoon", "Up to 4 hours"],
-    text: "Explore the highlights at a relaxed pace. We capture your journey with beautiful photos and drone shots, so you can simply enjoy the moment.",
+    text: "A relaxed photo experience designed to capture the highlights of your journey. Enjoy each destination naturally while we take care of the photography.",
     includes: [
-      ["photographer", "Private photographer"],
-      ["pin", "Multiple locations"],
-      ["drone", "Drone photos & video included"],
-      ["gallery", "All usable photos (color-corrected)"],
-      ["retouch", "50+ professionally retouched photos"],
-      ["clock", "5 preview photos within 24 hours"],
+      ["photographer", "Your own photographer"],
+      ["pin", "Up to 2 locations (The places in the itinerary have been agreed upon)"],
+      ["drone", "Video clips included"],
+      ["retouch", "20 fully retouched photos delivered within 24 hours"],
+      ["clock", "One complimentary framed photo"],
     ],
-    chip: "Photo + Drone · Multiple Locations · All Selected Photos",
     price: "$230",
     button: "Book Half-Day",
-    script: ["Perfect for", "a half-day adventure"],
+    script: ["A few hours.", "Beautiful memories"],
     image: journeyCardImages[7],
   },
   {
     id: "full-day",
-    name: "Full-Day Story",
-    meta: ["Your journey, fully captured", "Up to 8 hours"],
-    text: "More time. More places. More stories. From the first light to the golden sunset, we document your journey with photos, drone shots and candid moments.",
+    name: "Full-Day Photo Experience",
+    meta: ["More time to explore", "Up to 8 hours"],
+    text: "Follow the day at your own pace and let every part of your journey become part of the story. With more time and more locations, we capture the scenery, the details and the natural moments in between.",
     includes: [
-      ["photographer", "Private photographer"],
-      ["pin", "Multiple locations"],
-      ["drone", "Drone photos & video included"],
-      ["gallery", "All usable photos (color-corrected)"],
-      ["retouch", "100+ professionally retouched photos"],
-      ["clock", "10 preview photos within 24 hours"],
+      ["photographer", "Your own photographer"],
+      ["pin", "Up to 4 locations (The places in the itinerary have been agreed upon)"],
+      ["drone", "Video clips included"],
+      ["retouch", "30 fully retouched photos delivered within 24 hours"],
+      ["clock", "Two complimentary framed photos"],
     ],
-    chip: "Photo + Drone · Multiple Locations · All Selected Photos",
     price: "$385",
     button: "Book Full-Day",
-    script: ["A full day.", "A bigger story."],
+    script: ["More time.", "More moments to remember"],
     image: journeyCardImages[3],
   },
 ];
 
 const reasons = [
-  ["camera", "No Posing Experience Needed", "We guide you naturally, so you can simply relax and be yourself."],
-  ["weather", "Flexible for Weather Changes", "If the weather changes, we help adjust the timing or location whenever possible."],
-  ["heart", "A Relaxed & Enjoyable Experience", "More than just photos — this becomes a memorable part of your journey."],
-  ["whatsapp", "24/7 WhatsApp Support", "Quick responses and easy planning, from your first message to your final gallery."],
+  ["camera", "No Posing Experience Needed", "You do not need to know how to pose. The photographer guides you throughout the shoot so you can feel comfortable and be yourself."],
+  ["weather", "Flexible When the Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
+  ["heart", "A Relaxed Photo Experience", "We keep the photo shoot easy and relaxed, so you can enjoy the day as well as the photos."],
+  ["whatsapp", "24/7 WhatsApp Support", "We respond quickly, answer your questions and help you plan every detail of your photo shoot."],
 ];
 
 const preparations = [
-  ["outfit", "Outfit Guidance", "We suggest colors and outfits that match your destination and photo style."],
-  ["attire", "Local Attire Support", "We can help arrange traditional or local costumes where available."],
+  ["outfit", "Outfit Advice", "We suggest colors and outfits that suit the location and the style of photos you want."],
+  ["attire", "Local Outfit Arrangement", "We can help arrange traditional or local outfits where available."],
   ["makeup", "Makeup & Hair", "Professional makeup and hairstyling (on request)."],
-  ["sun", "Best Time to Shoot", "We recommend the best timing based on light and weather conditions."],
-  ["location", "Location Planning", "We suggest the most beautiful and suitable photo locations."],
-  ["route", "Route Coordination", "We work with your itinerary and driver for a seamless journey."],
+  ["sun", "Best Time for Photos", "We suggest the best time based on the light and weather."],
+  ["location", "Location Suggestions", "We help you choose photo locations that suit your trip and the style you want."],
+  ["route", "Route Planning", "We coordinate with you and your driver to fit the photo shoot into your itinerary."],
 ];
 
 const ctaPoints = [
-  ["check", "No obligation"],
   ["chat", "Quick response"],
-  ["calendar", "Tailored to your plans"],
+  ["check", "Personal planning"],
+  ["calendar", "Flexible scheduling"],
 ];
 
 /* Icon nét mảnh dùng chung cho mọi dải của trang; màu và cỡ do CSS quyết định. */
@@ -241,9 +238,9 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
   );
 }
 
-function SectionHead({ eyebrow, title, lead, id }) {
+function SectionHead({ eyebrow, title, lead, id, wide }) {
   return (
-    <div className="hlt-pl-head">
+    <div className={wide ? "hlt-pl-head is-wide" : "hlt-pl-head"}>
       <p className="hlt-pl-eyebrow">
         <span aria-hidden="true" />
         {eyebrow}
@@ -271,6 +268,36 @@ export default function PhotoPage() {
       <Header />
 
       <main className="hlt-pl-main">
+        {/* Banner đầu trang. Chữ viết tay bên phải nằm sẵn trong ảnh nền. */}
+        <section
+          className="hlt-pl-hero"
+          style={{ "--pl-hero": `url(${photoLandingBannerUrl})` }}
+          aria-labelledby="photo-hero-title"
+        >
+          <div className="hlt-container hlt-pl-hero-inner">
+            <p className="hlt-pl-hero-kicker">Hoang Photo</p>
+            <h1 id="photo-hero-title">Preserve cherished memories</h1>
+            <p className="hlt-pl-hero-lead">
+              Private photography experiences across Northern Vietnam,
+              featuring a variety of creative concepts.
+            </p>
+            <div className="hlt-pl-hero-actions">
+              <a
+                className="hlt-btn hlt-btn-gold"
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
+                Book a Photo Experience
+              </a>
+              <a className="hlt-btn hlt-btn-outline" href={albumsUrl}>
+                View Album
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* 6 phong cách chụp */}
         <section className="hlt-pl-styles" aria-labelledby="photo-styles-title">
           <div className="hlt-container">
@@ -278,7 +305,8 @@ export default function PhotoPage() {
               id="photo-styles-title"
               eyebrow="Find Your Photo Style"
               title="How Would You Like to Remember Your Journey?"
-              lead="Six unique styles, endless possibilities. Click to explore each style and see real photos from our journeys."
+              lead="From spontaneous moments to special occasions, explore six photo experiences and choose the one that is the best choice for you."
+              wide
             />
 
             <div className="hlt-pl-style-grid">
@@ -287,36 +315,19 @@ export default function PhotoPage() {
                   <a
                     className="hlt-pl-style-media"
                     href={`${albumsUrl}?style=${encodeURIComponent(style.category)}`}
-                    aria-label={`See ${style.category} photos`}
+                    aria-label={`See ${style.title} photos`}
                   >
-                    <img src={style.image} alt={style.category} loading="lazy" />
+                    <img src={style.image} alt={style.title} loading="lazy" />
                   </a>
                   <div className="hlt-pl-style-body">
                     <span className="hlt-pl-style-no" aria-hidden="true">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div className="hlt-pl-style-text">
-                      <h3>{style.category}</h3>
+                      <h3>{style.title}</h3>
                       <p>{style.text}</p>
                     </div>
-                    <a
-                      className="hlt-pl-style-go"
-                      href={`${albumsUrl}?style=${encodeURIComponent(style.category)}`}
-                      aria-label={`See ${style.category} photos`}
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10.5" />
-                        <path d="M8 12h8M12.5 8.5 16 12l-3.5 3.5" />
-                      </svg>
-                    </a>
                   </div>
-                  <ul className="hlt-pl-style-tags">
-                    {style.tags.map((tag) => (
-                      <li key={tag}>
-                        <a href={`${albumsUrl}?style=${encodeURIComponent(style.category)}`}>#{tag}</a>
-                      </li>
-                    ))}
-                  </ul>
                 </article>
               ))}
             </div>
@@ -329,8 +340,8 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-plans-title"
               eyebrow="Choose Your Experience"
-              title="Two Simple Options. A More Beautiful Story."
-              lead="Same high-quality service. Choose the experience that fits your journey."
+              title="One Journey. Two Ways to Experience It."
+              lead="Choose how you would like to enjoy the moments, places and stories along the way."
             />
 
             <div className="hlt-pl-plan-grid">
@@ -355,12 +366,8 @@ export default function PhotoPage() {
                         </li>
                       ))}
                     </ul>
-                    <p className="hlt-pl-plan-chip">{item.chip}</p>
                     <div className="hlt-pl-plan-foot">
-                      <p className="hlt-pl-plan-price">
-                        {item.price}
-                        <span>USD</span>
-                      </p>
+                      <p className="hlt-pl-plan-price">{item.price}</p>
                       <a
                         className="hlt-pl-plan-btn"
                         href={whatsappUrl}
@@ -388,9 +395,9 @@ export default function PhotoPage() {
           <div className="hlt-container">
             <SectionHead
               id="photo-why-title"
-              eyebrow="Why Travelers Choose Hoang Photo"
-              title="Why Travelers Choose Hoang Photo"
-              lead="More than just a photoshoot — a better way to experience Northern Vietnam."
+              eyebrow="Why Choose Hoang Photo?"
+              title="A Photo Experience Made for You"
+              lead="Enjoy Northern Vietnam while we capture the moments you want to remember."
             />
 
             <div className="hlt-pl-why-grid">
@@ -410,9 +417,9 @@ export default function PhotoPage() {
           <div className="hlt-container">
             <SectionHead
               id="photo-prep-title"
-              eyebrow="We Help You Prepare"
-              title="You Enjoy the Journey. We Prepare the Details."
-              lead="You don’t need to worry about a thing. We help you get ready for a smooth and amazing photo experience."
+              eyebrow="Planning Your Photo Shoot"
+              title="From Outfits and Locations to Timing and Travel."
+              lead="We help plan the time, location, outfits and travel details before your photo shoot."
             />
 
             <div className="hlt-pl-prep-grid">
@@ -436,15 +443,15 @@ export default function PhotoPage() {
           <div className="hlt-container hlt-pl-cta-inner">
             <p className="hlt-pl-cta-script" aria-hidden="true">
               Beautiful Places
-              <span>Meaningful People</span>
-              <span>Lasting Memories</span>
+              <span>Memorable Moments</span>
+              <span>Photos to Keep Forever</span>
             </p>
             <div className="hlt-pl-cta-copy">
-              <h2 id="photo-cta-title">Ready to Create Your Story?</h2>
+              <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
               <a className="hlt-pl-cta-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                 <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
-                Book via WhatsApp
+                Chat on WhatsApp
                 <svg className="hlt-pl-cta-arrow" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M4 12h15M13 6l6 6-6 6" />
                 </svg>
