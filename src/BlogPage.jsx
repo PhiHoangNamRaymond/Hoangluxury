@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { aboutImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";
 import { blogArticleUrl, blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.js";
 import usePublicBlog from "./hooks/usePublicBlog.js";
@@ -139,7 +140,6 @@ export default function BlogPage() {
                       <span className="hlt-blog-author-mark">H</span>
                       <span>By {featured.author}</span>
                       <span>{featured.readingMinutes} min read</span>
-                      <Icon name="arrow" />
                     </div>
                   </div>
                 </a>
@@ -204,6 +204,7 @@ export default function BlogPage() {
           <a className="hlt-cruise-btn-gold hlt-blog-story-button" href="/about/">Explore Our Story<Icon name="arrow" /></a>
         </div>
       </section>
+      <ExperienceSlider />
       <Footer />
     </div>
   );

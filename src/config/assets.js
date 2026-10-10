@@ -79,7 +79,6 @@ import journeyTaXuaImgUrl from "../../assets/opt/ta-xua.jpg";
 /* Bánh lái vàng ở khối kết trang /journeys/ */
 import journeysOutroWheelUrl from "../../assets/journeys-outro-wheel.png";
 /* Icon tài xế (thay cho nét vẽ tay) dùng ở mục Professional Drivers */
-import journeyChauffeurIconUrl from "../../assets/journey-icon-chauffeur.png";
 import journeyChauffeurGoldIconUrl from "../../assets/journey-icon-chauffeur-gold.png";
 import journeyCarIconUrl from "../../assets/journey-icon-car.png";
 
@@ -131,6 +130,7 @@ import journeyFactRatesUrl from "../../assets/journey-fact-rates.png";
 /* 4 ảnh thẻ Journey Experience trang tuyến (WebP 1080×810 đã tối ưu) */
 import journeyExpComfortUrl from "../../assets/journey-experience/journey-experience-comfortable-ride.webp";
 import journeyExpGreetUrl from "../../assets/journey-experience/journey-experience-meet-and-greet.webp";
+import journeyExpGreetCityUrl from "../../assets/journey-experience/journey-experience-meet-and-greet-city.webp";
 import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
 import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.webp";
 
@@ -141,10 +141,55 @@ import journeyCtaMountainsImg from "../../assets/journey-cta-mountains.jpg";
 import blogStoryBackgroundImg from "../../assets/blog-story-background.jpg";
 export const blogStoryBackgroundUrl = blogStoryBackgroundImg;
 
+/* Nền CTA riêng cho About: ảnh thung lũng do khách cung cấp. Dải CTA rất dẹt
+   nên ảnh đã cắt bỏ viền đen trên dưới, còn 2000×262. */
+import aboutCtaBackgroundImg from "../../assets/about-cta-background.webp";
+export const aboutCtaBackgroundUrl = aboutCtaBackgroundImg;
+
 /* Banner đầu trang /photo/ (WebP 2000×668, chữ viết tay nằm sẵn trong ảnh) */
 import photoLandingBannerImg from "../../assets/photo-landing-banner.webp";
 
 export const photoLandingBannerUrl = photoLandingBannerImg;
+
+/* /photo/: ảnh cắt sẵn cỡ nhỏ (cả bộ ~150 KB) cho cụm polaroid ở dải "Why
+   Choose" và 6 vòng tròn ở dải "Planning", thay vì tải ảnh gốc chỉ để hiện
+   khung 100px. Thứ tự photoPrepImages khớp `preparations` trong PhotoPage.jsx. */
+import photoWhyMainImg from "../../assets/photo-landing/why-main.webp";
+import photoWhySideImg from "../../assets/photo-landing/why-side.webp";
+import photoPrepOutfitImg from "../../assets/photo-landing/prep-outfit.webp";
+import photoPrepLocalOutfitImg from "../../assets/photo-landing/prep-local-outfit.webp";
+import photoPrepMakeupImg from "../../assets/photo-landing/prep-makeup.webp";
+import photoPrepBestTimeImg from "../../assets/photo-landing/prep-best-time.webp";
+import photoPrepLocationImg from "../../assets/photo-landing/prep-location.webp";
+import photoPrepRouteImg from "../../assets/photo-landing/prep-route.webp";
+
+export const photoWhyImages = { main: photoWhyMainImg, side: photoWhySideImg };
+
+/* Ảnh bìa 6 thẻ "Find Your Photo Style" trên /photo/ (khách cung cấp, 16:9
+   đúng khung thẻ). Riêng cho trang này, không dùng chung ảnh cung đường. */
+import photoStyleNatureImg from "../../assets/photo-landing/style-nature.webp";
+import photoStyleCouplesImg from "../../assets/photo-landing/style-couples.webp";
+import photoStyleCultureImg from "../../assets/photo-landing/style-culture.webp";
+import photoStyleFamilyImg from "../../assets/photo-landing/style-family.webp";
+import photoStyleCinematicImg from "../../assets/photo-landing/style-cinematic.webp";
+import photoStyleCelebrationsImg from "../../assets/photo-landing/style-celebrations.webp";
+
+export const photoStyleImages = {
+  nature: photoStyleNatureImg,
+  couples: photoStyleCouplesImg,
+  culture: photoStyleCultureImg,
+  family: photoStyleFamilyImg,
+  cinematic: photoStyleCinematicImg,
+  celebrations: photoStyleCelebrationsImg,
+};
+export const photoPrepImages = [
+  photoPrepOutfitImg,
+  photoPrepLocalOutfitImg,
+  photoPrepMakeupImg,
+  photoPrepBestTimeImg,
+  photoPrepLocationImg,
+  photoPrepRouteImg,
+];
 
 /* Bộ ảnh thật của từng album (WebP 1024×1536). Album nào chưa có bộ ảnh riêng
    thì photo-albums.js vẫn lấy ảnh tạm từ kho chung. Khoá là slug của album. */
@@ -175,7 +220,7 @@ export const albumPhotosBySlug = {
 };
 
 export const journeyCtaMountainsUrl = journeyCtaMountainsImg;
-export { journeysOutroWheelUrl, journeyChauffeurIconUrl, journeyChauffeurGoldIconUrl, journeyCarIconUrl };
+export { journeysOutroWheelUrl, journeyChauffeurGoldIconUrl, journeyCarIconUrl };
 
 /* Banner đầu trang cho từng tuyến. Tuyến nối tỉnh dùng ảnh của điểm đến;
    tuyến nào chưa có ảnh riêng thì trang tự dùng banner chung. */
@@ -202,6 +247,15 @@ export const journeyBannerBySlug = {
 export const journeyExperienceImages = [
   journeyExpComfortUrl,
   journeyExpGreetUrl,
+  journeyExpLuggageUrl,
+  journeyExpStopsUrl,
+];
+
+/* Tuyến nối tỉnh không đi qua sân bay nên thẻ đón khách dùng ảnh đón tại
+   khách sạn. Ba thẻ còn lại giữ nguyên để bốn thẻ vẫn cùng một bộ. */
+export const journeyExperienceCityImages = [
+  journeyExpComfortUrl,
+  journeyExpGreetCityUrl,
   journeyExpLuggageUrl,
   journeyExpStopsUrl,
 ];

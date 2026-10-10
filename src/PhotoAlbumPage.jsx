@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { photoAlbumBySlug, photoAlbumUrl, photoAlbums } from "./config/photo-albums.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
@@ -76,7 +77,7 @@ export default function PhotoAlbumPage({ slug }) {
             <div className="hlt-album-foot">
               <a className="hlt-album-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon />
-                Book a photo experience
+                Book via Photo
               </a>
               <a className="hlt-album-next" href={photoAlbumUrl(next.slug)}>
                 Next album: {next.title}
@@ -89,6 +90,7 @@ export default function PhotoAlbumPage({ slug }) {
         </section>
       </main>
 
+      <ExperienceSlider />
       <Footer />
     </div>
   );

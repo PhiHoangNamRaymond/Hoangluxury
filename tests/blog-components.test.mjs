@@ -205,6 +205,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
     .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
     .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
     .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
+    .replace('import ExperienceSlider from "./components/home/ExperienceSlider.jsx";', 'const ExperienceSlider = () => null;')
     .replace('import { aboutImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";', 'const aboutImages = {hero:"/fixture.png"}; const journeyCardImages = Array(9).fill("/fixture.png"); const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";')
     .replace('import { whatsappUrl } from "./data.js";', 'const whatsappUrl = "https://wa.me/fixture";')
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
@@ -297,10 +298,11 @@ test("About uses the Blog CTA design and background without changing its contact
     .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
     .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
     .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
+    .replace('import ExperienceSlider from "./components/home/ExperienceSlider.jsx";', 'const ExperienceSlider = () => null;')
     .replace(/import \{[^}]+\} from "\.\/config\/assets.js";/, `
       const aboutCeoSignatureUrl = "/signature.png", logoGoldUrl = "/logo.png", servicesBackgroundUrl = "/mountains.png";
       const aboutImages = {}, aboutStatIcons = {}, aboutDestinationImages = Array(10).fill("/fixture.png");
-      const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";
+      const aboutCtaBackgroundUrl = "/fixture-about-valley.png";
     `)
     .replace('import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";', 'const catalogPageUrl = "/catalog/", getJourneyPageUrl = () => "/journeys/", whatsappUrl = "https://wa.me/fixture";')
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;');
@@ -312,7 +314,7 @@ test("About uses the Blog CTA design and background without changing its contact
     const cta = host.querySelector('.hlt-blog-story-cta');
     assert.ok(cta.classList.contains('hlt-cruise-cta-section'));
     assert.ok(cta.querySelector('.hlt-cruise-cta-overlay'));
-    assert.match(cta.style.backgroundImage, /fixture-blog-sunrise/);
+    assert.match(cta.style.backgroundImage, /fixture-about-valley/);
     assert.equal(cta.getAttribute('aria-labelledby'), 'about-cta-title');
     assert.equal(cta.querySelector('h2').textContent, 'Every Journey Begins with a Conversation?');
     assert.equal(cta.querySelector('.hlt-blog-story-description').textContent, 'Share your plans. Let us take care of the details.');
@@ -320,7 +322,10 @@ test("About uses the Blog CTA design and background without changing its contact
     assert.deepEqual(links.map(el => [el.textContent, el.getAttribute('href')]), [
       ['Book via WhatsApp', 'https://wa.me/fixture'], ['View Catalog', '/catalog/'],
     ]);
-    assert.ok(links.every(el => el.classList.contains('hlt-blog-story-button')));
+    // Cặp nút chung của trang chủ: vàng đặc + viền, không phải nút riêng của Blog.
+    assert.ok(links.every(el => el.classList.contains('hlt-btn')));
+    assert.deepEqual(links.map(el => el.classList.contains('hlt-btn-gold')), [true, false]);
+    assert.deepEqual(links.map(el => el.classList.contains('hlt-btn-outline')), [false, true]);
     assert.equal(links[0].getAttribute('rel'), 'noopener noreferrer');
     assert.equal(host.querySelector('.hlt-journey-cta-about'), null);
   } finally { await act(async () => root.unmount()); }

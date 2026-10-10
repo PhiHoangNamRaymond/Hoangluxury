@@ -53,7 +53,6 @@
 .hlt-blog-byline { margin-top: 20px; display: flex; align-items: center; gap: 14px; font: 11px "Lato",sans-serif; }
 .hlt-blog-author-mark { border: 1px solid #dabb70; border-radius: 50%; display: grid; place-items: center; width: 34px; height: 34px; color: #f2d69a; font: 24px "Cormorant",serif; }
 .hlt-blog-byline>span:nth-child(3) { border-left: 1px solid #bcaa79; padding-left: 14px; }
-.hlt-blog-byline>svg { margin-left: auto; color: #efd09a; }
 .hlt-blog-section-heading { display: flex; align-items: center; gap: 14px; margin: 22px 0 13px; }
 .hlt-blog-section-heading h2 { font-size: 28px; white-space: nowrap; color: #152b38; }
 .hlt-blog-section-heading>span { height: 1px; background: linear-gradient(90deg,#c9a65c,transparent); flex: 1; min-width: 8px; }
@@ -246,5 +245,7 @@
   .hlt-blog-story-cta .hlt-blog-story-description { max-width: 560px; }
   .hlt-blog-story-button { min-height: 46px; white-space: normal; }
   .hlt-blog-story-actions { width: 100%; flex-direction: column; }
-  .hlt-blog-story-actions .hlt-blog-story-button { width: 100%; }
+  /* .hlt-btn: cặp nút chung dùng ở CTA trang About. */
+  .hlt-blog-story-actions .hlt-blog-story-button,
+  .hlt-blog-story-actions .hlt-btn { width: 100%; }
 }

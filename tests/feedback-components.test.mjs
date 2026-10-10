@@ -22,6 +22,7 @@ source = source
   .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
   .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
   .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
+  .replace('import ExperienceSlider from "./components/home/ExperienceSlider.jsx";', 'const ExperienceSlider = () => null;')
   .replace(/import \{[^}]+\} from "\.\/config\/assets.js";/,
     'const curatedMountainDecorationUrl="/fixture.png", servicesBackgroundUrl="/fixture.png", feedbackReviewImages=Array(8).fill("/fixture.png"), feedbackStatIcons=Array(4).fill("/fixture.png");')
   .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')

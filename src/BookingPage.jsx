@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { whatsappUrl } from "./data.js";
 import { catalogBackgroundUrl } from "./config/assets.js";
 import { countries } from "./config/countries.js";
@@ -479,6 +480,7 @@ export default function BookingPage() {
           </div>
         )}
       </main>
+      <ExperienceSlider />
       <Footer />
     </div>
   );

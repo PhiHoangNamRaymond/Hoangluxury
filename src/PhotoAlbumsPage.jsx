@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { aboutImages, journeyCtaMountainsUrl } from "./config/assets.js";
 import {
   ALL_PHOTO_CATEGORIES,
@@ -219,6 +220,7 @@ export default function PhotoAlbumsPage() {
         </section>
       </main>
 
+      <ExperienceSlider />
       <Footer />
     </div>
   );
