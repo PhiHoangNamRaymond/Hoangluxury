@@ -182,11 +182,20 @@
 .hlt-feedback-review-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  /* Mỗi thẻ cao theo nội dung của chính nó. Để mặc định stretch thì mở rộng một
+  /* Mỗi cột cao theo nội dung của chính nó. Để mặc định stretch thì mở rộng một
      thẻ sẽ kéo cao cả hàng, khiến ảnh của thẻ bên cạnh giãn theo và nhảy. */
   align-items: start;
   gap: 14px;
   margin-top: clamp(38px, 4vw, 56px);
+}
+
+/* Hai cột là hai stack riêng, không phải ô của cùng một hàng lưới: mở rộng một
+   thẻ chỉ đẩy các thẻ bên dưới nó trong cùng cột, cột bên cạnh đứng yên. */
+.hlt-feedback-review-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .hlt-feedback-review-card {
@@ -841,10 +850,17 @@
     line-height: 1.35;
   }
 
+  /* Một cột: bỏ hẳn hộp cột đi để cả 8 thẻ nằm chung một stack. `order` đặt
+     trên từng thẻ dựng lại thứ tự 1→8, thay vì 1,3,5,7 rồi mới 2,4,6,8. */
   .hlt-feedback-review-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 18px;
     margin-top: 32px;
+  }
+
+  .hlt-feedback-review-col {
+    display: contents;
   }
 
   .hlt-feedback-review-card > img {

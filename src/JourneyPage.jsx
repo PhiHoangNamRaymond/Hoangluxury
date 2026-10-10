@@ -9,6 +9,7 @@ import { catalogPageUrl, fleet as fleetItems, whatsappUrl } from "./data.js";
 import {
   fleetImages,
   heroBannerUrl,
+  journeyExperienceCityImages,
   journeyExperienceImages,
   servicesBackgroundUrl,
   journeyBannerBySlug,
@@ -260,6 +261,10 @@ export default function JourneyPage({ slug }) {
     [journeyFactIcons.vehicle, "Vehicle", heroFacts?.vehicle[0] || "Limo Lux / Limo Prime /", heroFacts?.vehicle[1] || "VIP Luxury"],
     [journeyFactIcons.rates, "Rates", heroFacts?.rates[0] || "Transparent All-Inclusive Pricing", heroFacts?.rates[1] || "Cash & Card"],
   ];
+
+  /* Tuyến nối tỉnh không qua sân bay nên thẻ "Personal Meet & Greet" dùng ảnh
+     đón tại khách sạn thay cho ảnh cầm biển ở sảnh đến. */
+  const experienceImages = journey.cityPickup ? journeyExperienceCityImages : journeyExperienceImages;
 
   /* Mặc định đón tại Hà Nội; tuyến nối tỉnh (Sapa → Ha Long…) khai điểm đón
      riêng trong config. */
@@ -534,7 +539,7 @@ export default function JourneyPage({ slug }) {
             <div className="hlt-journey-experience-grid">
               {journeyExperience.map(([title, text], index) => (
                 <article className="hlt-journey-experience-card" key={title}>
-                  <img src={journeyExperienceImages[index]} alt="" loading="lazy" />
+                  <img src={experienceImages[index]} alt="" loading="lazy" />
                   <div className="hlt-journey-experience-body">
                     <h3>{title}</h3>
                     <p>{text}</p>

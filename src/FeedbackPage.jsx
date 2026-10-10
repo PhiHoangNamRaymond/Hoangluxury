@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import {
   curatedMountainDecorationUrl,
   feedbackReviewImages,
@@ -350,36 +351,45 @@ export default function FeedbackPage() {
               <p>Real experiences, real emotions. Thank you to our guests for allowing us to share these wonderful moments.</p>
             </header>
 
+            {/* Chia chẵn / lẻ thành hai cột nên vị trí trái–phải của từng thẻ
+                giữ nguyên như lưới cũ, nhưng mỗi cột cao độc lập. `order` giữ
+                thứ tự gốc khi mobile gộp hai cột lại thành một. */}
             <div className="hlt-feedback-review-grid">
-              {guestReviews.map((review) => {
-                const isExpanded = expandedReviews.includes(review.title);
+              {[0, 1].map((column) => (
+                <div className="hlt-feedback-review-col" key={column}>
+                  {guestReviews.map((review, index) => ({ review, index }))
+                    .filter(({ index }) => index % 2 === column)
+                    .map(({ review, index }) => {
+                      const isExpanded = expandedReviews.includes(review.title);
 
-                return (
-                  <article className="hlt-feedback-review-card" key={review.title}>
-                    <img src={review.image} alt={review.alt} loading="lazy" decoding="async" />
-                    <div className="hlt-feedback-review-body">
-                      <h3>{review.title}</h3>
-                      <div className="hlt-feedback-stars" aria-label="5 out of 5 stars">★★★★★</div>
-                      <blockquote className={isExpanded ? "is-expanded" : ""} lang={review.lang}>
-                        {review.quote}
-                      </blockquote>
-                      <button
-                        type="button"
-                        className="hlt-feedback-review-more"
-                        aria-expanded={isExpanded}
-                        onClick={() => toggleReview(review.title)}
-                      >
-                        {isExpanded ? "Read less" : "Read more"}
-                        <span aria-hidden="true">→</span>
-                      </button>
-                      <div className="hlt-feedback-review-author">
-                        <CountryFlag country={review.country} />
-                        <strong>{review.guest}</strong>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
+                      return (
+                        <article className="hlt-feedback-review-card" key={review.title} style={{ order: index }}>
+                          <img src={review.image} alt={review.alt} loading="lazy" decoding="async" />
+                          <div className="hlt-feedback-review-body">
+                            <h3>{review.title}</h3>
+                            <div className="hlt-feedback-stars" aria-label="5 out of 5 stars">★★★★★</div>
+                            <blockquote className={isExpanded ? "is-expanded" : ""} lang={review.lang}>
+                              {review.quote}
+                            </blockquote>
+                            <button
+                              type="button"
+                              className="hlt-feedback-review-more"
+                              aria-expanded={isExpanded}
+                              onClick={() => toggleReview(review.title)}
+                            >
+                              {isExpanded ? "Read less" : "Read more"}
+                              <span aria-hidden="true">→</span>
+                            </button>
+                            <div className="hlt-feedback-review-author">
+                              <CountryFlag country={review.country} />
+                              <strong>{review.guest}</strong>
+                            </div>
+                          </div>
+                        </article>
+                      );
+                    })}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -498,6 +508,7 @@ export default function FeedbackPage() {
           </form>
         </section>
       </main>
+      <ExperienceSlider />
       <Footer />
       {submission.state === "success" && (
         <div

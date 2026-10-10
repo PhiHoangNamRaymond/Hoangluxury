@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import {
   aboutCeoSignatureUrl,
   aboutDestinationImages,
   aboutImages,
   aboutStatIcons,
-  blogStoryBackgroundUrl,
+  aboutCtaBackgroundUrl,
   logoGoldUrl,
   servicesBackgroundUrl,
 } from "./config/assets.js";
@@ -157,6 +158,17 @@ function WhatsAppIcon() {
     <svg className="hlt-about-wa" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 2.6a9.3 9.3 0 0 0-8 14.1L2.8 21.3l4.7-1.2A9.3 9.3 0 1 0 12 2.6Z" />
       <path className="is-fill" d="M8.9 7.6c.3-.3.7-.3.9 0l1.1 1.6c.2.3.2.7-.1 1l-.6.6c.6 1.3 1.7 2.4 3 3l.6-.6c.3-.3.7-.3 1-.1l1.6 1.1c.3.2.3.6 0 .9l-.8.9c-.5.5-1.3.7-2 .4a9.6 9.6 0 0 1-5.1-5.1c-.3-.7-.1-1.5.4-2l1-.8Z" />
+    </svg>
+  );
+}
+
+/* Bản WhatsApp đặc nét, dùng cho nút vàng chung với trang chủ. Khác
+   `WhatsAppIcon` ở trên: cái đó là bản nét mảnh, chỉ dùng ở banner mobile và
+   lấy màu nét từ CSS của riêng nút đó. */
+function WhatsAppMark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
     </svg>
   );
 }
@@ -494,7 +506,7 @@ export default function AboutPage() {
       </main>
 
       {/* Match the Blog CTA design while preserving the About actions and copy. */}
-      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="about-cta-title" style={{ backgroundImage: `url(${blogStoryBackgroundUrl})` }}>
+      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="about-cta-title" style={{ backgroundImage: `url(${aboutCtaBackgroundUrl})` }}>
         <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
         <div className="hlt-container hlt-cruise-cta-content">
           <div className="hlt-cruise-cta-text">
@@ -502,12 +514,17 @@ export default function AboutPage() {
             <h2 id="about-cta-title">Every Journey Begins with a Conversation?</h2>
             <p className="hlt-blog-story-description">Share your plans. Let us take care of the details.</p>
           </div>
+          {/* Cặp nút chung của trang chủ: nút vàng đặc + nút viền. */}
           <div className="hlt-blog-story-actions">
-            <a className="hlt-cruise-btn-gold hlt-blog-story-button" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Book via WhatsApp<ArrowIcon /></a>
-            <a className="hlt-cruise-btn-gold hlt-blog-story-button" href={catalogPageUrl}>View Catalog<ArrowIcon /></a>
+            <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <span className="hlt-hero-whatsapp-icon" aria-hidden="true"><WhatsAppMark /></span>
+              Book via WhatsApp
+            </a>
+            <a className="hlt-btn hlt-btn-outline" href={catalogPageUrl}>View Catalog</a>
           </div>
         </div>
       </section>
+      <ExperienceSlider />
       <Footer />
     </div>
   );

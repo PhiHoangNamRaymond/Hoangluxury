@@ -3,6 +3,7 @@ import { renderMarkdown } from "./lib/markdown.js";
 import usePublicBlog from "./hooks/usePublicBlog.js";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import { blogArticleUrl } from "./config/blog.js";
 import { whatsappUrl } from "./data.js";
@@ -192,6 +193,7 @@ export default function BlogArticlePage({ slug }) {
       </main>
 
       <JourneyCallToAction />
+      <ExperienceSlider />
       <Footer />
     </div>
   );

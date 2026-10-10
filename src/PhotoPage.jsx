@@ -1,7 +1,15 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
-import { experienceImages, journeyCardImages, journeyCtaMountainsUrl, photoLandingBannerUrl } from "./config/assets.js";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
+import {
+  journeyCardImages,
+  journeyCtaMountainsUrl,
+  photoLandingBannerUrl,
+  photoPrepImages,
+  photoStyleImages,
+  photoWhyImages,
+} from "./config/assets.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
@@ -17,37 +25,37 @@ const styles = [
     title: "Nature & Landscapes",
     category: "Natural Journey",
     text: "Preserve your experiences set against beautiful mountains, forests and open landscapes.",
-    image: journeyCardImages[0],
+    image: photoStyleImages.nature,
   },
   {
     title: "Couples & Honeymoons",
     category: "Couple & Honeymoon",
     text: "Romantic photos keep memories of your love story and the joy of travelling together.",
-    image: experienceImages[9].src,
+    image: photoStyleImages.couples,
   },
   {
     title: "Local Culture",
     category: "Local Heritage",
     text: "Immerse in local culture with traditional attire and authentic settings.",
-    image: experienceImages[15].src,
+    image: photoStyleImages.culture,
   },
   {
     title: "Family Moments",
     category: "Family Memories",
     text: "Natural family photos filled with laughter, love and the joy of being together.",
-    image: journeyCardImages[2],
+    image: photoStyleImages.family,
   },
   {
     title: "Cinematic Travel",
     category: "Cinematic Travel",
     text: "Epic landscapes, drone perspectives and cinematic atmosphere.",
-    image: journeyCardImages[6],
+    image: photoStyleImages.cinematic,
   },
   {
     title: "Proposals & Celebrations",
     category: "Proposal & Celebration",
     text: "Capture life’s special moments including proposals, anniversaries, birthdays and more.",
-    image: experienceImages[13].src,
+    image: photoStyleImages.celebrations,
   },
 ];
 
@@ -97,13 +105,14 @@ const reasons = [
   ["whatsapp", "24/7 WhatsApp Support", "We respond quickly, answer your questions and help you plan every detail of your photo shoot."],
 ];
 
+/* Ảnh tròn của từng bước lấy theo đúng thứ tự từ photoPrepImages (assets.js). */
 const preparations = [
-  ["outfit", "Outfit Advice", "We suggest colors and outfits that suit the location and the style of photos you want."],
-  ["attire", "Local Outfit Arrangement", "We can help arrange traditional or local outfits where available."],
-  ["makeup", "Makeup & Hair", "Professional makeup and hairstyling (on request)."],
-  ["sun", "Best Time for Photos", "We suggest the best time based on the light and weather."],
-  ["location", "Location Suggestions", "We help you choose photo locations that suit your trip and the style you want."],
-  ["route", "Route Planning", "We coordinate with you and your driver to fit the photo shoot into your itinerary."],
+  ["Outfit Advice", "We suggest colors and outfits that suit the location and the style of photos you want."],
+  ["Local Outfit Arrangement", "We can help arrange traditional or local outfits where available."],
+  ["Makeup & Hair", "Professional makeup and hairstyling (on request)."],
+  ["Best Time for Photos", "We suggest the best time based on the light and weather."],
+  ["Location Suggestions", "We help you choose photo locations that suit your trip and the style you want."],
+  ["Route Planning", "We coordinate with you and your driver to fit the photo shoot into your itinerary."],
 ];
 
 const ctaPoints = [
@@ -174,44 +183,6 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
       <>
         <path d="M12 2.8a9.2 9.2 0 0 0-7.9 13.9L2.9 21.1l4.6-1.2A9.2 9.2 0 1 0 12 2.8Z" />
         <path d="M9 7.9c.3-.3.7-.3.9 0l1.1 1.6c.2.3.2.7-.1 1l-.6.6c.6 1.2 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.6 1.1c.3.2.3.6 0 .9l-.8.8c-.5.5-1.2.7-1.9.4a9.4 9.4 0 0 1-5-5c-.3-.7-.1-1.4.4-1.9l.9-.7Z" />
-      </>
-    ),
-    outfit: (
-      <>
-        <path d="M9 3.5h6l-1 3.5 3.6 13H6.4L10 7l-1-3.5Z" />
-        <path d="M8.8 10.6h6.4" />
-      </>
-    ),
-    attire: (
-      <>
-        <rect x="3.5" y="9.5" width="17" height="4" rx="1" />
-        <path d="M5 13.5v6.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6.5M12 9.5v11.5" />
-        <path d="M12 9.5S10.6 4.3 8.2 4.3a2.2 2.2 0 0 0 0 4.4h3.8Zm0 0s1.4-5.2 3.8-5.2a2.2 2.2 0 0 1 0 4.4H12Z" />
-      </>
-    ),
-    makeup: (
-      <>
-        <path d="M14.4 3.6 20 9.2l-9.6 9.6-4.2 1.4 1.4-4.2 6.8-12.4Z" />
-        <path d="m12.6 6.4 5 5" />
-      </>
-    ),
-    sun: (
-      <>
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7" />
-      </>
-    ),
-    location: (
-      <>
-        <path d="M12 21.5s6.5-6 6.5-11.5a6.5 6.5 0 0 0-13 0C5.5 15.5 12 21.5 12 21.5Z" />
-        <path d="M9.4 10.4 12 8l2.6 2.4v3.4H9.4Z" />
-      </>
-    ),
-    route: (
-      <>
-        <path d="M12 21.5s6.5-6 6.5-11.5a6.5 6.5 0 0 0-13 0C5.5 15.5 12 21.5 12 21.5Z" />
-        <circle cx="12" cy="9.8" r="2.4" />
-        <path d="M6.2 17.5H4.6a1.6 1.6 0 0 0 0 3.2h14.8" />
       </>
     ),
     check: (
@@ -289,7 +260,7 @@ export default function PhotoPage() {
                 rel="noopener noreferrer"
               >
                 <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
-                Book a Photo Experience
+                Book via Photo
               </a>
               <a className="hlt-btn hlt-btn-outline" href={albumsUrl}>
                 View Album
@@ -392,22 +363,35 @@ export default function PhotoPage() {
 
         {/* Vì sao chọn Hoang Photo */}
         <section className="hlt-pl-why" aria-labelledby="photo-why-title">
-          <div className="hlt-container">
-            <SectionHead
-              id="photo-why-title"
-              eyebrow="Why Choose Hoang Photo?"
-              title="A Photo Experience Made for You"
-              lead="Enjoy Northern Vietnam while we capture the moments you want to remember."
-            />
+          <div className="hlt-container hlt-pl-why-layout">
+            {/* Cụm ảnh trang trí theo ảnh mẫu: hai khung polaroid và dòng chữ viết tay. */}
+            <div className="hlt-pl-why-media" aria-hidden="true">
+              <img className="hlt-pl-why-photo is-main" src={photoWhyImages.main} alt="" loading="lazy" decoding="async" />
+              <img className="hlt-pl-why-photo is-side" src={photoWhyImages.side} alt="" loading="lazy" decoding="async" />
+              <p className="hlt-pl-why-script">
+                <span>More</span>
+                <span>Than a Trip</span>
+                <span>A Story to Keep</span>
+              </p>
+            </div>
 
-            <div className="hlt-pl-why-grid">
-              {reasons.map(([icon, title, text]) => (
-                <article key={title}>
-                  <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              ))}
+            <div className="hlt-pl-why-body">
+              <SectionHead
+                id="photo-why-title"
+                eyebrow="Why Choose Hoang Photo?"
+                title="A Photo Experience Made for You"
+                lead="Enjoy Northern Vietnam while we capture the moments you want to remember."
+              />
+
+              <div className="hlt-pl-why-grid">
+                {reasons.map(([icon, title, text]) => (
+                  <article key={title}>
+                    <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -420,14 +404,22 @@ export default function PhotoPage() {
               eyebrow="Planning Your Photo Shoot"
               title="From Outfits and Locations to Timing and Travel."
               lead="We help plan the time, location, outfits and travel details before your photo shoot."
+              wide
             />
 
             <div className="hlt-pl-prep-grid">
-              {preparations.map(([icon, title, text]) => (
+              {preparations.map(([title, text], index) => (
                 <article key={title}>
-                  <LineIcon type={icon} className="hlt-pl-ic hlt-pl-prep-ic" />
-                  <h3>{title}</h3>
-                  <p>{text}</p>
+                  <div className="hlt-pl-prep-media">
+                    <img src={photoPrepImages[index]} alt="" loading="lazy" decoding="async" />
+                  </div>
+                  <div className="hlt-pl-prep-text">
+                    <h3>
+                      <span className="hlt-pl-prep-no">{String(index + 1).padStart(2, "0")}</span>
+                      {title}
+                    </h3>
+                    <p>{text}</p>
+                  </div>
                 </article>
               ))}
             </div>
@@ -469,6 +461,7 @@ export default function PhotoPage() {
         </section>
       </main>
 
+      <ExperienceSlider />
       <Footer />
     </div>
   );

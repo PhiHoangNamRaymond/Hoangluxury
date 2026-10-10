@@ -103,10 +103,12 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 
   /* Keep the mark and wordmark together, even when the web font is unavailable. */
   .hlt-footer-compact .hlt-footer-brand-heading {
-    --footer-brand-logo-size: clamp(40px, calc(10vw - 56px), 56px);
+    /* Tỷ lệ huy hiệu so với chữ lấy theo lockup ở header: file PNG có viền trong
+       suốt rất rộng nên phần vàng nhìn thấy nhỏ hơn nhiều so với khung ảnh. */
+    --footer-brand-logo-size: clamp(48px, calc(10vw - 56px), 70px);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     min-width: 0;
     min-height: 56px;
     /* Align the visible gold mark, accounting for the PNG's transparent left edge. */
