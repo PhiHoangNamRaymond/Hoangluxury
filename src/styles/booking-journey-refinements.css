@@ -93,40 +93,86 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 }
 
 @media (min-width: 961px) {
+  /* Hàng tiêu đề dùng chung: cột thương hiệu và ba cột link cùng chia 2 hàng
+     của lưới footer (subgrid) — hàng 1 là logo / tiêu đề cột, hàng 2 là nội
+     dung. Hàng 1 cao bằng ô cao nhất nên dòng đầu "Private car services…"
+     luôn ngang "Home", "Airport Transfer" và số điện thoại, kể cả khi logo đổi
+     cỡ hay "QUICK LINKS" bẻ 2 dòng ở màn hẹp. Trước đây cột thương hiệu tự xếp
+     theo chiều cao logo nên mỗi lần chỉnh logo là lệch hàng. */
+  /* row-gap 0: lưới khai `gap` dạng viết tắt (áp cả hàng). Trước chỉ có một
+     hàng nên không sao; nay có hai hàng thì nó chèn thêm ~62px giữa tiêu đề cột
+     và link đầu tiên. Khoảng cách đó vẫn do margin-bottom của h4 quyết định. */
+  .hlt-footer.hlt-footer-compact .hlt-footer-grid {
+    grid-template-rows: auto 1fr;
+    row-gap: 0;
+    /* Các cột có min-height 220px, nhưng khi là subgrid thì min-height của cột
+       không đẩy được hàng nữa; đặt sàn ở lưới để footer giữ đúng chiều cao cũ. */
+    min-height: 220px;
+  }
+
+  .hlt-footer.hlt-footer-compact .hlt-footer-brand,
+  .hlt-footer.hlt-footer-compact .hlt-footer-col {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    /* Các cột này vốn là flex dọc với align-items / justify-items: center;
+       sang lưới thì chúng thành căn giữa cả khối nội dung, nên đặt lại. */
+    align-content: normal;
+    align-items: start;
+    justify-items: stretch;
+  }
+
+  .hlt-footer.hlt-footer-compact .hlt-footer-qr {
+    grid-row: span 2;
+  }
+
+  .hlt-footer-compact .hlt-footer-brand-body,
+  .hlt-footer-compact .hlt-footer-col-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
   .hlt-footer-compact .hlt-footer-brand {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto;
-    align-content: start;
     column-gap: 8px;
     padding-top: 6px;
   }
 
-  /* Keep the mark and wordmark together, even when the web font is unavailable. */
+  /* Huy hiệu và chữ HOANG / LUXURY TRAVEL căn giữa nhau theo chiều dọc.
+     --footer-crest-h là chiều cao phần nét vàng NHÌN THẤY, không phải cỡ file:
+     tỷ lệ so với khối chữ lấy theo lockup ở header. */
   .hlt-footer-compact .hlt-footer-brand-heading {
-    /* Tỷ lệ huy hiệu so với chữ lấy theo lockup ở header: file PNG có viền trong
-       suốt rất rộng nên phần vàng nhìn thấy nhỏ hơn nhiều so với khung ảnh. */
-    --footer-brand-logo-size: clamp(48px, calc(10vw - 56px), 70px);
+    --footer-crest-h: clamp(32px, calc(6.69vw - 37.5px), 47px);
+    --footer-crest-box: calc(var(--footer-crest-h) / .66875);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: calc(var(--footer-crest-h) * .4);
     min-width: 0;
-    min-height: 56px;
-    /* Align the visible gold mark, accounting for the PNG's transparent left edge. */
-    padding-left: calc(20px - var(--footer-brand-logo-size) * .19);
+    /* Mép trái nét vàng thẳng hàng với dòng "Private car services…" bên dưới. */
+    padding-left: 20px;
   }
 
+  /* File logo có viền trong suốt không đều: trên 10,6%, dưới 22,5%, trái 19,1%,
+     phải 18,4% (đo từ kênh alpha, vùng có nét là 200×214 trên 320×320). Margin
+     âm khử đúng phần đó để hộp bố cục trùng khít nét vàng, nên căn giữa và căn
+     lề là căn đúng phần nhìn thấy ở mọi cỡ, không phải bù lệch bằng tay.
+     Trước đây ảnh căn giữa trong hộp 70px còn chữ bị ghim lên đỉnh, phần trống
+     phía dưới logo kéo huy hiệu thấp hơn chữ khoảng 7px. */
   .hlt-footer-compact .hlt-footer-brand-heading img {
     flex: 0 0 auto;
-    width: var(--footer-brand-logo-size);
-    height: auto;
-    aspect-ratio: 1;
-    margin: 0;
+    width: var(--footer-crest-box);
+    height: var(--footer-crest-box);
+    margin:
+      calc(var(--footer-crest-box) * -.10625)
+      calc(var(--footer-crest-box) * -.184375)
+      calc(var(--footer-crest-box) * -.225)
+      calc(var(--footer-crest-box) * -.190625);
     transform: none;
   }
 
   .hlt-footer-compact .hlt-footer-brand-wordmark {
     min-width: 0;
-    align-self: flex-start;
   }
 
   .hlt-footer-compact .hlt-footer-brand-wordmark strong {
@@ -140,17 +186,69 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     white-space: nowrap;
   }
 
+  /* Không ép một dòng (trước đây nowrap): dòng này cần ~212px nên ở màn
+     961–1180px nó tràn sang cột QUICK LINKS. Màn rộng vẫn đúng 2 dòng nhờ <br>
+     trong Footer.jsx; màn hẹp tự xuống dòng thay vì đè lên cột bên cạnh. */
+  /* Hàng 2 bắt đầu đúng mép trên khối link. Link đầu có margin-top 1px (khối
+     căn hàng ≥1101px ở cuối file); dòng mô tả cao dòng 1.55 so với 1.35 của
+     link nên margin 0 là chữ hai bên nằm cùng một đường. */
   .hlt-footer-compact .hlt-footer-brand p {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    margin: 8px 0 0 20px;
+    margin: 0 0 0 20px;
     max-width: none;
-    white-space: nowrap;
   }
 
+  /* Bỏ <br> cứng: cột hẹp hơn nửa đầu câu (~212px) thì nó để chữ "international"
+     đứng trơ một dòng. Chữ tự xuống dòng vẫn ra đúng 2 dòng ở màn rộng vì cột
+     không bao giờ đủ chỗ cho cả "…international travelers" trên một dòng. */
+  .hlt-footer-compact .hlt-footer-brand p br {
+    display: none;
+  }
+
+  /* Trong khối flex: co theo chữ như justify-self: start cũ, để gạch kẻ phía
+     trên chỉ dài bằng dòng dài nhất chứ không chạy hết cột. */
   .hlt-footer-compact .hlt-footer-licence {
-    grid-row: 3;
+    align-self: flex-start;
     margin-left: 20px;
+  }
+}
+
+/* Dưới 1101px mọi link (kể cả link đầu) có margin-top 9px chứ không phải 1px,
+   nên dòng mô tả lùi 8px theo để vẫn ngang "Home". */
+@media (min-width: 961px) and (max-width: 1100px) {
+  .hlt-footer-compact .hlt-footer-brand p {
+    margin-top: 8px;
+  }
+}
+
+/* Máy tính màn hẹp (961–1359px): 5 cột chỉ có ~860–1260px. Lưới gốc chia cột thương hiệu
+   theo tỷ lệ fr nên nó co nhỏ hơn cả chữ "LUXURY TRAVEL" và khối giấy phép bị
+   bẻ 3 dòng, còn cột QR giữ cố định ~218px chỉ vì hai link pháp lý nằm ngang.
+   Ở dải này: xếp dọc hai link dưới mã QR (cột QR còn ~155px), nhường phần dư
+   cho cột thương hiệu, và không cho cột này nhỏ hơn nội dung không xuống dòng. */
+@media (min-width: 961px) and (max-width: 1359px) {
+  .hlt-footer.hlt-footer-compact .hlt-footer-grid {
+    grid-template-columns:
+      minmax(min-content, 1.7fr)
+      minmax(0, .72fr)
+      minmax(0, 1fr)
+      minmax(0, 1.28fr)
+      auto;
+  }
+
+  .hlt-footer.hlt-footer-compact .hlt-footer-legal {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Thêm .hlt-footer-compact: rule gốc của hai dòng này nằm phía dưới trong
+     file, cùng độ ưu tiên thì rule gốc sẽ thắng. */
+  .hlt-footer-compact .hlt-footer-licence-name {
+    letter-spacing: .08em;
+  }
+
+  .hlt-footer-compact .hlt-footer-licence-meta {
+    letter-spacing: .06em;
   }
 }
 
