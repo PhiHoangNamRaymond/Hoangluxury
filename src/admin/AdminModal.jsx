@@ -28,9 +28,17 @@ export default function AdminModal({ title, onClose, children, labelId = "hlt-ad
   }, []);
 
   useEffect(() => {
-    if (!onClose) return undefined;
     const onKey = (event) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") onClose?.();
+      if (event.key !== "Tab") return;
+      const panel = panelRef.current;
+      const fields = [...panel.querySelectorAll('*')].filter((element) =>
+        (["BUTTON", "INPUT", "SELECT", "TEXTAREA"].includes(element.tagName) || element.tabIndex >= 0) &&
+        !element.matches(':disabled') && element.type !== 'hidden' && !element.closest('[hidden]'));
+      if (!fields.length) { event.preventDefault(); panel.focus(); return; }
+      const first = fields[0], last = fields.at(-1);
+      if (event.shiftKey && (document.activeElement === first || !panel.contains(document.activeElement))) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && (document.activeElement === last || !panel.contains(document.activeElement))) { event.preventDefault(); first.focus(); }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);

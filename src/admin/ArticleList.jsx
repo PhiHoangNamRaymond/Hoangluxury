@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { supabase, blogImageUrl } from "../lib/supabase.js";
+import { adminSearchText } from "../lib/admin-search.js";
 
 function statusOf(article) {
   if (article.status !== "published") return { label: "Nháp", tone: "draft", key: "draft" };
@@ -11,7 +12,7 @@ function statusOf(article) {
 
 /** Tách ngày và giờ ra hai dòng cho cột hẹp. */
 function formatWhen(article) {
-  const value = article.publish_at || article.updated_at;
+  const value = article.updated_at;
   if (!value) return { date: "", time: "" };
   const at = new Date(value);
   if (Number.isNaN(at.getTime())) return { date: "", time: "" };
@@ -36,6 +37,12 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
   const [scope, setScope] = useState("all");
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [sort, setSort] = useState("updated");
+  const [page, setPage] = useState(1);
+  const [retryKey, setRetryKey] = useState(0);
+  const [clock, setClock] = useState(Date.now());
+  useEffect(() => { const timer = window.setInterval(() => setClock(Date.now()), 30_000); return () => window.clearInterval(timer); }, []);
+  useEffect(() => { setPage(1); }, [scope, query, statusFilter, sort, reloadKey]);
 
   useEffect(() => {
     let alive = true;
@@ -55,7 +62,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
     return () => {
       alive = false;
     };
-  }, [reloadKey]);
+  }, [reloadKey, retryKey]);
 
   // Cả nhóm biên tập đọc được mọi bài; bộ lọc này chỉ để xem cho gọn.
   const scoped = useMemo(
@@ -64,31 +71,36 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
   );
 
   const visible = useMemo(() => {
-    const text = query.trim().toLocaleLowerCase();
-    return scoped.filter((article) => {
+    const text = adminSearchText(query.trim());
+    const matches = scoped.filter((article) => {
       if (statusFilter !== "all" && statusOf(article).key !== statusFilter) return false;
       if (!text) return true;
-      return `${article.title} ${(article.destinations || []).join(" ")} ${(article.topics || []).join(" ")}`
-        .toLocaleLowerCase()
-        .includes(text);
+      return adminSearchText(`${article.title} ${(article.destinations || []).join(" ")} ${(article.topics || []).join(" ")}`).includes(text);
     });
-  }, [scoped, query, statusFilter]);
+    return matches.sort((a, b) => sort === "title" ? (a.title || "").localeCompare(b.title || "", "vi")
+      : ((new Date(b.updated_at).getTime() || 0) - (new Date(a.updated_at).getTime() || 0)) * (sort === "oldest" ? -1 : 1));
+  }, [scoped, query, statusFilter, sort, clock]);
 
   const counts = useMemo(() => {
     const result = { all: scoped.length, live: 0, scheduled: 0, draft: 0 };
     scoped.forEach((article) => { result[statusOf(article).key] += 1; });
     return result;
-  }, [scoped]);
+  }, [scoped, clock]);
 
   const filtering = Boolean(query.trim()) || statusFilter !== "all";
+  const pages = Math.max(1, Math.ceil(visible.length / 20));
+  const currentPage = Math.min(page, pages);
+  const start = (currentPage - 1) * 20;
+  const pageArticles = visible.slice(start, start + 20);
+  const clearFilters = () => { setQuery(""); setStatusFilter("all"); setScope("all"); setPage(1); };
 
   return (
     <div className="hlt-admin-list">
       <div className="hlt-admin-list-bar">
-        <h2>
+        <div><p className="hlt-admin-eyebrow">Không gian biên tập</p><h1>
           Bài viết
           {!loading && <span className="hlt-admin-count">{counts.all}</span>}
-        </h2>
+        </h1><p className="hlt-admin-description">Viết, tìm và quản lý các câu chuyện của Hoang Luxury Travel.</p></div>
         <button type="button" className="hlt-admin-btn" onClick={onNew}>
           Viết bài mới
         </button>
@@ -100,10 +112,10 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
       {Boolean(articles.length) && (
         <div className="hlt-admin-toolbar">
           <div className="hlt-admin-scope" role="group" aria-label="Phạm vi">
-            <button type="button" className={scope === "mine" ? "is-on" : ""} onClick={() => setScope("mine")}>
+            <button type="button" aria-pressed={scope === "mine"} className={scope === "mine" ? "is-on" : ""} onClick={() => setScope("mine")}>
               Bài của tôi
             </button>
-            <button type="button" className={scope === "all" ? "is-on" : ""} onClick={() => setScope("all")}>
+            <button type="button" aria-pressed={scope === "all"} className={scope === "all" ? "is-on" : ""} onClick={() => setScope("all")}>
               Tất cả bài
             </button>
           </div>
@@ -114,6 +126,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
                 type="button"
                 key={key}
                 className={statusFilter === key ? "is-on" : ""}
+                aria-pressed={statusFilter === key}
                 onClick={() => setStatusFilter(key)}
               >
                 {label}
@@ -129,16 +142,21 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
             </svg>
             <input
               type="search"
+              aria-label="Tìm bài viết"
               placeholder="Tìm theo tiêu đề, điểm đến, chủ đề…"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
           </label>
+          <label className="hlt-admin-sort"><span>Sắp xếp</span><select aria-label="Sắp xếp bài viết" value={sort} onChange={(event) => setSort(event.target.value)}>
+            <option value="updated">Cập nhật mới nhất</option><option value="oldest">Cập nhật cũ nhất</option><option value="title">Tiêu đề A–Z</option>
+          </select></label>
         </div>
       )}
 
-      {error && <p className="hlt-admin-note is-error">{error}</p>}
-      {loading && <p className="hlt-admin-note is-loading">Đang tải…</p>}
+      {error && !loading && <div className="hlt-admin-note is-error" role="alert"><p>Không tải được danh sách bài. {error}</p><button type="button" className="hlt-admin-btn is-ghost" onClick={() => setRetryKey((value) => value + 1)}>Thử lại</button></div>}
+      {loading && <p className="hlt-admin-note is-loading" role="status">Đang tải danh sách bài viết…</p>}
+      {!loading && !error && Boolean(articles.length) && <div className="hlt-admin-results"><p role="status">{visible.length ? `${start + 1}–${Math.min(start + 20, visible.length)} / ${visible.length} bài` : "0 bài phù hợp"}{scope === "mine" ? " · Bài của bạn" : " · Tất cả tác giả"}</p>{filtering && <button className="hlt-admin-link-btn" type="button" onClick={clearFilters}>Bỏ bộ lọc</button>}</div>}
 
       {!loading && !error && !scoped.length && Boolean(articles.length) && (
         <div className="hlt-admin-empty">
@@ -169,17 +187,17 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
         </div>
       )}
 
-      {Boolean(visible.length) && (
+      {!loading && !error && Boolean(visible.length) && (
         <div className="hlt-admin-grid">
           <div className="hlt-admin-grid-head" aria-hidden="true">
             <span>Bài viết</span>
             <span>Trạng thái</span>
-            <span>{filtering ? "Thời gian" : "Cập nhật"}</span>
+            <span>Cập nhật</span>
             <span />
           </div>
 
           <ul className="hlt-admin-rows">
-            {visible.map((article) => {
+            {pageArticles.map((article) => {
               const badge = statusOf(article);
               const when = formatWhen(article);
               const tags = [...(article.destinations || []), ...(article.topics || [])];
@@ -190,6 +208,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
                     className="hlt-admin-row-main"
                     type="button"
                     onClick={() => onEdit(article)}
+                    aria-label={`Sửa bài: ${article.title || "Chưa có tiêu đề"}`}
                   >
                     {article.cover_path ? (
                       <img src={blogImageUrl(article.cover_path)} alt="" loading="lazy" />
@@ -201,6 +220,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
                       <small>
                         {tags.length ? tags.slice(0, 3).join(" · ") : "Chưa gắn điểm đến hay chủ đề"}
                       </small>
+                      {article.author_id === profile.id && <em className="hlt-admin-owner">Bài của bạn</em>}
                     </span>
                   </button>
 
@@ -215,7 +235,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
 
                   <span className="hlt-admin-row-actions">
                     {badge.tone === "live" ? (
-                      <a href={`/blog/${article.slug}/`} target="_blank" rel="noopener noreferrer">
+                      <a href={`/blog/${article.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`Xem bài trên web (tab mới): ${article.title}`}>
                         Xem
                       </a>
                     ) : (
@@ -228,6 +248,11 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
           </ul>
         </div>
       )}
+      {!loading && !error && pages > 1 && <nav className="hlt-admin-pagination" aria-label="Phân trang bài viết">
+        <button type="button" className="hlt-admin-btn is-ghost" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>← Trước</button>
+        <span>Trang {currentPage} / {pages}</span>
+        <button type="button" className="hlt-admin-btn is-ghost" disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}>Tiếp →</button>
+      </nav>}
     </div>
   );
 }

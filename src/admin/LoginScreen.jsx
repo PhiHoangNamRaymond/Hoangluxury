@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "../lib/supabase.js";
 import { logoGoldUrl } from "../config/assets.js";
+import PasswordField from "./PasswordField.jsx";
 
 export default function LoginScreen({ notice }) {
   const [email, setEmail] = useState("");
@@ -32,7 +33,7 @@ export default function LoginScreen({ notice }) {
         <h1>Hoang Luxury Travel</h1>
         <p className="hlt-admin-login-sub">Trang quản trị blog</p>
 
-        {notice && <p className="hlt-admin-note is-error">{notice}</p>}
+        {notice && <p className="hlt-admin-note is-error" role="alert">{notice}</p>}
 
         <label>
           <span>Email</span>
@@ -40,21 +41,23 @@ export default function LoginScreen({ notice }) {
             required
             type="email"
             autoComplete="username"
+            inputMode="email"
+            spellCheck={false}
+            disabled={status.state === "loading"}
+            placeholder="Email được quản trị viên cấp"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </label>
 
-        <label>
-          <span>Mật khẩu</span>
-          <input
+        <PasswordField label="Mật khẩu"
             required
             type="password"
             autoComplete="current-password"
+            disabled={status.state === "loading"}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
 
         <button type="submit" disabled={status.state === "loading"}>
           {status.state === "loading" ? "Đang xử lý…" : "Đăng nhập"}

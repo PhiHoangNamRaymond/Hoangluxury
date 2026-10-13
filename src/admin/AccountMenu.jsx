@@ -7,18 +7,26 @@ function initial(profile) {
   return source.charAt(0).toLocaleUpperCase("vi-VN");
 }
 
-export default function AccountMenu({ profile, onChangePassword }) {
+export default function AccountMenu({ profile, onChangePassword, beforeLeave }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   const buttonRef = useRef(null);
 
   useEffect(() => {
     if (!open) return undefined;
+    wrapRef.current?.querySelector('[role="menuitem"]')?.focus();
 
     const onPointerDown = (event) => {
       if (!wrapRef.current?.contains(event.target)) setOpen(false);
     };
     const onKey = (event) => {
+      if (["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key) && wrapRef.current?.contains(document.activeElement)) {
+        event.preventDefault();
+        const items = [...wrapRef.current.querySelectorAll('[role="menuitem"]')];
+        const current = items.indexOf(document.activeElement);
+        const next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 : (current + (event.key === "ArrowUp" ? -1 : 1) + items.length) % items.length;
+        items[next]?.focus(); return;
+      }
       if (event.key !== "Escape") return;
       setOpen(false);
       buttonRef.current?.focus();
@@ -33,6 +41,7 @@ export default function AccountMenu({ profile, onChangePassword }) {
   }, [open]);
 
   const run = (action) => {
+    if (beforeLeave && !beforeLeave()) return;
     setOpen(false);
     action();
   };
@@ -44,6 +53,7 @@ export default function AccountMenu({ profile, onChangePassword }) {
         type="button"
         className="hlt-admin-me-btn"
         aria-haspopup="menu"
+        aria-label={`Menu tài khoản: ${profile.full_name || profile.email}`}
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
       >

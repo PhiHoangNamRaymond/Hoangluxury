@@ -22,6 +22,14 @@ const host = document.getElementById("root");
    import .jsx tương đối cũng phải biên dịch đệ quy; .js thì trỏ thẳng file URL. */
 async function compile(fileUrl, stubName) {
   let source = await readFile(fileUrl, "utf8");
+  source = source.replace('import { logoGoldUrl } from "../config/assets.js";', 'const logoGoldUrl = "/offline-logo.png";');
+  if (fileUrl.pathname.endsWith('/AdminApp.jsx')) {
+    source = source.replace('import { logoGoldUrl } from "../config/assets.js";', 'const logoGoldUrl = "/offline-logo.png";')
+      .replace('import useSession from "./useSession.js";', `const useSession = () => globalThis.${stubName}.sessionFixture;`)
+      .replace('import ArticleList from "./ArticleList.jsx";', 'const ArticleList = ({onNew}) => React.createElement("button", {onClick:onNew}, "New offline article");')
+      .replace('import UserManager from "./UserManager.jsx";', 'const UserManager = () => React.createElement("p", null, "Offline users");')
+      .replace('import "../styles/admin.css";', '');
+  }
   source = source.replace(/import \{([^}]+)\} from "\.\.\/lib\/supabase\.js";/,
     (_match,names) => `const {${names}} = globalThis.${stubName};`)
     .replaceAll('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`);
@@ -46,6 +54,15 @@ async function fill(input, value) {
     const prototype = input.tagName === "TEXTAREA" ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype;
     Object.getOwnPropertyDescriptor(prototype, "value").set.call(input, value);
     input.dispatchEvent(new window.Event("input", { bubbles: true }));
+  });
+}
+
+/* Bộ soạn thảo nội dung là vùng contenteditable: "gõ" = đổi DOM rồi phát sự
+   kiện input như trình duyệt làm. */
+async function typeInEditor(area, html) {
+  await act(async () => {
+    area.innerHTML = html;
+    area.dispatchEvent(new window.Event("input", { bubbles: true }));
   });
 }
 
@@ -125,16 +142,153 @@ test("inline upload inserts image into latest body without losing text typed whi
   const root=createRoot(host);
   try {
     await act(async()=>root.render(React.createElement(Editor,{profile:{id:"fixture-writer"},onDone:()=>{},onCancel:()=>{}})));
-    const body=host.querySelector("textarea.hlt-admin-body");
-    await fill(body,"Existing draft");
-    const upload=host.querySelector('input[type="file"]');
+    const area=host.querySelector(".hlt-rte-area");
+    await typeInEditor(area,"<p>Existing draft</p>");
+    const upload=host.querySelector('.hlt-rte-toolbar input[type="file"]');
     Object.defineProperty(upload,"files",{value:[{name:"fake.png",type:"image/png",size:10}]});
     await act(async()=>upload.dispatchEvent(new window.Event("change",{bubbles:true})));
-    await fill(body,"Existing draft. NEW TEXT TYPED DURING UPLOAD");
+    await typeInEditor(area,"<p>Existing draft. NEW TEXT TYPED DURING UPLOAD</p>");
     await act(async()=>finish({error:null}));
-    assert.match(body.value,/NEW TEXT TYPED DURING UPLOAD/);
-    assert.match(body.value,/!\[Mô tả ảnh\]/);
+    // Ảnh vào khung có ô chú thích gõ được, chữ gõ trong lúc chờ tải vẫn còn.
+    const figure=area.querySelector("figure");
+    assert.equal(figure.querySelector("img").getAttribute("src"),"https://fixture.invalid/image.png");
+    assert.equal(figure.querySelector("figcaption").getAttribute("contenteditable"),"true");
+    assert.match(area.textContent,/NEW TEXT TYPED DURING UPLOAD/);
+    // Thứ thật sự được lưu: xem thử dựng lại từ form.body.
+    const preview=[...host.querySelectorAll("button")].find((node)=>node.textContent==="Xem thử");
+    await act(async()=>preview.click());
+    const shown=host.querySelector(".hlt-admin-preview");
+    assert.match(shown.textContent,/NEW TEXT TYPED DURING UPLOAD/);
+    assert.equal(shown.querySelector("figure img").getAttribute("src"),"https://fixture.invalid/image.png");
   } finally {await act(async()=>root.unmount());delete globalThis.__uploadFixture;}
+});
+
+test("real editor uses one undo stack for typing, mixed case, quote, image and deletion, including keyboard input", async () => {
+  const Editor = await component('src/admin/RichTextEditor.jsx','__historyFixture');
+  const ref=React.createRef(); let latest='';
+  function Fixture(){ const [value,setValue]=React.useState('## Đường **đèo**\n'); return React.createElement(Editor,{ref,value,onChange:(value)=>{latest=value;setValue(value);}}); }
+  const root=createRoot(host); const oldConfirm=window.confirm; window.confirm=()=>true;
+  const press = async (key, options={}) => act(async()=>host.querySelector('.hlt-rte-area').dispatchEvent(new window.KeyboardEvent('keydown',{key,bubbles:true,cancelable:true,...options})));
+  const click = async(label) => act(async()=>host.querySelector(`button[aria-label="${label}"]`).click());
+  const select = (node) => {const range=document.createRange();range.selectNodeContents(node);window.getSelection().removeAllRanges();window.getSelection().addRange(range);document.dispatchEvent(new window.Event('selectionchange'));};
+  try {
+    await act(async()=>root.render(React.createElement(Fixture)));
+    const area=host.querySelector('.hlt-rte-area');
+    await act(async()=>select(area.querySelector('h2')));
+    await click('Đổi vùng chọn thành IN HOA');
+    assert.match(area.textContent,/ĐƯỜNG ĐÈO/); assert.ok(area.querySelector('strong'));
+    await press('z',{ctrlKey:true}); assert.match(area.textContent,/Đường đèo/);
+    await press('z',{ctrlKey:true,shiftKey:true}); assert.match(area.textContent,/ĐƯỜNG ĐÈO/);
+    await act(async()=>select(area.querySelector('h2')));
+    await click('Trích dẫn'); assert.ok(area.querySelector('blockquote h2'));
+    await press('z',{ctrlKey:true}); assert.equal(area.querySelector('blockquote'),null); assert.ok(area.querySelector('h2'));
+    await press('y',{ctrlKey:true}); assert.ok(area.querySelector('blockquote h2'));
+    await act(async()=>ref.current.insertImage('https://fixture.invalid/image.png'));
+    assert.ok(area.querySelector('figure'));
+    await click('Hoàn tác (Ctrl+Z)'); assert.equal(area.querySelector('figure'),null);
+    await click('Làm lại (Ctrl+Y / Ctrl+Shift+Z)'); assert.ok(area.querySelector('figure'));
+    // A keyboard-generated button click follows the same onClick path as mouse/touch.
+    await act(async()=>{const remove=area.querySelector('[data-rte-remove]');remove.focus();remove.click();});
+    assert.equal(area.querySelector('figure'),null);
+    await press('z',{ctrlKey:true}); assert.ok(area.querySelector('figure'));
+    assert.ok(latest.includes('https://fixture.invalid/image.png'));
+    const undoEvent=new window.InputEvent('beforeinput',{inputType:'historyUndo',bubbles:true,cancelable:true});
+    await act(async()=>area.dispatchEvent(undoEvent));
+    assert.equal(undoEvent.defaultPrevented,true); assert.equal(area.querySelector('figure'),null);
+    // A new edit after undo must discard the redo branch.
+    await typeInEditor(area,'<p>Bản mới</p>');
+    assert.equal(host.querySelector('button[aria-label="Làm lại (Ctrl+Y / Ctrl+Shift+Z)"]').disabled,true);
+    assert.equal(host.querySelector('select option[value="h1"]'),null);
+  } finally {window.confirm=oldConfirm; await act(async()=>root.unmount());}
+});
+
+test("preview keeps editor mounted and undo history; dirty exit/reload guarded, failed saves remain dirty", async () => {
+  let cancelled=0, dirty=false, saved, fail=true;
+  const query={insert:(payload)=>{saved=payload;return query;},select:()=>query,single:async()=>({error:fail?{message:'Offline failed save'}:null})};
+  globalThis.__draftFixture={supabase:{from:()=>query},blogImageUrl:()=>''};
+  const Editor=await component('src/admin/ArticleEditor.jsx','__draftFixture');
+  const root=createRoot(host); const oldConfirm=window.confirm; let allow=false; window.confirm=()=>allow;
+  const click=async(label)=>act(async()=>[...host.querySelectorAll('button')].find(b=>b.textContent.trim()===label).click());
+  try {
+    await act(async()=>root.render(React.createElement(Editor,{profile:{id:'fixture',role:'admin'},onDone:()=>{},onCancel:()=>cancelled++,onDirtyChange:(value)=>{dirty=value;}})));
+    let unload=new window.Event('beforeunload',{cancelable:true});window.dispatchEvent(unload);assert.equal(unload.defaultPrevented,false);
+    await fill(host.querySelector('input'),'Bài thử');
+    const area=host.querySelector('.hlt-rte-area'); await typeInEditor(area,'<p>Chữ chưa lưu</p>');
+    assert.equal(dirty,true); assert.match(host.querySelector('.hlt-admin-save-state').textContent,/chưa lưu/);
+    await click('Xem thử');assert.equal(host.querySelector('.hlt-rte-area'),area);assert.equal(area.parentElement.parentElement.hidden,true);
+    await click('Quay lại soạn thảo');assert.equal(area.parentElement.parentElement.hidden,false);
+    await act(async()=>area.dispatchEvent(new window.KeyboardEvent('keydown',{key:'z',ctrlKey:true,bubbles:true,cancelable:true})));
+    assert.doesNotMatch(area.textContent,/Chữ chưa lưu/);
+    await typeInEditor(area,'<p>Khôi phục nội dung</p>');
+    await click('← Danh sách bài');assert.equal(cancelled,0);
+    unload=new window.Event('beforeunload',{cancelable:true});window.dispatchEvent(unload);assert.equal(unload.defaultPrevented,true);
+    await click('Lưu nháp');assert.equal(dirty,true);assert.match(host.textContent,/Offline failed save/);
+    assert.match(saved.body,/Khôi phục nội dung/);
+    fail=false; await click('Lưu nháp');assert.equal(dirty,false);
+    unload=new window.Event('beforeunload',{cancelable:true});window.dispatchEvent(unload);assert.equal(unload.defaultPrevented,false);
+    await fill(host.querySelector('input'),'Bài thử khác');allow=true;await click('← Danh sách bài');assert.equal(cancelled,1);
+  } finally {window.confirm=oldConfirm;await act(async()=>root.unmount());delete globalThis.__draftFixture;}
+});
+
+test("admin navigation, account switch and signout honor unsaved editor guard", async () => {
+  let signs=0, allows=false;
+  globalThis.__navigationDraftFixture={supabaseReady:true,supabase:{auth:{signOut:async()=>{signs++;}}},sessionFixture:{loading:false,session:{user:{id:'fixture'}},profile:{id:'fixture',role:'admin',active:true,full_name:'Offline Admin'},clearFlow:()=>{}}};
+  const App=await component('src/admin/AdminApp.jsx','__navigationDraftFixture');
+  const root=createRoot(host), oldConfirm=window.confirm;window.confirm=()=>allows;
+  const click=async(label)=>act(async()=>[...host.querySelectorAll('button')].find(b=>b.textContent.trim()===label).click());
+  try {
+    await act(async()=>root.render(React.createElement(App)));
+    await click('New offline article'); await fill(host.querySelector('input'),'Unsaved title');
+    await click('Tài khoản');assert.ok(host.querySelector('.hlt-rte-area'));
+    await click('Bài viết');assert.ok(host.querySelector('.hlt-rte-area'));
+    await act(async()=>host.querySelector('.hlt-admin-me-btn').click());
+    await click('Đăng xuất');assert.equal(signs,0);
+    await click('Đổi mật khẩu');assert.ok(host.querySelector('.hlt-rte-area'));
+    allows=true;await click('Đăng xuất');assert.equal(signs,1);
+    await click('Tài khoản');assert.match(host.textContent,/Offline users/);assert.equal(host.querySelector('.hlt-rte-area'),null);
+  } finally {window.confirm=oldConfirm;await act(async()=>root.unmount());delete globalThis.__navigationDraftFixture;}
+});
+
+test("image upload is keyboard-focusable, captions lock while busy, and link modal traps focus", async () => {
+  const Editor=await component('src/admin/RichTextEditor.jsx','__accessFixture');
+  const root=createRoot(host);const props={value:'![Caption](https://fixture.invalid/image.png)\n',onChange:()=>{}};
+  try {
+    await act(async()=>root.render(React.createElement(Editor,props)));
+    const upload=host.querySelector('button[aria-label="Chèn ảnh"]');upload.focus();assert.equal(document.activeElement,upload);
+    await act(async()=>root.render(React.createElement(Editor,{...props,disabled:true})));
+    assert.equal(host.querySelector('figcaption').getAttribute('contenteditable'),'false');
+    assert.equal(host.querySelector('[data-rte-remove]').disabled,true);
+    await act(async()=>root.render(React.createElement(Editor,props)));
+    await act(async()=>host.querySelector('button[aria-label="Gắn liên kết vào chữ đang chọn (Ctrl+K)"]').click());
+    const dialog=host.querySelector('[role="dialog"]'); const first=dialog.querySelector('button');const last=dialog.querySelector('button[type="submit"]');
+    last.focus();const tab=new window.KeyboardEvent('keydown',{key:'Tab',bubbles:true,cancelable:true});
+    await act(async()=>last.dispatchEvent(tab));assert.equal(tab.defaultPrevented,true);assert.equal(document.activeElement,first);
+    const backwards=new window.KeyboardEvent('keydown',{key:'Tab',shiftKey:true,bubbles:true,cancelable:true});
+    await act(async()=>first.dispatchEvent(backwards));assert.equal(document.activeElement,last);
+    await act(async()=>dialog.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape',bubbles:true})));
+    assert.equal(host.querySelector('[role="dialog"]'),null);
+  } finally {await act(async()=>root.unmount());}
+});
+
+test("Vietnamese IME composition is one undo step and is not interrupted by Ctrl+Z", async () => {
+  const Editor=await component('src/admin/RichTextEditor.jsx','__imeFixture');
+  const root=createRoot(host); let latest='';
+  function Fixture(){const [value,setValue]=React.useState('Before\n');return React.createElement(Editor,{value,onChange:(value)=>{latest=value;setValue(value);}});}
+  try {
+    await act(async()=>root.render(React.createElement(Fixture)));
+    const area=host.querySelector('.hlt-rte-area');
+    await act(async()=>area.dispatchEvent(new window.CompositionEvent('compositionstart',{bubbles:true,data:''})));
+    await typeInEditor(area,'<p>đườ</p>');
+    const shortcut=new window.KeyboardEvent('keydown',{key:'z',ctrlKey:true,isComposing:true,bubbles:true,cancelable:true});
+    await act(async()=>area.dispatchEvent(shortcut));assert.equal(shortcut.defaultPrevented,false);assert.match(area.textContent,/đườ/);
+    await typeInEditor(area,'<p>đường đèo</p>');
+    await act(async()=>area.dispatchEvent(new window.CompositionEvent('compositionend',{bubbles:true,data:'đường đèo'})));
+    assert.match(latest,/đường đèo/);
+    await act(async()=>area.dispatchEvent(new window.KeyboardEvent('keydown',{key:'z',ctrlKey:true,bubbles:true,cancelable:true})));
+    assert.equal(area.textContent.trim(),'Before');
+    await act(async()=>area.dispatchEvent(new window.KeyboardEvent('keydown',{key:'y',ctrlKey:true,bubbles:true,cancelable:true})));
+    assert.equal(area.textContent.trim(),'đường đèo');
+  } finally {await act(async()=>root.unmount());}
 });
 
 test("session callback never queries DB inside auth callback; refresh keeps unsaved editor mounted", async () => {
@@ -429,8 +583,7 @@ test("a schedule that lapsed while writing asks before going live, and never pub
     await fill(when, local);
     assert.match(host.textContent, /đã trôi qua/);
 
-    const body = host.querySelector("textarea.hlt-admin-body");
-    await fill(body, "Nội dung thử");
+    await typeInEditor(host.querySelector(".hlt-rte-area"), "<p>Nội dung thử</p>");
     const publish = [...host.querySelectorAll("button")].find((node) => /Đăng bài|Lưu và hẹn lịch/.test(node.textContent));
 
     // Bấm Cancel ở câu hỏi thì tuyệt đối không được ghi gì.
@@ -451,4 +604,98 @@ test("a schedule that lapsed while writing asks before going live, and never pub
     await act(async () => root.unmount());
     delete globalThis.__scheduleFixture;
   }
+});
+
+test("admin article list supports accent-insensitive search, sorting, scope, pagination and retry", async () => {
+  let fail=false, fetched=0;
+  const articles=Array.from({length:25},(_,i)=>({id:`row-${i}`,slug:`row-${i}`,title:i===0?'Đường đèo Sa Pa':`Bài ${String(i).padStart(2,'0')}`,author_id:i%2?'other':'self',status:i%3?'draft':'published',updated_at:new Date(2026,0,i+1).toISOString(),publish_at:i===24?new Date(Date.now()+3600000).toISOString():null,topics:[],destinations:['Sapa']}));
+  const query={select:()=>query,order:()=>query,then:(resolve)=>{fetched++;return resolve({data:fail?null:articles,error:fail?{message:'Offline failed'}:null});}};
+  globalThis.__articleUxFixture={supabase:{from:()=>query},blogImageUrl:()=>''};
+  const List=await component('src/admin/ArticleList.jsx','__articleUxFixture');const root=createRoot(host);const props={profile:{id:'self'},onEdit:()=>{},onNew:()=>{},reloadKey:0};
+  const click=async(label)=>act(async()=>[...host.querySelectorAll('button')].find(b=>b.textContent.trim()===label).click());
+  try {
+    await act(async()=>root.render(React.createElement(List,props)));assert.equal(host.querySelectorAll('.hlt-admin-row').length,20);assert.match(host.textContent,/1–20 \/ 25 bài/);
+    await click('Tiếp →');assert.equal(host.querySelectorAll('.hlt-admin-row').length,5);
+    await fill(host.querySelector('input[type=search]'),'duong deo');assert.equal(host.querySelectorAll('.hlt-admin-row').length,1);assert.match(host.textContent,/Đường đèo Sa Pa/);
+    await fill(host.querySelector('input[type=search]'),'');
+    const sort=host.querySelector('[aria-label="Sắp xếp bài viết"]');
+    await act(async()=>{sort.value='oldest';sort.dispatchEvent(new window.Event('change',{bubbles:true}));});
+    assert.match(host.querySelector('.hlt-admin-row-copy strong').textContent,/Đường đèo Sa Pa/);
+    await click('Bài của tôi');assert.equal(host.querySelectorAll('.hlt-admin-row').length,13);assert.equal(host.querySelector('[aria-label="Phân trang bài viết"]'),null);
+    assert.equal(host.querySelector('[aria-label="Phạm vi"] button').getAttribute('aria-pressed'),'true');
+    fail=true;await act(async()=>root.render(React.createElement(List,{...props,reloadKey:1})));assert.equal(host.querySelectorAll('.hlt-admin-row').length,0);assert.ok(host.querySelector('[role=alert]'));
+    const prior=fetched;fail=false;await click('Thử lại');assert.ok(fetched>prior);assert.equal(host.querySelector('[role=alert]'),null);
+  } finally {await act(async()=>root.unmount());delete globalThis.__articleUxFixture;}
+});
+
+test("published editing saves without stale-schedule warnings, Ctrl+S stays published, unpublish requires confirmation", async () => {
+  let saved=[],done=0;
+  const article={id:'live',author_id:'self',title:'Existing live article',slug:'existing',body:'## Text\n',status:'published',publish_at:'2020-01-01T00:00:00Z'};
+  const query={select:()=>query,eq:()=>query,maybeSingle:async()=>({data:article}),update:(payload)=>{saved.push(payload);return query;},single:async()=>({error:null})};
+  globalThis.__publishedUxFixture={supabase:{from:()=>query},blogImageUrl:()=>''};
+  const Editor=await component('src/admin/ArticleEditor.jsx','__publishedUxFixture');const root=createRoot(host);const confirm=window.confirm;let prompts=[];window.confirm=(text)=>{prompts.push(text);return false;};
+  try {
+    await act(async()=>root.render(React.createElement(Editor,{article,profile:{id:'self',role:'admin'},onDone:()=>done++,onCancel:()=>{}})));
+    assert.doesNotMatch(host.textContent,/đã trôi qua/);assert.ok(host.querySelector('button[aria-label="Chèn ảnh"]'));
+    assert.equal(host.querySelector('.hlt-admin-editor-meta').open,false);
+    const saveShortcut=new window.KeyboardEvent('keydown',{key:'s',ctrlKey:true,bubbles:true,cancelable:true});
+    await act(async()=>window.dispatchEvent(saveShortcut));assert.equal(saveShortcut.defaultPrevented,true);assert.equal(saved[0].status,'published');assert.equal(prompts.length,0);assert.equal(done,1);
+    const unpublish=[...host.querySelectorAll('button')].find(b=>b.textContent==='Chuyển về nháp');
+    await act(async()=>unpublish.click());assert.equal(prompts.length,1);assert.equal(saved.length,1);
+    window.confirm=()=>true;await act(async()=>unpublish.click());assert.equal(saved[1].status,'draft');
+  } finally {window.confirm=confirm;await act(async()=>root.unmount());delete globalThis.__publishedUxFixture;}
+});
+
+test("account search/filter and role confirmation keep self-protection and only write after approval", async () => {
+  const people=[{id:'self',full_name:'Admin',email:'self@example.invalid',role:'admin',active:true},{id:'writer',full_name:'Đường Việt',email:'writer@example.invalid',role:'writer',active:true},{id:'locked',full_name:'Locked Writer',email:'locked@example.invalid',role:'writer',active:false}];
+  const writes=[];let target;
+  const query={select:()=>query,order:()=>query,then:resolve=>resolve({data:people}),update:patch=>{writes.push(patch);return query;},eq:(_,id)=>{target=id;return query;},single:async()=>{Object.assign(people.find(p=>p.id===target),writes.at(-1));return {error:null};}};
+  globalThis.__accountUxFixture={supabase:{from:()=>query}};
+  const Users=await component('src/admin/UserManager.jsx','__accountUxFixture');const root=createRoot(host);
+  try {
+    await act(async()=>root.render(React.createElement(Users,{profile:people[0]})));
+    assert.equal(host.querySelector('select[aria-label="Vai trò của Admin"]').disabled,true);
+    await fill(host.querySelector('input[type=search]'),'duong');assert.equal(host.querySelectorAll('tbody tr').length,1);
+    const role=host.querySelector('tbody select');await act(async()=>{role.value='admin';role.dispatchEvent(new window.Event('change',{bubbles:true}));});
+    assert.equal(writes.length,0);assert.match(host.querySelector('[role=dialog]').textContent,/quản lý tài khoản/);
+    await act(async()=>[...host.querySelectorAll('.hlt-admin-modal-foot button')].find(b=>b.textContent==='Huỷ').click());assert.equal(writes.length,0);
+    await act(async()=>{role.value='admin';role.dispatchEvent(new window.Event('change',{bubbles:true}));});
+    await act(async()=>[...host.querySelectorAll('.hlt-admin-modal-foot button')].find(b=>b.textContent==='Xác nhận đổi vai trò').click());assert.deepEqual(writes,[{role:'admin'}]);
+    await fill(host.querySelector('input[type=search]'),'');await act(async()=>[...host.querySelectorAll('[aria-label="Lọc tài khoản"] button')].find(b=>b.textContent==='Đã khoá').click());
+    assert.equal(host.querySelectorAll('tbody tr').length,1);assert.match(host.querySelector('tbody').textContent,/Locked Writer/);
+  } finally {await act(async()=>root.unmount());delete globalThis.__accountUxFixture;}
+});
+
+test("login password visibility is opt-in and credentials/autocomplete stay unchanged", async () => {
+  const calls=[];globalThis.__loginUxFixture={supabase:{auth:{signInWithPassword:async(data)=>{calls.push(data);return {error:{message:'offline rejection'}};}}}};
+  const Login=await component('src/admin/LoginScreen.jsx','__loginUxFixture');const root=createRoot(host);
+  try {
+    await act(async()=>root.render(React.createElement(Login)));
+    const input=host.querySelector('input[autocomplete="current-password"]');assert.equal(input.type,'password');
+    await fill(host.querySelector('input[type=email]'),'offline@example.invalid');await fill(input,'Offline-password-only');
+    const reveal=host.querySelector('[aria-label="Hiện mật khẩu"]');await act(async()=>reveal.click());assert.equal(input.type,'text');assert.equal(input.value,'Offline-password-only');
+    await act(async()=>host.querySelector('[aria-label="Ẩn mật khẩu"]').click());assert.equal(input.type,'password');
+    await act(async()=>host.querySelector('form').dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true})));
+    assert.deepEqual(calls,[{email:'offline@example.invalid',password:'Offline-password-only'}]);assert.match(host.textContent,/Không đăng nhập được/);
+  } finally {await act(async()=>root.unmount());delete globalThis.__loginUxFixture;}
+});
+
+test("account pagination and pending changes protect navigation/reload and release after completion", async () => {
+  const people=Array.from({length:24},(_,i)=>({id:String(i),email:`offline${i}@example.invalid`,full_name:`Người ${i}`,role:i?'writer':'admin',active:true}));
+  let finish,busy=false;const pending=new Promise(resolve=>{finish=resolve;});
+  const query={select:()=>query,order:()=>query,then:resolve=>resolve({data:people}),update:()=>query,eq:()=>query,single:()=>pending};
+  globalThis.__pendingUserFixture={supabase:{from:()=>query}};
+  const Users=await component('src/admin/UserManager.jsx','__pendingUserFixture');const root=createRoot(host);
+  try {
+    await act(async()=>root.render(React.createElement(Users,{profile:people[0],onBusyChange:value=>{busy=value;}})));
+    assert.equal(host.querySelectorAll('tbody tr').length,20);
+    await act(async()=>[...host.querySelectorAll('[aria-label="Phân trang tài khoản"] button')].find(b=>b.textContent==='Tiếp →').click());assert.equal(host.querySelectorAll('tbody tr').length,4);
+    await fill(host.querySelector('input[type=search]'),'offline1@example');assert.equal(host.querySelectorAll('tbody tr').length,1);
+    await act(async()=>[...host.querySelectorAll('tbody button')].find(b=>b.textContent==='Khoá').click());
+    await act(async()=>{[...host.querySelectorAll('.hlt-admin-modal-foot button')].find(b=>b.textContent==='Khoá tài khoản').click();});
+    assert.equal(busy,true);assert.match(host.querySelector('[role=dialog]').textContent,/Đang khoá/);
+    let unload=new window.Event('beforeunload',{cancelable:true});window.dispatchEvent(unload);assert.equal(unload.defaultPrevented,true);
+    await act(async()=>finish({error:null}));assert.equal(busy,false);
+    unload=new window.Event('beforeunload',{cancelable:true});window.dispatchEvent(unload);assert.equal(unload.defaultPrevented,false);
+  } finally {await act(async()=>root.unmount());delete globalThis.__pendingUserFixture;}
 });

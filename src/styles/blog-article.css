@@ -200,6 +200,25 @@
   background: #efe7da;
 }
 
+/* Ảnh đứng riêng một đoạn: khung ảnh + mô tả chữ nhỏ bên dưới (lấy từ mô tả
+   ảnh người viết gõ). Ảnh nằm lẫn trong câu vẫn theo rule img ở trên. */
+.hlt-article-body figure {
+  margin: clamp(20px, 2.4vw, 32px) 0;
+}
+
+.hlt-article-body figure img {
+  margin: 0;
+}
+
+.hlt-article-body figcaption {
+  margin-top: 10px;
+  color: #6f7a80;
+  font-size: .82em;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .hlt-article-body hr {
   margin: clamp(26px, 3vw, 40px) 0;
   border: 0;
