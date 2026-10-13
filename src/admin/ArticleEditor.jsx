@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { renderMarkdown } from "../lib/markdown.js";
 import { blogImageAccept, blogImageExtension, blogImageError, blogImageHint } from "../lib/blog-upload.js";
 import { supabase, blogImageUrl } from "../lib/supabase.js";
 import { blogDestinations, blogTopics } from "../config/blog-taxonomy.js";
 import { slugify } from "../lib/slugify.js";
+import RichTextEditor from "./RichTextEditor.jsx";
 
 /* Giờ Việt Nam: input datetime-local không mang múi giờ nên phải tự quy đổi. */
 function toLocalInput(iso) {
@@ -39,12 +40,17 @@ const emptyArticle = {
   publish_at: null,
 };
 
-export default function ArticleEditor({ article, profile, onDone, onCancel }) {
+const editableSnapshot = (form) => JSON.stringify(Object.fromEntries(Object.keys(emptyArticle).map((key) => [key, form[key]])));
+
+export default function ArticleEditor({ article, profile, onDone, onCancel, onDirtyChange, onBusyChange }) {
   const [form, setForm] = useState({ ...emptyArticle, ...(article || {}) });
+  const [baseline, setBaseline] = useState(() => editableSnapshot({ ...emptyArticle, ...(article || {}) }));
+  const publicationBaseline = useRef({ status: article?.status, publish_at: article?.publish_at });
+  const actionBarRef = useRef(null);
+  const coverInputRef = useRef(null);
   const [slugTouched, setSlugTouched] = useState(Boolean(article?.slug));
   const [status, setStatus] = useState({ state: "idle", message: "" });
   const [preview, setPreview] = useState(false);
-  const bodyRef = useRef(null);
   const isNew = !article?.id;
 
   /* Danh sách bài chỉ lấy vài cột cho nhẹ, nên khi mở sửa phải nạp đủ bản ghi,
@@ -61,7 +67,12 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
       .maybeSingle()
       .then(({ data, error }) => {
         if (!alive) return;
-        if (data) setForm({ ...emptyArticle, ...data });
+        if (data) {
+          const loaded = { ...emptyArticle, ...data };
+          setBaseline(editableSnapshot(loaded));
+          publicationBaseline.current = { status: loaded.status, publish_at: loaded.publish_at };
+          setForm(loaded);
+        }
         if (error || !data) {
           setLoadFailed(true);
           setStatus({ state: "error", message: error?.message || "Bài không còn tồn tại hoặc bạn không có quyền truy cập." });
@@ -74,11 +85,33 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
   }, [article?.id, isNew]);
 
   const previewHtml = useMemo(() => renderMarkdown(form.body), [form.body]);
+  const dirty = ready && !loadFailed && editableSnapshot(form) !== baseline;
+  const busy = status.state === "loading";
+  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useEffect(() => { onBusyChange?.(busy); }, [busy, onBusyChange]);
+  useEffect(() => () => { onDirtyChange?.(false); onBusyChange?.(false); }, [onDirtyChange, onBusyChange]);
+  useEffect(() => {
+    if (!dirty && !busy) return undefined;
+    const beforeUnload = (event) => { event.preventDefault(); event.returnValue = ""; };
+    window.addEventListener("beforeunload", beforeUnload);
+    return () => window.removeEventListener("beforeunload", beforeUnload);
+  }, [dirty, busy]);
+  const cancel = () => {
+    if (busy) return;
+    if (!dirty || window.confirm("Bạn có thay đổi chưa lưu. Rời trang và bỏ các thay đổi này?")) onCancel();
+  };
 
   const update = (patch) => setForm((current) => ({ ...current, ...patch }));
+  useEffect(() => {
+    const bar = actionBarRef.current;
+    if (!bar || !window.ResizeObserver) return undefined;
+    const measure = () => bar.closest('.hlt-admin-editor').style.setProperty('--ad-editor-bar-height', `${Math.ceil(bar.getBoundingClientRect().height) + 8}px`);
+    const observer = new window.ResizeObserver(measure); observer.observe(bar); measure();
+    return () => observer.disconnect();
+  }, [ready, loadFailed]);
 
   const changeTitle = (value) => {
-    update({ title: value, ...(slugTouched ? {} : { slug: slugify(value) }) });
+    update({ title: value, ...(slugTouched ? {} : { slug: slugify(value).slice(0,120).replace(/-$/, "") }) });
   };
 
   const toggleTag = (field, value) => {
@@ -125,30 +158,28 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
     }
   };
 
-  /** Chèn ảnh vào đúng vị trí con trỏ trong nội dung. */
-  const onInlineImage = async (event) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file || rejectUpload("inline", file)) return;
+  /** Ảnh trong thân bài: tải lên rồi trả đường dẫn để bộ soạn thảo tự đặt khung
+      ảnh vào chỗ con trỏ. Trả null khi ảnh bị từ chối hoặc tải lỗi. */
+  const onBodyImage = async (file) => {
+    if (rejectUpload("inline", file)) return null;
     setStatus({ state: "loading", message: "Đang tải ảnh…" });
     try {
       const path = await uploadImage(file);
-      const markdown = `\n![Mô tả ảnh](${blogImageUrl(path)})\n`;
-      const area = bodyRef.current;
-      const cursor = area?.selectionStart;
-      setForm((current) => {
-        const at = cursor == null ? current.body.length : Math.min(cursor, current.body.length);
-        return { ...current, body: current.body.slice(0, at) + markdown + current.body.slice(at) };
-      });
       setStatus({ state: "idle", message: "" });
+      return blogImageUrl(path);
     } catch (error) {
       setStatus({ state: "idle", message: "" });
       setUploadError({ where: "inline", message: `Không tải được ảnh: ${error.message}` });
+      return null;
     }
   };
 
+  /* Ổn định qua các lần render để bộ soạn thảo không phải gắn lại handler. */
+  const onBodyChange = useCallback((body) => setForm((current) => ({ ...current, body })), []);
+
   const save = async (nextStatus) => {
     if (!ready || loadFailed || status.state === "loading") return;
+    if (nextStatus === "draft" && form.status === "published" && !window.confirm("Chuyển bài về nháp? Bài sẽ không còn hiển thị công khai trên blog.")) return;
     if (!form.title.trim()) {
       setStatus({ state: "error", message: "Chưa có tiêu đề." });
       return;
@@ -169,7 +200,8 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
       return;
     }
 
-    if (nextStatus === "published" && form.publish_at && new Date(form.publish_at) <= new Date()) {
+    const existingPublication = publicationBaseline.current.status === "published" && form.publish_at === publicationBaseline.current.publish_at;
+    if (nextStatus === "published" && form.publish_at && new Date(form.publish_at) <= new Date() && !existingPublication) {
       const when = new Date(form.publish_at).toLocaleString("vi-VN");
       const message = `Giờ hẹn ${when} đã trôi qua nên bài sẽ hiện trên web ngay bây giờ.\n\nBấm OK để đăng ngay, hoặc Cancel để chọn lại giờ khác.`;
       if (!window.confirm(message)) {
@@ -211,8 +243,23 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
       return;
     }
 
+    setBaseline(editableSnapshot(form));
+    publicationBaseline.current = { status: nextStatus || form.status, publish_at: payload.publish_at };
+    setStatus({ state: "success", message: "Đã lưu bài." });
+    onDirtyChange?.(false);
+    onBusyChange?.(false);
     onDone();
   };
+
+  useEffect(() => {
+    const onSaveShortcut = (event) => {
+      if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== "s") return;
+      event.preventDefault();
+      if (!document.querySelector('[role="dialog"]')) save(form.status);
+    };
+    window.addEventListener('keydown', onSaveShortcut);
+    return () => window.removeEventListener('keydown', onSaveShortcut);
+  });
 
   const remove = async () => {
     if (!window.confirm(`Xoá hẳn bài "${form.title}"? Không khôi phục được.`)) return;
@@ -233,7 +280,7 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
     return () => window.clearInterval(timer);
   }, []);
   const scheduled = Boolean(form.publish_at) && new Date(form.publish_at).getTime() > clock;
-  const stalePlan = Boolean(form.publish_at) && !scheduled;
+  const stalePlan = Boolean(form.publish_at) && !scheduled && !(publicationBaseline.current.status === "published" && form.publish_at === publicationBaseline.current.publish_at);
 
   /* Cả nhóm cùng sửa được mọi bài, nhưng xoá thì vẫn chỉ tác giả hoặc admin. */
   const canDelete = isNew || profile.role === "admin" || (article?.author_id || profile.id) === profile.id;
@@ -243,16 +290,17 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
 
   return (
     <div className="hlt-admin-editor">
-      <div className="hlt-admin-editor-bar">
-        <button type="button" className="hlt-admin-link-btn" onClick={onCancel}>
+      <div className="hlt-admin-editor-heading"><p className="hlt-admin-eyebrow">Không gian biên tập</p><h1>{isNew ? "Viết bài mới" : "Chỉnh sửa bài viết"}</h1><p className="hlt-admin-description">Soạn nội dung trước, hoàn thiện thông tin bài và chọn cách đăng khi sẵn sàng.</p></div>
+      <div className="hlt-admin-editor-bar" ref={actionBarRef}>
+        <button type="button" className="hlt-admin-link-btn" onClick={cancel} disabled={busy}>
           ← Danh sách bài
         </button>
         <div className="hlt-admin-editor-actions">
           <button type="button" className="hlt-admin-btn is-ghost" onClick={() => save("draft")} disabled={status.state === "loading"}>
-            Lưu nháp
+            {form.status === "published" ? "Chuyển về nháp" : "Lưu nháp"}
           </button>
           <button type="button" className="hlt-admin-btn" onClick={() => save("published")} disabled={status.state === "loading"}>
-            {scheduled ? "Lưu và hẹn lịch" : "Đăng bài"}
+            {scheduled ? "Lưu và hẹn lịch" : form.status === "published" ? "Lưu thay đổi" : "Đăng bài"}
           </button>
         </div>
       </div>
@@ -261,17 +309,25 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
         <p className={`hlt-admin-note is-${status.state}`} role="status">{status.message}</p>
       )}
 
+      <p className={`hlt-admin-save-state${dirty ? " is-dirty" : ""}`} role="status">
+        {busy ? status.message : dirty ? "Có thay đổi chưa lưu — hãy Lưu nháp trước khi rời trang." : isNew ? "Bài mới — chưa lưu lên máy chủ." : "Chưa có thay đổi mới."}
+      </p>
+
+      <fieldset className="hlt-admin-editor-fields" aria-label="Nội dung và thiết lập bài viết" disabled={busy}>
       <div className="hlt-admin-editor-grid">
         <div className="hlt-admin-editor-main">
           <label className="hlt-admin-field">
             <span>Tiêu đề</span>
-            <input value={form.title} onChange={(event) => changeTitle(event.target.value)} placeholder="The Ultimate Sapa Travel Guide" />
+            <input className="hlt-admin-title-input" name="title" maxLength={200} value={form.title} onChange={(event) => changeTitle(event.target.value)} placeholder="Đặt tiêu đề cho câu chuyện của bạn…" />
+            <small>{form.title.length}/200 ký tự</small>
           </label>
 
+          <details className="hlt-admin-editor-meta"><summary>Tóm tắt & đường dẫn <span>Thông tin hiển thị trên thẻ bài và tìm kiếm</span></summary><div>
           <label className="hlt-admin-field">
             <span>Đường dẫn bài viết</span>
             <input
               value={form.slug}
+              maxLength={120}
               onChange={(event) => { setSlugTouched(true); update({ slug: event.target.value }); }}
             />
             <small>hoangluxury.travel/blog/<b>{slugify(form.slug) || "duong-dan"}</b>/</small>
@@ -281,21 +337,19 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
             <span>Tóm tắt</span>
             <textarea
               rows={2}
+              maxLength={2000}
               value={form.excerpt}
               onChange={(event) => update({ excerpt: event.target.value })}
               placeholder="Một hai câu hiện ở thẻ bài và trên kết quả tìm kiếm Google."
             />
-            <small>{form.excerpt.length}/160 ký tự nên dùng cho Google</small>
+            <small className={form.excerpt.length > 160 ? "is-warning" : ""}>{form.excerpt.length}/160 ký tự khuyến nghị · tối đa 2.000 ký tự</small>
           </label>
+          </div></details>
 
           <div className="hlt-admin-field">
             <span className="hlt-admin-field-head">
               Nội dung
               <span className="hlt-admin-field-tools">
-                <label className="hlt-admin-upload" title={blogImageHint}>
-                  Chèn ảnh
-                  <input type="file" accept={blogImageAccept} onChange={onInlineImage} disabled={status.state === "loading"} />
-                </label>
                 <button type="button" className="hlt-admin-link-btn" onClick={() => setPreview(!preview)}>
                   {preview ? "Quay lại soạn thảo" : "Xem thử"}
                 </button>
@@ -304,18 +358,21 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
             {uploadError.where === "inline" && (
               <p className="hlt-admin-note is-error" role="alert">{uploadError.message}</p>
             )}
-            {preview ? (
+            {preview && (
               <div className="hlt-admin-preview hlt-article-body" dangerouslySetInnerHTML={{ __html: previewHtml }} />
-            ) : (
-              <textarea
-                ref={bodyRef}
-                className="hlt-admin-body"
-                rows={24}
-                value={form.body}
-                onChange={(event) => update({ body: event.target.value })}
-                placeholder={"## Đầu mục\n\nĐoạn văn. Cách một dòng trống để sang đoạn mới.\n\n- Gạch đầu dòng\n\n> Câu trích dẫn\n\n[Chữ hiển thị](/journey/hanoi-to-sapa-private-transfer/)"}
-              />
             )}
+            <div hidden={preview}>
+              <RichTextEditor
+                value={form.body}
+                onChange={onBodyChange}
+                onImageFile={onBodyImage}
+                imageAccept={blogImageAccept}
+                imageHint={blogImageHint}
+                disabled={status.state === "loading"}
+                placeholder="Bắt đầu viết bài… Chọn chữ rồi dùng thanh công cụ để in đậm, đổi cỡ tiêu đề hoặc gắn link."
+              />
+            </div>
+            <p className="hlt-admin-editor-help">Ctrl+S để lưu {form.status === "published" ? "thay đổi" : "nháp"} · Ctrl+Z để hoàn tác. Nội dung chỉ được lưu lên máy chủ khi bạn bấm lưu.</p>
           </div>
         </div>
 
@@ -324,11 +381,9 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
             <h3>Đăng bài</h3>
             <label className="hlt-admin-field">
               <span>Trạng thái</span>
-              <select value={form.status} onChange={(event) => update({ status: event.target.value })}>
-                <option value="draft">Nháp — không hiện trên web</option>
-                <option value="published">Đã đăng</option>
-              </select>
+              <span className={`hlt-admin-badge is-${form.status !== "published" ? "draft" : scheduled ? "scheduled" : "live"}`}>{form.status !== "published" ? "Nháp — chưa công khai" : scheduled ? "Đã hẹn lịch" : "Đang hiện trên blog"}</span>
             </label>
+            <details className="hlt-admin-schedule" open={scheduled || stalePlan}><summary>Hẹn giờ đăng <span>Tuỳ chọn</span></summary>
             <label className="hlt-admin-field">
               <span>Giờ đăng</span>
               <input
@@ -338,10 +393,10 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
                 onChange={(event) => update({ publish_at: fromLocalInput(event.target.value) })}
               />
               <small>
-                Để trống = đăng ngay. Giờ hiển thị theo múi giờ thiết bị. Bài hẹn lịch được đọc công khai sau giờ hẹn; trang đang mở tự cập nhật khoảng mỗi phút.
-                Đừng hẹn sát quá — mốc giờ có thể trôi qua trong lúc bạn còn đang soạn bài.
+                Để trống để đăng ngay. Giờ theo múi giờ thiết bị; nên chọn ít nhất 10 phút sau hiện tại.
               </small>
             </label>
+            </details>
             {scheduled && (
               <p className="hlt-admin-note is-info">Bài sẽ tự lên web vào {new Date(form.publish_at).toLocaleString("vi-VN")}.</p>
             )}
@@ -367,18 +422,16 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
                 </button>
               </div>
             ) : (
-              <label className="hlt-admin-upload is-block">
-                Chọn ảnh bìa
-                <input type="file" accept={blogImageAccept} onChange={onCoverChange} disabled={status.state === "loading"} />
-              </label>
+              <button type="button" className="hlt-admin-upload is-block" onClick={() => coverInputRef.current?.click()} disabled={busy}>Chọn ảnh bìa</button>
             )}
+            <input ref={coverInputRef} type="file" hidden aria-label="Tải ảnh bìa" accept={blogImageAccept} onChange={onCoverChange} disabled={busy} />
             <p className="hlt-admin-field-note">{blogImageHint}</p>
             {uploadError.where === "cover" && (
               <p className="hlt-admin-note is-error" role="alert">{uploadError.message}</p>
             )}
             <label className="hlt-admin-field">
               <span>Mô tả ảnh</span>
-              <input value={form.cover_alt} onChange={(event) => update({ cover_alt: event.target.value })} placeholder="Ruộng bậc thang Sapa lúc bình minh" />
+              <input maxLength={300} value={form.cover_alt} onChange={(event) => update({ cover_alt: event.target.value })} placeholder="Ví dụ: Ruộng bậc thang Sapa lúc bình minh" />
             </label>
           </div>
 
@@ -390,6 +443,7 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
                   type="button"
                   key={item}
                   className={form.destinations.includes(item) ? "is-on" : ""}
+                  aria-pressed={form.destinations.includes(item)}
                   onClick={() => toggleTag("destinations", item)}
                 >
                   {item}
@@ -406,6 +460,7 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
                   type="button"
                   key={item}
                   className={form.topics.includes(item) ? "is-on" : ""}
+                  aria-pressed={form.topics.includes(item)}
                   onClick={() => toggleTag("topics", item)}
                 >
                   {item}
@@ -415,7 +470,7 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
           </div>
 
           {!isNew && (
-            <div className="hlt-admin-panel">
+            <details className="hlt-admin-panel hlt-admin-danger-zone"><summary>Thao tác xoá bài</summary>
               {canDelete ? (
                 <button type="button" className="hlt-admin-btn is-danger" onClick={remove} disabled={status.state === "loading"}>
                   Xoá bài này
@@ -425,10 +480,11 @@ export default function ArticleEditor({ article, profile, onDone, onCancel }) {
                   Bài này do người khác viết. Bạn sửa được nhưng không xoá được — nhờ tác giả hoặc admin xoá giúp.
                 </p>
               )}
-            </div>
+            </details>
           )}
         </aside>
       </div>
+      </fieldset>
     </div>
   );
 }

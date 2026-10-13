@@ -16,6 +16,9 @@ export default function AdminApp() {
   const [changePassword, setChangePassword] = useState(false);
   const [view, setView] = useState({ name: "articles" });
   const [reloadKey, setReloadKey] = useState(0);
+  const [editorDirty, setEditorDirty] = useState(false);
+  const [editorBusy, setEditorBusy] = useState(false);
+  const [accountsBusy, setAccountsBusy] = useState(false);
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -89,6 +92,13 @@ export default function AdminApp() {
   }
 
   const isAdmin = profile.role === "admin";
+  const canLeaveEditor = () => {
+    if (accountsBusy) { window.alert("Đang xử lý tài khoản. Vui lòng đợi thao tác hoàn tất."); return false; }
+    if (view.name !== "editor") return true;
+    if (editorBusy) { window.alert("Đang tải ảnh hoặc lưu bài. Vui lòng đợi hoàn tất trước khi rời trang."); return false; }
+    return !editorDirty || window.confirm("Bạn có thay đổi chưa lưu. Rời trang và bỏ các thay đổi này?");
+  };
+  const navigate = (next) => { if (canLeaveEditor()) setView(next); };
   const done = () => {
     setReloadKey((value) => value + 1);
     setView({ name: "articles" });
@@ -96,6 +106,7 @@ export default function AdminApp() {
 
   return (
     <div className="hlt-admin">
+      <a className="hlt-admin-skip" href="#admin-content">Tới nội dung quản trị</a>
       <header className="hlt-admin-top">
         <div className="hlt-admin-brand">
           <img src={logoGoldUrl} alt="" />
@@ -105,11 +116,12 @@ export default function AdminApp() {
           </span>
         </div>
 
-        <nav className="hlt-admin-nav">
+        <nav className="hlt-admin-nav" aria-label="Điều hướng quản trị">
           <button
             type="button"
             className={view.name !== "users" ? "is-on" : ""}
-            onClick={() => setView({ name: "articles" })}
+            aria-current={view.name !== "users" ? "page" : undefined}
+            onClick={() => navigate({ name: "articles" })}
           >
             Bài viết
           </button>
@@ -117,7 +129,8 @@ export default function AdminApp() {
             <button
               type="button"
               className={view.name === "users" ? "is-on" : ""}
-              onClick={() => setView({ name: "users" })}
+              aria-current={view.name === "users" ? "page" : undefined}
+              onClick={() => navigate({ name: "users" })}
             >
               Tài khoản
             </button>
@@ -125,11 +138,11 @@ export default function AdminApp() {
           <a href="/blog/" target="_blank" rel="noopener noreferrer">Xem blog</a>
         </nav>
 
-        <AccountMenu profile={profile} onChangePassword={() => setChangePassword(true)} />
+        <AccountMenu profile={profile} beforeLeave={canLeaveEditor} onChangePassword={() => setChangePassword(true)} />
       </header>
 
-      <main className="hlt-admin-main">
-        {view.name === "users" && isAdmin && <UserManager profile={profile} />}
+      <main className="hlt-admin-main" id="admin-content" tabIndex={-1}>
+        {view.name === "users" && isAdmin && <UserManager profile={profile} onBusyChange={setAccountsBusy} />}
 
         {view.name === "articles" && (
           <ArticleList
@@ -147,6 +160,8 @@ export default function AdminApp() {
             profile={profile}
             onDone={done}
             onCancel={() => setView({ name: "articles" })}
+            onDirtyChange={setEditorDirty}
+            onBusyChange={setEditorBusy}
           />
         )}
       </main>

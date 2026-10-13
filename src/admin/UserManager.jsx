@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase.js";
 import { generatePassword, accountPasswordError } from "../lib/account-password.js";
 import AdminModal from "./AdminModal.jsx";
+import { adminSearchText } from "../lib/admin-search.js";
 
 /** Chỉ admin thấy màn hình này. Tạo tài khoản và đặt lại mật khẩu phải đi qua hàm
     máy chủ vì hai thao tác đó cần khoá service_role, không được để trong trình duyệt. */
-export default function UserManager({ profile }) {
+export default function UserManager({ profile, onBusyChange }) {
   const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(true);
   const [listError, setListError] = useState("");
@@ -13,6 +14,25 @@ export default function UserManager({ profile }) {
 
   /* Một hộp thoại tại một thời điểm: "create" là biểu mẫu, "done" là kết quả. */
   const [dialog, setDialog] = useState(null);
+  const [creating, setCreating] = useState(false);
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [success, setSuccess] = useState("");
+  const [page, setPage] = useState(1);
+  useEffect(() => { setPage(1); }, [query, filter, reloadKey]);
+  const busy = creating || dialog?.mode === "working";
+  useEffect(() => { onBusyChange?.(busy); }, [busy, onBusyChange]);
+  useEffect(() => () => onBusyChange?.(false), [onBusyChange]);
+  useEffect(() => {
+    if (!busy) return undefined;
+    const beforeUnload = (event) => { event.preventDefault(); event.returnValue = ""; };
+    window.addEventListener('beforeunload', beforeUnload);
+    return () => window.removeEventListener('beforeunload', beforeUnload);
+  }, [busy]);
+  const matches = people.filter((person) => (filter === "all" || (filter === "locked" ? !person.active : person.active)) && adminSearchText(`${person.full_name} ${person.email}`).includes(adminSearchText(query.trim())));
+  const pages = Math.max(1, Math.ceil(matches.length / 20));
+  const currentPage = Math.min(page, pages);
+  const pagePeople = matches.slice((currentPage - 1) * 20, currentPage * 20);
 
   useEffect(() => {
     let alive = true;
@@ -75,10 +95,12 @@ export default function UserManager({ profile }) {
   });
 
   const runActive = async (person, active) => {
-    setDialog(null);
-    const { error } = await supabase.from("profiles").update({ active }).eq("id", person.id).select("id").single();
-    if (error) setListError(error.message);
-    else setReloadKey((value) => value + 1);
+    setDialog({ mode: "working", label: active ? "Đang mở khoá…" : "Đang khoá tài khoản…" });
+    try {
+      const { error } = await supabase.from("profiles").update({ active }).eq("id", person.id).select("id").single();
+      if (error) throw error;
+      setDialog(null); setSuccess(active ? "Đã mở khoá tài khoản." : "Đã khoá tài khoản."); setReloadKey((value) => value + 1);
+    } catch (error) { setDialog({ mode: "failed", title: "Không cập nhật được tài khoản", message: error.message }); }
   };
 
   const askActive = (person, active) => setDialog({
@@ -93,27 +115,44 @@ export default function UserManager({ profile }) {
   });
 
   const setRoleOf = async (person, nextRole) => {
-    const { error } = await supabase.from("profiles").update({ role: nextRole }).eq("id", person.id).select("id").single();
-    if (error) setListError(error.message);
-    else setReloadKey((value) => value + 1);
+    setDialog({ mode: "working", label: "Đang cập nhật vai trò…" });
+    try {
+      const { error } = await supabase.from("profiles").update({ role: nextRole }).eq("id", person.id).select("id").single();
+      if (error) throw error;
+      setDialog(null); setSuccess("Đã cập nhật vai trò tài khoản."); setReloadKey((value) => value + 1);
+    } catch (error) { setDialog({ mode: "failed", title: "Không đổi được vai trò", message: error.message }); }
+  };
+  const askRole = (person, nextRole) => {
+    if (nextRole === person.role) return;
+    setDialog({ mode: "confirm", title: "Thay đổi vai trò", body: `${person.email} sẽ thành ${nextRole === "admin" ? "Admin — có quyền quản lý tài khoản và xoá mọi bài viết" : "Writer — chỉ xoá được bài của mình"}. Bạn muốn tiếp tục?`, confirmLabel: "Xác nhận đổi vai trò", danger: nextRole === "admin", onConfirm: () => setRoleOf(person, nextRole) });
   };
 
   return (
     <div className="hlt-admin-users">
       <div className="hlt-admin-list-bar">
-        <h2>
+        <div><p className="hlt-admin-eyebrow">Quản lý đội ngũ</p><h1>
           Tài khoản
           {!loading && <span className="hlt-admin-count">{people.length}</span>}
-        </h2>
+        </h1><p className="hlt-admin-description">Cấp quyền và quản lý người viết. Chỉ quản trị viên được truy cập mục này.</p></div>
         <button type="button" className="hlt-admin-btn" onClick={() => setDialog({ mode: "create" })}>
           Thêm người viết
         </button>
       </div>
 
-      {listError && <p className="hlt-admin-note is-error" role="status">{listError}</p>}
-      {loading && <p className="hlt-admin-note is-loading">Đang tải…</p>}
+      <div className="hlt-admin-toolbar">
+        <label className="hlt-admin-search"><input type="search" aria-label="Tìm tài khoản" placeholder="Tìm theo tên hoặc email…" value={query} onChange={(event) => setQuery(event.target.value)} /></label>
+        <div className="hlt-admin-scope" role="group" aria-label="Lọc tài khoản">
+          {[["all", "Tất cả"], ["active", "Hoạt động"], ["locked", "Đã khoá"]].map(([key,label]) => <button key={key} type="button" aria-pressed={filter === key} className={filter === key ? "is-on" : ""} onClick={() => setFilter(key)}>{label}</button>)}
+        </div>
+      </div>
 
-      <table className="hlt-admin-table">
+      {listError && !loading && <div className="hlt-admin-note is-error" role="alert"><p>{listError}</p><button type="button" className="hlt-admin-btn is-ghost" onClick={() => setReloadKey((value) => value + 1)}>Thử lại</button></div>}
+      {success && <p className="hlt-admin-note is-success" role="status">{success}</p>}
+      {loading && <p className="hlt-admin-note is-loading" role="status">Đang tải tài khoản…</p>}
+      {!loading && !listError && <p className="hlt-admin-description" role="status">{matches.length} / {people.length} tài khoản</p>}
+      {!loading && !listError && !matches.length && <div className="hlt-admin-empty"><p>Không có tài khoản phù hợp.</p><button type="button" className="hlt-admin-btn is-ghost" onClick={() => {setQuery("");setFilter("all");}}>Bỏ bộ lọc</button></div>}
+
+      {!loading && !listError && Boolean(matches.length) && <table className="hlt-admin-table" role="table" aria-label="Danh sách tài khoản">
         <thead>
           <tr>
             <th>Người dùng</th>
@@ -123,22 +162,22 @@ export default function UserManager({ profile }) {
           </tr>
         </thead>
         <tbody>
-          {people.map((person) => {
+          {pagePeople.map((person) => {
             const self = person.id === profile.id;
             return (
-              <tr key={person.id} className={person.active ? "" : "is-off"}>
-                <td>
+              <tr role="row" key={person.id} className={person.active ? "" : "is-off"}>
+                <td role="cell" data-label="Người dùng">
                   <strong>{person.full_name || "(chưa đặt tên)"}</strong>
                   <small>{person.email}</small>
                 </td>
-                <td>
-                  <select value={person.role} disabled={self} onChange={(event) => setRoleOf(person, event.target.value)}>
+                <td role="cell" data-label="Vai trò">
+                  <select aria-label={`Vai trò của ${person.full_name || person.email}`} value={person.role} disabled={self || busy} onChange={(event) => askRole(person, event.target.value)}>
                     <option value="writer">Writer</option>
                     <option value="admin">Admin</option>
                   </select>
                 </td>
-                <td>{person.active ? "Đang hoạt động" : "Đã khoá"}</td>
-                <td>
+                <td role="cell" data-label="Trạng thái"><span className={`hlt-admin-badge is-${person.active ? "live" : "draft"}`}>{person.active ? "Đang hoạt động" : "Đã khoá"}</span></td>
+                <td role="cell" data-label="Thao tác">
                   <div className="hlt-admin-row-tools">
                     {!self && (
                       <button type="button" className="hlt-admin-link-btn" onClick={() => askReset(person)}>
@@ -157,7 +196,12 @@ export default function UserManager({ profile }) {
             );
           })}
         </tbody>
-      </table>
+      </table>}
+      {!loading && !listError && pages > 1 && <nav className="hlt-admin-pagination" aria-label="Phân trang tài khoản">
+        <button className="hlt-admin-btn is-ghost" type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>← Trước</button>
+        <span>Trang {currentPage} / {pages}</span>
+        <button className="hlt-admin-btn is-ghost" type="button" disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}>Tiếp →</button>
+      </nav>}
 
       <p className="hlt-admin-hint">
         Khoá tài khoản là cách thu hồi quyền: người đó không viết, sửa hay xoá được gì nữa,
@@ -167,6 +211,7 @@ export default function UserManager({ profile }) {
       {dialog?.mode === "create" && (
         <CreateAccountDialog
           callServer={callServer}
+          onBusyChange={setCreating}
           onCancel={() => setDialog(null)}
           onCreated={(created) => {
             setDialog({ mode: "done", title: "Đã tạo tài khoản", ...created });
@@ -216,13 +261,14 @@ export default function UserManager({ profile }) {
 }
 
 /** Biểu mẫu tạo tài khoản, nằm trong hộp thoại. */
-function CreateAccountDialog({ callServer, onCancel, onCreated }) {
+function CreateAccountDialog({ callServer, onCancel, onCreated, onBusyChange }) {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState("writer");
   const [password, setPassword] = useState(() => generatePassword());
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  useEffect(() => { onBusyChange?.(busy); return () => onBusyChange?.(false); }, [busy, onBusyChange]);
 
   const submit = async (event) => {
     event.preventDefault();

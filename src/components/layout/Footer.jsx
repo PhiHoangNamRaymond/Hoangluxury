@@ -18,69 +18,80 @@ export default function Footer() {
               <span>Luxury Travel</span>
             </div>
           </div>
-          <p>
-            Private car services for international<br />
-            travelers in Northern Vietnam.
-          </p>
-          {/* div thay vì span/strong/p: các rule .hlt-footer-brand span|strong|p là selector con cháu */}
-          <div className="hlt-footer-licence">
-            <div className="hlt-footer-licence-name">HOANG LUXURY TRAVEL</div>
-            <div className="hlt-footer-licence-meta">REGISTERED BUSINESS · VIETNAM</div>
-            <div className="hlt-footer-licence-no">Transport licence No. 15260263</div>
+          {/* Hàng 2 của lưới footer (subgrid): bắt đầu ngang dòng đầu các cột link. */}
+          <div className="hlt-footer-brand-body">
+            <p>
+              {/* Dấu cách trước <br>: bản máy tính ẩn <br> để chữ tự xuống dòng,
+                  thiếu nó thì "international" và "travelers" dính liền. */}
+              Private car services for international{" "}<br />
+              travelers in Northern Vietnam.
+            </p>
+            {/* div thay vì span/strong/p: các rule .hlt-footer-brand span|strong|p là selector con cháu */}
+            <div className="hlt-footer-licence">
+              <div className="hlt-footer-licence-name">HOANG LUXURY TRAVEL</div>
+              <div className="hlt-footer-licence-meta">REGISTERED BUSINESS · VIETNAM</div>
+              <div className="hlt-footer-licence-no">Transport licence No. 15260263</div>
+            </div>
           </div>
         </div>
 
         <div className="hlt-footer-col">
           <h4>Quick Links</h4>
-          <a href={sectionHref("#home")}>Home</a>
-          <a href={catalogPageUrl}>Catalog</a>
-          <a href={sectionHref("#routes")}>Routes</a>
-          <a href="/booking/">Booking</a>
-          <a href={feedbackPageUrl}>Feedback</a>
+          <div className="hlt-footer-col-body">
+            <a href={sectionHref("#home")}>Home</a>
+            <a href={catalogPageUrl}>Catalog</a>
+            <a href={sectionHref("#routes")}>Routes</a>
+            <a href="/booking/">Booking</a>
+            <a href={feedbackPageUrl}>Feedback</a>
+          </div>
         </div>
 
         <div className="hlt-footer-col">
           <h4>Services</h4>
-          <a href={sectionHref("#services")}>Airport Transfer</a>
-          <a href={sectionHref("#services")}>Long-Distance Private Transfer</a>
-          <a href={sectionHref("#services")}>Custom Private Trip</a>
-          <a href={sectionHref("#services")}>Business Partner Transfer</a>
-          <a href="/journeys/">Private Transfer Routes</a>
+          <div className="hlt-footer-col-body">
+            <a href={sectionHref("#services")}>Airport Transfer</a>
+            <a href={sectionHref("#services")}>Long-Distance Private Transfer</a>
+            <a href={sectionHref("#services")}>Custom Private Trip</a>
+            <a href={sectionHref("#services")}>Business Partner Transfer</a>
+            <a href="/journeys/">Private Transfer Routes</a>
+          </div>
         </div>
 
         <div className="hlt-footer-col hlt-footer-contact">
           <h4>Contact Us</h4>
-          <a href="tel:+84839779888">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
-            </svg>
-            +84.839.779.888
-          </a>
-          <a href="mailto:hoangluxury.travel@gmail.com">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3.5 6.5h17v11h-17z" />
-              <path d="m4 7 8 6 8-6" />
-            </svg>
-            hoangluxury.travel@gmail.com
-          </a>
-          <span>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" />
-              <circle cx="12" cy="9" r="2.4" />
-            </svg>
-            Duplex Villa 6-8 SP Hanoi, Viet Nam
-          </span>
-          <a
-            href="https://www.youtube.com/@HoangLuxuryTravel"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="6" width="18" height="12" rx="4" />
-              <path d="m10 9 5 3-5 3V9Z" />
-            </svg>
-            youtube.com/@HoangLuxuryTravel
-          </a>
+          <div className="hlt-footer-col-body">
+            <a href="tel:+84839779888">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
+              </svg>
+              +84.839.779.888
+            </a>
+            <a href="mailto:hoangluxury.travel@gmail.com">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.5 6.5h17v11h-17z" />
+                <path d="m4 7 8 6 8-6" />
+              </svg>
+              hoangluxury.travel@gmail.com
+            </a>
+            <span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" />
+                <circle cx="12" cy="9" r="2.4" />
+              </svg>
+              Duplex Villa 6-8 SP Hanoi, Viet Nam
+            </span>
+            <a
+              href="https://www.youtube.com/@HoangLuxuryTravel"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="12" rx="4" />
+                <path d="m10 9 5 3-5 3V9Z" />
+              </svg>
+              youtube.com/@HoangLuxuryTravel
+            </a>
+          </div>
         </div>
 
         <div className="hlt-footer-qr">
