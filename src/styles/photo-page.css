@@ -37,9 +37,9 @@
   position: absolute;
   z-index: 0;
   inset: 92px 0 0;
-  background:
-    linear-gradient(90deg, var(--photo-cream) 0%, var(--photo-cream) 26%, rgba(253, 248, 239, .72) 42%, rgba(253, 248, 239, .18) 62%, transparent 78%),
-    var(--photo-hero) center 62% / cover no-repeat;
+  /* Máy tính: ảnh hiện trọn, không phủ lớp mờ. Nửa trái ảnh là sườn núi xanh
+     đậm nên chữ đổi sang trắng, kèm bóng mềm để đọc rõ trên mọi vùng ảnh. */
+  background: var(--photo-hero) center 62% / cover no-repeat;
 }
 
 .hlt-photo-hero-inner {
@@ -54,7 +54,8 @@
   align-items: center;
   gap: 14px;
   margin: 0 0 10px;
-  color: var(--photo-gold);
+  color: var(--photo-gold-light);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .5);
   font-size: clamp(12px, .95vw, 14px);
   font-weight: 700;
   letter-spacing: .2em;
@@ -69,16 +70,19 @@
 
 .hlt-photo-hero h1 {
   margin: 0 0 14px;
-  color: var(--photo-ink);
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .45);
   font-size: clamp(30px, 3.3vw, 50px);
   font-weight: 600;
   line-height: 1.1;
 }
 
 .hlt-photo-lead {
-  max-width: 560px;
+  /* Hẹp vừa đủ để cả đoạn nằm trên sườn núi tối, không chạm vùng mây trắng. */
+  max-width: 470px;
   margin: 0;
-  color: var(--photo-muted);
+  color: rgba(255, 255, 255, .94);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .55);
   font-size: clamp(14px, 1.15vw, 17px);
   line-height: 1.5;
 }
@@ -96,10 +100,6 @@
   text-align: right;
   rotate: -6deg;
   text-shadow: 0 2px 10px rgba(0, 0, 0, .35);
-}
-
-.hlt-photo-script span {
-  display: block;
 }
 
 /* ---------- Bộ lọc ---------- */
@@ -162,6 +162,7 @@
 }
 
 .hlt-photo-card-media {
+  position: relative;
   display: block;
   overflow: hidden;
   aspect-ratio: 4 / 5;
@@ -178,6 +179,50 @@
 
 .hlt-photo-card:hover .hlt-photo-card-media img {
   transform: scale(1.04);
+}
+
+/* Nhãn "N videos" ở góc ảnh bìa album video. */
+.hlt-photo-card-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 8px;
+  border-radius: 999px;
+  background: rgba(10, 22, 18, .72);
+  color: #fff;
+  font-family: "Lato", Arial, Helvetica, sans-serif !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.hlt-photo-card-badge svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--photo-gold-light, #e3c06a);
+}
+
+/* Danh mục chưa có album. */
+.hlt-photo-empty {
+  margin: clamp(10px, 1.4vw, 20px) 0 0;
+  padding: clamp(28px, 3vw, 44px) 16px;
+  border: 1px dashed rgba(185, 138, 58, .45);
+  border-radius: 8px;
+  color: var(--photo-muted, #6b6459);
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.hlt-photo-empty a {
+  color: var(--photo-gold);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .hlt-photo-card-caption {
@@ -279,34 +324,6 @@
   font-size: clamp(14px, 1.15vw, 17px);
 }
 
-.hlt-photo-cta-points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 26px;
-  margin: clamp(14px, 1.4vw, 20px) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hlt-photo-cta-points li {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: rgba(255, 255, 255, .92);
-  font-size: clamp(12.5px, 1vw, 14.5px);
-}
-
-.hlt-photo-cta-points svg {
-  width: 20px;
-  height: 20px;
-  flex: none;
-  fill: none;
-  stroke: var(--photo-gold-light);
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
 .hlt-photo-cta-btn {
   display: inline-flex;
   flex: none;
@@ -377,6 +394,22 @@
 
   .hlt-photo-hero-inner {
     min-height: 0;
+  }
+
+  /* Ở đây vẫn phủ lớp kem sáng phía trên nên chữ giữ màu tối như cũ. */
+  .hlt-photo-kicker {
+    color: var(--photo-gold);
+    text-shadow: none;
+  }
+
+  .hlt-photo-hero h1 {
+    color: var(--photo-ink);
+    text-shadow: none;
+  }
+
+  .hlt-photo-lead {
+    color: var(--photo-muted);
+    text-shadow: none;
   }
 
   .hlt-photo-lead {
@@ -507,6 +540,98 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Album video: video ngang đầy bề ngang, video dọc xếp lưới 3 cột (2 cột trên
+   điện thoại). Khung giữ đúng tỉ lệ nên trang không nhảy khi iframe thay ảnh. */
+.hlt-album-video {
+  position: relative;
+  margin: 0 0 clamp(8px, 1vw, 14px);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #10201b;
+}
+
+.hlt-album-video.is-short {
+  margin: 0;
+  aspect-ratio: 9 / 16;
+}
+
+.hlt-album-video iframe,
+.hlt-album-video-play {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.hlt-album-video-play {
+  display: block;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.hlt-album-video-play img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+
+.hlt-album-video-play:hover img {
+  transform: scale(1.04);
+}
+
+/* Ảnh xem trước của video dọc là khung 4:3 có viền đen hai bên; phóng nhẹ để
+   viền không lộ thành vạch mảnh ở mép khung 9:16. */
+.hlt-album-video.is-short .hlt-album-video-play img {
+  transform: scale(1.08);
+}
+
+.hlt-album-video.is-short .hlt-album-video-play:hover img {
+  transform: scale(1.12);
+}
+
+.hlt-album-video-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 5vw, 64px);
+  height: clamp(48px, 5vw, 64px);
+  border: 1.5px solid rgba(255, 255, 255, .85);
+  border-radius: 50%;
+  background: rgba(10, 22, 18, .55);
+  transform: translate(-50%, -50%);
+  transition: background .2s ease;
+}
+
+.hlt-album-video-play:hover .hlt-album-video-icon,
+.hlt-album-video-play:focus-visible .hlt-album-video-icon {
+  background: rgba(198, 143, 34, .9);
+}
+
+.hlt-album-video-icon svg {
+  width: 44%;
+  height: 44%;
+  margin-left: 8%;
+  fill: #fff;
+}
+
+.hlt-album-shorts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 1vw, 14px);
+}
+
+@media (max-width: 600px) {
+  .hlt-album-shorts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .hlt-album-foot {

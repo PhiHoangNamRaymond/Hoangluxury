@@ -125,8 +125,12 @@ export default function BlogArticlePage({ slug }) {
 
             <header className="hlt-article-head">
               <ul className="hlt-article-tags">
-                {[...article.destinations, ...article.topics].map((tag) => (
-                  <li key={tag}>{tag}</li>
+                {/* Điểm đến là mục chính (chip vàng), chủ đề là mục phụ (chip trắng). */}
+                {article.destinations.map((tag) => (
+                  <li className="is-destination" key={`d-${tag}`}>{tag}</li>
+                ))}
+                {article.topics.map((tag) => (
+                  <li key={`t-${tag}`}>{tag}</li>
                 ))}
               </ul>
               <h1>{article.title}</h1>

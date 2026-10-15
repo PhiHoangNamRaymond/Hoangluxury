@@ -93,24 +93,27 @@ export const navLinks = [
 
 export const heroSlides = [
   {
-    image: "mountainDrive",
-    alt: "Private luxury SUV on a mountain pass at sunrise in Northern Vietnam",
+    image: "sapaDrive",
+    alt: "Black private SUV on a mountain road above the rice terraces of Sapa at sunrise",
+    // Điện thoại chỉ thấy khoảng một phần tư bề ngang ảnh: dịch sang phải để
+    // giữ đầu xe trong khung.
+    mobilePosition: "88% center",
   },
   {
     image: "convoyMountain",
     alt: "Convoy of luxury SUVs driving through a mountain village at dusk",
   },
   {
-    image: "fleetWedding",
-    alt: "Fleet of white luxury SUVs decorated with flowers at a resort entrance",
+    image: "muCangChaiConvoy",
+    alt: "Private SUVs on a winding road through the golden rice terraces of Mu Cang Chai",
   },
   {
-    image: "operationsCenter",
+    image: "operationsTeam",
     alt: "Hoang Luxury Travel operations team supporting travellers",
   },
   {
-    image: "receptionLobby",
-    alt: "Hoang Luxury Travel reception lobby",
+    image: "receptionDesk",
+    alt: "Hoang Luxury Travel reception desk",
   },
 ];
 

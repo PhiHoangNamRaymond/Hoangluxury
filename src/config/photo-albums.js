@@ -1,7 +1,7 @@
-// Ghép ảnh vào danh sách album ở photo-album-list.js. Ảnh hiện lấy từ kho ảnh
-// sẵn có của site, thay bằng ảnh chụp thật khi có bộ ảnh của từng album.
-import { albumPhotosBySlug, experienceImages, journeyCardImages } from "./assets.js";
-import { photoAlbumRows } from "./photo-album-list.js";
+// Ghép ảnh/video vào danh sách album ở photo-album-list.js. Mỗi album chỉ dùng
+// ảnh chụp thật của chính nó; không còn mượn ảnh tạm từ kho chung.
+import { albumCoverBySlug, albumPhotosBySlug } from "./assets.js";
+import { photoAlbumRows, photoAlbumVideosBySlug } from "./photo-album-list.js";
 
 export {
   ALL_PHOTO_CATEGORIES,
@@ -9,48 +9,16 @@ export {
   photoCategories,
 } from "./photo-album-list.js";
 
-/* Ảnh bìa, cùng thứ tự với photoAlbumRows. */
-const covers = [
-  journeyCardImages[0],
-  experienceImages[9].src,
-  experienceImages[15].src,
-  journeyCardImages[2],
-  journeyCardImages[7],
-  experienceImages[13].src,
-  journeyCardImages[6],
-  experienceImages[5].src,
-  experienceImages[6].src,
-  journeyCardImages[3],
-  experienceImages[16].src,
-  journeyCardImages[1],
-  journeyCardImages[8],
-  journeyCardImages[5],
-  journeyCardImages[4],
-  experienceImages[11].src,
-];
-
-/* Kho ảnh chung để xếp thành nội dung từng album. */
-const pool = [...journeyCardImages, ...experienceImages.map((item) => item.src)];
-
-/* Mỗi album lấy ảnh bìa rồi thêm 5 ảnh khác trong kho; bước nhảy lệch nhau để
-   hai album cạnh nhau không ra cùng một bộ ảnh. */
-function galleryFor(cover, seed) {
-  const photos = [cover];
-  for (let step = 1; photos.length < 6 && step < pool.length * 2; step += 1) {
-    const candidate = pool[(seed * 5 + step * 3) % pool.length];
-    if (!photos.includes(candidate)) photos.push(candidate);
-  }
-  return photos;
-}
-
-/* Album đã có bộ ảnh chụp thật thì dùng luôn, ảnh đầu tiên làm ảnh bìa;
-   những album còn lại vẫn ghép tạm từ kho ảnh chung như trước. */
-export const photoAlbums = photoAlbumRows.map((row, index) => {
-  const shot = albumPhotosBySlug[row.slug];
+/* Album ảnh: ảnh đầu tiên làm ảnh bìa. Album video: ảnh bìa riêng, danh sách
+   video ngang (films) và dọc (shorts). */
+export const photoAlbums = photoAlbumRows.map((row) => {
+  const photos = albumPhotosBySlug[row.slug] || [];
+  const videos = photoAlbumVideosBySlug[row.slug] || null;
   return {
     ...row,
-    image: shot ? shot[0] : covers[index],
-    photos: shot || galleryFor(covers[index], index + 1),
+    image: albumCoverBySlug[row.slug] || photos[0],
+    photos,
+    videos,
   };
 });
 

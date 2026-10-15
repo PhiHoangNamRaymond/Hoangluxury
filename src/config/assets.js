@@ -12,8 +12,6 @@ import experienceSlide20Url from "../../assets/opt/experience-slider/20.jpg";
 import experienceSlide21Url from "../../assets/experience-slider/21.webp";
 import experienceSlide30Url from "../../assets/opt/experience-slider/30.jpg";
 import experienceSlide31Url from "../../assets/opt/experience-slider/31.jpg";
-import experienceSlide50Url from "../../assets/opt/experience-slider/50.jpg";
-import experienceSlide51Url from "../../assets/opt/experience-slider/51.jpg";
 import experienceSlide60Url from "../../assets/opt/experience-slider/60.jpg";
 import experienceSlide61Url from "../../assets/opt/experience-slider/61.jpg";
 import experienceSlide70Url from "../../assets/opt/experience-slider/70.jpg";
@@ -23,10 +21,12 @@ import experienceSlide81Url from "../../assets/opt/experience-slider/81.jpg";
 import experienceSlide90Url from "../../assets/opt/experience-slider/90.jpg";
 import heroBannerUrl from "../../assets/opt/home-banner.jpg";
 import heroConvoyMountainUrl from "../../assets/opt/hero-convoy-mountain-2026.jpg";
-import heroFleetWeddingUrl from "../../assets/opt/hero-fleet-wedding-2026.jpg";
-import heroOperationsCenterUrl from "../../assets/opt/hero-operations-center-2026.jpg";
-import heroReceptionLobbyUrl from "../../assets/opt/hero-reception-lobby-2026.jpg";
-import heroMobileBannerUrl from "../../assets/home-banner-mobile-2026.webp";
+/* Banner trang chủ (bộ ảnh 15/10/2026). Ảnh 4 và 5 đã cắt nhẹ mép dưới/phải để
+   bỏ dấu ngôi sao của ảnh gốc. */
+import heroSapaDriveUrl from "../../assets/opt/hero-sapa-drive-2026.jpg";
+import heroMuCangChaiConvoyUrl from "../../assets/opt/hero-mucangchai-convoy-2026.jpg";
+import heroOperationsTeamUrl from "../../assets/opt/hero-operations-team-2026.jpg";
+import heroReceptionDeskUrl from "../../assets/opt/hero-reception-desk-2026.jpg";
 import logoUrl from "../../assets/opt/hoang-luxury-logo-crown-2026.png";
 /* Bản logo toàn vàng, đã cắt sát nét - dùng cho khối giấy phép trang About. */
 import logoGoldUrl from "../../assets/hoang-luxury-logo-gold.png";
@@ -133,6 +133,7 @@ import journeyExpGreetUrl from "../../assets/journey-experience/journey-experien
 import journeyExpGreetCityUrl from "../../assets/journey-experience/journey-experience-meet-and-greet-city.webp";
 import journeyExpLuggageUrl from "../../assets/journey-experience/journey-experience-luggage-assistance.webp";
 import journeyExpStopsUrl from "../../assets/journey-experience/journey-experience-flexible-stops.webp";
+import journeyExpCoffeeStopUrl from "../../assets/journey-experience/journey-experience-coffee-stop.webp";
 
 /* Nền dải "Ready to start your journey?" trang tuyến (cắt dải núi + mây từ Sapa2.png, JPEG 1920×565) */
 import journeyCtaMountainsImg from "../../assets/journey-cta-mountains.jpg";
@@ -182,41 +183,155 @@ export const photoStyleImages = {
   cinematic: photoStyleCinematicImg,
   celebrations: photoStyleCelebrationsImg,
 };
+/* Thứ tự khớp 6 bước chuẩn bị trên /photo/: sở thích (ảnh nhóm), địa điểm,
+   giờ đẹp, trang phục, trang điểm, chốt kế hoạch (sổ lịch trình). */
 export const photoPrepImages = [
-  photoPrepOutfitImg,
   photoPrepLocalOutfitImg,
-  photoPrepMakeupImg,
-  photoPrepBestTimeImg,
   photoPrepLocationImg,
+  photoPrepBestTimeImg,
+  photoPrepOutfitImg,
+  photoPrepMakeupImg,
   photoPrepRouteImg,
 ];
 
-/* Bộ ảnh thật của từng album (WebP 1024×1536). Album nào chưa có bộ ảnh riêng
-   thì photo-albums.js vẫn lấy ảnh tạm từ kho chung. Khoá là slug của album. */
-import toastPhoto01 from "../../assets/photo-albums/a-toast-to-the-view/01.webp";
-import toastPhoto02 from "../../assets/photo-albums/a-toast-to-the-view/02.webp";
-import toastPhoto03 from "../../assets/photo-albums/a-toast-to-the-view/03.webp";
-import toastPhoto04 from "../../assets/photo-albums/a-toast-to-the-view/04.webp";
-import toastPhoto05 from "../../assets/photo-albums/a-toast-to-the-view/05.webp";
-import toastPhoto06 from "../../assets/photo-albums/a-toast-to-the-view/06.webp";
-import toastPhoto07 from "../../assets/photo-albums/a-toast-to-the-view/07.webp";
-import toastPhoto08 from "../../assets/photo-albums/a-toast-to-the-view/08.webp";
-import toastPhoto09 from "../../assets/photo-albums/a-toast-to-the-view/09.webp";
-import toastPhoto10 from "../../assets/photo-albums/a-toast-to-the-view/10.webp";
+/* Ảnh ngang đầu 2 thẻ gói chụp ("One Journey. Two Ways…") trên /photo/. */
+import photoPlanHalfDayImg from "../../assets/photo-landing/plan-half-day.webp";
+import photoPlanFullDayImg from "../../assets/photo-landing/plan-full-day.webp";
+
+export const photoPlanImages = { halfDay: photoPlanHalfDayImg, fullDay: photoPlanFullDayImg };
+
+/* Nền dải CTA cuối trang /photo/: toàn cảnh núi lúc hoàng hôn, thợ ảnh Hoang
+   Photo đứng bên phải (đã cắt bỏ viền đen trên/dưới của ảnh gốc). */
+import photoCtaBackgroundImg from "../../assets/photo-landing/cta-photographer.webp";
+
+export const photoCtaBackgroundUrl = photoCtaBackgroundImg;
+
+/* Bộ ảnh thật của từng album (WebP 1024×1536, ảnh 01 là ảnh bìa). Khoá là
+   slug của album trong photo-album-list.js. */
+import peachBlossomSeason01 from "../../assets/photo-albums/peach-blossom-season/01.webp";
+import peachBlossomSeason02 from "../../assets/photo-albums/peach-blossom-season/02.webp";
+import peachBlossomSeason03 from "../../assets/photo-albums/peach-blossom-season/03.webp";
+import peachBlossomSeason04 from "../../assets/photo-albums/peach-blossom-season/04.webp";
+import peachBlossomSeason05 from "../../assets/photo-albums/peach-blossom-season/05.webp";
+import peachBlossomSeason06 from "../../assets/photo-albums/peach-blossom-season/06.webp";
+import peachBlossomSeason07 from "../../assets/photo-albums/peach-blossom-season/07.webp";
+import peachBlossomSeason08 from "../../assets/photo-albums/peach-blossom-season/08.webp";
+import peachBlossomSeason09 from "../../assets/photo-albums/peach-blossom-season/09.webp";
+import lavenderHmongPortraits01 from "../../assets/photo-albums/lavender-hmong-portraits/01.webp";
+import lavenderHmongPortraits02 from "../../assets/photo-albums/lavender-hmong-portraits/02.webp";
+import lavenderHmongPortraits03 from "../../assets/photo-albums/lavender-hmong-portraits/03.webp";
+import lavenderHmongPortraits04 from "../../assets/photo-albums/lavender-hmong-portraits/04.webp";
+import lavenderHmongPortraits05 from "../../assets/photo-albums/lavender-hmong-portraits/05.webp";
+import lavenderHmongPortraits06 from "../../assets/photo-albums/lavender-hmong-portraits/06.webp";
+import lavenderHmongPortraits07 from "../../assets/photo-albums/lavender-hmong-portraits/07.webp";
+import lavenderHmongPortraits08 from "../../assets/photo-albums/lavender-hmong-portraits/08.webp";
+import lavenderHmongPortraits09 from "../../assets/photo-albums/lavender-hmong-portraits/09.webp";
+import lavenderHmongPortraits10 from "../../assets/photo-albums/lavender-hmong-portraits/10.webp";
+import byTheWaterfall01 from "../../assets/photo-albums/by-the-waterfall/01.webp";
+import byTheWaterfall02 from "../../assets/photo-albums/by-the-waterfall/02.webp";
+import byTheWaterfall03 from "../../assets/photo-albums/by-the-waterfall/03.webp";
+import byTheWaterfall04 from "../../assets/photo-albums/by-the-waterfall/04.webp";
+import byTheWaterfall05 from "../../assets/photo-albums/by-the-waterfall/05.webp";
+import byTheWaterfall06 from "../../assets/photo-albums/by-the-waterfall/06.webp";
+import byTheWaterfall07 from "../../assets/photo-albums/by-the-waterfall/07.webp";
+import byTheWaterfall08 from "../../assets/photo-albums/by-the-waterfall/08.webp";
+import byTheWaterfall09 from "../../assets/photo-albums/by-the-waterfall/09.webp";
+import byTheWaterfall10 from "../../assets/photo-albums/by-the-waterfall/10.webp";
+import flowersOfTheHighlands01 from "../../assets/photo-albums/flowers-of-the-highlands/01.webp";
+import flowersOfTheHighlands02 from "../../assets/photo-albums/flowers-of-the-highlands/02.webp";
+import flowersOfTheHighlands03 from "../../assets/photo-albums/flowers-of-the-highlands/03.webp";
+import flowersOfTheHighlands04 from "../../assets/photo-albums/flowers-of-the-highlands/04.webp";
+import flowersOfTheHighlands05 from "../../assets/photo-albums/flowers-of-the-highlands/05.webp";
+import flowersOfTheHighlands06 from "../../assets/photo-albums/flowers-of-the-highlands/06.webp";
+import flowersOfTheHighlands07 from "../../assets/photo-albums/flowers-of-the-highlands/07.webp";
+import flowersOfTheHighlands08 from "../../assets/photo-albums/flowers-of-the-highlands/08.webp";
+import flowersOfTheHighlands09 from "../../assets/photo-albums/flowers-of-the-highlands/09.webp";
+import flowersOfTheHighlands10 from "../../assets/photo-albums/flowers-of-the-highlands/10.webp";
+import flowersOfTheHighlands11 from "../../assets/photo-albums/flowers-of-the-highlands/11.webp";
+import flowersOfTheHighlands12 from "../../assets/photo-albums/flowers-of-the-highlands/12.webp";
+import sunsetInTheVillage01 from "../../assets/photo-albums/sunset-in-the-village/01.webp";
+import sunsetInTheVillage02 from "../../assets/photo-albums/sunset-in-the-village/02.webp";
+import sunsetInTheVillage03 from "../../assets/photo-albums/sunset-in-the-village/03.webp";
+import sunsetInTheVillage04 from "../../assets/photo-albums/sunset-in-the-village/04.webp";
+import sunsetInTheVillage05 from "../../assets/photo-albums/sunset-in-the-village/05.webp";
+import sunsetInTheVillage06 from "../../assets/photo-albums/sunset-in-the-village/06.webp";
+import sunsetInTheVillage07 from "../../assets/photo-albums/sunset-in-the-village/07.webp";
+import sunsetInTheVillage08 from "../../assets/photo-albums/sunset-in-the-village/08.webp";
+import sunsetInTheVillage09 from "../../assets/photo-albums/sunset-in-the-village/09.webp";
+import sunsetInTheVillage10 from "../../assets/photo-albums/sunset-in-the-village/10.webp";
+import sunsetInTheVillage11 from "../../assets/photo-albums/sunset-in-the-village/11.webp";
+import sunsetInTheVillage12 from "../../assets/photo-albums/sunset-in-the-village/12.webp";
+import northernVietnamOnFilmCover from "../../assets/photo-albums/northern-vietnam-on-film/cover.webp";
 
 export const albumPhotosBySlug = {
-  "a-toast-to-the-view": [
-    toastPhoto01,
-    toastPhoto02,
-    toastPhoto03,
-    toastPhoto04,
-    toastPhoto05,
-    toastPhoto06,
-    toastPhoto07,
-    toastPhoto08,
-    toastPhoto09,
-    toastPhoto10,
+  "peach-blossom-season": [
+    peachBlossomSeason01,
+    peachBlossomSeason02,
+    peachBlossomSeason03,
+    peachBlossomSeason04,
+    peachBlossomSeason05,
+    peachBlossomSeason06,
+    peachBlossomSeason07,
+    peachBlossomSeason08,
+    peachBlossomSeason09,
   ],
+  "lavender-hmong-portraits": [
+    lavenderHmongPortraits01,
+    lavenderHmongPortraits02,
+    lavenderHmongPortraits03,
+    lavenderHmongPortraits04,
+    lavenderHmongPortraits05,
+    lavenderHmongPortraits06,
+    lavenderHmongPortraits07,
+    lavenderHmongPortraits08,
+    lavenderHmongPortraits09,
+    lavenderHmongPortraits10,
+  ],
+  "by-the-waterfall": [
+    byTheWaterfall01,
+    byTheWaterfall02,
+    byTheWaterfall03,
+    byTheWaterfall04,
+    byTheWaterfall05,
+    byTheWaterfall06,
+    byTheWaterfall07,
+    byTheWaterfall08,
+    byTheWaterfall09,
+    byTheWaterfall10,
+  ],
+  "flowers-of-the-highlands": [
+    flowersOfTheHighlands01,
+    flowersOfTheHighlands02,
+    flowersOfTheHighlands03,
+    flowersOfTheHighlands04,
+    flowersOfTheHighlands05,
+    flowersOfTheHighlands06,
+    flowersOfTheHighlands07,
+    flowersOfTheHighlands08,
+    flowersOfTheHighlands09,
+    flowersOfTheHighlands10,
+    flowersOfTheHighlands11,
+    flowersOfTheHighlands12,
+  ],
+  "sunset-in-the-village": [
+    sunsetInTheVillage01,
+    sunsetInTheVillage02,
+    sunsetInTheVillage03,
+    sunsetInTheVillage04,
+    sunsetInTheVillage05,
+    sunsetInTheVillage06,
+    sunsetInTheVillage07,
+    sunsetInTheVillage08,
+    sunsetInTheVillage09,
+    sunsetInTheVillage10,
+    sunsetInTheVillage11,
+    sunsetInTheVillage12,
+  ],
+};
+
+/* Album video không có ảnh: chỉ một ảnh bìa dọc 9:16 cho thẻ ở lưới album. */
+export const albumCoverBySlug = {
+  "northern-vietnam-on-film": northernVietnamOnFilmCover,
 };
 
 export const journeyCtaMountainsUrl = journeyCtaMountainsImg;
@@ -251,13 +366,14 @@ export const journeyExperienceImages = [
   journeyExpStopsUrl,
 ];
 
-/* Tuyến nối tỉnh không đi qua sân bay nên thẻ đón khách dùng ảnh đón tại
-   khách sạn. Ba thẻ còn lại giữ nguyên để bốn thẻ vẫn cùng một bộ. */
+/* Tuyến nối tỉnh (cùng thứ tự với journeyExperienceCity): đón tận nơi tại
+   khách sạn, hành lý, ngồi xe ngắm ruộng bậc thang (ảnh dừng đỗ của bộ chính
+   chuyển sang thẻ thoải mái), dừng uống cà phê bên xe. */
 export const journeyExperienceCityImages = [
-  journeyExpComfortUrl,
   journeyExpGreetCityUrl,
   journeyExpLuggageUrl,
   journeyExpStopsUrl,
+  journeyExpCoffeeStopUrl,
 ];
 
 export const journeyFactIcons = {
@@ -314,18 +430,14 @@ export {
 };
 
 export const heroSlideImages = {
-  mountainDrive: heroBannerUrl,
-  fleetWedding: heroFleetWeddingUrl,
+  sapaDrive: heroSapaDriveUrl,
   convoyMountain: heroConvoyMountainUrl,
-  operationsCenter: heroOperationsCenterUrl,
-  receptionLobby: heroReceptionLobbyUrl,
+  muCangChaiConvoy: heroMuCangChaiConvoyUrl,
+  operationsTeam: heroOperationsTeamUrl,
+  receptionDesk: heroReceptionDeskUrl,
 };
 
-export const heroSlideMobileImages = {
-  mountainDrive: heroMobileBannerUrl,
-};
-
-export const experienceImages = [
+const experienceImages = [
   experienceSlide01Url,
   experienceSlide02Url,
   experienceSlide15Url,
@@ -336,8 +448,6 @@ export const experienceImages = [
   experienceSlide21Url,
   experienceSlide30Url,
   experienceSlide31Url,
-  experienceSlide50Url,
-  experienceSlide51Url,
   experienceSlide60Url,
   experienceSlide61Url,
   experienceSlide70Url,
@@ -357,10 +467,8 @@ const experienceSliderFocus = new Map([
   [experienceSlide30Url, "center 58%"], // cụm thuyền hoa chụp từ trên xuống
 ]);
 
-/* Dải ảnh chạy gần footer (ExperienceSlider): bỏ 2 ảnh thác nước 50 / 51.
-   Giữ chúng trong experienceImages vì trang /photo/ vẫn dùng. */
+/* Dải ảnh chạy gần footer (ExperienceSlider). */
 export const experienceSliderImages = experienceImages
-  .filter((image) => image.src !== experienceSlide50Url && image.src !== experienceSlide51Url)
   .map((image) =>
     experienceSliderFocus.has(image.src)
       ? { ...image, focus: experienceSliderFocus.get(image.src) }
