@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { heroSlideImages, heroSlideMobileImages } from "../../config/assets.js";
+import { heroSlideImages } from "../../config/assets.js";
 import { catalogPageUrl, heroSlides, whatsappUrl } from "../../data.js";
 
 // Một vòng = 5 slide x (6000 + 900) ~ 30 giây.
@@ -125,10 +125,9 @@ export default function Hero() {
   const slideStyle = (slide, slideIndex) => {
     if (!loaded.has(slideIndex)) return undefined;
 
-    const mobileImage = heroSlideMobileImages[slide.image];
     return {
       "--slide-img": `url(${heroSlideImages[slide.image]})`,
-      ...(mobileImage && { "--slide-mobile-img": `url(${mobileImage})` }),
+      ...(slide.mobilePosition && { "--slide-mobile-pos": slide.mobilePosition }),
     };
   };
 
@@ -193,7 +192,7 @@ export default function Hero() {
           </div>
 
           <p className="hlt-hero-desc">
-            Private transfer across Northern Vietnam, specializing in airport transfers, long-distance and intercity journeys. 
+            Hoang Luxury Travel provides private transfer with driver services across Northern Vietnam from Hanoi and Noi Bai Airport with Sapa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations. 
           </p>
 
           <div className="hlt-actions">

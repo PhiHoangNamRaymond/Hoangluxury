@@ -26,27 +26,6 @@ function WhatsAppIcon() {
   );
 }
 
-const ctaPoints = [
-  [
-    "No obligation",
-    <path key="p" d="M12 2.5a9.5 9.5 0 1 1 0 19 9.5 9.5 0 0 1 0-19ZM7.8 12.2l2.9 2.9 5.5-6" />,
-  ],
-  [
-    "Quick response",
-    <path
-      key="p"
-      d="M21 12.2c0 4-4 7.2-9 7.2a11 11 0 0 1-3.3-.5L3.5 20.5l1.6-3.7A6.7 6.7 0 0 1 3 12.2C3 8.2 7 5 12 5s9 3.2 9 7.2Z"
-    />,
-  ],
-  [
-    "Tailored to your plans",
-    <>
-      <rect key="r" x="3.5" y="5" width="17" height="15" rx="2.5" />
-      <path key="p" d="M3.5 10h17M8 2.8v4M16 2.8v4M8.5 14h7" />
-    </>,
-  ],
-];
-
 /* /photo/albums/?style=<tên danh mục>: mũi tên ở trang /photo/ dẫn sang đây
    kèm sẵn bộ lọc của đúng phong cách vừa bấm. */
 function categoryFromUrl() {
@@ -99,18 +78,16 @@ export default function PhotoAlbumsPage() {
               <span aria-hidden="true" />
             </p>
             <h1 id="photo-title">
-              Real Journeys.
+              Real Moments.
               <br />
-              Beautifully Remembered.
+              Beautifully Captured.
             </h1>
             <p className="hlt-photo-lead">
-              Explore real photographs from journeys across Northern Vietnam.
-              <br />
-              Different people. Different stories. The same unforgettable moments.
+              Explore photos from real shoots across Northern Vietnam. Discover different
+              locations, styles and moments to inspire your own photo shoot.
             </p>
             <p className="hlt-photo-script" aria-hidden="true">
-              More Photos
-              <span>A More Meaningful Journey</span>
+              Every Photo Tells a Story
             </p>
           </div>
         </section>
@@ -132,15 +109,23 @@ export default function PhotoAlbumsPage() {
               ))}
             </div>
 
-            <p className="hlt-photo-count">
-              Showing {filtered.length} album{filtered.length === 1 ? "" : "s"}
-            </p>
+            {filtered.length > 0 && (
+              <p className="hlt-photo-count">
+                Showing {filtered.length} album{filtered.length === 1 ? "" : "s"}
+              </p>
+            )}
 
             <div className="hlt-photo-grid">
               {visible.map((item) => (
                 <article className="hlt-photo-card" key={item.title}>
                   <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)}>
                     <img src={item.image} alt={`${item.title} – ${item.place}`} loading="lazy" />
+                    {item.videos && (
+                      <span className="hlt-photo-card-badge">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.5v11l9-5.5-9-5.5Z" /></svg>
+                        {item.videos.films.length + item.videos.shorts.length} videos
+                      </span>
+                    )}
                   </a>
                   <a className="hlt-photo-card-caption" href={photoAlbumUrl(item.slug)}>
                     {item.title}
@@ -148,6 +133,14 @@ export default function PhotoAlbumsPage() {
                 </article>
               ))}
             </div>
+
+            {filtered.length === 0 && (
+              <p className="hlt-photo-empty">
+                New albums for this style are coming soon.{" "}
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a> to see
+                more of our recent work.
+              </p>
+            )}
 
             {pageCount > 1 && (
               <nav className="hlt-photo-pager" aria-label="Album pages">
@@ -193,16 +186,8 @@ export default function PhotoAlbumsPage() {
         >
           <div className="hlt-container hlt-photo-cta-inner">
             <div className="hlt-photo-cta-copy">
-              <h2 id="photo-cta-title">Your Story Could Be Next.</h2>
-              <p>Tell us your destination and travel date. We&rsquo;ll take care of the details.</p>
-              <ul className="hlt-photo-cta-points">
-                {ctaPoints.map(([label, shape]) => (
-                  <li key={label}>
-                    <svg viewBox="0 0 24 24" aria-hidden="true">{shape}</svg>
-                    {label}
-                  </li>
-                ))}
-              </ul>
+              <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
+              <p>Tell us your destination and preferred date. We&rsquo;ll take care of the details.</p>
             </div>
             <a className="hlt-photo-cta-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon />
@@ -213,7 +198,7 @@ export default function PhotoAlbumsPage() {
             </a>
             <p className="hlt-photo-cta-script" aria-hidden="true">
               Beautiful Places
-              <span>Meaningful People</span>
+              <span>Real Moments</span>
               <span>Lasting Memories</span>
             </p>
           </div>

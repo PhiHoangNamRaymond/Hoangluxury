@@ -65,6 +65,13 @@
   text-transform: uppercase;
 }
 
+/* Chip điểm đến nền vàng như nhãn chủ đề trên ảnh ở trang /blog/. */
+.hlt-article-tags li.is-destination {
+  border-color: #e2bd76;
+  background: #efd09a;
+  color: #16342d;
+}
+
 .hlt-article-head h1 {
   margin: 0;
   color: #16232a;

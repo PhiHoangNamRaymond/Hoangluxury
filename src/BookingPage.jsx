@@ -63,6 +63,7 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
     note: <><path d="M4 20h4L20 8l-4-4L4 16v4Z" /><path d="m14 6 4 4" /></>,
     shield: <><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z" /><path d="m9 12 2 2 4-5" /></>,
     clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v6l4 2" /></>,
+    payment: <><rect x="2.5" y="5.5" width="19" height="13" rx="2" /><path d="M2.5 9.5h19M6 15h4" /></>,
     globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c3 3.4 4.2 6.4 4.2 9S15 17.6 12 21c-3-3.4-4.2-6.4-4.2-9S9 6.4 12 3Z" /></>,
     headset: <><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><path d="M4 14h3v6H5a1 1 0 0 1-1-1v-5ZM20 14h-3v6h2a1 1 0 0 0 1-1v-5ZM17 20c0 1-1 2-3 2h-2" /></>,
   };
@@ -74,7 +75,7 @@ const highlights = [
   ["shield", "Safe & Professional", "Experienced drivers, your safety is our priority."],
   ["carSolid", "Private Cars", "Modern, clean, and reserved just for you."],
   ["clock", "On-Time Service", "Always on time, so you never have to wait."],
-  ["headset", "24/7 Support", "We are here whenever you need us."],
+  ["payment", "Flexible Payment", "Pay conveniently by cash or card at your destination."],
 ];
 
 /* Ảnh cờ 4:3 lấy theo mã ISO; alt là mã nước để vẫn đọc được nếu ảnh không tải */

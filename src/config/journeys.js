@@ -13,6 +13,16 @@ export const journeyExperience = [
   ["Flexible Stops", "Stop whenever you need. Coffee - Restroom - Photos"],
 ];
 
+// Tuyến nối tỉnh (cityPickup) không đón ở sân bay: thẻ đón tận nơi thay cho
+// cầm biển tên ở sảnh đến và đứng đầu; ảnh tương ứng ở journeyExperienceCityImages.
+const [comfortCard, , luggageCard, stopsCard] = journeyExperience;
+export const journeyExperienceCity = [
+  ["Door-to-Door", "Private transfers directly from your pick-up point to your destination."],
+  luggageCard,
+  comfortCard,
+  stopsCard,
+];
+
 // Dải số liệu dưới 4 thẻ Journey Experience. Icon là LineIcon.
 export const journeyExperienceStats = [
   ["star", "4.9/5", "Guest Rating"],
@@ -135,8 +145,8 @@ const cityTransferPage = (origin, destination, travelTime) => ({
   routeLabel: `${origin} ↔ ${destination}`,
   durationNote: "approx.",
   price: null,
-  /* Không xuất phát từ sân bay: JourneyPage đổi ảnh thẻ "Personal Meet & Greet"
-     sang cảnh đón tại khách sạn. */
+  /* Không xuất phát từ sân bay: JourneyPage đổi thẻ "Personal Meet & Greet"
+     thành "Door-to-Door", kèm ảnh đón tại khách sạn. */
   cityPickup: true,
 });
 

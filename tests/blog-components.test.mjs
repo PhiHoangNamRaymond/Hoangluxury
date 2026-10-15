@@ -406,8 +406,8 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           assert.equal(story.querySelectorAll('a').length, 1);
           assert.match(story.style.backgroundImage, /fixture-blog-sunrise/);
           const plan = host.querySelector(".hlt-blog-plan");
-          assert.equal(plan.querySelector("h2").textContent,"EXPLORE VIETNAM");
-          assert.equal(plan.querySelector("p").textContent,"More Than a Destination. Travel is also about the people you meet, the culture you experience and the stories you remember long after the journey.");
+          assert.equal(plan.querySelector("h2").textContent,"EXPLORE MORE. TRAVEL YOUR WAY");
+          assert.equal(plan.querySelector("p").textContent,"Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.");
           assert.equal(plan.querySelector("a").textContent,"Plan your journey");
           assert.equal(plan.querySelector("a").getAttribute("href"),"https://wa.me/fixture");
           if (initial) await act(async () => destinationButton(initial).click());

@@ -341,8 +341,7 @@
 
 @media (max-width: 600px) {
   .hlt-hero-slide-image {
-    background-image: var(--slide-mobile-img, var(--slide-img));
-    background-position: 59% center;
+    background-position: var(--slide-mobile-pos, 59% center);
   }
 
   /* Không để chuyển sang màu đặc ở đáy — như vậy thành một mảng xanh đen

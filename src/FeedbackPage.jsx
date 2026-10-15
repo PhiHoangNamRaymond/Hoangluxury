@@ -30,14 +30,14 @@ const feedbackStats = [
 const guestReviews = [
   {
     title: "Trip Details Confirmed Before Departure",
-    quote: "Our plans changed the night before the trip, so we were a little worried as everything was very last minute. But the Hoang Luxury team responded very quickly and helped us arrange everything again. Before the trip, they sent us all the details about the car, driver and pickup time. Everything was handled very quickly and smoothly, so we felt much more relaxed and comfortable. We were really happy with the support from the team.",
+    quote: "Our plans changed the night before the trip, so we were a little worried as everything was very last minute. But the Hoang Luxury Travel team responded very quickly and helped us arrange everything again. Before the trip, they sent us all the details about the car, driver and pickup time. Everything was handled very quickly and smoothly, so we felt much more relaxed and comfortable. We were really happy with the support from the team.",
     country: "India",
     guest: "Guest from India",
     alt: "Guests beside a private car at a hotel entrance – Hoang Luxury Travel",
   },
   {
     title: "On-Time Pick Up and Flexible Payment",
-    quote: "We needed a reliable car to take us to the Ha Long cruise port because we had quite a lot of luggage and needed to arrive on time for our cruise. The driver came early, helped us with our bags and got us there earlier than expected. When it was time to pay, we realised we didn’t have enough cash with us and felt a little worried. Luckily, the Hoang Team accepted card payment, so everything was sorted out quickly and easily.",
+    quote: "We needed a reliable car to take us to the Ha Long cruise port because we had quite a lot of luggage and needed to arrive on time for our cruise. The driver came early, helped us with our bags and got us there earlier than expected. When it was time to pay, we realised we didn’t have enough cash with us and felt a little worried. Luckily, the Hoang Luxury Travel Team accepted card payment, so everything was sorted out quickly and easily.",
     country: "Saudi Arabia",
     guest: "Guest from Saudi Arabia",
     alt: "Hanoi to Ha Long private car – Hoang Luxury Travel",
@@ -59,14 +59,14 @@ const guestReviews = [
   },
   {
     title: "24/7 WhatsApp Support",
-    quote: "We had a really great experience! When we arrived back in Hanoi, we realised that we had left our camera at Hotel de la Coupole in Sapa. Hoang Luxury quickly helped us contact the hotel and arranged for a driver to bring the camera back to their office. As our flight was delayed, the Hoang team also helped us find a new flight and took us to the airport free of charge. Great service and we were very happy with everything.",
+    quote: "We had a really great experience! When we arrived back in Hanoi, we realised that we had left our camera at Hotel de la Coupole in Sapa. Hoang Luxury Travel quickly helped us contact the hotel and arranged for a driver to bring the camera back to their office. As our flight was delayed, the Hoang Luxury Travel team also helped us find a new flight and took us to the airport free of charge. Great service and we were very happy with everything.",
     country: "France",
     guest: "Guest from France",
     alt: "Representative Office of Hoang Luxury Travel – Hanoi to Sapa Private Transfer",
   },
   {
     title: "Professional Drivers Safety-Focused",
-    quote: "Our group booked a private car to Sapa. We had quite a lot of luggage—six suitcases—and I discussed this with the Hoang Team before the trip. They said it would be fine and assured us there was nothing to worry about. I was genuinely surprised when two vehicles arrived to pick us up. They had arranged an additional support vehicle for our luggage. All of our bags were placed in the second car, leaving the main vehicle extremely spacious and comfortable. I was very impressed by this thoughtful arrangement. The service was flexible, attentive and professional.",
+    quote: "Our group booked a private car to Sapa. We had quite a lot of luggage—six suitcases—and I discussed this with the Hoang Luxury Travel Team before the trip. They said it would be fine and assured us there was nothing to worry about. I was genuinely surprised when two vehicles arrived to pick us up. They had arranged an additional support vehicle for our luggage. All of our bags were placed in the second car, leaving the main vehicle extremely spacious and comfortable. I was very impressed by this thoughtful arrangement. The service was flexible, attentive and professional.",
     country: "United States",
     guest: "Guest from the United States",
     alt: "Hanoi to Ninh Binh private transfer – Hoang Luxury Travel",
@@ -81,7 +81,7 @@ const guestReviews = [
   },
   {
     title: "Flexible Departure",
-    quote: "It was my first time visiting Vietnam and our flight landed at Noi Bai Airport more than an hour late. It was already close to 1 a.m. We messaged Hoang Luxury to let them know. And then they replied very quickly, telling us not to worry and that the driver would wait for us. We even had some Pho at the airport because one of the airport staff told us it was the best one there. The driver never rushed us and waited patiently. When we finally met him, he helped with our suitcases and took us to a white SUV. We also asked him to take a photo of us as a memory of the trip. I really appreciated how professional and patient the service was.",
+    quote: "It was my first time visiting Vietnam and our flight landed at Noi Bai Airport more than an hour late. It was already close to 1 a.m. We messaged Hoang Luxury Travel to let them know. And then they replied very quickly, telling us not to worry and that the driver would wait for us. We even had some Pho at the airport because one of the airport staff told us it was the best one there. The driver never rushed us and waited patiently. When we finally met him, he helped with our suitcases and took us to a white SUV. We also asked him to take a photo of us as a memory of the trip. I really appreciated how professional and patient the service was.",
     country: "United States",
     guest: "Guest from the United States",
     alt: "Hoang Luxury Travel private car interior",

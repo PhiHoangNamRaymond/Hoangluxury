@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { journeys } from "../src/config/journeys.js";
-import { photoAlbumRows } from "../src/config/photo-album-list.js";
+import { photoAlbumRows, photoAlbumVideosBySlug } from "../src/config/photo-album-list.js";
 import { fetchPublicBlog } from "../src/lib/public-blog.js";
 import { renderRoute } from "./render-route.mjs";
 
@@ -101,7 +101,7 @@ for (const album of photoAlbumRows) {
   routes.push({
     path: `/photo/albums/${album.slug}/`,
     title: `${album.title} | Hoang Luxury Travel`,
-    description: `${album.title} - ${album.category} photos from ${album.place}, by Hoang Luxury Travel.`,
+    description: `${album.title} - ${album.category} ${photoAlbumVideosBySlug[album.slug] ? "videos" : "photos"} from ${album.place}, by Hoang Luxury Travel.`,
   });
 }
 
