@@ -12,6 +12,8 @@ export const photoCategories = [
   "Family Memories",
   "Cinematic Travel",
   "Proposal & Celebration",
+  // Ảnh chân dung một người (thư mục "Abum đơn"), không hợp danh mục nào ở trên.
+  "Solo Portraits",
 ];
 
 function slugifyAlbum(title) {
@@ -22,14 +24,26 @@ function slugifyAlbum(title) {
 }
 
 /* [tiêu đề, địa điểm, danh mục] - thứ tự hiện trên lưới /photo/albums/. Ảnh
-   từng album nằm ở assets/photo-albums/<slug>/ (ghép trong assets.js). Hiện chỉ
-   có album bản địa và album video; các danh mục khác để trống chờ ảnh thật. */
+   từng album nằm ở assets/photo-albums/<slug>/ (ghép trong assets.js). Album
+   bản địa đứng đầu; Natural Journey hiện chưa có album. */
 const rows = [
   ["Peach Blossom Season", "Ha Giang", "Local Heritage"],
   ["Lavender Hmong Portraits", "Sapa", "Local Heritage"],
   ["By the Waterfall", "Sapa", "Local Heritage"],
   ["Flowers of the Highlands", "Ha Giang", "Local Heritage"],
   ["Sunset in the Village", "Sapa", "Local Heritage"],
+  ["Melody of the Mountains", "Ha Giang", "Local Heritage"],
+  ["Garden of Vows", "Hanoi", "Couple & Honeymoon"],
+  ["A Vintage Ride", "Hanoi", "Couple & Honeymoon"],
+  ["Golden Hour Together", "Moc Chau", "Couple & Honeymoon"],
+  ["Blossom Days Together", "Moc Chau", "Family Memories"],
+  ["Birthday Wishes", "Hanoi", "Proposal & Celebration"],
+  ["Little Princess", "Hanoi", "Solo Portraits"],
+  ["Golden Garden Glow", "Hanoi", "Solo Portraits"],
+  ["Lotus Pond Dreams", "Hanoi", "Solo Portraits"],
+  ["School Days", "Hanoi", "Solo Portraits"],
+  ["Ao Dai Elegance", "Hanoi", "Solo Portraits"],
+  ["Royal Afternoon", "Hanoi", "Solo Portraits"],
   ["Northern Vietnam on Film", "Mu Cang Chai, Ta Xua & Sapa", "Cinematic Travel"],
 ];
 
@@ -39,10 +53,23 @@ const rows = [
 export const photoAlbumVideosBySlug = {
   "northern-vietnam-on-film": {
     films: ["MF50DWOr7hY"],
+    // Thứ tự hiển thị do khách sắp xếp (20/10/2026).
     shorts: [
-      "9T8KPo6en8w", "Vve3EMpaegQ", "gGLpaOfTmDw", "74A19Is37O4", "-TT6XZmDQuM",
-      "FQTVUhcuSXg", "jVCrtbwXZz4", "ZF6uhygFtFk", "WX6QSh9iAm4", "dKXktVGiqHo",
-      "Pbo0tdWxk8g", "DaKN_EBCFN8", "oox30OODoOU", "_Ws8xK7Iu2s",
+      "9T8KPo6en8w", // cưỡi ngựa giữa ruộng bậc thang
+      "WX6QSh9iAm4", // cô gái áo đỏ cầm điều khiển flycam
+      "Vve3EMpaegQ", // ruộng bậc thang vàng lúc hoàng hôn
+      "74A19Is37O4", // hoa hồng phấn lúc hoàng hôn
+      "ZF6uhygFtFk", // cặp đôi áo trắng
+      "FQTVUhcuSXg", // dang tay trước biển mây
+      "-TT6XZmDQuM", // cô gái áo hồng ngồi trên ruộng
+      "jVCrtbwXZz4", // dang tay giữa ruộng, nhìn từ trên cao
+      "gGLpaOfTmDw", // cưỡi ngựa trong sương
+      "dKXktVGiqHo", // ruộng mâm xôi
+      "Pbo0tdWxk8g", // đứng trên mỏm đá
+      "DaKN_EBCFN8", // hoàng hôn đỏ, lối mòn giữa ruộng
+      "_Ws8xK7Iu2s", // cô gái váy đỏ trên ruộng bậc thang
+      "Ngw9M_iN8YQ", // video thêm ngày 20/10, đứng giữa váy đỏ và áo vàng
+      "oox30OODoOU", // cô gái áo vàng dang tay trên ruộng
     ],
   },
 };
