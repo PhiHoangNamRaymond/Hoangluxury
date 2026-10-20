@@ -206,8 +206,8 @@ import photoCtaBackgroundImg from "../../assets/photo-landing/cta-photographer.w
 
 export const photoCtaBackgroundUrl = photoCtaBackgroundImg;
 
-/* Bộ ảnh thật của từng album (WebP 1024×1536, ảnh 01 là ảnh bìa). Khoá là
-   slug của album trong photo-album-list.js. */
+/* Bộ ảnh thật của từng album (WebP 1024×1536, riêng golden-hour-together 941×1672;
+   ảnh 01 là ảnh bìa). Khoá là slug của album trong photo-album-list.js. */
 import peachBlossomSeason01 from "../../assets/photo-albums/peach-blossom-season/01.webp";
 import peachBlossomSeason02 from "../../assets/photo-albums/peach-blossom-season/02.webp";
 import peachBlossomSeason03 from "../../assets/photo-albums/peach-blossom-season/03.webp";
@@ -261,6 +261,126 @@ import sunsetInTheVillage09 from "../../assets/photo-albums/sunset-in-the-villag
 import sunsetInTheVillage10 from "../../assets/photo-albums/sunset-in-the-village/10.webp";
 import sunsetInTheVillage11 from "../../assets/photo-albums/sunset-in-the-village/11.webp";
 import sunsetInTheVillage12 from "../../assets/photo-albums/sunset-in-the-village/12.webp";
+import melodyOfTheMountains01 from "../../assets/photo-albums/melody-of-the-mountains/01.webp";
+import melodyOfTheMountains02 from "../../assets/photo-albums/melody-of-the-mountains/02.webp";
+import melodyOfTheMountains03 from "../../assets/photo-albums/melody-of-the-mountains/03.webp";
+import melodyOfTheMountains04 from "../../assets/photo-albums/melody-of-the-mountains/04.webp";
+import melodyOfTheMountains05 from "../../assets/photo-albums/melody-of-the-mountains/05.webp";
+import melodyOfTheMountains06 from "../../assets/photo-albums/melody-of-the-mountains/06.webp";
+import melodyOfTheMountains07 from "../../assets/photo-albums/melody-of-the-mountains/07.webp";
+import melodyOfTheMountains08 from "../../assets/photo-albums/melody-of-the-mountains/08.webp";
+import melodyOfTheMountains09 from "../../assets/photo-albums/melody-of-the-mountains/09.webp";
+import melodyOfTheMountains10 from "../../assets/photo-albums/melody-of-the-mountains/10.webp";
+import gardenOfVows01 from "../../assets/photo-albums/garden-of-vows/01.webp";
+import gardenOfVows02 from "../../assets/photo-albums/garden-of-vows/02.webp";
+import gardenOfVows03 from "../../assets/photo-albums/garden-of-vows/03.webp";
+import gardenOfVows04 from "../../assets/photo-albums/garden-of-vows/04.webp";
+import gardenOfVows05 from "../../assets/photo-albums/garden-of-vows/05.webp";
+import gardenOfVows06 from "../../assets/photo-albums/garden-of-vows/06.webp";
+import gardenOfVows07 from "../../assets/photo-albums/garden-of-vows/07.webp";
+import gardenOfVows08 from "../../assets/photo-albums/garden-of-vows/08.webp";
+import gardenOfVows09 from "../../assets/photo-albums/garden-of-vows/09.webp";
+import aVintageRide01 from "../../assets/photo-albums/a-vintage-ride/01.webp";
+import aVintageRide02 from "../../assets/photo-albums/a-vintage-ride/02.webp";
+import aVintageRide03 from "../../assets/photo-albums/a-vintage-ride/03.webp";
+import aVintageRide04 from "../../assets/photo-albums/a-vintage-ride/04.webp";
+import aVintageRide05 from "../../assets/photo-albums/a-vintage-ride/05.webp";
+import aVintageRide06 from "../../assets/photo-albums/a-vintage-ride/06.webp";
+import aVintageRide07 from "../../assets/photo-albums/a-vintage-ride/07.webp";
+import aVintageRide08 from "../../assets/photo-albums/a-vintage-ride/08.webp";
+import aVintageRide09 from "../../assets/photo-albums/a-vintage-ride/09.webp";
+import aVintageRide10 from "../../assets/photo-albums/a-vintage-ride/10.webp";
+import goldenHourTogether01 from "../../assets/photo-albums/golden-hour-together/01.webp";
+import goldenHourTogether02 from "../../assets/photo-albums/golden-hour-together/02.webp";
+import goldenHourTogether03 from "../../assets/photo-albums/golden-hour-together/03.webp";
+import goldenHourTogether04 from "../../assets/photo-albums/golden-hour-together/04.webp";
+import goldenHourTogether05 from "../../assets/photo-albums/golden-hour-together/05.webp";
+import goldenHourTogether06 from "../../assets/photo-albums/golden-hour-together/06.webp";
+import goldenHourTogether07 from "../../assets/photo-albums/golden-hour-together/07.webp";
+import goldenHourTogether08 from "../../assets/photo-albums/golden-hour-together/08.webp";
+import goldenHourTogether09 from "../../assets/photo-albums/golden-hour-together/09.webp";
+import goldenHourTogether10 from "../../assets/photo-albums/golden-hour-together/10.webp";
+import blossomDaysTogether01 from "../../assets/photo-albums/blossom-days-together/01.webp";
+import blossomDaysTogether02 from "../../assets/photo-albums/blossom-days-together/02.webp";
+import blossomDaysTogether03 from "../../assets/photo-albums/blossom-days-together/03.webp";
+import blossomDaysTogether04 from "../../assets/photo-albums/blossom-days-together/04.webp";
+import blossomDaysTogether05 from "../../assets/photo-albums/blossom-days-together/05.webp";
+import blossomDaysTogether06 from "../../assets/photo-albums/blossom-days-together/06.webp";
+import blossomDaysTogether07 from "../../assets/photo-albums/blossom-days-together/07.webp";
+import blossomDaysTogether08 from "../../assets/photo-albums/blossom-days-together/08.webp";
+import blossomDaysTogether09 from "../../assets/photo-albums/blossom-days-together/09.webp";
+import blossomDaysTogether10 from "../../assets/photo-albums/blossom-days-together/10.webp";
+import birthdayWishes01 from "../../assets/photo-albums/birthday-wishes/01.webp";
+import birthdayWishes02 from "../../assets/photo-albums/birthday-wishes/02.webp";
+import birthdayWishes03 from "../../assets/photo-albums/birthday-wishes/03.webp";
+import birthdayWishes04 from "../../assets/photo-albums/birthday-wishes/04.webp";
+import birthdayWishes05 from "../../assets/photo-albums/birthday-wishes/05.webp";
+import birthdayWishes06 from "../../assets/photo-albums/birthday-wishes/06.webp";
+import birthdayWishes07 from "../../assets/photo-albums/birthday-wishes/07.webp";
+import birthdayWishes08 from "../../assets/photo-albums/birthday-wishes/08.webp";
+import birthdayWishes09 from "../../assets/photo-albums/birthday-wishes/09.webp";
+import littlePrincess01 from "../../assets/photo-albums/little-princess/01.webp";
+import littlePrincess02 from "../../assets/photo-albums/little-princess/02.webp";
+import littlePrincess03 from "../../assets/photo-albums/little-princess/03.webp";
+import littlePrincess04 from "../../assets/photo-albums/little-princess/04.webp";
+import littlePrincess05 from "../../assets/photo-albums/little-princess/05.webp";
+import littlePrincess06 from "../../assets/photo-albums/little-princess/06.webp";
+import littlePrincess07 from "../../assets/photo-albums/little-princess/07.webp";
+import littlePrincess08 from "../../assets/photo-albums/little-princess/08.webp";
+import littlePrincess09 from "../../assets/photo-albums/little-princess/09.webp";
+import littlePrincess10 from "../../assets/photo-albums/little-princess/10.webp";
+import goldenGardenGlow01 from "../../assets/photo-albums/golden-garden-glow/01.webp";
+import goldenGardenGlow02 from "../../assets/photo-albums/golden-garden-glow/02.webp";
+import goldenGardenGlow03 from "../../assets/photo-albums/golden-garden-glow/03.webp";
+import goldenGardenGlow04 from "../../assets/photo-albums/golden-garden-glow/04.webp";
+import goldenGardenGlow05 from "../../assets/photo-albums/golden-garden-glow/05.webp";
+import goldenGardenGlow06 from "../../assets/photo-albums/golden-garden-glow/06.webp";
+import goldenGardenGlow07 from "../../assets/photo-albums/golden-garden-glow/07.webp";
+import goldenGardenGlow08 from "../../assets/photo-albums/golden-garden-glow/08.webp";
+import goldenGardenGlow09 from "../../assets/photo-albums/golden-garden-glow/09.webp";
+import goldenGardenGlow10 from "../../assets/photo-albums/golden-garden-glow/10.webp";
+import lotusPondDreams01 from "../../assets/photo-albums/lotus-pond-dreams/01.webp";
+import lotusPondDreams02 from "../../assets/photo-albums/lotus-pond-dreams/02.webp";
+import lotusPondDreams03 from "../../assets/photo-albums/lotus-pond-dreams/03.webp";
+import lotusPondDreams04 from "../../assets/photo-albums/lotus-pond-dreams/04.webp";
+import lotusPondDreams05 from "../../assets/photo-albums/lotus-pond-dreams/05.webp";
+import lotusPondDreams06 from "../../assets/photo-albums/lotus-pond-dreams/06.webp";
+import lotusPondDreams07 from "../../assets/photo-albums/lotus-pond-dreams/07.webp";
+import lotusPondDreams08 from "../../assets/photo-albums/lotus-pond-dreams/08.webp";
+import lotusPondDreams09 from "../../assets/photo-albums/lotus-pond-dreams/09.webp";
+import lotusPondDreams10 from "../../assets/photo-albums/lotus-pond-dreams/10.webp";
+import lotusPondDreams11 from "../../assets/photo-albums/lotus-pond-dreams/11.webp";
+import lotusPondDreams12 from "../../assets/photo-albums/lotus-pond-dreams/12.webp";
+import lotusPondDreams13 from "../../assets/photo-albums/lotus-pond-dreams/13.webp";
+import schoolDays01 from "../../assets/photo-albums/school-days/01.webp";
+import schoolDays02 from "../../assets/photo-albums/school-days/02.webp";
+import schoolDays03 from "../../assets/photo-albums/school-days/03.webp";
+import schoolDays04 from "../../assets/photo-albums/school-days/04.webp";
+import schoolDays05 from "../../assets/photo-albums/school-days/05.webp";
+import schoolDays06 from "../../assets/photo-albums/school-days/06.webp";
+import schoolDays07 from "../../assets/photo-albums/school-days/07.webp";
+import schoolDays08 from "../../assets/photo-albums/school-days/08.webp";
+import schoolDays09 from "../../assets/photo-albums/school-days/09.webp";
+import schoolDays10 from "../../assets/photo-albums/school-days/10.webp";
+import aoDaiElegance01 from "../../assets/photo-albums/ao-dai-elegance/01.webp";
+import aoDaiElegance02 from "../../assets/photo-albums/ao-dai-elegance/02.webp";
+import aoDaiElegance03 from "../../assets/photo-albums/ao-dai-elegance/03.webp";
+import aoDaiElegance04 from "../../assets/photo-albums/ao-dai-elegance/04.webp";
+import aoDaiElegance05 from "../../assets/photo-albums/ao-dai-elegance/05.webp";
+import aoDaiElegance06 from "../../assets/photo-albums/ao-dai-elegance/06.webp";
+import aoDaiElegance07 from "../../assets/photo-albums/ao-dai-elegance/07.webp";
+import aoDaiElegance08 from "../../assets/photo-albums/ao-dai-elegance/08.webp";
+import aoDaiElegance09 from "../../assets/photo-albums/ao-dai-elegance/09.webp";
+import royalAfternoon01 from "../../assets/photo-albums/royal-afternoon/01.webp";
+import royalAfternoon02 from "../../assets/photo-albums/royal-afternoon/02.webp";
+import royalAfternoon03 from "../../assets/photo-albums/royal-afternoon/03.webp";
+import royalAfternoon04 from "../../assets/photo-albums/royal-afternoon/04.webp";
+import royalAfternoon05 from "../../assets/photo-albums/royal-afternoon/05.webp";
+import royalAfternoon06 from "../../assets/photo-albums/royal-afternoon/06.webp";
+import royalAfternoon07 from "../../assets/photo-albums/royal-afternoon/07.webp";
+import royalAfternoon08 from "../../assets/photo-albums/royal-afternoon/08.webp";
+import royalAfternoon09 from "../../assets/photo-albums/royal-afternoon/09.webp";
+import royalAfternoon10 from "../../assets/photo-albums/royal-afternoon/10.webp";
 import northernVietnamOnFilmCover from "../../assets/photo-albums/northern-vietnam-on-film/cover.webp";
 
 export const albumPhotosBySlug = {
@@ -326,6 +446,150 @@ export const albumPhotosBySlug = {
     sunsetInTheVillage10,
     sunsetInTheVillage11,
     sunsetInTheVillage12,
+  ],
+  "melody-of-the-mountains": [
+    melodyOfTheMountains01,
+    melodyOfTheMountains02,
+    melodyOfTheMountains03,
+    melodyOfTheMountains04,
+    melodyOfTheMountains05,
+    melodyOfTheMountains06,
+    melodyOfTheMountains07,
+    melodyOfTheMountains08,
+    melodyOfTheMountains09,
+    melodyOfTheMountains10,
+  ],
+  "garden-of-vows": [
+    gardenOfVows01,
+    gardenOfVows02,
+    gardenOfVows03,
+    gardenOfVows04,
+    gardenOfVows05,
+    gardenOfVows06,
+    gardenOfVows07,
+    gardenOfVows08,
+    gardenOfVows09,
+  ],
+  "a-vintage-ride": [
+    aVintageRide01,
+    aVintageRide02,
+    aVintageRide03,
+    aVintageRide04,
+    aVintageRide05,
+    aVintageRide06,
+    aVintageRide07,
+    aVintageRide08,
+    aVintageRide09,
+    aVintageRide10,
+  ],
+  "golden-hour-together": [
+    goldenHourTogether01,
+    goldenHourTogether02,
+    goldenHourTogether03,
+    goldenHourTogether04,
+    goldenHourTogether05,
+    goldenHourTogether06,
+    goldenHourTogether07,
+    goldenHourTogether08,
+    goldenHourTogether09,
+    goldenHourTogether10,
+  ],
+  "blossom-days-together": [
+    blossomDaysTogether01,
+    blossomDaysTogether02,
+    blossomDaysTogether03,
+    blossomDaysTogether04,
+    blossomDaysTogether05,
+    blossomDaysTogether06,
+    blossomDaysTogether07,
+    blossomDaysTogether08,
+    blossomDaysTogether09,
+    blossomDaysTogether10,
+  ],
+  "birthday-wishes": [
+    birthdayWishes01,
+    birthdayWishes02,
+    birthdayWishes03,
+    birthdayWishes04,
+    birthdayWishes05,
+    birthdayWishes06,
+    birthdayWishes07,
+    birthdayWishes08,
+    birthdayWishes09,
+  ],
+  "little-princess": [
+    littlePrincess01,
+    littlePrincess02,
+    littlePrincess03,
+    littlePrincess04,
+    littlePrincess05,
+    littlePrincess06,
+    littlePrincess07,
+    littlePrincess08,
+    littlePrincess09,
+    littlePrincess10,
+  ],
+  "golden-garden-glow": [
+    goldenGardenGlow01,
+    goldenGardenGlow02,
+    goldenGardenGlow03,
+    goldenGardenGlow04,
+    goldenGardenGlow05,
+    goldenGardenGlow06,
+    goldenGardenGlow07,
+    goldenGardenGlow08,
+    goldenGardenGlow09,
+    goldenGardenGlow10,
+  ],
+  "lotus-pond-dreams": [
+    lotusPondDreams01,
+    lotusPondDreams02,
+    lotusPondDreams03,
+    lotusPondDreams04,
+    lotusPondDreams05,
+    lotusPondDreams06,
+    lotusPondDreams07,
+    lotusPondDreams08,
+    lotusPondDreams09,
+    lotusPondDreams10,
+    lotusPondDreams11,
+    lotusPondDreams12,
+    lotusPondDreams13,
+  ],
+  "school-days": [
+    schoolDays01,
+    schoolDays02,
+    schoolDays03,
+    schoolDays04,
+    schoolDays05,
+    schoolDays06,
+    schoolDays07,
+    schoolDays08,
+    schoolDays09,
+    schoolDays10,
+  ],
+  "ao-dai-elegance": [
+    aoDaiElegance01,
+    aoDaiElegance02,
+    aoDaiElegance03,
+    aoDaiElegance04,
+    aoDaiElegance05,
+    aoDaiElegance06,
+    aoDaiElegance07,
+    aoDaiElegance08,
+    aoDaiElegance09,
+  ],
+  "royal-afternoon": [
+    royalAfternoon01,
+    royalAfternoon02,
+    royalAfternoon03,
+    royalAfternoon04,
+    royalAfternoon05,
+    royalAfternoon06,
+    royalAfternoon07,
+    royalAfternoon08,
+    royalAfternoon09,
+    royalAfternoon10,
   ],
 };
 
