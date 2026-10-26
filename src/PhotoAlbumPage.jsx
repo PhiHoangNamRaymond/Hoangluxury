@@ -3,7 +3,7 @@ import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { photoAlbumBySlug, photoAlbumUrl, photoAlbums } from "./config/photo-albums.js";
-import { whatsappUrl } from "./data.js";
+import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 /* /photo/albums/<slug>/ - xem hết ảnh của một album: ảnh xếp dọc, cỡ lớn,
@@ -134,7 +134,7 @@ export default function PhotoAlbumPage({ slug }) {
             </div>
 
             <div className="hlt-album-foot">
-              <a className="hlt-album-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <a className="hlt-album-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon />
                 Book via Photo
               </a>

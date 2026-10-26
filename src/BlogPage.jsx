@@ -72,16 +72,24 @@ export default function BlogPage() {
   }
 
   /* Bấm lại đúng nút đang bật thì bỏ lọc trục đó. */
-  function toggleDestination(value, scroll = false) {
+  function toggleDestination(value) {
     setDestination((current) => (current === value ? null : value));
     setLimit(6);
-    scrollToArticles(scroll);
   }
 
-  function toggleTopic(value, scroll = false) {
+  function toggleTopic(value) {
     setTopic((current) => (current === value ? null : value));
     setLimit(6);
-    scrollToArticles(scroll);
+  }
+
+  /* Thẻ điểm đến nổi bật (Explore Sapa): bấm bao nhiêu lần cũng chỉ hiện bài
+     của điểm đến đó, các bộ lọc khác về mặc định - không bật/tắt như nút lọc. */
+  function showDestination(value) {
+    setDestination(value);
+    setTopic(null);
+    setQuery("");
+    setLimit(6);
+    scrollToArticles(true);
   }
 
   function resetFilters(scroll = false) {
@@ -131,7 +139,12 @@ export default function BlogPage() {
               {showFeatured && featured && (
                 <a className="hlt-blog-featured" href={blogArticleUrl(featured.slug)}>
                   {featured.imageUrl && <img src={featured.imageUrl} alt={featured.imageAlt} fetchPriority="high" />}
-                  <span className="hlt-blog-tag">{featured.topics[0] || featured.destinations[0] || "Travel journal"}</span>
+                  {/* Cùng kiểu chip như đầu trang bài viết: điểm đến vàng, chủ đề trắng. */}
+                  <span className="hlt-blog-featured-tags">
+                    {featured.destinations.map((tag) => <span className="is-destination" key={`d-${tag}`}>{tag}</span>)}
+                    {featured.topics.map((tag) => <span key={`t-${tag}`}>{tag}</span>)}
+                    {!featured.destinations.length && !featured.topics.length && <span>Travel journal</span>}
+                  </span>
                   <div className="hlt-blog-featured-copy">
                     <p className="hlt-blog-eyebrow">The editor&rsquo;s pick</p>
                     <h2>{featured.title}</h2>
@@ -186,7 +199,7 @@ export default function BlogPage() {
               <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.hero}")` }}><h2>EXPLORE MORE. TRAVEL YOUR WAY</h2><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
               <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><a href={blogArticleUrl(article.slug)}><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></a></li>)}</ol></section>
 
-              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => toggleDestination("Sapa", true)}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><h3>Sapa</h3><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
+              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><h3>Sapa</h3><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
             </aside>
           </div>
         </div>

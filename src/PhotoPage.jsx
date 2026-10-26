@@ -3,14 +3,15 @@ import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import {
-  photoCtaBackgroundUrl,
+  journeyCtaMountainsUrl,
+  journeyFactIcons,
   photoLandingBannerUrl,
   photoPlanImages,
   photoPrepImages,
   photoStyleImages,
   photoWhyImages,
 } from "./config/assets.js";
-import { whatsappUrl } from "./data.js";
+import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 /* Trang giới thiệu dịch vụ chụp ảnh. Lưới album ảnh thật nằm ở /photo/albums/;
@@ -18,42 +19,36 @@ import usePageEntered from "./hooks/usePageEntered.js";
 
 const albumsUrl = "/photo/albums/";
 
-/* 6 phong cách chụp. `title` là chữ hiện trên thẻ; `category` là khoá lọc nên
-   phải khớp đúng tên danh mục trong photo-album-list.js, không đổi theo tiêu đề. */
+/* 6 phong cách chụp. `title` vừa là chữ trên thẻ vừa là tên nút lọc ở
+   /photo/albums/ (photo-album-list.js) - đổi một bên phải đổi cả bên kia. */
 const styles = [
   {
     title: "Nature & Landscapes",
-    category: "Natural Journey",
     text: "Preserve your experiences set against beautiful mountains, forests and open landscapes.",
     image: photoStyleImages.nature,
   },
   {
     title: "Couples & Honeymoons",
-    category: "Couple & Honeymoon",
     text: "Romantic photos keep memories of your love story and the joy of travelling together.",
     image: photoStyleImages.couples,
   },
   {
     title: "Local Culture",
-    category: "Local Heritage",
     text: "Immerse in local culture with traditional attire and authentic settings.",
     image: photoStyleImages.culture,
   },
   {
     title: "Family Moments",
-    category: "Family Memories",
     text: "Natural family photos filled with laughter, love and the joy of being together.",
     image: photoStyleImages.family,
   },
   {
     title: "Cinematic Travel",
-    category: "Cinematic Travel",
     text: "Epic landscapes, drone perspectives and cinematic atmosphere.",
     image: photoStyleImages.cinematic,
   },
   {
     title: "Proposals & Celebrations",
-    category: "Proposal & Celebration",
     text: "Capture life’s special moments including proposals, anniversaries, birthdays and more.",
     image: photoStyleImages.celebrations,
   },
@@ -67,8 +62,8 @@ const packages = [
     id: "half-day",
     name: "Half-Day Photography with Private Car",
     includes: [
-      ["car", "Private car or motorbike with driver"],
-      ["photographer", "Private photographer"],
+      ["car", "Private car and motorbike with driver"],
+      ["photographer", "Private photographer with modern digital camera equipment"],
       ["group", "Up to 5 people"],
       ["sun", "Morning or afternoon session"],
       ["brush", "Hair & makeup for one person"],
@@ -77,8 +72,8 @@ const packages = [
       ["retouch", "20 professionally retouched photos, delivered within 24 hours of your selection"],
       ["ticket", "All photographer entrance and location fees included"],
       ["gift", "2 complimentary framed photos"],
-      ["outfit", "Outfits of your choice"],
-      ["drone", "Video clips included, with drone footage where permitted"],
+      ["outfit", "One traditional local outfit of your choice"],
+      ["drone", "2–3 complimentary short video clips to capture fun moments, with drone footage upon request where permitted"],
     ],
     price: "$299",
     button: "Book Half-Day",
@@ -89,18 +84,18 @@ const packages = [
     id: "full-day",
     name: "Full-Day Photography with Private Car",
     includes: [
-      ["car", "Private car or motorbike with driver"],
-      ["photographer", "Private photographer"],
+      ["car", "Private car and motorbike with driver"],
+      ["photographer", "Private photographer with modern digital camera equipment"],
       ["group", "Up to 5 people"],
-      ["sun", "Morning or afternoon session"],
+      ["sun", "Full day"],
       ["brush", "Hair & makeup for one person"],
       ["route", "Multiple photo stops along your planned route"],
       ["gallery", "View your selected photo gallery via Google Drive within 12 hours of the shoot"],
       ["retouch", "30 professionally retouched photos, delivered within 24 hours of your selection"],
       ["ticket", "All photographer entrance and location fees included"],
       ["gift", "2 complimentary framed photos"],
-      ["outfit", "Outfits of your choice"],
-      ["drone", "Video clips included, with drone footage where permitted"],
+      ["outfit", "One traditional local outfit of your choice"],
+      ["drone", "2–3 complimentary short video clips to capture fun moments, with drone footage upon request where permitted"],
     ],
     price: "$379",
     button: "Book Full-Day",
@@ -110,8 +105,9 @@ const packages = [
 ];
 
 const reasons = [
-  ["car", "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
-  ["tag", "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
+  // Hai thẻ đầu dùng đúng icon xe / nhãn giá của dải thông số trang cung đường.
+  [journeyFactIcons.vehicle, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
+  [journeyFactIcons.rates, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
   ["camera", "No Posing Experience Needed", "You do not need to know how to pose. The photographer guides you throughout the shoot so you can feel comfortable and be yourself."],
   ["weather", "Flexible When the Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
 ];
@@ -121,15 +117,9 @@ const preparations = [
   ["Your Preferences", "Share your photo style, group size and special requests."],
   ["Photo Locations", "Choose places suited to your style and package."],
   ["Best Time to Shoot", "Find the ideal time based on lighting, weather and your schedule."],
-  ["Outfit Preparation", "Get outfit suggestions and helpful tips for your photo shoot."],
+  ["Outfit Selection", "Choose your favorite traditional local outfit and get helpful styling tips."],
   ["Makeup & Hair", "Choose your preferred makeup and hairstyle for the shoot."],
   ["Final Plan & Confirmation", "Review your itinerary and booking confirmation before the shoot."],
-];
-
-const ctaPoints = [
-  ["chat", "Quick response"],
-  ["check", "Personal planning"],
-  ["calendar", "Flexible scheduling"],
 ];
 
 /* Icon nét mảnh dùng chung cho mọi dải của trang; màu và cỡ do CSS quyết định. */
@@ -182,15 +172,6 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
         <path d="M12 2.8a9.2 9.2 0 0 0-7.9 13.9L2.9 21.1l4.6-1.2A9.2 9.2 0 1 0 12 2.8Z" />
         <path d="M9 7.9c.3-.3.7-.3.9 0l1.1 1.6c.2.3.2.7-.1 1l-.6.6c.6 1.2 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.6 1.1c.3.2.3.6 0 .9l-.8.8c-.5.5-1.2.7-1.9.4a9.4 9.4 0 0 1-5-5c-.3-.7-.1-1.4.4-1.9l.9-.7Z" />
       </>
-    ),
-    check: (
-      <>
-        <circle cx="12" cy="12" r="9.2" />
-        <path d="m7.9 12.2 2.8 2.8 5.4-5.9" />
-      </>
-    ),
-    chat: (
-      <path d="M21 12c0 4-4 7.2-9 7.2a11 11 0 0 1-3.3-.5L3.5 20.3l1.6-3.6A6.6 6.6 0 0 1 3 12c0-4 4-7.2 9-7.2S21 8 21 12Z" />
     ),
     car: (
       <>
@@ -245,18 +226,6 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
       <>
         <path d="M10.1 5.4a1.9 1.9 0 1 1 2.9 1.6c-.6.4-1 .8-1 1.5" />
         <path d="M12 8.5 3.2 14.6a1 1 0 0 0 .6 1.8h16.4a1 1 0 0 0 .6-1.8L12 8.5Z" />
-      </>
-    ),
-    tag: (
-      <>
-        <path d="M3.5 12.4V4.9a1.4 1.4 0 0 1 1.4-1.4h7.5a1.4 1.4 0 0 1 1 .4l7.6 7.6a1.4 1.4 0 0 1 0 2l-7.5 7.5a1.4 1.4 0 0 1-2 0l-7.6-7.6a1.4 1.4 0 0 1-.4-1Z" />
-        <circle cx="8.2" cy="8.2" r="1.6" />
-      </>
-    ),
-    calendar: (
-      <>
-        <rect x="3.5" y="5" width="17" height="15" rx="2.4" />
-        <path d="M3.5 10h17M8 2.9v4M16 2.9v4M8.5 14h7" />
       </>
     ),
   };
@@ -314,7 +283,7 @@ export default function PhotoPage() {
             <div className="hlt-pl-hero-actions">
               <a
                 className="hlt-btn hlt-btn-gold"
-                href={whatsappUrl}
+                href={whatsappPhotoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -340,10 +309,10 @@ export default function PhotoPage() {
 
             <div className="hlt-pl-style-grid">
               {styles.map((style, index) => (
-                <article className="hlt-pl-style" key={style.category}>
+                <article className="hlt-pl-style" key={style.title}>
                   <a
                     className="hlt-pl-style-media"
-                    href={`${albumsUrl}?style=${encodeURIComponent(style.category)}`}
+                    href={`${albumsUrl}?style=${encodeURIComponent(style.title)}`}
                     aria-label={`See ${style.title} photos`}
                   >
                     <img src={style.image} alt={style.title} loading="lazy" />
@@ -392,7 +361,7 @@ export default function PhotoPage() {
                       <p className="hlt-pl-plan-price">{item.price}</p>
                       <a
                         className="hlt-pl-plan-btn"
-                        href={whatsappUrl}
+                        href={whatsappPhotoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -440,7 +409,11 @@ export default function PhotoPage() {
               <div className="hlt-pl-why-grid">
                 {reasons.map(([icon, title, text]) => (
                   <article key={title}>
-                    <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
+                    {icon.includes("/") || icon.startsWith("data:") ? (
+                      <img className="hlt-pl-why-ic" src={icon} alt="" />
+                    ) : (
+                      <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
+                    )}
                     <h3>{title}</h3>
                     <p>{text}</p>
                   </article>
@@ -483,7 +456,7 @@ export default function PhotoPage() {
         {/* CTA cuối trang */}
         <section
           className="hlt-pl-cta"
-          style={{ "--pl-cta-bg": `url(${photoCtaBackgroundUrl})` }}
+          style={{ "--pl-cta-bg": `url(${journeyCtaMountainsUrl})` }}
           aria-labelledby="photo-cta-title"
         >
           <div className="hlt-container hlt-pl-cta-inner">
@@ -495,21 +468,13 @@ export default function PhotoPage() {
             <div className="hlt-pl-cta-copy">
               <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
-              <a className="hlt-pl-cta-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
                 <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
                 Chat on WhatsApp
                 <svg className="hlt-pl-cta-arrow" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M4 12h15M13 6l6 6-6 6" />
                 </svg>
               </a>
-              <ul className="hlt-pl-cta-points">
-                {ctaPoints.map(([icon, label]) => (
-                  <li key={label}>
-                    <LineIcon type={icon} className="hlt-pl-ic hlt-pl-cta-ic" />
-                    {label}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </section>

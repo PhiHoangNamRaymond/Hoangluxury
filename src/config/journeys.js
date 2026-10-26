@@ -84,13 +84,28 @@ export const journeyFaq = [
   ],
 ];
 
-const privateTransferPage = (destination, travelTime) => ({
+/* Bảng giá tuyến Hanoi to… (VND, cập nhật 11/2026). USD quy đổi theo
+   26.000 VND/USD, làm tròn tới đô - cùng tỉ giá mẫu khách duyệt
+   (3,900,000 VND ≈ $150). */
+const VND_PER_USD = 26000;
+export const formatVnd = (amount) => `${amount.toLocaleString("en-US")} VND`;
+const priceTag = (amount) => ({
+  vnd: formatVnd(amount),
+  usd: `~ $${Math.round(amount / VND_PER_USD)}`,
+});
+
+/* pricing: [giá 1 chiều, giá 2 chiều, tên gói bán chính, giá gói]. Hiện dưới
+   tên 4 thẻ "Choose Your … Journey"; gói tuỳ chỉnh để "? VND" vì báo giá
+   theo từng hành trình. */
+const privateTransferPage = (destination, travelTime, [oneWay, roundTrip, packageTitle, packagePrice]) => ({
+  packageTitle,
+  optionPrices: [priceTag(oneWay), priceTag(roundTrip), priceTag(packagePrice), { vnd: "? VND" }],
   seoTitle: `Hanoi to ${destination} Private Transfer | HOANG LUXURY TRAVEL`,
   metaDescription:
     `Book a Hanoi to ${destination} private transfer with a professional driver. Enjoy a private car, door-to-door pickup, flexible stops, transparent pricing and 24/7 WhatsApp support`,
   eyebrow: "Private Transfer",
   intro:
-    `Hoang Luxury Travel provides private transfers from Hanoi/Noi Bai Airport to ${destination} for international travelers who prefer privacy, comfort and safety.`,
+    `Hoang Luxury Travel provides private transfers from Hanoi/Noi Bai Airport to ${destination} for international travelers who prefer privacy, comfort, safety and save time.`,
   secondaryActionLabel: "View Catalog",
   secondaryActionHref: "/catalog/",
   transitTitle: "Your Time. Your Space. Your Journey.",
@@ -111,6 +126,45 @@ const privateTransferPage = (destination, travelTime) => ({
     rates: ["Transparent All-Inclusive Pricing", "Cash & Card"],
   },
 });
+
+/* Dải "Choose Your Intercity Transfer" trên 6 trang tuyến nối tỉnh, thay cho
+   4 gói của trang Hanoi to…. Giá 1 chiều (VND, cập nhật 11/2026). Mỗi trang
+   khai `intercityId` để tô xanh đậm thẻ của chính tuyến đó; Ha Long ↔ Sa Pa và
+   Ninh Binh ↔ Sa Pa dùng chung một thẻ cho cả hai chiều. */
+export const intercityTransfers = [
+  {
+    id: "ha-long",
+    title: "Sa Pa – Ha Long",
+    lines: ["Both directions available", "Ha Long ↔ Sa Pa"],
+    price: 6_300_000,
+    unit: "Per one-way transfer",
+    routeKey: "sapa-to-ha-long",
+  },
+  {
+    id: "ninh-binh",
+    title: "Sa Pa – Ninh Binh",
+    lines: ["Both directions available", "Ninh Binh ↔ Sa Pa"],
+    price: 6_000_000,
+    unit: "Per one-way transfer",
+    routeKey: "sapa-to-ninh-binh",
+  },
+  {
+    id: "ha-giang",
+    title: "Sa Pa – Ha Giang",
+    lines: ["One-way private transfer", "Scenic mountain route"],
+    price: 3_900_000,
+    unit: "Per transfer",
+    routeKey: "sapa-to-ha-giang",
+  },
+  {
+    id: "mu-cang-chai",
+    title: "Sa Pa – Mu Cang Chai",
+    lines: ["One-way private transfer", "Beautiful scenic route"],
+    price: 3_500_000,
+    unit: "Per transfer",
+    routeKey: "sapa-to-mu-cang-chai",
+  },
+];
 
 /* Tuyến nối tỉnh (không xuất phát từ Hà Nội). Cùng bố cục trang với tuyến
    Hanoi to…, chỉ đổi điểm đón. */
@@ -153,7 +207,7 @@ const cityTransferPage = (origin, destination, travelTime) => ({
 const sapaJourney = {
   name: "Sapa",
   titleAccent: "TO SAPA",
-  ...privateTransferPage("Sapa", "5 – 5.5 hours"),
+  ...privateTransferPage("Sapa", "5 – 5.5 hours", [3_900_000, 7_400_000, "3 Days 2 Nights", 9_200_000]),
   leadIn:
     "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Sapa, with comfort, safety, and peace of mind every step of the way.",
   routeLabel: "Hanoi ↔ Sapa",
@@ -171,7 +225,7 @@ export const journeys = {
   "ha-giang": {
     name: "Ha Giang",
     titleAccent: "TO HA GIANG",
-    ...privateTransferPage("Ha Giang", "5 – 5.5 hours"),
+    ...privateTransferPage("Ha Giang", "5 – 5.5 hours", [3_700_000, 7_000_000, "4 Days 3 Nights", 10_400_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ha Giang, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ha Giang",
@@ -185,7 +239,7 @@ export const journeys = {
   "ninh-binh": {
     name: "Ninh Binh",
     titleAccent: "TO NINH BINH",
-    ...privateTransferPage("Ninh Binh", "1.5 – 2 hours"),
+    ...privateTransferPage("Ninh Binh", "1.5 – 2 hours", [2_500_000, 4_750_000, "2 Days 1 Night", 4_750_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ninh Binh, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ninh Binh",
@@ -199,7 +253,7 @@ export const journeys = {
   "ha-long": {
     name: "Ha Long",
     titleAccent: "TO HA LONG",
-    ...privateTransferPage("Ha Long", "2.5 – 3 hours"),
+    ...privateTransferPage("Ha Long", "2.5 – 3 hours", [2_800_000, 5_300_000, "2 Days 1 Night", 5_300_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi to Ha Long International Airport or Ha Long with comfort, safety, and peace of mind at every step of the way.",
     routeLabel: "Hanoi ↔ Ha Long",
@@ -213,7 +267,7 @@ export const journeys = {
   "cat-ba": {
     name: "Cat Ba",
     titleAccent: "TO CAT BA",
-    ...privateTransferPage("Cat Ba", "3.5 – 4.5 hours"),
+    ...privateTransferPage("Cat Ba", "3.5 – 4.5 hours", [3_000_000, 5_700_000, "3 Days 2 Nights", 7_500_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Cat Ba Island, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Cat Ba",
@@ -227,7 +281,7 @@ export const journeys = {
   "cao-bang": {
     name: "Cao Bang",
     titleAccent: "TO CAO BANG",
-    ...privateTransferPage("Cao Bang", "6 – 6.5 hours"),
+    ...privateTransferPage("Cao Bang", "6 – 6.5 hours", [3_700_000, 7_000_000, "3 Days 2 Nights", 8_800_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Cao Bang, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Cao Bang",
@@ -241,7 +295,7 @@ export const journeys = {
   "mu-cang-chai": {
     name: "Mu Cang Chai",
     titleAccent: "TO MU CANG CHAI",
-    ...privateTransferPage("Mu Cang Chai", "6 – 6.5 hours"),
+    ...privateTransferPage("Mu Cang Chai", "6 – 6.5 hours", [3_800_000, 7_200_000, "3 Days 2 Nights", 9_000_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Mu Cang Chai, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Mu Cang Chai",
@@ -255,7 +309,7 @@ export const journeys = {
   "moc-chau": {
     name: "Moc Chau",
     titleAccent: "TO MOC CHAU",
-    ...privateTransferPage("Moc Chau", "4 – 5 hours"),
+    ...privateTransferPage("Moc Chau", "4 – 5 hours", [2_900_000, 5_500_000, "3 Days 2 Nights", 7_300_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Moc Chau, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Moc Chau",
@@ -269,7 +323,7 @@ export const journeys = {
   "ta-xua": {
     name: "Ta Xua",
     titleAccent: "TO TA XUA",
-    ...privateTransferPage("Ta Xua", "5 – 5.5 hours"),
+    ...privateTransferPage("Ta Xua", "5 – 5.5 hours", [3_300_000, 6_300_000, "3 Days 2 Nights", 8_100_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ta Xua, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ta Xua",
@@ -285,7 +339,7 @@ export const journeys = {
   "pu-luong": {
     name: "Pu Luong",
     titleAccent: "TO PU LUONG",
-    ...privateTransferPage("Pu Luong", "4 – 5 hours"),
+    ...privateTransferPage("Pu Luong", "4 – 5 hours", [2_900_000, 5_500_000, "3 Days 2 Nights", 7_300_000]),
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Pu Luong, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Pu Luong",
@@ -301,6 +355,7 @@ export const journeys = {
     titleAccent: "TO HA LONG",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Ha Long", "7 – 8 hours"),
+    intercityId: "ha-long",
     originLabel: "Sapa",
     originShort: "Sapa",
     originNote: "Hotels, Resorts or Town Center",
@@ -315,6 +370,7 @@ export const journeys = {
     titleAccent: "TO NINH BINH",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Ninh Binh", "7 – 7.5 hours"),
+    intercityId: "ninh-binh",
     originLabel: "Sapa",
     originShort: "Sapa",
     originNote: "Hotels, Resorts or Town Center",
@@ -329,6 +385,7 @@ export const journeys = {
     titleAccent: "TO HA GIANG",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Ha Giang", "5.5 hours"),
+    intercityId: "ha-giang",
     originLabel: "Sapa",
     originShort: "Sapa",
     originNote: "Hotels, Resorts or Town Center",
@@ -343,6 +400,7 @@ export const journeys = {
     titleAccent: "TO MU CANG CHAI",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Mu Cang Chai", "3.5 – 4.5 hours"),
+    intercityId: "mu-cang-chai",
     originLabel: "Sapa",
     originShort: "Sapa",
     originNote: "Hotels, Resorts or Town Center",
@@ -357,6 +415,7 @@ export const journeys = {
     titleAccent: "TO SAPA",
     titlePrefix: "Ha Long",
     ...cityTransferPage("Ha Long", "Sapa", "7 – 8 hours"),
+    intercityId: "ha-long",
     originLabel: "Ha Long",
     originShort: "Ha Long",
     originNote: "Hotels, Resorts or Cruise Harbour",
@@ -371,6 +430,7 @@ export const journeys = {
     titleAccent: "TO SAPA",
     titlePrefix: "Ninh Binh",
     ...cityTransferPage("Ninh Binh", "Sapa", "7 – 7.5 hours"),
+    intercityId: "ninh-binh",
     originLabel: "Ninh Binh",
     originShort: "Ninh Binh",
     originNote: "Hotels, Resorts or Tam Coc area",
