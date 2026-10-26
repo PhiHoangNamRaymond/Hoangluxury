@@ -3,8 +3,13 @@ import { safeCatalogUrl } from "./lib/public-config.js";
 export const whatsappUrl =
   "https://wa.me/84839779888?text=Hello%20Hoang%20Luxury%20Travel%2C%20I%20would%20like%20to%20book%20a%20private%20transfer.";
 
+/* Các nút đặt chụp ảnh trên /photo/ và trang album: tin nhắn soạn sẵn nói về
+   buổi chụp, không phải đặt xe. */
+export const whatsappPhotoUrl =
+  "https://wa.me/84839779888?text=Hello%20Hoang%20Luxury%20Travel%2C%20I%20would%20like%20to%20book%20a%20photo%20shoot.";
+
 export const catalogUrl = safeCatalogUrl(import.meta.env.VITE_CATALOG_URL,
-  "https://drive.google.com/file/d/1Z6b3reHt-M3aD4g15YoD2EYWMJmrgQhN/view?usp=drive_link");
+  "https://drive.google.com/file/d/14nh1z-ONGZ3I5KKwkx8__xjs08bmkd8O/view");
 export const catalogPageUrl = "/catalog/";
 export const feedbackPageUrl = "/feedback/";
 const aboutPageUrl = "/about/";
@@ -125,8 +130,8 @@ export const whyItems = [
   },
   {
     icon: "car",
-    title: "Customized VIP Service",
-    text: "We plan a personalized itinerary, provide useful travel information and local tips for each destination.",
+    title: "Our Fleet. Our Responsibility",
+    text: "We own our fleet and directly manage our trained drivers, ensuring consistent service quality and handling any concerns ourselves.",
   },
   {
     icon: "whatsapp",

@@ -5,7 +5,7 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { catalogPageUrl, fleet as fleetItems, whatsappUrl } from "./data.js";
+import { fleet as fleetItems, whatsappUrl } from "./data.js";
 import {
   fleetImages,
   heroBannerUrl,
@@ -20,6 +20,8 @@ import {
   journeyPickupIconUrl,
 } from "./config/assets.js";
 import {
+  formatVnd,
+  intercityTransfers,
   journeyExperience,
   journeyExperienceCity,
   journeyExperienceStats,
@@ -233,6 +235,74 @@ function LineIcon({ type, className }) {
   );
 }
 
+/* Hai nút dưới bảng giá, giống nhau ở mọi trang cung đường: đặt qua WhatsApp
+   hoặc điền form trên trang Booking. */
+function JourneyBookActions() {
+  return (
+    <div className="hlt-journey-options-actions">
+      <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+        Book via WhatsApp
+      </a>
+      <a className="hlt-btn hlt-journey-btn-dark" href="/booking/">
+        Book via Form
+      </a>
+    </div>
+  );
+}
+
+/* Dải "Choose Your Intercity Transfer" của 6 trang tuyến nối tỉnh (theo mẫu
+   khách gửi 24/10/2026). Dùng lại khung thẻ của dải 4 gói; thẻ tuyến đang xem
+   tô xanh đậm, các thẻ khác dẫn sang trang của tuyến đó. */
+function IntercityTransfers({ currentId }) {
+  const title = "Choose Your Intercity Transfer";
+  /* Thẻ tô đậm luôn đứng ô thứ 3 (như mẫu); ba thẻ còn lại giữ thứ tự gốc. */
+  const others = intercityTransfers.filter((item) => item.id !== currentId);
+  const current = intercityTransfers.find((item) => item.id === currentId);
+  const cards = current ? [...others.slice(0, 2), current, ...others.slice(2)] : intercityTransfers;
+  return (
+    <section className="hlt-journey-section hlt-journey-options hlt-journey-intercity">
+      <div className="hlt-container">
+        <div className="hlt-journey-heading hlt-journey-heading-lined">
+          <h2 style={{ "--title-len": title.length }}>{title}</h2>
+          <p className="hlt-journey-sub">
+            Travel seamlessly between Northern Vietnam&rsquo;s most beautiful destinations.
+          </p>
+        </div>
+
+        <div className="hlt-journey-options-grid">
+          {cards.map((item) => {
+            const isCurrent = item.id === currentId;
+            const Card = isCurrent ? "article" : "a";
+            return (
+              <Card
+                className={`hlt-journey-option hlt-journey-intercity-card${isCurrent ? " is-featured" : ""}`}
+                key={item.id}
+                {...(isCurrent
+                  ? { "aria-current": "page" }
+                  : { href: `/journey/${item.routeKey}-private-transfer/` })}
+              >
+                {isCurrent && <span className="hlt-journey-option-badge">Popular Route</span>}
+                <img className="hlt-journey-intercity-icon" src={journeyIconBySlug[item.id]} alt="" />
+                <h3>{item.title}</h3>
+                <p>
+                  {item.lines.map((line) => <span key={line}>{line}</span>)}
+                </p>
+                <span className="hlt-journey-intercity-rule" aria-hidden="true" />
+                <div className="hlt-journey-intercity-price">
+                  <strong>{formatVnd(item.price)}</strong>
+                  <span>{item.unit}</span>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+
+        <JourneyBookActions />
+      </div>
+    </section>
+  );
+}
+
 export default function JourneyPage({ slug }) {
   const journey = journeys[slug];
   const pageEntered = usePageEntered();
@@ -292,7 +362,8 @@ export default function JourneyPage({ slug }) {
     },
     {
       icon: "calendar",
-      title: "4 Days 3 Nights",
+      // Tuyến Hanoi to… lấy tên gói bán chính trong bảng giá (2N1Đ / 3N2Đ / 4N3Đ).
+      title: journey.packageTitle || "4 Days 3 Nights",
       featured: true,
       lines: ["Round-trip transfers included", "Private car & driver throughout your stay"],
     },
@@ -474,59 +545,59 @@ export default function JourneyPage({ slug }) {
 
             <p className="hlt-journey-vehicle-note">
               <LineIcon type="carCheck" className="hlt-journey-vehicle-note-icon" />
-              This is an actual photo of our vehicle
+              Hoang Luxury Travel directly manages our own fleet and team of professional drivers to ensure consistent service quality
             </p>
           </div>
         </section>
 
-        {/* Theo mẫu: 4 gói hành trình, dẫn tới bảng giá hoặc WhatsApp */}
-        <section className="hlt-journey-section hlt-journey-options">
-          <div className="hlt-container">
-            <div className="hlt-journey-heading hlt-journey-heading-lined">
-              {/* --title-len: mobile tự thu cỡ chữ để tiêu đề nằm 1 dòng (như mẫu) */}
-              <h2 style={{ "--title-len": `Choose Your ${journey.name} Journey`.length }}>
-                Choose Your {journey.name} Journey
-              </h2>
-              <p className="hlt-journey-sub">
-                All trip details will be sent to you 48 hours before departure.
-              </p>
-            </div>
+        {/* Tuyến nối tỉnh: 4 tuyến Sa Pa kèm giá, thẻ của tuyến đang xem tô xanh đậm.
+            Tuyến Hanoi to…: 4 gói hành trình, dẫn tới bảng giá hoặc WhatsApp. */}
+        {journey.intercityId ? (
+          <IntercityTransfers currentId={journey.intercityId} />
+        ) : (
+          <section className="hlt-journey-section hlt-journey-options">
+            <div className="hlt-container">
+              <div className="hlt-journey-heading hlt-journey-heading-lined">
+                {/* --title-len: mobile tự thu cỡ chữ để tiêu đề nằm 1 dòng (như mẫu) */}
+                <h2 style={{ "--title-len": `Choose Your ${journey.name} Journey`.length }}>
+                  Choose Your {journey.name} Journey
+                </h2>
+                <p className="hlt-journey-sub">
+                  All trip details will be sent to you 48 hours before departure.
+                </p>
+              </div>
 
-            <div className="hlt-journey-options-grid">
-              {journeyOptions.map((option) => (
-                <article
-                  className={`hlt-journey-option${option.featured ? " is-featured" : ""}`}
-                  key={option.title}
-                >
-                  {option.featured && <span className="hlt-journey-option-badge">Most Popular</span>}
-                  {option.icon === "car" ? (
-                    <img className="hlt-journey-option-icon" src={journeyFactIcons.vehicle} alt="" />
-                  ) : (
-                    <LineIcon type={option.icon} className="hlt-journey-option-icon" />
-                  )}
-                  <h3>{option.title}</h3>
-                  <p>
-                    {option.lines.map((line) => <span key={line}>{line}</span>)}
-                  </p>
-                </article>
-              ))}
-            </div>
+              <div className="hlt-journey-options-grid">
+                {journeyOptions.map((option, index) => (
+                  <article
+                    className={`hlt-journey-option${option.featured ? " is-featured" : ""}`}
+                    key={option.title}
+                  >
+                    {option.featured && <span className="hlt-journey-option-badge">Most Popular</span>}
+                    {option.icon === "car" ? (
+                      <img className="hlt-journey-option-icon" src={journeyFactIcons.vehicle} alt="" />
+                    ) : (
+                      <LineIcon type={option.icon} className="hlt-journey-option-icon" />
+                    )}
+                    <h3>{option.title}</h3>
+                    {/* Chỉ tuyến Hanoi to… có bảng giá; tuyến nối tỉnh chưa hiện giá. */}
+                    {journey.optionPrices?.[index] && (
+                      <div className="hlt-journey-option-price">
+                        <strong>{journey.optionPrices[index].vnd}</strong>
+                        {journey.optionPrices[index].usd && <span>{journey.optionPrices[index].usd}</span>}
+                      </div>
+                    )}
+                    <p>
+                      {option.lines.map((line) => <span key={line}>{line}</span>)}
+                    </p>
+                  </article>
+                ))}
+              </div>
 
-            <div className="hlt-journey-options-actions">
-              <a className="hlt-btn hlt-btn-gold" href={catalogPageUrl}>
-                View {journey.name} Pricing
-              </a>
-              <a
-                className="hlt-btn hlt-journey-btn-dark"
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Booking Now
-              </a>
+              <JourneyBookActions />
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Theo mẫu: nền xanh đậm, 4 thẻ ảnh + dải số liệu dùng chung mọi tuyến */}
         <section

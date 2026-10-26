@@ -278,10 +278,9 @@
 
 .hlt-pl-plan {
   display: grid;
-  /* Ảnh ngang nằm trên, nội dung bên dưới; hàng nội dung giãn hết phần còn lại
-     để nút của hai thẻ đứng cùng một hàng. */
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
+  /* Ảnh dọc bên trái, nội dung bên phải. Cột ảnh đủ rộng để khung xấp xỉ
+     9:16; hẹp hơn thì ảnh phong cảnh bị ép thành dải dọc. */
+  grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
   overflow: hidden;
   border: 1px solid rgba(197, 161, 90, .34);
   border-radius: 10px;
@@ -290,9 +289,6 @@
 
 .hlt-pl-plan-media {
   overflow: hidden;
-  /* Khung dẹt kiểu băng rôn; neo xuống dưới một chút để giữ trọn đôi nhân vật
-     và chiếc xe, cắt bớt phần trời. */
-  aspect-ratio: 11 / 5;
   background: #efe7da;
 }
 
@@ -300,7 +296,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 70%;
+  /* Ảnh dọc: máy tính hiện gần trọn; điện thoại (khung ngang 16:10) neo
+     vào phần mặt người ở khoảng một phần ba trên ảnh. */
+  object-position: center 30%;
 }
 
 .hlt-pl-plan-body {
@@ -536,19 +534,6 @@
   text-align: center;
 }
 
-/* Mũi tên vàng nối hai vòng ảnh, đặt đúng trên ranh giới giữa hai cột và
-   ngang tâm vòng tròn. */
-.hlt-pl-prep-grid article:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: calc(var(--prep-ring) / 2);
-  right: 0;
-  width: 16px;
-  height: 8px;
-  transform: translate(50%, -50%);
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 8' fill='none' stroke='%23c08a2e' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 4h13M11 1l3 3-3 3'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-
 .hlt-pl-prep-media {
   width: var(--prep-ring);
   height: var(--prep-ring);
@@ -568,7 +553,7 @@
   object-fit: cover;
 }
 
-/* Vạch ngăn chỉ chạy dọc phần chữ, không cắt qua hàng vòng ảnh và mũi tên. */
+/* Vạch ngăn chỉ chạy dọc phần chữ, không cắt qua hàng vòng ảnh. */
 .hlt-pl-prep-text {
   margin-top: clamp(14px, 1.4vw, 20px);
   padding: 0 clamp(6px, .7vw, 11px);
@@ -623,15 +608,15 @@
   color: var(--pl-gold);
 }
 
+/* Icon ảnh PNG (xe, nhãn giá) lấy từ trang cung đường. */
+img.hlt-pl-why-ic {
+  display: block;
+  object-fit: contain;
+}
+
 .hlt-pl-btn-ic {
   width: 17px;
   height: 17px;
-  flex: none;
-}
-
-.hlt-pl-cta-ic {
-  width: 16px;
-  height: 16px;
   flex: none;
 }
 
@@ -640,12 +625,9 @@
 .hlt-pl-cta {
   position: relative;
   padding: clamp(34px, 4vw, 54px) 0;
-  /* Ảnh toàn cảnh có thợ ảnh Hoang Photo ở mép phải: neo ảnh về bên phải để
-     không bị cắt mất người, và lớp phủ nhạt dần sang phải để người hiện rõ; bên
-     trái và giữa vẫn đủ tối cho chữ viết tay và tiêu đề. */
   background:
-    linear-gradient(100deg, rgba(10, 22, 18, .9) 16%, rgba(10, 22, 18, .66) 48%, rgba(10, 22, 18, .3) 76%, rgba(10, 22, 18, .12)),
-    var(--pl-cta-bg) right center / cover no-repeat;
+    linear-gradient(100deg, rgba(10, 22, 18, .93) 30%, rgba(10, 22, 18, .58) 62%, rgba(10, 22, 18, .82)),
+    var(--pl-cta-bg) center / cover no-repeat;
   color: #f4ece0;
 }
 
@@ -717,24 +699,6 @@
   stroke-linejoin: round;
 }
 
-.hlt-pl-cta-points {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px clamp(18px, 2.4vw, 34px);
-  margin: clamp(14px, 1.6vw, 20px) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hlt-pl-cta-points li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(244, 236, 224, .82);
-  font-size: clamp(13px, 1.05vw, 15px);
-}
-
 /* ---------- Máy tính bảng ---------- */
 
 @media (max-width: 1100px) {
@@ -742,14 +706,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* 3 cột × 2 hàng: bỏ mũi tên ở cuối mỗi hàng và vạch ngăn ở đầu mỗi hàng. */
+  /* 3 cột × 2 hàng: bỏ vạch ngăn ở đầu mỗi hàng. */
   .hlt-pl-prep-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 28px 0;
-  }
-
-  .hlt-pl-prep-grid article:nth-child(3n)::after {
-    display: none;
   }
 
   .hlt-pl-prep-grid article:nth-child(3n + 1) .hlt-pl-prep-text {
@@ -770,14 +730,6 @@
 
   .hlt-pl-why-media {
     max-width: 420px;
-  }
-
-  /* Xếp dọc: chữ phủ gần hết dải, thợ ảnh ở mép phải sẽ nằm ngay sau chữ. Lấy
-     đoạn thung lũng mây ở giữa ảnh và phủ đều để chữ dễ đọc. */
-  .hlt-pl-cta {
-    background:
-      linear-gradient(rgba(10, 22, 18, .7), rgba(10, 22, 18, .7)),
-      var(--pl-cta-bg) 50% center / cover no-repeat;
   }
 
   .hlt-pl-cta-inner {
@@ -864,15 +816,11 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  /* 2 cột: mũi tên và vạch ngăn không còn đúng hàng nên bỏ hẳn. */
+  /* 2 cột: vạch ngăn không còn đúng hàng nên bỏ hẳn. */
   .hlt-pl-prep-grid {
     --prep-ring: 92px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 26px 0;
-  }
-
-  .hlt-pl-prep-grid article::after {
-    display: none;
   }
 
   .hlt-pl-prep-grid .hlt-pl-prep-text {

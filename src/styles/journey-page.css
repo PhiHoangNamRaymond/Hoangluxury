@@ -437,19 +437,33 @@ a.hlt-journey-fact:focus-visible strong {
   align-items: center;
 }
 
+/* Nét đứt vẽ bằng nền lặp (nét 6px, cách 5px) thay cho viền dashed: viền
+   dashed bị trình duyệt tự co giãn nên hai bên xe kết thúc lệch nhau. Mỗi
+   đường neo mẫu nét về phía xe để hai bên luôn đối xứng. */
 .hlt-journey-path-line {
   position: relative;
   flex: 1;
   min-width: 24px;
-  height: 0;
-  border-top: 2px dashed var(--jr-gold);
+  height: 2px;
+  background-repeat: repeat-x;
+  background-size: 11px 2px;
 }
 
-/* Đầu mũi tên: góc vuông hai cạnh viền, xoay 45° */
+.hlt-journey-path-line.is-start {
+  background-image: linear-gradient(90deg, transparent 5px, var(--jr-gold) 5px);
+  background-position: right center;
+}
+
+.hlt-journey-path-line.is-end {
+  background-image: linear-gradient(90deg, var(--jr-gold) 6px, transparent 6px);
+  background-position: left center;
+}
+
+/* Đầu mũi tên: góc vuông hai cạnh viền, xoay 45°, tâm nằm đúng giữa nét. */
 .hlt-journey-path-line::before {
   content: "";
   position: absolute;
-  top: -5px;
+  top: calc(50% - 4.5px);
   width: 9px;
   height: 9px;
   border: solid var(--jr-gold);
@@ -464,6 +478,26 @@ a.hlt-journey-fact:focus-visible strong {
 .hlt-journey-path-line.is-end::before {
   right: 0;
   transform: rotate(-135deg);
+}
+
+/* Đoạn nét liền ngay tại đầu mũi tên: mẫu nét neo từ phía xe nên ở đầu mũi
+   tên có thể rơi vào khoảng trống; đoạn này bảo đảm đường kẻ luôn chạy vào
+   đúng đỉnh mũi tên. */
+.hlt-journey-path-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  background: var(--jr-gold);
+}
+
+.hlt-journey-path-line.is-start::after {
+  left: 0;
+}
+
+.hlt-journey-path-line.is-end::after {
+  right: 0;
 }
 
 .hlt-journey-path-car {
@@ -776,6 +810,106 @@ a.hlt-journey-fact:focus-visible strong {
 
 .hlt-journey-option.is-featured h3 {
   color: #fff;
+}
+
+/* Giá theo mẫu: VND đậm màu đồng, USD nghiêng nhỏ ngay dưới, rồi mới tới mô tả. */
+.hlt-journey-option-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 4px 0 10px;
+}
+
+.hlt-journey-option-price strong {
+  font-family: var(--hlt-font-family);
+  font-size: clamp(20px, 1.8vw, 27px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  color: #a8691d;
+}
+
+.hlt-journey-option-price span {
+  font-family: var(--hlt-font-family);
+  font-size: clamp(13px, 1vw, 15px);
+  font-style: italic;
+  line-height: 1.2;
+  color: #a8691d;
+}
+
+.hlt-journey-option.is-featured .hlt-journey-option-price strong,
+.hlt-journey-option.is-featured .hlt-journey-option-price span {
+  color: var(--jr-gold);
+}
+
+/* Dải "Choose Your Intercity Transfer" (6 trang tuyến nối tỉnh): cùng khung thẻ
+   với dải 4 gói, thêm icon tuyến dạng ngang, vạch vàng ngắn và giá chữ đậm. */
+.hlt-journey-intercity-card {
+  color: inherit;
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+a.hlt-journey-intercity-card:hover,
+a.hlt-journey-intercity-card:focus-visible {
+  border-color: var(--jr-gold);
+  box-shadow: 0 14px 30px rgba(180, 145, 80, .18);
+  transform: translateY(-3px);
+}
+
+.hlt-journey-intercity-icon {
+  width: auto;
+  height: clamp(58px, 5.2vw, 78px);
+  max-width: 70%;
+  margin-bottom: clamp(10px, 1vw, 14px);
+  object-fit: contain;
+}
+
+.hlt-journey-intercity-rule {
+  display: block;
+  width: 44px;
+  height: 1.5px;
+  margin: clamp(10px, 1vw, 14px) auto;
+  background: var(--jr-gold);
+  opacity: .7;
+}
+
+.hlt-journey-intercity-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: auto;
+}
+
+.hlt-journey-intercity-price strong {
+  font-family: var(--hlt-font-family);
+  font-size: clamp(20px, 1.9vw, 28px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  color: #17242a;
+}
+
+.hlt-journey-intercity-price span {
+  font-size: clamp(12px, .95vw, 14px);
+  line-height: 1.3;
+  color: var(--jr-muted);
+}
+
+.hlt-journey-intercity-card.is-featured .hlt-journey-intercity-price strong {
+  color: #fff;
+}
+
+.hlt-journey-intercity-card.is-featured .hlt-journey-intercity-price span {
+  color: rgba(255, 255, 255, .85);
+}
+
+.hlt-journey-intercity-card.is-featured .hlt-journey-intercity-rule {
+  opacity: 1;
 }
 
 .hlt-journey-option.is-featured p {
@@ -1161,16 +1295,27 @@ a.hlt-journey-fact:focus-visible strong {
   }
 
   .hlt-journey-path-line {
+    width: 2px;
     min-width: 0;
     min-height: 18px;
     height: auto;
-    border-top: 0;
-    border-left: 2px dashed var(--jr-gold);
+    background-repeat: repeat-y;
+    background-size: 2px 11px;
+  }
+
+  .hlt-journey-path-line.is-start {
+    background-image: linear-gradient(180deg, transparent 5px, var(--jr-gold) 5px);
+    background-position: center bottom;
+  }
+
+  .hlt-journey-path-line.is-end {
+    background-image: linear-gradient(180deg, var(--jr-gold) 6px, transparent 6px);
+    background-position: center top;
   }
 
   .hlt-journey-path-line::before {
     top: auto;
-    left: -5.5px;
+    left: calc(50% - 4.5px);
   }
 
   .hlt-journey-path-line.is-start::before {
@@ -1182,6 +1327,22 @@ a.hlt-journey-fact:focus-visible strong {
     right: auto;
     bottom: 0;
     transform: rotate(-45deg);
+  }
+
+  .hlt-journey-path-line::after {
+    left: 0;
+    width: 100%;
+    height: 10px;
+  }
+
+  .hlt-journey-path-line.is-start::after {
+    top: 0;
+  }
+
+  .hlt-journey-path-line.is-end::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
   }
 
   .hlt-journey-path-car {
@@ -1458,14 +1619,24 @@ a.hlt-journey-fact:focus-visible strong {
     width: 19px;
     min-width: 0;
     min-height: 0;
-    height: 0;
+    height: 2px;
     margin: 0 1px;
-    border-left: 0;
-    border-top: 2px dashed var(--jr-gold);
+    background-repeat: repeat-x;
+    background-size: 11px 2px;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line.is-start {
+    background-image: linear-gradient(90deg, transparent 5px, var(--jr-gold) 5px);
+    background-position: right center;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line.is-end {
+    background-image: linear-gradient(90deg, var(--jr-gold) 6px, transparent 6px);
+    background-position: left center;
   }
 
   .hlt-journey-transit-section .hlt-journey-path-line::before {
-    top: -5px;
+    top: calc(50% - 3.5px);
     bottom: auto;
     width: 7px;
     height: 7px;
@@ -1481,6 +1652,23 @@ a.hlt-journey-fact:focus-visible strong {
     left: auto;
     right: 0;
     transform: rotate(-135deg);
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line::after {
+    top: 0;
+    bottom: auto;
+    width: 7px;
+    height: 100%;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line.is-start::after {
+    left: 0;
+    right: auto;
+  }
+
+  .hlt-journey-transit-section .hlt-journey-path-line.is-end::after {
+    left: auto;
+    right: 0;
   }
 
   .hlt-journey-transit-section .hlt-journey-path-car {

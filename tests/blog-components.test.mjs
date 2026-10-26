@@ -391,7 +391,6 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
   });
   try {
     for (const initial of [null,"Sapa","Ha Long"]) {
-      let expected;
       for (const trigger of ["filter","card"]) {
         const root = createRoot(host);
         try {
@@ -428,11 +427,25 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           const url=window.location.href;
           await act(async () => (trigger === "filter" ? destinationButton("Sapa") : card).click());
           assert.equal(window.location.href,url,"stays on Blog");
-          if (trigger === "filter") expected=snapshot();
-          else {
-            assert.deepEqual(snapshot(),expected,"same toggle, combined filters, sort and pagination as Destinations");
-            assert.equal(card.getAttribute("aria-pressed"),destinationButton("Sapa").getAttribute("aria-pressed"));
-            assert.equal(scrolls.length,1);
+          if (trigger === "filter") {
+            // Nút lọc vẫn bật/tắt: bấm lại đúng điểm đến đang bật thì bỏ lọc.
+            assert.deepEqual(snapshot().destination, initial === "Sapa" ? [] : ["Sapa"]);
+            assert.equal(scrolls.length,0,"filter chips do not scroll");
+          } else {
+            // Thẻ Explore Sapa: luôn chỉ hiện bài Sapa, chủ đề và ô tìm kiếm về mặc định,
+            // kể cả khi Sapa đang bật sẵn hoặc bấm thẻ lần nữa.
+            const sortBefore = host.querySelector("select").value;
+            for (const click of [1, 2]) {
+              if (click === 2) await act(async () => card.click());
+              const state = snapshot();
+              assert.deepEqual(state.destination,["Sapa"],`click ${click} keeps Sapa`);
+              assert.deepEqual(state.topic,[],"topic reset to default");
+              assert.equal(state.query,"","search reset to default");
+              assert.equal(state.sort,sortBefore,"sort order is kept");
+              assert.equal(card.getAttribute("aria-pressed"),"true");
+              assert.ok(state.articles.length > 0 && state.articles.every((title) => Number(title.split(" ")[1]) % 2 === 0),"only Sapa articles");
+            }
+            assert.equal(scrolls.length,2);
             assert.equal(scrolls[0].element,host.querySelector(".hlt-blog-editorial"));
             assert.equal(scrolls[0].options.behavior,"instant","respects reduced motion");
           }

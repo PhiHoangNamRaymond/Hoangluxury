@@ -9,7 +9,7 @@ import {
   photoAlbumUrl,
   photoCategories,
 } from "./config/photo-albums.js";
-import { whatsappUrl } from "./data.js";
+import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 const ALL = ALL_PHOTO_CATEGORIES;
@@ -47,10 +47,18 @@ export default function PhotoAlbumsPage() {
     };
   }, []);
 
-  const filtered = useMemo(
-    () => (activeCategory === ALL ? albums : albums.filter((item) => item.category === activeCategory)),
-    [activeCategory]
-  );
+  /* Album trong mục theo thứ tự danh sách; album được ghim vị trí cho mục này
+     (categoryPositions) chen vào đúng ô đã ghim. */
+  const filtered = useMemo(() => {
+    if (activeCategory === ALL) return albums;
+    const inCategory = albums.filter((item) => item.categories.includes(activeCategory));
+    const pinned = inCategory
+      .filter((item) => item.categoryPositions[activeCategory])
+      .sort((a, b) => a.categoryPositions[activeCategory] - b.categoryPositions[activeCategory]);
+    const result = inCategory.filter((item) => !item.categoryPositions[activeCategory]);
+    for (const item of pinned) result.splice(item.categoryPositions[activeCategory] - 1, 0, item);
+    return result;
+  }, [activeCategory]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const currentPage = Math.min(page, pageCount);
@@ -137,7 +145,7 @@ export default function PhotoAlbumsPage() {
             {filtered.length === 0 && (
               <p className="hlt-photo-empty">
                 New albums for this style are coming soon.{" "}
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a> to see
+                <a href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a> to see
                 more of our recent work.
               </p>
             )}
@@ -189,7 +197,7 @@ export default function PhotoAlbumsPage() {
               <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
               <p>Tell us your destination and preferred date. We&rsquo;ll take care of the details.</p>
             </div>
-            <a className="hlt-photo-cta-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a className="hlt-photo-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon />
               Book via WhatsApp
               <svg className="hlt-photo-cta-arrow" viewBox="0 0 24 24" aria-hidden="true">

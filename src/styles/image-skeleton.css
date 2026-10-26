@@ -38,6 +38,9 @@ img.hlt-img-pending {
   background-repeat: no-repeat;
   background-size: 180% 100%;
   animation: hlt-img-skeleton 1.3s ease-in-out infinite;
+  /* Đẩy phần ảnh đang tải dở ra ngoài khung: trình duyệt vẽ ảnh dần từ trên
+     xuống trong lúc tải, nên chỉ để lộ nền khung xương; tải xong mới hiện cả ảnh. */
+  object-position: -10000px 0 !important;
 }
 
 /* Nền tối thì vệt sáng trắng quá gắt, dịu lại cho hợp. */
@@ -58,6 +61,39 @@ img.hlt-img-pending {
 
 img.is-loaded {
   animation: hlt-img-appear .45s ease both;
+}
+
+/* Ảnh nền CSS đang tải (banner, nền các dải): thay tạm bằng nền skeleton tối
+   có vệt sáng chạy - nền tối để chữ trắng đặt trên banner vẫn đọc được. Tải
+   xong, class bị gỡ và ảnh gốc cùng lớp phủ màu hiện lại. */
+.hlt-bg-pending,
+.hlt-bg-pending-before::before,
+.hlt-bg-pending-after::after {
+  background-color: #1b2a24 !important;
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, .07) 50%,
+    rgba(255, 255, 255, 0) 70%
+  ) !important;
+  background-repeat: no-repeat !important;
+  background-size: 180% 100% !important;
+  background-position: 140% 0;
+}
+
+/* Vệt sáng chạy, trừ phần tử đã có hiệu ứng riêng (JS gắn data-hlt-bg-static*). */
+.hlt-bg-pending:not([data-hlt-bg-static]),
+.hlt-bg-pending-before:not([data-hlt-bg-static-before])::before,
+.hlt-bg-pending-after:not([data-hlt-bg-static-after])::after {
+  animation: hlt-img-skeleton 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlt-bg-pending:not([data-hlt-bg-static]),
+  .hlt-bg-pending-before:not([data-hlt-bg-static-before])::before,
+  .hlt-bg-pending-after:not([data-hlt-bg-static-after])::after {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
