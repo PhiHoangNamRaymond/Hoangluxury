@@ -63,12 +63,29 @@ img.is-loaded {
   animation: hlt-img-appear .45s ease both;
 }
 
-/* Ảnh nền CSS đang tải (banner, nền các dải): thay tạm bằng nền skeleton tối
-   có vệt sáng chạy - nền tối để chữ trắng đặt trên banner vẫn đọc được. Tải
-   xong, class bị gỡ và ảnh gốc cùng lớp phủ màu hiện lại. */
+/* Ảnh nền CSS đang tải (banner, nền các dải): thay tạm bằng nền skeleton có
+   vệt sáng chạy. Mặc định tông vàng nhạt như khung ảnh thường (trang nền kem,
+   lớp hoạ tiết mờ); khối có chữ sáng (banner tối) được JS gắn
+   data-hlt-bg-tone*="dark" để dùng nền tối, chữ trắng vẫn đọc được. Tải xong,
+   class bị gỡ và ảnh gốc cùng lớp phủ màu hiện lại. */
 .hlt-bg-pending,
 .hlt-bg-pending-before::before,
 .hlt-bg-pending-after::after {
+  background-color: #efe6d6 !important;
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 28%,
+    rgba(255, 255, 255, .45) 48%,
+    rgba(255, 255, 255, 0) 68%
+  ) !important;
+  background-repeat: no-repeat !important;
+  background-size: 180% 100% !important;
+  background-position: 140% 0;
+}
+
+.hlt-bg-pending[data-hlt-bg-tone="dark"],
+.hlt-bg-pending-before[data-hlt-bg-tone-before="dark"]::before,
+.hlt-bg-pending-after[data-hlt-bg-tone-after="dark"]::after {
   background-color: #1b2a24 !important;
   background-image: linear-gradient(
     100deg,
@@ -76,9 +93,6 @@ img.is-loaded {
     rgba(255, 255, 255, .07) 50%,
     rgba(255, 255, 255, 0) 70%
   ) !important;
-  background-repeat: no-repeat !important;
-  background-size: 180% 100% !important;
-  background-position: 140% 0;
 }
 
 /* Vệt sáng chạy, trừ phần tử đã có hiệu ứng riêng (JS gắn data-hlt-bg-static*). */
