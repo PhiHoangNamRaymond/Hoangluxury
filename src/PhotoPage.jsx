@@ -105,9 +105,10 @@ const packages = [
 ];
 
 const reasons = [
-  // Hai thẻ đầu dùng đúng icon xe / nhãn giá của dải thông số trang cung đường.
-  [journeyFactIcons.vehicle, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
-  [journeyFactIcons.rates, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
+  // Icon là tên LineIcon, hoặc { src } cho ảnh: hai thẻ đầu dùng đúng icon xe /
+  // nhãn giá của dải thông số trang cung đường.
+  [{ src: journeyFactIcons.vehicle }, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
+  [{ src: journeyFactIcons.rates }, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
   ["camera", "No Posing Experience Needed", "You do not need to know how to pose. The photographer guides you throughout the shoot so you can feel comfortable and be yourself."],
   ["weather", "Flexible When the Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
 ];
@@ -409,8 +410,8 @@ export default function PhotoPage() {
               <div className="hlt-pl-why-grid">
                 {reasons.map(([icon, title, text]) => (
                   <article key={title}>
-                    {icon.includes("/") || icon.startsWith("data:") ? (
-                      <img className="hlt-pl-why-ic" src={icon} alt="" />
+                    {typeof icon === "object" ? (
+                      <img className="hlt-pl-why-ic" src={icon.src} alt="" />
                     ) : (
                       <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
                     )}

@@ -28,10 +28,20 @@ function WhatsAppIcon() {
 
 /* /photo/albums/?style=<tên danh mục>: mũi tên ở trang /photo/ dẫn sang đây
    kèm sẵn bộ lọc của đúng phong cách vừa bấm. */
+/* Tên danh mục trước ngày 26/10/2026, để link cũ đã chia sẻ vẫn lọc đúng. */
+const legacyCategories = {
+  "natural journey": "Nature & Landscapes",
+  "solo portraits": "Nature & Landscapes",
+  "couple & honeymoon": "Couples & Honeymoons",
+  "local heritage": "Local Culture",
+  "family memories": "Family Moments",
+  "proposal & celebration": "Proposals & Celebrations",
+};
+
 function categoryFromUrl() {
-  const wanted = new URLSearchParams(window.location.search).get("style");
+  const wanted = new URLSearchParams(window.location.search).get("style")?.trim().toLowerCase();
   if (!wanted) return ALL;
-  return categories.find((item) => item.toLowerCase() === wanted.toLowerCase()) || ALL;
+  return categories.find((item) => item.toLowerCase() === wanted) || legacyCategories[wanted] || ALL;
 }
 
 export default function PhotoAlbumsPage() {
