@@ -12,7 +12,7 @@ test("Home renders the requested SEO heading hierarchy and matching metadata", a
   const previousDocument = globalThis.document;
   globalThis.window = dom.window;
   globalThis.document = dom.window.document;
-  const server = await createServer({ server: { middlewareMode: true }, appType: "custom" });
+  const server = await createServer({ server: { middlewareMode: true, hmr: false }, appType: "custom" });
   let rendered;
   try {
     const { default: App } = await server.ssrLoadModule("/src/App.jsx");

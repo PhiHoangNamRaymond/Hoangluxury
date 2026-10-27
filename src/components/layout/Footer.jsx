@@ -97,7 +97,7 @@ export default function Footer() {
         <div className="hlt-footer-qr">
           <div className="hlt-footer-qr-frame">
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
-              <img src={whatsappQrUrl} alt="WhatsApp QR code" />
+              <img src={whatsappQrUrl} alt="WhatsApp QR code" loading="lazy" decoding="async" />
             </a>
             <p>WhatsApp</p>
           </div>
@@ -138,7 +138,7 @@ export default function Footer() {
           <div className="hlt-footer-mobile-card-qr">
             <div className="hlt-footer-mobile-qr-box">
               <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
-                <img src={whatsappQrUrl} alt="WhatsApp QR code" />
+                <img src={whatsappQrUrl} alt="WhatsApp QR code" loading="lazy" decoding="async" />
               </a>
               <p>WhatsApp</p>
             </div>
@@ -201,7 +201,7 @@ export default function Footer() {
 
         {/* Bottom Flourish Ornament Divider + Privacy Policy */}
         <div className="hlt-footer-mobile-bottom">
-          <img src={footerFlourishDividerUrl} alt="" className="hlt-footer-flourish-img" aria-hidden="true" />
+            <img src={footerFlourishDividerUrl} alt="" className="hlt-footer-flourish-img" aria-hidden="true" loading="lazy" />
 
           <div className="hlt-footer-mobile-legal">
             <a href="#privacy">Privacy Policy</a>

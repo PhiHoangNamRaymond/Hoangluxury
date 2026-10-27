@@ -1,4 +1,7 @@
 import React from "react";
+import ContentImage from "../ContentImage.jsx";
+import useNearViewport from "../../hooks/useNearViewport.js";
+import { fleetPhotoProps } from "../../config/home-responsive-images.js";
 import {
   curatedMountainDecorationUrl,
   fleetImages,
@@ -35,6 +38,7 @@ export function FleetSpecIcon({ spec }) {
 }
 
 export default function Fleet() {
+  const [routesRef, routesNear] = useNearViewport();
   return (
     <section id="fleet" className="hlt-section hlt-fleet">
       <div className="hlt-container">
@@ -48,7 +52,7 @@ export default function Fleet() {
             <article className="hlt-fleet-card" key={vehicle.name}>
               <h3>{vehicle.name}</h3>
               <div className="hlt-fleet-img">
-                <img src={fleetImages[vehicle.image]} alt={vehicle.name} />
+                <ContentImage src={fleetImages[vehicle.image]} {...fleetPhotoProps(vehicle.image, fleetImages[vehicle.image])} alt={vehicle.name} loading="lazy" decoding="async" />
               </div>
               <div className="hlt-fleet-body">
                 <div className="hlt-fleet-specs">
@@ -66,10 +70,11 @@ export default function Fleet() {
 
         <div className="hlt-fleet-divider" aria-hidden="true" />
 
-        <div className="hlt-route-showcase" id="routes">
+        <div className="hlt-route-showcase" id="routes" ref={routesRef}>
           <img
             className="hlt-route-landscape-decoration"
             src={curatedMountainDecorationUrl}
+            loading="lazy"
             alt=""
             aria-hidden="true"
           />
@@ -82,7 +87,7 @@ export default function Fleet() {
               focusable="false"
             >
               <image
-                href={vietnamRoutesMapUrl}
+                href={routesNear ? vietnamRoutesMapUrl : undefined}
                 width="1491"
                 height="1055"
                 preserveAspectRatio="xMidYMin meet"
@@ -110,7 +115,7 @@ export default function Fleet() {
                   <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>
                   {routeArtwork[index] ? (
                     <span className="hlt-route-artwork" aria-hidden="true">
-                      <img src={routeArtwork[index]} alt="" />
+                      <img src={routeArtwork[index]} alt="" loading="lazy" decoding="async" />
                     </span>
                   ) : (
                     <span className="hlt-route-mountain" aria-hidden="true">
@@ -132,7 +137,7 @@ export default function Fleet() {
               href={catalogPageUrl}
               aria-label="View All Routes"
             >
-              <img src={routeViewAllButtonUrl} alt="" />
+              <img src={routeViewAllButtonUrl} alt="" loading="lazy" />
             </a>
 
             {/* Mobile: Styled Nautical Compass Button */}
