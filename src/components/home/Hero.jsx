@@ -178,8 +178,8 @@ export default function Hero() {
         <div className="hlt-hero-content">
           <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
           <h1 className="hlt-hero-title">
-            <span className="hlt-hero-title-white">PRIVATE</span>
-            <span className="hlt-hero-title-gold">CAR TRANSFER</span>
+            <span className="hlt-hero-title-white">Private</span>{" "}
+            <span className="hlt-hero-title-gold">Car Transfer</span>
           </h1>
 
           <div className="hlt-hero-crown-divider" aria-hidden="true">

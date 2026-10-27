@@ -137,7 +137,8 @@ export default function BlogPage() {
           <div className="hlt-blog-columns">
             <div className="hlt-blog-feed">
               {showFeatured && featured && (
-                <a className="hlt-blog-featured" href={blogArticleUrl(featured.slug)}>
+                // Khung bài nổi bật chỉ để trưng bày, không dẫn vào bài (khách yêu cầu 27/10/2026).
+                <article className="hlt-blog-featured">
                   {featured.imageUrl && <img src={featured.imageUrl} alt={featured.imageAlt} fetchPriority="high" />}
                   {/* Cùng kiểu chip như đầu trang bài viết: điểm đến vàng, chủ đề trắng. */}
                   <span className="hlt-blog-featured-tags">
@@ -155,7 +156,7 @@ export default function BlogPage() {
                       <span>{featured.readingMinutes} min read</span>
                     </div>
                   </div>
-                </a>
+                </article>
               )}
               <SectionHeading action="View all articles" onAction={() => { resetFilters(); setLimit(blogArticles.length); }}>{feedTitle}</SectionHeading>
               {!noFilter && <p className="hlt-blog-results" role="status">{filtered.length} article{filtered.length !== 1 ? "s" : ""}{query.trim() && <> matching &ldquo;{query.trim()}&rdquo;</>}</p>}

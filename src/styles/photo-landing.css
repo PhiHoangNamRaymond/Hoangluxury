@@ -92,7 +92,7 @@
   max-width: 46ch;
   margin: 0 0 clamp(20px, 2.2vw, 30px);
   color: rgba(255, 255, 255, .86);
-  font-size: clamp(14px, 1.1vw, 16.5px);
+  font-size: clamp(15.5px, 1.3vw, 19.5px);
   line-height: 1.55;
 }
 
@@ -267,20 +267,40 @@
   gap: clamp(14px, 1.7vw, 24px);
 }
 
-/* Ghi chú chữ nhỏ căn giữa dưới hai thẻ gói. */
+/* Ghi chú dưới hai thẻ gói: khung viền vàng + icon máy ảnh, cùng kiểu dải
+   ghi chú đội xe ở trang cung đường. */
 .hlt-pl-plan-note {
-  margin: clamp(16px, 1.9vw, 26px) 0 0;
-  color: var(--pl-body);
-  font-size: clamp(13.5px, 1.05vw, 15px);
-  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(18px, 2vw, 26px) auto 0;
+  padding: 9px clamp(18px, 2vw, 28px);
+  border: 1.5px solid rgba(197, 161, 90, .75);
+  border-radius: 10px;
+  background: #fffaf1;
+  box-shadow: 0 6px 16px rgba(180, 145, 80, .1);
+  color: var(--pl-ink);
+  font-size: clamp(14px, 1.15vw, 17px);
+  font-weight: 600;
+  line-height: 1.35;
   text-align: center;
+}
+
+.hlt-pl-plan-note-ic {
+  flex: none;
+  width: clamp(28px, 2.5vw, 36px);
+  height: clamp(28px, 2.5vw, 36px);
+  color: var(--pl-gold);
 }
 
 .hlt-pl-plan {
   display: grid;
-  /* Ảnh dọc bên trái, nội dung bên phải. Cột ảnh đủ rộng để khung xấp xỉ
-     9:16; hẹp hơn thì ảnh phong cảnh bị ép thành dải dọc. */
-  grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+  /* Ảnh dọc bên trái, nội dung bên phải. Cột ảnh 44%: rộng hơn nữa thì chữ
+     xuống dòng nhiều, thẻ cao lên và ảnh lại bị cắt nhiều như cũ. */
+  grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
   overflow: hidden;
   border: 1px solid rgba(197, 161, 90, .34);
   border-radius: 10px;
@@ -296,9 +316,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Ảnh dọc: máy tính hiện gần trọn; điện thoại (khung ngang 16:10) neo
-     vào phần mặt người ở khoảng một phần ba trên ảnh. */
-  object-position: center 30%;
+  /* Ngang: neo theo từng ảnh (packages[].focus) để giữ người trong khung.
+     Dọc: điện thoại (khung 16:10) lấy phần mặt người ở một phần ba trên. */
+  object-position: var(--plan-focus, center) var(--plan-focus-y, 30%);
 }
 
 .hlt-pl-plan-body {
@@ -351,14 +371,23 @@
 .hlt-pl-plan-price {
   grid-column: 1;
   display: flex;
-  align-items: baseline;
-  gap: 7px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
   margin: 0;
   color: #b0771a;
   font-family: "Cormorant", Georgia, serif;
   font-size: clamp(26px, 2.6vw, 35px);
   font-weight: 600;
   line-height: 1;
+}
+
+/* Giá quy đổi VND (tỷ giá chung ở journeys.js) nằm ngay dưới giá USD. */
+.hlt-pl-plan-vnd {
+  color: #b0771a;
+  font-size: clamp(14px, 1.1vw, 16px);
+  font-weight: 600;
+  letter-spacing: .02em;
 }
 
 
@@ -460,10 +489,11 @@
   left: -3%;
   margin: 0;
   color: #b5851f;
-  font-size: clamp(22px, 2.3vw, 35px);
-  font-style: italic;
-  font-weight: 700;
-  line-height: 1.02;
+  /* Chữ viết tay theo mẫu khách gửi: Courgette (Google Fonts, nạp ở index.html). */
+  font-family: "Courgette", "Segoe Script", cursive !important;
+  font-size: clamp(21px, 2.1vw, 32px);
+  font-weight: 400;
+  line-height: 1.12;
   /* Quầng kem để chữ vàng vẫn đọc được khi đè lên mép ảnh. */
   text-shadow: 0 0 6px rgba(253, 247, 236, .95), 0 1px 2px rgba(253, 247, 236, .9);
   transform: rotate(-11deg);
@@ -472,6 +502,9 @@
 
 .hlt-pl-why-script span {
   display: block;
+  /* Quy tắc chung .hlt-site * ép Cormorant cho mọi phần tử, nên span phải tự
+     khai lại phông viết tay. */
+  font-family: "Courgette", "Segoe Script", cursive !important;
 }
 
 .hlt-pl-why-script span:nth-child(2) {
@@ -486,23 +519,54 @@
   margin-bottom: clamp(20px, 2.2vw, 30px);
 }
 
+/* Theo ảnh mẫu: không khung thẻ, icon trong vòng tròn viền vàng, chữ căn trái. */
 .hlt-pl-why-grid {
+  --why-gap-x: clamp(28px, 3.4vw, 52px);
+  --why-gap-y: clamp(24px, 2.8vw, 36px);
+  --why-rule: rgba(197, 161, 90, .38);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(12px, 1.3vw, 18px);
 }
 
+/* Đường kẻ mảnh theo mẫu: dọc giữa hai cột, ngang giữa hai hàng. */
 .hlt-pl-why-grid article {
-  padding: clamp(18px, 1.8vw, 26px) clamp(18px, 1.9vw, 28px) clamp(16px, 1.6vw, 24px);
-  border: 1px solid rgba(197, 161, 90, .28);
-  border-radius: 12px;
-  background: rgba(255, 252, 246, .86);
-  box-shadow: 0 12px 26px rgba(120, 88, 36, .07);
+  padding: var(--why-gap-y) var(--why-gap-x);
   text-align: left;
 }
 
+.hlt-pl-why-grid article:nth-child(odd) {
+  padding-left: 0;
+}
+
+.hlt-pl-why-grid article:nth-child(even) {
+  padding-right: 0;
+  border-left: 1px solid var(--why-rule);
+}
+
+.hlt-pl-why-grid article:nth-child(-n + 2) {
+  padding-top: 0;
+}
+
+.hlt-pl-why-grid article:nth-child(n + 3) {
+  border-top: 1px solid var(--why-rule);
+}
+
+.hlt-pl-why-grid article:nth-last-child(-n + 2) {
+  padding-bottom: 0;
+}
+
+.hlt-pl-why-ring {
+  display: grid;
+  place-items: center;
+  width: clamp(50px, 4.2vw, 58px);
+  height: clamp(50px, 4.2vw, 58px);
+  border: 1.5px solid rgba(197, 161, 90, .75);
+  border-radius: 50%;
+  background: rgba(255, 252, 246, .7);
+}
+
 .hlt-pl-why-grid h3 {
-  margin: 12px 0 6px;
+  margin: 14px 0 6px;
   color: var(--pl-ink);
   font-size: clamp(17px, 1.45vw, 21px);
   font-weight: 700;
@@ -519,7 +583,7 @@
 /* ---------- 4. Chuẩn bị trước buổi chụp ---------- */
 
 .hlt-pl-prep {
-  padding: clamp(36px, 4vw, 58px) 0 clamp(40px, 4.4vw, 64px);
+  padding: clamp(36px, 4vw, 58px) 0 clamp(26px, 2.6vw, 38px);
   background: #fff;
 }
 
@@ -601,17 +665,20 @@
   color: var(--pl-gold);
 }
 
-/* Icon thẻ Why nằm góc trên trái như ảnh mẫu. */
+/* Icon trong vòng tròn của thẻ Why. */
 .hlt-pl-why-ic {
-  width: clamp(28px, 2.5vw, 34px);
-  height: clamp(28px, 2.5vw, 34px);
+  width: clamp(24px, 2vw, 28px);
+  height: clamp(24px, 2vw, 28px);
   color: var(--pl-gold);
 }
 
-/* Icon ảnh PNG (xe, nhãn giá) lấy từ trang cung đường. */
-img.hlt-pl-why-ic {
+/* Icon PNG (xe, nhãn giá) lấy từ trang cung đường: dùng làm mặt nạ rồi tô
+   cùng màu vàng với hai icon nét vẽ, để cả 4 icon đồng một màu. */
+.hlt-pl-why-ic.is-mask {
   display: block;
-  object-fit: contain;
+  background-color: currentColor;
+  -webkit-mask: var(--why-icon) center / contain no-repeat;
+  mask: var(--why-icon) center / contain no-repeat;
 }
 
 .hlt-pl-btn-ic {
@@ -699,6 +766,14 @@ img.hlt-pl-why-ic {
   stroke-linejoin: round;
 }
 
+/* Dưới 1200px hai thẻ gói đứng cạnh nhau quá hẹp, ảnh dọc chỉ còn chưa tới
+   một nửa bề ngang; xếp mỗi hàng một thẻ. */
+@media (max-width: 1199px) {
+  .hlt-pl-plan-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* ---------- Máy tính bảng ---------- */
 
 @media (max-width: 1100px) {
@@ -718,10 +793,6 @@ img.hlt-pl-why-ic {
 }
 
 @media (max-width: 900px) {
-  .hlt-pl-plan-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   /* Cụm ảnh lên trên, tiêu đề và thẻ xuống dưới. */
   .hlt-pl-why-layout {
     grid-template-columns: minmax(0, 1fr);
@@ -755,6 +826,15 @@ img.hlt-pl-why-ic {
      nhân vật và cắt bỏ dòng chữ viết tay ở mép phải, nếu không nó đè lên nút. */
   .hlt-pl-hero {
     background-position: 64% center;
+  }
+
+  /* Ghi chú gói: khung rộng hết hàng, chữ căn trái cạnh icon. */
+  .hlt-pl-plan-note {
+    width: 100%;
+    gap: 14px;
+    padding: 12px 18px;
+    font-size: 15px;
+    text-align: left;
   }
 
   /* Đổi sang phủ dọc: ở bề ngang này không còn vùng tối riêng bên trái để đặt chữ. */
@@ -814,6 +894,25 @@ img.hlt-pl-why-ic {
 
   .hlt-pl-why-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Một cột: chỉ còn kẻ ngang giữa các mục. */
+  .hlt-pl-why-grid article,
+  .hlt-pl-why-grid article:nth-child(n) {
+    padding: var(--why-gap-y) 0;
+    border-left: 0;
+  }
+
+  .hlt-pl-why-grid article:first-child {
+    padding-top: 0;
+  }
+
+  .hlt-pl-why-grid article:last-child {
+    padding-bottom: 0;
+  }
+
+  .hlt-pl-why-grid article + article {
+    border-top: 1px solid var(--why-rule);
   }
 
   /* 2 cột: vạch ngăn không còn đúng hàng nên bỏ hẳn. */

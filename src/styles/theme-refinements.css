@@ -37,10 +37,10 @@
 
 .hlt-why-intro h2 span,
 .hlt-why-intro p strong,
-.hlt-services-heading p,
-.hlt-fleet-heading p,
-.hlt-route-heading > p,
-.hlt-route-card p {
+.hlt-services-heading :is(p, .hlt-seo-kicker),
+.hlt-fleet-heading :is(p, .hlt-seo-kicker),
+.hlt-route-heading :is(p, .hlt-seo-kicker),
+.hlt-route-card :is(p, .hlt-route-destination) {
   color: #C5A15A;
 }
 
@@ -260,7 +260,7 @@
     text-align: center;
   }
 
-  .hlt-booking-showcase-footer h3 { margin-bottom: 8px; font-size: 31px; }
+  .hlt-booking-showcase-footer :is(h2, h3) { margin-bottom: 8px; font-size: 31px; }
   .hlt-booking-showcase-footer p { max-width: none; font-family: "Cormorant", Georgia, "Times New Roman", serif; font-size: 16px; }
   .hlt-showcase-actions { justify-content: center; }
   .hlt-showcase-actions .hlt-btn { min-width: 278px; }
@@ -277,7 +277,7 @@
   .hlt-footer-compact .hlt-footer-col,
   .hlt-footer-compact .hlt-footer-qr { min-height: 220px; }
   .hlt-footer-compact .hlt-footer-brand p { max-width: 260px; font-family: "Cormorant", Georgia, "Times New Roman", serif; font-size: 15px; }
-  .hlt-footer.hlt-footer-compact h4 { font-size: 18px; }
+  .hlt-footer.hlt-footer-compact .hlt-footer-title { font-size: 18px; }
   .hlt-footer-compact .hlt-footer-col a,
   .hlt-footer-compact .hlt-footer-brand + .hlt-footer-col a,
   .hlt-footer-compact .hlt-footer-contact span { font-family: "Cormorant", Georgia, "Times New Roman", serif; font-size: 15px; }

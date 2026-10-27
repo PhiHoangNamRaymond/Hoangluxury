@@ -15,8 +15,7 @@ export default function Services() {
     >
       <div className="hlt-container">
         <div className="hlt-services-heading">
-          <p>Our Services</p>
-          <h2>Private Car Transfer</h2>
+          <h2><span className="hlt-seo-kicker">Our Services<span className="hlt-seo-sep"> - </span></span><span className="hlt-seo-heading-main">Private Car Transfer</span></h2>
           <div className="hlt-services-ornament" />
         </div>
 
@@ -36,7 +35,7 @@ export default function Services() {
                   <div className="hlt-service-icon hlt-service-icon-mobile">
                     <img src={serviceIconImages[index]} alt="" aria-hidden="true" />
                   </div>
-                  <h3>{service.title}</h3>
+                  <h3>{service.title === "Business / Partner Transfer" ? "Business & Partner Transfer" : service.title}</h3>
                 </div>
                 <span className="hlt-service-number">
                   {String(index + 1).padStart(2, "0")}

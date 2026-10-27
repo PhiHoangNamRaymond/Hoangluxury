@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
@@ -48,6 +48,8 @@ export default function PhotoAlbumsPage() {
   const pageEntered = usePageEntered();
   const [activeCategory, setActiveCategory] = useState(categoryFromUrl);
   const [page, setPage] = useState(1);
+  const galleryRef = useRef(null);
+  const pagerUsed = useRef(false);
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -73,6 +75,24 @@ export default function PhotoAlbumsPage() {
   const pageCount = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const currentPage = Math.min(page, pageCount);
   const visible = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+  /* Đổi trang thì cuộn về đầu lưới (sau khi lưới mới đã vẽ). Không cuộn thì
+     trình duyệt giữ nguyên vị trí: trang 1-2 đứng yên ở cuối lưới, còn trang
+     cuối ít album làm trang ngắn lại nên bị đẩy xuống tận footer. */
+  const goToPage = (number) => {
+    if (number === currentPage) return;
+    pagerUsed.current = true;
+    setPage(number);
+  };
+
+  useEffect(() => {
+    if (!pagerUsed.current) return;
+    pagerUsed.current = false;
+    galleryRef.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      block: "start",
+    });
+  }, [currentPage]);
 
   const selectCategory = (category) => {
     setActiveCategory(category);
@@ -111,7 +131,7 @@ export default function PhotoAlbumsPage() {
         </section>
 
         {/* Bộ lọc + lưới album */}
-        <section className="hlt-photo-gallery" aria-label="Photo albums">
+        <section className="hlt-photo-gallery" aria-label="Photo albums" ref={galleryRef}>
           <div className="hlt-container">
             <div className="hlt-photo-filters" role="group" aria-label="Filter albums by category">
               {categories.map((category) => (
@@ -165,7 +185,7 @@ export default function PhotoAlbumsPage() {
                 <button
                   type="button"
                   className="hlt-photo-page is-arrow"
-                  onClick={() => setPage(Math.max(1, currentPage - 1))}
+                  onClick={() => goToPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
                   aria-label="Previous page"
                 >
@@ -177,7 +197,7 @@ export default function PhotoAlbumsPage() {
                     key={number}
                     className={`hlt-photo-page${number === currentPage ? " is-active" : ""}`}
                     aria-current={number === currentPage ? "page" : undefined}
-                    onClick={() => setPage(number)}
+                    onClick={() => goToPage(number)}
                   >
                     {number}
                   </button>
@@ -185,7 +205,7 @@ export default function PhotoAlbumsPage() {
                 <button
                   type="button"
                   className="hlt-photo-page is-arrow"
-                  onClick={() => setPage(Math.min(pageCount, currentPage + 1))}
+                  onClick={() => goToPage(Math.min(pageCount, currentPage + 1))}
                   disabled={currentPage === pageCount}
                   aria-label="Next page"
                 >

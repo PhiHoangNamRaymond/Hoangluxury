@@ -132,7 +132,8 @@ export const whyItems = [
   },
   {
     icon: "car",
-    title: "Our Fleet. Our Responsibility",
+    // Mỗi phần tử là một dòng của tiêu đề thẻ, không tự ngắt giữa dòng (WhyChoose.jsx).
+    title: ["Our Fleet", "Our Responsibility"],
     text: "We own our fleet and directly manage our trained drivers, ensuring consistent service quality and handling any concerns ourselves.",
   },
   {

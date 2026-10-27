@@ -36,18 +36,18 @@ export default function Footer() {
         </div>
 
         <div className="hlt-footer-col">
-          <h4>Quick Links</h4>
+          <div className="hlt-footer-title">Quick Links</div>
           <div className="hlt-footer-col-body">
             <a href={sectionHref("#home")}>Home</a>
-            <a href={catalogPageUrl}>Catalog</a>
             <a href={sectionHref("#routes")}>Routes</a>
+            <a href={catalogPageUrl}>Catalog</a>
             <a href="/booking/">Booking</a>
             <a href={feedbackPageUrl}>Feedback</a>
           </div>
         </div>
 
         <div className="hlt-footer-col">
-          <h4>Services</h4>
+          <div className="hlt-footer-title">Services</div>
           <div className="hlt-footer-col-body">
             <a href={sectionHref("#services")}>Airport Transfer</a>
             <a href={sectionHref("#services")}>Long-Distance Private Transfer</a>
@@ -58,7 +58,7 @@ export default function Footer() {
         </div>
 
         <div className="hlt-footer-col hlt-footer-contact">
-          <h4>Contact Us</h4>
+          <div className="hlt-footer-title">Contact Us</div>
           <div className="hlt-footer-col-body">
             <a href="tel:+84839779888">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -147,7 +147,7 @@ export default function Footer() {
 
         {/* Contact Us Section */}
         <div className="hlt-footer-mobile-contact-section">
-          <h3 className="hlt-footer-mobile-contact-title">CONTACT US</h3>
+          <div className="hlt-footer-mobile-contact-title">CONTACT US</div>
           <div className="hlt-footer-mobile-title-divider">
             <span className="hlt-footer-mobile-title-diamond" />
           </div>

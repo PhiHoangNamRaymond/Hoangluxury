@@ -39,8 +39,7 @@ export default function Fleet() {
     <section id="fleet" className="hlt-section hlt-fleet">
       <div className="hlt-container">
         <div className="hlt-fleet-heading">
-          <p className="hlt-fleet-kicker">Our Fleet</p>
-          <h2>Premium Vehicle Selection</h2>
+          <h2><span className="hlt-fleet-kicker hlt-seo-kicker">Our Fleet<span className="hlt-seo-sep"> - </span></span><span className="hlt-seo-heading-main">Premium Vehicle Selection</span></h2>
           <div className="hlt-fleet-heading-ornament" />
         </div>
 
@@ -96,8 +95,7 @@ export default function Fleet() {
 
           <div className="hlt-route-content">
             <div className="hlt-route-heading">
-              <p>YOUR JOURNEY</p>
-              <h2>Private Transfer Routes</h2>
+              <h2><span className="hlt-seo-kicker">Your Journey<span className="hlt-seo-sep"> - </span></span><span className="hlt-seo-heading-main">Private Transfer Routes</span></h2>
               <div className="hlt-route-heading-ornament" />
             </div>
 
@@ -122,8 +120,7 @@ export default function Fleet() {
                       </svg>
                     </span>
                   )}
-                  <h3>Hanoi / Noi Bai</h3>
-                  <p>{route}</p>
+                  <h3>Hanoi/Noi Bai to <span className="hlt-route-destination">{route === "Ha Long" ? "Halong" : route}</span></h3>
                   <span className="hlt-route-card-ornament" aria-hidden="true" />
                 </a>
               ))}

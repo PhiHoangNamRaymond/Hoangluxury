@@ -42,7 +42,7 @@ const routes = [
     path: "/booking/",
     title: "Book a Private Transfer | Hoang Luxury Travel",
     description:
-      "Book your private car and professional driver with Hoang Luxury Travel. Share your route, schedule and travel requirements with our team.",
+      "Book a 100% private transfer with Hoang Luxury Travel. Enjoy direct door-to-door service, no shared passengers, professional drivers and flexible pick-up times.",
   },
   {
     path: "/catalog/",

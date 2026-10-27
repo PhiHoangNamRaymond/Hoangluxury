@@ -374,13 +374,14 @@ export default function BookingPage() {
         />
 
         <section className="hlt-book-shell" aria-labelledby="booking-page-title">
+        {/* Cấu trúc heading theo khách (27/10/2026): H1 tiêu đề form, H2 cột trái, H3 bốn điểm mạnh. */}
         <aside className="hlt-book-care">
           <h2>Every Detail<br />Meticulously<br />Cared For</h2>
           <div className="hlt-book-highlights">
             {highlights.map(([icon, title, text]) => (
               <article key={title}>
                 <div><FormIcon type={icon} className="hlt-book-highlight-icon" /></div>
-                <p><strong>{title}</strong><span>{text}</span></p>
+                <div className="hlt-book-highlight-copy"><h3>{title}</h3><span>{text}</span></div>
               </article>
             ))}
           </div>
@@ -393,7 +394,7 @@ export default function BookingPage() {
         <form className="hlt-book-form" data-current-step={currentStep} onSubmit={submitBooking} spellCheck={false} autoCorrect="off">
           <header>
             <div className="hlt-book-form-icon"><FormIcon type="calendar" className="hlt-book-form-heading-icon" /></div>
-            <div><h2 id="booking-page-title">Book Your Private Transfer</h2><p>Choose your preferred option: message us on WhatsApp or fill out the form below.</p></div>
+            <div><h1 id="booking-page-title">Book Your Private Transfer</h1><p>Choose your preferred option: message us on WhatsApp or fill out the form below.</p></div>
           </header>
 
           <div className="hlt-book-mobile-stepper" aria-label={`Booking step ${currentStep} of ${bookingSteps.length}`}>

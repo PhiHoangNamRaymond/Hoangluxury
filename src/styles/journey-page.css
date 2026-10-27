@@ -812,30 +812,34 @@ a.hlt-journey-fact:focus-visible strong {
   color: #fff;
 }
 
-/* Giá theo mẫu: VND đậm màu đồng, USD nghiêng nhỏ ngay dưới, rồi mới tới mô tả. */
+/* Giá theo mẫu (27/10/2026): VND to đậm màu đồng, "≈ $… USD" đậm ngay dưới,
+   rồi mới tới mô tả. Thẻ tuỳ chỉnh ghi CUSTOM QUOTE cùng cỡ chữ giá. */
 .hlt-journey-option-price {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  margin: 4px 0 10px;
+  align-self: stretch;
+  gap: 4px;
+  margin: 6px 0 12px;
 }
 
 .hlt-journey-option-price strong {
   font-family: var(--hlt-font-family);
-  font-size: clamp(20px, 1.8vw, 27px);
+  font-size: clamp(20px, 2.15vw, 31px);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: .01em;
   white-space: nowrap;
+  text-transform: uppercase;
   color: #a8691d;
 }
 
 .hlt-journey-option-price span {
   font-family: var(--hlt-font-family);
-  font-size: clamp(13px, 1vw, 15px);
-  font-style: italic;
+  font-size: clamp(14px, 1.35vw, 20px);
+  font-weight: 700;
   line-height: 1.2;
+  white-space: nowrap;
   color: #a8691d;
 }
 
@@ -844,8 +848,36 @@ a.hlt-journey-fact:focus-visible strong {
   color: var(--jr-gold);
 }
 
+/* Thẻ nổi bật của 4 gói: hai vạch vàng mảnh hai bên dòng USD (thẻ tuyến nối
+   tỉnh không có vạch, theo mẫu). */
+.hlt-journey-option.is-featured:not(.hlt-journey-intercity-card) .hlt-journey-option-price span {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 12px;
+}
+
+.hlt-journey-option.is-featured:not(.hlt-journey-intercity-card) .hlt-journey-option-price span::before,
+.hlt-journey-option.is-featured:not(.hlt-journey-intercity-card) .hlt-journey-option-price span::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(197, 161, 90, .75));
+}
+
+.hlt-journey-option.is-featured:not(.hlt-journey-intercity-card) .hlt-journey-option-price span::after {
+  background: linear-gradient(90deg, rgba(197, 161, 90, .75), transparent);
+}
+
+/* Icon WhatsApp trong nút đặt dưới bảng giá. */
+.hlt-journey-options-actions .hlt-hero-whatsapp-icon,
+.hlt-journey-options-actions .hlt-hero-whatsapp-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
 /* Dải "Choose Your Intercity Transfer" (6 trang tuyến nối tỉnh): cùng khung thẻ
-   với dải 4 gói, thêm icon tuyến dạng ngang, vạch vàng ngắn và giá chữ đậm. */
+   và kiểu giá với dải 4 gói, icon tuyến dạng ngang thay icon nét. */
 .hlt-journey-intercity-card {
   color: inherit;
   text-decoration: none;
@@ -867,49 +899,13 @@ a.hlt-journey-intercity-card:focus-visible {
   object-fit: contain;
 }
 
-.hlt-journey-intercity-rule {
-  display: block;
-  width: 44px;
-  height: 1.5px;
-  margin: clamp(10px, 1vw, 14px) auto;
-  background: var(--jr-gold);
-  opacity: .7;
+/* Thẻ tuyến đang xem: giá VND màu kem sáng như mẫu, USD giữ vàng. */
+.hlt-journey-intercity-card.is-featured .hlt-journey-option-price strong {
+  color: #f6ead0;
 }
 
-.hlt-journey-intercity-price {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  margin-top: auto;
-}
-
-.hlt-journey-intercity-price strong {
-  font-family: var(--hlt-font-family);
-  font-size: clamp(20px, 1.9vw, 28px);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: .02em;
-  white-space: nowrap;
-  color: #17242a;
-}
-
-.hlt-journey-intercity-price span {
-  font-size: clamp(12px, .95vw, 14px);
-  line-height: 1.3;
-  color: var(--jr-muted);
-}
-
-.hlt-journey-intercity-card.is-featured .hlt-journey-intercity-price strong {
-  color: #fff;
-}
-
-.hlt-journey-intercity-card.is-featured .hlt-journey-intercity-price span {
-  color: rgba(255, 255, 255, .85);
-}
-
-.hlt-journey-intercity-card.is-featured .hlt-journey-intercity-rule {
-  opacity: 1;
+.hlt-journey-intercity-card .hlt-journey-option-price {
+  margin-top: clamp(8px, .9vw, 14px);
 }
 
 .hlt-journey-option.is-featured p {

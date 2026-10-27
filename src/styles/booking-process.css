@@ -357,7 +357,7 @@
   gap: 36px;
 }
 
-.hlt-booking-showcase-footer h3 {
+.hlt-booking-showcase-footer :is(h2, h3) {
   margin: 0 0 8px;
   color: #d8a849;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
@@ -1540,7 +1540,7 @@
   z-index: 1;
 }
 
-.hlt-journey-cta-header h3 {
+.hlt-journey-cta-header :is(h2, h3) {
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(24px, 5.5vw, 30px);
   font-weight: 700;

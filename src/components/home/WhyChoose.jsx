@@ -7,10 +7,10 @@ export default function WhyChoose() {
     <section className="hlt-section hlt-why" aria-labelledby="why-title">
       <div className="hlt-container hlt-why-layout">
         <div className="hlt-why-intro">
-          <p className="hlt-why-eyebrow">Why choose</p>
-          <div className="hlt-why-eyebrow-line" aria-hidden="true" />
           <h2 id="why-title">
-            <span className="hlt-why-title-gold">Hoang Luxury</span>
+            <span className="hlt-why-eyebrow">Why Choose </span>
+            <span className="hlt-why-eyebrow-line" aria-hidden="true" />
+            <span className="hlt-why-title-gold">Hoang Luxury </span>
             <span className="hlt-why-title-ink">Travel?</span>
           </h2>
           <div className="hlt-gold-line" />
@@ -21,12 +21,18 @@ export default function WhyChoose() {
 
         <div className="hlt-why-cards">
           {whyItems.map((item) => (
-            <article className="hlt-why-card" key={item.title}>
+            <article className="hlt-why-card" key={item.icon}>
               <div className="hlt-icon">
                 <img src={whyIconImages[item.icon]} alt="" />
               </div>
               <div className="hlt-why-card-content">
-                <h3>{item.title}</h3>
+                <h3>
+                  {Array.isArray(item.title)
+                    ? item.title.map((line, index) => (
+                        <span key={line} style={{ display: "block", whiteSpace: "nowrap" }}>{line}{index === 0 ? ". " : ""}</span>
+                      ))
+                    : item.title}
+                </h3>
                 <div className="hlt-why-card-line" aria-hidden="true" />
                 <p>{item.text}</p>
               </div>

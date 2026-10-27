@@ -20,6 +20,7 @@ import {
   journeyPickupIconUrl,
 } from "./config/assets.js";
 import {
+  approxUsd,
   formatVnd,
   intercityTransfers,
   journeyExperience,
@@ -235,13 +236,25 @@ function LineIcon({ type, className }) {
   );
 }
 
+/* Icon WhatsApp đặc trong nút vàng (banner và dải bảng giá). */
+function WhatsAppIcon() {
+  return (
+    <span className="hlt-hero-whatsapp-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
+      </svg>
+    </span>
+  );
+}
+
 /* Hai nút dưới bảng giá, giống nhau ở mọi trang cung đường: đặt qua WhatsApp
    hoặc điền form trên trang Booking. */
 function JourneyBookActions() {
   return (
     <div className="hlt-journey-options-actions">
       <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-        Book via WhatsApp
+        <WhatsAppIcon />
+        <span>Book via WhatsApp</span>
       </a>
       <a className="hlt-btn hlt-journey-btn-dark" href="/booking/">
         Book via Form
@@ -251,9 +264,10 @@ function JourneyBookActions() {
 }
 
 /* Dải "Choose Your Intercity Transfer" của 6 trang tuyến nối tỉnh (theo mẫu
-   khách gửi 24/10/2026). Dùng lại khung thẻ của dải 4 gói; thẻ tuyến đang xem
+   khách gửi 24/10/2026, giá sửa theo mẫu 27/10). Dùng lại khung thẻ và kiểu
+   giá của dải 4 gói; thẻ tuyến đang xem
    tô xanh đậm, các thẻ khác dẫn sang trang của tuyến đó. */
-function IntercityTransfers({ currentId }) {
+function IntercityTransfers({ currentId, currentTitle }) {
   const title = "Choose Your Intercity Transfer";
   /* Thẻ tô đậm luôn đứng ô thứ 3 (như mẫu); ba thẻ còn lại giữ thứ tự gốc. */
   const others = intercityTransfers.filter((item) => item.id !== currentId);
@@ -283,15 +297,13 @@ function IntercityTransfers({ currentId }) {
               >
                 {isCurrent && <span className="hlt-journey-option-badge">Popular Route</span>}
                 <img className="hlt-journey-intercity-icon" src={journeyIconBySlug[item.id]} alt="" />
-                <h3>{item.title}</h3>
-                <p>
-                  {item.lines.map((line) => <span key={line}>{line}</span>)}
-                </p>
-                <span className="hlt-journey-intercity-rule" aria-hidden="true" />
-                <div className="hlt-journey-intercity-price">
+                <h3>{(isCurrent && currentTitle) || item.title}</h3>
+                {/* Cùng kiểu giá với 4 gói trang Hanoi to… (mẫu 27/10/2026). */}
+                <div className="hlt-journey-option-price">
                   <strong>{formatVnd(item.price)}</strong>
-                  <span>{item.unit}</span>
+                  <span>{approxUsd(item.price)}</span>
                 </div>
+                <p>{item.unit}</p>
               </Card>
             );
           })}
@@ -403,11 +415,7 @@ export default function JourneyPage({ slug }) {
               <p className="hlt-journey-lead">{journey.intro}</p>
               <div className="hlt-journey-actions">
                 <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  <span className="hlt-hero-whatsapp-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
-                    </svg>
-                  </span>
+                  <WhatsAppIcon />
                   <span>Book via WhatsApp</span>
                 </a>
                 <a
@@ -553,7 +561,7 @@ export default function JourneyPage({ slug }) {
         {/* Tuyến nối tỉnh: 4 tuyến Sa Pa kèm giá, thẻ của tuyến đang xem tô xanh đậm.
             Tuyến Hanoi to…: 4 gói hành trình, dẫn tới bảng giá hoặc WhatsApp. */}
         {journey.intercityId ? (
-          <IntercityTransfers currentId={journey.intercityId} />
+          <IntercityTransfers currentId={journey.intercityId} currentTitle={journey.intercityTitle} />
         ) : (
           <section className="hlt-journey-section hlt-journey-options">
             <div className="hlt-container">

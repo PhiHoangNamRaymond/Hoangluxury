@@ -141,26 +141,26 @@ html {
   border-right: 0;
 }
 
-.hlt-footer-compact h4 {
+.hlt-footer-compact .hlt-footer-title {
   margin: 0 0 17px;
   font-size: 16px;
   text-align: left;
 }
 
-.hlt-footer.hlt-footer-compact h4 {
+.hlt-footer.hlt-footer-compact .hlt-footer-title {
   width: 100%;
   margin: 0 0 18px;
   font-size: 16px;
   text-align: left;
 }
 
-.hlt-footer.hlt-footer-compact h4::after {
+.hlt-footer.hlt-footer-compact .hlt-footer-title::after {
   display: block;
   width: 112px;
   margin: 14px 0 0;
 }
 
-.hlt-footer.hlt-footer-compact h4::before {
+.hlt-footer.hlt-footer-compact .hlt-footer-title::before {
   display: none;
 }
 
@@ -184,8 +184,8 @@ html {
   padding-left: 0;
 }
 
-.hlt-footer-compact h4::before,
-.hlt-footer-compact h4::after,
+.hlt-footer-compact .hlt-footer-title::before,
+.hlt-footer-compact .hlt-footer-title::after,
 .hlt-footer-compact .hlt-footer-col a::before,
 .hlt-footer-compact .hlt-footer-qr::before,
 .hlt-footer-compact .hlt-footer-qr::after {
@@ -221,7 +221,7 @@ html {
   border-right: 0;
 }
 
-.hlt-footer.hlt-footer-compact .hlt-footer-qr h4 {
+.hlt-footer.hlt-footer-compact .hlt-footer-qr .hlt-footer-title {
   text-align: left;
 }
 
@@ -418,4 +418,15 @@ body {
     right: 14px;
     bottom: 14px;
   }
+}
+
+/* Dấu " - " giữa dòng nhỏ và tiêu đề chính trong h2 (vd. "Our Services - Private
+   Car Transfer"): giữ trong nội dung cho Google đọc liền mạch nhưng không hiện ra. */
+.hlt-seo-sep {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

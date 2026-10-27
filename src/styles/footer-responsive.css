@@ -94,10 +94,11 @@
   text-align: left;
 }
 
-.hlt-footer h4 {
+.hlt-footer .hlt-footer-title {
   margin: 0 0 32px;
   color: #d8a849;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .05em;
   font-size: 23px;
@@ -106,7 +107,7 @@
   position: relative;
 }
 
-.hlt-footer h4::after {
+.hlt-footer .hlt-footer-title::after {
   content: "";
   display: block;
   width: 96px;
@@ -116,7 +117,7 @@
     linear-gradient(90deg, transparent, rgba(216, 168, 73, .68), transparent) center / 100% 1px no-repeat;
 }
 
-.hlt-footer h4::before {
+.hlt-footer .hlt-footer-title::before {
   content: "";
   position: absolute;
   left: 50%;
@@ -761,19 +762,19 @@
     margin-bottom: 24px;
   }
 
-  .hlt-services-heading p,
-  .hlt-fleet-heading p,
-  .hlt-route-heading > p {
+  .hlt-services-heading :is(p, .hlt-seo-kicker),
+  .hlt-fleet-heading :is(p, .hlt-seo-kicker),
+  .hlt-route-heading :is(p, .hlt-seo-kicker) {
     font-size: 12px;
     letter-spacing: .14em;
   }
 
-  .hlt-services-heading p::before,
-  .hlt-services-heading p::after,
-  .hlt-fleet-heading p::before,
-  .hlt-fleet-heading p::after,
-  .hlt-route-heading > p::before,
-  .hlt-route-heading > p::after {
+  .hlt-services-heading :is(p, .hlt-seo-kicker)::before,
+  .hlt-services-heading :is(p, .hlt-seo-kicker)::after,
+  .hlt-fleet-heading :is(p, .hlt-seo-kicker)::before,
+  .hlt-fleet-heading :is(p, .hlt-seo-kicker)::after,
+  .hlt-route-heading :is(p, .hlt-seo-kicker)::before,
+  .hlt-route-heading :is(p, .hlt-seo-kicker)::after {
     width: 24px;
   }
 
@@ -971,7 +972,7 @@
     font-size: 11px;
   }
 
-  .hlt-route-card p {
+  .hlt-route-card :is(p, .hlt-route-destination) {
     font-size: 14px;
   }
 
@@ -1104,7 +1105,7 @@
     gap: 12px;
   }
 
-  .hlt-footer.hlt-footer-compact h4 {
+  .hlt-footer.hlt-footer-compact .hlt-footer-title {
     margin-bottom: 12px;
     font-size: 12px;
   }
