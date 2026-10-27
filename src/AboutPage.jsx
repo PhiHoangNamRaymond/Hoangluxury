@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
@@ -22,27 +22,20 @@ const luxuryValues = [
 ];
 
 const commitments = [
-  ["01", "Built Around You", "Your plans, preferences and travel needs shape the journey.", "calendar"],
+  ["01", "Built Around You", "Your plans, preferences and travel needs shape the journey.", "car"],
   [
     "02",
     "Clarity Before You Travel",
     "Your trip details, arrangements and agreed price are clearly confirmed in advance.",
-    "chat",
+    "shield",
   ],
   [
     "03",
     "Travel at Your Own Pace",
     "100% private travel with no shared passengers or multiple pick-ups, plus more flexibility with your time and stops.",
-    "lock",
+    "people",
   ],
-  ["04", "Support When You Need It", "From planning to arrival, we're here whenever you need support.", "leaf"],
-];
-
-/* Ba điểm trong khối "The people behind your journey" (chỉ hiện ở mobile, theo mẫu) */
-const peoplePoints = [
-  ["people", "Prepared with care", "Your trip is planned by a dedicated team who understands your preferences."],
-  ["heart", "Delivered with respect", "A thoughtful and professional service from start to finish."],
-  ["handshake", "Here when you need us", "We stay in touch and support you whenever plans change."],
+  ["04", "Support When You Need It", "From planning to arrival, we're here whenever you need support.", "headset"],
 ];
 
 // Cùng thứ tự với journeyCardImages trong config/assets.js
@@ -73,7 +66,7 @@ function StatIcon({ type }) {
   return <img className="hlt-about-stat-icon" src={aboutStatIcons[type]} alt="" aria-hidden="true" />;
 }
 
-// Icon nét dùng cho các thẻ ở bản mobile (giá trị, cam kết, giấy phép, People)
+// Icon nét dùng cho các thẻ ở bản mobile (giá trị, cam kết, giấy phép)
 function AboutIcon({ type }) {
   const shapes = {
     calendar: (
@@ -96,30 +89,12 @@ function AboutIcon({ type }) {
         <path d="M2.8 19.5v-1.8c0-2.6 2.6-4.2 5.7-4.2s5.7 1.6 5.7 4.2v1.8M15 13.8c2.8.2 6.2 1.3 6.2 3.9v1.8" />
       </>
     ),
-    heart: <path d="M12 20.5C6.5 17 3 13.7 3 9.8 3 7 5.1 5 7.7 5c1.8 0 3.3 1 4.3 2.4C13 6 14.5 5 16.3 5 18.9 5 21 7 21 9.8c0 3.9-3.5 7.2-9 10.7Z" />,
-    handshake: (
+    headset: (
       <>
-        <path d="M2.5 9.5 6 6.5l4 1 2-1 2 1 4-1 3.5 3-3.5 4-2-1.6" />
-        <path d="M10 7.5 7.2 10.3a1.9 1.9 0 0 0 2.7 2.7l.8-.8 2.1 2.1a1.9 1.9 0 0 0 2.7-2.7" />
-        <path d="m11.3 14.2 1.8 1.8a1.9 1.9 0 0 0 2.7-2.7" />
-      </>
-    ),
-    chat: (
-      <>
-        <path d="M21 12.5c0 4-4 7.2-9 7.2a11 11 0 0 1-3.3-.5L3.5 21l1.6-3.7A6.7 6.7 0 0 1 3 12.5c0-4 4-7.2 9-7.2s9 3.2 9 7.2Z" />
-        <path d="M8.5 12h.01M12 12h.01M15.5 12h.01" />
-      </>
-    ),
-    lock: (
-      <>
-        <rect x="4.5" y="10" width="15" height="11" rx="2.5" />
-        <path d="M8 10V7.5a4 4 0 0 1 8 0V10M12 14v3" />
-      </>
-    ),
-    leaf: (
-      <>
-        <path d="M20 4c0 9-4.6 14-11 14-2 0-4-.6-5-1.5C4 9.5 10 4 20 4Z" />
-        <path d="M16 8C11 10 7.5 13.5 5.5 20" />
+        <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+        <rect x="3" y="13.5" width="4" height="6" rx="1.6" />
+        <rect x="17" y="13.5" width="4" height="6" rx="1.6" />
+        <path d="M19 19.5c0 1.4-1.6 2-4 2h-2" />
       </>
     ),
     car: (
@@ -184,6 +159,8 @@ function Kicker({ children, className = "" }) {
 
 export default function AboutPage() {
   const pageEntered = usePageEntered();
+  // Mobile: thư CEO thu gọn còn đoạn mở đầu, bấm nút mới mở cả thư (PC luôn mở).
+  const [ceoOpen, setCeoOpen] = useState(false);
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -216,7 +193,7 @@ export default function AboutPage() {
               <p className="hlt-about-hero-lead">
                 Our story is shaped by the journeys we share with you.
               </p>
-              {/* Nút + dòng chữ dưới banner: chỉ hiện ở mobile (theo mẫu) */}
+              {/* Nút dưới banner: chỉ hiện ở mobile (theo mẫu) */}
               <a
                 className="hlt-about-hero-btn"
                 href={whatsappUrl}
@@ -224,16 +201,9 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
               >
                 <WhatsAppIcon />
-                Plan Your Journey
-                <svg className="hlt-about-chevron" viewBox="0 0 12 20" aria-hidden="true">
-                  <path d="M2.5 2 10 10l-7.5 8" />
-                </svg>
+                Book via WhatsApp
+                <ArrowIcon />
               </a>
-              <p className="hlt-about-hero-tag" aria-hidden="true">
-                <span />
-                People<i>Places</i>Meaningful Journeys
-                <span />
-              </p>
             </div>
             <p className="hlt-about-hero-note">Slow down. Breathe deeply. Let the mountains surround you.</p>
           </div>
@@ -315,18 +285,6 @@ export default function AboutPage() {
             <p className="hlt-about-signoff">
               Our driver takes care of the road. Our team takes care of the journey.
             </p>
-            {/* Ba điểm chỉ hiện ở mobile (theo mẫu) */}
-            <ul className="hlt-about-people-points">
-              {peoplePoints.map(([icon, title, text]) => (
-                <li key={title}>
-                  <AboutIcon type={icon} />
-                  <div>
-                    <strong>{title}</strong>
-                    <span>{text}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 
@@ -403,7 +361,7 @@ export default function AboutPage() {
         </section>
 
         {/* Thư ngỏ của CEO */}
-        <section className="hlt-about-ceo" aria-labelledby="about-ceo-title">
+        <section className={`hlt-about-ceo${ceoOpen ? " is-open" : ""}`} aria-labelledby="about-ceo-title">
           <div className="hlt-container hlt-about-ceo-inner">
             <div className="hlt-about-ceo-media">
               <img src={aboutImages.ceo} alt="Terraced valley in Northern Vietnam at sunrise" loading="lazy" />
@@ -463,6 +421,15 @@ export default function AboutPage() {
               <p>
                 We are grateful for the trust you place in us and for the opportunity to be part of it.
               </p>
+              <button
+                type="button"
+                className="hlt-about-ceo-more"
+                aria-expanded={ceoOpen}
+                onClick={() => setCeoOpen(true)}
+              >
+                Read full message
+                <ArrowIcon />
+              </button>
               {/* Chữ ký CEO */}
               <div className="hlt-about-ceo-foot">
                 <div className="hlt-about-ceo-sign">

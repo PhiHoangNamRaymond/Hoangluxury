@@ -5,6 +5,7 @@ import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { photoAlbumBySlug, photoAlbumUrl, photoAlbums } from "./config/photo-albums.js";
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
+import { albumReturnUrl, markAlbumReturn } from "./lib/album-return.js";
 
 /* /photo/albums/<slug>/ - xem hết ảnh của một album: ảnh xếp dọc, cỡ lớn,
    tên album ở trên cùng theo đúng kiểu dòng chữ ở trang lưới. */
@@ -94,7 +95,7 @@ export default function PhotoAlbumPage({ slug }) {
       <main className="hlt-album-main">
         <section className="hlt-album" aria-labelledby="album-title">
           <div className="hlt-album-inner">
-            <a className="hlt-album-back" href={ALBUMS_URL}>
+            <a className="hlt-album-back" href={albumReturnUrl(ALBUMS_URL)} onClick={markAlbumReturn}>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M15 5 8 12l7 7" />
               </svg>
@@ -102,7 +103,8 @@ export default function PhotoAlbumPage({ slug }) {
             </a>
 
             <p className="hlt-album-eyebrow" id="album-title">
-              {album.title}
+              {album.name}
+              {album.note && <span className="hlt-album-note"> ({album.note})</span>}
             </p>
             <p className="hlt-album-meta">
               {album.place} &middot; {album.category}

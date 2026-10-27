@@ -337,3 +337,17 @@
     padding-top: 56px;
   }
 }
+
+/* Mobile: 4 thẻ dịch vụ luôn cao bằng nhau (bằng thẻ cao nhất), không co giãn
+   theo độ dài chữ từng thẻ — khách yêu cầu 27/10/2026. */
+@media (max-width: 760px) {
+  .hlt-service-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: 1fr;
+  }
+
+  .hlt-service-card {
+    height: 100%;
+  }
+}

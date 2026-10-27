@@ -353,3 +353,15 @@
     text-align: left;
   }
 }
+
+/* Mobile: 4 thẻ Why Choose luôn cao bằng nhau (bằng thẻ cao nhất), không co
+   giãn theo độ dài chữ từng thẻ — khách yêu cầu 27/10/2026. */
+@media (max-width: 760px) {
+  .hlt-why-cards {
+    grid-auto-rows: 1fr;
+  }
+
+  .hlt-why-card {
+    height: 100%;
+  }
+}

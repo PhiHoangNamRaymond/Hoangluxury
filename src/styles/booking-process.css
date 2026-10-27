@@ -758,7 +758,7 @@
 
 .hlt-mobile-top-id-value {
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: .02em;
@@ -859,7 +859,7 @@
     font-size: 17px;
   }
   .hlt-mobile-top-id-value {
-    font-size: 18px;
+    font-size: 15px;
   }
   .hlt-mobile-card-row {
     gap: 10px;
@@ -1519,6 +1519,49 @@
   .hlt-booking-showcase-footer.hlt-journey-cta,
   section.hlt-booking-showcase-footer.hlt-journey-cta {
     display: none !important;
+  }
+
+  /* Trang chủ: mobile dùng chính dải CTA của PC (cùng chữ, cùng 2 nút), xếp
+     dọc căn giữa — thay cho thẻ riêng trước đây (27/10/2026). */
+  section.hlt-booking-showcase-footer.hlt-journey-cta.is-home {
+    display: block !important;
+    padding: 30px 0 32px !important;
+    /* Nền và viền trên như PC (mobile vốn bị đè nền be). */
+    border-top: 1px solid rgba(197, 161, 90, .48) !important;
+    background: #0d1715 !important;
+  }
+
+  .hlt-journey-cta.is-home .hlt-journey-desktop-view {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .hlt-journey-cta.is-home :is(h2, h3) {
+    margin: 0 0 8px !important;
+    font-size: clamp(22px, 6.4vw, 27px) !important;
+    line-height: 1.15 !important;
+  }
+
+  .hlt-journey-cta.is-home p {
+    margin: 0 auto !important;
+    max-width: 300px !important;
+    font-size: 15px !important;
+  }
+
+  .hlt-journey-cta.is-home .hlt-showcase-actions {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .hlt-journey-cta.is-home .hlt-showcase-actions .hlt-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
   }
 }
 

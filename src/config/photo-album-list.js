@@ -48,7 +48,7 @@ const rows = [
   ["Sweet Darling", "Hanoi", "Proposals & Celebrations"],
   ["Timeless Love", "Hanoi", "Proposals & Celebrations"],
   ["Fairy of Light", "Hanoi", "Proposals & Celebrations"],
-  ["Warrior Goddess", "Hanoi", "Proposals & Celebrations"],
+  ["Warrior Goddess (Artistic Concept)", "Hanoi", "Proposals & Celebrations"],
   // Album chân dung đơn, thứ tự khách sắp ngày 26/10/2026.
   ["Lotus Sunset", "Hanoi", "Nature & Landscapes"],
   ["Dreamy Garden", "Hanoi", "Nature & Landscapes"],
@@ -86,13 +86,18 @@ export const photoAlbumVideosBySlug = {
   },
 };
 
+/* Tên có thể kèm ghi chú trong ngoặc, vd. "Warrior Goddess (Artistic Concept)":
+   đường dẫn và thư mục ảnh lấy theo phần tên chính, ghi chú hiện ở dòng riêng. */
 export const photoAlbumRows = rows.map(([title, place, category]) => {
+  const [, name, note = ""] = title.match(/^(.*?)\s*(?:\((.+)\))?$/);
   const entries = Array.isArray(category) ? category : [category];
   const categories = entries.map((entry) => (Array.isArray(entry) ? entry[0] : entry));
   const categoryPositions = Object.fromEntries(entries.filter(Array.isArray));
   return {
-    slug: slugifyAlbum(title),
+    slug: slugifyAlbum(name),
     title,
+    name,
+    note,
     place,
     categories,
     categoryPositions,

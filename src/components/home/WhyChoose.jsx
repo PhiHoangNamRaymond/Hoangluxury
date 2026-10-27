@@ -29,7 +29,7 @@ export default function WhyChoose() {
                 <h3>
                   {Array.isArray(item.title)
                     ? item.title.map((line, index) => (
-                        <span key={line} style={{ display: "block", whiteSpace: "nowrap" }}>{line}{index === 0 ? ". " : ""}</span>
+                        <span key={line} style={{ display: "block", whiteSpace: "nowrap" }}>{line}{index === 0 ? " " : ""}</span>
                       ))
                     : item.title}
                 </h3>

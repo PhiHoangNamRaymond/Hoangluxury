@@ -592,7 +592,11 @@ export default function JourneyPage({ slug }) {
                     {journey.optionPrices?.[index] && (
                       <div className="hlt-journey-option-price">
                         <strong>{journey.optionPrices[index].vnd}</strong>
-                        {journey.optionPrices[index].usd && <span>{journey.optionPrices[index].usd}</span>}
+                        {/* Thẻ Custom Quote không có USD: giữ chỗ trống để dòng mô tả
+                            thẳng hàng với các thẻ bên cạnh. */}
+                        {journey.optionPrices[index].usd
+                          ? <span>{journey.optionPrices[index].usd}</span>
+                          : <span className="is-placeholder" aria-hidden="true">&nbsp;</span>}
                       </div>
                     )}
                     <p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
@@ -11,6 +11,7 @@ import {
 } from "./config/photo-albums.js";
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
+import { rememberAlbumReturn, takeAlbumReturnScroll } from "./lib/album-return.js";
 
 const ALL = ALL_PHOTO_CATEGORIES;
 const PER_PAGE = 12;
@@ -44,10 +45,15 @@ function categoryFromUrl() {
   return categories.find((item) => item.toLowerCase() === wanted) || legacyCategories[wanted] || ALL;
 }
 
+function pageFromUrl() {
+  const number = Number.parseInt(new URLSearchParams(window.location.search).get("page"), 10);
+  return Number.isFinite(number) && number > 1 ? number : 1;
+}
+
 export default function PhotoAlbumsPage() {
   const pageEntered = usePageEntered();
   const [activeCategory, setActiveCategory] = useState(categoryFromUrl);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(pageFromUrl);
   const galleryRef = useRef(null);
   const pagerUsed = useRef(false);
 
@@ -93,6 +99,46 @@ export default function PhotoAlbumsPage() {
       block: "start",
     });
   }, [currentPage]);
+
+  /* Bộ lọc và trang đang xem nằm trên địa chỉ (?style=&page=), để vào album rồi
+     quay lại (nút Back hoặc nút All albums) vẫn đúng mục, đúng trang. */
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (activeCategory !== ALL) params.set("style", activeCategory);
+    if (currentPage > 1) params.set("page", String(currentPage));
+    const query = params.toString();
+    const url = window.location.pathname + (query ? `?${query}` : "");
+    if (url !== window.location.pathname + window.location.search) {
+      window.history.replaceState(window.history.state, "", url);
+    }
+  }, [activeCategory, currentPage]);
+
+  /* Vừa từ một album quay về: cuộn lại đến chỗ khách đã bấm. Ô ảnh giữ sẵn tỉ lệ
+     nên chiều cao lưới đúng ngay; canh lại một lần khi trang tải xong phòng font
+     làm lệch, trừ khi khách đã tự cuộn. */
+  useLayoutEffect(() => {
+    const y = takeAlbumReturnScroll();
+    if (y === null) return undefined;
+    if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
+    window.scrollTo({ top: y, behavior: "instant" });
+    let userScrolled = false;
+    const stop = () => { userScrolled = true; };
+    const realign = () => {
+      if (!userScrolled) window.scrollTo({ top: y, behavior: "instant" });
+    };
+    window.addEventListener("wheel", stop, { passive: true });
+    window.addEventListener("touchstart", stop, { passive: true });
+    window.addEventListener("keydown", stop);
+    window.addEventListener("load", realign);
+    const timer = window.setTimeout(realign, 400);
+    return () => {
+      window.removeEventListener("wheel", stop);
+      window.removeEventListener("touchstart", stop);
+      window.removeEventListener("keydown", stop);
+      window.removeEventListener("load", realign);
+      window.clearTimeout(timer);
+    };
+  }, []);
 
   const selectCategory = (category) => {
     setActiveCategory(category);
@@ -156,7 +202,7 @@ export default function PhotoAlbumsPage() {
             <div className="hlt-photo-grid">
               {visible.map((item) => (
                 <article className="hlt-photo-card" key={item.title}>
-                  <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)}>
+                  <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn}>
                     <img src={item.image} alt={`${item.title} – ${item.place}`} loading="lazy" />
                     {item.videos && (
                       <span className="hlt-photo-card-badge">
@@ -165,8 +211,9 @@ export default function PhotoAlbumsPage() {
                       </span>
                     )}
                   </a>
-                  <a className="hlt-photo-card-caption" href={photoAlbumUrl(item.slug)}>
-                    {item.title}
+                  <a className="hlt-photo-card-caption" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn}>
+                    {item.name}
+                    {item.note && <span className="hlt-photo-card-note"> ({item.note})</span>}
                   </a>
                 </article>
               ))}
@@ -224,7 +271,7 @@ export default function PhotoAlbumsPage() {
         >
           <div className="hlt-container hlt-photo-cta-inner">
             <div className="hlt-photo-cta-copy">
-              <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
+              <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Tell us your destination and preferred date. We&rsquo;ll take care of the details.</p>
             </div>
             <a className="hlt-photo-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
