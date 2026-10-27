@@ -1,5 +1,5 @@
 /* Our Fleet - Tk4 composition */
-/* Khớp với kicker "Curated Journeys" (.hlt-route-heading>p trong
+/* Khớp với kicker "Curated Journeys" (.hlt-route-heading :is(p, .hlt-seo-kicker) trong
    booking-page.css). Màu để theme-refinements.css cấp (#C5A15A). */
 .hlt-fleet-heading .hlt-fleet-kicker {
   margin-bottom: 18px;

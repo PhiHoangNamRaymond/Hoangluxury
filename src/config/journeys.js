@@ -87,19 +87,17 @@ export const journeyFaq = [
 /* Bảng giá tuyến Hanoi to… (VND, cập nhật 11/2026). USD quy đổi theo
    26.000 VND/USD, làm tròn tới đô - cùng tỉ giá mẫu khách duyệt
    (3,900,000 VND ≈ $150). */
-const VND_PER_USD = 26000;
+export const VND_PER_USD = 26000;
 export const formatVnd = (amount) => `${amount.toLocaleString("en-US")} VND`;
-const priceTag = (amount) => ({
-  vnd: formatVnd(amount),
-  usd: `~ $${Math.round(amount / VND_PER_USD)}`,
-});
+export const approxUsd = (amount) => `≈ $${Math.round(amount / VND_PER_USD)} USD`;
+const priceTag = (amount) => ({ vnd: formatVnd(amount), usd: approxUsd(amount) });
 
 /* pricing: [giá 1 chiều, giá 2 chiều, tên gói bán chính, giá gói]. Hiện dưới
-   tên 4 thẻ "Choose Your … Journey"; gói tuỳ chỉnh để "? VND" vì báo giá
-   theo từng hành trình. */
+   tên 4 thẻ "Choose Your … Journey"; gói tuỳ chỉnh ghi "Custom Quote" vì báo
+   giá theo từng hành trình. */
 const privateTransferPage = (destination, travelTime, [oneWay, roundTrip, packageTitle, packagePrice]) => ({
   packageTitle,
-  optionPrices: [priceTag(oneWay), priceTag(roundTrip), priceTag(packagePrice), { vnd: "? VND" }],
+  optionPrices: [priceTag(oneWay), priceTag(roundTrip), priceTag(packagePrice), { vnd: "Custom Quote" }],
   seoTitle: `Hanoi to ${destination} Private Transfer | HOANG LUXURY TRAVEL`,
   metaDescription:
     `Book a Hanoi to ${destination} private transfer with a professional driver. Enjoy a private car, door-to-door pickup, flexible stops, transparent pricing and 24/7 WhatsApp support`,
@@ -130,12 +128,12 @@ const privateTransferPage = (destination, travelTime, [oneWay, roundTrip, packag
 /* Dải "Choose Your Intercity Transfer" trên 6 trang tuyến nối tỉnh, thay cho
    4 gói của trang Hanoi to…. Giá 1 chiều (VND, cập nhật 11/2026). Mỗi trang
    khai `intercityId` để tô xanh đậm thẻ của chính tuyến đó; Ha Long ↔ Sa Pa và
-   Ninh Binh ↔ Sa Pa dùng chung một thẻ cho cả hai chiều. */
+   Ninh Binh ↔ Sa Pa dùng chung một thẻ cho cả hai chiều, trang chiều ngược khai
+   thêm `intercityTitle` để thẻ tô đậm ghi đúng chiều của trang. */
 export const intercityTransfers = [
   {
     id: "ha-long",
     title: "Sa Pa – Ha Long",
-    lines: ["Both directions available", "Ha Long ↔ Sa Pa"],
     price: 6_300_000,
     unit: "Per one-way transfer",
     routeKey: "sapa-to-ha-long",
@@ -143,7 +141,6 @@ export const intercityTransfers = [
   {
     id: "ninh-binh",
     title: "Sa Pa – Ninh Binh",
-    lines: ["Both directions available", "Ninh Binh ↔ Sa Pa"],
     price: 6_000_000,
     unit: "Per one-way transfer",
     routeKey: "sapa-to-ninh-binh",
@@ -151,17 +148,15 @@ export const intercityTransfers = [
   {
     id: "ha-giang",
     title: "Sa Pa – Ha Giang",
-    lines: ["One-way private transfer", "Scenic mountain route"],
     price: 3_900_000,
-    unit: "Per transfer",
+    unit: "Per one-way transfer",
     routeKey: "sapa-to-ha-giang",
   },
   {
     id: "mu-cang-chai",
     title: "Sa Pa – Mu Cang Chai",
-    lines: ["One-way private transfer", "Beautiful scenic route"],
     price: 3_500_000,
-    unit: "Per transfer",
+    unit: "Per one-way transfer",
     routeKey: "sapa-to-mu-cang-chai",
   },
 ];
@@ -416,6 +411,7 @@ export const journeys = {
     titlePrefix: "Ha Long",
     ...cityTransferPage("Ha Long", "Sapa", "7 – 8 hours"),
     intercityId: "ha-long",
+    intercityTitle: "Ha Long – Sa Pa",
     originLabel: "Ha Long",
     originShort: "Ha Long",
     originNote: "Hotels, Resorts or Cruise Harbour",
@@ -431,6 +427,7 @@ export const journeys = {
     titlePrefix: "Ninh Binh",
     ...cityTransferPage("Ninh Binh", "Sapa", "7 – 7.5 hours"),
     intercityId: "ninh-binh",
+    intercityTitle: "Ninh Binh – Sa Pa",
     originLabel: "Ninh Binh",
     originShort: "Ninh Binh",
     originNote: "Hotels, Resorts or Tam Coc area",

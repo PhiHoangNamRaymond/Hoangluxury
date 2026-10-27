@@ -244,7 +244,7 @@
   line-height: 1.08;
 }
 
-.hlt-route-card p {
+.hlt-route-card :is(p, .hlt-route-destination) {
   margin-top: 2px;
   font-size: clamp(20px, 1.45vw, 26px);
   line-height: 1;
@@ -319,7 +319,7 @@
     font-size: clamp(15px, 1vw, 18px);
   }
 
-  .hlt-route-card p {
+  .hlt-route-card :is(p, .hlt-route-destination) {
     font-size: clamp(18px, 1.2vw, 22px);
   }
 
@@ -368,7 +368,7 @@
     font-size: 11px;
   }
 
-  .hlt-route-card p {
+  .hlt-route-card :is(p, .hlt-route-destination) {
     font-size: 14px;
   }
 
@@ -505,7 +505,7 @@
     font-size: 10px;
   }
 
-  .hlt-route-card p {
+  .hlt-route-card :is(p, .hlt-route-destination) {
     font-size: 13px;
   }
 

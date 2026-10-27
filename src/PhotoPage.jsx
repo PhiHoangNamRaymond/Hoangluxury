@@ -11,6 +11,7 @@ import {
   photoStyleImages,
   photoWhyImages,
 } from "./config/assets.js";
+import { formatVnd, VND_PER_USD } from "./config/journeys.js";
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
@@ -75,10 +76,11 @@ const packages = [
       ["outfit", "One traditional local outfit of your choice"],
       ["drone", "2–3 complimentary short video clips to capture fun moments, with drone footage upon request where permitted"],
     ],
-    price: "$299",
+    price: 299,
     button: "Book Half-Day",
     script: ["A few hours.", "Beautiful memories"],
     image: photoPlanImages.halfDay,
+    focus: "58%", // cô gái hơi lệch phải
   },
   {
     id: "full-day",
@@ -97,10 +99,12 @@ const packages = [
       ["outfit", "One traditional local outfit of your choice"],
       ["drone", "2–3 complimentary short video clips to capture fun moments, with drone footage upon request where permitted"],
     ],
-    price: "$379",
+    price: 379,
     button: "Book Full-Day",
     script: ["More time.", "More moments to remember"],
     image: photoPlanImages.fullDay,
+    focus: "62%", // cặp đôi giữa đồi hoa: giữ cả hai khuôn mặt và bó hoa
+    focusY: "8%", // hai khuôn mặt nằm cao trong ảnh
   },
 ];
 
@@ -276,7 +280,7 @@ export default function PhotoPage() {
         >
           <div className="hlt-container hlt-pl-hero-inner">
             <p className="hlt-pl-hero-kicker">Hoang Photo</p>
-            <h1 id="photo-hero-title">Preserve cherished memories</h1>
+            <h1 id="photo-hero-title">Private Photo Shoots</h1>
             <p className="hlt-pl-hero-lead">
               Private photography experiences across Northern Vietnam,
               featuring a variety of creative concepts.
@@ -345,7 +349,7 @@ export default function PhotoPage() {
             <div className="hlt-pl-plan-grid">
               {packages.map((item) => (
                 <article className="hlt-pl-plan" key={item.id}>
-                  <div className="hlt-pl-plan-media">
+                  <div className="hlt-pl-plan-media" style={{ "--plan-focus": item.focus, "--plan-focus-y": item.focusY }}>
                     <img src={item.image} alt={item.name} loading="lazy" />
                   </div>
                   <div className="hlt-pl-plan-body">
@@ -359,7 +363,10 @@ export default function PhotoPage() {
                       ))}
                     </ul>
                     <div className="hlt-pl-plan-foot">
-                      <p className="hlt-pl-plan-price">{item.price}</p>
+                      <p className="hlt-pl-plan-price">
+                        ${item.price}
+                        <span className="hlt-pl-plan-vnd">≈ {formatVnd(item.price * VND_PER_USD)}</span>
+                      </p>
                       <a
                         className="hlt-pl-plan-btn"
                         href={whatsappPhotoUrl}
@@ -381,6 +388,7 @@ export default function PhotoPage() {
             </div>
 
             <p className="hlt-pl-plan-note">
+              <LineIcon type="camera" className="hlt-pl-ic hlt-pl-plan-note-ic" />
               Guest entrance fees at attractions and photo locations are not included in the package price.
             </p>
           </div>
@@ -405,16 +413,19 @@ export default function PhotoPage() {
                 id="photo-why-title"
                 eyebrow="Why Choose Hoang Photo?"
                 title="A Photo Experience Made for You"
+                lead="More than just photos, we create a seamless and meaningful experience so you can simply be present and enjoy every moment."
               />
 
               <div className="hlt-pl-why-grid">
                 {reasons.map(([icon, title, text]) => (
                   <article key={title}>
-                    {typeof icon === "object" ? (
-                      <img className="hlt-pl-why-ic" src={icon.src} alt="" />
-                    ) : (
-                      <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
-                    )}
+                    <span className="hlt-pl-why-ring" aria-hidden="true">
+                      {typeof icon === "object" ? (
+                        <span className="hlt-pl-why-ic is-mask" style={{ "--why-icon": `url(${icon.src})` }} />
+                      ) : (
+                        <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
+                      )}
+                    </span>
                     <h3>{title}</h3>
                     <p>{text}</p>
                   </article>

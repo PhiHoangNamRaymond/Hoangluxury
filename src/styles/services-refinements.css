@@ -26,7 +26,7 @@
     margin-bottom: 46px;
   }
 
-  .hlt-services-heading p {
+  .hlt-services-heading :is(p, .hlt-seo-kicker) {
     margin-bottom: 18px;
     gap: 18px;
     font-size: 18px;
@@ -34,8 +34,8 @@
     letter-spacing: .2em;
   }
 
-  .hlt-services-heading p::before,
-  .hlt-services-heading p::after {
+  .hlt-services-heading :is(p, .hlt-seo-kicker)::before,
+  .hlt-services-heading :is(p, .hlt-seo-kicker)::after {
     width: 70px;
   }
 

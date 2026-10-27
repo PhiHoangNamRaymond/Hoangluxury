@@ -1,4 +1,5 @@
 import React from "react";
+import useNearViewport from "../../hooks/useNearViewport.js";
 import {
   bookingProcessBackgroundUrl,
   botanicalCornerGoldUrl,
@@ -91,6 +92,7 @@ function BookingRowIcon({ label }) {
 }
 
 export default function BookingProcess() {
+  const [sectionRef, near] = useNearViewport();
   const steps = [
     ["whatsapp", "01. Contact Us", "Message us on WhatsApp or fill out the form."],
     ["calendar", "02. Plan Your Trip", "We'll help you choose the best vehicle and plan your journey."],
@@ -101,8 +103,9 @@ export default function BookingProcess() {
   return (
     <section
       id="contact"
+      ref={sectionRef}
       className="hlt-booking-showcase"
-      style={{ "--booking-process-bg": `url(${bookingProcessBackgroundUrl})` }}
+      style={{ "--booking-process-bg": near ? `url(${bookingProcessBackgroundUrl})` : "none" }}
       aria-labelledby="booking-process-title"
     >
       <div className="hlt-container hlt-booking-showcase-main">
@@ -134,10 +137,11 @@ export default function BookingProcess() {
               </div>
 
               <div className="hlt-desk-confirm-title-wrap">
-                <h3 className="hlt-desk-confirm-title">
+                {/* Chữ trang trí trên vé mẫu, không phải tiêu đề nội dung nên không dùng thẻ heading. */}
+                <div className="hlt-desk-confirm-title">
                   <span>BOOKING</span>
                   <span>CONFIRMATION</span>
-                </h3>
+                </div>
               </div>
 
               <div className="hlt-desk-confirm-id-box">
@@ -182,12 +186,14 @@ export default function BookingProcess() {
               <img
                 src={botanicalCornerGoldUrl}
                 alt=""
+                loading="lazy"
                 className="hlt-mobile-botanical-ornament hlt-botanical-top-left"
                 aria-hidden="true"
               />
               <img
                 src={botanicalCornerGoldUrl}
                 alt=""
+                loading="lazy"
                 className="hlt-mobile-botanical-ornament hlt-botanical-top-right"
                 aria-hidden="true"
               />
@@ -262,11 +268,11 @@ export default function BookingProcess() {
             <img src={logoUrl} alt="" className="hlt-journey-watermark" aria-hidden="true" />
 
             <div className="hlt-journey-cta-header">
-              <h3 id="journey-cta-title-mobile">
-                Ready for your
+              <h2 id="journey-cta-title-mobile">
+                Ready To Start Your{" "}
                 <br />
-                journey?
-              </h3>
+                Journey?
+              </h2>
               <div className="hlt-journey-divider">
                 <span className="hlt-journey-diamond" />
               </div>

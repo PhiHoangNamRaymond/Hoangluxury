@@ -47,14 +47,17 @@
 .hlt-blog-sort select { border: 1px solid #e8dac4; border-radius: 5px; background: #fff; color: #29455c; min-height: 38px; padding: 8px 12px; font-size: 11px; font-weight: 700; white-space: nowrap; max-width: 132px; }
 .hlt-blog-columns { display: grid; grid-template-columns: minmax(0,2.22fr) minmax(290px,1fr); gap: 24px; align-items: start; }
 .hlt-blog-featured { width: 100%; min-height: 410px; position: relative; display: flex; align-items: end; border: 1px solid #dcc797; border-radius: 7px; overflow: hidden; padding: 30px; background: #073329; color: #fff; text-align: left; isolation: isolate; }
-.hlt-blog-featured>img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .5s; }
+.hlt-blog-featured>img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
 .hlt-blog-featured::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg,rgba(0,18,15,.96),rgba(0,20,17,.25) 68%,transparent); z-index: -1; }
-.hlt-blog-featured:hover>img { transform: scale(1.035); }
-.hlt-blog-tag { display: inline-block; font: 800 10px/1.2 "Lato",sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #16342d; background: #efd09a; padding: 6px 8px; border-radius: 3px; }
 /* Chip trên ảnh bài nổi bật, cùng kiểu chip đầu trang bài viết: điểm đến nền vàng, chủ đề nền trắng. */
 .hlt-blog-featured-tags { position: absolute; top: 24px; left: 26px; right: 26px; display: flex; flex-wrap: wrap; gap: 7px; }
-.hlt-blog-featured-tags span { padding: 4px 11px; border: 1px solid rgba(185, 138, 58, .4); border-radius: 999px; background: #fff; color: #8a6a2c; font: 700 10.5px/1.5 "Lato", Arial, sans-serif; font-family: "Lato", Arial, Helvetica, sans-serif !important; letter-spacing: .07em; text-transform: uppercase; }
-.hlt-blog-featured-tags span.is-destination { border-color: #e2bd76; background: #efd09a; color: #16342d; }
+/* Chip điểm đến (vàng) + chủ đề (trắng viền vàng): dùng chung cho bài nổi bật
+   và thẻ bài trong danh sách. */
+.hlt-blog-featured-tags span,
+.hlt-blog-card-meta .hlt-blog-tag,
+.hlt-blog-card-meta .hlt-blog-card-topic { padding: 4px 11px; border: 1px solid rgba(185, 138, 58, .4); border-radius: 999px; background: #fff; color: #8a6a2c; font: 700 10.5px/1.5 "Lato", Arial, sans-serif; font-family: "Lato", Arial, Helvetica, sans-serif !important; letter-spacing: .07em; text-transform: uppercase; }
+.hlt-blog-featured-tags span.is-destination,
+.hlt-blog-card-meta .hlt-blog-tag { border-color: #e2bd76; background: #efd09a; color: #16342d; }
 /* Mục chính (tiêu đề) vàng, mục phụ (nhãn Editor's pick, mô tả) trắng. */
 .hlt-blog-featured h2 { font-size: clamp(29px,2.7vw,43px); max-width: 650px; color: #eed07f; margin-block: 8px 10px; }
 .hlt-blog-featured .hlt-blog-eyebrow { color: #fff; }
@@ -170,7 +173,6 @@
   .hlt-blog-card-copy { padding: 10px; }
   .hlt-blog-card-copy h3 { font-size: 21px; }
   .hlt-blog-card-copy p { font-size: 11px; }
-  .hlt-blog-tag { font-size: 8px; padding: 5px 6px; }
   .hlt-blog-sidebar { grid-template-columns: minmax(0,1fr); gap: 8px; }
   .hlt-blog-plan { margin-top: 10px; }
   .hlt-blog-plan p { max-width: none; }
@@ -196,14 +198,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 10px;
+  gap: 7px;
   margin: 0;
-}
-
-.hlt-blog-card-topic {
-  color: #60707b;
-  font: 600 10.5px/1.2 "Lato", sans-serif;
-  letter-spacing: .04em;
 }
 
 .hlt-blog-card-copy p:not(.hlt-blog-card-meta) {

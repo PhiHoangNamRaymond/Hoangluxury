@@ -159,8 +159,32 @@ const scanBackgrounds = (root) => {
     if (host) break; // đã quét toàn bộ cây con ở trên
     targets.push(inner, ...inner.querySelectorAll("*"));
   }
-  new Set(targets).forEach(trackBackground);
+  new Set(targets).forEach(queueBackground);
 };
+
+// A loading placeholder must not eagerly preload every off-screen background.
+let backgroundObserver;
+const observedBackgrounds = new WeakSet();
+function queueBackground(element) {
+  if (!(element instanceof HTMLElement)) return;
+  const rect = element.getBoundingClientRect();
+  if (!("IntersectionObserver" in window) ||
+      (rect.bottom >= -500 && rect.top <= window.innerHeight + 500)) {
+    trackBackground(element);
+    return;
+  }
+  if (observedBackgrounds.has(element)) return;
+  backgroundObserver ||= new window.IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      backgroundObserver.unobserve(entry.target);
+      observedBackgrounds.delete(entry.target);
+      if (entry.target.isConnected) trackBackground(entry.target);
+    }
+  }, { rootMargin: "500px" });
+  observedBackgrounds.add(element);
+  backgroundObserver.observe(element);
+}
 
 export function setupImageSkeletons() {
   if (typeof document === "undefined") return;

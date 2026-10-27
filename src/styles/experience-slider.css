@@ -57,7 +57,7 @@
   left: -4px;
 }
 
-.hlt-experience-heading h2 {
+.hlt-experience-heading .hlt-experience-title {
   margin: 0;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(25px, 2.2vw, 38px);
@@ -152,7 +152,7 @@
     height: 6px;
   }
 
-  .hlt-experience-heading h2 {
+  .hlt-experience-heading .hlt-experience-title {
     font-size: clamp(21px, 6.4vw, 28px);
     line-height: .96;
   }

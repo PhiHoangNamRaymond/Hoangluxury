@@ -127,6 +127,9 @@
   min-height: 58px;
   margin: 0;
   display: flex;
+  /* Cột dọc: tiêu đề chia dòng (Our Fleet / Our Responsibility) xếp chồng,
+     không bị flex ép nằm cạnh nhau. Tiêu đề một chuỗi vẫn giữ nguyên. */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #102640;

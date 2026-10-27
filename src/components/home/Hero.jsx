@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import useNearViewport from "../../hooks/useNearViewport.js";
 import { heroSlideImages } from "../../config/assets.js";
 import { catalogPageUrl, heroSlides, whatsappUrl } from "../../data.js";
 
@@ -8,6 +9,7 @@ const TRANSITION_DURATION = 900;
 const SWIPE_THRESHOLD = 40;
 
 export default function Hero() {
+  const [heroRef, heroVisible] = useNearViewport({ rootMargin: "0px", once: false });
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState(() => new Set([0]));
   // Trang có thể mở sẵn ở tab nền, nên lấy trạng thái ẩn ngay từ đầu
@@ -19,13 +21,31 @@ export default function Hero() {
   // Bản sao của `loaded` cho bộ đếm autoplay đọc, để việc preload xong một ảnh
   // không lọt vào dependency và làm đặt lại đồng hồ 6 giây đang chạy.
   const loadedRef = useRef(loaded);
+  const manualImageRef = useRef(null);
+
+  useEffect(() => () => {
+    if (manualImageRef.current) manualImageRef.current.onload = null;
+  }, []);
 
   useEffect(() => {
     loadedRef.current = loaded;
   }, [loaded]);
 
   const goTo = useCallback((next) => {
-    setIndex((next + heroSlides.length) % heroSlides.length);
+    const target = (next + heroSlides.length) % heroSlides.length;
+    if (manualImageRef.current) manualImageRef.current.onload = null;
+    // Set the source only on demand; retain the current photo until it loads.
+    if (loadedRef.current.has(target)) {
+      setIndex(target);
+      return;
+    }
+    const image = new Image();
+    manualImageRef.current = image;
+    image.onload = () => {
+      setLoaded((current) => new Set(current).add(target));
+      setIndex(target);
+    };
+    image.src = heroSlideImages[heroSlides[target].image];
   }, []);
 
   // Slide cũ giữ nguyên độ mờ đục ở lớp dưới trong lúc slide mới mờ chồng lên,
@@ -40,48 +60,29 @@ export default function Hero() {
     return () => window.clearTimeout(timer);
   }, [index]);
 
-  // Slide đầu tải ngay; 4 slide sau nạp nền sau khi trang đã vẽ xong,
-  // để hero không phải chờ ~9.6 MB ảnh trước lần hiển thị đầu tiên.
+  // Only prefetch the next slide while the hero is visible, rather than all
+  // four alternatives at page load. Slow connections keep the current slide.
   useEffect(() => {
+    if (paused || !heroVisible) return undefined;
+    const next = (index + 1) % heroSlides.length;
+    if (loadedRef.current.has(next)) return undefined;
     let cancelled = false;
-
-    const preloadRest = () => {
-      heroSlides.forEach((slide, slideIndex) => {
-        if (slideIndex === 0) return;
-
-        const image = new Image();
-        image.decoding = "async";
-        // Ảnh hỏng vẫn phải đánh dấu xong, nếu không autoplay sẽ chờ mãi.
-        const markLoaded = () => {
-          if (cancelled) return;
-          setLoaded((current) => new Set(current).add(slideIndex));
-        };
-
-        image.onload = markLoaded;
-        image.onerror = markLoaded;
-        image.src = heroSlideImages[slide.image];
-      });
-    };
-
-    const schedule = () =>
-      window.requestIdleCallback
-        ? window.requestIdleCallback(preloadRest, { timeout: 2500 })
-        : window.setTimeout(preloadRest, 900);
-
-    if (document.readyState === "complete") {
-      schedule();
-      return () => {
-        cancelled = true;
+    let image;
+    const timer = window.setTimeout(() => {
+      image = new Image();
+      image.decoding = "async";
+      image.fetchPriority = "low";
+      image.onload = () => {
+        if (!cancelled) setLoaded((current) => new Set(current).add(next));
       };
-    }
-
-    window.addEventListener("load", schedule, { once: true });
+      image.src = heroSlideImages[heroSlides[next].image];
+    }, 1500);
     return () => {
       cancelled = true;
-      window.removeEventListener("load", schedule);
+      window.clearTimeout(timer);
+      if (image) image.onload = image.onerror = null;
     };
-  }, []);
-
+  }, [index, paused, heroVisible]);
   useEffect(() => {
     const onVisibilityChange = () => setPaused(document.hidden);
 
@@ -91,7 +92,7 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    if (paused) return undefined;
+    if (paused || !heroVisible) return undefined;
 
     let timer;
     const advance = () => {
@@ -106,7 +107,7 @@ export default function Hero() {
 
     timer = window.setTimeout(advance, SLIDE_DURATION);
     return () => window.clearTimeout(timer);
-  }, [index, paused, goTo]);
+  }, [index, paused, heroVisible, goTo]);
 
   const onTouchStart = (event) => {
     touchStartX.current = event.touches[0].clientX;
@@ -134,6 +135,7 @@ export default function Hero() {
   return (
     <section
       id="home"
+      ref={heroRef}
       className="hlt-hero"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
@@ -178,8 +180,8 @@ export default function Hero() {
         <div className="hlt-hero-content">
           <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
           <h1 className="hlt-hero-title">
-            <span className="hlt-hero-title-white">PRIVATE</span>
-            <span className="hlt-hero-title-gold">CAR TRANSFER</span>
+            <span className="hlt-hero-title-white">Private</span>{" "}
+            <span className="hlt-hero-title-gold">Car Transfer</span>
           </h1>
 
           <div className="hlt-hero-crown-divider" aria-hidden="true">

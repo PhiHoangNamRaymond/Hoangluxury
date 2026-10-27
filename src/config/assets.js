@@ -266,7 +266,6 @@ import sunsetTogether08 from "../../assets/photo-albums/sunset-together/08.webp"
 import sunsetTogether09 from "../../assets/photo-albums/sunset-together/09.webp";
 import sunsetTogether10 from "../../assets/photo-albums/sunset-together/10.webp";
 import melodyOfTheMountains01 from "../../assets/photo-albums/melody-of-the-mountains/01.webp";
-import melodyOfTheMountains02 from "../../assets/photo-albums/melody-of-the-mountains/02.webp";
 import melodyOfTheMountains03 from "../../assets/photo-albums/melody-of-the-mountains/03.webp";
 import melodyOfTheMountains04 from "../../assets/photo-albums/melody-of-the-mountains/04.webp";
 import melodyOfTheMountains05 from "../../assets/photo-albums/melody-of-the-mountains/05.webp";
@@ -288,24 +287,19 @@ import theLoveBicycle01 from "../../assets/photo-albums/the-love-bicycle/01.webp
 import theLoveBicycle02 from "../../assets/photo-albums/the-love-bicycle/02.webp";
 import theLoveBicycle03 from "../../assets/photo-albums/the-love-bicycle/03.webp";
 import theLoveBicycle04 from "../../assets/photo-albums/the-love-bicycle/04.webp";
-import theLoveBicycle05 from "../../assets/photo-albums/the-love-bicycle/05.webp";
 import theLoveBicycle06 from "../../assets/photo-albums/the-love-bicycle/06.webp";
 import theLoveBicycle07 from "../../assets/photo-albums/the-love-bicycle/07.webp";
 import theLoveBicycle08 from "../../assets/photo-albums/the-love-bicycle/08.webp";
-import theLoveBicycle09 from "../../assets/photo-albums/the-love-bicycle/09.webp";
 import theLoveBicycle10 from "../../assets/photo-albums/the-love-bicycle/10.webp";
 import emeraldRomance01 from "../../assets/photo-albums/emerald-romance/01.webp";
 import emeraldRomance02 from "../../assets/photo-albums/emerald-romance/02.webp";
 import emeraldRomance03 from "../../assets/photo-albums/emerald-romance/03.webp";
-import emeraldRomance04 from "../../assets/photo-albums/emerald-romance/04.webp";
-import emeraldRomance05 from "../../assets/photo-albums/emerald-romance/05.webp";
 import emeraldRomance06 from "../../assets/photo-albums/emerald-romance/06.webp";
 import emeraldRomance07 from "../../assets/photo-albums/emerald-romance/07.webp";
 import emeraldRomance08 from "../../assets/photo-albums/emerald-romance/08.webp";
 import emeraldRomance09 from "../../assets/photo-albums/emerald-romance/09.webp";
 import emeraldRomance10 from "../../assets/photo-albums/emerald-romance/10.webp";
 import emeraldRomance11 from "../../assets/photo-albums/emerald-romance/11.webp";
-import emeraldRomance12 from "../../assets/photo-albums/emerald-romance/12.webp";
 import loveInBloom01 from "../../assets/photo-albums/love-in-bloom/01.webp";
 import loveInBloom02 from "../../assets/photo-albums/love-in-bloom/02.webp";
 import loveInBloom03 from "../../assets/photo-albums/love-in-bloom/03.webp";
@@ -325,16 +319,6 @@ import simpleHappiness07 from "../../assets/photo-albums/simple-happiness/07.web
 import simpleHappiness08 from "../../assets/photo-albums/simple-happiness/08.webp";
 import simpleHappiness09 from "../../assets/photo-albums/simple-happiness/09.webp";
 import simpleHappiness10 from "../../assets/photo-albums/simple-happiness/10.webp";
-import springtimeTogether01 from "../../assets/photo-albums/springtime-together/01.webp";
-import springtimeTogether02 from "../../assets/photo-albums/springtime-together/02.webp";
-import springtimeTogether03 from "../../assets/photo-albums/springtime-together/03.webp";
-import springtimeTogether04 from "../../assets/photo-albums/springtime-together/04.webp";
-import springtimeTogether05 from "../../assets/photo-albums/springtime-together/05.webp";
-import springtimeTogether06 from "../../assets/photo-albums/springtime-together/06.webp";
-import springtimeTogether07 from "../../assets/photo-albums/springtime-together/07.webp";
-import springtimeTogether08 from "../../assets/photo-albums/springtime-together/08.webp";
-import springtimeTogether09 from "../../assets/photo-albums/springtime-together/09.webp";
-import springtimeTogether10 from "../../assets/photo-albums/springtime-together/10.webp";
 import sweetDarling01 from "../../assets/photo-albums/sweet-darling/01.webp";
 import sweetDarling02 from "../../assets/photo-albums/sweet-darling/02.webp";
 import sweetDarling03 from "../../assets/photo-albums/sweet-darling/03.webp";
@@ -406,12 +390,6 @@ import youthfulDays07 from "../../assets/photo-albums/youthful-days/07.webp";
 import youthfulDays08 from "../../assets/photo-albums/youthful-days/08.webp";
 import youthfulDays09 from "../../assets/photo-albums/youthful-days/09.webp";
 import youthfulDays10 from "../../assets/photo-albums/youthful-days/10.webp";
-import aHappyMorning01 from "../../assets/photo-albums/a-happy-morning/01.webp";
-import aHappyMorning02 from "../../assets/photo-albums/a-happy-morning/02.webp";
-import aHappyMorning03 from "../../assets/photo-albums/a-happy-morning/03.webp";
-import aHappyMorning04 from "../../assets/photo-albums/a-happy-morning/04.webp";
-import aHappyMorning05 from "../../assets/photo-albums/a-happy-morning/05.webp";
-import aHappyMorning06 from "../../assets/photo-albums/a-happy-morning/06.webp";
 import timelessLove01 from "../../assets/photo-albums/timeless-love/01.webp";
 import timelessLove02 from "../../assets/photo-albums/timeless-love/02.webp";
 import timelessLove03 from "../../assets/photo-albums/timeless-love/03.webp";
@@ -439,18 +417,6 @@ import warriorGoddess06 from "../../assets/photo-albums/warrior-goddess/06.webp"
 import warriorGoddess07 from "../../assets/photo-albums/warrior-goddess/07.webp";
 import warriorGoddess08 from "../../assets/photo-albums/warrior-goddess/08.webp";
 import warriorGoddess09 from "../../assets/photo-albums/warrior-goddess/09.webp";
-import eternalMoment01 from "../../assets/photo-albums/eternal-moment/01.webp";
-import eternalMoment02 from "../../assets/photo-albums/eternal-moment/02.webp";
-import eternalMoment03 from "../../assets/photo-albums/eternal-moment/03.webp";
-import eternalMoment04 from "../../assets/photo-albums/eternal-moment/04.webp";
-import eternalMoment05 from "../../assets/photo-albums/eternal-moment/05.webp";
-import eternalMoment06 from "../../assets/photo-albums/eternal-moment/06.webp";
-import eternalMoment07 from "../../assets/photo-albums/eternal-moment/07.webp";
-import eternalMoment08 from "../../assets/photo-albums/eternal-moment/08.webp";
-import eternalMoment09 from "../../assets/photo-albums/eternal-moment/09.webp";
-import eternalMoment10 from "../../assets/photo-albums/eternal-moment/10.webp";
-import eternalMoment11 from "../../assets/photo-albums/eternal-moment/11.webp";
-import eternalMoment12 from "../../assets/photo-albums/eternal-moment/12.webp";
 import northernVietnamOnFilmCover from "../../assets/photo-albums/northern-vietnam-on-film/cover.webp";
 
 export const albumPhotosBySlug = {
@@ -529,7 +495,6 @@ export const albumPhotosBySlug = {
   ],
   "melody-of-the-mountains": [
     melodyOfTheMountains01,
-    melodyOfTheMountains02,
     melodyOfTheMountains03,
     melodyOfTheMountains04,
     melodyOfTheMountains05,
@@ -555,26 +520,21 @@ export const albumPhotosBySlug = {
     theLoveBicycle02,
     theLoveBicycle03,
     theLoveBicycle04,
-    theLoveBicycle05,
     theLoveBicycle06,
     theLoveBicycle07,
     theLoveBicycle08,
-    theLoveBicycle09,
     theLoveBicycle10,
   ],
   "emerald-romance": [
     emeraldRomance01,
     emeraldRomance02,
     emeraldRomance03,
-    emeraldRomance04,
-    emeraldRomance05,
     emeraldRomance06,
     emeraldRomance07,
     emeraldRomance08,
     emeraldRomance09,
     emeraldRomance10,
     emeraldRomance11,
-    emeraldRomance12,
   ],
   "love-in-bloom": [
     loveInBloom01,
@@ -598,26 +558,6 @@ export const albumPhotosBySlug = {
     simpleHappiness08,
     simpleHappiness09,
     simpleHappiness10,
-  ],
-  "springtime-together": [
-    springtimeTogether01,
-    springtimeTogether02,
-    springtimeTogether03,
-    springtimeTogether04,
-    springtimeTogether05,
-    springtimeTogether06,
-    springtimeTogether07,
-    springtimeTogether08,
-    springtimeTogether09,
-    springtimeTogether10,
-  ],
-  "a-happy-morning": [
-    aHappyMorning01,
-    aHappyMorning02,
-    aHappyMorning03,
-    aHappyMorning04,
-    aHappyMorning05,
-    aHappyMorning06,
   ],
   "sweet-darling": [
     sweetDarling01,
@@ -662,20 +602,6 @@ export const albumPhotosBySlug = {
     warriorGoddess07,
     warriorGoddess08,
     warriorGoddess09,
-  ],
-  "eternal-moment": [
-    eternalMoment01,
-    eternalMoment02,
-    eternalMoment03,
-    eternalMoment04,
-    eternalMoment05,
-    eternalMoment06,
-    eternalMoment07,
-    eternalMoment08,
-    eternalMoment09,
-    eternalMoment10,
-    eternalMoment11,
-    eternalMoment12,
   ],
   "lotus-sunset": [
     lotusSunset01,

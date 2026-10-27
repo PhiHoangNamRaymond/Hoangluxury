@@ -27,7 +27,9 @@ export default function JourneyCallToAction({
   className = "",
   title = "Ready to start your journey?",
   text = "We are here to make your trip comfortable, safe and unforgettable.",
+  headingLevel = "h3",
 }) {
+  const Heading = headingLevel === "h2" ? "h2" : "h3";
   if (variant === "route") {
     return (
       <section
@@ -98,7 +100,7 @@ export default function JourneyCallToAction({
         {/* Desktop View */}
         <div className="hlt-journey-desktop-view">
           <div>
-            <h3 id="journey-cta-title">{title}</h3>
+            <Heading id="journey-cta-title">{title}</Heading>
             <p>{text}</p>
           </div>
           <div className="hlt-showcase-actions">

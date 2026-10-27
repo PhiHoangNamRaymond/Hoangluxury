@@ -63,6 +63,26 @@ img.is-loaded {
   animation: hlt-img-appear .45s ease both;
 }
 
+/* These frames already reserve their space; show loaded photos immediately. */
+.hlt-services img.is-loaded,
+.hlt-fleet img.is-loaded {
+  animation: none;
+}
+
+.hlt-image-unavailable {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 12px;
+  box-sizing: border-box;
+  color: #e9d5ac;
+  background: #152720;
+  font: 14px/1.4 "Lato", sans-serif;
+  text-align: center;
+}
+
 /* Ảnh nền CSS đang tải (banner, nền các dải): thay tạm bằng nền skeleton có
    vệt sáng chạy. Mặc định tông vàng nhạt như khung ảnh thường (trang nền kem,
    lớp hoạ tiết mờ); khối có chữ sáng (banner tối) được JS gắn

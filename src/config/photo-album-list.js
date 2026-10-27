@@ -44,14 +44,11 @@ const rows = [
   ["Love in Bloom", "Moc Chau", "Couples & Honeymoons"],
   // Album gia đình, thứ tự khách sắp ngày 26/10/2026.
   ["Simple Happiness", "Ha Giang", "Family Moments"],
-  ["Springtime Together", "Moc Chau", "Family Moments"],
-  ["A Happy Morning", "Ninh Binh", "Family Moments"],
   // Album kỷ niệm, thứ tự khách sắp ngày 26/10/2026.
   ["Sweet Darling", "Hanoi", "Proposals & Celebrations"],
   ["Timeless Love", "Hanoi", "Proposals & Celebrations"],
   ["Fairy of Light", "Hanoi", "Proposals & Celebrations"],
   ["Warrior Goddess", "Hanoi", "Proposals & Celebrations"],
-  ["Eternal Moment", "Hanoi", "Proposals & Celebrations"],
   // Album chân dung đơn, thứ tự khách sắp ngày 26/10/2026.
   ["Lotus Sunset", "Hanoi", "Nature & Landscapes"],
   ["Dreamy Garden", "Hanoi", "Nature & Landscapes"],
