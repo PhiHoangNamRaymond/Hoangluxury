@@ -107,7 +107,8 @@ export default function BlogPage() {
         <section className="hlt-blog-hero" style={{ "--blog-image": `url("${images.hero}")` }}>
           <div className="hlt-blog-container hlt-blog-hero-inner">
             <p className="hlt-blog-eyebrow">Travel Blog</p>
-            <h1>Travel Stories, Guides<br /><em>&amp;</em> Local Tips</h1>
+            {/* PC: "Travel Stories, Guides / & Local Tips"; mobile: "Travel Stories, Guides & / Local Tips" (theo mẫu). */}
+            <h1>Travel Stories, Guides<br className="hlt-blog-desktop-break" /> <em>&amp;</em><br className="hlt-blog-mobile-break" /> Local Tips</h1>
             <p className="hlt-blog-hero-intro">Discover local stories, practical travel tips and easy-to-follow guides<br className="hlt-blog-desktop-break" /> for Sapa, Ha Giang, Ha Long Bay, Ninh Binh and other destinations<br className="hlt-blog-desktop-break" /> across Northern Vietnam.</p>
             <p className="hlt-blog-signature">More than a trip.<br /><span>Stories worth discovering.</span></p>
           </div>

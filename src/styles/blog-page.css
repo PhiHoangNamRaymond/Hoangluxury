@@ -254,3 +254,102 @@
   .hlt-blog-story-actions .hlt-blog-story-button,
   .hlt-blog-story-actions .hlt-btn { width: 100%; }
 }
+
+/* ==========================================================================
+   Blog bản mobile theo mẫu (27/10/2026). PC đã chốt: chỉ có quy tắc trong
+   @media (max-width: 600px), cộng một thẻ <br> chỉ hiện ở mobile. Nội dung giữ
+   như PC, chỉ đổi cách trình bày.
+   ========================================================================== */
+.hlt-blog-mobile-break { display: none; }
+
+@media (max-width: 600px) {
+  /* Banner: tiêu đề 2 dòng "Travel Stories, Guides & / Local Tips", chữ trắng */
+  .hlt-blog-hero { background-position: center 40%; }
+  .hlt-blog-hero-inner { padding-block: 96px 30px; }
+  .hlt-blog-mobile-break { display: inline; }
+  .hlt-blog-hero h1 { font-size: clamp(28px, 8.6vw, 38px); line-height: 1.12; text-wrap: initial; }
+  .hlt-blog-hero h1 em { color: inherit; }
+  .hlt-blog-main .hlt-blog-hero-intro { margin-top: 16px; }
+
+  /* Ô tìm kiếm bo tròn */
+  .hlt-blog-toolbar-top { gap: 10px; }
+  .hlt-blog-search { min-height: 46px; padding-inline: 16px; border-radius: 999px; box-shadow: 0 4px 14px rgba(120, 90, 40, .06); }
+  .hlt-blog-search input { height: 44px; font-size: 13px; }
+  .hlt-blog-sort select { min-height: 46px; border-radius: 999px; padding-inline: 12px; }
+
+  /* Bộ lọc: nhãn ở trên, các nút thành viên thuốc trượt ngang một hàng */
+  /* minmax(0) + min-width 0: hàng nút trượt ngang không được kéo giãn cả thanh công cụ. */
+  .hlt-blog-toolbar { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .hlt-blog-filter-row { min-width: 0; gap: 10px; padding: 12px 0 4px; border-bottom: 0; }
+  .hlt-blog-filter-label { font-size: 12px; letter-spacing: .1em; }
+  .hlt-blog-filter-items {
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: calc(100% + 16px);
+    margin-right: -16px;
+    padding: 2px 16px 6px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hlt-blog-filter-items::-webkit-scrollbar { display: none; }
+  .hlt-blog-filter-items button,
+  .hlt-blog-filter-items button:first-child {
+    flex: none;
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: #f4ecdd;
+    color: #22323a;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .hlt-blog-filter-items button[aria-pressed="true"] { background: #efd6a2; color: #062820; text-decoration: none; }
+
+  /* Bài nổi bật: tiêu đề trắng, chữ to hơn */
+  .hlt-blog-featured { min-height: 400px; border: 0; border-radius: 12px; }
+  .hlt-blog-featured h2 { color: #fff; font-size: clamp(30px, 9vw, 36px); line-height: 1.05; }
+  .hlt-blog-featured .hlt-blog-eyebrow { color: #eed07f; }
+  .hlt-blog-featured-copy>p:not(.hlt-blog-eyebrow) { font-size: 13.5px; }
+
+  /* Danh sách bài: mỗi bài một hàng — ảnh nhỏ trái, chữ phải, mũi tên cuối */
+  .hlt-blog-section-heading h2 { font-size: 26px; }
+  .hlt-blog-article-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .hlt-blog-card { border: 0; border-bottom: 1px solid #efe4d2; border-radius: 0; background: none; }
+  .hlt-blog-card:hover { transform: none; box-shadow: none; }
+  .hlt-blog-card>a { position: relative; flex-direction: row; align-items: center; gap: 14px; padding: 12px 24px 12px 0; }
+  .hlt-blog-card>a::after {
+    content: "";
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-top: 1.5px solid #b98a3a;
+    border-right: 1.5px solid #b98a3a;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .hlt-blog-card-image { flex: none; width: 96px; height: 72px; aspect-ratio: auto; border-radius: 6px; }
+  .hlt-blog-card-copy { padding: 0; }
+  .hlt-blog-card-meta { order: 3; }
+  .hlt-blog-card-copy h3 { order: 1; margin: 0 0 4px; font-size: 18px; line-height: 1.15; }
+  .hlt-blog-card-copy p:not(.hlt-blog-card-meta) {
+    order: 2;
+    display: -webkit-box;
+    overflow: hidden;
+    margin-bottom: 6px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .hlt-blog-card-meta .hlt-blog-tag,
+  .hlt-blog-card-meta .hlt-blog-card-topic { padding: 2px 8px; font-size: 9.5px; }
+
+  /* Khung Explore More: tiêu đề nhỏ lại thành 2 dòng */
+  .hlt-blog-plan { margin-top: 18px; padding: 22px 20px; border: 0; border-radius: 12px; }
+  .hlt-blog-plan h2 { max-width: 270px; font-size: 25px; line-height: 1.1; letter-spacing: .01em; }
+  .hlt-blog-plan p { max-width: 250px; font-size: 13px; }
+
+}

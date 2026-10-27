@@ -239,6 +239,12 @@
   transition: color .2s ease;
 }
 
+/* Ghi chú trong ngoặc của tên album (vd. "(Artistic Concept)") xuống dòng riêng. */
+.hlt-photo-card-note,
+.hlt-album-note {
+  display: block;
+}
+
 .hlt-photo-card-caption:hover {
   color: var(--photo-gold);
 }

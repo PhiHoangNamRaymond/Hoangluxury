@@ -13,15 +13,19 @@
   }
 }
 
+/* Dùng thuộc tính `scale` riêng thay cho `transform`: animation giữ khung cuối
+   (fill both) nên nếu đặt `transform: none` sẽ xoá mất transform sẵn có của ảnh
+   (vd. ảnh nghiêng rotate ở /photo/) - máy tải ảnh mới thì ảnh bị dựng thẳng,
+   máy có cache thì vẫn nghiêng. `scale` cộng dồn với transform nên không đè. */
 @keyframes hlt-img-appear {
   from {
     opacity: 0;
-    transform: scale(1.012);
+    scale: 1.012;
   }
 
   to {
     opacity: 1;
-    transform: none;
+    scale: 1;
   }
 }
 

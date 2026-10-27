@@ -45,8 +45,9 @@ test("Home renders the requested SEO heading hierarchy and matching metadata", a
     assert.deepEqual(headings(".hlt-process-step h3"), [
       "01. Contact Us", "02. Plan Your Trip", "03. Confirm Booking", "04. Enjoy Journey",
     ]);
+    // Mobile dùng chính dải CTA của PC (27/10/2026), không còn thẻ riêng.
     assert.deepEqual(headings("#journey-cta-title, #journey-cta-title-mobile"), [
-      "Ready To Start Your Journey?", "Ready To Start Your Journey?",
+      "Ready To Start Your Journey?",
     ]);
 
     const shell = new JSDOM(await readFile(new URL("../index.html", import.meta.url), "utf8"));

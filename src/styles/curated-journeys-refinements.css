@@ -527,8 +527,9 @@
 }
 
 /* ==========================================================================
-   Mobile: vạch ngăn phẳng phía trên "Your Journey" đổi thành hoạ tiết vạch
-   vàng mờ hai đầu có hình thoi ở giữa, giống hoạ tiết dưới tiêu đề.
+   Mobile: vạch ngăn phía trên "Your Journey" — cùng kiểu vạch ngăn phía trên
+   "Booking Process" (.hlt-showcase-divider-horizontal-separate): rộng 220px,
+   vàng mờ hai đầu, hình thoi 8px ở giữa.
    ========================================================================== */
 @media (max-width: 600px) {
   .hlt-route-showcase {
@@ -545,16 +546,19 @@
   }
 
   .hlt-route-showcase::before {
-    width: min(90%, 460px);
+    width: 220px;
     height: 18px;
-    background: linear-gradient(90deg, transparent, #b9872f, transparent) center / 100% 1px no-repeat;
+    background: linear-gradient(90deg, transparent, #c5a15a, transparent) center / 100% 1px no-repeat;
     transform: translate(-50%, -50%);
   }
 
   .hlt-route-showcase::after {
-    width: 9px;
-    height: 9px;
-    border: 1px solid #b9872f;
+    /* border-box như thẻ <span> hình thoi của Booking Process: quy tắc
+       box-sizing chung không áp vào ::after, thiếu dòng này hình thoi to thành 10px. */
+    box-sizing: border-box;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #c5a15a;
     background: #EDE0CC;
     transform: translate(-50%, -50%) rotate(45deg);
   }

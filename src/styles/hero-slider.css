@@ -186,20 +186,6 @@
     position: relative !important;
   }
 
-  .hlt-hero-mobile-frame {
-    display: block !important;
-    position: absolute !important;
-    inset: -8px -4px -8px -4px !important;
-    pointer-events: none !important;
-    z-index: 6 !important;
-  }
-
-  .hlt-hero-scallop-svg {
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-  }
-
   .hlt-hero-arrow {
     display: none !important;
   }
@@ -395,15 +381,88 @@
     display: none !important;
   }
 
-  /* Khung viền vỏ sò trước đây chỉ ôm khối chữ; cho nó bám mép hero để ôm
-     trọn bức ảnh. Container phải bỏ position: relative thì khung mới lấy
-     .hlt-hero làm mốc. */
+  /* Container không làm mốc định vị: các phần tử định vị tuyệt đối bên trong
+     lấy .hlt-hero làm mốc. (Khung viền vỏ sò mobile đã bỏ ngày 27/10/2026
+     để banner trơn như trang tuyến.) */
   .hlt-hero > .hlt-container {
     position: static !important;
   }
 
-  /* Header cố định cao 72px đè lên đỉnh hero, nên chừa mép trên xuống dưới nó. */
-  .hlt-hero-mobile-frame {
-    inset: 84px 10px 14px !important;
+}
+
+/* ==========================================================================
+   Banner trang chủ bản mobile (27/10/2026): chỉ có ảnh và chữ, khung ảnh là
+   hình chữ nhật NGANG — phần dưới header cao 78% bề ngang màn (~ 4:3). Để
+   nội dung lọt khung: mô tả rộng hết hàng (bớt dòng), hai nút nằm cạnh nhau.
+   Lớp phủ chỉ tối dần ở nửa dưới cho chữ đọc được. PC không đổi.
+   ========================================================================== */
+@media (max-width: 600px) {
+  .hlt-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    min-height: calc(72px + 78vw) !important;
+    padding: 84px 16px 44px !important;
+  }
+
+  .hlt-hero > .hlt-container {
+    width: 100% !important;
+  }
+
+  .hlt-hero-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(2, 10, 9, .05) 0%,
+      rgba(2, 10, 9, .12) 26%,
+      rgba(2, 10, 9, .52) 52%,
+      rgba(2, 10, 9, .66) 100%
+    );
+  }
+
+  /* relative: z-index mới có tác dụng, chữ nổi lên trên ảnh slide. */
+  .hlt-hero-content {
+    position: relative !important;
+    padding: 0 !important;
+  }
+
+  .hlt-hero-title-white,
+  .hlt-hero-title-gold {
+    font-size: clamp(26px, 7.6vw, 32px) !important;
+  }
+
+  .hlt-hero-desc {
+    max-width: none !important;
+    margin: 8px 0 14px !important;
+    font-size: clamp(12.5px, 3.6vw, 14px) !important;
+    line-height: 1.4 !important;
+  }
+
+  .hlt-hero .hlt-actions {
+    flex-direction: row !important;
+    gap: 8px !important;
+    max-width: none !important;
+  }
+
+  .hlt-hero .hlt-btn {
+    flex: 1 1 0 !important;
+    min-height: 40px !important;
+    gap: 7px !important;
+    padding: 0 6px !important;
+    font-size: clamp(9.5px, 2.9vw, 11px) !important;
+    letter-spacing: .05em !important;
+  }
+
+  .hlt-hero-whatsapp-icon,
+  .hlt-hero-whatsapp-icon svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .hlt-hero-whatsapp-icon {
+    margin-right: 0 !important;
+  }
+
+  .hlt-hero-dots {
+    bottom: 12px !important;
   }
 }

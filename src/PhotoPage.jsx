@@ -330,6 +330,15 @@ export default function PhotoPage() {
                       <h3>{style.title}</h3>
                       <p>{style.text}</p>
                     </div>
+                    {/* Vòng tròn mũi tên cạnh tên phong cách: chỉ hiện ở mobile (theo mẫu). */}
+                    <a
+                      className="hlt-pl-style-go"
+                      href={`${albumsUrl}?style=${encodeURIComponent(style.title)}`}
+                      aria-hidden="true"
+                      tabIndex={-1}
+                    >
+                      <svg viewBox="0 0 24 24"><path d="M6 12h11m-4-4 4 4-4 4" /></svg>
+                    </a>
                   </div>
                 </article>
               ))}
@@ -478,7 +487,7 @@ export default function PhotoPage() {
               <span>Photos to Keep Forever</span>
             </p>
             <div className="hlt-pl-cta-copy">
-              <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
+              <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
               <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
                 <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />

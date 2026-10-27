@@ -848,6 +848,17 @@ a.hlt-journey-fact:focus-visible strong {
   color: var(--jr-gold);
 }
 
+.hlt-journey-option-price .is-placeholder {
+  visibility: hidden;
+}
+
+@media (max-width: 600px) {
+  /* Một cột thì không cần thẳng hàng, bỏ khoảng trống. */
+  .hlt-journey-option-price .is-placeholder {
+    display: none;
+  }
+}
+
 /* Thẻ nổi bật của 4 gói: hai vạch vàng mảnh hai bên dòng USD (thẻ tuyến nối
    tỉnh không có vạch, theo mẫu). */
 .hlt-journey-option.is-featured:not(.hlt-journey-intercity-card) .hlt-journey-option-price span {
@@ -2715,5 +2726,185 @@ img.hlt-journey-point-icon {
 @media (min-width: 769px) and (max-width: 899px) {
   .hlt-jfaq-summary {
     min-height: calc(3 * 1.4 * clamp(13px, 1.05vw, 15px) + 2 * clamp(10px, 1.1vw, 14px));
+  }
+}
+
+/* ==========================================================================
+   Trang tuyến bản mobile theo mẫu (27/10/2026). PC đã chốt: chỉ có quy tắc
+   trong @media (max-width: 600px). Nội dung giữ như PC, chỉ đổi trình bày.
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* Banner: hai nút gọn bên trái (không kéo hết bề ngang) để lộ xe */
+  .hlt-journey-hero .hlt-journey-actions {
+    align-items: flex-start;
+  }
+
+  .hlt-journey-hero .hlt-journey-actions .hlt-btn {
+    width: min(100%, 280px);
+    min-height: 46px;
+    font-size: 14px;
+  }
+
+  /* Dải thông tin 2×2: chữ nhỏ gọn hơn */
+  .hlt-journey-hero .hlt-journey-fact span {
+    font-size: 12px;
+  }
+
+  .hlt-journey-hero .hlt-journey-fact strong,
+  .hlt-journey-hero .hlt-journey-fact small {
+    font-size: 12.5px;
+    line-height: 1.3;
+  }
+
+  /* Our Vehicles: 3 xe cạnh nhau thay cho dải trượt ngang */
+  .hlt-journey-vehicles .hlt-fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-card {
+    min-height: 0;
+    padding: 0;
+    border-radius: 8px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-body {
+    padding: 9px 4px 10px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-card h3 {
+    margin-bottom: 7px;
+    font-size: 13px;
+    letter-spacing: .06em;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-specs {
+    display: grid;
+    justify-items: center;
+    gap: 3px;
+    font-size: 10.5px;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-specs span,
+  .hlt-journey-vehicles .hlt-fleet-specs span + span {
+    gap: 4px;
+    padding: 0;
+    border: 0;
+    white-space: nowrap;
+  }
+
+  .hlt-journey-vehicles .hlt-fleet-specs svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Choose Your … Journey: lưới 2×2, thẻ gọn */
+  .hlt-journey-options .hlt-journey-options-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 8px;
+  }
+
+  .hlt-journey-options .hlt-journey-option {
+    padding: 14px 6px 12px;
+  }
+
+  .hlt-journey-options .hlt-journey-option.is-featured {
+    padding-top: 20px;
+  }
+
+  .hlt-journey-options .hlt-journey-option-badge {
+    padding: 3px 10px;
+    font-size: 10px;
+  }
+
+  .hlt-journey-options .hlt-journey-option-icon,
+  .hlt-journey-options .hlt-journey-intercity-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 8px;
+  }
+
+  .hlt-journey-options .hlt-journey-intercity-icon {
+    width: auto;
+    height: 40px;
+  }
+
+  .hlt-journey-options .hlt-journey-option h3 {
+    font-size: 12.5px;
+    white-space: normal;
+    text-wrap: balance;
+  }
+
+  .hlt-journey-options .hlt-journey-option p {
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+
+  .hlt-journey-options .hlt-journey-option p span {
+    white-space: normal;
+  }
+
+  .hlt-journey-option-price {
+    margin: 4px 0 8px;
+  }
+
+  .hlt-journey-option-price strong {
+    font-size: clamp(14px, 4.3vw, 17px);
+  }
+
+  .hlt-journey-option-price span {
+    font-size: 12px;
+  }
+
+  /* Hai cột lại cần dòng trống giữ hàng mô tả thẳng nhau (thẻ Custom Quote) */
+  .hlt-journey-option-price .is-placeholder {
+    display: block;
+  }
+
+  .hlt-journey-option.is-featured:not(.hlt-journey-intercity-card) .hlt-journey-option-price span {
+    gap: 6px;
+  }
+
+  /* Ghi chú đội xe và hai nút đặt dưới bảng giá: gọn hơn */
+  .hlt-journey-vehicles .hlt-journey-vehicle-note {
+    gap: 12px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+  }
+
+  .hlt-journey-vehicles .hlt-journey-vehicle-note-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hlt-journey-options .hlt-journey-options-actions .hlt-btn {
+    min-height: 46px;
+    font-size: clamp(14px, 4.2vw, 16px);
+  }
+
+  /* FAQ: danh sách gọn, chữ nhỏ */
+  .hlt-journey-details .hlt-jfaq-grid {
+    gap: 6px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-summary {
+    padding: 8px 12px;
+  }
+
+  .hlt-journey-details .hlt-jfaq-summary > span:first-child {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .hlt-journey-details .hlt-jfaq-plus {
+    font-size: 20px;
   }
 }

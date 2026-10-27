@@ -160,23 +160,6 @@ export default function Hero() {
       <div className="hlt-hero-scrim" aria-hidden="true" />
 
       <div className="hlt-container">
-        {/* Scalloped concave corner frame overlay for mobile */}
-        <div className="hlt-hero-mobile-frame" aria-hidden="true">
-          <svg
-            className="hlt-hero-scallop-svg"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            fill="none"
-          >
-            <path
-              d="M 3.5,0 L 96.5,0 A 3.5,3.5 0 0,0 100,3.5 L 100,96.5 A 3.5,3.5 0 0,0 96.5,100 L 3.5,100 A 3.5,3.5 0 0,0 0,96.5 L 0,3.5 A 3.5,3.5 0 0,0 3.5,0 Z"
-              stroke="rgba(197, 161, 90, 0.7)"
-              strokeWidth="0.7"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-        </div>
-
         <div className="hlt-hero-content">
           <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
           <h1 className="hlt-hero-title">
