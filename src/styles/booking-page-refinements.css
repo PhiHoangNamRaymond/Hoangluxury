@@ -695,10 +695,3 @@
   }
 }
 
-/* Bản mobile: bỏ dải ảnh "The Hoang Luxury Experience" trên trang Booking
-   (khách yêu cầu 27/10/2026). PC không đổi. */
-@media (max-width: 780px) {
-  .hlt-booking-site .hlt-experience-slider {
-    display: none;
-  }
-}

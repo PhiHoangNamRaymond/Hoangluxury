@@ -86,7 +86,6 @@ import journeyCarIconUrl from "../../assets/journey-icon-car.png";
 import bannerSapaUrl from "../../assets/opt/journey-banners/sapa.jpg";
 import bannerHaLongUrl from "../../assets/opt/journey-banners/ha-long.jpg";
 import bannerNinhBinhUrl from "../../assets/opt/journey-banners/ninh-binh.jpg";
-import bannerNinhBinhTempleUrl from "../../assets/opt/journey-banners/ninh-binh-temple.jpg";
 import bannerHaGiangUrl from "../../assets/opt/journey-banners/ha-giang.jpg";
 import bannerCatBaUrl from "../../assets/opt/journey-banners/cat-ba.jpg";
 import bannerCaoBangUrl from "../../assets/opt/journey-banners/cao-bang.jpg";
@@ -199,8 +198,9 @@ export const photoPrepImages = [
    Half-Day cô gái giữa đầm sen, Full-Day cặp đôi lúc hoàng hôn. */
 import photoPlanHalfDayImg from "../../assets/photo-landing/plan-half-day.webp";
 import photoPlanFullDayImg from "../../assets/photo-landing/plan-full-day.webp";
+import photoPlanFullDayMobileImg from "../../assets/photo-landing/plan-full-day-mobile.webp";
 
-export const photoPlanImages = { halfDay: photoPlanHalfDayImg, fullDay: photoPlanFullDayImg };
+export const photoPlanImages = { halfDay: photoPlanHalfDayImg, fullDay: photoPlanFullDayImg, fullDayMobile: photoPlanFullDayMobileImg };
 
 /* Bộ ảnh thật của từng album (WebP 1024×1536, riêng sunset-together và phần lớn love-in-bloom 941×1672;
    ảnh 01 là ảnh bìa). Khoá là slug của album trong photo-album-list.js. */
@@ -701,7 +701,7 @@ export const journeyBannerBySlug = {
   "ta-xua": bannerTaXuaUrl,
   "pu-luong": bannerPuLuongUrl,
   "sapa-to-ha-long": bannerHaLongUrl,
-  "sapa-to-ninh-binh": bannerNinhBinhTempleUrl,
+  "sapa-to-ninh-binh": bannerNinhBinhUrl,
   "sapa-to-ha-giang": bannerHaGiangUrl,
   "sapa-to-mu-cang-chai": bannerMuCangChaiUrl,
   "ha-long-to-sapa": bannerSapaUrl,

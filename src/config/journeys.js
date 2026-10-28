@@ -203,6 +203,7 @@ const sapaJourney = {
   name: "Sapa",
   titleAccent: "TO SAPA",
   ...privateTransferPage("Sapa", "5 – 5.5 hours", [3_900_000, 7_400_000, "3 Days 2 Nights", 9_200_000]),
+  metaDescription: "Private car service from Hanoi/ Noi Bai Airport to Sapa. Save time with direct door-to-door transfer, flexible stops, save time and 24/7 support. Hotline (+84) 839779888",
   leadIn:
     "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Sapa, with comfort, safety, and peace of mind every step of the way.",
   routeLabel: "Hanoi ↔ Sapa",
@@ -221,6 +222,7 @@ export const journeys = {
     name: "Ha Giang",
     titleAccent: "TO HA GIANG",
     ...privateTransferPage("Ha Giang", "5 – 5.5 hours", [3_700_000, 7_000_000, "4 Days 3 Nights", 10_400_000]),
+    metaDescription: "Travel from Hanoi to Ha Giang by private car with luxury service at Hoang Luxury Travel. 100% private, save time with late-model vehicles and get 24/7 WhatsApp support.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ha Giang, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ha Giang",
@@ -235,6 +237,7 @@ export const journeys = {
     name: "Ninh Binh",
     titleAccent: "TO NINH BINH",
     ...privateTransferPage("Ninh Binh", "1.5 – 2 hours", [2_500_000, 4_750_000, "2 Days 1 Night", 4_750_000]),
+    metaDescription: "Book a Hanoi to Ninh Binh private transfer with Hoang Luxury Travel. Enjoy comfortable seats, no shared passengers and flexible departure times.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ninh Binh, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ninh Binh",
@@ -249,6 +252,7 @@ export const journeys = {
     name: "Ha Long",
     titleAccent: "TO HA LONG",
     ...privateTransferPage("Ha Long", "2.5 – 3 hours", [2_800_000, 5_300_000, "2 Days 1 Night", 5_300_000]),
+    metaDescription: "Hanoi to Halong Bay private car with pickup and drop-off at your location. Save time with professional drivers and all-inclusive pricing.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi to Ha Long International Airport or Ha Long with comfort, safety, and peace of mind at every step of the way.",
     routeLabel: "Hanoi ↔ Ha Long",
@@ -263,6 +267,7 @@ export const journeys = {
     name: "Cat Ba",
     titleAccent: "TO CAT BA",
     ...privateTransferPage("Cat Ba", "3.5 – 4.5 hours", [3_000_000, 5_700_000, "3 Days 2 Nights", 7_500_000]),
+    metaDescription: "Hanoi to Cat Ba Island private transfer on your schedule. Transparent All-Inclusive Pricing. Cash and cards accepted. Hotline ☎️(+84) 839779888",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Cat Ba Island, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Cat Ba",
@@ -277,6 +282,7 @@ export const journeys = {
     name: "Cao Bang",
     titleAccent: "TO CAO BANG",
     ...privateTransferPage("Cao Bang", "6 – 6.5 hours", [3_700_000, 7_000_000, "3 Days 2 Nights", 8_800_000]),
+    metaDescription: "Hanoi to Cao Bang private transfer with Hoang Luxury Travel. Know your vehicle and driver before departure, with reliable pickup at the agreed time.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Cao Bang, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Cao Bang",
@@ -291,6 +297,7 @@ export const journeys = {
     name: "Mu Cang Chai",
     titleAccent: "TO MU CANG CHAI",
     ...privateTransferPage("Mu Cang Chai", "6 – 6.5 hours", [3_800_000, 7_200_000, "3 Days 2 Nights", 9_000_000]),
+    metaDescription: "Enjoy the scenery on your Hanoi to Mu Cang Chai private car journey. Add photo stops along the way and make the mountain drive part of your experience.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Mu Cang Chai, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Mu Cang Chai",
@@ -305,6 +312,7 @@ export const journeys = {
     name: "Moc Chau",
     titleAccent: "TO MOC CHAU",
     ...privateTransferPage("Moc Chau", "4 – 5 hours", [2_900_000, 5_500_000, "3 Days 2 Nights", 7_300_000]),
+    metaDescription: "Make your Hanoi to Moc Chau private transfer fit your plans. Hoang Luxury Travel helps you arrange a custom itinerary around the places you want to visit.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Moc Chau, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Moc Chau",
@@ -319,6 +327,7 @@ export const journeys = {
     name: "Ta Xua",
     titleAccent: "TO TA XUA",
     ...privateTransferPage("Ta Xua", "5 – 5.5 hours", [3_300_000, 6_300_000, "3 Days 2 Nights", 8_100_000]),
+    metaDescription: "Hanoi to Ta Xua private car with luxury service. You can stop whenever you need, direct door-to-door, save time with professional drivers.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Ta Xua, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Ta Xua",
@@ -335,6 +344,7 @@ export const journeys = {
     name: "Pu Luong",
     titleAccent: "TO PU LUONG",
     ...privateTransferPage("Pu Luong", "4 – 5 hours", [2_900_000, 5_500_000, "3 Days 2 Nights", 7_300_000]),
+    metaDescription: "A comfortable Hanoi to Pu Luong private car, ideal for families and senior travelers. Settle into spacious seats and arrive ready to enjoy your peaceful retreat.",
     leadIn:
       "Enjoy a seamless, private journey from Hanoi or Noi Bai International Airport to Pu Luong, with comfort, safety, and peace of mind every step of the way.",
     routeLabel: "Hanoi ↔ Pu Luong",
@@ -350,6 +360,7 @@ export const journeys = {
     titleAccent: "TO HA LONG",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Ha Long", "7 – 8 hours"),
+    metaDescription: "The Sapa to Halong Bay private car service from Hoang Luxury Travel can save your time, flexible itinerary, easy booking via 24/7 support Whatsapp. Hotline ☎️(+84) 839779888",
     intercityId: "ha-long",
     originLabel: "Sapa",
     originShort: "Sapa",
@@ -365,6 +376,7 @@ export const journeys = {
     titleAccent: "TO NINH BINH",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Ninh Binh", "7 – 7.5 hours"),
+    metaDescription: "Sapa to Ninh Binh with a driver is a long trip. Hoang Luxury travel always support 24/7 via Whatsapp through your journey",
     intercityId: "ninh-binh",
     originLabel: "Sapa",
     originShort: "Sapa",
@@ -380,6 +392,7 @@ export const journeys = {
     titleAccent: "TO HA GIANG",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Ha Giang", "5.5 hours"),
+    metaDescription: "Book a Sapa to Ha Giang private car to experience door-to-door transport service with the 100% private, no passengers, no multiple pick-ups and save time.",
     intercityId: "ha-giang",
     originLabel: "Sapa",
     originShort: "Sapa",
@@ -395,6 +408,7 @@ export const journeys = {
     titleAccent: "TO MU CANG CHAI",
     titlePrefix: "Sapa",
     ...cityTransferPage("Sapa", "Mu Cang Chai", "3.5 – 4.5 hours"),
+    metaDescription: "Experiencing private cars from Sapa to Mu Cang Chai with on-time pick up, flexible departure, save time and always ready to support 24/7 via Whatsapp.",
     intercityId: "mu-cang-chai",
     originLabel: "Sapa",
     originShort: "Sapa",
@@ -410,6 +424,7 @@ export const journeys = {
     titleAccent: "TO SAPA",
     titlePrefix: "Ha Long",
     ...cityTransferPage("Ha Long", "Sapa", "7 – 8 hours"),
+    metaDescription: "Halong Bay to SaPa private car service from Hoang Luxury Travel. 100% private. No Passengers. Professional Driver. Credit card accepted. Save time. ☎️(+84) 839779888",
     intercityId: "ha-long",
     intercityTitle: "Ha Long – Sa Pa",
     originLabel: "Ha Long",
@@ -426,6 +441,7 @@ export const journeys = {
     titleAccent: "TO SAPA",
     titlePrefix: "Ninh Binh",
     ...cityTransferPage("Ninh Binh", "Sapa", "7 – 7.5 hours"),
+    metaDescription: "Book a Ninh Binh to Sapa private car for your group, with no shared passengers, extra pickups and save time. Enjoy comfortable seats and flexible departure times.",
     intercityId: "ninh-binh",
     intercityTitle: "Ninh Binh – Sa Pa",
     originLabel: "Ninh Binh",

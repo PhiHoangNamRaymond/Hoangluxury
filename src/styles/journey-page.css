@@ -99,7 +99,22 @@
   }
 }
 
+/* h1 chỉ là khung chứa dòng nhỏ + tiêu đề (cấu trúc SEO 28/10/2026); kiểu chữ nằm ở
+   .hlt-journey-eyebrow và .hlt-journey-title. Cột flex để tiêu đề giữ bề ngang
+   vừa chữ như inline-flex cũ (vạch hai bên "TO"). */
+.hlt-journey-hero h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
 .hlt-journey-eyebrow {
+  display: block;
+  align-self: stretch;
   margin: 0 0 8px;
   font-size: clamp(13px, 1.08vw, 16px);
   font-weight: 700;
@@ -109,7 +124,7 @@
 }
 
 /* inline-flex: vạch vàng hai bên chữ "TO" dài đúng bằng dòng tên dài nhất */
-.hlt-journey-hero h1 {
+.hlt-journey-hero .hlt-journey-title {
   display: inline-flex;
   flex-direction: column;
   margin: 0 0 12px;
@@ -121,11 +136,11 @@
   text-transform: uppercase;
 }
 
-.hlt-journey-hero h1 span {
+.hlt-journey-title span {
   display: block;
 }
 
-.hlt-journey-hero h1 .hlt-journey-title-to {
+.hlt-journey-title .hlt-journey-title-to {
   display: flex;
   align-items: center;
   gap: .4em;
@@ -151,7 +166,7 @@
 /* Tên ngắn giữ cỡ h1 (1em); tên dài co lại cho vừa 1 dòng.
    Đo thực tế ~.65em mỗi ký tự Cormorant đậm in hoa kèm letter-spacing;
    dùng .68 để chừa dư vài px. */
-.hlt-journey-hero h1 .hlt-journey-title-accent {
+.hlt-journey-title .hlt-journey-title-accent {
   font-size: min(1em, calc(100cqi / (var(--dest-len, 6) * .68)));
   white-space: nowrap;
 }
@@ -415,7 +430,7 @@ a.hlt-journey-fact:focus-visible strong {
   stroke-linejoin: round;
 }
 
-.hlt-journey-point-info h3 {
+.hlt-journey-point-info .hlt-journey-point-name {
   margin: 0 0 3px;
   font-family: var(--hlt-font-family);
   font-size: clamp(18px, 1.6vw, 22px);
@@ -1174,7 +1189,10 @@ a.hlt-journey-intercity-card:focus-visible {
 }
 
 /* !important: như trên, câu hỏi dùng chữ không chân theo mẫu */
-.hlt-jfaq-summary > span:first-child {
+.hlt-jfaq-summary > .hlt-jfaq-q {
+  /* Câu hỏi là h3 (SEO 28/10/2026): bỏ lề và chữ đậm mặc định của thẻ heading. */
+  margin: 0;
+  font-weight: 400;
   font-family: "Lato", Arial, Helvetica, sans-serif !important;
   font-size: clamp(13px, 1.05vw, 15px);
   line-height: 1.4;
@@ -1196,7 +1214,7 @@ a.hlt-journey-intercity-card:focus-visible {
   transform: rotate(45deg);
 }
 
-.hlt-jfaq-item[open] .hlt-jfaq-summary > span:first-child {
+.hlt-jfaq-item[open] .hlt-jfaq-summary > .hlt-jfaq-q {
   color: #b88a38;
 }
 
@@ -1211,6 +1229,8 @@ a.hlt-journey-intercity-card:focus-visible {
   font-size: clamp(13px, 1vw, 14px);
   line-height: 1.6;
   color: var(--jr-muted);
+  /* Căn đều hai bên (khách yêu cầu 28/10/2026). */
+  text-align: justify;
 }
 
 @media (max-width: 1080px) {
@@ -1440,7 +1460,7 @@ a.hlt-journey-intercity-card:focus-visible {
     letter-spacing: .12em;
   }
 
-  .hlt-journey-hero h1 {
+  .hlt-journey-hero .hlt-journey-title {
     margin-bottom: 14px;
     font-size: clamp(52px, 17vw, 68px);
   }
@@ -1583,12 +1603,14 @@ a.hlt-journey-intercity-card:focus-visible {
 
   /* Icon + tên cạnh nhau, dòng mô tả xuống dưới căn giữa cả thẻ (như mẫu):
      bỏ khung .point-info để h3 / small thành ô lưới của hàng. */
+  /* 1fr | icon | tên | 1fr: icon + tên luôn đứng sát nhau ở giữa thẻ. Trước đây
+     dòng mô tả (trải 2 cột) kéo giãn cột tên, nên icon dạt trái còn tên dạt
+     giữa — lệch (khách báo 28/10/2026). */
   .hlt-journey-transit-section .hlt-journey-point-row {
     display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
+    grid-template-columns: 1fr auto auto 1fr;
     align-items: center;
-    column-gap: 6px;
+    column-gap: 0;
     flex: 1;
   }
 
@@ -1597,13 +1619,17 @@ a.hlt-journey-intercity-card:focus-visible {
   }
 
   .hlt-journey-transit-section .hlt-journey-point-icon {
+    grid-column: 2;
     width: 34px;
     height: 34px;
+    margin-right: 8px;
   }
 
-  .hlt-journey-transit-section .hlt-journey-point-info h3 {
+  .hlt-journey-transit-section .hlt-journey-point-info .hlt-journey-point-name {
+    grid-column: 3;
     margin: 0;
     font-size: 16px;
+    text-align: left;
   }
 
   .hlt-journey-transit-section .hlt-journey-point-info small {
@@ -2019,7 +2045,7 @@ a.hlt-journey-intercity-card:focus-visible {
     padding: 9px 12px;
   }
 
-  .hlt-journey-details .hlt-jfaq-summary > span:first-child {
+  .hlt-journey-details .hlt-jfaq-summary > .hlt-jfaq-q {
     font-size: 14px;
   }
 
@@ -2068,7 +2094,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   padding: clamp(30px, 2.6vw, 40px) 0 clamp(30px, 2.6vw, 38px);
 }
 
-.hlt-journey-cta-route .hlt-journey-cta-route-head h3 {
+.hlt-journey-cta-route .hlt-journey-cta-route-head .hlt-journey-cta-route-title {
   margin: 0 0 8px;
   color: #e3c06a;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
@@ -2128,13 +2154,16 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   line-height: 1;
 }
 
-.hlt-journey-cta-step-text strong,
+.hlt-journey-cta-step-text .hlt-journey-cta-step-title,
 .hlt-journey-cta-step-text small {
   display: block;
   white-space: nowrap;
 }
 
-.hlt-journey-cta-step-text strong {
+.hlt-journey-cta-step-text .hlt-journey-cta-step-title {
+  /* h3 (SEO): bỏ bóng chữ mà quy tắc h3 chung của dải CTA gắn vào. */
+  text-shadow: none;
+  margin-top: 0;
   margin-bottom: 6px;
   color: #fff;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
@@ -2236,9 +2265,8 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   }
 }
 
-/* Nhãn ngắn của bước và dòng thương hiệu chỉ dùng cho mobile */
-.hlt-journey-cta-step-short,
-.hlt-journey-cta-route-brand {
+/* Nhãn ngắn của bước chỉ dùng cho mobile */
+.hlt-journey-cta-step-short {
   display: none;
 }
 
@@ -2247,7 +2275,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
    Khối CTA dùng chung đang bị ẩn ở ≤960px bằng !important (booking-process.css,
    booking-journey-refinements.css) và đổi nền kem; bản route hiện lại với
    nền núi xanh: tiêu đề 2 dòng, 3 bước dạng số trên / nhãn ngắn dưới,
-   2 nút rộng hết khung, dòng logo | khẩu hiệu ở cuối.
+   2 nút rộng hết khung (dòng logo | khẩu hiệu đã bỏ 28/10/2026).
    ========================================================================== */
 @media (max-width: 960px) {
   section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
@@ -2270,7 +2298,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     padding: 34px 0 26px;
   }
 
-  .hlt-journey-cta-route .hlt-journey-cta-route-head h3 {
+  .hlt-journey-cta-route .hlt-journey-cta-route-head .hlt-journey-cta-route-title {
     max-width: 320px;
     margin: 0 auto 10px;
     font-size: clamp(28px, 8.6vw, 36px);
@@ -2310,7 +2338,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     font-size: clamp(34px, 10vw, 42px);
   }
 
-  .hlt-journey-cta-step-text strong,
+  .hlt-journey-cta-step-text .hlt-journey-cta-step-title,
   .hlt-journey-cta-step-text small {
     display: none;
   }
@@ -2349,86 +2377,14 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     font-size: clamp(16px, 4.8vw, 19px);
   }
 
-  /* Dòng thương hiệu: logo + HOANG / LUXURY TRAVEL | khẩu hiệu */
-  .hlt-journey-cta-route-brand {
-    display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr);
-    align-items: center;
-    gap: 10px;
-    margin-top: 24px;
-    text-align: left;
-  }
-
-  .hlt-journey-cta-route-brand img {
-    width: 46px;
-    height: 46px;
-    display: block;
-    object-fit: contain;
-  }
-
-  .hlt-journey-cta-route-brand-name strong,
-  .hlt-journey-cta-route-brand-name span {
-    display: block;
-    color: #e3c06a;
-    font-family: "Cormorant", Georgia, "Times New Roman", serif;
-    font-weight: 700;
-    line-height: 1;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .hlt-journey-cta-route-brand-name strong {
-    font-size: 21px;
-    letter-spacing: .03em;
-  }
-
-  .hlt-journey-cta-route-brand-name span {
-    margin-top: 4px;
-    font-size: 11.5px;
-    letter-spacing: .06em;
-  }
-
-  .hlt-journey-cta-route-brand p {
-    margin: 0 0 0 6px;
-    padding-left: 14px;
-    border-left: 1px solid rgba(197, 161, 90, .6);
-    color: rgba(255, 255, 255, .9);
-    font-family: "Lato", Arial, Helvetica, sans-serif !important;
-    font-size: clamp(11.5px, 3.3vw, 13px);
-    line-height: 1.4;
-  }
 }
 
-/* Tinh chỉnh mobile: bước rộng theo nội dung (nhãn 1 dòng từ 360px như mẫu),
-   dòng thương hiệu gọn hơn để khẩu hiệu còn 2 dòng. */
+/* Tinh chỉnh mobile: bước rộng theo nội dung (nhãn 1 dòng từ 360px như mẫu). */
 @media (max-width: 960px) {
   .hlt-journey-cta-step {
     flex: 0 1 auto;
   }
 
-  .hlt-journey-cta-route-brand {
-    gap: 8px;
-    margin-top: 22px;
-  }
-
-  .hlt-journey-cta-route-brand img {
-    width: 42px;
-    height: 42px;
-  }
-
-  .hlt-journey-cta-route-brand-name strong {
-    font-size: 19px;
-  }
-
-  .hlt-journey-cta-route-brand-name span {
-    font-size: 10.5px;
-  }
-
-  .hlt-journey-cta-route-brand p {
-    margin-left: 2px;
-    padding-left: 10px;
-    font-size: clamp(11px, 3.1vw, 13px);
-  }
 }
 
 @media (min-width: 360px) and (max-width: 960px) {
@@ -2474,7 +2430,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     height: clamp(56px, 5vw, 72px);
   }
 
-  .hlt-journey-point-info h3 {
+  .hlt-journey-point-info .hlt-journey-point-name {
     font-size: clamp(20px, 1.8vw, 25px);
   }
 
@@ -2622,7 +2578,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     font-size: clamp(14px, 1.2vw, 20px);
   }
 
-  .hlt-journey-hero h1 {
+  .hlt-journey-hero .hlt-journey-title {
     margin-bottom: 18px;
     font-size: clamp(56px, 6vw, 96px);
   }
@@ -2734,13 +2690,13 @@ img.hlt-journey-point-icon {
    trong @media (max-width: 600px). Nội dung giữ như PC, chỉ đổi trình bày.
    ========================================================================== */
 @media (max-width: 600px) {
-  /* Banner: hai nút gọn bên trái (không kéo hết bề ngang) để lộ xe */
+  /* Banner: hai nút rộng hết hàng (xe đã nằm trong dải ảnh phía trên) */
   .hlt-journey-hero .hlt-journey-actions {
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .hlt-journey-hero .hlt-journey-actions .hlt-btn {
-    width: min(100%, 280px);
+    width: 100%;
     min-height: 46px;
     font-size: 14px;
   }
@@ -2786,9 +2742,13 @@ img.hlt-journey-point-icon {
     letter-spacing: .06em;
   }
 
+  /* Thông số cả 3 thẻ thẳng mép trái, cùng một lề lấy theo dòng dài nhất
+     "Recommended" của thẻ Limo Lux (khách yêu cầu 28/10/2026). */
   .hlt-journey-vehicles .hlt-fleet-specs {
     display: grid;
-    justify-items: center;
+    justify-content: start;
+    justify-items: start;
+    padding-left: max(0px, calc((100% - 6.6em) / 2));
     gap: 3px;
     font-size: 10.5px;
   }
@@ -2890,21 +2850,137 @@ img.hlt-journey-point-icon {
     font-size: clamp(14px, 4.2vw, 16px);
   }
 
-  /* FAQ: danh sách gọn, chữ nhỏ */
+  /* FAQ: các câu cách nhau rõ hơn cho đỡ rối (khách yêu cầu 28/10/2026) */
   .hlt-journey-details .hlt-jfaq-grid {
-    gap: 6px;
+    gap: 12px;
+  }
+
+  /* Choose Your … Journey: kéo lưới giá lên gần dòng phụ hơn (lưới còn chừa
+     14px phía trên cho nhãn Most Popular). */
+  .hlt-journey-options .hlt-journey-heading {
+    margin-bottom: 8px;
   }
 
   .hlt-journey-details .hlt-jfaq-summary {
     padding: 8px 12px;
   }
 
-  .hlt-journey-details .hlt-jfaq-summary > span:first-child {
+  .hlt-journey-details .hlt-jfaq-summary > .hlt-jfaq-q {
     font-size: 13px;
     line-height: 1.35;
   }
 
   .hlt-journey-details .hlt-jfaq-plus {
     font-size: 20px;
+  }
+}
+
+/* ==========================================================================
+   Banner trang tuyến bản mobile theo mẫu (28/10/2026): ảnh xe là một dải lớn
+   phía trên — tiêu đề nằm trên vùng trời, xe hiện trọn bên dưới, không bị chữ
+   đè; mô tả + 2 nút nằm trên nền xanh đậm dưới ảnh; Route / Time / Vehicle /
+   Rates lưới 2×2 không khung, icon trong vòng tròn viền vàng. PC không đổi.
+   Ảnh 2.31:1 phóng 180% bề ngang, neo mép phải (xe ở 48–99% bề ngang, 28–90%
+   chiều cao ảnh) → dải ảnh cao 77.9vw, nóc xe ở 21.8vw tính từ mép trên dải.
+   --band-top: mép trên dải ảnh, đủ thấp để nóc xe nằm dưới tiêu đề.
+   ========================================================================== */
+@media (max-width: 600px) {
+  .hlt-journey-hero {
+    --band-top: calc(72px + 28vw);
+    --band-end: calc(var(--band-top) + 77.9vw);
+    padding-bottom: 22px;
+    /* Nền: chính ảnh đó phóng 400% neo góc phải trên (vùng trời + mặt trời) lấp
+       sau tiêu đề thay cho mảng xanh đặc. Ảnh xe nằm ở ::before với mép trên mờ
+       dần (mask) nên không lộ đường nối; lớp tối ở ::after. */
+    isolation: isolate;
+    background:
+      var(--journey-hero-img) 92% 72px / 400% auto no-repeat,
+      var(--jr-facts-bg);
+  }
+
+  .hlt-journey-hero::before,
+  .hlt-journey-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hlt-journey-hero::before {
+    z-index: -2;
+    background: var(--journey-hero-img) 100% var(--band-top) / 180% auto no-repeat;
+    -webkit-mask-image: linear-gradient(180deg, transparent var(--band-top), #000 calc(var(--band-top) + 16vw));
+    mask-image: linear-gradient(180deg, transparent var(--band-top), #000 calc(var(--band-top) + 16vw));
+  }
+
+  .hlt-journey-hero::after {
+    z-index: -1;
+    background: linear-gradient(180deg,
+      rgba(6, 30, 23, .74) 0,
+      rgba(6, 30, 23, .56) 120px,
+      rgba(6, 30, 23, .44) var(--band-top),
+      rgba(6, 30, 23, .22) calc(var(--band-top) + 12vw),
+      rgba(6, 30, 23, 0) calc(var(--band-top) + 30vw),
+      rgba(6, 30, 23, 0) calc(var(--band-end) - 22vw),
+      var(--jr-facts-bg) calc(var(--band-end) - 2px));
+  }
+
+  .hlt-journey-hero-main {
+    padding: 20px 0 18px;
+  }
+
+  /* Tiêu đề chiếm phần trên dải ảnh; mô tả bắt đầu ngay dưới mép dưới ảnh. */
+  .hlt-journey-hero h1 {
+    min-height: calc(var(--band-end) - 72px - 20px - 14px);
+  }
+
+  .hlt-journey-hero .hlt-journey-title {
+    margin-bottom: 0;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
+  }
+
+  /* Tên điểm đến tô vàng bằng background-clip (chữ trong suốt) nên text-shadow
+     lộ xuyên qua chữ; dùng drop-shadow để tách chữ khỏi nền trời. */
+  .hlt-journey-hero .hlt-journey-title .hlt-journey-title-accent {
+    text-shadow: none;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .55));
+  }
+
+  /* Dòng nhỏ + chữ "TO" màu vàng nằm trên nền trời sáng: thêm bóng cho rõ. */
+  .hlt-journey-hero .hlt-journey-eyebrow,
+  .hlt-journey-hero .hlt-journey-title-to {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .75), 0 0 14px rgba(0, 0, 0, .55);
+  }
+
+  .hlt-journey-lead {
+    max-width: none;
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+
+  /* Thông tin 2×2: bỏ khung + nền, giữ vạch ngăn; icon trong vòng tròn vàng */
+  .hlt-journey-hero .hlt-journey-facts {
+    border: 0;
+    border-radius: 0;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .hlt-journey-hero .hlt-journey-fact {
+    padding: 16px 8px 16px 0;
+  }
+
+  .hlt-journey-hero .hlt-journey-fact:nth-child(even) {
+    padding-left: 12px;
+  }
+
+  .hlt-journey-hero .hlt-journey-fact-icon {
+    box-sizing: border-box;
+    width: 42px;
+    height: 42px;
+    padding: 8px;
+    border: 1.5px solid rgba(197, 161, 90, .85);
+    border-radius: 50%;
   }
 }

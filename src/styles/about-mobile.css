@@ -2,10 +2,9 @@
    Trang About (/about/) — bản mobile theo thiết kế mới (27/10/2026).
    Nạp sau about-page.css. Bản PC đã chốt, không đổi: mọi quy tắc nằm trong
    @media (max-width: 960px); các phần tử chỉ dùng cho mobile (icon thẻ, nút
-   trong banner, nút đọc thư CEO) được ẩn ở PC. Nội dung giữ y như PC.
+   đọc thư CEO) được ẩn ở PC. Nội dung giữ y như PC.
    ========================================================================== */
 .hlt-about-ic,
-.hlt-about-hero-btn,
 .hlt-about-ceo-more {
   display: none;
 }
@@ -18,8 +17,9 @@
   /* --- Banner --- */
   .hlt-about-hero-inner {
     width: calc(100% - 44px);
-    padding-top: 40px;
-    padding-bottom: 26px;
+    /* Không còn nút: khối chữ cách đều mép trên và mép dưới banner. */
+    padding-top: 46px;
+    padding-bottom: 46px;
   }
 
   /* PC căn giữa khối chữ theo chiều dọc (align-self: center); ở đây khối chữ
@@ -33,53 +33,20 @@
   }
 
   /* Ngắt "More Than / a Journey" như mẫu (theo em để giữ đúng khi cỡ chữ đổi). */
-  .hlt-about-hero h1 {
+  .hlt-about-hero-title {
     max-width: 4.8em;
     margin-bottom: 14px;
     font-size: clamp(36px, 10.6vw, 46px);
     line-height: 1.08;
   }
 
-  .hlt-about-hero h1 .is-gold {
+  .hlt-about-hero-title .is-gold {
     color: #fbf4e6;
   }
 
   .hlt-about-hero-lead {
-    max-width: 280px;
+    max-width: 300px;
     font-size: clamp(15px, 4.4vw, 18px);
-  }
-
-  .hlt-about-hero-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    max-width: 420px;
-    min-height: 50px;
-    margin-top: 22px;
-    padding: 0 18px;
-    border-radius: 6px;
-    color: #1a140a !important;
-    background: linear-gradient(100deg, #c29226 0%, #d9b14a 48%, #f0d48a 71%, #dab74f 87%, #c7972b 100%);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, .3);
-    font-size: clamp(13px, 3.7vw, 15px);
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-
-  .hlt-about-hero-btn .hlt-about-wa {
-    width: 22px;
-    height: 22px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.6;
-  }
-
-  .hlt-about-hero-btn .hlt-about-wa .is-fill {
-    fill: currentColor;
-    stroke: none;
   }
 
   .hlt-about-hero-note {
@@ -130,7 +97,7 @@
     justify-content: flex-start;
   }
 
-  .hlt-about-split h2 {
+  .hlt-about-split .hlt-about-split-title {
     font-size: clamp(28px, 8.4vw, 36px);
   }
 
@@ -147,7 +114,7 @@
     padding: 30px 0 34px;
   }
 
-  .hlt-about-values h2 {
+  .hlt-about-values .hlt-about-values-title {
     margin-bottom: 20px;
     font-size: clamp(28px, 8.4vw, 36px);
   }
@@ -176,6 +143,19 @@
 
   .hlt-about-values-grid h3 {
     font-size: clamp(17px, 4.8vw, 20px);
+  }
+
+  /* Icon 3 thẻ giá trị theo mẫu: vòng tròn to hơn, nét đậm hơn. */
+  .hlt-about-values-grid .hlt-about-ic {
+    width: 56px;
+    height: 56px;
+    background: rgba(214, 170, 90, .2);
+  }
+
+  .hlt-about-values-grid .hlt-about-ic svg {
+    width: 27px;
+    height: 27px;
+    stroke-width: 1.9;
   }
 
   /* Icon tròn dùng chung cho các thẻ */
@@ -228,7 +208,7 @@
     white-space: nowrap;
   }
 
-  .hlt-about-split.is-reversed h2 {
+  .hlt-about-split.is-reversed .hlt-about-split-title {
     font-size: clamp(22px, 6.5vw, 28px);
   }
 
@@ -246,6 +226,10 @@
 
   .hlt-about-split.is-reversed .hlt-about-split-copy > p:not(.hlt-about-kicker) {
     max-width: none;
+    /* Chữ khít hơn 1% để đoạn People không thừa dòng cuối "cared for." ở màn
+       360–390px; pretty tránh dòng cuối lẻ một chữ ở các bề rộng khác. */
+    letter-spacing: -.01em;
+    text-wrap: pretty;
   }
 
   .hlt-about-signoff {
@@ -255,7 +239,7 @@
     text-wrap: balance;
   }
 
-  /* --- Commitments: khung tối bo góc, mỗi dòng: số │ icon │ chữ --- */
+  /* --- Commitments: khung tối bo góc, mỗi dòng: số │ chữ (bỏ icon 28/10/2026) --- */
   .hlt-about-commitments {
     margin: 0 12px;
     padding: 26px 18px 10px;
@@ -294,18 +278,6 @@
     font-size: clamp(32px, 9vw, 40px);
   }
 
-  .hlt-about-commitments-grid .hlt-about-ic {
-    width: 34px;
-    height: 34px;
-    background: none;
-  }
-
-  .hlt-about-commitments-grid .hlt-about-ic svg {
-    width: 28px;
-    height: 28px;
-    stroke: var(--about-gold-light);
-  }
-
   .hlt-about-commitments-grid h3 {
     margin: 0 0 4px;
     font-size: clamp(16px, 4.6vw, 19px);
@@ -333,7 +305,7 @@
   }
 
   .hlt-about-licence-brand img {
-    width: 64px;
+    width: 76px;
     margin: 0 auto 6px;
   }
 
@@ -351,16 +323,33 @@
     display: contents;
   }
 
+  /* Icon giấy tờ trong vòng tròn cạnh tiêu đề, đoạn mô tả xuống dưới cả hai
+     (theo mẫu 28/10/2026): khối chữ thành ô lưới của phần đầu. */
   .hlt-about-licence-head {
     grid-column: 2;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px 12px;
     padding-bottom: 0;
     border-bottom: 0;
   }
 
+  .hlt-about-licence-head > div {
+    display: contents;
+  }
+
+  .hlt-about-licence-head p {
+    grid-column: 1 / -1;
+  }
+
   .hlt-about-doc {
-    width: 22px;
-    height: 28px;
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    padding: 12px 13px;
+    border-radius: 50%;
+    background: rgba(214, 170, 90, .2);
   }
 
   .hlt-about-licence-head h2 {
@@ -371,9 +360,11 @@
     font-size: clamp(12.5px, 3.5vw, 14px);
   }
 
+  /* Cột phải rộng vừa tiêu đề "Clear confirmations" (một dòng như mẫu),
+     cột trái nhận phần còn lại. */
   .hlt-about-licence-grid {
     grid-column: 1 / -1;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 0;
     margin-top: 18px;
     padding-top: 16px;
@@ -384,7 +375,7 @@
   .hlt-about-licence-grid > div + div {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 9px;
     padding: 0 10px;
     border: 0;
     background: none;
@@ -395,12 +386,14 @@
   }
 
   .hlt-about-licence-grid > div + div {
+    padding-right: 0;
     border-left: 1px solid rgba(185, 138, 58, .3);
   }
 
   .hlt-about-licence-grid .hlt-about-ic {
     width: 38px;
     height: 38px;
+    background: rgba(214, 170, 90, .2);
   }
 
   .hlt-about-licence-grid .hlt-about-ic svg {
@@ -408,11 +401,15 @@
     height: 21px;
   }
 
-  .hlt-about-licence-grid h3 {
+  .hlt-about-licence-grid .hlt-about-licence-item-title {
+    margin-bottom: 4px;
     font-size: clamp(14px, 3.9vw, 16px);
+    white-space: nowrap;
   }
 
+  /* inline-size: đoạn mô tả không kéo rộng cột, cột chỉ rộng vừa tiêu đề. */
   .hlt-about-licence-grid p {
+    contain: inline-size;
     font-size: clamp(12px, 3.4vw, 13.5px);
   }
 
@@ -420,7 +417,18 @@
     grid-column: 1 / -1;
     flex-direction: row;
     justify-content: center;
-    margin-top: 16px;
+    margin-top: 18px;
+    text-align: center;
+  }
+
+  /* Số giấy phép xuống dòng riêng, chữ to đậm như mẫu. */
+  .hlt-about-licence-no {
+    display: block;
+    margin-top: 2px;
+    color: var(--about-ink);
+    font-size: clamp(20px, 5.8vw, 24px);
+    font-weight: 700;
+    letter-spacing: .02em;
   }
 
   .hlt-about-licence-foot .is-gold {
@@ -440,6 +448,7 @@
   .hlt-about-ceo-media {
     max-width: none;
     margin: 0;
+    border-radius: 0;
   }
 
   .hlt-about-ceo-media img {
@@ -447,10 +456,11 @@
     border-radius: 0;
   }
 
+  /* Khung chữ rộng hết màn, bằng đúng ảnh phía trên (khách yêu cầu 28/10/2026). */
   .hlt-about-ceo-copy {
-    margin: 0 12px;
-    padding: 18px 16px 22px;
-    border-radius: 0 0 12px 12px;
+    margin: 0;
+    padding: 18px 22px 22px;
+    border-radius: 0;
     background: #fffdf8;
     box-shadow: 0 12px 26px rgba(60, 42, 14, .1);
     text-align: left;
@@ -468,7 +478,7 @@
     display: none;
   }
 
-  .hlt-about-ceo-copy h2 {
+  .hlt-about-ceo-copy .hlt-about-ceo-title {
     margin-bottom: 12px;
     color: var(--about-gold);
     font-size: clamp(23px, 6.6vw, 28px);
@@ -516,67 +526,51 @@
     display: none;
   }
 
-  /* --- Explore Northern Vietnam: trình bày như khung cùng tên ở Blog mobile —
-     tiêu đề căn trái có vạch, khung viền bao lưới, Sapa ảnh lớn rộng hết hàng,
+  /* --- Explore Northern Vietnam: tiêu đề in hoa căn giữa có vạch hai bên + câu
+     phụ nằm ngoài khung (khách duyệt 28/10/2026); khung viền bắt đầu từ ô Sapa,
      các điểm còn lại 2 cột, nút là thanh rộng hết khung. Nội dung giữ như PC. --- */
   .hlt-about-destinations {
     padding: 30px 0 34px;
     text-align: left;
   }
 
-  .hlt-about-destinations .hlt-container {
-    position: relative;
+  /* Khung viền là khối bọc ảnh + nút, nằm dưới tiêu đề và câu phụ. */
+  .hlt-about-destinations-panel {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
-    padding: 0 12px 12px;
-  }
-
-  /* Khung viền bắt đầu ngay dưới tiêu đề (tiêu đề 1 dòng, cao cố định). */
-  .hlt-about-destinations .hlt-container::before {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    inset: 50px 0 0;
+    padding: 12px;
     border: 1.5px solid rgba(197, 161, 90, .35);
     border-radius: 12px;
     background: #fffdf8;
   }
 
-  .hlt-about-destinations .hlt-container > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .hlt-about-destinations .hlt-about-lined-title,
-  .hlt-about-destinations-sub,
   .hlt-about-outline-btn {
     grid-column: 1 / -1;
   }
 
   .hlt-about-destinations .hlt-about-lined-title {
-    justify-content: flex-start;
-    gap: 14px;
+    justify-content: center;
+    gap: 10px;
     height: 36px;
-    margin: 0 -12px 14px;
-    font-size: clamp(26px, 7.6vw, 32px);
-    letter-spacing: 0;
+    margin: 0;
+    font-size: clamp(15px, 4.8vw, 21px);
+    letter-spacing: .05em;
     line-height: 36px;
-    text-transform: none;
+    text-transform: uppercase;
     white-space: nowrap;
   }
 
-  .hlt-about-destinations .hlt-about-lined-title::before {
-    display: none;
-  }
-
+  .hlt-about-destinations .hlt-about-lined-title::before,
   .hlt-about-destinations .hlt-about-lined-title::after {
-    flex: 1 1 auto;
+    flex: 1 1 22px;
   }
 
   .hlt-about-destinations-sub {
-    margin: 4px 0 2px;
+    margin: 4px 0 16px;
     font-size: clamp(14px, 3.9vw, 16px);
+    line-height: 1.4;
+    text-align: center;
   }
 
   .hlt-about-destination-row,
@@ -633,6 +627,17 @@
     color: var(--about-gold);
   }
 
+}
+
+/* Màn rất hẹp: hai cột không đủ chỗ, tiêu đề mục giấy phép được xuống dòng. */
+@media (max-width: 359px) {
+  .hlt-about-licence-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlt-about-licence-grid .hlt-about-licence-item-title {
+    white-space: normal;
+  }
 }
 
 /* Thư CEO (PC): thư dài ~1100px nên ảnh tỉ lệ 3/4 cố định trông lọt thỏm.

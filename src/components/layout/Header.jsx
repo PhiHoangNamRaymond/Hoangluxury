@@ -508,7 +508,7 @@ export default function Header() {
 
         <div className="hlt-mobile-drawer-footer">
           <img src={logoUrl} alt="" className="hlt-mobile-drawer-watermark" aria-hidden="true" />
-          <p className="hlt-mobile-drawer-slogan">LUXURY. COMFORT. PRIVATE.</p>
+          <p className="hlt-mobile-drawer-slogan">PRIVATE - SAFE - LUXURY</p>
         </div>
       </aside>
 

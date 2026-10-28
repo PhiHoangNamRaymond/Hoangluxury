@@ -816,3 +816,11 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     min-width: 240px;
   }
 }
+
+/* Trang chủ mobile: khoảng từ bước 04 tới đường phân cách bằng khoảng từ đường
+   đó tới tiêu đề CTA (46px) — khách yêu cầu 28/10/2026. */
+@media (max-width: 600px) {
+  .hlt-site .hlt-booking-showcase {
+    padding-bottom: 43px !important;
+  }
+}

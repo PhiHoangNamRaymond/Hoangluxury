@@ -96,9 +96,9 @@ const routeSeo = {
       "Hoang Luxury Travel provides private transfer and car-with-driver services across Northern Vietnam. We specialize in long-distance journeys from Hanoi and Noi Bai International Airport to Sa Pa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations.",
   },
   "/about": {
-    title: "About Us | Hoang Luxury Travel",
+    title: "About Hoang Luxury Travel | Private Transfers in Vietnam",
     description:
-      "Learn about Hoang Luxury Travel and our private transfer services for international travelers across Northern Vietnam.",
+      "Discover the story behind Hoang Luxury Travel, providing private transfers across Northern Vietnam with professional drivers and personalized journeys for international travelers.",
   },
   "/booking": {
     title: "Book a Private Transfer | Hoang Luxury Travel",
@@ -113,7 +113,7 @@ const routeSeo = {
   "/cruises": {
     title: "Ha Long Cruises | Hoang Luxury Travel",
     description:
-      "Explore Ha Long cruise options and arrange a comfortable private transfer with Hoang Luxury Travel.",
+      "Discover Ha Long Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
   },
   "/feedback": {
     title: "Guest Feedback | Hoang Luxury Travel",

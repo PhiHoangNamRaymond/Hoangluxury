@@ -330,7 +330,7 @@ export default function FeedbackPage() {
               <span>Trusted by Travelers</span>
               <span>From Around the World</span>
             </h1>
-            <p>Private transfer, thoughtfully delivered across Northern Vietnam.</p>
+            <p>Private transfer, thoughtfully delivered across Northern&nbsp;Vietnam.</p>
 
             <div className="hlt-feedback-stats" aria-label="Hoang Luxury Travel service statistics">
               {feedbackStats.map((stat) => (
@@ -348,7 +348,7 @@ export default function FeedbackPage() {
           <div className="hlt-container hlt-feedback-reviews-inner">
             <header>
               <h2 id="guest-reviews-title">What Our Guests Say</h2>
-              <p>Real experiences, real emotions. Thank you to our guests for allowing us to share these wonderful moments.</p>
+              <p>Real experiences, real emotions. Thank you to our guests for allowing us to share these wonderful&nbsp;moments.</p>
             </header>
 
             {/* Chia chẵn / lẻ thành hai cột nên vị trí trái–phải của từng thẻ

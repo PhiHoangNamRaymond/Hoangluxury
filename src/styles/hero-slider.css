@@ -391,32 +391,43 @@
 }
 
 /* ==========================================================================
-   Banner trang chủ bản mobile (27/10/2026): chỉ có ảnh và chữ, khung ảnh là
-   hình chữ nhật NGANG — phần dưới header cao 78% bề ngang màn (~ 4:3). Để
-   nội dung lọt khung: mô tả rộng hết hàng (bớt dòng), hai nút nằm cạnh nhau.
-   Lớp phủ chỉ tối dần ở nửa dưới cho chữ đọc được. PC không đổi.
+   Banner trang chủ bản mobile — cùng kiểu banner trang tuyến (28/10/2026):
+   phía trên là dải ảnh slide (5 ảnh như PC, vẫn tự chuyển + dãy chấm), tiêu đề
+   đè mép dưới dải ảnh; mô tả + 2 nút rộng hết hàng nằm trên nền xanh đậm bên
+   dưới. Ảnh 16:9 rộng hết màn → dải ảnh cao 56.25vw. PC không đổi.
    ========================================================================== */
 @media (max-width: 600px) {
   .hlt-hero {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-end !important;
-    min-height: calc(72px + 78vw) !important;
-    padding: 84px 16px 44px !important;
+    --hero-band: calc(56.25vw + 60px);
+    display: block !important;
+    min-height: 0 !important;
+    padding: calc(72px + var(--hero-band) - 74px) 16px 26px !important;
+    background: var(--jr-facts-bg, #061e17) !important;
   }
 
   .hlt-hero > .hlt-container {
     width: 100% !important;
   }
 
+  /* Dải ảnh: dưới header, cao --hero-band; ảnh phủ kín dải (cắt nhẹ 2 bên). */
+  .hlt-hero-stage,
   .hlt-hero-scrim {
-    background: linear-gradient(
-      180deg,
-      rgba(2, 10, 9, .05) 0%,
-      rgba(2, 10, 9, .12) 26%,
-      rgba(2, 10, 9, .52) 52%,
-      rgba(2, 10, 9, .66) 100%
-    );
+    top: 72px;
+    bottom: auto;
+    height: var(--hero-band);
+  }
+
+  .hlt-hero-slide-image {
+    background-position: var(--slide-mobile-pos, 60% center);
+  }
+
+  /* Tối dần về đáy dải ảnh rồi liền với nền xanh, chữ tiêu đề nổi rõ. */
+  .hlt-hero-scrim {
+    background: linear-gradient(180deg,
+      rgba(6, 30, 23, .12) 0%,
+      rgba(6, 30, 23, .05) 40%,
+      rgba(6, 30, 23, .7) 82%,
+      #061e17 100%);
   }
 
   /* relative: z-index mới có tác dụng, chữ nổi lên trên ảnh slide. */
@@ -427,42 +438,47 @@
 
   .hlt-hero-title-white,
   .hlt-hero-title-gold {
-    font-size: clamp(26px, 7.6vw, 32px) !important;
+    font-size: clamp(30px, 9vw, 36px) !important;
   }
 
   .hlt-hero-desc {
     max-width: none !important;
-    margin: 8px 0 14px !important;
-    font-size: clamp(12.5px, 3.6vw, 14px) !important;
-    line-height: 1.4 !important;
+    margin: 14px 0 20px !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
   }
 
   .hlt-hero .hlt-actions {
-    flex-direction: row !important;
-    gap: 8px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
     max-width: none !important;
   }
 
   .hlt-hero .hlt-btn {
-    flex: 1 1 0 !important;
-    min-height: 40px !important;
-    gap: 7px !important;
-    padding: 0 6px !important;
-    font-size: clamp(9.5px, 2.9vw, 11px) !important;
-    letter-spacing: .05em !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    gap: 10px !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+    letter-spacing: .08em !important;
   }
 
   .hlt-hero-whatsapp-icon,
   .hlt-hero-whatsapp-icon svg {
-    width: 15px !important;
-    height: 15px !important;
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .hlt-hero-whatsapp-icon {
     margin-right: 0 !important;
   }
 
+  /* Dãy chấm: góc dưới dải ảnh, trên tiêu đề */
   .hlt-hero-dots {
-    bottom: 12px !important;
+    top: calc(72px + 14px);
+    bottom: auto !important;
+    left: auto;
+    right: 14px;
+    transform: none;
   }
 }

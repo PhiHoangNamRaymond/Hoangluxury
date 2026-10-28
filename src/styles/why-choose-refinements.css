@@ -365,3 +365,51 @@
     height: 100%;
   }
 }
+
+/* Mobile (28/10/2026): tiêu đề Why theo mẫu — "WHY CHOOSE" nhỏ có vạch vàng hai
+   bên (thay cho vạch dài bên dưới), "HOANG LUXURY / TRAVEL?" vàng nhỏ hơn;
+   tiêu đề thẻ "Our Fleet. Our Responsibility" nằm một dòng. PC không đổi. */
+@media (max-width: 640px) {
+  .hlt-why-intro h2 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    font-size: clamp(25px, 7.6vw, 31px);
+    letter-spacing: .02em;
+    line-height: 1.05;
+  }
+
+  .hlt-why-intro .hlt-why-eyebrow {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 10px !important;
+    color: #17242a !important;
+    font-size: 11px !important;
+    font-weight: 700;
+    letter-spacing: .22em;
+    line-height: 1.2;
+  }
+
+  .hlt-why-intro .hlt-why-eyebrow::before,
+  .hlt-why-intro .hlt-why-eyebrow::after {
+    content: "";
+    flex: 0 1 70px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c5a15a);
+  }
+
+  .hlt-why-intro .hlt-why-eyebrow::after {
+    background: linear-gradient(90deg, #c5a15a, transparent);
+  }
+
+  .hlt-why-intro .hlt-why-eyebrow-line {
+    display: none !important;
+  }
+
+  /* Span tiêu đề có style nội tuyến display:block + nowrap (cho PC 2 dòng). */
+  .hlt-why-card h3 span {
+    display: inline !important;
+  }
+}

@@ -106,9 +106,13 @@ export default function BlogPage() {
       <main className="hlt-blog-main">
         <section className="hlt-blog-hero" style={{ "--blog-image": `url("${images.hero}")` }}>
           <div className="hlt-blog-container hlt-blog-hero-inner">
-            <p className="hlt-blog-eyebrow">Travel Blog</p>
-            {/* PC: "Travel Stories, Guides / & Local Tips"; mobile: "Travel Stories, Guides & / Local Tips" (theo mẫu). */}
-            <h1>Travel Stories, Guides<br className="hlt-blog-desktop-break" /> <em>&amp;</em><br className="hlt-blog-mobile-break" /> Local Tips</h1>
+            {/* H1 theo khách (28/10/2026): "Travel Blog - Travel Stories, Guides & Local
+                Tips"; dấu " - " ẩn. PC ngắt "… Guides / & Local Tips", mobile "… Guides & / Local Tips". */}
+            <h1>
+              <span className="hlt-blog-eyebrow">Travel Blog</span>
+              <span className="hlt-seo-sep"> - </span>
+              <span className="hlt-blog-hero-title">Travel Stories, Guides<br className="hlt-blog-desktop-break" /> <em>&amp;</em><br className="hlt-blog-mobile-break" /> Local Tips</span>
+            </h1>
             <p className="hlt-blog-hero-intro">Discover local stories, practical travel tips and easy-to-follow guides<br className="hlt-blog-desktop-break" /> for Sapa, Ha Giang, Ha Long Bay, Ninh Binh and other destinations<br className="hlt-blog-desktop-break" /> across Northern Vietnam.</p>
             <p className="hlt-blog-signature">More than a trip.<br /><span>Stories worth discovering.</span></p>
           </div>
@@ -121,13 +125,13 @@ export default function BlogPage() {
               <label className="hlt-blog-sort"><span className="hlt-blog-sr">Sort articles</span><select value={sort} onChange={(event) => { setSort(event.target.value); setLimit(6); }}><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label>
             </div>
             <div className="hlt-blog-filter-row" role="group" aria-label="Filter articles by destination">
-              <span className="hlt-blog-filter-label"><Icon name="pin" />Destinations</span>
+              <h2 className="hlt-blog-filter-label"><Icon name="pin" />Destinations</h2>
               <div className="hlt-blog-filter-items">
                 {blogDestinations.map((item) => <button key={item} type="button" aria-pressed={destination === item} onClick={() => toggleDestination(item)}>{item}</button>)}
               </div>
             </div>
             <div className="hlt-blog-filter-row" role="group" aria-label="Filter articles by topic">
-              <span className="hlt-blog-filter-label"><Icon name="book" />Topics</span>
+              <h2 className="hlt-blog-filter-label"><Icon name="book" />Topics</h2>
               <div className="hlt-blog-filter-items">
                 {blogTopics.map((item) => <button key={item} type="button" aria-pressed={topic === item} onClick={() => toggleTopic(item)}>{item}</button>)}
               </div>
@@ -149,7 +153,7 @@ export default function BlogPage() {
                   </span>
                   <div className="hlt-blog-featured-copy">
                     <p className="hlt-blog-eyebrow">The editor&rsquo;s pick</p>
-                    <h2>{featured.title}</h2>
+                    <div className="hlt-blog-featured-title">{featured.title}</div>
                     <p>{featured.excerpt}</p>
                     <div className="hlt-blog-byline">
                       <span className="hlt-blog-author-mark">H</span>
@@ -173,7 +177,7 @@ export default function BlogPage() {
                           {article.destinations[0] && <span className="hlt-blog-tag">{article.destinations[0]}</span>}
                           {article.topics[0] && <span className="hlt-blog-card-topic">{article.topics[0]}</span>}
                         </p>
-                        <h3>{article.title}</h3>
+                        <div className="hlt-blog-card-title">{article.title}</div>
                         <p>{article.excerpt}</p>
                       </div>
                     </a>
@@ -187,7 +191,7 @@ export default function BlogPage() {
               {!loading && !error && !filtered.length && (!showFeatured || !blogArticles.length) && (
                 <div className="hlt-blog-empty">
                   <Icon name="search" />
-                  <h3>{blogArticles.length ? "No stories found" : "No articles yet"}</h3>
+                  <div className="hlt-blog-empty-title">{blogArticles.length ? "No stories found" : "No articles yet"}</div>
                   <p>{blogArticles.length ? "Try another destination or explore all our stories." : "Our first travel stories are on the way. Come back soon."}</p>
                   {blogArticles.length > 0 && (
                     <button type="button" className="hlt-blog-dark-btn" onClick={() => resetFilters()}>Reset filters</button>
@@ -198,10 +202,10 @@ export default function BlogPage() {
             </div>
 
             <aside className="hlt-blog-sidebar" aria-label="Travel inspiration">
-              <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.hero}")` }}><h2>EXPLORE MORE. TRAVEL YOUR WAY</h2><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
+              <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.hero}")` }}><div className="hlt-blog-plan-title">EXPLORE MORE. TRAVEL YOUR WAY</div><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
               <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><a href={blogArticleUrl(article.slug)}><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></a></li>)}</ol></section>
 
-              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><h3>Sapa</h3><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
+              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><div className="hlt-blog-destination-feature-title">Sapa</div><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
             </aside>
           </div>
         </div>
@@ -213,7 +217,7 @@ export default function BlogPage() {
         <div className="hlt-container hlt-cruise-cta-content">
           <div className="hlt-cruise-cta-text">
             <p className="hlt-blog-story-eyebrow">LOCAL EXPERIENCE. MEANINGFUL JOURNEY</p>
-            <h2 id="blog-story-title">Discover Vietnam in Your Own Way</h2>
+            <div id="blog-story-title" className="hlt-cruise-cta-title">Discover Vietnam in Your Own Way</div>
             <p className="hlt-blog-story-description">Our stories go beyond the destinations — they&rsquo;re about people, culture and the moments that make travel truly meaningful.</p>
           </div>
           <a className="hlt-cruise-btn-gold hlt-blog-story-button" href="/about/">Explore Our Story<Icon name="arrow" /></a>

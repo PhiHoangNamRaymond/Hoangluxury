@@ -1345,7 +1345,7 @@
   gap: clamp(20px, 3vw, 40px);
 }
 
-.hlt-cruise-cta-text h2 {
+.hlt-cruise-cta-text :is(h2, .hlt-cruise-cta-title) {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(25px, 2.7vw, 34px);
   font-weight: 700;
@@ -1783,7 +1783,7 @@
   .hlt-cruise-stats-left h2,
   .hlt-cruise-reviews-left h2,
   .hlt-cruise-faq-left h2,
-  .hlt-cruise-cta-text h2 {
+  .hlt-cruise-cta-text :is(h2, .hlt-cruise-cta-title) {
     width: 100% !important;
     max-width: 100% !important;
     white-space: normal !important;
@@ -2160,7 +2160,7 @@
     gap: 22px !important;
   }
 
-  .hlt-cruise-cta-text h2 {
+  .hlt-cruise-cta-text :is(h2, .hlt-cruise-cta-title) {
     font-size: 26px !important;
     margin-bottom: 8px !important;
   }

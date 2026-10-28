@@ -133,3 +133,18 @@
     display: none;
   }
 }
+
+/* Mobile: khoảng cách hai bên đường phân cách Services | Fleet bằng nhau
+   (khách yêu cầu 28/10/2026). Dòng "OUR FLEET" là inline-flex trong dòng chữ
+   lớn của h2 nên bị đẩy xuống ~18px; tách thành hàng riêng. */
+@media (max-width: 600px) {
+  .hlt-fleet {
+    padding-top: 48px;
+  }
+
+  .hlt-fleet h2 .hlt-seo-kicker {
+    display: flex;
+    width: fit-content;
+    margin-inline: auto;
+  }
+}
