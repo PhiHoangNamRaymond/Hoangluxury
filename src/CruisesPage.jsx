@@ -3,7 +3,7 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { cruiseData } from "./config/cruises.js";
-import { cruiseImages, preferenceIconImages } from "./config/assets.js";
+import { cruiseBackgroundAlts, cruiseImages, preferenceIconImages } from "./config/assets.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
@@ -36,6 +36,8 @@ export default function CruisesPage() {
           className="hlt-cruise-hero"
           style={{ backgroundImage: `url(${cruiseImages.heroHalong})` }}
         >
+          {/* Ảnh nền CSS không có alt: ảnh ẩn cùng file mang alt cho trình đọc màn hình / tìm kiếm. */}
+          <img className="hlt-cruise-bg-alt" src={cruiseImages.heroHalong} alt={cruiseBackgroundAlts.heroHalong} />
           <div className="hlt-cruise-hero-overlay" aria-hidden="true" />
 
           <div className="hlt-container hlt-cruise-hero-container">
@@ -59,8 +61,9 @@ export default function CruisesPage() {
             <div className="hlt-cruise-hero-content">
               <p className="hlt-cruise-hero-kicker">HANDPICKED · LUXURY · PRIVATE TRANSFER</p>
               <h1 className="hlt-cruise-hero-title">
-                <span className="hlt-title-white">LUXURY</span>
-                <span className="hlt-title-gold">HA LONG CRUISES</span>
+                {/* Chữ thường + dấu cách: Google đọc "Luxury Ha Long Cruises"; CSS vẫn in hoa. */}
+                <span className="hlt-title-white">Luxury</span>{" "}
+                <span className="hlt-title-gold">Ha Long Cruises</span>
               </h1>
 
               <div className="hlt-cruise-crown-divider" aria-hidden="true">
@@ -177,7 +180,7 @@ export default function CruisesPage() {
                     <div className="hlt-cruise-card-media">
                       <img
                         src={cruiseImg}
-                        alt={cruise.name}
+                        alt=""
                         loading="lazy"
                         className="hlt-cruise-card-img"
                       />
@@ -221,7 +224,7 @@ export default function CruisesPage() {
                     <div className="hlt-cruise-card-media">
                       <img
                         src={cruiseImg}
-                        alt={cruise.name}
+                        alt=""
                         loading="lazy"
                         className="hlt-cruise-card-img"
                       />
@@ -265,7 +268,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-match-layout">
               <div className="hlt-cruise-match-left">
-                <h2>Not Sure Which Cruise to Choose?</h2>
+                <div className="hlt-cruise-match-title">Not Sure Which Cruise to Choose?</div>
                 <p>
                   Tell us what you're looking for. We'll recommend the most suitable cruise based on your
                   travel dates, preferences and budget.
@@ -295,7 +298,7 @@ export default function CruisesPage() {
                         height="54"
                       />
                     </div>
-                    <h3>{cat.title}</h3>
+                    <div className="hlt-cruise-pref-title">{cat.title}</div>
                   </div>
                 ))}
               </div>
@@ -311,9 +314,10 @@ export default function CruisesPage() {
             className="hlt-cruise-seamless-banner"
             style={{ backgroundImage: `url(${cruiseImages.seamlessTransfer})` }}
           >
+            <img className="hlt-cruise-bg-alt" src={cruiseImages.seamlessTransfer} alt={cruiseBackgroundAlts.seamlessTransfer} loading="lazy" />
             <div className="hlt-cruise-seamless-overlay" aria-hidden="true" />
             <div className="hlt-container hlt-cruise-seamless-content">
-              <h2>From Your Hotel to Your Cruise — Seamlessly</h2>
+              <div className="hlt-cruise-seamless-title">From Your Hotel to Your Cruise — Seamlessly</div>
               <p className="hlt-cruise-seamless-subtitle">
                 Enjoy a private journey from Hanoi or Noi Bai Airport directly to your cruise terminal.
               </p>
@@ -457,7 +461,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-exp-layout">
               <div className="hlt-cruise-exp-intro">
-                <h2>A Different View, A Slower Pace</h2>
+                <h2>What to Expect on Your Cruise</h2>
                 <p>
                   Wake up to limestone islands beyond your window, explore quiet caves and linger over
                   dinner as the sun sets over the bay. Take time to enjoy the scenery and the company
@@ -469,20 +473,21 @@ export default function CruisesPage() {
                 <div
                   className="hlt-cruise-exp-banner"
                   style={{ backgroundImage: `url(${cruiseImages.mosaicPanorama || cruiseImages.heroHalong})` }}
-                  aria-label="Ha Long Bay panorama"
-                />
+                >
+                  <img className="hlt-cruise-bg-alt" src={cruiseImages.mosaicPanorama} alt={cruiseBackgroundAlts.mosaicPanorama} loading="lazy" />
+                </div>
 
                 <div className="hlt-cruise-exp-grid">
                   {cruiseData.experiences.items.map((item) => (
                     <div className="hlt-cruise-exp-card" key={item.id}>
                       <img
                         src={cruiseImages[item.imageKey]}
-                        alt={item.label}
+                        alt={item.alt}
                         loading="lazy"
                         className="hlt-cruise-exp-img"
                       />
                       <div className="hlt-cruise-exp-overlay">
-                        <h4>{item.label}</h4>
+                        <h3>{item.label}</h3>
                       </div>
                     </div>
                   ))}
@@ -501,7 +506,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-durations-layout">
               <div className="hlt-cruise-durations-intro">
-                <h2>Choose Your Journey</h2>
+                <h2>Choose Your Cruise Duration</h2>
               </div>
 
               <div className="hlt-cruise-durations-grid">
@@ -510,7 +515,7 @@ export default function CruisesPage() {
                     <div className="hlt-cruise-duration-media">
                       <img
                         src={cruiseImages[duration.imageKey]}
-                        alt={duration.title}
+                        alt=""
                         loading="lazy"
                       />
                     </div>
@@ -540,7 +545,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-stats-layout">
               <div className="hlt-cruise-stats-left">
-                <h2>Your Cruise, With Every Detail in Place</h2>
+                <div className="hlt-cruise-stats-title">Your Cruise, With Every Detail in Place</div>
                 <ul className="hlt-cruise-benefits-list">
                   <li>
                     <span className="hlt-check-icon">✓</span>
@@ -626,17 +631,17 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-moments-grid">
               <div className="hlt-cruise-moment-card hlt-cruise-moment-featured">
-                <img src={cruiseImages.momentSundeck || cruiseImages.heroHalong} alt="Ha Long Bay sundeck panorama" loading="lazy" />
-                <h2 className="hlt-cruise-moment-title">Real Cruise Moments</h2>
+                <img src={cruiseImages.momentSundeck || cruiseImages.heroHalong} alt="" loading="lazy" />
+                <div className="hlt-cruise-moment-title">Real Cruise Moments</div>
               </div>
               <div className="hlt-cruise-moment-card">
-                <img src={cruiseImages.expCabin} alt="Luxury suite interior" loading="lazy" />
+                <img src={cruiseImages.momentCabin} alt="" loading="lazy" />
               </div>
               <div className="hlt-cruise-moment-card">
-                <img src={cruiseImages.expDining} alt="Fine dining table setting" loading="lazy" />
+                <img src={cruiseImages.momentDining} alt="" loading="lazy" />
               </div>
               <div className="hlt-cruise-moment-card">
-                <img src={cruiseImages.expKayaking} alt="Kayaking in Ha Long Bay" loading="lazy" />
+                <img src={cruiseImages.momentKayaking} alt="" loading="lazy" />
               </div>
             </div>
 
@@ -708,7 +713,7 @@ export default function CruisesPage() {
                         onClick={() => toggleFaq(index)}
                         aria-expanded={isOpen}
                       >
-                        <span>{faq.q}</span>
+                        <h3 className="hlt-cruise-faq-q">{faq.q}</h3>
                         <svg
                           className="hlt-faq-chevron"
                           viewBox="0 0 16 16"
@@ -746,7 +751,7 @@ export default function CruisesPage() {
           <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
           <div className="hlt-container hlt-cruise-cta-content">
             <div className="hlt-cruise-cta-text">
-              <h2>Your Ha Long Journey Starts Here</h2>
+              <div className="hlt-cruise-cta-title">Your Ha Long Journey Starts Here</div>
               <p>
                 Tell us your travel date and preferences. We'll help you select the right cruise and
                 arrange your private journey from Hanoi.

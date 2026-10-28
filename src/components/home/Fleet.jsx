@@ -9,7 +9,7 @@ import {
   routeViewAllButtonUrl,
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
-import { fleet as fleetItems, getJourneyPageUrl, popularRoutes } from "../../data.js";
+import { fleet as fleetItems, getJourneyPageUrl, popularRouteArtworkAlts, popularRoutes } from "../../data.js";
 
 export function FleetSpecIcon({ spec }) {
   const type = spec.toLowerCase();
@@ -52,7 +52,7 @@ export default function Fleet() {
             <article className="hlt-fleet-card" key={vehicle.name}>
               <h3>{vehicle.name}</h3>
               <div className="hlt-fleet-img">
-                <ContentImage src={fleetImages[vehicle.image]} {...fleetPhotoProps(vehicle.image, fleetImages[vehicle.image])} alt={vehicle.name} loading="lazy" decoding="async" />
+                <ContentImage src={fleetImages[vehicle.image]} {...fleetPhotoProps(vehicle.image, fleetImages[vehicle.image])} alt={vehicle.alt} loading="lazy" decoding="async" />
               </div>
               <div className="hlt-fleet-body">
                 <div className="hlt-fleet-specs">
@@ -114,8 +114,8 @@ export default function Fleet() {
                 >
                   <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>
                   {routeArtwork[index] ? (
-                    <span className="hlt-route-artwork" aria-hidden="true">
-                      <img src={routeArtwork[index]} alt="" loading="lazy" decoding="async" />
+                    <span className="hlt-route-artwork">
+                      <img src={routeArtwork[index]} alt={popularRouteArtworkAlts[index]} loading="lazy" decoding="async" />
                     </span>
                   ) : (
                     <span className="hlt-route-mountain" aria-hidden="true">
@@ -134,7 +134,7 @@ export default function Fleet() {
             {/* Desktop: Original Image Button */}
             <a
               className="hlt-route-cta hlt-route-cta-image"
-              href="/journeys/"
+              href="/routes/"
               aria-label="View All Routes"
             >
               <img src={routeViewAllButtonUrl} alt="" loading="lazy" />
@@ -143,7 +143,7 @@ export default function Fleet() {
             {/* Mobile: Styled Nautical Compass Button */}
             <a
               className="hlt-route-cta hlt-route-cta-button"
-              href="/journeys/"
+              href="/routes/"
               aria-label="View All Routes"
             >
               <span className="hlt-route-cta-icon" aria-hidden="true">

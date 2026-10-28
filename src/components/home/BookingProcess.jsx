@@ -1,16 +1,16 @@
 import React from "react";
 import useNearViewport from "../../hooks/useNearViewport.js";
 import {
+  bookingJourneyCarIconUrl,
   bookingProcessBackgroundUrl,
   botanicalCornerGoldUrl,
   logoUrl,
-  whyVehicleIconUrl,
 } from "../../config/assets.js";
 import { bookingRows, catalogPageUrl, whatsappUrl } from "../../data.js";
 
 function BookingProcessIcon({ type }) {
   if (type === "car") {
-    return <img src={whyVehicleIconUrl} alt="" className="hlt-process-car-icon-img" />;
+    return <img src={bookingJourneyCarIconUrl} alt="" className="hlt-process-car-icon-img" />;
   }
 
   const icons = {

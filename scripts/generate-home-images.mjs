@@ -11,11 +11,11 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const output = resolve(root, "assets/opt/home-responsive");
 await mkdir(output, { recursive: true });
 const photos = [
-  "service-airport-2026", "service-long-distance-2026",
-  "service-custom-trip-2026", "service-business-2026",
-  "vehicle-limo-prime-2026", "vehicle-limo-lux-2026", "vehicle-vf9-2026",
+  "noi-bai-airport-private-transfer-car", "long-distance-private-transfer",
+  "custom-trip-private-car", "business-private-transfer-car",
+  "limo-prime-private-transfer-front-view", "limo-lux-private-car-white-exterior", "hoang-luxury-travel-vf9-private-car",
 ];
-const icons = ["service-icon-airport", "service-icon-business", "service-icon-custom-trip", "service-icon-long-distance"];
+const icons = ["airport-private-transfer-icon", "business-private-transfer-icon", "custom-private-trip-icon", "long-distance-private-transfer-icon"];
 for (const name of [...photos, ...icons]) {
   const source = resolve(root, "assets", `${name}.webp`);
   const widths = icons.includes(name) ? [128, 192] : [320, 640, 960, 1280];

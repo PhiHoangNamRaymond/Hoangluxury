@@ -1,4 +1,7 @@
 import { safeCatalogUrl } from "./lib/public-config.js";
+import { cruisesPagePath, journeyPagePath } from "./config/journey-paths.js";
+import { photoPagePath } from "./config/photo-album-list.js";
+import { blogPagePath } from "./lib/blog-article.js";
 
 /* Số WhatsApp của công ty; mọi link chat đều dựng từ đây. */
 const WHATSAPP_NUMBER = "84839779888";
@@ -14,8 +17,8 @@ export const catalogUrl = safeCatalogUrl(import.meta.env.VITE_CATALOG_URL,
   "https://drive.google.com/file/d/14nh1z-ONGZ3I5KKwkx8__xjs08bmkd8O/view");
 export const catalogPageUrl = "/catalog/";
 export const feedbackPageUrl = "/feedback/";
-const aboutPageUrl = "/about/";
-const photoPageUrl = "/photo/";
+export const aboutPageUrl = "/about-us/";
+const photoPageUrl = photoPagePath;
 
 export const popularRoutes = [
   "Sapa",
@@ -29,22 +32,33 @@ export const popularRoutes = [
   "Ta Xua",
 ];
 
-const cruisesPageUrl = "/cruises/";
+// Alt ảnh minh hoạ thẻ tuyến trang chủ, cùng thứ tự với popularRoutes.
+export const popularRouteArtworkAlts = [
+  "Hanoi or Noi Bai Airport to Sapa private transfer",
+  "Private car from Hanoi or Noi Bai Airport to Ha Long",
+  "Private transfer from Hanoi or Noi Bai Airport to Ninh Binh",
+  "Private car journey from Hanoi or Noi Bai Airport to Ha Giang",
+  "Hanoi or Noi Bai Airport to Cat Ba private transfer",
+  "Private car from Hanoi or Noi Bai Airport to Cao Bang",
+  "Private transfer from Hanoi or Noi Bai Airport to Moc Chau",
+  "Private car trip from Hanoi or Noi Bai Airport to Mu Cang Chai",
+  "Hanoi or Noi Bai Airport to Ta Xua private transfer",
+];
+
+const cruisesPageUrl = cruisesPagePath;
 
 export const getJourneyPageUrl = (route) => {
   const routeSlug = route.toLowerCase().replace(/\s+/g, "-");
-  const destinationSlug = routeSlug === "sa-pa" ? "sapa" : routeSlug;
-  return `/journey/hanoi-to-${destinationSlug}-private-transfer/`;
+  return journeyPagePath(routeSlug === "sa-pa" ? "sapa" : routeSlug);
 };
 
 const hanoiRoute = (route) => [`Hanoi to ${route === "Ha Long" ? "Halong" : route}`, getJourneyPageUrl(route)];
 
-const routesOverviewUrl = "/journeys/";
-/* Tuyến nối tỉnh: slug đặt theo đúng tên tuyến, ví dụ
-   /journey/sapa-to-ha-long-private-transfer/ */
+const routesOverviewUrl = "/routes/";
+/* Tuyến nối tỉnh: khoá tuyến đặt theo đúng tên, ví dụ "Sapa to Ha Long" → sapa-to-ha-long. */
 const cityRoute = (label) => [
   label.replace(/Ha Long/g, "Halong"),
-  `/journey/${label.toLowerCase().replace(/\s+/g, "-")}-private-transfer/`,
+  journeyPagePath(label.toLowerCase().replace(/\s+/g, "-")),
 ];
 
 // Menu "Routes" trên header: ba cột cung đường, tiêu đề vàng dẫn sang trang
@@ -94,33 +108,33 @@ export const navLinks = [
   ["Booking", "/booking/"],
   ["Feedback", feedbackPageUrl],
   ["Photo", photoPageUrl],
-  ["Blog", "/blog/"],
+  ["Blog", blogPagePath],
   ["About Us", aboutPageUrl],
 ];
 
 export const heroSlides = [
   {
     image: "sapaDrive",
-    alt: "Black private SUV on a mountain road above the rice terraces of Sapa at sunrise",
+    alt: "Hoang Luxury Travel’s vehicle travels along the roads of Northern Vietnam",
     // Điện thoại chỉ thấy khoảng một phần tư bề ngang ảnh: dịch sang phải để
     // giữ đầu xe trong khung.
     mobilePosition: "88% center",
   },
   {
     image: "convoyMountain",
-    alt: "Convoy of luxury SUVs driving through a mountain village at dusk",
+    alt: "Hoang Luxury Travel’s private vehicles serve international travelers on scenic routes throughout Northern Vietnam.",
   },
   {
     image: "muCangChaiConvoy",
-    alt: "Private SUVs on a winding road through the golden rice terraces of Mu Cang Chai",
+    alt: "Hoang Luxury Travel’s fleet provides private car from hanoi to sapa",
   },
   {
     image: "operationsTeam",
-    alt: "Hoang Luxury Travel operations team supporting travellers",
+    alt: "Hoang Luxury Travel team support 24/7 private transfer",
   },
   {
     image: "receptionDesk",
-    alt: "Hoang Luxury Travel reception desk",
+    alt: "Reception desk at the Hoang Luxury Travel private transfer office",
   },
 ];
 
@@ -154,21 +168,25 @@ export const services = [
   // long-distance, "haGiang" là ảnh business.
   {
     image: "airport",
+    alt: "Hoang Luxury Travel's private car service for passengers at Noi Bai International Airport",
     title: "Airport Transfer",
     text: "Private airport transfers between the airport and your destination.",
   },
   {
     image: "sapa",
+    alt: "Hoang Luxury Travel’s private car on a mountain road during a long-distance transfer",
     title: "Long-Distance Private Transfer",
     text: "Private transfers between cities with direct routes, flexible departure times, no shared rides.",
   },
   {
     image: "custom",
+    alt: "Hoang Luxury Travel's white private car surrounded by limestone mountains in Northern Vietnam",
     title: "Custom Private Trip",
     text: "Choose your destinations and travel on your own schedule with a private driver.",
   },
   {
     image: "haGiang",
+    alt: "Hoang Luxury Travel's private car outside a modern building for business transfers",
     title: "Business / Partner Transfer",
     text: "Private transportation for business meetings, corporate events, and VIP guests.",
   },
@@ -178,16 +196,19 @@ export const fleet = [
   {
     image: "limoLux",
     name: "Limo Lux",
+    alt: "White Limo LUX Hoang Luxury Travel private car viewed from the front and side",
     specs: ["6 Seats", "Comfort", "Spacious"],
   },
   {
     image: "limoGreen",
     name: "Limo Prime",
+    alt: "Front view of the Hoang Luxury Travel white Limo Prime vehicle for private transfers",
     specs: ["6 Seats", "Premium", "Executive"],
   },
   {
     image: "vf9",
     name: "VF9 Luxury",
+    alt: "White VF9 electric SUV in the Hoang Luxury Travel private car fleet",
     specs: ["6 Seats", "Electric", "Luxury SUV"],
   },
 ];

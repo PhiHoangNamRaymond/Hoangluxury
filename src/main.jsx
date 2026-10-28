@@ -2,8 +2,19 @@ import React, { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { journeys } from "./config/journeys.js";
-import { photoAlbumBySlug } from "./config/photo-albums.js";
+import { cruisesPagePath, journeyKeyFromSlug, journeyPagePath } from "./config/journey-paths.js";
+import {
+  photoAlbumBySlug,
+  photoAlbumsPath,
+  photoAlbumUrl,
+  photoCategoryFromSlug,
+  photoCategoryPageDescription,
+  photoCategoryPageTitle,
+  photoCategoryPath,
+  photoPagePath,
+} from "./config/photo-albums.js";
 import { captureBookingSource } from "./config/booking-source.js";
+import { blogArticleUrl, blogPagePath } from "./lib/blog-article.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import "./styles/index.css";
 
@@ -28,12 +39,17 @@ captureBookingSource();
 
 const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
 const pages = {
+  "/about-us": AboutPage,
   "/about": AboutPage,
+  "/hoangphoto": PhotoPage,
+  "/hoangphoto/albums": PhotoAlbumsPage,
   "/photo": PhotoPage,
   "/photo/albums": PhotoAlbumsPage,
+  "/hoangphoto/blog": BlogPage,
   "/blog": BlogPage,
   "/booking": BookingPage,
   "/catalog": CatalogPage,
+  "/routes/halong-bay-cruises": CruisesPage,
   "/cruises": CruisesPage,
   "/ha-long-cruises": CruisesPage,
   "/feedback": FeedbackPage,
@@ -41,52 +57,55 @@ const pages = {
   "/routes": JourneysPage,
 };
 
-// Blog resolve trực tiếp từ DB; bài không tồn tại có màn hình riêng, không về home.
-const requestedPostSlug = normalizedPath.match(/^\/blog\/([^/]+)$/)?.[1];
+// Bài blog: /hoangphoto/blog/<slug>/ (nhận cả đường dẫn cũ /blog/<slug>/). Blog
+// resolve trực tiếp từ DB; bài không tồn tại có màn hình riêng, không về home.
+const requestedPostSlug = normalizedPath.match(/^\/(?:hoangphoto\/)?blog\/([^/]+)$/)?.[1];
 const postSlug = requestedPostSlug || null;
 
-// /photo/albums/<slug>/ - một album ảnh; slug lạ thì rơi về trang chủ.
-const requestedAlbumSlug = normalizedPath.match(/^\/photo\/albums\/([a-z0-9-]+)$/)?.[1];
+if (postSlug && `${normalizedPath}/` !== blogArticleUrl(postSlug)) {
+  window.history.replaceState(null, "", `${blogArticleUrl(postSlug)}${window.location.search}${window.location.hash}`);
+}
 
+// Một album: /hoangphoto/<phong cách>/<album>/ (đường dẫn chuẩn theo photoAlbumUrl);
+// nhận cả đường dẫn cũ /photo/albums/<album>/ và album đặt dưới phong cách khác.
+// /hoangphoto/blog/… là bài blog, không phải album. Slug lạ thì rơi về trang chủ.
+const requestedAlbumSlug = normalizedPath.match(/^\/(?:photo\/albums|hoangphoto\/albums|hoangphoto\/(?!blog\/)[a-z0-9-]+)\/([a-z0-9-]+)$/)?.[1];
 const albumSlug = requestedAlbumSlug && photoAlbumBySlug[requestedAlbumSlug] ? requestedAlbumSlug : null;
 
-// /journey/<slug>/ - slug lạ thì rơi về trang chủ như mọi đường dẫn không khớp.
-const requestedJourneySlug = normalizedPath.match(/^\/journey\/([a-z0-9-]+)$/)?.[1];
-const canonicalJourneySlugByLegacy = {
-  sapa: "hanoi-to-sapa-private-transfer",
-  "ha-long": "hanoi-to-ha-long-private-transfer",
-  "ninh-binh": "hanoi-to-ninh-binh-private-transfer",
-  "ha-giang": "hanoi-to-ha-giang-private-transfer",
-  "cat-ba": "hanoi-to-cat-ba-private-transfer",
-  "cao-bang": "hanoi-to-cao-bang-private-transfer",
-  "mu-cang-chai": "hanoi-to-mu-cang-chai-private-transfer",
-  "moc-chau": "hanoi-to-moc-chau-private-transfer",
-  "ta-xua": "hanoi-to-ta-xua-private-transfer",
-  "pu-luong": "hanoi-to-pu-luong-private-transfer",
-  "sapa-to-ha-long": "sapa-to-ha-long-private-transfer",
-  "sapa-to-ninh-binh": "sapa-to-ninh-binh-private-transfer",
-  "sapa-to-ha-giang": "sapa-to-ha-giang-private-transfer",
-  "sapa-to-mu-cang-chai": "sapa-to-mu-cang-chai-private-transfer",
-  "ha-long-to-sapa": "ha-long-to-sapa-private-transfer",
-  "ninh-binh-to-sapa": "ninh-binh-to-sapa-private-transfer",
-};
-const legacyJourneySlugByCanonical = Object.fromEntries(
-  Object.entries(canonicalJourneySlugByLegacy).map(([legacy, canonical]) => [canonical, legacy]),
-);
-const journeySlug = legacyJourneySlugByCanonical[requestedJourneySlug] || requestedJourneySlug;
-const journey = journeySlug && journeys[journeySlug] ? journeySlug : null;
+// Lưới album lọc sẵn một phong cách: /hoangphoto/<phong cách>/.
+const photoCategory = photoCategoryFromSlug(normalizedPath.match(/^\/hoangphoto\/([a-z0-9-]+)$/)?.[1]);
 
-if (journey && canonicalJourneySlugByLegacy[journey] !== requestedJourneySlug) {
-  window.history.replaceState(null, "", `/journey/${canonicalJourneySlugByLegacy[journey]}/`);
+// Trang tuyến: /journey/<slug>/ hoặc /routes/<slug>/ (đường dẫn chuẩn từng tuyến ở
+// config/journey-paths.js). Slug lạ thì rơi về trang chủ như mọi đường dẫn không khớp.
+const requestedJourneySlug = normalizedPath.match(/^\/(?:journey|routes)\/([a-z0-9-]+)$/)?.[1];
+const journeyKey = requestedJourneySlug ? journeyKeyFromSlug(requestedJourneySlug) : null;
+const journey = journeyKey && journeys[journeyKey] ? journeyKey : null;
+
+// Dev/preview servers do not apply hosting redirects; keep legacy URLs usable.
+if (journey && `${normalizedPath}/` !== journeyPagePath(journey)) {
+  window.history.replaceState(null, "", `${journeyPagePath(journey)}${window.location.search}${window.location.hash}`);
+}
+
+if (albumSlug && `${normalizedPath}/` !== photoAlbumUrl(albumSlug)) {
+  window.history.replaceState(null, "", `${photoAlbumUrl(albumSlug)}${window.location.search}${window.location.hash}`);
 }
 
 const canonicalPathByAlias = {
-  "/routes": "/journeys/",
-  "/ha-long-cruises": "/cruises/",
+  "/journeys": "/routes/",
+  "/cruises": cruisesPagePath,
+  "/ha-long-cruises": cruisesPagePath,
+  "/photo": photoPagePath,
+  "/photo/albums": photoAlbumsPath,
+  "/blog": blogPagePath,
+  "/about": "/about-us/",
 };
 
+if (canonicalPathByAlias[normalizedPath]) {
+  window.history.replaceState(null, "", `${canonicalPathByAlias[normalizedPath]}${window.location.search}${window.location.hash}`);
+}
+
 const routeSeo = {
-  "/blog": {
+  "/hoangphoto/blog": {
     title: "Travel Blog | Hoang Luxury Travel",
     description: "Travel stories, practical guides and local insights for your private journey through Sapa, Ha Giang, Ha Long and Northern Vietnam.",
   },
@@ -95,13 +114,13 @@ const routeSeo = {
     description:
       "Hoang Luxury Travel provides private transfer and car-with-driver services across Northern Vietnam. We specialize in long-distance journeys from Hanoi and Noi Bai International Airport to Sa Pa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations.",
   },
-  "/about": {
+  "/about-us": {
     title: "About Hoang Luxury Travel | Private Transfers in Vietnam",
     description:
       "Discover the story behind Hoang Luxury Travel, providing private transfers across Northern Vietnam with professional drivers and personalized journeys for international travelers.",
   },
   "/booking": {
-    title: "Book a Private Transfer | Hoang Luxury Travel",
+    title: "Booking Private Transfer | Hoang Luxury Travel",
     description:
       "Book a 100% private transfer with Hoang Luxury Travel. Enjoy direct door-to-door service, no shared passengers, professional drivers and flexible pick-up times.",
   },
@@ -110,8 +129,8 @@ const routeSeo = {
     description:
       "View private transfer vehicles, routes and transparent pricing from Hoang Luxury Travel.",
   },
-  "/cruises": {
-    title: "Ha Long Cruises | Hoang Luxury Travel",
+  "/routes/halong-bay-cruises": {
+    title: "Halong Bay Cruise | Hoang Luxury Travel",
     description:
       "Discover Ha Long Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
   },
@@ -120,17 +139,17 @@ const routeSeo = {
     description:
       "Read feedback from international travelers and share your experience with Hoang Luxury Travel.",
   },
-  "/journeys": {
+  "/routes": {
     title: "Private Transfer Routes | Hoang Luxury Travel",
     description:
       "Explore private transfer routes from Hanoi and Noi Bai Airport to destinations across Northern Vietnam.",
   },
-  "/photo": {
-    title: "Photo Experience | Hoang Luxury Travel",
+  "/hoangphoto": {
+    title: "Private Photo Shoots | Hoang Luxury Travel",
     description:
-      "Private travel photography across Northern Vietnam: six photo styles, half-day and full-day experiences with Hoang Luxury Travel.",
+      "Book a private photo shoot in Northern Vietnam with Hoang Luxury Travel. Explore a variety of creative concepts with convenient door-to-door private car service.",
   },
-  "/photo/albums": {
+  "/hoangphoto/albums": {
     title: "Photo Albums | Hoang Luxury Travel",
     description:
       "Real photographs from private journeys across Northern Vietnam with Hoang Luxury Travel.",
@@ -138,13 +157,15 @@ const routeSeo = {
 };
 
 const canonicalPath = journey
-  ? `/journey/${canonicalJourneySlugByLegacy[journey]}/`
+  ? journeyPagePath(journey)
   : postSlug
-    ? `/blog/${postSlug}/`
+    ? blogArticleUrl(postSlug)
     : albumSlug
-      ? `/photo/albums/${albumSlug}/`
-      : normalizedPath === "/admin" ? "/admin/"
-        : canonicalPathByAlias[normalizedPath] || (pages[normalizedPath] ? `${normalizedPath}/` : "/");
+      ? photoAlbumUrl(albumSlug)
+      : photoCategory
+        ? photoCategoryPath(photoCategory)
+        : normalizedPath === "/admin" ? "/admin/"
+          : canonicalPathByAlias[normalizedPath] || (pages[normalizedPath] ? `${normalizedPath}/` : "/");
 const album = albumSlug ? photoAlbumBySlug[albumSlug] : null;
 const seo = journey
   ? {
@@ -152,13 +173,15 @@ const seo = journey
       description: journeys[journey].metaDescription || journeys[journey].intro,
     }
   : postSlug
-    ? routeSeo["/blog"]
+    ? routeSeo["/hoangphoto/blog"]
     : album
       ? {
           title: `${album.title} | Hoang Luxury Travel`,
           description: `${album.title} - ${album.category} photos from ${album.place}, by Hoang Luxury Travel.`,
         }
-      : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
+      : photoCategory
+        ? { title: photoCategoryPageTitle(photoCategory), description: photoCategoryPageDescription(photoCategory) }
+        : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
 const canonicalUrl = `https://hoangluxury.travel${canonicalPath}`;
 
 document.title = seo.title;
@@ -177,17 +200,24 @@ const RootPage = isAdminRoute
       ? () => <BlogArticlePage slug={postSlug} />
       : albumSlug
         ? () => <PhotoAlbumPage slug={albumSlug} />
-        : pages[normalizedPath] || App;
+        : photoCategory
+          ? PhotoAlbumsPage
+          : pages[normalizedPath] || App;
 
 // Home hiển thị ngay, không chạy hiệu ứng trượt nội dung khi vào trang.
 // Các trang có transition riêng giữ nguyên; toggle cũng xóa class cũ khi HMR.
 const pagesWithOwnTransition = new Set([
+  "/hoangphoto/blog",
   "/blog",
+  "/about-us",
   "/about",
+  "/hoangphoto",
+  "/hoangphoto/albums",
   "/photo",
   "/photo/albums",
   "/booking",
   "/catalog",
+  "/routes/halong-bay-cruises",
   "/cruises",
   "/ha-long-cruises",
   "/feedback",
@@ -196,7 +226,7 @@ const pagesWithOwnTransition = new Set([
 ]);
 document.documentElement.classList.toggle(
   "hlt-page-anim",
-  RootPage !== App && !journey && !albumSlug && !postSlug && !isAdminRoute && !pagesWithOwnTransition.has(normalizedPath),
+  RootPage !== App && !journey && !albumSlug && !photoCategory && !postSlug && !isAdminRoute && !pagesWithOwnTransition.has(normalizedPath),
 );
 
 createRoot(document.getElementById("root")).render(

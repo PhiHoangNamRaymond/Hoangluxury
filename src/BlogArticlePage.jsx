@@ -5,7 +5,7 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
-import { blogArticleUrl } from "./config/blog.js";
+import { blogArticleUrl, blogPagePath } from "./config/blog.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
@@ -92,7 +92,7 @@ export default function BlogArticlePage({ slug }) {
             )}
             {!loading && (
               <>
-                <a className="hlt-article-cta" href="/blog/">
+                <a className="hlt-article-cta" href={blogPagePath}>
                   Browse all stories
                   <ArrowIcon />
                 </a>
@@ -118,7 +118,7 @@ export default function BlogArticlePage({ slug }) {
         <article className="hlt-article">
           <div className="hlt-article-shell">
             <nav className="hlt-article-crumbs" aria-label="Breadcrumb">
-              <a href="/blog/">Travel Blog</a>
+              <a href={blogPagePath}>Travel Blog</a>
               <span aria-hidden="true">/</span>
               <span>{article.destinations[0] || article.topics[0] || "Article"}</span>
             </nav>
@@ -162,7 +162,7 @@ export default function BlogArticlePage({ slug }) {
                 Plan this journey with us
                 <ArrowIcon />
               </a>
-              <a className="hlt-article-back" href="/blog/">
+              <a className="hlt-article-back" href={blogPagePath}>
                 All articles
               </a>
             </footer>

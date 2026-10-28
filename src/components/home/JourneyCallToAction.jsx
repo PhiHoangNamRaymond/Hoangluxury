@@ -31,6 +31,8 @@ export default function JourneyCallToAction({
   // "form": nút thứ hai là Book via Form (/booking/) thay cho View Catalog —
   // trang chủ và /journeys/ theo yêu cầu khách 28/10/2026.
   secondary = "catalog",
+  // Ảnh nền bản "route"; 6 tuyến nối tỉnh truyền bản sao có tên file riêng.
+  background = journeyCtaMountainsUrl,
 }) {
   const Heading = headingLevel === "h2" ? "h2" : "h3";
   if (variant === "route") {
@@ -38,12 +40,13 @@ export default function JourneyCallToAction({
       <section
         className="hlt-booking-showcase-footer hlt-journey-cta hlt-journey-cta-route"
         aria-labelledby="journey-cta-title"
-        style={{ "--journey-cta-bg": `url(${journeyCtaMountainsUrl})` }}
+        style={{ "--journey-cta-bg": `url(${background})` }}
       >
         <div className="hlt-container">
           <div className="hlt-journey-cta-route-inner">
             <header className="hlt-journey-cta-route-head">
-              <div id="journey-cta-title" className="hlt-journey-cta-route-title">Ready To Start Your Journey?</div>
+              {/* H2 theo cấu trúc SEO khách duyệt (28/10/2026): H2 tiêu đề, H3 ba bước. */}
+              <h2 id="journey-cta-title" className="hlt-journey-cta-route-title">Ready To Start Your Journey?</h2>
               <p>Driver - Vehicle - Pick-up Time confirmed before departure.</p>
             </header>
 

@@ -31,7 +31,7 @@ const getInitialActiveHref = () => {
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileJourneysOpen, setMobileJourneysOpen] = useState(
-    () => getInitialActiveHref() === "/journeys/"
+    () => getInitialActiveHref() === "/routes/"
   );
   const [activeHref, setActiveHref] = useState(getInitialActiveHref);
   const scrollAnimationFrame = useRef(null);
@@ -262,7 +262,7 @@ export default function Header() {
       <header className="hlt-header">
         <div className="hlt-header-inner">
           <a className="hlt-brand" href="/">
-            <img className="hlt-brand-logo" src={logoUrl} alt="Hoang Luxury Travel" />
+            <img className="hlt-brand-logo" src={logoUrl} alt="Hoang Luxury Travel’s logo private transfer in Northern Viet Nam" />
             <div className="hlt-brand-text">
               <strong>HOANG</strong>
               <span>LUXURY TRAVEL</span>
@@ -408,11 +408,11 @@ export default function Header() {
           <div className="hlt-mobile-journey-group">
             <div className="hlt-mobile-route-row">
               <a
-                className={`hlt-mobile-nav-link${activeHref === "#routes" || activeHref === "/journeys/" ? " is-active" : ""}`}
+                className={`hlt-mobile-nav-link${activeHref === "#routes" || activeHref === "/routes/" ? " is-active" : ""}`}
                 href={navigationHref("#routes")}
                 onClick={(event) => handleNavigation(event, "#routes", navigationHref("#routes"))}
               >
-                {(activeHref === "#routes" || activeHref === "/journeys/") && <span className="hlt-mobile-nav-active-bar" />}
+                {(activeHref === "#routes" || activeHref === "/routes/") && <span className="hlt-mobile-nav-active-bar" />}
                 <span className="hlt-mobile-nav-label">Routes</span>
               </a>
               <button

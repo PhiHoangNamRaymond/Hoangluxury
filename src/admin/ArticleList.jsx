@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { supabase, blogImageUrl } from "../lib/supabase.js";
 import { adminSearchText } from "../lib/admin-search.js";
+import { blogArticleUrl } from "../lib/blog-article.js";
 
 function statusOf(article) {
   if (article.status !== "published") return { label: "Nháp", tone: "draft", key: "draft" };
@@ -235,7 +236,7 @@ export default function ArticleList({ profile, onEdit, onNew, reloadKey }) {
 
                   <span className="hlt-admin-row-actions">
                     {badge.tone === "live" ? (
-                      <a href={`/blog/${article.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`Xem bài trên web (tab mới): ${article.title}`}>
+                      <a href={blogArticleUrl(article.slug)} target="_blank" rel="noopener noreferrer" aria-label={`Xem bài trên web (tab mới): ${article.title}`}>
                         Xem
                       </a>
                     ) : (

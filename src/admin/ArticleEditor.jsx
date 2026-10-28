@@ -330,7 +330,7 @@ export default function ArticleEditor({ article, profile, onDone, onCancel, onDi
               maxLength={120}
               onChange={(event) => { setSlugTouched(true); update({ slug: event.target.value }); }}
             />
-            <small>hoangluxury.travel/blog/<b>{slugify(form.slug) || "duong-dan"}</b>/</small>
+            <small>hoangluxury.travel/hoangphoto/blog/<b>{slugify(form.slug) || "duong-dan"}</b>/</small>
           </label>
 
           <label className="hlt-admin-field">

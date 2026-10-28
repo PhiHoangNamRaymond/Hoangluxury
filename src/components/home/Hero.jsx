@@ -123,14 +123,8 @@ export default function Hero() {
     goTo(index + (distance < 0 ? 1 : -1));
   };
 
-  const slideStyle = (slide, slideIndex) => {
-    if (!loaded.has(slideIndex)) return undefined;
-
-    return {
-      "--slide-img": `url(${heroSlideImages[slide.image]})`,
-      ...(slide.mobilePosition && { "--slide-mobile-pos": slide.mobilePosition }),
-    };
-  };
+  const slideStyle = (slide) =>
+    slide.mobilePosition ? { "--slide-mobile-pos": slide.mobilePosition } : undefined;
 
   return (
     <section
@@ -140,7 +134,9 @@ export default function Hero() {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      <div className="hlt-hero-stage" aria-hidden="true">
+      {/* Ảnh slide là <img> thật có alt (SEO, 28/10/2026) thay cho ảnh nền CSS;
+          cắt và căn giống hệt background cũ bằng object-fit / object-position. */}
+      <div className="hlt-hero-stage" data-no-skeleton>
         {heroSlides.map((slide, slideIndex) => (
           <div
             className={
@@ -150,10 +146,15 @@ export default function Hero() {
             }
             key={slide.image}
           >
-            <div
-              className="hlt-hero-slide-image"
-              style={slideStyle(slide, slideIndex)}
-            />
+            <div className="hlt-hero-slide-image" style={slideStyle(slide)}>
+              {loaded.has(slideIndex) && (
+                <img
+                  src={heroSlideImages[slide.image]}
+                  alt={slide.alt}
+                  {...(slideIndex !== index && { "aria-hidden": "true" })}
+                />
+              )}
+            </div>
           </div>
         ))}
       </div>

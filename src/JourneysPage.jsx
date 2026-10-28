@@ -16,8 +16,10 @@ const allRoutesData = [
   {
     num: "01",
     name: "SA PA",
+    seoName: "Sapa",
     slug: "sapa",
     image: journeyCardImages[0],
+    alt: "Scenic mountain valleys and colorful flower fields in Sapa, a popular destination for private transfers from Hanoi",
     icon: journeyIconImages[0],
     routeLine: "Hanoi → Sa Pa",
     time: "5.0-5.5 Hours",
@@ -29,8 +31,11 @@ const allRoutesData = [
   {
     num: "02",
     name: "HA LONG",
+    // Tên trong heading (SEO) theo khách: "Hanoi to Halong"; hiển thị vẫn HA LONG.
+    seoName: "Halong",
     slug: "ha-long",
     image: journeyCardImages[1],
+    alt: "Traditional cruise boat sailing among the limestone islands of Ha Long Bay",
     icon: journeyIconImages[1],
     routeLine: "Hanoi → Ha Long",
     time: "2.5-3.0 Hours",
@@ -44,6 +49,7 @@ const allRoutesData = [
     name: "NINH BINH",
     slug: "ninh-binh",
     image: journeyCardImages[2],
+    alt: "Peaceful riverside temple surrounded by towering limestone mountains in Ninh Binh",
     icon: journeyIconImages[2],
     routeLine: "Hanoi → Ninh Binh",
     time: "1.5-2.0 Hours",
@@ -57,6 +63,7 @@ const allRoutesData = [
     name: "HA GIANG",
     slug: "ha-giang",
     image: journeyCardImages[3],
+    alt: "Winding mountain road through the dramatic green valleys of Ha Giang",
     icon: journeyIconImages[3],
     routeLine: "Hanoi → Ha Giang",
     time: "5.0-5.5 Hours",
@@ -70,6 +77,7 @@ const allRoutesData = [
     name: "CAT BA",
     slug: "cat-ba",
     image: journeyCardImages[4],
+    alt: "Traditional boats cruising through the turquoise waters and limestone islands near Cat Ba",
     icon: journeyIconImages[4],
     routeLine: "Hanoi → Cat Ba",
     time: "3.5-4.5 Hours",
@@ -83,6 +91,7 @@ const allRoutesData = [
     name: "CAO BANG",
     slug: "cao-bang",
     image: journeyCardImages[5],
+    alt: "Majestic waterfall cascading through lush green mountains in Cao Bang",
     icon: journeyIconImages[5],
     routeLine: "Hanoi → Cao Bang",
     time: "6.0-6.5 Hours",
@@ -96,6 +105,7 @@ const allRoutesData = [
     name: "MU CANG CHAI",
     slug: "mu-cang-chai",
     image: journeyCardImages[6],
+    alt: "Golden terraced rice fields cascading down the mountainsides of Mu Cang Chai at sunset",
     icon: journeyIconImages[6],
     routeLine: "Hanoi → Mu Cang Chai",
     time: "6.0-6.5 Hours",
@@ -109,6 +119,7 @@ const allRoutesData = [
     name: "MOC CHAU",
     slug: "moc-chau",
     image: journeyCardImages[7],
+    alt: "Rolling green hills and peaceful farmland surrounded by mountains in Moc Chau",
     icon: journeyIconImages[7],
     routeLine: "Hanoi → Moc Chau",
     time: "4.0-5.0 Hours",
@@ -122,6 +133,7 @@ const allRoutesData = [
     name: "TA XUA",
     slug: "ta-xua",
     image: journeyCardImages[8],
+    alt: "A sea of clouds drifting between the mountain peaks of Ta Xua beneath a pink sunset sky",
     icon: journeyIconImages[8],
     routeLine: "Hanoi → Ta Xua",
     time: "5.0-5.5 Hours",
@@ -164,8 +176,13 @@ export default function JourneysPage() {
       >
         <div className="hlt-container">
           <header className="hlt-journeys-header">
-            <p className="hlt-journeys-kicker">POPULAR ROUTES</p>
-            <h1 className="hlt-journeys-title">Private Transfers to Top Destinations</h1>
+            {/* H1 theo khách (28/10/2026): "Popular Routes - Private Transfers to Top
+                Destinations"; dấu " - " ẩn, giao diện vẫn là dòng nhỏ + tiêu đề. */}
+            <h1 className="hlt-journeys-h1">
+              <span className="hlt-journeys-kicker">Popular Routes</span>
+              <span className="hlt-seo-sep"> - </span>
+              <span className="hlt-journeys-title">Private Transfers to Top Destinations</span>
+            </h1>
             <p className="hlt-journeys-lead">
               Discover stunning landscapes and cultural wonders with our <span className="hlt-nobrk">door-to-door</span> private transfer service from Hanoi or Noi Bai Airport.
             </p>
@@ -193,7 +210,8 @@ export default function JourneysPage() {
                       <span className="hlt-jcard-compact-badge">{item.num}</span>
                     </a>
                     <div className="hlt-jcard-compact-body">
-                      <h2>Hanoi to {titleCase(item.name)}</h2>
+                      {/* Thẻ gọn chỉ hiện trên mobile, trùng tên với thẻ lớn: không làm heading. */}
+                      <div className="hlt-jcard-compact-title">Hanoi to {titleCase(item.name)}</div>
                       <ul>
                         <li><CompactIcon type="time" />{item.time}</li>
                         <li><CompactIcon type="vehicle" />{item.vehicle}</li>
@@ -209,10 +227,22 @@ export default function JourneysPage() {
                   </div>
 
                   <div className="hlt-jcard-media">
-                    <img src={item.image} alt={`Hanoi to ${item.name}`} />
+                    <img src={item.image} alt={item.alt} />
                     <span className="hlt-jcard-badge">{item.num}</span>
                     <div className="hlt-jcard-overlay">
-                      <h2>HANOI TO<br />{item.name}</h2>
+                      {/* Code viết thường ("Hanoi to Sapa"), CSS in hoa như cũ. seoName: tên trong
+                          code là "Sapa" / "Halong", màn hình vẫn hiện "SA PA" / "HA LONG"
+                          (vẽ bằng ::before từ data-display). */}
+                      <h2>
+                        Hanoi to <br />
+                        {item.seoName ? (
+                          <span className="hlt-jcard-name" data-display={titleCase(item.name)}>
+                            <span className="hlt-seo-sep">{item.seoName}</span>
+                          </span>
+                        ) : (
+                          titleCase(item.name)
+                        )}
+                      </h2>
                     </div>
 
                     <div className="hlt-jcard-stats">
@@ -314,9 +344,9 @@ export default function JourneysPage() {
           <div className="hlt-container">
             <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} width="216" height="216" loading="lazy" decoding="async" alt="" aria-hidden="true" />
 
-            <h2 className="hlt-journeys-outro-title">
+            <div className="hlt-journeys-outro-title">
               Looking for another destination?
-            </h2>
+            </div>
 
             <p className="hlt-journeys-outro-text">
               We also arrange private transfers and custom journeys across Northern Vietnam.
@@ -334,7 +364,7 @@ export default function JourneysPage() {
 
       </main>
 
-      <JourneyCallToAction secondary="form" />
+      <JourneyCallToAction secondary="form" headingLevel="h2" title="Ready To Start Your Journey?" />
       <ExperienceSlider />
       <Footer />
     </div>

@@ -9,12 +9,17 @@ import { fleet as fleetItems, whatsappUrl } from "./data.js";
 import {
   fleetImages,
   heroBannerUrl,
+  journeyExperienceCityImageAlts,
   journeyExperienceCityImages,
+  journeyExperienceImageAlts,
   journeyExperienceImages,
+  journeyPathCarIconUrl,
   servicesBackgroundUrl,
+  journeyBannerAlts,
   journeyBannerBySlug,
   journeyCarIconUrl,
   journeyChauffeurGoldIconUrl,
+  journeyCityCtaUrl,
   journeyFactIcons,
   journeyIconBySlug,
   journeyPickupIconUrl,
@@ -31,6 +36,7 @@ import {
   journeyHighlights,
   journeys,
 } from "./config/journeys.js";
+import { journeyPagePath } from "./config/journey-paths.js";
 
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
@@ -263,12 +269,12 @@ function JourneyBookActions() {
   );
 }
 
-/* Dải "Choose Your Intercity Transfer" của 6 trang tuyến nối tỉnh (theo mẫu
+/* Dải "Choose Your Route" (trước là "Choose Your Intercity Transfer") của 6 trang tuyến nối tỉnh (theo mẫu
    khách gửi 24/10/2026, giá sửa theo mẫu 27/10). Dùng lại khung thẻ và kiểu
    giá của dải 4 gói; thẻ tuyến đang xem
    tô xanh đậm, các thẻ khác dẫn sang trang của tuyến đó. */
 function IntercityTransfers({ currentId, currentTitle }) {
-  const title = "Choose Your Intercity Transfer";
+  const title = "Choose Your Route";
   /* Thẻ tô đậm luôn đứng ô thứ 3 (như mẫu); ba thẻ còn lại giữ thứ tự gốc. */
   const others = intercityTransfers.filter((item) => item.id !== currentId);
   const current = intercityTransfers.find((item) => item.id === currentId);
@@ -293,7 +299,7 @@ function IntercityTransfers({ currentId, currentTitle }) {
                 key={item.id}
                 {...(isCurrent
                   ? { "aria-current": "page" }
-                  : { href: `/journey/${item.routeKey}-private-transfer/` })}
+                  : { href: journeyPagePath(item.routeKey) })}
               >
                 {isCurrent && <span className="hlt-journey-option-badge">Popular Route</span>}
                 <img className="hlt-journey-intercity-icon" src={journeyIconBySlug[item.id]} alt="" />
@@ -347,7 +353,9 @@ export default function JourneyPage({ slug }) {
 
   /* Tuyến nối tỉnh không qua sân bay nên thẻ "Personal Meet & Greet" đổi thành
      "Door-to-Door", dùng ảnh đón tại khách sạn thay cho ảnh cầm biển ở sảnh đến. */
+  const heroImage = journeyBannerBySlug[slug] || heroBannerUrl;
   const experienceImages = journey.cityPickup ? journeyExperienceCityImages : journeyExperienceImages;
+  const experienceImageAlts = journey.cityPickup ? journeyExperienceCityImageAlts : journeyExperienceImageAlts;
   const experienceCards = journey.cityPickup ? journeyExperienceCity : journeyExperience;
 
   /* Mặc định đón tại Hà Nội; tuyến nối tỉnh (Sapa → Ha Long…) khai điểm đón
@@ -395,8 +403,13 @@ export default function JourneyPage({ slug }) {
       <main className="hlt-journey">
         <section
           className="hlt-journey-hero"
-          style={{ "--journey-hero-img": `url(${journeyBannerBySlug[slug] || heroBannerUrl})` }}
+          style={{ "--journey-hero-img": `url(${heroImage})` }}
         >
+          {/* Banner vẽ bằng ảnh nền CSS (cắt khác nhau theo cỡ màn hình); ảnh ẩn này
+              cùng file, chỉ để mang alt cho trình đọc màn hình và công cụ tìm kiếm. */}
+          {journeyBannerAlts[heroImage] && (
+            <img className="hlt-journey-hero-alt" src={heroImage} alt={journeyBannerAlts[heroImage]} />
+          )}
           <div className="hlt-journey-hero-main">
           <div className="hlt-container">
             <div className="hlt-journey-hero-content">
@@ -487,7 +500,7 @@ export default function JourneyPage({ slug }) {
               <div className="hlt-journey-path" aria-hidden="true">
                 <span className="hlt-journey-path-line is-start" />
                 <span className="hlt-journey-path-car">
-                  <img src={journeyFactIcons.vehicle} alt="" />
+                  <img src={journeyPathCarIconUrl} alt="" />
                 </span>
                 <span className="hlt-journey-path-line is-end" />
               </div>
@@ -532,7 +545,7 @@ export default function JourneyPage({ slug }) {
               {fleetItems.map((vehicle) => (
                 <article className="hlt-fleet-card" key={vehicle.name}>
                   <div className="hlt-fleet-img">
-                    <img src={fleetImages[vehicle.image]} alt={vehicle.name} />
+                    <img src={fleetImages[vehicle.image]} alt={vehicle.alt} />
                   </div>
                   <div className="hlt-fleet-body">
                     <h3>{vehicle.name}</h3>
@@ -628,7 +641,7 @@ export default function JourneyPage({ slug }) {
             <div className="hlt-journey-experience-grid">
               {experienceCards.map(([title, text], index) => (
                 <article className="hlt-journey-experience-card" key={title}>
-                  <img src={experienceImages[index]} alt="" loading="lazy" />
+                  <img src={experienceImages[index]} alt={experienceImageAlts[index]} loading="lazy" />
                   <div className="hlt-journey-experience-body">
                     <h3>{title}</h3>
                     <p>{text}</p>
@@ -691,7 +704,7 @@ export default function JourneyPage({ slug }) {
 
       </main>
 
-      <JourneyCallToAction variant="route" />
+      <JourneyCallToAction variant="route" background={journey.cityPickup ? journeyCityCtaUrl : undefined} />
       <ExperienceSlider />
       <Footer />
     </div>

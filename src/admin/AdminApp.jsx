@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase, supabaseReady, supabaseConfigError } from "../lib/supabase.js";
 import { logoGoldUrl } from "../config/assets.js";
+import { blogPagePath } from "../lib/blog-article.js";
 import useSession from "./useSession.js";
 import LoginScreen from "./LoginScreen.jsx";
 import PasswordScreen from "./PasswordScreen.jsx";
@@ -135,7 +136,7 @@ export default function AdminApp() {
               Tài khoản
             </button>
           )}
-          <a href="/blog/" target="_blank" rel="noopener noreferrer">Xem blog</a>
+          <a href={blogPagePath} target="_blank" rel="noopener noreferrer">Xem blog</a>
         </nav>
 
         <AccountMenu profile={profile} beforeLeave={canLeaveEditor} onChangePassword={() => setChangePassword(true)} />

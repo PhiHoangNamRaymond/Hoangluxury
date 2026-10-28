@@ -17,6 +17,9 @@ const { createRoot } = await import("react-dom/client");
 const { act } = React;
 const dataSource = (await readFile(new URL("../src/data.js", import.meta.url), "utf8"))
   .replace('from "./lib/public-config.js"', `from ${JSON.stringify(new URL("../src/lib/public-config.js", import.meta.url).href)}`)
+  .replace('from "./config/journey-paths.js"', `from ${JSON.stringify(new URL("../src/config/journey-paths.js", import.meta.url).href)}`)
+  .replace('from "./config/photo-album-list.js"', `from ${JSON.stringify(new URL("../src/config/photo-album-list.js", import.meta.url).href)}`)
+  .replace('from "./lib/blog-article.js"', `from ${JSON.stringify(new URL("../src/lib/blog-article.js", import.meta.url).href)}`)
   .replace("import.meta.env.VITE_CATALOG_URL", "undefined");
 const { navLinks, routesMenu, whatsappUrl } = await import(`data:text/javascript;base64,${Buffer.from(dataSource).toString("base64")}`);
 const source = (await readFile(new URL("../src/components/layout/Header.jsx", import.meta.url), "utf8"))
@@ -54,7 +57,7 @@ function finish() { for (let time = 0; time <= 1400; time += 100) frame(time); }
 test("desktop and mobile keep Feedback before Photo with the correct links and active state", async () => {
   const pageLinks = navLinks.filter(([, href]) => !href.startsWith("#"));
   assert.deepEqual(pageLinks.map(([label]) => label), ["Catalog", "Booking", "Feedback", "Photo", "Blog", "About Us"]);
-  for (const [label, path] of [["Feedback", "/feedback/"], ["Photo", "/photo/"]]) {
+  for (const [label, path] of [["Feedback", "/feedback/"], ["Photo", "/hoangphoto/"]]) {
     reset(path);
     const root = createRoot(document.getElementById("root"));
     try {
@@ -62,7 +65,7 @@ test("desktop and mobile keep Feedback before Photo with the correct links and a
       for (const selector of [".hlt-nav", ".hlt-mobile-drawer"]) {
         const container = document.querySelector(selector);
         assert.ok(container);
-        const links = [...container.querySelectorAll("a")].filter((link) => ["/feedback/", "/photo/"].includes(link.getAttribute("href")));
+        const links = [...container.querySelectorAll("a")].filter((link) => ["/feedback/", "/hoangphoto/"].includes(link.getAttribute("href")));
         assert.deepEqual(links.map((link) => link.textContent.trim()), ["Feedback", "Photo"]);
         assert.ok(links.find((link) => link.textContent.trim() === label).classList.contains("is-active"));
       }
@@ -97,7 +100,7 @@ test("incoming Home Fleet/Services/Routes starts at top and uses the same animat
 });
 
 test("all secondary pages link both desktop and mobile Fleet/Services/Routes to Home", async () => {
-  for (const path of ["/about/", "/booking/", "/catalog/", "/photo/", "/blog/", "/journeys/", "/journey/hanoi-to-sapa-private-transfer/"]) {
+  for (const path of ["/about-us/", "/booking/", "/catalog/", "/hoangphoto/", "/hoangphoto/blog/", "/journeys/", "/routes/hanoi-to-sapa-private-transfer/"]) {
     reset(path);
     const root = createRoot(document.getElementById("root"));
     try {
