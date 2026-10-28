@@ -360,8 +360,8 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
     .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
     .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
     .replace('import ExperienceSlider from "./components/home/ExperienceSlider.jsx";', 'const ExperienceSlider = () => null;')
-    .replace('import { aboutImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";', 'const aboutImages = {hero:"/fixture.png"}; const journeyCardImages = Array(9).fill("/fixture.png"); const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";')
-    .replace('import { whatsappUrl } from "./data.js";', 'const whatsappUrl = "https://wa.me/fixture";')
+    .replace('import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";', 'const blogImages = {hero:"/fixture.png", plan:"/fixture.png"}; const journeyCardImages = Array(9).fill("/fixture.png"); const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";')
+    .replace('import { aboutPageUrl, whatsappUrl } from "./data.js";', 'const aboutPageUrl = "/about-us/", whatsappUrl = "https://wa.me/fixture";')
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
     .replace('import usePublicBlog from "./hooks/usePublicBlog.js";', 'const usePublicBlog = () => globalThis.__blogFilterFixture;')
     .replace('from "./config/blog.js"', `from ${JSON.stringify(new URL("../src/config/blog.js", import.meta.url).href)}`);
@@ -403,7 +403,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           assert.equal(story.querySelector('h2'), null);
           assert.equal(story.querySelector('.hlt-blog-story-description').textContent, 'Our stories go beyond the destinations — they’re about people, culture and the moments that make travel truly meaningful.');
           assert.equal(story.querySelector('a').textContent, 'Explore Our Story');
-          assert.equal(story.querySelector('a').getAttribute('href'), '/about/');
+          assert.equal(story.querySelector('a').getAttribute('href'), '/about-us/');
           assert.equal(story.querySelectorAll('a').length, 1);
           assert.match(story.style.backgroundImage, /fixture-blog-sunrise/);
           const plan = host.querySelector(".hlt-blog-plan");

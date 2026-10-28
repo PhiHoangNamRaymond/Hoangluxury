@@ -41,7 +41,7 @@ export default function CatalogPage() {
             <img
               className="hlt-catalog-book"
               src={catalogOpenBookUrl}
-              alt="Hoang Luxury Travel premium vehicle and Hanoi to Sapa catalog"
+              alt="Hoang Luxury Travel private car catalog showing a white VF9 and the Hanoi to Sapa route"
             />
 
             <div className="hlt-catalog-actions">

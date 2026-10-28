@@ -3,25 +3,26 @@ import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import {
-  journeyCtaMountainsUrl,
-  journeyFactIcons,
+  photoBookingBannerUrl,
   photoLandingBannerUrl,
   photoPlanImages,
   photoPrepImages,
   photoStyleImages,
+  photoWhyIcons,
   photoWhyImages,
 } from "./config/assets.js";
 import { formatVnd, VND_PER_USD } from "./config/journeys.js";
+import { photoAlbumsPath, photoCategoryPath } from "./config/photo-album-list.js";
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
-/* Trang giới thiệu dịch vụ chụp ảnh. Lưới album ảnh thật nằm ở /photo/albums/;
-   mũi tên trên mỗi thẻ phong cách dẫn sang đó kèm sẵn bộ lọc tương ứng. */
+/* Trang giới thiệu dịch vụ chụp ảnh. Lưới album ảnh thật nằm ở /hoangphoto/albums/;
+   mũi tên trên mỗi thẻ phong cách dẫn tới lưới đã lọc sẵn (/hoangphoto/<phong cách>/). */
 
-const albumsUrl = "/photo/albums/";
+const albumsUrl = photoAlbumsPath;
 
 /* 6 phong cách chụp. `title` vừa là chữ trên thẻ vừa là tên nút lọc ở
-   /photo/albums/ (photo-album-list.js) - đổi một bên phải đổi cả bên kia. */
+   /hoangphoto/albums/ (photo-album-list.js) - đổi một bên phải đổi cả bên kia. */
 const styles = [
   {
     title: "Nature & Landscapes",
@@ -112,8 +113,8 @@ const packages = [
 const reasons = [
   // Icon là tên LineIcon, hoặc { src } cho ảnh: hai thẻ đầu dùng đúng icon xe /
   // nhãn giá của dải thông số trang cung đường.
-  [{ src: journeyFactIcons.vehicle }, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
-  [{ src: journeyFactIcons.rates }, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
+  [{ src: photoWhyIcons.pickup }, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
+  [{ src: photoWhyIcons.pricing }, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
   // Mảng 2 phần: phần đầu chỉ hiện trên PC (mobile bỏ cho ngắn — khách yêu cầu 28/10/2026).
   ["camera", "No Posing Experience Needed", ["You do not need to know how to pose. ", "The photographer guides you throughout the shoot so you can feel comfortable and be yourself."]],
   ["weather", "Flexible When the Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
@@ -124,7 +125,7 @@ const preparations = [
   ["Your Preferences", "Share your photo style, group size and special requests."],
   ["Photo Locations", "Choose places suited to your style and package."],
   ["Best Time to Shoot", "Find the ideal time based on lighting, weather and your schedule."],
-  ["Outfit Selection", "Choose your favorite traditional local outfit and get helpful styling tips."],
+  ["Outfit Preparation", "Choose your favorite traditional local outfit and get helpful styling tips."],
   ["Makeup & Hair", "Choose your preferred makeup and hairstyle for the shoot."],
   ["Final Plan & Confirmation", "Review your itinerary and booking confirmation before the shoot."],
 ];
@@ -289,7 +290,7 @@ export default function PhotoPage() {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = "Photo Experience | Hoang Luxury Travel";
+    document.title = "Private Photo Shoots | Hoang Luxury Travel";
     return () => {
       document.title = previousTitle;
     };
@@ -307,12 +308,11 @@ export default function PhotoPage() {
           aria-labelledby="photo-hero-title"
         >
           <div className="hlt-container hlt-pl-hero-inner">
-            {/* H1 theo khách (28/10/2026): "Hoang Photo - Private Photo Shoots in
-                Northern Vietnam"; dấu " - " ẩn, giao diện vẫn là dòng nhỏ + tiêu đề. */}
+            {/* One H1 contains both visible lines; keep the separator for SEO. */}
             <h1 id="photo-hero-title">
               <span className="hlt-pl-hero-kicker">Hoang Photo</span>
               <span className="hlt-seo-sep"> - </span>
-              <span className="hlt-pl-hero-title">Private Photo Shoots in Northern Vietnam</span>
+              <span className="hlt-pl-hero-title">Private Photo Shoots</span>
             </h1>
             <p className="hlt-pl-hero-lead">
               Private photography experiences across Northern Vietnam,
@@ -341,7 +341,7 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-styles-title"
               eyebrow="Find Your Photo Style"
-              title="How Would You Like To Remember Your Journey?"
+              title="How Would You Like to Remember Your Journey?"
               wide
               heading="both"
             />
@@ -351,10 +351,10 @@ export default function PhotoPage() {
                 <article className="hlt-pl-style" key={style.title}>
                   <a
                     className="hlt-pl-style-media"
-                    href={`${albumsUrl}?style=${encodeURIComponent(style.title)}`}
+                    href={photoCategoryPath(style.title)}
                     aria-label={`See ${style.title} photos`}
                   >
-                    <img src={style.image} alt={style.title} loading="lazy" />
+                    <img src={style.image} alt="" loading="lazy" />
                   </a>
                   <div className="hlt-pl-style-body">
                     <span className="hlt-pl-style-no" aria-hidden="true">
@@ -383,7 +383,7 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-plans-title"
               eyebrow="Choose Your Experience"
-              title="One Journey. Two Ways To Experience It"
+              title="One Journey. Two Ways to Experience It"
               heading="both"
             />
 
@@ -394,10 +394,10 @@ export default function PhotoPage() {
                     {item.mobileImage ? (
                       <picture className="hlt-pl-plan-mobile-picture">
                         <source media="(max-width: 640px)" srcSet={item.mobileImage} />
-                        <img src={item.image} alt={item.name} loading="lazy" decoding="async" />
+                        <img src={item.image} alt="" loading="lazy" decoding="async" />
                       </picture>
                     ) : (
-                      <img src={item.image} alt={item.name} loading="lazy" />
+                      <img src={item.image} alt="" loading="lazy" />
                     )}
                   </div>
                   <div className="hlt-pl-plan-body">
@@ -499,7 +499,8 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-prep-title"
               eyebrow="Planning Your Photo Shoot"
-              title="How We Prepare For Your Photo Shoot"
+              title="How We Prepare For Your Photo Shoot?"
+              heading="both"
               lead="We plan your photo shoot around your preferences, covering everything from locations and timing to outfits, makeup and travel arrangements."
               wide
             />
@@ -527,7 +528,7 @@ export default function PhotoPage() {
         {/* CTA cuối trang */}
         <section
           className="hlt-pl-cta"
-          style={{ "--pl-cta-bg": `url(${journeyCtaMountainsUrl})` }}
+          style={{ "--pl-cta-bg": `url(${photoBookingBannerUrl})` }}
           aria-labelledby="photo-cta-title"
         >
           <div className="hlt-container hlt-pl-cta-inner">
@@ -537,7 +538,7 @@ export default function PhotoPage() {
               <span>Photos to Keep Forever</span>
             </p>
             <div className="hlt-pl-cta-copy">
-              <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
+              <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
               <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
                 <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />

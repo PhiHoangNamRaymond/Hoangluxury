@@ -6,8 +6,12 @@ import { aboutImages, journeyCtaMountainsUrl } from "./config/assets.js";
 import {
   ALL_PHOTO_CATEGORIES,
   photoAlbums,
+  photoAlbumsPath,
   photoAlbumUrl,
   photoCategories,
+  photoCategoryFromSlug,
+  photoCategoryPageTitle,
+  photoCategoryPath,
 } from "./config/photo-albums.js";
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
@@ -27,8 +31,9 @@ function WhatsAppIcon() {
   );
 }
 
-/* /photo/albums/?style=<tên danh mục>: mũi tên ở trang /photo/ dẫn sang đây
-   kèm sẵn bộ lọc của đúng phong cách vừa bấm. */
+/* Bộ lọc nằm ở đường dẫn: /hoangphoto/<phong cách>/ (thẻ phong cách ở trang
+   /hoangphoto/ dẫn sang đây), không lọc là /hoangphoto/albums/. Link cũ dạng
+   ?style=<tên danh mục> vẫn được nhận rồi đổi sang đường dẫn mới. */
 /* Tên danh mục trước ngày 26/10/2026, để link cũ đã chia sẻ vẫn lọc đúng. */
 const legacyCategories = {
   "natural journey": "Nature & Landscapes",
@@ -40,6 +45,8 @@ const legacyCategories = {
 };
 
 function categoryFromUrl() {
+  const fromPath = photoCategoryFromSlug(window.location.pathname.match(/^\/hoangphoto\/([a-z0-9-]+)\/?$/)?.[1]);
+  if (fromPath) return fromPath;
   const wanted = new URLSearchParams(window.location.search).get("style")?.trim().toLowerCase();
   if (!wanted) return ALL;
   return categories.find((item) => item.toLowerCase() === wanted) || legacyCategories[wanted] || ALL;
@@ -59,11 +66,11 @@ export default function PhotoAlbumsPage() {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = "Photo Albums | Hoang Luxury Travel";
+    document.title = activeCategory === ALL ? "Photo Albums | Hoang Luxury Travel" : photoCategoryPageTitle(activeCategory);
     return () => {
       document.title = previousTitle;
     };
-  }, []);
+  }, [activeCategory]);
 
   /* Album trong mục theo thứ tự danh sách; album được ghim vị trí cho mục này
      (categoryPositions) chen vào đúng ô đã ghim. */
@@ -100,14 +107,14 @@ export default function PhotoAlbumsPage() {
     });
   }, [currentPage]);
 
-  /* Bộ lọc và trang đang xem nằm trên địa chỉ (?style=&page=), để vào album rồi
-     quay lại (nút Back hoặc nút All albums) vẫn đúng mục, đúng trang. */
+  /* Bộ lọc và trang đang xem nằm trên địa chỉ (đường dẫn phong cách + ?page=), để
+     vào album rồi quay lại (nút Back hoặc nút All albums) vẫn đúng mục, đúng trang. */
   useEffect(() => {
     const params = new URLSearchParams();
-    if (activeCategory !== ALL) params.set("style", activeCategory);
     if (currentPage > 1) params.set("page", String(currentPage));
     const query = params.toString();
-    const url = window.location.pathname + (query ? `?${query}` : "");
+    const path = activeCategory === ALL ? photoAlbumsPath : photoCategoryPath(activeCategory);
+    const url = path + (query ? `?${query}` : "");
     if (url !== window.location.pathname + window.location.search) {
       window.history.replaceState(window.history.state, "", url);
     }
@@ -203,7 +210,7 @@ export default function PhotoAlbumsPage() {
               {visible.map((item) => (
                 <article className="hlt-photo-card" key={item.title}>
                   <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn}>
-                    <img src={item.image} alt={`${item.title} – ${item.place}`} loading="lazy" />
+                    <img src={item.image} alt="" loading="lazy" />
                     {item.videos && (
                       <span className="hlt-photo-card-badge">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.5v11l9-5.5-9-5.5Z" /></svg>

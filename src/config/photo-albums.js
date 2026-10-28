@@ -5,8 +5,14 @@ import { photoAlbumRows, photoAlbumVideosBySlug } from "./photo-album-list.js";
 
 export {
   ALL_PHOTO_CATEGORIES,
+  photoAlbumsPath,
   photoAlbumUrl,
   photoCategories,
+  photoCategoryFromSlug,
+  photoCategoryPageDescription,
+  photoCategoryPageTitle,
+  photoCategoryPath,
+  photoPagePath,
 } from "./photo-album-list.js";
 
 /* Album ảnh: ảnh đầu tiên làm ảnh bìa. Album video: ảnh bìa riêng, danh sách

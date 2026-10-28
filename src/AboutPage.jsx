@@ -9,7 +9,6 @@ import {
   aboutStatIcons,
   aboutCtaBackgroundUrl,
   logoGoldUrl,
-  servicesBackgroundUrl,
 } from "./config/assets.js";
 import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
@@ -158,7 +157,7 @@ export default function AboutPage() {
         >
           <div className="hlt-container hlt-about-hero-inner">
             <div className="hlt-about-hero-copy">
-              {/* H1 theo khách (28/10/2026): "Hoang Luxury Travel’s Story - More Than a
+              {/* H1 theo khách (28/10/2026): "Hoang Luxury Travel’s Story - More Than A
                   Journey"; dấu " - " ẩn, giao diện vẫn là dòng nhỏ + tiêu đề vàng. */}
               <h1 id="about-title">
                 <span className="hlt-about-hero-kicker">
@@ -167,7 +166,7 @@ export default function AboutPage() {
                 </span>
                 <span className="hlt-seo-sep"> - </span>
                 <span className="hlt-about-hero-title">
-                  <span className="is-gold">More Than a Journey</span>
+                  <span className="is-gold">More Than A Journey</span>
                 </span>
               </h1>
               <p className="hlt-about-hero-lead">
@@ -200,7 +199,7 @@ export default function AboutPage() {
             <h2 id="about-approach-title" className="hlt-about-split-title">
               A Personal Approach{" "}
               <br />
-              to Every Journey
+              To Every Journey
             </h2>
             <p>
               Hoang Luxury Travel provides private transfer and car-with-driver services across Northern Vietnam.
@@ -211,14 +210,14 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="hlt-about-split-media">
-            <img src={aboutImages.approach} alt="Planning a private journey through Northern Vietnam" loading="lazy" />
+            <img src={aboutImages.approach} alt="Hoang Luxury Travel planning a personalized trip by private car across Northern Vietnam with a map and travel checklist" loading="lazy" />
           </div>
         </section>
 
         {/* What luxury means */}
         <section className="hlt-about-values" aria-labelledby="about-values-title">
           <div className="hlt-container">
-            <h2 id="about-values-title" className="hlt-about-lined-title">What Luxury Means to Us</h2>
+            <h2 id="about-values-title" className="hlt-about-lined-title">What Luxury Means To Us?</h2>
             <div className="hlt-about-values-title">For us, luxury means feeling truly cared for.</div>
             <div className="hlt-about-values-grid">
               {luxuryValues.map(([title, text, icon]) => (
@@ -237,7 +236,7 @@ export default function AboutPage() {
         {/* People */}
         <section className="hlt-about-split is-reversed" aria-labelledby="about-people-title">
           <div className="hlt-about-split-media">
-            <img src={aboutImages.people} alt="Hoang Luxury Travel driver handling a suitcase at a hotel entrance" loading="lazy" />
+            <img src={aboutImages.people} alt="Professional driver handling a traveler's luggage outside a hotel during a private transfer" loading="lazy" />
           </div>
           <div className="hlt-about-split-copy">
             <Kicker as="h2" id="about-people-title">The People Behind Your Journey</Kicker>
@@ -261,12 +260,12 @@ export default function AboutPage() {
         <section
           id="about-commitments"
           className="hlt-about-commitments"
-          style={{ "--about-commitments-bg": `url(${servicesBackgroundUrl})` }}
+          style={{ "--about-commitments-bg": `url(${aboutImages.commitments})` }}
           aria-labelledby="about-commitments-title"
         >
           <div className="hlt-container">
             <h2 id="about-commitments-title" className="hlt-about-lined-title is-light">
-              Our Commitments to You
+              Our Commitments To You
             </h2>
             <div className="hlt-about-commitments-grid">
               {commitments.map(([num, title, text]) => (
@@ -297,7 +296,7 @@ export default function AboutPage() {
                   <path d="M21 2v9h9M10 19h14M10 25h14M10 31h9" />
                 </svg>
                 <div>
-                  <h2 id="about-licence-title">Licensed Transport Operator in Vietnam</h2>
+                  <h2 id="about-licence-title">Licensed Transport Operator In Vietnam</h2>
                   <p>
                     Hoang Luxury Travel is licensed to provide passenger transport services in Vietnam and operates
                     in compliance with applicable laws and regulations.
@@ -333,7 +332,7 @@ export default function AboutPage() {
         <section className={`hlt-about-ceo${ceoOpen ? " is-open" : ""}`} aria-labelledby="about-ceo-title">
           <div className="hlt-container hlt-about-ceo-inner">
             <div className="hlt-about-ceo-media">
-              <img src={aboutImages.ceo} alt="Terraced valley in Northern Vietnam at sunrise" loading="lazy" />
+              <img src={aboutImages.ceo} alt="Golden terraced rice fields stretching across the mountains of Mu Cang Chai, Vietnam" loading="lazy" />
             </div>
             <div className="hlt-about-ceo-copy">
               <h2 id="about-ceo-title" className="hlt-about-ceo-kicker">
@@ -434,7 +433,7 @@ export default function AboutPage() {
                   ))}
                 </div>
               ))}
-              <a className="hlt-about-outline-btn" href="/journeys/">
+              <a className="hlt-about-outline-btn" href="/routes/">
                 Explore all destinations
                 <ArrowIcon />
               </a>

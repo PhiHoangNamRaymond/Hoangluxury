@@ -106,4 +106,31 @@ export const photoAlbumRows = rows.map(([title, place, category]) => {
   };
 });
 
-export const photoAlbumUrl = (slug) => `/photo/albums/${slug}/`;
+/* Đường dẫn khu Hoang Photo (khách duyệt 28/10/2026; trước đây là /photo/…, đường
+   dẫn cũ chuyển hướng 301 ở vercel.json / public/.htaccess). */
+export const photoPagePath = "/hoangphoto/";
+export const photoAlbumsPath = "/hoangphoto/albums/";
+
+/* Lưới album đã lọc sẵn một phong cách có đường dẫn riêng, ví dụ
+   /hoangphoto/natural-landscapes/ (slug theo khách duyệt, không suy từ tên mục).
+   Album nằm dưới phong cách của nó: /hoangphoto/natural-landscapes/lotus-sunset/.
+   Album thuộc nhiều mục lấy mục đầu tiên trong `rows` làm đường dẫn chuẩn. */
+const photoCategorySlugs = {
+  "Nature & Landscapes": "natural-landscapes",
+  "Couples & Honeymoons": "couples-honeymoons",
+  "Local Culture": "local-culture",
+  "Family Moments": "family-moments",
+  "Cinematic Travel": "cinematic-travel",
+  "Proposals & Celebrations": "proposals-celebrations",
+};
+export const photoCategoryPath = (category) =>
+  photoCategorySlugs[category] ? `/hoangphoto/${photoCategorySlugs[category]}/` : photoAlbumsPath;
+export const photoCategoryFromSlug = (slug) =>
+  Object.keys(photoCategorySlugs).find((category) => photoCategorySlugs[category] === slug) || null;
+export const photoAlbumUrl = (slug) => {
+  const album = photoAlbumRows.find((row) => row.slug === slug);
+  return album ? `${photoCategoryPath(album.categories[0])}${slug}/` : photoAlbumsPath;
+};
+export const photoCategoryPageTitle = (category) => `${category} Photos | Hoang Luxury Travel`;
+export const photoCategoryPageDescription = (category) =>
+  `${category} photo albums from private photo shoots across Northern Vietnam with Hoang Luxury Travel.`;

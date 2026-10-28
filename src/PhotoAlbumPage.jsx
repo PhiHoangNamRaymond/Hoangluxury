@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
-import { photoAlbumBySlug, photoAlbumUrl, photoAlbums } from "./config/photo-albums.js";
+import { photoAlbumBySlug, photoAlbumsPath, photoAlbumUrl, photoAlbums } from "./config/photo-albums.js";
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { albumReturnUrl, markAlbumReturn } from "./lib/album-return.js";
@@ -10,7 +10,7 @@ import { albumReturnUrl, markAlbumReturn } from "./lib/album-return.js";
 /* /photo/albums/<slug>/ - xem hết ảnh của một album: ảnh xếp dọc, cỡ lớn,
    tên album ở trên cùng theo đúng kiểu dòng chữ ở trang lưới. */
 
-const ALBUMS_URL = "/photo/albums/";
+const ALBUMS_URL = photoAlbumsPath;
 
 function WhatsAppIcon() {
   return (
@@ -128,7 +128,7 @@ export default function PhotoAlbumPage({ slug }) {
                 <figure className="hlt-album-photo" key={`${photo}-${position}`}>
                   <img
                     src={photo}
-                    alt={`${album.title} ${position + 1}`}
+                    alt=""
                     loading={position < 2 ? "eager" : "lazy"}
                   />
                 </figure>

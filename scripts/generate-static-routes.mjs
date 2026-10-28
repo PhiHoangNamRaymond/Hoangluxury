@@ -4,8 +4,19 @@ import { createClient } from "@supabase/supabase-js";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { journeys } from "../src/config/journeys.js";
-import { photoAlbumRows, photoAlbumVideosBySlug } from "../src/config/photo-album-list.js";
+import { journeyPagePath, legacyJourneySlugByKey } from "../src/config/journey-paths.js";
+import {
+  ALL_PHOTO_CATEGORIES,
+  photoAlbumRows,
+  photoAlbumUrl,
+  photoAlbumVideosBySlug,
+  photoCategories,
+  photoCategoryPageDescription,
+  photoCategoryPageTitle,
+  photoCategoryPath,
+} from "../src/config/photo-album-list.js";
 import { fetchPublicBlog } from "../src/lib/public-blog.js";
+import { blogArticleUrl } from "../src/lib/blog-article.js";
 import { renderRoute } from "./render-route.mjs";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -16,31 +27,31 @@ const origin = "https://hoangluxury.travel";
 const routes = [
   { path: "/admin/", title: "Quản trị blog | Hoang Luxury Travel", description: "Private blog administration.", private: true },
   {
-    path: "/blog/",
+    path: "/hoangphoto/blog/",
     title: "Travel Blog | Hoang Luxury Travel",
     description: "Travel stories, practical guides and local insights for your private journey through Sapa, Ha Giang, Ha Long and Northern Vietnam.",
   },
   {
-    path: "/about/",
+    path: "/about-us/",
     title: "About Hoang Luxury Travel | Private Transfers in Vietnam",
     description:
       "Discover the story behind Hoang Luxury Travel, providing private transfers across Northern Vietnam with professional drivers and personalized journeys for international travelers.",
   },
   {
-    path: "/photo/",
-    title: "Photo Experience | Hoang Luxury Travel",
+    path: "/hoangphoto/",
+    title: "Private Photo Shoots | Hoang Luxury Travel",
     description:
-      "Private travel photography across Northern Vietnam: six photo styles, half-day and full-day experiences with Hoang Luxury Travel.",
+      "Book a private photo shoot in Northern Vietnam with Hoang Luxury Travel. Explore a variety of creative concepts with convenient door-to-door private car service.",
   },
   {
-    path: "/photo/albums/",
+    path: "/hoangphoto/albums/",
     title: "Photo Albums | Hoang Luxury Travel",
     description:
       "Real photographs from private journeys across Northern Vietnam with Hoang Luxury Travel.",
   },
   {
     path: "/booking/",
-    title: "Book a Private Transfer | Hoang Luxury Travel",
+    title: "Booking Private Transfer | Hoang Luxury Travel",
     description:
       "Book a 100% private transfer with Hoang Luxury Travel. Enjoy direct door-to-door service, no shared passengers, professional drivers and flexible pick-up times.",
   },
@@ -50,8 +61,8 @@ const routes = [
     description: "View private transfer vehicles, routes and transparent pricing from Hoang Luxury Travel.",
   },
   {
-    path: "/cruises/",
-    title: "Ha Long Cruises | Hoang Luxury Travel",
+    path: "/routes/halong-bay-cruises/",
+    title: "Halong Bay Cruise | Hoang Luxury Travel",
     description:
       "Discover Ha Long Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
   },
@@ -62,44 +73,33 @@ const routes = [
       "Read feedback from international travelers and share your experience with Hoang Luxury Travel.",
   },
   {
-    path: "/journeys/",
+    path: "/routes/",
     title: "Private Transfer Routes | Hoang Luxury Travel",
     description:
       "Explore private transfer routes from Hanoi and Noi Bai Airport to destinations across Northern Vietnam.",
   },
 ];
 
-const canonicalJourneySlugByKey = {
-  sapa: "hanoi-to-sapa-private-transfer",
-  "ha-long": "hanoi-to-ha-long-private-transfer",
-  "ninh-binh": "hanoi-to-ninh-binh-private-transfer",
-  "ha-giang": "hanoi-to-ha-giang-private-transfer",
-  "cat-ba": "hanoi-to-cat-ba-private-transfer",
-  "cao-bang": "hanoi-to-cao-bang-private-transfer",
-  "mu-cang-chai": "hanoi-to-mu-cang-chai-private-transfer",
-  "moc-chau": "hanoi-to-moc-chau-private-transfer",
-  "ta-xua": "hanoi-to-ta-xua-private-transfer",
-  "pu-luong": "hanoi-to-pu-luong-private-transfer",
-  "sapa-to-ha-long": "sapa-to-ha-long-private-transfer",
-  "sapa-to-ninh-binh": "sapa-to-ninh-binh-private-transfer",
-  "sapa-to-ha-giang": "sapa-to-ha-giang-private-transfer",
-  "sapa-to-mu-cang-chai": "sapa-to-mu-cang-chai-private-transfer",
-  "ha-long-to-sapa": "ha-long-to-sapa-private-transfer",
-  "ninh-binh-to-sapa": "ninh-binh-to-sapa-private-transfer",
-};
-
-for (const [key, slug] of Object.entries(canonicalJourneySlugByKey)) {
+for (const key of Object.keys(legacyJourneySlugByKey)) {
   const journey = journeys[key];
   routes.push({
-    path: `/journey/${slug}/`,
+    path: journeyPagePath(key),
     title: journey.seoTitle,
     description: journey.metaDescription || journey.intro,
   });
 }
 
+for (const category of photoCategories.filter((item) => item !== ALL_PHOTO_CATEGORIES)) {
+  routes.push({
+    path: photoCategoryPath(category),
+    title: photoCategoryPageTitle(category),
+    description: photoCategoryPageDescription(category),
+  });
+}
+
 for (const album of photoAlbumRows) {
   routes.push({
-    path: `/photo/albums/${album.slug}/`,
+    path: photoAlbumUrl(album.slug),
     title: `${album.title} | Hoang Luxury Travel`,
     description: `${album.title} - ${album.category} ${photoAlbumVideosBySlug[album.slug] ? "videos" : "photos"} from ${album.place}, by Hoang Luxury Travel.`,
   });
@@ -122,7 +122,7 @@ if (env.VITE_SUPABASE_URL && env.VITE_SUPABASE_ANON_KEY) {
 }
 for (const article of blogArticles) {
   routes.push({
-    path: `/blog/${article.slug}/`,
+    path: blogArticleUrl(article.slug),
     title: `${article.title} | Hoang Luxury Travel`,
     description: article.metaDescription || article.excerpt,
   });

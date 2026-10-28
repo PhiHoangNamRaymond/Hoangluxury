@@ -53,7 +53,7 @@ export default function Footer() {
             <a href={sectionHref("#services")}>Long-Distance Private Transfer</a>
             <a href={sectionHref("#services")}>Custom Private Trip</a>
             <a href={sectionHref("#services")}>Business Partner Transfer</a>
-            <a href="/journeys/">Private Transfer Routes</a>
+            <a href="/routes/">Private Transfer Routes</a>
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export default function Footer() {
         <div className="hlt-footer-qr">
           <div className="hlt-footer-qr-frame">
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
-              <img src={whatsappQrUrl} alt="WhatsApp QR code" loading="lazy" decoding="async" />
+              <img src={whatsappQrUrl} alt="QR code to contact Hoang Luxury Travel on WhatsApp" loading="lazy" decoding="async" />
             </a>
             <p>WhatsApp</p>
           </div>
@@ -138,7 +138,7 @@ export default function Footer() {
           <div className="hlt-footer-mobile-card-qr">
             <div className="hlt-footer-mobile-qr-box">
               <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
-                <img src={whatsappQrUrl} alt="WhatsApp QR code" loading="lazy" decoding="async" />
+                <img src={whatsappQrUrl} alt="QR code to contact Hoang Luxury Travel on WhatsApp" loading="lazy" decoding="async" />
               </a>
               <p>WhatsApp</p>
             </div>

@@ -8,4 +8,7 @@ export function sortArticles(articles) {
   });
 }
 
-export const blogArticleUrl = (slug) => `/blog/${slug}/`;
+/* Blog nằm trong khu Hoang Photo (khách duyệt 28/10/2026; trước đây là /blog/…,
+   đường dẫn cũ chuyển hướng 301 ở vercel.json / public/.htaccess). */
+export const blogPagePath = "/hoangphoto/blog/";
+export const blogArticleUrl = (slug) => `${blogPagePath}${slug}/`;

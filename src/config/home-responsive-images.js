@@ -19,17 +19,17 @@ export const servicePhotoSizes = "(max-width: 760px) 42vw, (max-width: 1100px) 5
 export const fleetPhotoSizes = "(max-width: 760px) 110vw, (max-width: 960px) 60vw, (max-width: 1632px) 42vw, 670px";
 
 const services = {
-  airport: ["service-airport-2026", 1600, 900],
-  sapa: ["service-long-distance-2026", 1672, 941],
-  custom: ["service-custom-trip-2026", 1600, 900],
-  haGiang: ["service-business-2026", 1600, 900],
+  airport: ["noi-bai-airport-private-transfer-car", 1600, 900],
+  sapa: ["long-distance-private-transfer", 1672, 941],
+  custom: ["custom-trip-private-car", 1600, 900],
+  haGiang: ["business-private-transfer-car", 1600, 900],
 };
 const fleet = {
-  limoLux: ["vehicle-limo-lux-2026", 1672, 941],
-  limoGreen: ["vehicle-limo-prime-2026", 1672, 941],
-  vf9: ["vehicle-vf9-2026", 1600, 900],
+  limoLux: ["limo-lux-private-car-white-exterior", 1672, 941],
+  limoGreen: ["limo-prime-private-transfer-front-view", 1672, 941],
+  vf9: ["hoang-luxury-travel-vf9-private-car", 1600, 900],
 };
-const icons = ["service-icon-airport", "service-icon-long-distance", "service-icon-custom-trip", "service-icon-business"];
+const icons = ["airport-private-transfer-icon", "long-distance-private-transfer-icon", "custom-private-trip-icon", "business-private-transfer-icon"];
 export function servicePhotoProps(key, original) {
   const [name, width, height] = services[key];
   return variants(name, original, width, height, servicePhotoSizes);

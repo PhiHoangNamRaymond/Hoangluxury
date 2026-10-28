@@ -60,6 +60,17 @@
   background-position: center 72%;
 }
 
+/* Ảnh banner ẩn chỉ mang alt (ảnh hiển thị là nền CSS ở trên), không chiếm chỗ. */
+.hlt-journey-hero-alt {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 /* container: tên tuyến co cỡ chữ theo độ rộng khối này (100cqi) */
 .hlt-journey-hero-content {
   max-width: min(560px, 56vw);
@@ -902,7 +913,7 @@ a.hlt-journey-fact:focus-visible strong {
   height: 24px;
 }
 
-/* Dải "Choose Your Intercity Transfer" (6 trang tuyến nối tỉnh): cùng khung thẻ
+/* Dải "Choose Your Route" (6 trang tuyến nối tỉnh): cùng khung thẻ
    và kiểu giá với dải 4 gói, icon tuyến dạng ngang thay icon nét. */
 .hlt-journey-intercity-card {
   color: inherit;

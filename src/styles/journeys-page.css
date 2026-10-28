@@ -23,6 +23,14 @@
   margin: 0 auto clamp(18px, 2vw, 26px);
 }
 
+/* h1 chỉ là khung chứa dòng nhỏ + tiêu đề (cấu trúc SEO 28/10/2026). */
+.hlt-journeys-h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
 .hlt-journeys-kicker {
   display: flex;
   align-items: center;
@@ -52,6 +60,7 @@
 /* Cỡ, màu và giãn chữ lấy theo .hlt-route-heading h2 ở trang chủ
    (booking-page.css). Giữ chữ thường, không in hoa như trang chủ. */
 .hlt-journeys-title {
+  display: block;
   margin: 0 0 10px;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(36px, 3.5vw, 54px);
@@ -865,7 +874,7 @@
     padding: 12px 13px 11px;
   }
 
-  .hlt-jcard-compact-body h2 {
+  .hlt-jcard-compact-body .hlt-jcard-compact-title {
     margin: 0;
     font-family: "Cormorant", Georgia, "Times New Roman", serif;
     font-size: 19px;
@@ -1092,7 +1101,7 @@
     padding: 14px 13px 14px 13px;
   }
 
-  .hlt-jcard-compact-body h2 {
+  .hlt-jcard-compact-body .hlt-jcard-compact-title {
     /* 15px la co lon nhat con giu "Hanoi to Mu Cang Chai" tren 1 dong. */
     font-size: 15px;
     line-height: 1.12;
@@ -1492,4 +1501,10 @@
   .hlt-journeys-outro-text {
     font-size: 13.5px;
   }
+}
+
+/* Tên tuyến hiển thị khác tên trong code (SEO): chữ thật bị ẩn, ::before vẽ
+   chữ hiển thị (vd. code "Sapa", màn hình "SA PA"). */
+.hlt-jcard-name::before {
+  content: attr(data-display);
 }

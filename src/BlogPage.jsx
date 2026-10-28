@@ -2,13 +2,13 @@ import React, { useMemo, useRef, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
-import { aboutImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";
+import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";
 import { blogArticleUrl, blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.js";
 import usePublicBlog from "./hooks/usePublicBlog.js";
-import { whatsappUrl } from "./data.js";
+import { aboutPageUrl, whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
-const images = { hero: aboutImages.hero, sapa: journeyCardImages[0] };
+const images = { hero: blogImages.hero, plan: blogImages.plan, sapa: journeyCardImages[0] };
 const destinations = [
   ["Ha Giang", "Passes · Landscapes", 3], ["Ha Long", "Islands · Cruises", 1],
   ["Ninh Binh", "Rivers · Temples", 2], ["Cat Ba", "Islands · Beaches", 4],
@@ -202,7 +202,7 @@ export default function BlogPage() {
             </div>
 
             <aside className="hlt-blog-sidebar" aria-label="Travel inspiration">
-              <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.hero}")` }}><div className="hlt-blog-plan-title">EXPLORE MORE. TRAVEL YOUR WAY</div><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
+              <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.plan}")` }}><div className="hlt-blog-plan-title">EXPLORE MORE. TRAVEL YOUR WAY</div><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
               <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><a href={blogArticleUrl(article.slug)}><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></a></li>)}</ol></section>
 
               <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><div className="hlt-blog-destination-feature-title">Sapa</div><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
@@ -220,7 +220,7 @@ export default function BlogPage() {
             <div id="blog-story-title" className="hlt-cruise-cta-title">Discover Vietnam in Your Own Way</div>
             <p className="hlt-blog-story-description">Our stories go beyond the destinations — they&rsquo;re about people, culture and the moments that make travel truly meaningful.</p>
           </div>
-          <a className="hlt-cruise-btn-gold hlt-blog-story-button" href="/about/">Explore Our Story<Icon name="arrow" /></a>
+          <a className="hlt-cruise-btn-gold hlt-blog-story-button" href={aboutPageUrl}>Explore Our Story<Icon name="arrow" /></a>
         </div>
       </section>
       <ExperienceSlider />

@@ -29,7 +29,7 @@ export default function Services() {
             <article className="hlt-service-card" key={service.title}>
               <div className="hlt-service-media">
                 <div className="hlt-service-image">
-                  <ContentImage src={serviceImages[service.image]} {...servicePhotoProps(service.image, serviceImages[service.image])} alt={service.title} loading="lazy" decoding="async" />
+                  <ContentImage src={serviceImages[service.image]} {...servicePhotoProps(service.image, serviceImages[service.image])} alt={service.alt} loading="lazy" decoding="async" />
                 </div>
                 <div className="hlt-service-icon hlt-service-icon-desktop">
                   <img src={serviceIconImages[index]} {...serviceIconProps(index, serviceIconImages[index])} alt="" aria-hidden="true" loading="lazy" />
