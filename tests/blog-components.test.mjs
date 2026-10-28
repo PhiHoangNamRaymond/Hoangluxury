@@ -386,7 +386,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
     topic:[...host.querySelectorAll('[aria-label="Filter articles by topic"] button')].filter((button) => button.getAttribute("aria-pressed") === "true").map((button) => button.textContent),
     query:host.querySelector('input[type="search"]').value, sort:host.querySelector("select").value,
     title:host.querySelector(".hlt-blog-feed .hlt-blog-section-heading h2").textContent,
-    articles:[...host.querySelectorAll(".hlt-blog-card h3")].map((heading) => heading.textContent),
+    articles:[...host.querySelectorAll(".hlt-blog-card-title")].map((heading) => heading.textContent),
     results:host.querySelector(".hlt-blog-results")?.textContent,
   });
   try {
@@ -398,14 +398,16 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           const story = host.querySelector('.hlt-blog-story-cta');
           assert.equal(story.getAttribute('aria-labelledby'), 'blog-story-title');
           assert.equal(story.querySelector('.hlt-blog-story-eyebrow').textContent, 'LOCAL EXPERIENCE. MEANINGFUL JOURNEY');
-          assert.equal(story.querySelector('h2').textContent, 'Discover Vietnam in Your Own Way');
+          // Tiêu đề CTA không còn là h2 (cấu trúc SEO 28/10/2026), vẫn là nhãn của khối.
+          assert.equal(story.querySelector('#blog-story-title').textContent, 'Discover Vietnam in Your Own Way');
+          assert.equal(story.querySelector('h2'), null);
           assert.equal(story.querySelector('.hlt-blog-story-description').textContent, 'Our stories go beyond the destinations — they’re about people, culture and the moments that make travel truly meaningful.');
           assert.equal(story.querySelector('a').textContent, 'Explore Our Story');
           assert.equal(story.querySelector('a').getAttribute('href'), '/about/');
           assert.equal(story.querySelectorAll('a').length, 1);
           assert.match(story.style.backgroundImage, /fixture-blog-sunrise/);
           const plan = host.querySelector(".hlt-blog-plan");
-          assert.equal(plan.querySelector("h2").textContent,"EXPLORE MORE. TRAVEL YOUR WAY");
+          assert.equal(plan.querySelector(".hlt-blog-plan-title").textContent,"EXPLORE MORE. TRAVEL YOUR WAY");
           assert.equal(plan.querySelector("p").textContent,"Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.");
           assert.equal(plan.querySelector("a").textContent,"Plan your journey");
           assert.equal(plan.querySelector("a").getAttribute("href"),"https://wa.me/fixture");
@@ -483,7 +485,7 @@ test("About uses the Blog CTA design and background without changing its contact
     assert.ok(cta.querySelector('.hlt-cruise-cta-overlay'));
     assert.match(cta.style.backgroundImage, /fixture-about-valley/);
     assert.equal(cta.getAttribute('aria-labelledby'), 'about-cta-title');
-    assert.equal(cta.querySelector('h2').textContent, 'Every Journey Begins with a Conversation?');
+    assert.equal(cta.querySelector('#about-cta-title').textContent, 'Every Journey Begins with a Conversation?');
     assert.equal(cta.querySelector('.hlt-blog-story-description').textContent, 'Share your plans. Let us take care of the details.');
     const links = [...cta.querySelectorAll('a')];
     assert.deepEqual(links.map(el => [el.textContent, el.getAttribute('href')]), [

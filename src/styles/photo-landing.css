@@ -63,7 +63,15 @@
   padding: clamp(34px, 3.4vw, 54px) 0;
 }
 
+/* h1 chỉ là khung chứa dòng nhỏ + tiêu đề (cấu trúc SEO); kiểu chữ nằm ở hai span. */
+.hlt-pl-hero h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
 .hlt-pl-hero-kicker {
+  display: block;
   /* fit-content để gạch chân dừng đúng ở cuối chữ; ô lưới mặc định kéo rộng
      hết hàng nên không đặt thì gạch sẽ chạy hết bề ngang banner. */
   width: fit-content;
@@ -77,7 +85,8 @@
   text-transform: uppercase;
 }
 
-.hlt-pl-hero h1 {
+.hlt-pl-hero-title {
+  display: block;
   max-width: 18ch;
   margin: 0 0 clamp(12px, 1.3vw, 18px);
   color: #fff;
@@ -119,6 +128,35 @@
 
 /* ---------- Tiêu đề chung của từng dải ---------- */
 
+.hlt-pl-view-all-photos {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .hlt-pl-view-all-photos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 20px;
+    padding: 10px 16px;
+    border: 1px solid rgba(197, 161, 90, .65);
+    border-radius: 6px;
+    background: #fdfaf4;
+    color: #ac792a;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .hlt-pl-view-all-photos:focus-visible {
+    outline: 2px solid #ac792a;
+    outline-offset: 3px;
+  }
+}
+
 .hlt-pl-head {
   margin: 0 auto clamp(26px, 3vw, 40px);
   max-width: 760px;
@@ -158,7 +196,16 @@
   background: linear-gradient(90deg, var(--pl-gold-soft), transparent);
 }
 
+/* h2 chỉ là khung (có thể chứa dòng nhỏ, tiêu đề lớn hoặc cả hai); kiểu chữ
+   nằm ở .hlt-pl-eyebrow và .hlt-pl-head-title nên giao diện không đổi theo thẻ. */
 .hlt-pl-head h2 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.hlt-pl-head-title {
+  display: block;
   margin: 0;
   color: #1d2a3a;
   font-family: "Cormorant", Georgia, serif;
@@ -317,6 +364,18 @@
   /* Ngang: neo theo từng ảnh (packages[].focus) để giữ người trong khung.
      Dọc: điện thoại (khung 16:10) lấy phần mặt người ở một phần ba trên. */
   object-position: var(--plan-focus, center) var(--plan-focus-y, 30%);
+}
+
+.hlt-pl-plan-mobile-picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 640px) {
+  .hlt-pl-plan-mobile-picture img {
+    object-position: center 20%;
+  }
 }
 
 .hlt-pl-plan-body {
@@ -754,15 +813,6 @@
   filter: brightness(1.05);
 }
 
-.hlt-pl-cta-arrow {
-  width: 17px;
-  height: 17px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
 
 /* Dưới 1200px hai thẻ gói đứng cạnh nhau quá hẹp, ảnh dọc chỉ còn chưa tới
    một nửa bề ngang; xếp mỗi hàng một thẻ. */
@@ -830,6 +880,11 @@
 /* ---------- Điện thoại ---------- */
 
 @media (max-width: 640px) {
+  /* Match the shared header height; the 74px fallback left a white gap. */
+  .hlt-photo-landing {
+    --hlt-header-height: 70px;
+  }
+
   /* Khung hẹp chỉ thấy khoảng một phần ba bề ngang ảnh. Neo về 64% để giữ đôi
      nhân vật và cắt bỏ dòng chữ viết tay ở mép phải, nếu không nó đè lên nút. */
   .hlt-pl-hero {
@@ -859,7 +914,7 @@
     min-height: clamp(330px, 62vw, 400px);
   }
 
-  .hlt-pl-hero h1 {
+  .hlt-pl-hero-title {
     max-width: none;
   }
 
@@ -932,22 +987,34 @@
 
   .hlt-pl-prep-grid .hlt-pl-prep-text {
     border-left: 0 !important;
+    /* Tiêu đề bước luôn 1 dòng ở mọi điện thoại: bỏ lề hai bên cho cột rộng tối
+       đa, cỡ chữ co theo bề rộng cột (dài nhất "06. Final Plan & Confirmation"
+       ≈ 12.3em). Cả 6 bước cùng một cỡ. */
+    container-type: inline-size;
+    padding-inline: 0;
+  }
+
+  .hlt-pl-prep-grid h3 {
+    white-space: nowrap;
+    font-size: min(14px, 100cqi / 12.4);
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-photo-landing {
+    --hlt-header-height: 72px;
   }
 }
 
 /* ==========================================================================
-   Trang /photo/ bản mobile theo mẫu (27/10/2026). PC đã chốt: ngoài việc ẩn
-   nút mũi tên chỉ dùng ở mobile, mọi quy tắc nằm trong @media (max-width: 640px).
-   Nội dung giữ như PC.
+   Trang /photo/ bản mobile theo mẫu (27/10/2026). PC đã chốt: mọi quy tắc nằm
+   trong @media (max-width: 640px). Nội dung giữ như PC.
    ========================================================================== */
-.hlt-pl-style-go {
-  display: none;
-}
 
 @media (max-width: 640px) {
-  /* Banner cao hơn, ảnh lộ rõ ở trên, chữ và nút dồn xuống đáy */
+  /* Mobile: compact landscape banner; keep all copy and both actions visible. */
   .hlt-pl-hero {
-    background-position: 64% top;
+    background-position: 64% center;
   }
 
   .hlt-pl-hero::before {
@@ -961,12 +1028,47 @@
   }
 
   .hlt-pl-hero-inner {
-    align-content: end;
-    min-height: min(540px, 140vw);
-    padding: 32px 0 30px;
+    align-content: center;
+    min-height: clamp(220px, 62vw, 300px);
+    padding: 20px 0;
   }
 
-  /* Thẻ phong cách: ảnh thấp hơn, hàng tên có vòng tròn mũi tên bên phải */
+  .hlt-pl-hero-kicker {
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    font-size: 11px;
+    letter-spacing: .14em;
+  }
+
+  .hlt-pl-hero-title {
+    margin-bottom: 10px;
+    font-size: clamp(22px, 6vw, 32px);
+    line-height: 1.08;
+  }
+
+  .hlt-pl-hero-lead {
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .hlt-pl-hero-actions {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .hlt-pl-hero-actions .hlt-btn {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 8px;
+    gap: 6px;
+    font-size: clamp(11px, 2.8vw, 13px);
+    letter-spacing: .02em;
+  }
+
+  /* Thẻ phong cách: ảnh thấp hơn (bỏ vòng tròn mũi tên 28/10/2026) */
   .hlt-pl-style-grid {
     gap: 16px;
   }
@@ -977,31 +1079,9 @@
 
   .hlt-pl-style-body {
     position: relative;
-    padding: 12px 52px 14px 16px;
+    padding: 12px 16px 14px;
   }
 
-  .hlt-pl-style-go {
-    position: absolute;
-    top: 9px;
-    right: 14px;
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border: 1.5px solid var(--pl-gold);
-    border-radius: 50%;
-    color: var(--pl-gold);
-  }
-
-  .hlt-pl-style-go svg {
-    width: 15px;
-    height: 15px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
 
   .hlt-pl-style-text p {
     font-size: 14px;
@@ -1010,6 +1090,11 @@
   /* Thẻ gói: ảnh thấp hơn */
   .hlt-pl-plan-media {
     aspect-ratio: 16 / 9;
+  }
+
+  /* Câu đầu của mục "No Posing Experience Needed" chỉ hiện trên PC. */
+  .hlt-pl-desktop-only {
+    display: none;
   }
 
   /* Why: lưới 2×2 căn giữa, vạch dọc giữa hai cột và vạch ngang giữa hai hàng */
@@ -1060,13 +1145,14 @@
     line-height: 1.45;
   }
 
-  /* CTA: ảnh núi lộ ở trên, chữ căn trái dồn xuống dưới — 3 dòng vàng đứng
-     thẳng, tiêu đề lớn 2 dòng, nút WhatsApp rộng hết hàng */
+  /* CTA theo mẫu 28/10/2026: 3 dòng chữ vàng có chân trên cùng, tiêu đề lớn
+     2 dòng, câu dẫn, nút vàng rộng hết hàng (không mũi tên); ảnh núi phủ tối
+     vừa phải để vẫn thấy cảnh. */
   .hlt-pl-cta {
-    padding: 120px 0 30px;
+    padding: 44px 0 40px;
     background:
-      linear-gradient(180deg, rgba(10, 22, 18, .1) 0%, rgba(10, 22, 18, .55) 34%, rgba(10, 22, 18, .9) 70%, rgba(10, 22, 18, .96) 100%),
-      var(--pl-cta-bg) 70% top / cover no-repeat;
+      linear-gradient(180deg, rgba(10, 22, 18, .5) 0%, rgba(10, 22, 18, .58) 55%, rgba(10, 22, 18, .78) 100%),
+      var(--pl-cta-bg) 70% center / cover no-repeat;
   }
 
   .hlt-pl-cta-inner {
@@ -1075,15 +1161,15 @@
 
   .hlt-pl-cta-script,
   .hlt-pl-cta-script span {
-    font-family: "Lato", Arial, Helvetica, sans-serif !important;
+    font-family: "Cormorant", Georgia, "Times New Roman", serif !important;
   }
 
   .hlt-pl-cta-script {
     grid-row: 1;
     justify-items: start;
-    gap: 4px;
+    gap: 2px;
     color: #e6bd6a;
-    font-size: 17px;
+    font-size: 19px;
     font-style: normal;
     font-weight: 400;
     letter-spacing: .02em;
@@ -1105,19 +1191,19 @@
 
   .hlt-pl-cta-copy > p {
     margin-top: 10px;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .hlt-pl-cta-btn {
     justify-content: center;
     width: 100%;
     min-height: 52px;
-    margin-top: 22px;
-    font-size: 14.5px;
+    margin-top: 24px;
+    padding: 0 20px;
+    border-radius: 8px;
+    background: linear-gradient(100deg, #c29226 0%, #d9b14a 48%, #f0d48a 71%, #dab74f 87%, #c7972b 100%);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .3);
+    font-size: 14px;
   }
 
-  /* Bỏ dải ảnh "The Hoang Luxury Experience" trên trang này (khách yêu cầu 27/10/2026). */
-  .hlt-photo-landing .hlt-experience-slider {
-    display: none;
-  }
 }

@@ -334,7 +334,7 @@ export default function JourneysPage() {
 
       </main>
 
-      <JourneyCallToAction />
+      <JourneyCallToAction secondary="form" />
       <ExperienceSlider />
       <Footer />
     </div>

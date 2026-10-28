@@ -1157,3 +1157,11 @@
   opacity: .72;
   cursor: progress;
 }
+
+/* Mobile: câu dẫn dưới tiêu đề không để chữ cuối đứng lẻ một dòng ("moments.",
+   "Vietnam.") — chia đều các dòng (khách yêu cầu 28/10/2026). */
+@media (max-width: 760px) {
+  .hlt-feedback-site main p {
+    text-wrap: pretty;
+  }
+}

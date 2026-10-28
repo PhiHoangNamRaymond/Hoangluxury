@@ -99,7 +99,7 @@ export default function PhotoAlbumPage({ slug }) {
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M15 5 8 12l7 7" />
               </svg>
-              All albums
+              Back
             </a>
 
             <p className="hlt-album-eyebrow" id="album-title">

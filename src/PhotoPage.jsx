@@ -103,6 +103,7 @@ const packages = [
     button: "Book Full-Day",
     script: ["More time.", "More moments to remember"],
     image: photoPlanImages.fullDay,
+    mobileImage: photoPlanImages.fullDayMobile,
     focus: "62%", // cặp đôi giữa đồi hoa: giữ cả hai khuôn mặt và bó hoa
     focusY: "8%", // hai khuôn mặt nằm cao trong ảnh
   },
@@ -113,7 +114,8 @@ const reasons = [
   // nhãn giá của dải thông số trang cung đường.
   [{ src: journeyFactIcons.vehicle }, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
   [{ src: journeyFactIcons.rates }, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
-  ["camera", "No Posing Experience Needed", "You do not need to know how to pose. The photographer guides you throughout the shoot so you can feel comfortable and be yourself."],
+  // Mảng 2 phần: phần đầu chỉ hiện trên PC (mobile bỏ cho ngắn — khách yêu cầu 28/10/2026).
+  ["camera", "No Posing Experience Needed", ["You do not need to know how to pose. ", "The photographer guides you throughout the shoot so you can feel comfortable and be yourself."]],
   ["weather", "Flexible When the Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
 ];
 
@@ -166,10 +168,12 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
         <path d="m16.6 4.2.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9.9-2Z" />
       </>
     ),
+    // Chiếc ô (theo mẫu khách gửi 28/10/2026): tán 4 múi + cán móc.
     weather: (
       <>
-        <path d="M7.4 14.5a4 4 0 0 1 .3-8 5.4 5.4 0 0 1 10.2 1.6 3.4 3.4 0 0 1-.6 6.4" />
-        <path d="M8.4 17.4 7.6 20M12 17.4 11.2 20M15.6 17.4 14.8 20" />
+        <path d="M3 12.2a9 9 0 0 1 18 0c-1.2-1-2.8-1-4 0-1.2-1-2.8-1-4 0-1.2-1-2.8-1-4 0-1.2-1-2.8-1-4 0Z" />
+        <path d="M12 3.2c-2.2 2.3-3 5.3-3 8.9M12 3.2c2.2 2.3 3 5.3 3 8.9" />
+        <path d="M12 2.2v1M12 12.2v6.3a2 2 0 0 1-4 0" />
       </>
     ),
     whatsapp: (
@@ -242,15 +246,39 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
   );
 }
 
-function SectionHead({ eyebrow, title, lead, id, wide }) {
+/* heading: phần nào nằm trong thẻ h2 (cấu trúc SEO khách duyệt 28/10/2026) —
+   "both": dòng nhỏ + tiêu đề, nối bằng " - " ẩn (vd. "Find Your Photo Style -
+   How Would You Like…"); "eyebrow": chỉ dòng nhỏ, tiêu đề lớn là chữ thường;
+   "title": chỉ tiêu đề lớn. Giao diện như nhau ở cả ba kiểu. */
+function SectionHead({ eyebrow, title, lead, id, wide, heading = "title" }) {
+  const eyebrowEl = (
+    <span className="hlt-pl-eyebrow">
+      <span aria-hidden="true" />
+      {eyebrow}
+      <span aria-hidden="true" />
+    </span>
+  );
   return (
     <div className={wide ? "hlt-pl-head is-wide" : "hlt-pl-head"}>
-      <p className="hlt-pl-eyebrow">
-        <span aria-hidden="true" />
-        {eyebrow}
-        <span aria-hidden="true" />
-      </p>
-      <h2 id={id}>{title}</h2>
+      {heading === "both" && (
+        <h2 id={id}>
+          {eyebrowEl}
+          <span className="hlt-seo-sep"> - </span>
+          <span className="hlt-pl-head-title">{title}</span>
+        </h2>
+      )}
+      {heading === "eyebrow" && (
+        <>
+          <h2 id={id}>{eyebrowEl}</h2>
+          <p className="hlt-pl-head-title">{title}</p>
+        </>
+      )}
+      {heading === "title" && (
+        <>
+          <div>{eyebrowEl}</div>
+          <h2 id={id}><span className="hlt-pl-head-title">{title}</span></h2>
+        </>
+      )}
       {lead && <p className="hlt-pl-lead">{lead}</p>}
     </div>
   );
@@ -279,8 +307,13 @@ export default function PhotoPage() {
           aria-labelledby="photo-hero-title"
         >
           <div className="hlt-container hlt-pl-hero-inner">
-            <p className="hlt-pl-hero-kicker">Hoang Photo</p>
-            <h1 id="photo-hero-title">Private Photo Shoots</h1>
+            {/* H1 theo khách (28/10/2026): "Hoang Photo - Private Photo Shoots in
+                Northern Vietnam"; dấu " - " ẩn, giao diện vẫn là dòng nhỏ + tiêu đề. */}
+            <h1 id="photo-hero-title">
+              <span className="hlt-pl-hero-kicker">Hoang Photo</span>
+              <span className="hlt-seo-sep"> - </span>
+              <span className="hlt-pl-hero-title">Private Photo Shoots in Northern Vietnam</span>
+            </h1>
             <p className="hlt-pl-hero-lead">
               Private photography experiences across Northern Vietnam,
               featuring a variety of creative concepts.
@@ -308,8 +341,9 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-styles-title"
               eyebrow="Find Your Photo Style"
-              title="How Would You Like to Remember Your Journey?"
+              title="How Would You Like To Remember Your Journey?"
               wide
+              heading="both"
             />
 
             <div className="hlt-pl-style-grid">
@@ -327,22 +361,19 @@ export default function PhotoPage() {
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div className="hlt-pl-style-text">
-                      <h3>{style.title}</h3>
+                      <h3>
+                        <span className="hlt-seo-sep">{String(index + 1).padStart(2, "0")}. </span>
+                        {style.title}
+                      </h3>
                       <p>{style.text}</p>
                     </div>
-                    {/* Vòng tròn mũi tên cạnh tên phong cách: chỉ hiện ở mobile (theo mẫu). */}
-                    <a
-                      className="hlt-pl-style-go"
-                      href={`${albumsUrl}?style=${encodeURIComponent(style.title)}`}
-                      aria-hidden="true"
-                      tabIndex={-1}
-                    >
-                      <svg viewBox="0 0 24 24"><path d="M6 12h11m-4-4 4 4-4 4" /></svg>
-                    </a>
                   </div>
                 </article>
               ))}
             </div>
+            <a className="hlt-pl-view-all-photos" href={albumsUrl}>
+              View All Photos
+            </a>
           </div>
         </section>
 
@@ -352,14 +383,22 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-plans-title"
               eyebrow="Choose Your Experience"
-              title="One Journey. Two Ways to Experience It"
+              title="One Journey. Two Ways To Experience It"
+              heading="both"
             />
 
             <div className="hlt-pl-plan-grid">
               {packages.map((item) => (
                 <article className="hlt-pl-plan" key={item.id}>
                   <div className="hlt-pl-plan-media" style={{ "--plan-focus": item.focus, "--plan-focus-y": item.focusY }}>
-                    <img src={item.image} alt={item.name} loading="lazy" />
+                    {item.mobileImage ? (
+                      <picture className="hlt-pl-plan-mobile-picture">
+                        <source media="(max-width: 640px)" srcSet={item.mobileImage} />
+                        <img src={item.image} alt={item.name} loading="lazy" decoding="async" />
+                      </picture>
+                    ) : (
+                      <img src={item.image} alt={item.name} loading="lazy" />
+                    )}
                   </div>
                   <div className="hlt-pl-plan-body">
                     <h3>{item.name}</h3>
@@ -421,7 +460,8 @@ export default function PhotoPage() {
               <SectionHead
                 id="photo-why-title"
                 eyebrow="Why Choose Hoang Photo?"
-                title="A Photo Experience Made for You"
+                title="A Photo Experience Made For You"
+                heading="eyebrow"
                 lead="More than just photos, we create a seamless and meaningful experience so you can simply be present and enjoy every moment."
               />
 
@@ -436,7 +476,16 @@ export default function PhotoPage() {
                       )}
                     </span>
                     <h3>{title}</h3>
-                    <p>{text}</p>
+                    <p>
+                      {Array.isArray(text) ? (
+                        <>
+                          <span className="hlt-pl-desktop-only">{text[0]}</span>
+                          {text[1]}
+                        </>
+                      ) : (
+                        text
+                      )}
+                    </p>
                   </article>
                 ))}
               </div>
@@ -450,7 +499,7 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-prep-title"
               eyebrow="Planning Your Photo Shoot"
-              title="How We Prepare for Your Photo Shoot"
+              title="How We Prepare For Your Photo Shoot"
               lead="We plan your photo shoot around your preferences, covering everything from locations and timing to outfits, makeup and travel arrangements."
               wide
             />
@@ -464,6 +513,7 @@ export default function PhotoPage() {
                   <div className="hlt-pl-prep-text">
                     <h3>
                       <span className="hlt-pl-prep-no">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="hlt-seo-sep">. </span>
                       {title}
                     </h3>
                     <p>{text}</p>
@@ -492,9 +542,6 @@ export default function PhotoPage() {
               <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
                 <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
                 Chat on WhatsApp
-                <svg className="hlt-pl-cta-arrow" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 12h15M13 6l6 6-6 6" />
-                </svg>
               </a>
             </div>
           </div>

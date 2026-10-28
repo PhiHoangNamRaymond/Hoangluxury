@@ -251,7 +251,11 @@
   pointer-events: none;
   transform: translateX(100%);
   transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.32s, box-shadow 0.32s ease;
-  overflow: hidden;
+  /* Cả khung cuộn (thay vì chỉ danh sách): máy màn thấp không bị logo ở đáy
+     chiếm chỗ làm cắt mất mục cuối "About Us" (khách báo 28/10/2026). */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .hlt-mobile-drawer.is-open {
@@ -310,9 +314,9 @@
 .hlt-mobile-drawer-nav {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: none;
   min-height: 0;
-  overflow-y: auto;
+  overflow: visible;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(197, 161, 90, .32) transparent;
@@ -521,9 +525,11 @@
 }
 
 .hlt-mobile-drawer-footer {
+  flex: none;
   margin-top: auto;
-  padding-top: 28px;
-  padding-bottom: 24px;
+  /* Co theo chiều cao màn để menu + logo vừa một màn trên máy thấp. */
+  padding-top: min(28px, 3dvh);
+  padding-bottom: min(24px, 2.5dvh);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -533,8 +539,8 @@
 }
 
 .hlt-mobile-drawer-watermark {
-  width: 124px;
-  height: 124px;
+  width: min(124px, 12dvh);
+  height: min(124px, 12dvh);
   object-fit: contain;
   margin: 0 auto;
   display: block;

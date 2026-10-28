@@ -400,16 +400,20 @@ export default function JourneyPage({ slug }) {
           <div className="hlt-journey-hero-main">
           <div className="hlt-container">
             <div className="hlt-journey-hero-content">
-              <p className="hlt-journey-eyebrow">{journey.eyebrow || "Private Luxury Transfer"}</p>
+              {/* H1 theo khách (28/10/2026): "Private Transfer Hanoi to Sapa" — dòng nhỏ
+                  nằm trong h1; dấu cách giữa các khối để Google đọc liền từ. */}
               <h1>
-                <span>{journey.titlePrefix || "Hanoi"}</span>
-                <span className="hlt-journey-title-to">to</span>
-                {/* --dest-len: CSS co cỡ chữ để tên dài ("Mu Cang Chai") vẫn nằm 1 dòng */}
-                <span
-                  className="hlt-journey-title-accent"
-                  style={{ "--dest-len": journey.name.length }}
-                >
-                  {journey.name}
+                <span className="hlt-journey-eyebrow">{journey.eyebrow || "Private Luxury Transfer"}</span>{" "}
+                <span className="hlt-journey-title">
+                  <span>{journey.titlePrefix || "Hanoi"}</span>{" "}
+                  <span className="hlt-journey-title-to">to</span>{" "}
+                  {/* --dest-len: CSS co cỡ chữ để tên dài ("Mu Cang Chai") vẫn nằm 1 dòng */}
+                  <span
+                    className="hlt-journey-title-accent"
+                    style={{ "--dest-len": journey.name.length }}
+                  >
+                    {journey.name}
+                  </span>
                 </span>
               </h1>
               <p className="hlt-journey-lead">{journey.intro}</p>
@@ -474,7 +478,7 @@ export default function JourneyPage({ slug }) {
                 <div className="hlt-journey-point-row">
                   <img className="hlt-journey-point-icon" src={originIcon} alt="" />
                   <div className="hlt-journey-point-info">
-                    <h3>{originShort}</h3>
+                    <div className="hlt-journey-point-name">{originShort}</div>
                     <small>{originNote}</small>
                   </div>
                 </div>
@@ -498,7 +502,7 @@ export default function JourneyPage({ slug }) {
                     <LineIcon type={journey.badgeIcon} className="hlt-journey-point-icon" />
                   )}
                   <div className="hlt-journey-point-info">
-                    <h3>{journey.name}</h3>
+                    <div className="hlt-journey-point-name">{journey.name}</div>
                     <small>{journey.dropoffNote}</small>
                   </div>
                 </div>
@@ -553,7 +557,7 @@ export default function JourneyPage({ slug }) {
 
             <p className="hlt-journey-vehicle-note">
               <LineIcon type="carCheck" className="hlt-journey-vehicle-note-icon" />
-              Hoang Luxury Travel directly manages our own fleet and team of professional drivers to ensure consistent service quality
+              Hoang Luxury Travel directly manages our own fleet and team of professional drivers to ensure consistent service quality.
             </p>
           </div>
         </section>
@@ -567,8 +571,8 @@ export default function JourneyPage({ slug }) {
             <div className="hlt-container">
               <div className="hlt-journey-heading hlt-journey-heading-lined">
                 {/* --title-len: mobile tự thu cỡ chữ để tiêu đề nằm 1 dòng (như mẫu) */}
-                <h2 style={{ "--title-len": `Choose Your ${journey.name} Journey`.length }}>
-                  Choose Your {journey.name} Journey
+                <h2 style={{ "--title-len": "Choose Your Transfer Option".length }}>
+                  Choose Your Transfer Option
                 </h2>
                 <p className="hlt-journey-sub">
                   All trip details will be sent to you 48 hours before departure.
@@ -672,7 +676,7 @@ export default function JourneyPage({ slug }) {
                 {journeyFaq.map(([question, answer]) => (
                   <details key={question} className="hlt-jfaq-item">
                     <summary className="hlt-jfaq-summary">
-                      <span>{question}</span>
+                      <h3 className="hlt-jfaq-q">{question}</h3>
                       <span className="hlt-jfaq-plus" aria-hidden="true">+</span>
                     </summary>
                     <div className="hlt-jfaq-answer">

@@ -1,5 +1,5 @@
 import React from "react";
-import { journeyCtaMountainsUrl, logoUrl } from "../../config/assets.js";
+import { journeyCtaMountainsUrl } from "../../config/assets.js";
 import { catalogPageUrl, whatsappUrl } from "../../data.js";
 
 // Ba bước đặt xe cho bản "route" (trang /journey/<slug>/): số, tiêu đề PC,
@@ -28,6 +28,9 @@ export default function JourneyCallToAction({
   title = "Ready to start your journey?",
   text = "We are here to make your trip comfortable, safe and unforgettable.",
   headingLevel = "h3",
+  // "form": nút thứ hai là Book via Form (/booking/) thay cho View Catalog —
+  // trang chủ và /journeys/ theo yêu cầu khách 28/10/2026.
+  secondary = "catalog",
 }) {
   const Heading = headingLevel === "h2" ? "h2" : "h3";
   if (variant === "route") {
@@ -40,7 +43,7 @@ export default function JourneyCallToAction({
         <div className="hlt-container">
           <div className="hlt-journey-cta-route-inner">
             <header className="hlt-journey-cta-route-head">
-              <h3 id="journey-cta-title">Ready to start your journey?</h3>
+              <div id="journey-cta-title" className="hlt-journey-cta-route-title">Ready To Start Your Journey?</div>
               <p>Driver - Vehicle - Pick-up Time confirmed before departure.</p>
             </header>
 
@@ -57,7 +60,10 @@ export default function JourneyCallToAction({
                   <li className="hlt-journey-cta-step">
                     <span className="hlt-journey-cta-step-num">{num}</span>
                     <span className="hlt-journey-cta-step-text">
-                      <strong>{title}</strong>
+                      <h3 className="hlt-journey-cta-step-title">
+                        <span className="hlt-seo-sep">{num}. </span>
+                        {title}
+                      </h3>
                       <small>{text}</small>
                       <em className="hlt-journey-cta-step-short">{shortTitle}</em>
                     </span>
@@ -76,15 +82,6 @@ export default function JourneyCallToAction({
               </a>
             </div>
 
-            {/* Chỉ hiện ở mobile (theo mẫu): logo + tên thương hiệu | khẩu hiệu */}
-            <div className="hlt-journey-cta-route-brand">
-              <img src={logoUrl} alt="" />
-              <span className="hlt-journey-cta-route-brand-name">
-                <strong>Hoang</strong>
-                <span>Luxury Travel</span>
-              </span>
-              <p>Private luxury transfer across Vietnam&rsquo;s most beautiful destinations.</p>
-            </div>
           </div>
         </div>
       </section>
@@ -109,9 +106,9 @@ export default function JourneyCallToAction({
             </a>
             <a
               className="hlt-btn hlt-btn-outline"
-              href={catalogPageUrl}
+              href={secondary === "form" ? "/booking/" : catalogPageUrl}
             >
-              View Catalog
+              {secondary === "form" ? "Book via Form" : "View Catalog"}
             </a>
           </div>
         </div>

@@ -16,26 +16,20 @@ import usePageEntered from "./hooks/usePageEntered.js";
 
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
 const luxuryValues = [
-  ["Your Time Matters", "We plan around your schedule, so you can travel without feeling rushed.", "calendar"],
+  ["Your Time Matters", "We plan around your schedule, so you can travel without feeling rushed.", "clock"],
   ["Space to Relax", "Enjoy the comfort and privacy of having your own space throughout the journey.", "shield"],
   ["Care in Every Detail", "Thoughtful touches make your journey feel more comfortable, personal and effortless.", "diamond"],
 ];
 
 const commitments = [
-  ["01", "Built Around You", "Your plans, preferences and travel needs shape the journey.", "car"],
-  [
-    "02",
-    "Clarity Before You Travel",
-    "Your trip details, arrangements and agreed price are clearly confirmed in advance.",
-    "shield",
-  ],
+  ["01", "Built Around You", "Your plans, preferences and travel needs shape the journey."],
+  ["02", "Clarity Before You Travel", "Your trip details, arrangements and agreed price are clearly confirmed in advance."],
   [
     "03",
     "Travel at Your Own Pace",
     "100% private travel with no shared passengers or multiple pick-ups, plus more flexibility with your time and stops.",
-    "people",
   ],
-  ["04", "Support When You Need It", "From planning to arrival, we're here whenever you need support.", "headset"],
+  ["04", "Support When You Need It", "From planning to arrival, we're here whenever you need support."],
 ];
 
 // Cùng thứ tự với journeyCardImages trong config/assets.js
@@ -69,32 +63,23 @@ function StatIcon({ type }) {
 // Icon nét dùng cho các thẻ ở bản mobile (giá trị, cam kết, giấy phép)
 function AboutIcon({ type }) {
   const shapes = {
-    calendar: (
-      <>
-        <rect x="3" y="5" width="18" height="16" rx="2.5" />
-        <path d="M3 10h18M8 2.5v4M16 2.5v4" />
-      </>
-    ),
     shield: (
       <>
         <path d="M12 2.5 20 6v6c0 5-3.4 8.3-8 9.5-4.6-1.2-8-4.5-8-9.5V6Z" />
         <path d="m8.8 12 2.2 2.2 4.2-4.4" />
       </>
     ),
-    diamond: <path d="M12 2.5 21 9l-9 12.5L3 9Zm-9 6.5h18M8.4 9 12 2.5 15.6 9 12 21.5" />,
-    people: (
+    // Đồng hồ và viên kim cương có mặt cắt theo mẫu mobile (28/10/2026).
+    clock: (
       <>
-        <circle cx="8.5" cy="8" r="3" />
-        <circle cx="16.5" cy="9" r="2.5" />
-        <path d="M2.8 19.5v-1.8c0-2.6 2.6-4.2 5.7-4.2s5.7 1.6 5.7 4.2v1.8M15 13.8c2.8.2 6.2 1.3 6.2 3.9v1.8" />
+        <circle cx="12" cy="12" r="8.6" />
+        <path d="M12 7.4V12l3.2 2.2" />
       </>
     ),
-    headset: (
+    diamond: (
       <>
-        <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
-        <rect x="3" y="13.5" width="4" height="6" rx="1.6" />
-        <rect x="17" y="13.5" width="4" height="6" rx="1.6" />
-        <path d="M19 19.5c0 1.4-1.6 2-4 2h-2" />
+        <path d="M7.2 4.2h9.6L21 9.4 12 20.4 3 9.4Z" />
+        <path d="M3 9.4h18M9.6 4.2 8.2 9.4 12 20.4l3.8-11-1.4-5.2" />
       </>
     ),
     car: (
@@ -128,18 +113,7 @@ function ArrowIcon() {
   );
 }
 
-function WhatsAppIcon() {
-  return (
-    <svg className="hlt-about-wa" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 2.6a9.3 9.3 0 0 0-8 14.1L2.8 21.3l4.7-1.2A9.3 9.3 0 1 0 12 2.6Z" />
-      <path className="is-fill" d="M8.9 7.6c.3-.3.7-.3.9 0l1.1 1.6c.2.3.2.7-.1 1l-.6.6c.6 1.3 1.7 2.4 3 3l.6-.6c.3-.3.7-.3 1-.1l1.6 1.1c.3.2.3.6 0 .9l-.8.9c-.5.5-1.3.7-2 .4a9.6 9.6 0 0 1-5.1-5.1c-.3-.7-.1-1.5.4-2l1-.8Z" />
-    </svg>
-  );
-}
-
-/* Bản WhatsApp đặc nét, dùng cho nút vàng chung với trang chủ. Khác
-   `WhatsAppIcon` ở trên: cái đó là bản nét mảnh, chỉ dùng ở banner mobile và
-   lấy màu nét từ CSS của riêng nút đó. */
+/* Icon WhatsApp đặc nét cho nút vàng của CTA (cặp nút chung với trang chủ). */
 function WhatsAppMark() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -148,12 +122,13 @@ function WhatsAppMark() {
   );
 }
 
-function Kicker({ children, className = "" }) {
+/* as="h2": dòng nhỏ chính là tiêu đề của khối (cấu trúc SEO khách duyệt 28/10/2026). */
+function Kicker({ children, className = "", as: Tag = "p", id }) {
   return (
-    <p className={`hlt-about-kicker ${className}`}>
+    <Tag className={`hlt-about-kicker ${className}`} id={id}>
       <span aria-hidden="true" />
       {children}
-    </p>
+    </Tag>
   );
 }
 
@@ -164,7 +139,7 @@ export default function AboutPage() {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = "About Us | Hoang Luxury Travel";
+    document.title = "About Hoang Luxury Travel | Private Transfers in Vietnam";
     return () => {
       document.title = previousTitle;
     };
@@ -183,27 +158,21 @@ export default function AboutPage() {
         >
           <div className="hlt-container hlt-about-hero-inner">
             <div className="hlt-about-hero-copy">
-              <p className="hlt-about-hero-kicker">
-                Hoang Luxury Travel&rsquo;s Story
-                <span aria-hidden="true" />
-              </p>
+              {/* H1 theo khách (28/10/2026): "Hoang Luxury Travel’s Story - More Than a
+                  Journey"; dấu " - " ẩn, giao diện vẫn là dòng nhỏ + tiêu đề vàng. */}
               <h1 id="about-title">
-                <span className="is-gold">More Than a Journey</span>
+                <span className="hlt-about-hero-kicker">
+                  Hoang Luxury Travel&rsquo;s Story
+                  <span aria-hidden="true" />
+                </span>
+                <span className="hlt-seo-sep"> - </span>
+                <span className="hlt-about-hero-title">
+                  <span className="is-gold">More Than a Journey</span>
+                </span>
               </h1>
               <p className="hlt-about-hero-lead">
                 Our story is shaped by the journeys we share with you.
               </p>
-              {/* Nút dưới banner: chỉ hiện ở mobile (theo mẫu) */}
-              <a
-                className="hlt-about-hero-btn"
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <WhatsAppIcon />
-                Book via WhatsApp
-                <ArrowIcon />
-              </a>
             </div>
             <p className="hlt-about-hero-note">Slow down. Breathe deeply. Let the mountains surround you.</p>
           </div>
@@ -228,8 +197,8 @@ export default function AboutPage() {
         <section className="hlt-about-split" aria-labelledby="about-approach-title">
           <div className="hlt-about-split-copy">
             <Kicker>Hoang Luxury Travel</Kicker>
-            <h2 id="about-approach-title">
-              A Personal Approach
+            <h2 id="about-approach-title" className="hlt-about-split-title">
+              A Personal Approach{" "}
               <br />
               to Every Journey
             </h2>
@@ -249,8 +218,8 @@ export default function AboutPage() {
         {/* What luxury means */}
         <section className="hlt-about-values" aria-labelledby="about-values-title">
           <div className="hlt-container">
-            <p className="hlt-about-lined-title">What Luxury Means to Us</p>
-            <h2 id="about-values-title">For us, luxury means feeling truly cared for.</h2>
+            <h2 id="about-values-title" className="hlt-about-lined-title">What Luxury Means to Us</h2>
+            <div className="hlt-about-values-title">For us, luxury means feeling truly cared for.</div>
             <div className="hlt-about-values-grid">
               {luxuryValues.map(([title, text, icon]) => (
                 <article key={title}>
@@ -271,12 +240,12 @@ export default function AboutPage() {
             <img src={aboutImages.people} alt="Hoang Luxury Travel driver handling a suitcase at a hotel entrance" loading="lazy" />
           </div>
           <div className="hlt-about-split-copy">
-            <Kicker>The People Behind Your Journey</Kicker>
-            <h2 id="about-people-title">
+            <Kicker as="h2" id="about-people-title">The People Behind Your Journey</Kicker>
+            <div className="hlt-about-split-title">
               Served with respect.
               <br />
               Prepared with dedication.
-            </h2>
+            </div>
             <p>
               Your journey is supported by experienced drivers and a dedicated team who take care of the details,
               confirm every arrangement and remain available throughout your trip. From your first message to your
@@ -300,12 +269,11 @@ export default function AboutPage() {
               Our Commitments to You
             </h2>
             <div className="hlt-about-commitments-grid">
-              {commitments.map(([num, title, text, icon]) => (
+              {commitments.map(([num, title, text]) => (
                 <article key={num}>
                   <span className="hlt-about-commitment-num">{num}</span>
-                  <AboutIcon type={icon} />
                   <div>
-                    <h3>{title}</h3>
+                    <h3><span className="hlt-seo-sep">{num}. </span>{title}</h3>
                     <p>{text}</p>
                   </div>
                 </article>
@@ -340,20 +308,21 @@ export default function AboutPage() {
                 <div>
                   <AboutIcon type="car" />
                   <div>
-                    <h3>Private journeys</h3>
+                    <div className="hlt-about-licence-item-title">Private journeys</div>
                     <p>A dedicated vehicle for your itinerary.</p>
                   </div>
                 </div>
                 <div>
                   <AboutIcon type="doc" />
                   <div>
-                    <h3>Clear confirmations</h3>
+                    <div className="hlt-about-licence-item-title">Clear confirmations</div>
                     <p>Travel details agreed before departure.</p>
                   </div>
                 </div>
               </div>
               <div className="hlt-about-licence-foot">
-                <span>Transport licence No. 15260263</span>
+                {/* Số giấy phép bọc riêng để bản mobile đưa xuống dòng, chữ to (PC giữ một dòng). */}
+                <span>Transport licence No. <span className="hlt-about-licence-no">15260263</span></span>
                 <span className="is-gold">hoangluxury.travel</span>
               </div>
             </div>
@@ -367,15 +336,15 @@ export default function AboutPage() {
               <img src={aboutImages.ceo} alt="Terraced valley in Northern Vietnam at sunrise" loading="lazy" />
             </div>
             <div className="hlt-about-ceo-copy">
-              <p className="hlt-about-ceo-kicker">
+              <h2 id="about-ceo-title" className="hlt-about-ceo-kicker">
                 <span aria-hidden="true" />
                 A Message from the CEO
                 <span aria-hidden="true" />
-              </p>
-              <span className="hlt-about-ceo-diamond" aria-hidden="true" />
-              <h2 id="about-ceo-title">
-                Every trip is looked forward to and prepared for long before the day of departure.
               </h2>
+              <span className="hlt-about-ceo-diamond" aria-hidden="true" />
+              <div className="hlt-about-ceo-title">
+                Every trip is looked forward to and prepared for long before the day of departure.
+              </div>
               <p>
                 After many years of accompanying thousands of guests, I have come to understand one thing very
                 clearly: no two journeys are ever the same.
@@ -453,20 +422,23 @@ export default function AboutPage() {
               Explore Northern Vietnam
             </h2>
             <p className="hlt-about-destinations-sub">Breathtaking places. Unforgettable experiences.</p>
-            {destinationRows.map((row, rowIndex) => (
-              <div className={`hlt-about-destination-row is-row-${rowIndex + 1}`} key={rowIndex}>
-                {row.map((item) => (
-                  <a className="hlt-about-destination" href={getJourneyPageUrl(item.name)} key={item.slug}>
-                    <img src={item.image} alt={`Hanoi to ${item.name} private transfer`} loading="lazy" />
-                    <span>{item.name}</span>
-                  </a>
-                ))}
-              </div>
-            ))}
-            <a className="hlt-about-outline-btn" href="/journeys/">
-              Explore all destinations
-              <ArrowIcon />
-            </a>
+            {/* Khối ảnh + nút: PC trong suốt (display: contents), mobile là khung viền. */}
+            <div className="hlt-about-destinations-panel">
+              {destinationRows.map((row, rowIndex) => (
+                <div className={`hlt-about-destination-row is-row-${rowIndex + 1}`} key={rowIndex}>
+                  {row.map((item) => (
+                    <a className="hlt-about-destination" href={getJourneyPageUrl(item.name)} key={item.slug}>
+                      <img src={item.image} alt={`Hanoi to ${item.name} private transfer`} loading="lazy" />
+                      <span>{item.name}</span>
+                    </a>
+                  ))}
+                </div>
+              ))}
+              <a className="hlt-about-outline-btn" href="/journeys/">
+                Explore all destinations
+                <ArrowIcon />
+              </a>
+            </div>
           </div>
         </section>
 
@@ -478,7 +450,7 @@ export default function AboutPage() {
         <div className="hlt-container hlt-cruise-cta-content">
           <div className="hlt-cruise-cta-text">
             <p className="hlt-blog-story-eyebrow">LOCAL EXPERIENCE. MEANINGFUL JOURNEY</p>
-            <h2 id="about-cta-title">Every Journey Begins with a Conversation?</h2>
+            <div id="about-cta-title" className="hlt-cruise-cta-title">Every Journey Begins with a Conversation?</div>
             <p className="hlt-blog-story-description">Share your plans. Let us take care of the details.</p>
           </div>
           {/* Cặp nút chung của trang chủ: nút vàng đặc + nút viền. */}

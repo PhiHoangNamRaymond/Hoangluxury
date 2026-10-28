@@ -329,12 +329,22 @@
 /* Chừa thêm khoảng nền sáng trước khi chuyển sang nền tối của Our Services,
    chỗ này đang cụt ngay sau thẻ cuối. */
 @media (max-width: 600px) {
+  /* Gọn lại quanh đường phân cách Why | Services (khách yêu cầu 28/10/2026). */
   .hlt-why {
-    padding-bottom: 76px;
+    padding-bottom: 40px;
   }
 
   .hlt-services {
-    padding-top: 56px;
+    padding-top: 40px;
+  }
+
+  /* Dòng "OUR SERVICES" là inline-flex nằm trong dòng chữ 31px của h2 nên bị
+     đẩy xuống ~18px; cho nó thành một hàng riêng (flex) để khoảng cách từ
+     đường phân cách đến chữ đúng bằng phía trên. */
+  .hlt-services h2 .hlt-seo-kicker {
+    display: flex;
+    width: fit-content;
+    margin-inline: auto;
   }
 }
 

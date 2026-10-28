@@ -9,7 +9,7 @@ import {
   routeViewAllButtonUrl,
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
-import { catalogPageUrl, fleet as fleetItems, getJourneyPageUrl, popularRoutes } from "../../data.js";
+import { fleet as fleetItems, getJourneyPageUrl, popularRoutes } from "../../data.js";
 
 export function FleetSpecIcon({ spec }) {
   const type = spec.toLowerCase();
@@ -134,7 +134,7 @@ export default function Fleet() {
             {/* Desktop: Original Image Button */}
             <a
               className="hlt-route-cta hlt-route-cta-image"
-              href={catalogPageUrl}
+              href="/journeys/"
               aria-label="View All Routes"
             >
               <img src={routeViewAllButtonUrl} alt="" loading="lazy" />

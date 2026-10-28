@@ -18,7 +18,7 @@ export default function App() {
       <Services />
       <Fleet />
       <BookingProcess />
-      <JourneyCallToAction headingLevel="h2" title="Ready To Start Your Journey?" className="is-home" />
+      <JourneyCallToAction headingLevel="h2" title="Ready To Start Your Journey?" className="is-home" secondary="form" />
       <ExperienceSlider />
       <Footer />
     </div>

@@ -37,13 +37,13 @@ export const getJourneyPageUrl = (route) => {
   return `/journey/hanoi-to-${destinationSlug}-private-transfer/`;
 };
 
-const hanoiRoute = (route) => [`Hanoi to ${route}`, getJourneyPageUrl(route)];
+const hanoiRoute = (route) => [`Hanoi to ${route === "Ha Long" ? "Halong" : route}`, getJourneyPageUrl(route)];
 
 const routesOverviewUrl = "/journeys/";
 /* Tuyến nối tỉnh: slug đặt theo đúng tên tuyến, ví dụ
    /journey/sapa-to-ha-long-private-transfer/ */
 const cityRoute = (label) => [
-  label,
+  label.replace(/Ha Long/g, "Halong"),
   `/journey/${label.toLowerCase().replace(/\s+/g, "-")}-private-transfer/`,
 ];
 
