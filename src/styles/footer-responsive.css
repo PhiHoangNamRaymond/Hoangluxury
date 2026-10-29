@@ -1388,6 +1388,13 @@
     transition: color 0.2s ease !important;
   }
 
+  /* Address is plain text, not a map/search navigation target on mobile. */
+  .hlt-footer-mobile-address,
+  .hlt-footer-mobile-address * {
+    pointer-events: none;
+    cursor: default;
+  }
+
   .hlt-footer-mobile-contact-item:hover {
     color: #f1d39a !important;
   }

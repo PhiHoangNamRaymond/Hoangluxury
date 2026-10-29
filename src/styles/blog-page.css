@@ -18,14 +18,13 @@
 .hlt-blog-main :is(a,button,input,select):focus-visible, .hlt-blog-reader button:focus-visible { outline: 3px solid #b78b3b; outline-offset: 4px; }
 .hlt-blog-sr { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .hlt-blog-hero { position: relative; isolation: isolate; color: #fff; border-bottom: 2px solid #c7a35d; }
-/* Ảnh banner / nền khối Explore More / nền CTA cuối là thẻ img (tên file + alt rỗng,
+/* Ảnh banner / nền khối Explore More là thẻ img (tên file + alt rỗng,
    khách yêu cầu 29/10/2026); lớp phủ màu ở ::before nằm trên ảnh. */
 .hlt-blog-hero::before, .hlt-blog-plan::before { content: ""; position: absolute; inset: 0; z-index: -1; }
 .hlt-blog-hero::before { background: linear-gradient(90deg,rgba(0,25,20,.85),rgba(0,25,20,.38) 52%,rgba(0,25,20,.05)); }
 .hlt-blog-plan::before { background: linear-gradient(90deg,#00271fea,#00251f63); }
-.hlt-blog-hero-img, .hlt-blog-plan-img, .hlt-story-cta-img { position: absolute; inset: 0; z-index: -2; display: block; width: 100%; height: 100%; object-fit: cover; }
+.hlt-blog-hero-img, .hlt-blog-plan-img { position: absolute; inset: 0; z-index: -2; display: block; width: 100%; height: 100%; object-fit: cover; }
 .hlt-blog-hero-img { object-position: center 54%; }
-.hlt-story-cta-img { z-index: 0; object-position: center 45%; }
 .hlt-blog-hero-inner { padding-block: 44px 30px; position: relative; }
 .hlt-blog-main .hlt-blog-eyebrow { font: 800 12px/1.5 "Lato",sans-serif; letter-spacing: .19em; text-transform: uppercase; color: #eed07f; }
 .hlt-blog-hero .hlt-blog-eyebrow { display: table; padding-bottom: 6px; margin-bottom: 12px; border-bottom: 1px solid #c4a05a; }

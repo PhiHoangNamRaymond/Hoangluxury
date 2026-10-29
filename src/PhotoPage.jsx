@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
+import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import {
@@ -169,12 +170,6 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
         <path d="m16.6 4.2.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9.9-2Z" />
       </>
     ),
-    whatsapp: (
-      <>
-        <path d="M12 2.8a9.2 9.2 0 0 0-7.9 13.9L2.9 21.1l4.6-1.2A9.2 9.2 0 1 0 12 2.8Z" />
-        <path d="M9 7.9c.3-.3.7-.3.9 0l1.1 1.6c.2.3.2.7-.1 1l-.6.6c.6 1.2 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.6 1.1c.3.2.3.6 0 .9l-.8.8c-.5.5-1.2.7-1.9.4a9.4 9.4 0 0 1-5-5c-.3-.7-.1-1.4.4-1.9l.9-.7Z" />
-      </>
-    ),
     car: (
       <>
         <path d="M4 16.2v-3.6l1.9-4.5a1.8 1.8 0 0 1 1.7-1.1h8.8a1.8 1.8 0 0 1 1.7 1.1l1.9 4.5v3.6a.8.8 0 0 1-.8.8H4.8a.8.8 0 0 1-.8-.8Z" />
@@ -321,7 +316,7 @@ export default function PhotoPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
+                <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                 Book via Photo
               </a>
               <a className="hlt-btn hlt-btn-outline" href={albumsUrl}>
@@ -415,7 +410,7 @@ export default function PhotoPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
+                        <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                         {item.button}
                       </a>
                       <p className="hlt-pl-plan-script" aria-hidden="true">
@@ -535,7 +530,7 @@ export default function PhotoPage() {
               <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
               <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
-                <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
+                <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                 Chat on WhatsApp
               </a>
             </div>

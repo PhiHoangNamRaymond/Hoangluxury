@@ -85,7 +85,8 @@ function AboutIcon({ type }) {
     car: (
       <>
         <path d="M4 16v-3.2l1.8-4.3A2 2 0 0 1 7.6 7h8.8a2 2 0 0 1 1.8 1.5l1.8 4.3V16" />
-        <path d="M4 12.8h16M4 16h16v2.5h-3V16M7 18.5H4Z" />
+        {/* Hai bánh xe đối xứng (trước đây thiếu bánh trái). */}
+        <path d="M4 12.8h16M4 16h16M5 16v2.5h3V16M16 16v2.5h3V16" />
         <circle cx="7.6" cy="14.4" r=".9" />
         <circle cx="16.4" cy="14.4" r=".9" />
       </>
@@ -447,7 +448,7 @@ export default function AboutPage() {
 
       {/* Match the Blog CTA design while preserving the About actions and copy. */}
       <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="about-cta-title" >
-        <img className="hlt-story-cta-img" src={aboutCtaBackgroundUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
+        <img className="hlt-cruise-cta-img" src={aboutCtaBackgroundUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
         <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
         <div className="hlt-container hlt-cruise-cta-content">
           <div className="hlt-cruise-cta-text">

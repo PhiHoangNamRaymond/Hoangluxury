@@ -319,6 +319,8 @@
     margin-top: 5px;
     font-size: 12.5px;
     line-height: 1.45;
+    text-align: justify;
+    text-align-last: left;
   }
 
   .hlt-service-grid {

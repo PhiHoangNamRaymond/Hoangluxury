@@ -21,18 +21,21 @@ export default function ExperienceSlider() {
   const loopWidthRef = useRef(0);
   const pointerRef = useRef({ active: false, id: null, x: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [slowNetwork, setSlowNetwork] = useState(false);
   const allSettled = experienceImages.every((image) => ["ready", "error"].includes(imageStates[image.src]));
   const readyCount = experienceImages.filter((image) => imageStates[image.src] === "ready").length;
   const failedImages = experienceImages.filter((image) => imageStates[image.src] === "error");
 
   useEffect(() => {
-    if (!allSettled) return;
+    // Mạng chậm (lần đầu vào, ở xa máy chủ): không chờ đủ 17 ảnh, chạy trước với
+    // ảnh đã tải xong; khi tất cả xong thì cập nhật đủ bộ một lần nữa.
+    if (!allSettled && !(slowNetwork && readyCount > 0 && !galleryImages.length)) return;
     // Never include an unloaded/broken photo in the moving track. A deliberate
     // retry updates the set only after decoding finishes, at the start position.
     const ready = experienceImages.filter((image) => imageStates[image.src] === "ready");
     setGalleryImages(ready);
     offsetRef.current = 0;
-  }, [allSettled]);
+  }, [allSettled, slowNetwork, readyCount > 0]);
 
   const setImageState = (src, state) => setImageStates((current) =>
     current[src] === state ? current : { ...current, [src]: state });
@@ -41,19 +44,15 @@ export default function ExperienceSlider() {
     setRetryVersions((current) => ({ ...current, [src]: (current[src] || 0) + 1 }));
   };
 
-  // A stalled connection must not freeze the gallery indefinitely. Failed or
-  // timed-out photos retain a retry control instead of an unexplained blank.
+  // Mạng chậm không được làm dải ảnh đứng im: sau 6 giây chạy trước với ảnh đã
+  // xong. Ảnh còn đang tải KHÔNG bị coi là lỗi (trước đây hết 15 giây là huỷ cả
+  // dải, máy ở xa / mạng chậm vào lần đầu thấy "could not be loaded" - 29/10/2026).
+  // Chỉ ảnh lỗi thật (onError) mới có nút thử lại.
   useEffect(() => {
     if (!nearViewport) return undefined;
-    const timer = window.setTimeout(() => setImageStates((current) => {
-      const next = { ...current };
-      for (const image of experienceImages) {
-        if (next[image.src] !== "ready" && next[image.src] !== "error") next[image.src] = "error";
-      }
-      return next;
-    }), 15000);
+    const timer = window.setTimeout(() => setSlowNetwork(true), 6000);
     return () => window.clearTimeout(timer);
-  }, [nearViewport, retryVersions]);
+  }, [nearViewport]);
 
   useEffect(() => {
     const onVisibility = () => setPageVisible(!document.hidden);
@@ -203,7 +202,7 @@ export default function ExperienceSlider() {
 
       {!galleryImages.length && (
         <div className="hlt-experience-loading" role="status">
-          {allSettled ? "Photos could not be loaded. Please try again." : `Preparing photos… ${readyCount}/${experienceImages.length}`}
+          {allSettled && !readyCount ? "Photos could not be loaded. Please try again." : `Preparing photos… ${readyCount}/${experienceImages.length}`}
         </div>
       )}
       {!!failedImages.length && (

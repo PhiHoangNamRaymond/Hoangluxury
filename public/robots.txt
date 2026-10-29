@@ -3,4 +3,17 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
+# Crawler của OpenAI Ads và ChatGPT Search: cho phép rõ ràng để OpenAI xét duyệt
+# trang quảng cáo (khách yêu cầu 29/10/2026). Nhóm riêng thay thế nhóm "*" với
+# bot này nên phải nhắc lại các dòng Disallow ở trên.
+User-agent: OAI-AdsBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
 Sitemap: https://hoangluxury.travel/sitemap.xml

@@ -358,6 +358,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
   source = source
     .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
     .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
+    .replace('import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";', 'const WhatsAppGlyph = () => null;')
     .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
     .replace('import ExperienceSlider from "./components/home/ExperienceSlider.jsx";', 'const ExperienceSlider = () => null;')
     .replace('import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";', 'const blogImages = {hero:"/fixture.png", plan:"/fixture.png"}; const journeyCardImages = Array(9).fill("/fixture.png"); const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";')
@@ -405,8 +406,8 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           assert.equal(story.querySelector('a').textContent, 'Explore Our Story');
           assert.equal(story.querySelector('a').getAttribute('href'), '/about-us/');
           assert.equal(story.querySelectorAll('a').length, 1);
-          assert.match(story.querySelector(".hlt-story-cta-img").getAttribute("src"), /fixture-blog-sunrise/);
-          assert.equal(story.querySelector(".hlt-story-cta-img").getAttribute("alt"), "");
+          assert.match(story.querySelector(".hlt-cruise-cta-img").getAttribute("src"), /fixture-blog-sunrise/);
+          assert.equal(story.querySelector(".hlt-cruise-cta-img").getAttribute("alt"), "");
           const plan = host.querySelector(".hlt-blog-plan");
           assert.equal(plan.querySelector(".hlt-blog-plan-title").textContent,"EXPLORE MORE. TRAVEL YOUR WAY");
           assert.equal(plan.querySelector("p").textContent,"Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.");
@@ -484,7 +485,7 @@ test("About uses the Blog CTA design and background without changing its contact
     const cta = host.querySelector('.hlt-blog-story-cta');
     assert.ok(cta.classList.contains('hlt-cruise-cta-section'));
     assert.ok(cta.querySelector('.hlt-cruise-cta-overlay'));
-    assert.match(cta.querySelector(".hlt-story-cta-img").getAttribute("src"), /fixture-about-valley/);
+    assert.match(cta.querySelector(".hlt-cruise-cta-img").getAttribute("src"), /fixture-about-valley/);
     assert.equal(cta.getAttribute('aria-labelledby'), 'about-cta-title');
     assert.equal(cta.querySelector('#about-cta-title').textContent, 'Every Journey Begins with a Conversation?');
     assert.equal(cta.querySelector('.hlt-blog-story-description').textContent, 'Share your plans. Let us take care of the details.');

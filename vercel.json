@@ -23,6 +23,7 @@
     ] }
   ],
   "redirects": [
+    { "source": "/((?!admin|unavailable|assets/|favicon|icon-|apple-touch-icon|robots\\.txt).*)", "has": [{ "type": "header", "key": "x-vercel-ip-country", "value": "(VN|LA|KH|MM|CN)" }], "destination": "/unavailable/", "permanent": false },
     { "source": "/hoangphoto/blog", "destination": "/blog/", "permanent": true },
     { "source": "/hoangphoto/blog/", "destination": "/blog/", "permanent": true },
     { "source": "/hoangphoto/blog/sapa-travel-guide-everything-you-need-to-know", "destination": "/blog/sapa/sapa-travel-guide-everything-you-need-to-know/", "permanent": true },
