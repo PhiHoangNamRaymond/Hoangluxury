@@ -2150,14 +2150,35 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   transform: translateX(-50%);
 }
 
+/* Số bên trái, tiêu đề + phụ đề xếp chồng bên phải. h3 (số + tiêu đề) là lưới con
+   phủ cả hai hàng để số nằm giữa khối chữ như trước; phụ đề ở hàng 2 ngoài h3. */
 .hlt-journey-cta-step {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 16px;
   align-items: center;
-  gap: 16px;
   text-align: left;
 }
 
+/* h3 chỉ là khung: bỏ kiểu h3 chung của dải CTA (.hlt-booking-showcase-footer h3). */
+.hlt-journey-cta-step .hlt-journey-cta-step-heading {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  align-items: center;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  text-shadow: inherit;
+}
+
 .hlt-journey-cta-step-num {
+  grid-row: 1 / -1;
   color: #e3c06a;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(38px, 3.1vw, 48px);
@@ -2165,15 +2186,16 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   line-height: 1;
 }
 
-.hlt-journey-cta-step-text .hlt-journey-cta-step-title,
-.hlt-journey-cta-step-text small {
+.hlt-journey-cta-step .hlt-journey-cta-step-title,
+.hlt-journey-cta-step small {
   display: block;
+  grid-column: 2;
   white-space: nowrap;
 }
 
-.hlt-journey-cta-step-text .hlt-journey-cta-step-title {
-  /* h3 (SEO): bỏ bóng chữ mà quy tắc h3 chung của dải CTA gắn vào. */
-  text-shadow: none;
+.hlt-journey-cta-step .hlt-journey-cta-step-title {
+  grid-row: 1;
+  align-self: end;
   margin-top: 0;
   margin-bottom: 6px;
   color: #fff;
@@ -2185,7 +2207,9 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   text-transform: uppercase;
 }
 
-.hlt-journey-cta-step-text small {
+.hlt-journey-cta-step small {
+  grid-row: 2;
+  align-self: start;
   color: rgba(255, 255, 255, .85);
   font-family: "Lato", Arial, Helvetica, sans-serif !important;
   font-size: clamp(12.5px, 1vw, 14px);
@@ -2268,17 +2292,12 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   }
 
   .hlt-journey-cta-step {
-    gap: 10px;
+    column-gap: 10px;
   }
 
-  .hlt-journey-cta-step-text small {
+  .hlt-journey-cta-step small {
     white-space: normal;
   }
-}
-
-/* Nhãn ngắn của bước chỉ dùng cho mobile */
-.hlt-journey-cta-step-short {
-  display: none;
 }
 
 /* ==========================================================================
@@ -2338,30 +2357,38 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   }
 
   .hlt-journey-cta-step {
+    display: flex;
     flex: 1 1 0;
     min-width: 0;
     flex-direction: column;
-    gap: 6px;
     text-align: center;
+  }
+
+  /* h3 = số trên, nhãn ngắn dưới (tìm h3 trúng cả số lẫn chữ đang hiện). */
+  .hlt-journey-cta-step .hlt-journey-cta-step-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
   }
 
   .hlt-journey-cta-step-num {
     font-size: clamp(34px, 10vw, 42px);
   }
 
-  .hlt-journey-cta-step-text .hlt-journey-cta-step-title,
-  .hlt-journey-cta-step-text small {
+  .hlt-journey-cta-step small {
     display: none;
   }
 
-  .hlt-journey-cta-step-short {
-    display: block;
+  .hlt-journey-cta-step .hlt-journey-cta-step-title {
+    margin: 0;
     color: #fff;
     font-family: "Lato", Arial, Helvetica, sans-serif !important;
     font-size: clamp(10.5px, 3.1vw, 12.5px);
-    font-style: normal;
+    font-weight: 400;
     line-height: 1.25;
-    text-transform: uppercase;
+    letter-spacing: normal;
+    white-space: normal;
     text-wrap: balance;
   }
 
@@ -2399,7 +2426,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
 }
 
 @media (min-width: 360px) and (max-width: 960px) {
-  .hlt-journey-cta-step-short {
+  .hlt-journey-cta-step .hlt-journey-cta-step-title {
     white-space: nowrap;
   }
 }
@@ -2944,6 +2971,32 @@ img.hlt-journey-point-icon {
   .hlt-journey-details .hlt-jfaq-plus {
     font-size: 20px;
   }
+
+  /* Bảng giá 4 thẻ: cả 4 thẻ cao bằng nhau (khách yêu cầu 29/10/2026). Hai hàng
+     cao bằng nhau (1fr); tiêu đề luôn chừa chỗ 2 dòng, chữ 1 dòng nằm giữa, nên giá
+     và mô tả các thẻ vẫn thẳng hàng; mô tả nằm giữa phần còn lại. Tuyến tên dài
+     (Mu Cang Chai, dòng tuyến .is-long) giữ cách chia hàng con như cũ. */
+  .hlt-journey-options .hlt-journey-options-grid:has(.hlt-journey-option-price):not(:has(.is-long, .hlt-journey-intercity-card)) {
+    grid-auto-rows: 1fr;
+    row-gap: 18px;
+  }
+
+  .hlt-journey-options .hlt-journey-options-grid:has(.hlt-journey-option-price):not(:has(.is-long, .hlt-journey-intercity-card)) .hlt-journey-option {
+    grid-row: auto;
+    grid-template-rows: auto auto auto 1fr;
+    margin-top: 0;
+  }
+
+  .hlt-journey-options .hlt-journey-options-grid:has(.hlt-journey-option-price):not(:has(.is-long, .hlt-journey-intercity-card)) .hlt-journey-option h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2lh;
+  }
+
+  .hlt-journey-options .hlt-journey-options-grid:has(.hlt-journey-option-price):not(:has(.is-long, .hlt-journey-intercity-card)) .hlt-journey-option p {
+    align-self: center;
+  }
 }
 
 /* ==========================================================================
@@ -3000,9 +3053,13 @@ img.hlt-journey-point-icon {
     padding: 20px 0 18px;
   }
 
-  /* Tiêu đề chiếm phần trên dải ảnh; mô tả bắt đầu ngay dưới mép dưới ảnh. */
-  .hlt-journey-hero h1 {
-    min-height: calc(var(--band-end) - 72px - 20px - 14px);
+  /* Tiêu đề chiếm phần trên dải ảnh; mô tả bắt đầu ngay dưới mép dưới ảnh.
+     Chiều cao tối thiểu đặt ở hàng lưới đầu, không ở h1, để khung h1 chỉ ôm phần
+     chữ, không trùm xuống ảnh xe (khách yêu cầu 29/10/2026). */
+  .hlt-journey-hero-content {
+    display: grid;
+    grid-template-rows: minmax(calc(var(--band-end) - 72px - 20px - 14px), auto);
+    align-items: start;
   }
 
   .hlt-journey-hero .hlt-journey-title {

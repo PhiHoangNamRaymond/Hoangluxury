@@ -62,7 +62,7 @@ const styles = [
 const packages = [
   {
     id: "half-day",
-    name: "Half-Day Photography with Private Car",
+    name: "Half-Day Photography With Private Car",
     includes: [
       ["car", "Private car and motorbike with driver"],
       ["photographer", "Private photographer with modern digital camera equipment"],
@@ -85,7 +85,7 @@ const packages = [
   },
   {
     id: "full-day",
-    name: "Full-Day Photography with Private Car",
+    name: "Full-Day Photography With Private Car",
     includes: [
       ["car", "Private car and motorbike with driver"],
       ["photographer", "Private photographer with modern digital camera equipment"],
@@ -117,7 +117,7 @@ const reasons = [
   [{ src: photoWhyIcons.pricing }, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
   // Mảng 2 phần: phần đầu chỉ hiện trên PC (mobile bỏ cho ngắn — khách yêu cầu 28/10/2026).
   ["camera", "No Posing Experience Needed", ["You do not need to know how to pose. ", "The photographer guides you throughout the shoot so you can feel comfortable and be yourself."]],
-  ["weather", "Flexible When the Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
+  ["weather", "Flexible When The Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
 ];
 
 /* Ảnh tròn của từng bước lấy theo đúng thứ tự từ photoPrepImages (assets.js). */

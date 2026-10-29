@@ -3,7 +3,7 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";
-import { blogArticleUrl, blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.js";
+import { blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.js";
 import usePublicBlog from "./hooks/usePublicBlog.js";
 import { aboutPageUrl, whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
@@ -38,8 +38,9 @@ function PlanButton({ children = "Plan your journey" }) {
   return <a className="hlt-blog-gold-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><Icon name="chat" />{children}<Icon name="arrow" /></a>;
 }
 
-function SectionHeading({ children, action, onAction }) {
-  return <div className="hlt-blog-section-heading"><h2>{children}</h2><span />{action && <button type="button" onClick={onAction}>{action}<Icon name="arrow" /></button>}</div>;
+function SectionHeading({ children, action, onAction, plain = false }) {
+  const Title = plain ? "div" : "h2";
+  return <div className="hlt-blog-section-heading"><Title className="hlt-blog-section-title">{children}</Title><span />{action && <button type="button" onClick={onAction}>{action}<Icon name="arrow" /></button>}</div>;
 }
 
 export default function BlogPage() {
@@ -128,13 +129,13 @@ export default function BlogPage() {
             <div className="hlt-blog-filter-row" role="group" aria-label="Filter articles by destination">
               <h2 className="hlt-blog-filter-label"><Icon name="pin" />Destinations</h2>
               <div className="hlt-blog-filter-items">
-                {blogDestinations.map((item) => <button key={item} type="button" aria-pressed={destination === item} onClick={() => toggleDestination(item)}>{item}</button>)}
+                {blogDestinations.map((item) => <h3 key={item} className="hlt-blog-filter-item"><button type="button" aria-pressed={destination === item} onClick={() => toggleDestination(item)}>{item}</button></h3>)}
               </div>
             </div>
             <div className="hlt-blog-filter-row" role="group" aria-label="Filter articles by topic">
-              <h2 className="hlt-blog-filter-label"><Icon name="book" />Topics</h2>
+              <div className="hlt-blog-filter-label"><Icon name="book" />Topics</div>
               <div className="hlt-blog-filter-items">
-                {blogTopics.map((item) => <button key={item} type="button" aria-pressed={topic === item} onClick={() => toggleTopic(item)}>{item}</button>)}
+                {blogTopics.map((item) => <h4 key={item} className="hlt-blog-filter-item"><button type="button" aria-pressed={topic === item} onClick={() => toggleTopic(item)}>{item}</button></h4>)}
               </div>
             </div>
             {/* Bộ lọc đang bật: mỗi bộ lọc một thẻ có dấu × để bỏ riêng, cộng nút xoá hết
@@ -191,12 +192,14 @@ export default function BlogPage() {
                   </div>
                 </article>
               )}
-              <SectionHeading action="View all articles" onAction={() => { resetFilters(); setLimit(blogArticles.length); }}>{feedTitle}</SectionHeading>
+              <SectionHeading plain={feedTitle !== "Latest Articles"} action="View all articles" onAction={() => { resetFilters(); setLimit(blogArticles.length); }}>{feedTitle}</SectionHeading>
               {!noFilter && <p className="hlt-blog-results" role="status">{filtered.length} article{filtered.length !== 1 ? "s" : ""}{query.trim() && <> matching &ldquo;{query.trim()}&rdquo;</>}</p>}
               <div className="hlt-blog-article-grid">
                 {visible.map((article) => (
+                  // Thẻ bài chỉ để trưng bày, không dẫn vào bài (khách yêu cầu khoá link 29/10/2026,
+                  // như khung bài nổi bật).
                   <article className="hlt-blog-card" key={article.slug}>
-                    <a href={blogArticleUrl(article.slug)}>
+                    <div className="hlt-blog-card-body">
                       <div className="hlt-blog-card-image">
                         {article.imageUrl && <img src={article.imageUrl} alt={article.imageAlt} loading="lazy" />}
                       </div>
@@ -208,7 +211,7 @@ export default function BlogPage() {
                         <div className="hlt-blog-card-title">{article.title}</div>
                         <p>{article.excerpt}</p>
                       </div>
-                    </a>
+                    </div>
                   </article>
                 ))}
               </div>
@@ -231,7 +234,7 @@ export default function BlogPage() {
 
             <aside className="hlt-blog-sidebar" aria-label="Travel inspiration">
               <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.plan}")` }}><div className="hlt-blog-plan-title">EXPLORE MORE. TRAVEL YOUR WAY</div><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
-              <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><a href={blogArticleUrl(article.slug)}><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></a></li>)}</ol></section>
+              <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><div className="hlt-blog-popular-item"><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></div></li>)}</ol></section>
 
               <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><div className="hlt-blog-destination-feature-title">Sapa</div><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
             </aside>

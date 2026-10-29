@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
@@ -162,8 +162,43 @@ function CompactIcon({ type }) {
   );
 }
 
+/* Cùng mốc với CSS bật bố cục gọn (journeys-page.css). */
+const COMPACT_CARDS_QUERY = "(max-width: 640px)";
+
+/* Mỗi thẻ chỉ có một h2, đặt ở tên tuyến đang hiện: PC là chữ trên ảnh, mobile
+   là tên trong bố cục gọn (khách yêu cầu 29/10/2026). */
+function useCompactCards() {
+  const [compact, setCompact] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(COMPACT_CARDS_QUERY).matches,
+  );
+
+  useEffect(() => {
+    const query = window.matchMedia(COMPACT_CARDS_QUERY);
+    const update = () => setCompact(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return compact;
+}
+
+/* seoName: tên trong code là "Sapa" / "Halong", màn hình vẫn hiện "Sa Pa" /
+   "Ha Long" (vẽ bằng ::before từ data-display). */
+function CardName({ item }) {
+  if (!item.seoName) return titleCase(item.name);
+  return (
+    <span className="hlt-jcard-name" data-display={titleCase(item.name)}>
+      <span className="hlt-seo-sep">{item.seoName}</span>
+    </span>
+  );
+}
+
 export default function JourneysPage() {
   const pageEntered = usePageEntered();
+  const compactCards = useCompactCards();
+  const CompactTitle = compactCards ? "h2" : "div";
+  const CardTitle = compactCards ? "div" : "h2";
 
   return (
     <div
@@ -176,12 +211,12 @@ export default function JourneysPage() {
       >
         <div className="hlt-container">
           <header className="hlt-journeys-header">
-            {/* H1 theo khách (28/10/2026): "Popular Routes - Private Transfers to Top
+            {/* H1 theo khách (28/10/2026): "Popular Routes - Private Transfers To Top
                 Destinations"; dấu " - " ẩn, giao diện vẫn là dòng nhỏ + tiêu đề. */}
             <h1 className="hlt-journeys-h1">
               <span className="hlt-journeys-kicker">Popular Routes</span>
               <span className="hlt-seo-sep"> - </span>
-              <span className="hlt-journeys-title">Private Transfers to Top Destinations</span>
+              <span className="hlt-journeys-title">Private Transfers To Top Destinations</span>
             </h1>
             <p className="hlt-journeys-lead">
               Discover stunning landscapes and cultural wonders with our <span className="hlt-nobrk">door-to-door</span> private transfer service from Hanoi or Noi Bai Airport.
@@ -210,8 +245,9 @@ export default function JourneysPage() {
                       <span className="hlt-jcard-compact-badge">{item.num}</span>
                     </a>
                     <div className="hlt-jcard-compact-body">
-                      {/* Thẻ gọn chỉ hiện trên mobile, trùng tên với thẻ lớn: không làm heading. */}
-                      <div className="hlt-jcard-compact-title">Hanoi to {titleCase(item.name)}</div>
+                      <CompactTitle className="hlt-jcard-compact-title">
+                        Hanoi to <CardName item={item} />
+                      </CompactTitle>
                       <ul>
                         <li><CompactIcon type="time" />{item.time}</li>
                         <li><CompactIcon type="vehicle" />{item.vehicle}</li>
@@ -229,20 +265,20 @@ export default function JourneysPage() {
                   <div className="hlt-jcard-media">
                     <img src={item.image} alt={item.alt} />
                     <span className="hlt-jcard-badge">{item.num}</span>
+                    {/* Bấm vào cả vùng ảnh (gồm tên tuyến và dải thông số) cũng mở trang
+                        tuyến, như nút sao bên dưới (khách yêu cầu 29/10/2026). */}
+                    <a
+                      className="hlt-jcard-media-link"
+                      href={routePageUrl}
+                      tabIndex={-1}
+                      aria-hidden="true"
+                    />
                     <div className="hlt-jcard-overlay">
-                      {/* Code viết thường ("Hanoi to Sapa"), CSS in hoa như cũ. seoName: tên trong
-                          code là "Sapa" / "Halong", màn hình vẫn hiện "SA PA" / "HA LONG"
-                          (vẽ bằng ::before từ data-display). */}
-                      <h2>
+                      {/* Code viết thường ("Hanoi to Sapa"), CSS in hoa như cũ. */}
+                      <CardTitle className="hlt-jcard-title">
                         Hanoi to <br />
-                        {item.seoName ? (
-                          <span className="hlt-jcard-name" data-display={titleCase(item.name)}>
-                            <span className="hlt-seo-sep">{item.seoName}</span>
-                          </span>
-                        ) : (
-                          titleCase(item.name)
-                        )}
-                      </h2>
+                        <CardName item={item} />
+                      </CardTitle>
                     </div>
 
                     <div className="hlt-jcard-stats">

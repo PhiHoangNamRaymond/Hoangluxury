@@ -437,13 +437,13 @@ export default function JourneyPage({ slug }) {
           <div className="hlt-journey-hero-main">
           <div className="hlt-container">
             <div className="hlt-journey-hero-content" ref={heroContentRef}>
-              {/* H1 theo khách (28/10/2026): "Private Transfer Hanoi to Sapa" — dòng nhỏ
+              {/* H1 theo khách (28/10/2026): "Private Transfer Hanoi To Sapa" — dòng nhỏ
                   nằm trong h1; dấu cách giữa các khối để Google đọc liền từ. */}
               <h1>
                 <span className="hlt-journey-eyebrow">{journey.eyebrow || "Private Luxury Transfer"}</span>{" "}
                 <span className="hlt-journey-title">
                   <span>{journey.titlePrefix || "Hanoi"}</span>{" "}
-                  <span className="hlt-journey-title-to">to</span>{" "}
+                  <span className="hlt-journey-title-to">To</span>{" "}
                   {/* --dest-len: CSS co cỡ chữ để tên dài ("Mu Cang Chai") vẫn nằm 1 dòng */}
                   <span
                     className="hlt-journey-title-accent"

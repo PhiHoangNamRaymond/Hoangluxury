@@ -540,9 +540,17 @@
     font-size: 15px;
   }
 
+  /* Nhãn dài (Flight Time … (Optional when not flying)) xuống dòng thay vì kéo
+     cột ô nhập rộng quá khung; minmax(0) giữ cột bằng đúng bề ngang form. */
+  .hlt-book-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .hlt-book-label-text {
+    flex-wrap: wrap;
     margin-bottom: 4px;
     font-size: 11px;
+    white-space: normal;
   }
 
   .hlt-book-control-textarea textarea {

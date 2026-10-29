@@ -461,7 +461,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-exp-layout">
               <div className="hlt-cruise-exp-intro">
-                <h2>What to Expect on Your Cruise</h2>
+                <h2>What To Expect On Your Cruise</h2>
                 <p>
                   Wake up to limestone islands beyond your window, explore quiet caves and linger over
                   dinner as the sun sets over the bay. Take time to enjoy the scenery and the company
@@ -656,7 +656,7 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-reviews-layout">
               <div className="hlt-cruise-reviews-left">
-                <h2>Trusted by International Travelers</h2>
+                <h2>Trusted By International Travelers</h2>
               </div>
 
               <div className="hlt-cruise-reviews-grid">

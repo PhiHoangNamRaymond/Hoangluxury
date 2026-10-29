@@ -2,12 +2,12 @@ import React from "react";
 import { journeyCtaMountainsUrl } from "../../config/assets.js";
 import { catalogPageUrl, whatsappUrl } from "../../data.js";
 
-// Ba bước đặt xe cho bản "route" (trang /journey/<slug>/): số, tiêu đề PC,
-// phụ đề PC, nhãn ngắn cho mobile.
+// Ba bước đặt xe cho bản "route" (trang /journey/<slug>/): số, tiêu đề (h3, PC
+// và mobile), phụ đề chỉ hiện trên PC.
 const bookingSteps = [
-  ["01", "Start Your Booking", "WhatsApp or Booking Form", "Start Your Booking"],
-  ["02", "Plan Your Trip", "Route · Vehicle · Final price", "Plan Your Trip"],
-  ["03", "Confirm & Enjoy", "Driver ready for pick-up", "Confirm & Enjoy"],
+  ["01", "Start Your Booking", "WhatsApp or Booking Form"],
+  ["02", "Plan Your Trip", "Route · Vehicle · Final price"],
+  ["03", "Confirm & Enjoy", "Driver ready for pick-up"],
 ];
 
 function WhatsAppIcon() {
@@ -51,7 +51,7 @@ export default function JourneyCallToAction({
             </header>
 
             <ol className="hlt-journey-cta-steps">
-              {bookingSteps.map(([num, title, text, shortTitle], index) => (
+              {bookingSteps.map(([num, title, text], index) => (
                 <React.Fragment key={num}>
                   {index > 0 && (
                     <li className="hlt-journey-cta-arrow" aria-hidden="true">
@@ -60,16 +60,15 @@ export default function JourneyCallToAction({
                       </svg>
                     </li>
                   )}
+                  {/* h3 gồm cả số đang hiện ("01. Start Your Booking", khách yêu cầu
+                      29/10/2026); dấu chấm ẩn. Phụ đề nằm ngoài h3. */}
                   <li className="hlt-journey-cta-step">
-                    <span className="hlt-journey-cta-step-num">{num}</span>
-                    <span className="hlt-journey-cta-step-text">
-                      <h3 className="hlt-journey-cta-step-title">
-                        <span className="hlt-seo-sep">{num}. </span>
-                        {title}
-                      </h3>
-                      <small>{text}</small>
-                      <em className="hlt-journey-cta-step-short">{shortTitle}</em>
-                    </span>
+                    <h3 className="hlt-journey-cta-step-heading">
+                      <span className="hlt-journey-cta-step-num">{num}</span>
+                      <span className="hlt-seo-sep">. </span>
+                      <span className="hlt-journey-cta-step-title">{title}</span>
+                    </h3>
+                    <small>{text}</small>
                   </li>
                 </React.Fragment>
               ))}

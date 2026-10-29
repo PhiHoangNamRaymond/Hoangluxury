@@ -173,20 +173,10 @@ export default function Hero() {
 
       <div className="hlt-container">
         <div className="hlt-hero-content">
-          <p className="hlt-hero-kicker">PRIVATE · PREMIUM · PERSONALIZED</p>
           <h1 className="hlt-hero-title">
             <span className="hlt-hero-title-white">Private</span>{" "}
             <span className="hlt-hero-title-gold">Car Transfer</span>
           </h1>
-
-          <div className="hlt-hero-crown-divider" aria-hidden="true">
-            <span className="hlt-hero-crown-line" />
-            <svg viewBox="0 0 20 11" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round" className="hlt-hero-crown-svg">
-              <polyline points="1,10 3,4 7,7.5 10,1 13,7.5 17,4 19,10" />
-              <line x1="1" y1="10" x2="19" y2="10" />
-            </svg>
-            <span className="hlt-hero-crown-line" />
-          </div>
 
           <p className="hlt-hero-desc">
             Hoang Luxury Travel provides private transfer with driver services across Northern Vietnam from Hanoi and Noi Bai Airport with Sapa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations. 

@@ -16,8 +16,8 @@ import usePageEntered from "./hooks/usePageEntered.js";
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
 const luxuryValues = [
   ["Your Time Matters", "We plan around your schedule, so you can travel without feeling rushed.", "clock"],
-  ["Space to Relax", "Enjoy the comfort and privacy of having your own space throughout the journey.", "shield"],
-  ["Care in Every Detail", "Thoughtful touches make your journey feel more comfortable, personal and effortless.", "diamond"],
+  ["Space To Relax", "Enjoy the comfort and privacy of having your own space throughout the journey.", "shield"],
+  ["Care In Every Detail", "Thoughtful touches make your journey feel more comfortable, personal and effortless.", "diamond"],
 ];
 
 const commitments = [
@@ -25,7 +25,7 @@ const commitments = [
   ["02", "Clarity Before You Travel", "Your trip details, arrangements and agreed price are clearly confirmed in advance."],
   [
     "03",
-    "Travel at Your Own Pace",
+    "Travel At Your Own Pace",
     "100% private travel with no shared passengers or multiple pick-ups, plus more flexibility with your time and stops.",
   ],
   ["04", "Support When You Need It", "From planning to arrival, we're here whenever you need support."],
@@ -337,7 +337,7 @@ export default function AboutPage() {
             <div className="hlt-about-ceo-copy">
               <h2 id="about-ceo-title" className="hlt-about-ceo-kicker">
                 <span aria-hidden="true" />
-                A Message from the CEO
+                A Message From The CEO
                 <span aria-hidden="true" />
               </h2>
               <span className="hlt-about-ceo-diamond" aria-hidden="true" />
