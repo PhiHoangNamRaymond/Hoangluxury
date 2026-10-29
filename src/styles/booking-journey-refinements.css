@@ -467,7 +467,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     margin-bottom: 10px;
   }
 
-  .hlt-process-icon svg {
+  .hlt-process-icon .hlt-process-icon-img {
     width: 25px;
     height: 25px;
   }
@@ -622,7 +622,7 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
     height: 44px;
   }
 
-  .hlt-process-icon svg {
+  .hlt-process-icon .hlt-process-icon-img {
     width: 22px;
     height: 22px;
   }

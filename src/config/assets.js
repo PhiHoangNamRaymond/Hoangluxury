@@ -187,10 +187,19 @@ export const photoWhyImages = { main: photoWhyMainImg, side: photoWhySideImg };
 
 /* Hai icon đầu dải "Why Choose" của /photo/: cùng hình với journeyFactIcons
    vehicle / rates, tách file riêng để trang Photo có tên ảnh riêng. */
-import photoWhyPickupIconImg from "../../assets/private-car-hotel-pickup-icon.png";
-import photoWhyPricingIconImg from "../../assets/transparent-pricing-icon.png";
+/* 4 icon thẻ "A Photo Experience Made For You", tên file theo khách (29/10/2026).
+   ?no-inline: file nhỏ dưới 4KB vẫn giữ tên file, không bị nhúng thành data URI. */
+import photoWhyPickupIconImg from "../../assets/private-car-hotel-pickup-icon.png?no-inline";
+import photoWhyPricingIconImg from "../../assets/transparent-pricing-icon.png?no-inline";
+import photoWhyCameraIconImg from "../../assets/photography-camera-icon.svg?no-inline";
+import photoWhyWeatherIconImg from "../../assets/flexible-weather-changes-icon.svg?no-inline";
 
-export const photoWhyIcons = { pickup: photoWhyPickupIconImg, pricing: photoWhyPricingIconImg };
+export const photoWhyIcons = {
+  pickup: photoWhyPickupIconImg,
+  pricing: photoWhyPricingIconImg,
+  camera: photoWhyCameraIconImg,
+  weather: photoWhyWeatherIconImg,
+};
 
 /* Ảnh bìa 6 thẻ "Find Your Photo Style" trên /photo/ (khách cung cấp, 16:9
    đúng khung thẻ). Riêng cho trang này, không dùng chung ảnh cung đường. */
@@ -224,8 +233,10 @@ export const photoPrepImages = [
 /* Ảnh dọc cột trái 2 thẻ gói chụp ("One Journey. Two Ways…") trên /photo/:
    Half-Day cô gái giữa đầm sen, Full-Day cặp đôi lúc hoàng hôn. */
 import photoPlanHalfDayImg from "../../assets/photo-landing/hoang-luxury-travel-photo-lotus-sunset.webp";
-import photoPlanFullDayImg from "../../assets/photo-landing/hoang-luxury-travel-photo-sunset-together.webp";
-import photoPlanFullDayMobileImg from "../../assets/photo-landing/hoang-luxury-travel-photo-love-in-bloom.webp";
+// PC: cặp đôi giữa đồi hoa (love-in-bloom); mobile: cặp đôi ngồi sofa lúc hoàng hôn
+// (sunset-together) — tên file theo khách 29/10/2026.
+import photoPlanFullDayImg from "../../assets/photo-landing/hoang-luxury-travel-photo-love-in-bloom.webp";
+import photoPlanFullDayMobileImg from "../../assets/photo-landing/hoang-luxury-travel-photo-sunset-together.webp";
 
 export const photoPlanImages = { halfDay: photoPlanHalfDayImg, fullDay: photoPlanFullDayImg, fullDayMobile: photoPlanFullDayMobileImg };
 
@@ -444,7 +455,7 @@ import warriorGoddess06 from "../../assets/photo-albums/warrior-goddess/hoang-lu
 import warriorGoddess07 from "../../assets/photo-albums/warrior-goddess/hoang-luxury-travel-photo-artistic-concept-7.webp";
 import warriorGoddess08 from "../../assets/photo-albums/warrior-goddess/hoang-luxury-travel-photo-artistic-concept-8.webp";
 import warriorGoddess09 from "../../assets/photo-albums/warrior-goddess/hoang-luxury-travel-photo-artistic-concept-9.webp";
-import northernVietnamOnFilmCover from "../../assets/photo-albums/northern-vietnam-on-film/cover.webp";
+import northernVietnamOnFilmCover from "../../assets/photo-albums/northern-vietnam-on-film/hoang-luxury-travel-northern-vietnam-on-film.webp";
 
 export const albumPhotosBySlug = {
   "spring-blossom": [
@@ -830,6 +841,17 @@ import whyVehicleIconUrl from "../../assets/private-car-fleet-icon.png";
 import whyWhatsappIconUrl from "../../assets/24-7-whatsapp-support-icon.png";
 /* Cùng hình với whyVehicleIconUrl, tách file riêng để mục Booking Process có tên ảnh riêng. */
 import bookingJourneyCarIconUrl from "../../assets/private-car-journey-icon.png";
+/* Ba icon nét của Booking Process là file riêng có tên theo khách (alt rỗng,
+   29/10/2026). ?no-inline: file nhỏ dưới 4KB vẫn giữ tên file, không bị nhúng
+   thành data URI. Màu/nét mobile nằm trong chính file SVG (@media theo cỡ icon). */
+import bookingContactIconUrl from "../../assets/whatsapp-booking-contact-icon.svg?no-inline";
+import bookingPlanIconUrl from "../../assets/private-transfer-trip-planning-icon.svg?no-inline";
+import bookingConfirmIconUrl from "../../assets/private-transfer-booking-confirmation-icon.svg?no-inline";
+/* Bốn icon cột trái trang Booking, tên file theo khách (29/10/2026). */
+import bookingSafeIconUrl from "../../assets/safe-professional-driver-icon.svg?no-inline";
+import bookingPrivateCarIconUrl from "../../assets/private-car-service-icon.svg?no-inline";
+import bookingOnTimeIconUrl from "../../assets/on-time-pickup-icon.svg?no-inline";
+import bookingPaymentIconUrl from "../../assets/flexible-payment-icon.svg?no-inline";
 import footerFlourishDividerUrl from "../../assets/footer-flourish-divider.png";
 
 import iconPrefCouplesUrl from "../../assets/icon-pref-couples.svg";
@@ -856,6 +878,13 @@ export {
   whatsappQrUrl,
   whyVehicleIconUrl,
   bookingJourneyCarIconUrl,
+  bookingContactIconUrl,
+  bookingPlanIconUrl,
+  bookingConfirmIconUrl,
+  bookingSafeIconUrl,
+  bookingPrivateCarIconUrl,
+  bookingOnTimeIconUrl,
+  bookingPaymentIconUrl,
 };
 
 export const heroSlideImages = {
@@ -1108,6 +1137,10 @@ export const aboutDestinationImages = [
 
 /* Nền dải "Our Commitments to You" trang About: cùng hình với servicesBackgroundUrl, tách file riêng để có tên ảnh riêng. */
 import aboutCommitmentsBannerImg from "../../assets/opt/hoang-luxury-travel-commitments-banner.jpg";
+
+/* Icon giấy phép cạnh tiêu đề "Licensed Transport Operator", tên file theo khách (29/10/2026). */
+import aboutLicenceIconImg from "../../assets/licensed-transport-operator-certificate-icon.svg?no-inline";
+export const aboutLicenceIconUrl = aboutLicenceIconImg;
 
 export const aboutImages = {
 

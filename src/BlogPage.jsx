@@ -106,7 +106,9 @@ export default function BlogPage() {
     <div className={`hlt-site hlt-blog-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}>
       <Header />
       <main className="hlt-blog-main">
-        <section className="hlt-blog-hero" style={{ "--blog-image": `url("${images.hero}")` }}>
+        <section className="hlt-blog-hero">
+          {/* Ảnh banner/nền là thẻ img có tên file, alt rỗng (khách yêu cầu 29/10/2026). */}
+          <img className="hlt-blog-hero-img" src={images.hero} alt="" fetchPriority="high" data-no-skeleton />
           <div className="hlt-blog-container hlt-blog-hero-inner">
             {/* H1 theo khách (28/10/2026): "Travel Blog - Travel Stories, Guides & Local
                 Tips"; dấu " - " ẩn. PC ngắt "… Guides / & Local Tips", mobile "… Guides & / Local Tips". */}
@@ -233,7 +235,7 @@ export default function BlogPage() {
             </div>
 
             <aside className="hlt-blog-sidebar" aria-label="Travel inspiration">
-              <section className="hlt-blog-plan" style={{ "--blog-image": `url("${images.plan}")` }}><div className="hlt-blog-plan-title">EXPLORE MORE. TRAVEL YOUR WAY</div><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
+              <section className="hlt-blog-plan"><img className="hlt-blog-plan-img" src={images.plan} alt="" loading="lazy" decoding="async" data-no-skeleton /><div className="hlt-blog-plan-title">EXPLORE MORE. TRAVEL YOUR WAY</div><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
               <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><div className="hlt-blog-popular-item"><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></div></li>)}</ol></section>
 
               <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><div className="hlt-blog-destination-feature-title">Sapa</div><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
@@ -243,7 +245,8 @@ export default function BlogPage() {
 
       </main>
 
-      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="blog-story-title" style={{ backgroundImage: `url(${blogStoryBackgroundUrl})` }}>
+      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="blog-story-title" >
+        <img className="hlt-story-cta-img" src={blogStoryBackgroundUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
         <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
         <div className="hlt-container hlt-cruise-cta-content">
           <div className="hlt-cruise-cta-text">

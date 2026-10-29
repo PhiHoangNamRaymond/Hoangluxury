@@ -111,13 +111,13 @@ const packages = [
 ];
 
 const reasons = [
-  // Icon là tên LineIcon, hoặc { src } cho ảnh: hai thẻ đầu dùng đúng icon xe /
-  // nhãn giá của dải thông số trang cung đường.
-  [{ src: photoWhyIcons.pickup }, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
-  [{ src: photoWhyIcons.pricing }, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
+  // Icon là file ảnh có tên riêng (khách yêu cầu 29/10/2026); hai thẻ đầu dùng đúng
+  // icon xe / nhãn giá của dải thông số trang cung đường.
+  [photoWhyIcons.pickup, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
+  [photoWhyIcons.pricing, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
   // Mảng 2 phần: phần đầu chỉ hiện trên PC (mobile bỏ cho ngắn — khách yêu cầu 28/10/2026).
-  ["camera", "No Posing Experience Needed", ["You do not need to know how to pose. ", "The photographer guides you throughout the shoot so you can feel comfortable and be yourself."]],
-  ["weather", "Flexible When The Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
+  [photoWhyIcons.camera, "No Posing Experience Needed", ["You do not need to know how to pose. ", "The photographer guides you throughout the shoot so you can feel comfortable and be yourself."]],
+  [photoWhyIcons.weather, "Flexible When The Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
 ];
 
 /* Ảnh tròn của từng bước lấy theo đúng thứ tự từ photoPrepImages (assets.js). */
@@ -167,14 +167,6 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
         <rect x="3" y="5.5" width="18" height="13" rx="2" />
         <path d="m3.6 15.5 4.6-4.3 3.6 3.2 3.1-2.6 5.5 4.7" />
         <path d="m16.6 4.2.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9.9-2Z" />
-      </>
-    ),
-    // Chiếc ô (theo mẫu khách gửi 28/10/2026): tán 4 múi + cán móc.
-    weather: (
-      <>
-        <path d="M3 12.2a9 9 0 0 1 18 0c-1.2-1-2.8-1-4 0-1.2-1-2.8-1-4 0-1.2-1-2.8-1-4 0-1.2-1-2.8-1-4 0Z" />
-        <path d="M12 3.2c-2.2 2.3-3 5.3-3 8.9M12 3.2c2.2 2.3 3 5.3 3 8.9" />
-        <path d="M12 2.2v1M12 12.2v6.3a2 2 0 0 1-4 0" />
       </>
     ),
     whatsapp: (
@@ -301,12 +293,16 @@ export default function PhotoPage() {
       <Header />
 
       <main className="hlt-pl-main">
-        {/* Banner đầu trang. Chữ viết tay bên phải nằm sẵn trong ảnh nền. */}
-        <section
-          className="hlt-pl-hero"
-          style={{ "--pl-hero": `url(${photoLandingBannerUrl})` }}
-          aria-labelledby="photo-hero-title"
-        >
+        {/* Banner đầu trang. Chữ viết tay bên phải nằm sẵn trong ảnh. Ảnh là thẻ img
+            có alt (khách yêu cầu 29/10/2026), cắt/neo như ảnh nền trước đây. */}
+        <section className="hlt-pl-hero" aria-labelledby="photo-hero-title">
+          <img
+            className="hlt-pl-hero-img"
+            src={photoLandingBannerUrl}
+            alt="Couple overlooking terraced rice fields and mountains at sunrise in Mu Cang Chai"
+            fetchPriority="high"
+            data-no-skeleton
+          />
           <div className="hlt-container hlt-pl-hero-inner">
             {/* One H1 contains both visible lines; keep the separator for SEO. */}
             <h1 id="photo-hero-title">
@@ -354,7 +350,7 @@ export default function PhotoPage() {
                     href={photoCategoryPath(style.title)}
                     aria-label={`See ${style.title} photos`}
                   >
-                    <img src={style.image} alt="" loading="lazy" />
+                    <img src={style.image} alt=" " loading="lazy" />
                   </a>
                   {/* h3 gồm cả số đang hiện ("01. Nature & Landscapes", khách yêu cầu
                       29/10/2026); dấu chấm ẩn, đoạn mô tả nằm ngoài h3. */}
@@ -392,10 +388,10 @@ export default function PhotoPage() {
                     {item.mobileImage ? (
                       <picture className="hlt-pl-plan-mobile-picture">
                         <source media="(max-width: 640px)" srcSet={item.mobileImage} />
-                        <img src={item.image} alt="" loading="lazy" decoding="async" />
+                        <img src={item.image} alt=" " loading="lazy" decoding="async" />
                       </picture>
                     ) : (
-                      <img src={item.image} alt="" loading="lazy" />
+                      <img src={item.image} alt=" " loading="lazy" />
                     )}
                   </div>
                   <div className="hlt-pl-plan-body">
@@ -445,8 +441,8 @@ export default function PhotoPage() {
           <div className="hlt-container hlt-pl-why-layout">
             {/* Cụm ảnh trang trí theo ảnh mẫu: hai khung polaroid và dòng chữ viết tay. */}
             <div className="hlt-pl-why-media" aria-hidden="true">
-              <img className="hlt-pl-why-photo is-main" src={photoWhyImages.main} alt="" loading="lazy" decoding="async" />
-              <img className="hlt-pl-why-photo is-side" src={photoWhyImages.side} alt="" loading="lazy" decoding="async" />
+              <img className="hlt-pl-why-photo is-main" src={photoWhyImages.main} alt=" " loading="lazy" decoding="async" />
+              <img className="hlt-pl-why-photo is-side" src={photoWhyImages.side} alt=" " loading="lazy" decoding="async" />
               <p className="hlt-pl-why-script">
                 <span>More</span>
                 <span>Than a Trip</span>
@@ -466,12 +462,14 @@ export default function PhotoPage() {
               <div className="hlt-pl-why-grid">
                 {reasons.map(([icon, title, text]) => (
                   <article key={title}>
-                    <span className="hlt-pl-why-ring" aria-hidden="true">
-                      {typeof icon === "object" ? (
-                        <span className="hlt-pl-why-ic is-mask" style={{ "--why-icon": `url(${icon.src})` }} />
-                      ) : (
-                        <LineIcon type={icon} className="hlt-pl-ic hlt-pl-why-ic" />
-                      )}
+                    <span className="hlt-pl-why-ring">
+                      <img
+                        className="hlt-pl-why-ic"
+                        src={icon}
+                        alt=" "
+                        style={{ "--why-icon": `url(${icon})` }}
+                        data-no-skeleton
+                      />
                     </span>
                     <h3>{title}</h3>
                     <p>
@@ -507,7 +505,7 @@ export default function PhotoPage() {
               {preparations.map(([title, text], index) => (
                 <article key={title}>
                   <div className="hlt-pl-prep-media">
-                    <img src={photoPrepImages[index]} alt="" loading="lazy" decoding="async" />
+                    <img src={photoPrepImages[index]} alt=" " loading="lazy" decoding="async" />
                   </div>
                   <div className="hlt-pl-prep-text">
                     <h3>
@@ -524,11 +522,9 @@ export default function PhotoPage() {
         </section>
 
         {/* CTA cuối trang */}
-        <section
-          className="hlt-pl-cta"
-          style={{ "--pl-cta-bg": `url(${photoBookingBannerUrl})` }}
-          aria-labelledby="photo-cta-title"
-        >
+        <section className="hlt-pl-cta" aria-labelledby="photo-cta-title">
+          {/* Ảnh nền là thẻ img có tên file (khách yêu cầu 29/10/2026). */}
+          <img className="hlt-pl-cta-img" src={photoBookingBannerUrl} alt=" " loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-container hlt-pl-cta-inner">
             <p className="hlt-pl-cta-script" aria-hidden="true">
               Beautiful Places

@@ -313,7 +313,7 @@
   box-shadow: 0 8px 18px rgba(74, 49, 18, .12);
 }
 
-.hlt-process-icon svg {
+.hlt-process-icon .hlt-process-icon-img {
   width: 38px;
   height: 38px;
   fill: none;
@@ -1429,7 +1429,7 @@
     z-index: 2 !important;
   }
 
-  .hlt-process-icon svg {
+  .hlt-process-icon .hlt-process-icon-img {
     width: 24px !important;
     height: 24px !important;
     stroke-width: 2 !important;

@@ -405,7 +405,8 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           assert.equal(story.querySelector('a').textContent, 'Explore Our Story');
           assert.equal(story.querySelector('a').getAttribute('href'), '/about-us/');
           assert.equal(story.querySelectorAll('a').length, 1);
-          assert.match(story.style.backgroundImage, /fixture-blog-sunrise/);
+          assert.match(story.querySelector(".hlt-story-cta-img").getAttribute("src"), /fixture-blog-sunrise/);
+          assert.equal(story.querySelector(".hlt-story-cta-img").getAttribute("alt"), "");
           const plan = host.querySelector(".hlt-blog-plan");
           assert.equal(plan.querySelector(".hlt-blog-plan-title").textContent,"EXPLORE MORE. TRAVEL YOUR WAY");
           assert.equal(plan.querySelector("p").textContent,"Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.");
@@ -471,7 +472,7 @@ test("About uses the Blog CTA design and background without changing its contact
     .replace(/import \{[^}]+\} from "\.\/config\/assets.js";/, `
       const aboutCeoSignatureUrl = "/signature.png", logoGoldUrl = "/logo.png", servicesBackgroundUrl = "/mountains.png";
       const aboutImages = {}, aboutStatIcons = {}, aboutDestinationImages = Array(10).fill("/fixture.png");
-      const aboutCtaBackgroundUrl = "/fixture-about-valley.png";
+      const aboutCtaBackgroundUrl = "/fixture-about-valley.png", aboutLicenceIconUrl = "/licence.svg";
     `)
     .replace('import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";', 'const catalogPageUrl = "/catalog/", getJourneyPageUrl = () => "/journeys/", whatsappUrl = "https://wa.me/fixture";')
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;');
@@ -483,7 +484,7 @@ test("About uses the Blog CTA design and background without changing its contact
     const cta = host.querySelector('.hlt-blog-story-cta');
     assert.ok(cta.classList.contains('hlt-cruise-cta-section'));
     assert.ok(cta.querySelector('.hlt-cruise-cta-overlay'));
-    assert.match(cta.style.backgroundImage, /fixture-about-valley/);
+    assert.match(cta.querySelector(".hlt-story-cta-img").getAttribute("src"), /fixture-about-valley/);
     assert.equal(cta.getAttribute('aria-labelledby'), 'about-cta-title');
     assert.equal(cta.querySelector('#about-cta-title').textContent, 'Every Journey Begins with a Conversation?');
     assert.equal(cta.querySelector('.hlt-blog-story-description').textContent, 'Share your plans. Let us take care of the details.');

@@ -86,8 +86,21 @@
 /* ---------- Hero ---------- */
 .hlt-about-hero {
   position: relative;
+  isolation: isolate;
   padding-top: 92px;
   background: var(--about-dark);
+}
+
+/* Ảnh banner là thẻ img (tên file + alt rỗng), nằm dưới lớp phủ ::before. */
+.hlt-about-hero-img {
+  position: absolute;
+  inset: 92px 0 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: calc(100% - 92px);
+  object-fit: cover;
+  object-position: center 58%;
 }
 
 .hlt-about-hero-inner {
@@ -107,8 +120,7 @@
   inset: 92px 0 0;
   background:
     linear-gradient(90deg, rgba(6, 24, 18, .82) 0%, rgba(6, 24, 18, .55) 34%, rgba(6, 24, 18, .08) 62%, transparent 100%),
-    linear-gradient(180deg, rgba(6, 24, 18, .15), rgba(6, 24, 18, .35)),
-    var(--about-hero) center 58% / cover no-repeat;
+    linear-gradient(180deg, rgba(6, 24, 18, .15), rgba(6, 24, 18, .35));
 }
 
 .hlt-about-hero-copy {
@@ -283,9 +295,28 @@
 .hlt-about-commitments {
   margin-top: clamp(16px, 2vw, 32px);
   padding: clamp(36px, 3.4vw, 50px) 0 clamp(40px, 3.8vw, 56px);
-  background:
-    linear-gradient(180deg, rgba(8, 30, 22, .78), rgba(8, 30, 22, .7)),
-    var(--about-commitments-bg) center / cover no-repeat;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Ảnh nền là thẻ img (tên file + alt rỗng); lớp phủ xanh ở ::before nằm trên ảnh. */
+.hlt-about-commitments::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(8, 30, 22, .78), rgba(8, 30, 22, .7));
+}
+
+.hlt-about-commitments-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hlt-about-commitments .hlt-about-lined-title {
@@ -575,9 +606,11 @@
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .hlt-about-hero::before {
-    background:
-      linear-gradient(180deg, rgba(6, 24, 18, .55) 0%, rgba(6, 24, 18, .35) 45%, rgba(6, 24, 18, .8) 100%),
-      var(--about-hero) 60% center / cover no-repeat;
+    background: linear-gradient(180deg, rgba(6, 24, 18, .55) 0%, rgba(6, 24, 18, .35) 45%, rgba(6, 24, 18, .8) 100%);
+  }
+
+  .hlt-about-hero-img {
+    object-position: 60% center;
   }
 
   .hlt-about-hero-inner {
@@ -641,8 +674,13 @@
     padding-top: 72px;
   }
 
-  .hlt-about-hero::before {
+  .hlt-about-hero::before,
+  .hlt-about-hero-img {
     inset: 72px 0 0;
+  }
+
+  .hlt-about-hero-img {
+    height: calc(100% - 72px);
   }
 
   .hlt-about-hero-inner {

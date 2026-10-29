@@ -212,7 +212,7 @@ import photo209 from "../../assets/photo-albums/warrior-goddess/hoang-luxury-tra
 import photo210 from "../../assets/photo-albums/warrior-goddess/hoang-luxury-travel-photo-artistic-concept-7.webp";
 import photo211 from "../../assets/photo-albums/warrior-goddess/hoang-luxury-travel-photo-artistic-concept-8.webp";
 import photo212 from "../../assets/photo-albums/warrior-goddess/hoang-luxury-travel-photo-artistic-concept-9.webp";
-import photo213 from "../../assets/photo-albums/northern-vietnam-on-film/cover.webp";
+import photo213 from "../../assets/photo-albums/northern-vietnam-on-film/hoang-luxury-travel-northern-vietnam-on-film.webp";
 
 export const albumPhotoDimensions = {
   [photo0]: { width: 1024, height: 1536 },

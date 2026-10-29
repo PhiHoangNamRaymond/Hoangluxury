@@ -727,7 +727,7 @@
     background: linear-gradient(145deg, #f1d39a, #c49339);
   }
 
-  .hlt-process-icon svg {
+  .hlt-process-icon .hlt-process-icon-img {
     width: 34px;
     height: 34px;
   }
