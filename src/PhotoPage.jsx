@@ -345,7 +345,7 @@ export default function PhotoPage() {
                     href={photoCategoryPath(style.title)}
                     aria-label={`See ${style.title} photos`}
                   >
-                    <img src={style.image} alt=" " loading="lazy" />
+                    <img src={style.image} alt="" loading="lazy" />
                   </a>
                   {/* h3 gồm cả số đang hiện ("01. Nature & Landscapes", khách yêu cầu
                       29/10/2026); dấu chấm ẩn, đoạn mô tả nằm ngoài h3. */}
@@ -383,10 +383,10 @@ export default function PhotoPage() {
                     {item.mobileImage ? (
                       <picture className="hlt-pl-plan-mobile-picture">
                         <source media="(max-width: 640px)" srcSet={item.mobileImage} />
-                        <img src={item.image} alt=" " loading="lazy" decoding="async" />
+                        <img src={item.image} alt="" loading="lazy" decoding="async" />
                       </picture>
                     ) : (
-                      <img src={item.image} alt=" " loading="lazy" />
+                      <img src={item.image} alt="" loading="lazy" />
                     )}
                   </div>
                   <div className="hlt-pl-plan-body">
@@ -436,8 +436,8 @@ export default function PhotoPage() {
           <div className="hlt-container hlt-pl-why-layout">
             {/* Cụm ảnh trang trí theo ảnh mẫu: hai khung polaroid và dòng chữ viết tay. */}
             <div className="hlt-pl-why-media" aria-hidden="true">
-              <img className="hlt-pl-why-photo is-main" src={photoWhyImages.main} alt=" " loading="lazy" decoding="async" />
-              <img className="hlt-pl-why-photo is-side" src={photoWhyImages.side} alt=" " loading="lazy" decoding="async" />
+              <img className="hlt-pl-why-photo is-main" src={photoWhyImages.main} alt="" loading="lazy" decoding="async" />
+              <img className="hlt-pl-why-photo is-side" src={photoWhyImages.side} alt="" loading="lazy" decoding="async" />
               <p className="hlt-pl-why-script">
                 <span>More</span>
                 <span>Than a Trip</span>
@@ -461,7 +461,7 @@ export default function PhotoPage() {
                       <img
                         className="hlt-pl-why-ic"
                         src={icon}
-                        alt=" "
+                        alt=""
                         style={{ "--why-icon": `url(${icon})` }}
                         data-no-skeleton
                       />
@@ -500,7 +500,7 @@ export default function PhotoPage() {
               {preparations.map(([title, text], index) => (
                 <article key={title}>
                   <div className="hlt-pl-prep-media">
-                    <img src={photoPrepImages[index]} alt=" " loading="lazy" decoding="async" />
+                    <img src={photoPrepImages[index]} alt="" loading="lazy" decoding="async" />
                   </div>
                   <div className="hlt-pl-prep-text">
                     <h3>
@@ -519,7 +519,7 @@ export default function PhotoPage() {
         {/* CTA cuối trang */}
         <section className="hlt-pl-cta" aria-labelledby="photo-cta-title">
           {/* Ảnh nền là thẻ img có tên file (khách yêu cầu 29/10/2026). */}
-          <img className="hlt-pl-cta-img" src={photoBookingBannerUrl} alt=" " loading="lazy" decoding="async" data-no-skeleton />
+          <img className="hlt-pl-cta-img" src={photoBookingBannerUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-container hlt-pl-cta-inner">
             <p className="hlt-pl-cta-script" aria-hidden="true">
               Beautiful Places
