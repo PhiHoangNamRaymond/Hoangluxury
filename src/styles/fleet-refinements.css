@@ -29,8 +29,9 @@
 }
 
 @media (min-width: 961px) {
+  /* Kéo "OUR FLEET" lên gần mép trên khối hơn (khách yêu cầu 29/10/2026; trước 62px). */
   .hlt-fleet {
-    padding-top: 62px;
+    padding-top: 32px;
   }
 
   .hlt-fleet > .hlt-container {

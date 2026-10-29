@@ -2618,6 +2618,20 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   .hlt-journey-hero-content {
     max-width: min(620px, 44vw);
   }
+
+  /* Đoạn chữ trắng kéo tới mép phải dòng tiêu đề dài nhất, căn đều hai bên
+     (khách yêu cầu 29/10/2026). --hero-title-w do JourneyPage.jsx đo; tên tuyến
+     ngắn (Sapa) thì giữ tối thiểu 480px như trước để không bị hẹp nhiều dòng. */
+  .hlt-journey-hero .hlt-journey-lead {
+    max-width: min(100%, max(480px, var(--hero-title-w, 480px)));
+  }
+}
+
+/* Đoạn chữ trắng dưới tên tuyến căn đều hai bên trên mọi cỡ màn (PC 29/10/2026,
+   mobile khách yêu cầu thêm cùng ngày). Đặt ngoài @media để chỉnh riêng một
+   bản không làm mất căn đều của bản kia. */
+.hlt-journey-hero .hlt-journey-lead {
+  text-align: justify;
 }
 
 /* Journey Experience dùng cùng nền với section "Private Car Transfer" trang Home
@@ -2821,6 +2835,52 @@ img.hlt-journey-point-icon {
 
   .hlt-journey-options .hlt-journey-option p span {
     white-space: normal;
+  }
+
+  /* Dòng tuyến "Hanoi / Noi Bai Airport → Sapa" co chữ theo bề rộng thẻ để nằm một
+     dòng (khách yêu cầu 29/10/2026); tên dài (Mu Cang Chai) chạm cỡ tối thiểu thì
+     xuống 2 dòng cân nhau. .44 ≈ bề rộng trung bình một ký tự Cormorant / cỡ chữ. */
+  .hlt-journey-options .hlt-journey-option p {
+    container-type: inline-size;
+  }
+
+  .hlt-journey-options .hlt-journey-option p span.is-route {
+    font-size: clamp(9.5px, calc(100cqi / (var(--len, 30) * .44)), 11.5px);
+    text-wrap: balance;
+  }
+
+  .hlt-journey-options .hlt-journey-option p span.is-route.is-long {
+    font-size: inherit;
+  }
+
+  /* Hai thẻ cùng hàng chia chung các hàng con (icon, tiêu đề, giá, mô tả): tiêu đề
+     một bên xuống 2 dòng thì đoạn mô tả hai bên vẫn bắt đầu ngang nhau. */
+  .hlt-journey-options .hlt-journey-options-grid {
+    row-gap: 0;
+  }
+
+  .hlt-journey-options .hlt-journey-option {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    justify-items: center;
+    align-items: start;
+  }
+
+  .hlt-journey-options .hlt-journey-option:nth-child(n + 3) {
+    margin-top: 18px;
+    padding-top: 20px;
+  }
+
+  .hlt-journey-options .hlt-journey-option h3 {
+    align-self: center;
+  }
+
+  /* Mô tả có container-type nên không tự có bề rộng: kéo hết ngang thẻ. */
+  .hlt-journey-options .hlt-journey-option p,
+  .hlt-journey-options .hlt-journey-option-price {
+    justify-self: stretch;
   }
 
   .hlt-journey-option-price {

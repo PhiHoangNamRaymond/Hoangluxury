@@ -32,6 +32,21 @@
     display: none;
   }
 
+  /* "HOANG LUXURY TRAVEL'S STORY" đậm + gạch chân như "TRAVEL BLOG" trang Blog
+     (khách yêu cầu 29/10/2026). fit-content để gạch dừng ở cuối chữ. */
+  .hlt-about-hero-kicker {
+    display: block;
+    width: fit-content;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: .8px solid #c4a05a;
+    color: #eed07f;
+    font-family: "Lato", Arial, sans-serif !important;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .19em;
+  }
+
   /* Ngắt "More Than / a Journey" như mẫu (theo em để giữ đúng khi cỡ chữ đổi). */
   .hlt-about-hero-title {
     max-width: 4.8em;
@@ -343,28 +358,27 @@
     grid-column: 1 / -1;
   }
 
+  /* Bỏ icon giấy tờ cạnh tiêu đề; tiêu đề căn giữa trong cột (khách yêu cầu 29/10/2026). */
   .hlt-about-doc {
-    box-sizing: border-box;
-    width: 48px;
-    height: 48px;
-    padding: 12px 13px;
-    border-radius: 50%;
-    background: rgba(214, 170, 90, .2);
+    display: none;
   }
 
   .hlt-about-licence-head h2 {
+    grid-column: 1 / -1;
     font-size: clamp(18px, 5.2vw, 22px);
+    text-align: center;
   }
 
   .hlt-about-licence-head p {
     font-size: clamp(12.5px, 3.5vw, 14px);
   }
 
-  /* Cột phải rộng vừa tiêu đề "Clear confirmations" (một dòng như mẫu),
-     cột trái nhận phần còn lại. */
+  /* Hai cột bằng nhau (29/10/2026; trước cột phải "auto" theo tiêu đề không xuống
+     dòng: máy có cỡ chữ lớn thì cột phải phình ra, ép cột trái nên icon bị che và
+     đoạn mô tả bên trái thành 3 dòng). Hai mục giờ đều 2 dòng mô tả. */
   .hlt-about-licence-grid {
     grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0;
     margin-top: 18px;
     padding-top: 16px;
@@ -390,44 +404,51 @@
     border-left: 1px solid rgba(185, 138, 58, .3);
   }
 
+  /* Khoá cỡ vòng tròn icon: không co trong hàng flex, không bị chữ đè. */
   .hlt-about-licence-grid .hlt-about-ic {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
     background: rgba(214, 170, 90, .2);
   }
 
   .hlt-about-licence-grid .hlt-about-ic svg {
-    width: 21px;
-    height: 21px;
+    width: 19px;
+    height: 19px;
+    flex: none;
+  }
+
+  .hlt-about-licence-grid > div > div {
+    min-width: 0;
   }
 
   .hlt-about-licence-grid .hlt-about-licence-item-title {
     margin-bottom: 4px;
     font-size: clamp(14px, 3.9vw, 16px);
-    white-space: nowrap;
+    line-height: 1.2;
   }
 
-  /* inline-size: đoạn mô tả không kéo rộng cột, cột chỉ rộng vừa tiêu đề. */
   .hlt-about-licence-grid p {
-    contain: inline-size;
     font-size: clamp(12px, 3.4vw, 13.5px);
+    line-height: 1.4;
   }
 
   .hlt-about-licence-foot {
     grid-column: 1 / -1;
     flex-direction: row;
     justify-content: center;
-    margin-top: 18px;
+    margin-top: 10px;
     text-align: center;
   }
 
-  /* Số giấy phép xuống dòng riêng, chữ to đậm như mẫu. */
+  /* Số giấy phép xuống dòng riêng, chữ to; không in đậm (khách yêu cầu 29/10/2026). */
   .hlt-about-licence-no {
     display: block;
-    margin-top: 2px;
+    margin-top: 0;
     color: var(--about-ink);
     font-size: clamp(20px, 5.8vw, 24px);
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: .02em;
   }
 
@@ -629,16 +650,6 @@
 
 }
 
-/* Màn rất hẹp: hai cột không đủ chỗ, tiêu đề mục giấy phép được xuống dòng. */
-@media (max-width: 359px) {
-  .hlt-about-licence-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hlt-about-licence-grid .hlt-about-licence-item-title {
-    white-space: normal;
-  }
-}
 
 /* Thư CEO (PC): thư dài ~1100px nên ảnh tỉ lệ 3/4 cố định trông lọt thỏm.
    Cho ảnh cao bằng đúng cột chữ và nới cột ảnh rộng hơn cho cân. */
@@ -660,4 +671,23 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  /* Gọn khoảng trống giữa thư CEO và "Explore Northern Vietnam" (khách yêu cầu
+     29/10/2026; trước mỗi bên clamp(...3.4vw...) ≈ 49px). */
+  .hlt-about-ceo {
+    padding-bottom: 24px;
+  }
+
+  .hlt-about-destinations {
+    padding-top: 24px;
+  }
+}
+
+/* Đoạn văn dài căn đều hai bên trên mọi cỡ màn (khách yêu cầu 29/10/2026).
+   Đặt ngoài mọi @media và ở cuối file About nạp sau cùng, để chỉnh riêng PC
+   hay riêng mobile ở trên không làm mất căn đều của bên kia. Dòng cuối vẫn
+   căn trái; câu chốt ngắn (.hlt-about-signoff) giữ nguyên. */
+.hlt-about-split-copy > p:not(.hlt-about-kicker):not(.hlt-about-signoff),
+.hlt-about-ceo-copy > p:not(.hlt-about-ceo-kicker) {
+  text-align: justify;
 }

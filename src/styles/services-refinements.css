@@ -361,3 +361,15 @@
     height: 100%;
   }
 }
+
+/* PC: gọn khoảng trống quanh đường phân cách Why | Services (khách yêu cầu
+   29/10/2026; trước Why dưới 6vw ≈ 86px, Services trên 92px). */
+@media (min-width: 961px) {
+  .hlt-why {
+    padding-bottom: 44px;
+  }
+
+  .hlt-services {
+    padding-top: 56px;
+  }
+}

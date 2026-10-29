@@ -254,6 +254,20 @@ export default function Header() {
     window.history.replaceState(null, "", resolvedHref);
   };
 
+  /* Logo ở trang chủ: cuộn mượt về đầu trang thay vì tải lại cả trang (tải lại làm
+     banner chớp / giật trên điện thoại - khách báo 29/10/2026). Trang khác vẫn về "/". */
+  const handleBrandClick = (event) => {
+    if (!isHomePage || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    setMenuOpen(false);
+    setMobileJourneysOpen(false);
+    setActiveHref("#home");
+    const home = document.querySelector("#home");
+    if (home) scrollToSection(home);
+    else window.scrollTo({ top: 0, behavior: "smooth" });
+    window.history.replaceState(null, "", "/");
+  };
+
   const navigationHref = (href) =>
     href.startsWith("#") && !isHomePage ? `/${href}` : href;
 
@@ -261,8 +275,9 @@ export default function Header() {
     <>
       <header className="hlt-header">
         <div className="hlt-header-inner">
-          <a className="hlt-brand" href="/">
-            <img className="hlt-brand-logo" src={logoUrl} alt="Hoang Luxury Travel’s logo private transfer in Northern Viet Nam" />
+          {/* Nhấn giữ logo trên điện thoại không bật khung xem trước link / ảnh. */}
+          <a className="hlt-brand" href="/" onClick={handleBrandClick} onContextMenu={(event) => event.preventDefault()}>
+            <img className="hlt-brand-logo" src={logoUrl} alt="Hoang Luxury Travel’s logo private transfer in Northern Viet Nam" draggable="false" />
             <div className="hlt-brand-text">
               <strong>HOANG</strong>
               <span>LUXURY TRAVEL</span>

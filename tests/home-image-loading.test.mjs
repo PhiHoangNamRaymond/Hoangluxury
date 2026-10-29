@@ -55,9 +55,10 @@ test("Home defers background/map media, preserves content, and preloads only the
     }
     const serviceFrame = document.querySelector(".hlt-service-image");
     const failedPhoto = serviceFrame.querySelector("img");
+    const failedAlt = failedPhoto.alt;
     await act(() => failedPhoto.dispatchEvent(new window.Event("error")));
     assert.equal(serviceFrame.querySelector("img"), null);
-    assert.match(serviceFrame.querySelector('[role="img"]').getAttribute("aria-label"), /Airport Transfer/);
+    assert.ok(serviceFrame.querySelector('[role="img"]').getAttribute("aria-label").startsWith(failedAlt));
     assert.equal(serviceFrame.children.length, 1, "fallback stays inside the same reserved frame");
     await intersect(services, true);
     await intersect(routes, true);
@@ -79,8 +80,12 @@ test("Home defers background/map media, preserves content, and preloads only the
     await act(() => preload.callback());
     assert.equal(requests.length, 1, "not all four alternative banners");
     assert.equal(requests[0].fetchPriority, "low");
+    let finishDecode;
+    requests[0].decode = () => new Promise((resolve) => { finishDecode = resolve; });
     await act(() => requests[0].onload());
-    assert.equal(document.querySelectorAll(".hlt-hero-slide-image[style]").length, 2);
+    assert.equal(document.querySelectorAll(".hlt-hero-slide img").length, 1, "retain current photo until decoding finishes");
+    await act(async () => finishDecode());
+    assert.equal(document.querySelectorAll(".hlt-hero-slide img").length, 2);
     await intersect(hero, false);
     assert.equal(timers.size, 0, "off-screen hero stops its timers");
   } finally {
@@ -93,12 +98,30 @@ test("Home defers background/map media, preserves content, and preloads only the
   }
 });
 
-test("background skeleton does not start off-screen image requests", async () => {
+test("every album photo reserves its own intrinsic aspect ratio", async () => {
+  const server = await createServer({ server: { middlewareMode: true, hmr: false }, appType: "custom" });
+  try {
+    const { albumPhotosBySlug } = await server.ssrLoadModule("/src/config/assets.js");
+    const { albumPhotoDimensions } = await server.ssrLoadModule("/src/config/album-photo-dimensions.js");
+    const ratios = new Set();
+    for (const photo of Object.values(albumPhotosBySlug).flat()) {
+      const size = albumPhotoDimensions[photo];
+      assert.ok(size?.width > 0 && size?.height > 0, `Missing dimensions: ${photo}`);
+      ratios.add((size.width / size.height).toFixed(3));
+    }
+    assert.ok(ratios.size > 1, "do not force mixed album photos into one crop");
+  } finally {
+    await server.close();
+  }
+});
+
+test("image loading state never probes backgrounds or hides photos and cleans up", async () => {
   const dom = new JSDOM('<section style="background-image:url(/below-fold.jpg)"></section>');
   globalThis.window = dom.window;
   globalThis.document = dom.window.document;
   globalThis.HTMLElement = window.HTMLElement;
   globalThis.HTMLImageElement = window.HTMLImageElement;
+  globalThis.HTMLSourceElement = window.HTMLSourceElement;
   globalThis.MutationObserver = window.MutationObserver;
   const section = document.querySelector("section");
   // JSDOM 29's selector engine fails a substring selector containing "(".
@@ -107,34 +130,33 @@ test("background skeleton does not start off-screen image requests", async () =>
   document.body.querySelectorAll = (selector) => selector === '[style*="url("]'
     ? [section] : queryAll(selector);
   section.getBoundingClientRect = () => ({ top: 5000, bottom: 5500 });
-  let observer;
-  window.IntersectionObserver = class {
-    constructor(callback) { this.callback = callback; observer = this; }
-    observe(target) { this.target = target; }
-    unobserve() {}
-  };
-  window.getComputedStyle = (element) => ({
-    backgroundImage: element.style.backgroundImage,
-    animationName: "none", color: "rgb(0, 0, 0)",
-  });
+  window.getComputedStyle = () => { throw new Error("No computed style probes allowed"); };
   const requests = [];
   globalThis.Image = class {
     set src(value) { this.url = value; requests.push(this); }
   };
   try {
     const { setupImageSkeletons } = await import("../src/lib/image-skeleton.js");
-    setupImageSkeletons();
+    const img = document.createElement("img");
+    img.src = "/content.jpg";
+    document.body.append(img);
+    const cleanup = setupImageSkeletons();
     assert.equal(requests.length, 0);
-    assert.equal(observer.target, section);
-    observer.callback([{ target: section, isIntersecting: true }]);
-    assert.equal(requests.length, 1);
-    assert.equal(requests[0].url, "/below-fold.jpg");
-    requests[0].onload();
+    assert.ok(img.classList.contains("hlt-img-pending"));
+    assert.equal(img.style.opacity, "");
+    assert.equal(img.style.objectPosition, "");
+    img.dispatchEvent(new window.Event("load"));
+    assert.ok(img.classList.contains("is-loaded"));
+    img.dispatchEvent(new window.Event("error"));
+    assert.ok(img.classList.contains("hlt-img-error"));
+    section.style.transform = "translateX(10px)";
     await Promise.resolve();
     await Promise.resolve();
     assert.equal(section.classList.contains("hlt-bg-pending"), false);
+    assert.equal(requests.length, 0);
+    cleanup();
   } finally {
     dom.window.close();
-    for (const key of ["window", "document", "HTMLElement", "HTMLImageElement", "MutationObserver", "Image"]) delete globalThis[key];
+    for (const key of ["window", "document", "HTMLElement", "HTMLImageElement", "HTMLSourceElement", "MutationObserver", "Image"]) delete globalThis[key];
   }
 });

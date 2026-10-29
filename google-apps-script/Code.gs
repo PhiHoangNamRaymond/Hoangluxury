@@ -189,12 +189,23 @@ function formatBookingRow_(sheet, firstRow, rowCount) {
  * Tab Feedback
  * ------------------------------------------------------------------ */
 
+/** Booking ID đúng dạng HLT-ddMMyy-RKS00x-NNN (18 chữ và số), cùng quy tắc với
+ *  src/lib/booking-id.js: chặn feedback gõ bừa / spam gửi thẳng tới script. */
+function bookingIdValid_(value) {
+  const match = /^HLT-(\d{2})(\d{2})\d{2}-RKS\d{3}-\d{3}$/.exec(value);
+  if (!match) return false;
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  return day >= 1 && day <= 31 && month >= 1 && month <= 12;
+}
+
 function saveFeedback_(data) {
-  const bookingId = safeCell_(data.bookingId).trim();
+  const bookingId = String(data.bookingId || "").trim().toUpperCase();
   const feedback = safeCell_(data.feedback || data.experience).trim();
   const rating = parseRating_(data.rating);
 
   if (!bookingId) throw new Error("Missing bookingId");
+  if (!bookingIdValid_(bookingId)) throw new Error("Invalid bookingId");
   if (!feedback) throw new Error("Missing feedback");
 
   const lock = LockService.getScriptLock();

@@ -67,6 +67,14 @@
   text-transform: uppercase;
 }
 
+/* PC: tiêu đề "Hoang Luxury Travel Experience" (khách đổi 29/10/2026) dài hơn
+   bản cũ, giữ trên một dòng như trước. */
+@media (min-width: 961px) {
+  .hlt-experience-heading .hlt-experience-title {
+    white-space: nowrap;
+  }
+}
+
 .hlt-experience-heading p {
   margin: 7px 0 0;
   color: #5b5144;

@@ -1165,3 +1165,9 @@
     text-wrap: pretty;
   }
 }
+
+/* Lời review căn đều hai bên trên mọi cỡ màn (khách yêu cầu 29/10/2026). Đặt ngoài
+   mọi @media, cuối file, để chỉnh riêng PC hay mobile không làm mất căn đều. */
+.hlt-feedback-review-card blockquote {
+  text-align: justify;
+}

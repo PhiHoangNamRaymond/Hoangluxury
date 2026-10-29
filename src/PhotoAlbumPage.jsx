@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ContentImage from "./components/ContentImage.jsx";
+import { albumPhotoDimensions } from "./config/album-photo-dimensions.js";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
@@ -125,11 +127,14 @@ export default function PhotoAlbumPage({ slug }) {
 
             <div className="hlt-album-photos">
               {album.photos.map((photo, position) => (
-                <figure className="hlt-album-photo" key={`${photo}-${position}`}>
-                  <img
+                <figure className="hlt-album-photo" key={`${photo}-${position}`}
+                  style={albumPhotoDimensions[photo] ? { aspectRatio: `${albumPhotoDimensions[photo].width} / ${albumPhotoDimensions[photo].height}` } : undefined}>
+                  <ContentImage
                     src={photo}
+                    {...albumPhotoDimensions[photo]}
                     alt=""
                     loading={position < 2 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                 </figure>
               ))}

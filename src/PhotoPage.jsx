@@ -124,7 +124,7 @@ const reasons = [
 const preparations = [
   ["Your Preferences", "Share your photo style, group size and special requests."],
   ["Photo Locations", "Choose places suited to your style and package."],
-  ["Best Time to Shoot", "Find the ideal time based on lighting, weather and your schedule."],
+  ["Best Time To Shoot","Find the ideal time based on lighting, weather and your schedule."],
   ["Outfit Preparation", "Choose your favorite traditional local outfit and get helpful styling tips."],
   ["Makeup & Hair", "Choose your preferred makeup and hairstyle for the shoot."],
   ["Final Plan & Confirmation", "Review your itinerary and booking confirmation before the shoot."],
@@ -341,7 +341,7 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-styles-title"
               eyebrow="Find Your Photo Style"
-              title="How Would You Like to Remember Your Journey?"
+              title="How Would You Like To Remember Your Journey?"
               wide
               heading="both"
             />
@@ -383,7 +383,7 @@ export default function PhotoPage() {
             <SectionHead
               id="photo-plans-title"
               eyebrow="Choose Your Experience"
-              title="One Journey. Two Ways to Experience It"
+              title="One Journey. Two Ways To Experience It"
               heading="both"
             />
 
@@ -538,7 +538,7 @@ export default function PhotoPage() {
               <span>Photos to Keep Forever</span>
             </p>
             <div className="hlt-pl-cta-copy">
-              <h2 id="photo-cta-title">Ready to Plan Your Photo Shoot?</h2>
+              <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
               <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
                 <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />

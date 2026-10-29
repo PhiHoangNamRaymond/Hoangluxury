@@ -1,6 +1,19 @@
 /* Menu con của mục "Journey" trên header.
    Nạp sau footer-responsive.css để ghi đè được khối nav mobile ở 960px. */
 
+/* Logo header: chạm trên điện thoại không hiện khung xanh tô cả logo + chữ, nhấn
+   giữ không chọn chữ / kéo ảnh / bật khung xem trước (khách báo 29/10/2026). */
+.hlt-brand {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.hlt-brand img {
+  -webkit-user-drag: none;
+}
+
 .hlt-nav-group {
   position: relative;
   display: flex;
@@ -524,9 +537,10 @@
   border-radius: 1px;
 }
 
+/* Logo + khẩu hiệu nằm giữa khoảng trống dưới menu (khách yêu cầu 29/10/2026;
+   trước dính sát đáy): khối chân chiếm hết phần còn lại rồi căn giữa theo dọc. */
 .hlt-mobile-drawer-footer {
-  flex: none;
-  margin-top: auto;
+  flex: 1 0 auto;
   /* Co theo chiều cao màn để menu + logo vừa một màn trên máy thấp. */
   padding-top: min(28px, 3dvh);
   padding-bottom: min(24px, 2.5dvh);
@@ -539,8 +553,8 @@
 }
 
 .hlt-mobile-drawer-watermark {
-  width: min(124px, 12dvh);
-  height: min(124px, 12dvh);
+  width: min(150px, 15dvh);
+  height: min(150px, 15dvh);
   object-fit: contain;
   margin: 0 auto;
   display: block;
@@ -550,9 +564,9 @@
 }
 
 .hlt-mobile-drawer-slogan {
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   font-family: "Cormorant", Georgia, serif;
-  font-size: 8.5px;
+  font-size: 11px;
   letter-spacing: 0.24em;
   color: #c5a15a;
   text-transform: uppercase;

@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import useNearViewport from "../../hooks/useNearViewport.js";
 import { experienceSliderImages as experienceImages } from "../../config/assets.js";
 
 const DEFAULT_SCROLL_SPEED = 64;
-const REDUCED_MOTION_SCROLL_SPEED = 28;
 
 export default function ExperienceSlider() {
+  const [sectionRef, inViewport] = useNearViewport({ rootMargin: "0px", once: false });
+  const [pageVisible, setPageVisible] = useState(() => typeof document === "undefined" || !document.hidden);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const slides = [...experienceImages, ...experienceImages];
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
@@ -12,6 +15,20 @@ export default function ExperienceSlider() {
   const loopWidthRef = useRef(0);
   const pointerRef = useRef({ active: false, id: null, x: 0 });
   const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    const onVisibility = () => setPageVisible(!document.hidden);
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onMotion = () => setReducedMotion(media.matches);
+    onVisibility();
+    onMotion();
+    document.addEventListener("visibilitychange", onVisibility);
+    media.addEventListener("change", onMotion);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      media.removeEventListener("change", onMotion);
+    };
+  }, []);
 
   const normalizeOffset = () => {
     const loopWidth = loopWidthRef.current;
@@ -41,7 +58,11 @@ export default function ExperienceSlider() {
     const resizeObserver = new ResizeObserver(measureTrack);
     resizeObserver.observe(track);
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!inViewport || !pageVisible || reducedMotion || isDragging) return undefined;
     let animationFrame;
     let previousTime = performance.now();
 
@@ -50,10 +71,7 @@ export default function ExperienceSlider() {
       previousTime = currentTime;
 
       if (!pointerRef.current.active) {
-        const speed = reducedMotion.matches
-          ? REDUCED_MOTION_SCROLL_SPEED
-          : DEFAULT_SCROLL_SPEED;
-        offsetRef.current -= speed * (elapsed / 1000);
+        offsetRef.current -= DEFAULT_SCROLL_SPEED * (elapsed / 1000);
         renderTrackPosition();
       }
 
@@ -63,10 +81,9 @@ export default function ExperienceSlider() {
     animationFrame = window.requestAnimationFrame(animate);
 
     return () => {
-      resizeObserver.disconnect();
       window.cancelAnimationFrame(animationFrame);
     };
-  }, []);
+  }, [inViewport, pageVisible, reducedMotion, isDragging]);
 
   const startDragging = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -116,6 +133,7 @@ export default function ExperienceSlider() {
   return (
     <section
       id="experience"
+      ref={sectionRef}
       className="hlt-experience-slider"
       aria-labelledby="experience-slider-title"
     >
@@ -123,7 +141,7 @@ export default function ExperienceSlider() {
         <div className="hlt-experience-title-row">
           <span aria-hidden="true" />
           {/* Không dùng thẻ heading: dải này lặp ở mọi trang, tránh làm rối cấu trúc H2 (SEO). */}
-          <div id="experience-slider-title" className="hlt-experience-title">The Hoang Luxury Experience</div>
+          <div id="experience-slider-title" className="hlt-experience-title">Hoang Luxury Travel Experience</div>
           <span aria-hidden="true" />
         </div>
         <p>Private journeys. Exceptional service.</p>

@@ -44,7 +44,7 @@ async function fill(input,value) {
   });
 }
 async function fillFeedback(host) {
-  await fill(host.querySelector('input[name="bookingId"]'),"test");
+  await fill(host.querySelector('input[name="bookingId"]'),"hlt 100826 rks001 001");
   await fill(host.querySelector('textarea[name="experience"]'),"A comfortable journey.");
   await act(async () => host.querySelector('input[name="rating"][value="5"]').click());
 }
@@ -79,7 +79,7 @@ test("public Feedback opens from navigation without autofill and submits manual 
         assert.equal(calls.length,1);
         assert.equal(calls[0].url,proxyUrl);
         assert.equal(calls[0].fields.form,"feedback");
-        assert.equal(calls[0].fields.bookingId,"test");
+        assert.equal(calls[0].fields.bookingId,"HLT-100826-RKS001-001","typed ID is normalised to the confirmation format");
         assert.equal(calls[0].fields.rating,"5");
         assert.equal(calls[0].fields.feedback,"A comfortable journey.");
         assert.equal(calls[0].fields.turnstileToken,"offline-token");
@@ -119,6 +119,31 @@ test("public Feedback rejects missing or whitespace-only fields without sending 
   }
 });
 
+test("public Feedback formats the Booking ID while typing and rejects incomplete IDs",async () => {
+  window.history.replaceState(null,"","/feedback/");
+  document.body.innerHTML='<div id="root"></div>';
+  const host = document.getElementById("root");
+  const root = createRoot(host);
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => { calls++; return Response.json({ok:true}); };
+  try {
+    await act(async () => root.render(React.createElement(FeedbackPage)));
+    const input = host.querySelector('input[name="bookingId"]');
+    await fill(input,"hlt!100826 rks001-001-999 extra");
+    assert.equal(input.value,"HLT-100826-RKS001-001","uppercased, symbols dropped, capped at 18 characters");
+    await fillFeedback(host);
+    await fill(input,"HLT-1008");
+    await verify(host);
+    await act(async () => host.querySelector("form").dispatchEvent(new window.Event("submit",{bubbles:true,cancelable:true})));
+    assert.equal(calls,0);
+    assert.match(host.textContent,/full Booking ID/);
+  } finally {
+    await act(async () => root.unmount());
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("failed public Feedback keeps entered data and retries with the same request ID after new verification",async () => {
   window.history.replaceState(null,"","/feedback/");
   document.body.innerHTML='<div id="root"></div>';
@@ -136,7 +161,7 @@ test("failed public Feedback keeps entered data and retries with the same reques
     assert.equal(calls.length,1);
     assert.match(host.textContent,/We could not send your feedback/);
     assert.equal(host.querySelector('[role="dialog"]'),null,"failed acknowledgement never shows a success popup");
-    assert.equal(host.querySelector('input[name="bookingId"]').value,"test");
+    assert.equal(host.querySelector('input[name="bookingId"]').value,"HLT-100826-RKS001-001");
     assert.equal(host.querySelector('textarea[name="experience"]').value,"A comfortable journey.");
     assert.equal(button.disabled,true,"failed request resets CAPTCHA, not entered data");
     await verify(host);
