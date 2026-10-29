@@ -25,6 +25,45 @@ const feedbackStats = [
   { icon: feedbackStatIcons[3], value: "100% Private", label: "Private Car" },
 ];
 
+/* Điểm ngắt từ (gạch nối mềm) cho từ dài trong review tiếng Anh, lấy theo từ điển
+   ngắt từ en-US. Lời review căn đều hai bên; cột chữ mobile hẹp nên không ngắt từ
+   thì dòng có từ dài bị giãn khoảng trắng lớn (khách báo 29/10/2026). Trình duyệt
+   Windows không có từ điển cho hyphens: auto nên đặt sẵn điểm ngắt ở đây; CSS chỉ
+   bật ngắt trên mobile (PC giữ nguyên). Bỏ tên riêng / thương hiệu (Luxury, Garrya)
+   và chỗ ngắt khó đọc (re-ally, dri-ver). */
+const reviewHyphenation = {
+  absolutely: "ab-solutely", accepted: "ac-cepted", additional: "ad-di-tional",
+  airport: "air-port", already: "al-ready", always: "al-ways",
+  appreciated: "ap-pre-ci-ated", arrangement: "arrange-ment", arrive: "ar-rive",
+  arrived: "ar-rived", assured: "as-sured", attentive: "at-ten-tive",
+  beautiful: "beau-ti-ful", because: "be-cause", before: "be-fore",
+  comfortable: "com-fort-able", contact: "con-tact", definitely: "def-i-nitely",
+  delayed: "de-layed", details: "de-tails", discussed: "dis-cussed", earlier: "ear-lier",
+  easily: "eas-ily", enjoyable: "en-joy-able", everything: "every-thing",
+  expected: "ex-pected", experience: "ex-pe-ri-ence", extremely: "ex-tremely",
+  family: "fam-ily", finally: "fi-nally", flexible: "flex-i-ble", genuinely: "gen-uinely",
+  handled: "han-dled", impressed: "im-pressed", journey: "jour-ney", leaving: "leav-ing",
+  little: "lit-tle", luckily: "luck-ily", luggage: "lug-gage", memorable: "mem-o-rable",
+  memories: "mem-o-ries", memory: "mem-ory", messaged: "mes-saged", nothing: "noth-ing",
+  office: "of-fice", patient: "pa-tient", patiently: "pa-tiently", payment: "pay-ment",
+  permitted: "per-mit-ted", photos: "pho-tos", polite: "po-lite", private: "pri-vate",
+  professional: "pro-fes-sional", punctual: "punc-tual", relaxed: "re-laxed",
+  reliable: "re-li-able", responded: "re-sponded", second: "sec-ond", service: "ser-vice",
+  spacious: "spa-cious", suitcases: "suit-cases", support: "sup-port",
+  surprised: "sur-prised", thoughtful: "thought-ful", vehicle: "ve-hi-cle",
+  vehicles: "ve-hi-cles", vietnam: "viet-nam", visiting: "vis-it-ing",
+  wherever: "wher-ever", worried: "wor-ried",
+};
+
+function hyphenateReview(text) {
+  return text.replace(/[A-Za-z]{6,}/g, (word) => {
+    const parts = reviewHyphenation[word.toLowerCase()]?.split("-");
+    if (!parts) return word;
+    let index = 0;
+    return parts.map((part) => word.slice(index, (index += part.length))).join("­");
+  });
+}
+
 // Review thật của khách, theo thứ tự ảnh trong feedbackReviewImages.
 // Không đăng tên khách và ngày; "guest" hiển thị ở dòng tác giả.
 // lang: review tiếng Hàn / tiếng Trung giữ nguyên ngôn ngữ gốc.
@@ -375,7 +414,7 @@ export default function FeedbackPage() {
                             <h3>{review.title}</h3>
                             <div className="hlt-feedback-stars" aria-label="5 out of 5 stars">★★★★★</div>
                             <blockquote className={isExpanded ? "is-expanded" : ""} lang={review.lang}>
-                              {review.quote}
+                              {review.lang ? review.quote : hyphenateReview(review.quote)}
                             </blockquote>
                             <button
                               type="button"

@@ -928,6 +928,11 @@
     stroke-linejoin: round;
   }
 
+  /* Icon nét đặc (mũi tên định hướng). */
+  .hlt-jcard-compact-icon .is-solid {
+    fill: #a8843f;
+  }
+
   .hlt-jcard-compact-link {
     display: inline-flex;
     align-items: center;
@@ -938,16 +943,6 @@
     font-weight: 700;
     letter-spacing: .04em;
     color: #b88a38;
-  }
-
-  .hlt-jcard-compact-link svg {
-    width: 14px;
-    height: 14px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.9;
-    stroke-linecap: round;
-    stroke-linejoin: round;
   }
 }
 
@@ -1142,12 +1137,6 @@
     gap: 9px;
     font-size: 12.5px;
     letter-spacing: .05em;
-  }
-
-  .hlt-jcard-compact-link svg {
-    width: 22px;
-    height: 13px;
-    stroke-width: 1.5;
   }
 }
 

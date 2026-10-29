@@ -2084,13 +2084,29 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   margin-top: 0;
   border-top: 1px solid rgba(197, 161, 90, .48);
   background-color: #0b1d17;
-  background-image:
+}
+
+/* Ảnh nền là thẻ img (tên file + alt rỗng); lớp phủ là span riêng nằm trên ảnh
+   (::before của dải CTA bị tắt ở mobile trong booking-journey-refinements.css). */
+.hlt-journey-cta-route-shade {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
     linear-gradient(180deg, rgba(8, 40, 27, .7) 0%, rgba(10, 48, 32, .52) 45%, rgba(6, 30, 20, .84) 100%),
-    radial-gradient(ellipse at 50% 40%, rgba(12, 60, 36, .18), rgba(4, 22, 14, .55) 75%),
-    var(--journey-cta-bg);
-  background-position: center, center, center 30%;
-  background-size: cover, cover, cover;
-  background-repeat: no-repeat;
+    radial-gradient(ellipse at 50% 40%, rgba(12, 60, 36, .18), rgba(4, 22, 14, .55) 75%);
+}
+
+.hlt-journey-cta-route-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
 }
 
 .hlt-journey-cta-route > .hlt-container {
@@ -2315,12 +2331,15 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
     border-top: 1px solid rgba(197, 161, 90, .48) !important;
     border-bottom: 0 !important;
     background-color: #0b1d17 !important;
-    background-image:
-      linear-gradient(180deg, rgba(8, 40, 27, .78) 0%, rgba(10, 48, 32, .66) 40%, rgba(6, 30, 20, .9) 100%),
-      var(--journey-cta-bg) !important;
-    background-position: center, 42% center !important;
-    background-size: cover, cover !important;
-    background-repeat: no-repeat !important;
+    background-image: none !important;
+  }
+
+  .hlt-journey-cta-route-shade {
+    background: linear-gradient(180deg, rgba(8, 40, 27, .78) 0%, rgba(10, 48, 32, .66) 40%, rgba(6, 30, 20, .9) 100%);
+  }
+
+  .hlt-journey-cta-route-img {
+    object-position: 42% center;
   }
 
   .hlt-journey-cta-route-inner {
@@ -2915,11 +2934,11 @@ img.hlt-journey-point-icon {
   }
 
   .hlt-journey-option-price strong {
-    font-size: clamp(14px, 4.3vw, 17px);
+    font-size: clamp(18px, 5.5vw, 23px);
   }
 
   .hlt-journey-option-price span {
-    font-size: 12px;
+    font-size: clamp(14px, 4vw, 16px);
   }
 
   /* Hai cột lại cần dòng trống giữ hàng mô tả thẳng nhau (thẻ Custom Quote) */

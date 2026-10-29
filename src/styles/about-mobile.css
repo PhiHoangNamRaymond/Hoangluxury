@@ -461,8 +461,10 @@
   }
 
   /* --- Thư CEO: ảnh trên, đoạn mở đầu, nút mở cả thư --- */
+  /* Khung thư liền xuống "Explore Northern Vietnam" cùng một màu nền, không còn
+     mép bóng đổ thành vạch ngang (khách yêu cầu 29/10/2026). */
   .hlt-about-ceo {
-    padding: 0 0 30px;
+    padding: 0;
   }
 
   .hlt-about-ceo-inner {
@@ -487,7 +489,6 @@
     padding: 18px 22px 22px;
     border-radius: 0;
     background: #fffdf8;
-    box-shadow: 0 12px 26px rgba(60, 42, 14, .1);
     text-align: left;
   }
 
@@ -555,7 +556,8 @@
      phụ nằm ngoài khung (khách duyệt 28/10/2026); khung viền bắt đầu từ ô Sapa,
      các điểm còn lại 2 cột, nút là thanh rộng hết khung. Nội dung giữ như PC. --- */
   .hlt-about-destinations {
-    padding: 30px 0 34px;
+    padding: 8px 0 34px;
+    background: #fffdf8;
     text-align: left;
   }
 

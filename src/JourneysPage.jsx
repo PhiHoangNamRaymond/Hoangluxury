@@ -35,7 +35,7 @@ const allRoutesData = [
     seoName: "Halong",
     slug: "ha-long",
     image: journeyCardImages[1],
-    alt: "Traditional cruise boat sailing among the limestone islands of Ha Long Bay",
+    alt: "Traditional cruise boat sailing among the limestone islands of Halong Bay",
     icon: journeyIconImages[1],
     routeLine: "Hanoi → Ha Long",
     time: "2.5-3.0 Hours",
@@ -151,8 +151,9 @@ const titleCase = (value) =>
 function CompactIcon({ type }) {
   const shapes = {
     time: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5.2l3.4 2" /></>,
-    vehicle: <><path d="M4.4 16.2v-3.4c0-.5.2-1 .5-1.3l1.8-1.8c.5-.5 1.2-.8 2-.8h6.6c.8 0 1.5.3 2 .8l1.8 1.8c.3.3.5.8.5 1.3v3.4a1 1 0 0 1-1 1H5.4a1 1 0 0 1-1-1Z" /><path d="M6.8 11.3h10.4" /><circle cx="7.6" cy="14" r=".85" /><circle cx="16.4" cy="14" r=".85" /></>,
-    service: <><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" /><circle cx="12" cy="10" r="2.1" /></>,
+    // Xe nhìn ngang + mũi tên định hướng đặc (mẫu "Navigation" khách gửi 29/10/2026).
+    vehicle: <><path d="M5.6 17H4a1 1 0 0 1-1-1v-3.2c0-.5.2-.9.5-1.2l1.9-3.1c.4-.6 1-1 1.7-1h9.8c.7 0 1.3.4 1.7 1l1.9 3.1c.3.3.5.7.5 1.2V16a1 1 0 0 1-1 1h-1.6" /><path d="M3.5 12h17M9.4 17h5.2" /><circle cx="7.5" cy="17" r="1.9" /><circle cx="16.5" cy="17" r="1.9" /></>,
+    service: <path className="is-solid" d="M20.5 10.6 3.6 3.6l7 16.9 2-7.9Z" />,
   };
 
   return (
@@ -255,9 +256,6 @@ export default function JourneysPage() {
                       </ul>
                       <a className="hlt-jcard-compact-link" href={routePageUrl}>
                         View Route
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M4 12h15M13 6l6 6-6 6" />
-                        </svg>
                       </a>
                     </div>
                   </div>

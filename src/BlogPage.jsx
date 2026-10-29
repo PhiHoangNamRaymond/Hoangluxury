@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import Header from "./components/layout/Header.jsx";
+import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";
@@ -25,7 +26,6 @@ function Icon({ name, ...props }) {
     heart: <path d="M12 21S2 15 2 8a5 5 0 0 1 10-1A5 5 0 0 1 22 8c0 7-10 13-10 13Z" />,
     book: <><path d="M12 5v16M12 5C9 3 5 3 2 4v15c4-1 7-1 10 2 3-3 6-3 10-2V4c-3-1-7-1-10 1Z" /></>,
     map: <><path d="m2 5 7-3 6 3 7-3v17l-7 3-6-3-7 3V5Zm7-3v17m6-14v17" /></>,
-    chat: <><path d="M21 11a9 9 0 0 1-13 8l-6 2 2-6A9 9 0 1 1 21 11Z" /><path d="M8 7c0 5 2 7 7 7l1-2-3-1-1 1-2-2 1-1-1-3-2 1Z" /></>,
     pin: <><path d="M12 21.5s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" /><circle cx="12" cy="9.2" r="2.5" /></>,
     close: <path d="m6 6 12 12M6 18 18 6" />,
     reset: <><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5" /><path d="M3.5 3.5v5h5" /></>,
@@ -35,7 +35,7 @@ function Icon({ name, ...props }) {
 }
 
 function PlanButton({ children = "Plan your journey" }) {
-  return <a className="hlt-blog-gold-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><Icon name="chat" />{children}<Icon name="arrow" /></a>;
+  return <a className="hlt-blog-gold-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><WhatsAppGlyph />{children}<Icon name="arrow" /></a>;
 }
 
 function SectionHeading({ children, action, onAction, plain = false }) {
@@ -246,7 +246,7 @@ export default function BlogPage() {
       </main>
 
       <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="blog-story-title" >
-        <img className="hlt-story-cta-img" src={blogStoryBackgroundUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
+        <img className="hlt-cruise-cta-img" src={blogStoryBackgroundUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
         <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
         <div className="hlt-container hlt-cruise-cta-content">
           <div className="hlt-cruise-cta-text">

@@ -310,11 +310,9 @@ export default function CruisesPage() {
             4. FROM YOUR HOTEL TO YOUR CRUISE — SEAMLESSLY (Composite Photo & Steps)
         ========================================================================= */}
         <section className="hlt-cruise-seamless-section">
-          <div
-            className="hlt-cruise-seamless-banner"
-            style={{ backgroundImage: `url(${cruiseImages.seamlessTransfer})` }}
-          >
-            <img className="hlt-cruise-bg-alt" src={cruiseImages.seamlessTransfer} alt={cruiseBackgroundAlts.seamlessTransfer} loading="lazy" />
+          <div className="hlt-cruise-seamless-banner">
+            {/* Ảnh là thẻ img hiển thị thật (tên file + alt, khách yêu cầu 29/10/2026). */}
+            <img className="hlt-cruise-seamless-img" src={cruiseImages.seamlessTransfer} alt={cruiseBackgroundAlts.seamlessTransfer} loading="lazy" decoding="async" data-no-skeleton />
             <div className="hlt-cruise-seamless-overlay" aria-hidden="true" />
             <div className="hlt-container hlt-cruise-seamless-content">
               <div className="hlt-cruise-seamless-title">From Your Hotel to Your Cruise — Seamlessly</div>
@@ -470,11 +468,9 @@ export default function CruisesPage() {
               </div>
 
               <div className="hlt-cruise-exp-mosaic">
-                <div
-                  className="hlt-cruise-exp-banner"
-                  style={{ backgroundImage: `url(${cruiseImages.mosaicPanorama || cruiseImages.heroHalong})` }}
-                >
-                  <img className="hlt-cruise-bg-alt" src={cruiseImages.mosaicPanorama} alt={cruiseBackgroundAlts.mosaicPanorama} loading="lazy" />
+                {/* Ảnh là thẻ img hiển thị thật (tên file + alt, khách yêu cầu 29/10/2026). */}
+                <div className="hlt-cruise-exp-banner">
+                  <img className="hlt-cruise-exp-banner-img" src={cruiseImages.mosaicPanorama} alt={cruiseBackgroundAlts.mosaicPanorama} loading="lazy" decoding="async" data-no-skeleton />
                 </div>
 
                 <div className="hlt-cruise-exp-grid">
@@ -746,8 +742,8 @@ export default function CruisesPage() {
         ========================================================================= */}
         <section
           className="hlt-cruise-cta-section"
-          style={{ backgroundImage: `url(${cruiseImages.ctaSunset || cruiseImages.heroHalong})` }}
         >
+          <img className="hlt-cruise-cta-img" src={cruiseImages.ctaSunset} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
           <div className="hlt-container hlt-cruise-cta-content">
             <div className="hlt-cruise-cta-text">

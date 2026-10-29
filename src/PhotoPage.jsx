@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Footer from "./components/layout/Footer.jsx";
+import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import {
@@ -169,12 +170,6 @@ function LineIcon({ type, className = "hlt-pl-ic" }) {
         <path d="m16.6 4.2.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9.9-2Z" />
       </>
     ),
-    whatsapp: (
-      <>
-        <path d="M12 2.8a9.2 9.2 0 0 0-7.9 13.9L2.9 21.1l4.6-1.2A9.2 9.2 0 1 0 12 2.8Z" />
-        <path d="M9 7.9c.3-.3.7-.3.9 0l1.1 1.6c.2.3.2.7-.1 1l-.6.6c.6 1.2 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.6 1.1c.3.2.3.6 0 .9l-.8.8c-.5.5-1.2.7-1.9.4a9.4 9.4 0 0 1-5-5c-.3-.7-.1-1.4.4-1.9l.9-.7Z" />
-      </>
-    ),
     car: (
       <>
         <path d="M4 16.2v-3.6l1.9-4.5a1.8 1.8 0 0 1 1.7-1.1h8.8a1.8 1.8 0 0 1 1.7 1.1l1.9 4.5v3.6a.8.8 0 0 1-.8.8H4.8a.8.8 0 0 1-.8-.8Z" />
@@ -321,7 +316,7 @@ export default function PhotoPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
+                <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                 Book via Photo
               </a>
               <a className="hlt-btn hlt-btn-outline" href={albumsUrl}>
@@ -350,7 +345,7 @@ export default function PhotoPage() {
                     href={photoCategoryPath(style.title)}
                     aria-label={`See ${style.title} photos`}
                   >
-                    <img src={style.image} alt=" " loading="lazy" />
+                    <img src={style.image} alt="" loading="lazy" />
                   </a>
                   {/* h3 gồm cả số đang hiện ("01. Nature & Landscapes", khách yêu cầu
                       29/10/2026); dấu chấm ẩn, đoạn mô tả nằm ngoài h3. */}
@@ -388,10 +383,10 @@ export default function PhotoPage() {
                     {item.mobileImage ? (
                       <picture className="hlt-pl-plan-mobile-picture">
                         <source media="(max-width: 640px)" srcSet={item.mobileImage} />
-                        <img src={item.image} alt=" " loading="lazy" decoding="async" />
+                        <img src={item.image} alt="" loading="lazy" decoding="async" />
                       </picture>
                     ) : (
-                      <img src={item.image} alt=" " loading="lazy" />
+                      <img src={item.image} alt="" loading="lazy" />
                     )}
                   </div>
                   <div className="hlt-pl-plan-body">
@@ -415,7 +410,7 @@ export default function PhotoPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
+                        <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                         {item.button}
                       </a>
                       <p className="hlt-pl-plan-script" aria-hidden="true">
@@ -441,8 +436,8 @@ export default function PhotoPage() {
           <div className="hlt-container hlt-pl-why-layout">
             {/* Cụm ảnh trang trí theo ảnh mẫu: hai khung polaroid và dòng chữ viết tay. */}
             <div className="hlt-pl-why-media" aria-hidden="true">
-              <img className="hlt-pl-why-photo is-main" src={photoWhyImages.main} alt=" " loading="lazy" decoding="async" />
-              <img className="hlt-pl-why-photo is-side" src={photoWhyImages.side} alt=" " loading="lazy" decoding="async" />
+              <img className="hlt-pl-why-photo is-main" src={photoWhyImages.main} alt="" loading="lazy" decoding="async" />
+              <img className="hlt-pl-why-photo is-side" src={photoWhyImages.side} alt="" loading="lazy" decoding="async" />
               <p className="hlt-pl-why-script">
                 <span>More</span>
                 <span>Than a Trip</span>
@@ -466,7 +461,7 @@ export default function PhotoPage() {
                       <img
                         className="hlt-pl-why-ic"
                         src={icon}
-                        alt=" "
+                        alt=""
                         style={{ "--why-icon": `url(${icon})` }}
                         data-no-skeleton
                       />
@@ -505,7 +500,7 @@ export default function PhotoPage() {
               {preparations.map(([title, text], index) => (
                 <article key={title}>
                   <div className="hlt-pl-prep-media">
-                    <img src={photoPrepImages[index]} alt=" " loading="lazy" decoding="async" />
+                    <img src={photoPrepImages[index]} alt="" loading="lazy" decoding="async" />
                   </div>
                   <div className="hlt-pl-prep-text">
                     <h3>
@@ -524,7 +519,7 @@ export default function PhotoPage() {
         {/* CTA cuối trang */}
         <section className="hlt-pl-cta" aria-labelledby="photo-cta-title">
           {/* Ảnh nền là thẻ img có tên file (khách yêu cầu 29/10/2026). */}
-          <img className="hlt-pl-cta-img" src={photoBookingBannerUrl} alt=" " loading="lazy" decoding="async" data-no-skeleton />
+          <img className="hlt-pl-cta-img" src={photoBookingBannerUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-container hlt-pl-cta-inner">
             <p className="hlt-pl-cta-script" aria-hidden="true">
               Beautiful Places
@@ -535,7 +530,7 @@ export default function PhotoPage() {
               <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
               <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
-                <LineIcon type="whatsapp" className="hlt-pl-ic hlt-pl-btn-ic" />
+                <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                 Chat on WhatsApp
               </a>
             </div>

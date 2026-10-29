@@ -25,28 +25,28 @@ export const journeyExperienceCity = [
 
 // Dải số liệu dưới 4 thẻ Journey Experience. Icon là LineIcon.
 export const journeyExperienceStats = [
-  ["star", "4.9/5", "Guest Rating"],
-  ["chauffeur", "8+ Years", "Driver Experience"],
-  ["globe", "20+", "Countries Served"],
-  ["headset", "24/7", "Customer Support"],
+  ["ratingStar", "4.9/5", "Guest Rating"],
+  ["experiencedDriver", "8+ Years", "Driver Experience"],
+  ["countriesGlobe", "20+", "Countries Served"],
+  ["customerSupport", "24/7", "Customer Support"],
 ];
 
 // Dải 4 điểm mạnh dưới hai thẻ đón / trả (theo ảnh mẫu). Icon là LineIcon.
 export const journeyFeatures = [
   ["shield", "100% Private", "Your vehicle is reserved exclusively for you."],
   ["driver", "Professional Drivers", "Experienced, courteous and safety-focused."],
-  ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
-  ["clock", "On-Time Pick-up", "Pick-up time confirmed before departure."],
+  ["flexibleDeparture", "Flexible Departure", "Depart at a time that suits your journey."],
+  ["onTimePickup", "On-Time Pick-up", "Pick-up time confirmed before departure."],
 ];
 
 // Dải "Service Highlights" (theo mẫu). Icon là LineIcon.
 export const journeyHighlights = [
-  ["thumbsUp", "Polite & Reliable"],
+  ["politeService", "Polite & Reliable"],
   ["car", "Clean & Brand-new"],
-  ["noPickup", "No Extra Pick-Ups"],
-  ["bottle", "Bottled Water"],
-  ["music", "Music on Request"],
-  ["tagPlus", "All-Inclusive Pricing"],
+  ["noExtraPickups", "No Extra Pick-Ups"],
+  ["bottledWater", "Bottled Water"],
+  ["musicOnRequest", "Music on Request"],
+  ["allInclusivePricing", "All-Inclusive Pricing"],
 ];
 
 export const journeyFaq = [
@@ -114,8 +114,8 @@ const privateTransferPage = (destination, travelTime, [oneWay, roundTrip, packag
   features: [
     ["shield", "100% Private", "No shared passengers and no multiple pick-ups."],
     ["driver", "Professional Drivers", "Experienced, courteous and safety-focused."],
-    ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
-    ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
+    ["flexibleDeparture", "Flexible Departure", "Depart at a time that suits your journey."],
+    ["onTimePickup", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
   ],
   heroFacts: {
     route: [`Hanoi / Noi Bai Airport ↔ ${destination}`, "Available in both directions"],
@@ -180,8 +180,8 @@ const cityTransferPage = (origin, destination, travelTime) => ({
   features: [
     ["shield", "100% Private", "No shared passengers and no multiple pick-ups."],
     ["driver", "Professional Drivers", "Experienced, courteous and safety-focused."],
-    ["calendar", "Flexible Departure", "Depart at a time that suits your journey."],
-    ["clock", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
+    ["flexibleDeparture", "Flexible Departure", "Depart at a time that suits your journey."],
+    ["onTimePickup", "Pick-up On Time", "Your driver will arrive 15 minutes early."],
   ],
   heroFacts: {
     route: [`${origin} ↔ ${destination}`, "Available in both directions"],

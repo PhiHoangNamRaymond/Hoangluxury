@@ -1,0 +1,57 @@
+<!doctype html>
+<!-- Trang thông báo cho khách truy cập từ Việt Nam, Lào, Campuchia, Myanmar, Trung Quốc
+     (khách yêu cầu 29/10/2026). Chuyển hướng tới đây do vercel.json (header
+     x-vercel-ip-country) hoặc public/.htaccess (header CF-IPCountry). Trang tĩnh,
+     tự chứa: không nạp mã ứng dụng chính. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>This Page Is Currently Unavailable | Hoang Luxury Travel</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600;700&family=Lato:wght@400&display=swap" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body {
+        display: grid;
+        place-items: center;
+        padding: 32px 20px;
+        background: #fafaf8;
+        color: #1c2530;
+        font-family: "Lato", Arial, sans-serif;
+        text-align: center;
+      }
+      main { max-width: 760px; }
+      .brand { display: inline-flex; align-items: center; gap: 16px; text-decoration: none; }
+      .brand img { width: clamp(84px, 14vw, 128px); height: auto; }
+      .brand-text { display: grid; text-align: left; color: #b8902f; font-family: "Cormorant", Georgia, serif; line-height: 1; }
+      .brand-text strong { font-size: clamp(38px, 7vw, 64px); font-weight: 700; letter-spacing: .02em; }
+      .brand-text span { margin-top: 6px; font-size: clamp(15px, 2.4vw, 22px); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+      h1 {
+        margin: clamp(36px, 7vw, 64px) 0 16px;
+        font-family: "Cormorant", Georgia, serif;
+        font-size: clamp(32px, 6vw, 56px);
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      p { margin: 0 auto 14px; max-width: 34em; color: #5b6170; font-size: clamp(16px, 2.2vw, 20px); line-height: 1.6; }
+      .rule { width: 104px; height: 2px; margin: 34px auto 0; background: #c9a24a; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="brand">
+        <img src="/unavailable/hoang-luxury-travel-official-logo.png" alt="Hoang Luxury Travel" width="320" height="320" />
+        <span class="brand-text"><strong>HOANG</strong><span>Luxury Travel</span></span>
+      </span>
+      <h1>This Page Is Currently Unavailable</h1>
+      <p>We are currently experiencing technical difficulties and this page is temporarily unavailable.</p>
+      <p>Please try again later.</p>
+      <div class="rule" aria-hidden="true"></div>
+    </main>
+  </body>
+</html>

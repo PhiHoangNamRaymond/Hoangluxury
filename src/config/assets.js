@@ -11,14 +11,12 @@ import experienceSlide18Url from "../../assets/opt/experience-slider/hoang-luxur
 import experienceSlide20Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-7.jpg";
 import experienceSlide21Url from "../../assets/experience-slider/hoang-luxury-travel-experience-8.webp";
 import experienceSlide30Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-9.jpg";
-import experienceSlide31Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-10.jpg";
-import experienceSlide60Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-11.jpg";
-import experienceSlide61Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-12.jpg";
-import experienceSlide70Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-13.jpg";
-import experienceSlide71Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-14.jpg";
-import experienceSlide80Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-15.jpg";
-import experienceSlide81Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-16.jpg";
-import experienceSlide90Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-17.jpg";
+import experienceSlide61Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-10.jpg";
+import experienceSlide70Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-11.jpg";
+import experienceSlide71Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-12.jpg";
+import experienceSlide80Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-13.jpg";
+import experienceSlide81Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-14.jpg";
+import experienceSlide90Url from "../../assets/opt/experience-slider/hoang-luxury-travel-experience-15.jpg";
 import heroBannerUrl from "../../assets/opt/home-banner.jpg";
 import heroConvoyMountainUrl from "../../assets/opt/hoang-luxury-travel-private-car-convoy-mountain-road.jpg";
 /* Banner trang chủ (slide 1, 3, 4, 5 thay bằng bộ ảnh 24/10/2026; slide 2 giữ
@@ -76,7 +74,7 @@ import routeTaXuaArtUrl from "../../assets/opt/hanoi-ta-xua-private-transfer.web
 import journeyCaoBangImgUrl from "../../assets/opt/hanoi-to-cao-bang-waterfalls.jpg";
 import journeyCatBaImgUrl from "../../assets/opt/hanoi-to-cat-ba-island-scenery.jpg";
 import journeyHaGiangImgUrl from "../../assets/opt/hanoi-to-ha-giang-mountain-road.jpg";
-import journeyHaLongImgUrl from "../../assets/opt/hanoi-to-halong-limestone-islands.jpg";
+import journeyHaLongImgUrl from "../../assets/opt/hanoi-to-halong-bay-limestone-islands.jpg";
 import journeyMocChauImgUrl from "../../assets/opt/hanoi-to-moc-chau-green-hills.jpg";
 import journeyMuCangChaiImgUrl from "../../assets/opt/hanoi-to-mu-cang-chai-rice-terraces.jpg";
 import journeyNinhBinhImgUrl from "../../assets/opt/hanoi-to-ninh-binh-riverside-temple.jpg";
@@ -91,26 +89,26 @@ import journeyChauffeurGoldIconUrl from "../../assets/journey-icons/professional
 import journeyCarIconUrl from "../../assets/clean-new-private-car-icon.png";
 
 /* Ảnh banner riêng cho từng trang cung đường (đặt tên theo điểm đến) */
-import bannerSapaUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-transfer-hanoi-to-sapa.jpg";
-import bannerHaLongUrl from "../../assets/opt/journey-banners/hanoi-to-halong-private-car-hoang-luxury-travel.jpg";
-import bannerNinhBinhUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-transfer-hanoi-to-ninh-binh.jpg";
-import bannerHaGiangUrl from "../../assets/opt/journey-banners/hanoi-to-ha-giang-private-car-hoang-luxury-travel.jpg";
+/* Ba tuyến tới Sapa (Hanoi / Ha Long / Ninh Binh to Sapa) dùng chung một ảnh banner,
+   tên file theo khách (29/10/2026). */
+import bannerSapaUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-transfer-to-sapa.jpg";
+/* Hanoi to Ha Long và Sapa to Ha Long dùng chung một ảnh banner, tên file theo khách (29/10/2026). */
+import bannerHaLongUrl from "../../assets/opt/journey-banners/private-car-to-halong-bay-hoang-luxury-travel.jpg";
+/* Hanoi to Ninh Binh và Sapa to Ninh Binh dùng chung một ảnh banner, tên file theo khách (29/10/2026). */
+import bannerNinhBinhUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-transfer-to-ninh-binh.jpg";
+/* Hanoi to Ha Giang và Sapa to Ha Giang dùng chung một ảnh banner, tên file theo khách (29/10/2026). */
+import bannerHaGiangUrl from "../../assets/opt/journey-banners/private-car-to-ha-giang-hoang-luxury-travel.jpg";
 import bannerCatBaUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-transfer-hanoi-to-cat-ba.jpg";
 import bannerCaoBangUrl from "../../assets/opt/journey-banners/hanoi-to-cao-bang-private-transfer-hoang-luxury-travel.jpg";
 import bannerMocChauUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-car-hanoi-to-moc-chau.jpg";
-import bannerMuCangChaiUrl from "../../assets/opt/journey-banners/hanoi-to-mu-cang-chai-private-transfer-hoang-luxury-travel.jpg";
+/* Hanoi to Mu Cang Chai và Sapa to Mu Cang Chai dùng chung một ảnh banner, tên file theo khách (29/10/2026). */
+import bannerMuCangChaiUrl from "../../assets/opt/journey-banners/private-transfer-to-mu-cang-chai-hoang-luxury-travel.jpg";
 import bannerTaXuaUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-transfer-hanoi-to-ta-xua.jpg";
 import bannerPuLuongUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-car-hanoi-to-pu-luong.jpg";
 /* 6 tuyến nối tỉnh: cùng hình banner của điểm đến, tách file riêng để mỗi tuyến có tên ảnh riêng. */
-import bannerSapaToHaLongUrl from "../../assets/opt/journey-banners/sapa-to-halong-hoang-luxury-travel-private-car-transfer.jpg";
-import bannerSapaToNinhBinhUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-car-transfer-sapa-to-ninh-binh.jpg";
-import bannerSapaToHaGiangUrl from "../../assets/opt/journey-banners/sapa-to-ha-giang-hoang-luxury-travel-private-car.jpg";
-import bannerSapaToMuCangChaiUrl from "../../assets/opt/journey-banners/sapa-to-mu-cang-chai-hoang-luxury-travel-private-transfer.jpg";
-import bannerHaLongToSapaUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-car-halong-to-sapa.jpg";
-import bannerNinhBinhToSapaUrl from "../../assets/opt/journey-banners/hoang-luxury-travel-private-transfer-ninh-binh-to-sapa.jpg";
 import journeyPickupIconUrl from "../../assets/hanoi-noi-bai-private-transfer-pickup-icon.png";
 import journeySaPaIconUrl from "../../assets/sapa-private-transfer-dropoff-icon.png";
-import journeyHaLongIconUrl from "../../assets/ha-long-private-transfer-dropoff-icon.png";
+import journeyHaLongIconUrl from "../../assets/halong-bay-private-transfer-dropoff-icon.png";
 import journeyNinhBinhIconUrl from "../../assets/ninh-binh-private-transfer-dropoff-icon.png";
 import journeyHaGiangIconUrl from "../../assets/ha-giang-private-transfer-dropoff-icon.png";
 import journeyCatBaIconUrl from "../../assets/cat-ba-private-transfer-dropoff-icon.png";
@@ -138,7 +136,7 @@ import feedbackReview8Url from "../../assets/feedback-reviews/cards/hoang-luxury
 /* 4 icon dải thông tin dưới banner trang tuyến (/journey/<slug>/) */
 import journeyFactRouteUrl from "../../assets/private-transfer-route-location-icon.png";
 import journeyFactTimeUrl from "../../assets/private-transfer-travel-time-icon.png";
-import journeyFactVehicleUrl from "../../assets/private-transfer-vehicle-icon.png";
+import journeyFactVehicleUrl from "../../assets/private-transfer-vehicle-icon.png?no-inline";
 import journeyFactRatesUrl from "../../assets/all-inclusive-pricing-icon.png";
 
 /* 4 ảnh thẻ Journey Experience trang tuyến (WebP 1080×810 đã tối ưu) */
@@ -723,16 +721,42 @@ export const albumCoverBySlug = {
 };
 
 export const journeyCtaMountainsUrl = journeyCtaMountainsImg;
-/* Nền dải "Ready to start your journey?" của 6 tuyến nối tỉnh: cùng hình, tách file riêng. */
-import journeyCityCtaImg from "../../assets/hoang-luxury-travel-private-transfer-booking-process-banner.jpg";
-export const journeyCityCtaUrl = journeyCityCtaImg;
 
 /* Nền dải CTA cuối trang /photo/: cùng hình với journeyCtaMountainsImg, tách file riêng để có tên ảnh riêng. */
 import photoBookingBannerImg from "../../assets/hoang-luxury-travel-booking-banner.jpg";
 export const photoBookingBannerUrl = photoBookingBannerImg;
 export { journeysOutroWheelUrl, journeyChauffeurGoldIconUrl, journeyCarIconUrl };
 /* Icon xe giữa hai thẻ đón / trả trang tuyến: cùng hình với journeyFactIcons.vehicle. */
-import journeyPathCarIconImg from "../../assets/private-car-transfer-icon.png";
+import journeyPathCarIconImg from "../../assets/private-car-transfer-icon.png?no-inline";
+/* Icon hàng 4 điểm mạnh, dải số liệu (4.9/5, 8+ Years…) và Service Highlights trang tuyến, tên file theo
+   khách (29/10/2026). Khoá là tên icon trong journeys.js. Thư mục journey-icons tách
+   khỏi file cùng tên ở trang khác (khác màu/nét). */
+import journeyPrivateIconImg from "../../assets/100-percent-private-transfer-icon.svg?no-inline";
+import journeyFlexibleDepartureIconImg from "../../assets/flexible-departure-icon.svg?no-inline";
+import journeyOnTimeIconImg from "../../assets/journey-icons/on-time-pickup-icon.svg?no-inline";
+import journeyRatingIconImg from "../../assets/journey-icons/guest-rating-star-icon.svg?no-inline";
+import journeyDriverIconImg from "../../assets/journey-icons/experienced-private-driver-icon.svg?no-inline";
+import journeyGlobeIconImg from "../../assets/journey-icons/international-countries-globe-icon.svg?no-inline";
+import journeySupportIconImg from "../../assets/journey-icons/24-7-customer-support-icon.svg?no-inline";
+import journeyPoliteIconImg from "../../assets/journey-icons/polite-reliable-service-icon.svg?no-inline";
+import journeyNoPickupIconImg from "../../assets/journey-icons/no-extra-pickups-private-transfer-icon.svg?no-inline";
+import journeyWaterIconImg from "../../assets/journey-icons/complimentary-bottled-water-icon.svg?no-inline";
+import journeyMusicIconImg from "../../assets/journey-icons/music-on-request-icon.svg?no-inline";
+import journeyPricingIconImg from "../../assets/journey-icons/all-inclusive-pricing-icon.svg?no-inline";
+export const journeyNamedIcons = {
+  shield: journeyPrivateIconImg,
+  flexibleDeparture: journeyFlexibleDepartureIconImg,
+  onTimePickup: journeyOnTimeIconImg,
+  ratingStar: journeyRatingIconImg,
+  experiencedDriver: journeyDriverIconImg,
+  countriesGlobe: journeyGlobeIconImg,
+  customerSupport: journeySupportIconImg,
+  politeService: journeyPoliteIconImg,
+  noExtraPickups: journeyNoPickupIconImg,
+  bottledWater: journeyWaterIconImg,
+  musicOnRequest: journeyMusicIconImg,
+  allInclusivePricing: journeyPricingIconImg,
+};
 export const journeyPathCarIconUrl = journeyPathCarIconImg;
 
 /* Banner đầu trang cho từng tuyến. Tuyến nối tỉnh dùng bản sao ảnh của điểm đến;
@@ -748,19 +772,19 @@ export const journeyBannerBySlug = {
   "mu-cang-chai": bannerMuCangChaiUrl,
   "ta-xua": bannerTaXuaUrl,
   "pu-luong": bannerPuLuongUrl,
-  "sapa-to-ha-long": bannerSapaToHaLongUrl,
-  "sapa-to-ninh-binh": bannerSapaToNinhBinhUrl,
-  "sapa-to-ha-giang": bannerSapaToHaGiangUrl,
-  "sapa-to-mu-cang-chai": bannerSapaToMuCangChaiUrl,
-  "ha-long-to-sapa": bannerHaLongToSapaUrl,
-  "ninh-binh-to-sapa": bannerNinhBinhToSapaUrl,
+  "sapa-to-ha-long": bannerHaLongUrl,
+  "sapa-to-ninh-binh": bannerNinhBinhUrl,
+  "sapa-to-ha-giang": bannerHaGiangUrl,
+  "sapa-to-mu-cang-chai": bannerMuCangChaiUrl,
+  "ha-long-to-sapa": bannerSapaUrl,
+  "ninh-binh-to-sapa": bannerSapaUrl,
 };
 
 /* Alt của banner tuyến, tra theo ảnh. Banner là ảnh nền CSS; JourneyPage.jsx
    thêm một <img> ẩn mang alt này. */
 export const journeyBannerAlts = {
   [bannerSapaUrl]: "The Hoang Luxury Travel’s private car traveling through Sapa's winding mountain roads, with terraced rice fields stretching across the valley",
-  [bannerHaLongUrl]: "Hoang Luxury Travel private car with a scenic view of Ha Long Bay's limestone islands",
+  [bannerHaLongUrl]: "Hoang Luxury Travel private car with a scenic view of Halong Bay's limestone islands",
   [bannerNinhBinhUrl]: "A comfortable private car journey through Ninh Binh's peaceful countryside, surrounded by rice fields and limestone mountains",
   [bannerHaGiangUrl]: "Mountain scenery along the private transfer route to Ha Giang, with Hoang Luxury Travel’s black car on a winding road",
   [bannerCatBaUrl]: "A private car overlooking Cat Ba's turquoise waters and limestone islands along a scenic coastal road",
@@ -769,12 +793,6 @@ export const journeyBannerAlts = {
   [bannerMocChauUrl]: "Hoang Luxury Travel private transfer experience through the winding roads and green hills of Moc Chau",
   [bannerMuCangChaiUrl]: "Golden rice terraces of Mu Cang Chai provide a stunning backdrop for Hoang Luxury Travel’s private car journey",
   [bannerTaXuaUrl]: "A private car overlooking the breathtaking sea of clouds in Ta Xua at sunrise",
-  [bannerSapaToHaLongUrl]: "Hoang Luxury Travel private car with a scenic view of Ha Long Bay's limestone islands",
-  [bannerSapaToNinhBinhUrl]: "A comfortable private car journey through Ninh Binh's peaceful countryside, surrounded by rice fields and limestone mountains",
-  [bannerSapaToHaGiangUrl]: "Mountain scenery along the private transfer route to Ha Giang, with Hoang Luxury Travel’s black car on a winding road",
-  [bannerSapaToMuCangChaiUrl]: "Golden rice terraces of Mu Cang Chai provide a stunning backdrop for Hoang Luxury Travel’s private car journey",
-  [bannerHaLongToSapaUrl]: "The Hoang Luxury Travel’s private car traveling through Sapa's winding mountain roads, with terraced rice fields stretching across the valley",
-  [bannerNinhBinhToSapaUrl]: "The Hoang Luxury Travel’s private car traveling through Sapa's winding mountain roads, with terraced rice fields stretching across the valley",
 };
 
 /* Cùng thứ tự với journeyExperience trong config/journeys.js */
@@ -905,8 +923,6 @@ const experienceImages = [
   experienceSlide20Url,
   experienceSlide21Url,
   experienceSlide30Url,
-  experienceSlide31Url,
-  experienceSlide60Url,
   experienceSlide61Url,
   experienceSlide70Url,
   experienceSlide71Url,
@@ -1013,6 +1029,8 @@ export const journeyIconImages = [
 ];
 
 /* Cùng bộ icon, tra theo slug cho trang tuyến /journey/<slug>/ */
+import journeyPuLuongIconUrl from "../../assets/journey-icons/pu-luong-private-transfer-dropoff-icon.svg?no-inline";
+
 export const journeyIconBySlug = {
   sapa: journeySaPaIconUrl,
   "ha-long": journeyHaLongIconUrl,
@@ -1023,8 +1041,9 @@ export const journeyIconBySlug = {
   "mu-cang-chai": journeyMuCangChaiIconUrl,
   "moc-chau": journeyMocChauIconUrl,
   "ta-xua": journeyTaXuaIconUrl,
-  /* Tuyến nối tỉnh dùng lại icon của điểm đến. Pu Luong chưa có icon riêng
-     nên trang tự vẽ icon thay thế. */
+  /* Pu Luong: icon núi, tên file theo khách (29/10/2026). */
+  "pu-luong": journeyPuLuongIconUrl,
+  /* Tuyến nối tỉnh dùng lại icon của điểm đến. */
   "sapa-to-ha-long": journeyHaLongIconUrl,
   "sapa-to-ninh-binh": journeyNinhBinhIconUrl,
   "sapa-to-ha-giang": journeyHaGiangIconUrl,

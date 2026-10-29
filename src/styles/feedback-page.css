@@ -1170,4 +1170,15 @@
    mọi @media, cuối file, để chỉnh riêng PC hay mobile không làm mất căn đều. */
 .hlt-feedback-review-card blockquote {
   text-align: justify;
+  /* PC giữ nguyên: bỏ qua điểm ngắt từ đặt sẵn trong FeedbackPage.jsx. */
+  hyphens: none;
+}
+
+/* Mobile: cột chữ hẹp, cho ngắt từ dài tại điểm ngắt đặt sẵn (gạch nối mềm) để dòng
+   căn đều không bị giãn khoảng trắng lớn (khách báo 29/10/2026). */
+@media (max-width: 760px) {
+  .hlt-feedback-review-card blockquote {
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
 }

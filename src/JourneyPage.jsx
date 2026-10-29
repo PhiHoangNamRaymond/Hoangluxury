@@ -19,10 +19,10 @@ import {
   journeyBannerBySlug,
   journeyCarIconUrl,
   journeyChauffeurGoldIconUrl,
-  journeyCityCtaUrl,
   journeyFactIcons,
   journeyIconBySlug,
   journeyPickupIconUrl,
+  journeyNamedIcons,
 } from "./config/assets.js";
 import {
   approxUsd,
@@ -41,22 +41,20 @@ import { journeyPagePath } from "./config/journey-paths.js";
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
 function LineIcon({ type, className }) {
-  // "driver" dùng ảnh hoạ tiết chi tiết (đã tô lại đúng màu vàng của hàng icon);
-  // "chauffeur" là bản vẽ nét, dùng ở dải số liệu. Icon xe vẫn là ảnh thiết kế sẵn.
+  // "driver" dùng ảnh hoạ tiết chi tiết (đã tô lại đúng màu vàng của hàng icon).
+  // Icon xe vẫn là ảnh thiết kế sẵn.
   if (type === "driver") {
     return <img className={className} src={journeyChauffeurGoldIconUrl} alt="" aria-hidden="true" />;
   }
   if (type === "car") {
     return <img className={className} src={journeyCarIconUrl} alt="" aria-hidden="true" />;
   }
+  // Icon hàng 4 điểm mạnh và dải số liệu là file riêng có tên theo khách (29/10/2026).
+  if (journeyNamedIcons[type]) {
+    return <img className={className} src={journeyNamedIcons[type]} alt="" data-no-skeleton />;
+  }
 
   const shapes = {
-    shield: (
-      <>
-        <path d="M50 11C43 18 32 24 18 25v19c0 22 15 36 32 44 17-8 32-22 32-44V25c-14-1-25-7-32-14Z" />
-        <path d="m36 51 10 10 20-20" />
-      </>
-    ),
     calendar: (
       <>
         <rect x="10" y="23" width="80" height="68" rx="9" />
@@ -69,22 +67,6 @@ function LineIcon({ type, className }) {
         <rect x="22.5" y="70" width="11.5" height="11.5" rx="1.5" />
         <rect x="44.2" y="70" width="11.5" height="11.5" rx="1.5" />
         <rect x="66" y="70" width="11.5" height="11.5" rx="1.5" />
-      </>
-    ),
-    chauffeur: (
-      <>
-        {/* Vẽ lại tối giản: ít nét, khoảng hở rộng để nét dày 5 không dính nhau */}
-        <path d="M22 26 50 12l28 14-6 7H28Z" />
-        <path d="M28 33h44" />
-        <path d="M32 38q0 22 18 22t18-22" />
-        <path d="M16 90v-6q0-12 12-15l10-3 12 12 12-12 10 3q12 3 12 15v6" />
-        <path d="M50 78v12" />
-      </>
-    ),
-    clock: (
-      <>
-        <circle cx="50" cy="50" r="38" />
-        <path d="M50 27v23l14 11" />
       </>
     ),
     passenger: (
@@ -119,29 +101,6 @@ function LineIcon({ type, className }) {
         <path d="m70 72.2 4.7 4.8 10.3-10.4" />
       </>
     ),
-    star: <path d="M50 10 61.8 34l26.4 3.8-19.1 18.6 4.5 26.3L50 70.3 26.4 82.7l4.5-26.3-19.1-18.6L38.2 34Z" />,
-    globe: (
-      <>
-        <circle cx="50" cy="50" r="38" />
-        <path d="M12 50h76M50 12c11 11 16 24 16 38s-5 27-16 38c-11-11-16-24-16-38s5-27 16-38ZM17 31h66M17 69h66" />
-      </>
-    ),
-    headset: (
-      <>
-        <path d="M18 58v-8a32 32 0 0 1 64 0v8" />
-        <rect x="12" y="52" width="14" height="24" rx="6" />
-        <rect x="74" y="52" width="14" height="24" rx="6" />
-        <path d="M81 76v4a10 10 0 0 1-10 10H58" />
-        <rect x="44" y="85.5" width="14" height="9" rx="4.5" />
-      </>
-    ),
-    // ----- Service Highlights -----
-    thumbsUp: (
-      <>
-        <rect x="12" y="44" width="18" height="44" rx="3" />
-        <path d="M30 48 44 22q3-7 9-5 6 3 4 11l-4 14h24q8 1 7 9l-5 28q-2 8-10 8H30" />
-      </>
-    ),
     car: (
       <>
         <path d="M22 40 29 25q3-5 8-5h26q5 0 8 5l7 15M19 40h62" />
@@ -151,38 +110,6 @@ function LineIcon({ type, className }) {
         <path d="M13 74v6.5q0 3 3 3h6q3 0 3-3V77M87 74v6.5q0 3-3 3h-6q-3 0-3-3V77" />
         <path d="M15 50.5 31 51.5l2.8 7.4-15.5-.8ZM85 50.5 69 51.5l-2.8 7.4 15.5-.8Z" />
         <path d="M38 65h24" />
-      </>
-    ),
-    noPickup: (
-      <>
-        <circle cx="41" cy="40" r="13.5" />
-        <path d="M16 86q-4 0-4-4c0-15 13-26 29-26s29 11 29 26q0 4-4 4Z" />
-        <circle cx="75.4" cy="32.7" r="16.5" />
-        <path d="m68.4 25.7 14 14M82.4 25.7l-14 14" />
-      </>
-    ),
-    bottle: (
-      <>
-        <rect x="40" y="7" width="20" height="10" rx="3" />
-        <path d="M46 9.5v5M50 9.5v5M54 9.5v5M44 17v4h12v-4" />
-        <path d="M44 21 36 30q-2 3-2 6v50q0 5 5 5h22q5 0 5-5V36q0-3-2-6l-8-9" />
-        <path d="M34 40h32M34 61h32" />
-        <path d="M50 44c-4 5-6 8-6 10.5a6 6 0 0 0 12 0C56 52 54 49 50 44Z" />
-        <path d="M34 72q8-4 16 0t16 0M34 81q8-4 16 0t16 0" />
-      </>
-    ),
-    music: (
-      <>
-        <path d="M36.8 74V24.5L85 13.5v55M36.8 38.5 85 27.5" />
-        <circle cx="26" cy="75" r="11" />
-        <circle cx="75" cy="68.5" r="11" />
-      </>
-    ),
-    tagPlus: (
-      <>
-        <path d="M60 15.5h23a5 5 0 0 1 5 5v22q0 3-2 5L42 91q-3 3-6 0L15 70q-3-3 0-6L57 18q1.5-2.5 3-2.5Z" />
-        <circle cx="72.6" cy="31.5" r="5" />
-        <path d="M50 43v21.5M39.3 53.8h21.4" />
       </>
     ),
     // Hai mũi tên xoay vòng (khứ hồi)
@@ -734,7 +661,7 @@ export default function JourneyPage({ slug }) {
 
       </main>
 
-      <JourneyCallToAction variant="route" background={journey.cityPickup ? journeyCityCtaUrl : undefined} />
+      <JourneyCallToAction variant="route" />
       <ExperienceSlider />
       <Footer />
     </div>

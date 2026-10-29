@@ -31,8 +31,6 @@ export default function JourneyCallToAction({
   // "form": nút thứ hai là Book via Form (/booking/) thay cho View Catalog —
   // trang chủ và /journeys/ theo yêu cầu khách 28/10/2026.
   secondary = "catalog",
-  // Ảnh nền bản "route"; 6 tuyến nối tỉnh truyền bản sao có tên file riêng.
-  background = journeyCtaMountainsUrl,
 }) {
   const Heading = headingLevel === "h2" ? "h2" : "h3";
   if (variant === "route") {
@@ -40,8 +38,10 @@ export default function JourneyCallToAction({
       <section
         className="hlt-booking-showcase-footer hlt-journey-cta hlt-journey-cta-route"
         aria-labelledby="journey-cta-title"
-        style={{ "--journey-cta-bg": `url(${background})` }}
       >
+        {/* Ảnh nền là thẻ img có tên file, alt rỗng (khách yêu cầu 29/10/2026). */}
+        <img className="hlt-journey-cta-route-img" src={journeyCtaMountainsUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
+        <span className="hlt-journey-cta-route-shade" aria-hidden="true" />
         <div className="hlt-container">
           <div className="hlt-journey-cta-route-inner">
             <header className="hlt-journey-cta-route-head">
