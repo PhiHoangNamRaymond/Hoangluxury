@@ -356,17 +356,15 @@ export default function PhotoPage() {
                   >
                     <img src={style.image} alt="" loading="lazy" />
                   </a>
+                  {/* h3 gồm cả số đang hiện ("01. Nature & Landscapes", khách yêu cầu
+                      29/10/2026); dấu chấm ẩn, đoạn mô tả nằm ngoài h3. */}
                   <div className="hlt-pl-style-body">
-                    <span className="hlt-pl-style-no" aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <div className="hlt-pl-style-text">
-                      <h3>
-                        <span className="hlt-seo-sep">{String(index + 1).padStart(2, "0")}. </span>
-                        {style.title}
-                      </h3>
-                      <p>{style.text}</p>
-                    </div>
+                    <h3 className="hlt-pl-style-heading">
+                      <span className="hlt-pl-style-no">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="hlt-seo-sep">. </span>
+                      <span className="hlt-pl-style-title">{style.title}</span>
+                    </h3>
+                    <p className="hlt-pl-style-desc">{style.text}</p>
                   </div>
                 </article>
               ))}

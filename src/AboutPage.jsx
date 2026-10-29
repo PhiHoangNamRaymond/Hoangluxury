@@ -269,12 +269,15 @@ export default function AboutPage() {
             </h2>
             <div className="hlt-about-commitments-grid">
               {commitments.map(([num, title, text]) => (
+                // h3 gồm cả số đang hiện ("01. Built Around You", khách yêu cầu
+                // 29/10/2026); dấu chấm ẩn, đoạn mô tả nằm ngoài h3.
                 <article key={num}>
-                  <span className="hlt-about-commitment-num">{num}</span>
-                  <div>
-                    <h3><span className="hlt-seo-sep">{num}. </span>{title}</h3>
-                    <p>{text}</p>
-                  </div>
+                  <h3 className="hlt-about-commitment-heading">
+                    <span className="hlt-about-commitment-num">{num}</span>
+                    <span className="hlt-seo-sep">. </span>
+                    <span className="hlt-about-commitment-title">{title}</span>
+                  </h3>
+                  <p>{text}</p>
                 </article>
               ))}
             </div>
