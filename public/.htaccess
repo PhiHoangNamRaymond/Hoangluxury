@@ -23,13 +23,6 @@ RewriteBase /
 RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
 RewriteRule ^(?:src|api|supabase|google-apps-script|tests|scripts|node_modules|backups|credentials|secrets)(?:/|$) - [F,L,NC]
 
-# Khách từ Việt Nam, Lào, Campuchia, Myanmar, Trung Quốc thấy trang thông báo
-# (29/10/2026); trừ /admin (viết blog) và file phục vụ trang đó. Cần Cloudflare
-# proxy (đám mây cam) để có header CF-IPCountry. Cùng quy tắc ở vercel.json.
-RewriteCond %{HTTP:CF-IPCountry} ^(VN|LA|KH|MM|CN)$ [NC]
-RewriteCond %{REQUEST_URI} !^/(?:admin|unavailable|assets/|favicon|icon-|apple-touch-icon|robots\.txt)
-RewriteRule ^ /unavailable/ [R=302,L]
-
 # Consolidate legacy aliases and old journey slugs on their canonical URLs.
 RewriteRule ^journeys/?$ /routes/ [R=301,L]
 # Tuyến và trang du thuyền đã chuyển sang /routes/ (28/10/2026).
