@@ -553,6 +553,12 @@
     white-space: normal;
   }
 
+  /* Nhãn Flight Time không đủ chỗ một dòng: mobile chỉ ghi "(Optional)", PC giữ
+     "(Optional when not flying)" (khách yêu cầu 29/10/2026). */
+  .hlt-book-label-extra {
+    display: none;
+  }
+
   .hlt-book-control-textarea textarea {
     min-height: 72px;
   }

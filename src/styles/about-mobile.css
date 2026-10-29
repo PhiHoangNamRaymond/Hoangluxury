@@ -278,9 +278,13 @@
   }
 
   .hlt-about-commitments-grid article {
-    align-items: center;
-    gap: 12px;
+    column-gap: 12px;
     padding: 16px 0;
+  }
+
+  /* Số nằm giữa theo chiều dọc so với khối tiêu đề + mô tả. */
+  .hlt-about-commitments-grid .hlt-about-commitment-num {
+    align-self: center;
   }
 
   .hlt-about-commitments-grid article + article {
@@ -293,7 +297,7 @@
     font-size: clamp(32px, 9vw, 40px);
   }
 
-  .hlt-about-commitments-grid h3 {
+  .hlt-about-commitments-grid .hlt-about-commitment-title {
     margin: 0 0 4px;
     font-size: clamp(16px, 4.6vw, 19px);
   }

@@ -127,15 +127,15 @@ export default function BlogPage() {
               <label className="hlt-blog-sort"><span className="hlt-blog-sr">Sort articles</span><select value={sort} onChange={(event) => { setSort(event.target.value); setLimit(6); }}><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label>
             </div>
             <div className="hlt-blog-filter-row" role="group" aria-label="Filter articles by destination">
-              <h2 className="hlt-blog-filter-label"><Icon name="pin" />Destinations</h2>
+              <div className="hlt-blog-filter-label"><Icon name="pin" />Destinations</div>
               <div className="hlt-blog-filter-items">
-                {blogDestinations.map((item) => <h3 key={item} className="hlt-blog-filter-item"><button type="button" aria-pressed={destination === item} onClick={() => toggleDestination(item)}>{item}</button></h3>)}
+                {blogDestinations.map((item) => <button key={item} type="button" aria-pressed={destination === item} onClick={() => toggleDestination(item)}>{item}</button>)}
               </div>
             </div>
             <div className="hlt-blog-filter-row" role="group" aria-label="Filter articles by topic">
               <div className="hlt-blog-filter-label"><Icon name="book" />Topics</div>
               <div className="hlt-blog-filter-items">
-                {blogTopics.map((item) => <h4 key={item} className="hlt-blog-filter-item"><button type="button" aria-pressed={topic === item} onClick={() => toggleTopic(item)}>{item}</button></h4>)}
+                {blogTopics.map((item) => <button key={item} type="button" aria-pressed={topic === item} onClick={() => toggleTopic(item)}>{item}</button>)}
               </div>
             </div>
             {/* Bộ lọc đang bật: mỗi bộ lọc một thẻ có dấu × để bỏ riêng, cộng nút xoá hết

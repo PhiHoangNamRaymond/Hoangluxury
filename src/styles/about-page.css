@@ -300,14 +300,32 @@
   margin: clamp(24px, 2.4vw, 34px) auto 0;
 }
 
+/* Số │ tiêu đề + mô tả. h3 (số + tiêu đề) là lưới con phủ cả thẻ để số kéo dọc
+   cạnh khối chữ như trước; mô tả ở hàng 2 ngoài h3. Hàng 3 (1fr) nhận phần số
+   cao hơn khối chữ, không đẩy mô tả xuống. */
 .hlt-about-commitments-grid article {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(16px, 1.6vw, 24px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  column-gap: clamp(16px, 1.6vw, 24px);
+  align-items: start;
+}
+
+.hlt-about-commitments-grid .hlt-about-commitment-heading {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  align-items: start;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
 }
 
 .hlt-about-commitment-num {
-  flex: none;
+  grid-row: 1 / -1;
   min-width: 1.4em;
   padding-right: clamp(16px, 1.6vw, 24px);
   border-right: 1px solid rgba(227, 192, 106, .7);
@@ -317,7 +335,10 @@
   line-height: 1.1;
 }
 
-.hlt-about-commitments-grid h3 {
+.hlt-about-commitment-title {
+  grid-column: 2;
+  grid-row: 1;
+  display: block;
   margin: 2px 0 6px;
   color: #fff;
   font-size: clamp(20px, 1.7vw, 25px);
@@ -325,6 +346,8 @@
 }
 
 .hlt-about-commitments-grid p {
+  grid-column: 2;
+  grid-row: 2;
   margin: 0;
   color: rgba(255, 255, 255, .85);
   font-size: clamp(15px, 1.2vw, 17px);

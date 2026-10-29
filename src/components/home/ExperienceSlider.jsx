@@ -6,15 +6,54 @@ const DEFAULT_SCROLL_SPEED = 64;
 
 export default function ExperienceSlider() {
   const [sectionRef, inViewport] = useNearViewport({ rootMargin: "0px", once: false });
+  const [preloadRef, nearViewport] = useNearViewport({ rootMargin: "1200px", once: true });
+  const [imageStates, setImageStates] = useState({});
+  const [retryVersions, setRetryVersions] = useState({});
+  const [galleryImages, setGalleryImages] = useState([]);
   const [pageVisible, setPageVisible] = useState(() => typeof document === "undefined" || !document.hidden);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const slides = [...experienceImages, ...experienceImages];
+  // Repeat enough decoded photos to fill even a wide desktop when some fail.
+  const copies = Math.max(2, Math.ceil(6 / Math.max(1, galleryImages.length)) + 1);
+  const slides = Array.from({ length: copies }, () => galleryImages).flat();
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const offsetRef = useRef(0);
   const loopWidthRef = useRef(0);
   const pointerRef = useRef({ active: false, id: null, x: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const allSettled = experienceImages.every((image) => ["ready", "error"].includes(imageStates[image.src]));
+  const readyCount = experienceImages.filter((image) => imageStates[image.src] === "ready").length;
+  const failedImages = experienceImages.filter((image) => imageStates[image.src] === "error");
+
+  useEffect(() => {
+    if (!allSettled) return;
+    // Never include an unloaded/broken photo in the moving track. A deliberate
+    // retry updates the set only after decoding finishes, at the start position.
+    const ready = experienceImages.filter((image) => imageStates[image.src] === "ready");
+    setGalleryImages(ready);
+    offsetRef.current = 0;
+  }, [allSettled]);
+
+  const setImageState = (src, state) => setImageStates((current) =>
+    current[src] === state ? current : { ...current, [src]: state });
+  const retryImage = (src) => {
+    setImageState(src, "loading");
+    setRetryVersions((current) => ({ ...current, [src]: (current[src] || 0) + 1 }));
+  };
+
+  // A stalled connection must not freeze the gallery indefinitely. Failed or
+  // timed-out photos retain a retry control instead of an unexplained blank.
+  useEffect(() => {
+    if (!nearViewport) return undefined;
+    const timer = window.setTimeout(() => setImageStates((current) => {
+      const next = { ...current };
+      for (const image of experienceImages) {
+        if (next[image.src] !== "ready" && next[image.src] !== "error") next[image.src] = "error";
+      }
+      return next;
+    }), 15000);
+    return () => window.clearTimeout(timer);
+  }, [nearViewport, retryVersions]);
 
   useEffect(() => {
     const onVisibility = () => setPageVisible(!document.hidden);
@@ -50,7 +89,7 @@ export default function ExperienceSlider() {
     if (!track) return undefined;
 
     const measureTrack = () => {
-      loopWidthRef.current = track.scrollWidth / 2;
+      loopWidthRef.current = track.scrollWidth / copies;
       renderTrackPosition();
     };
 
@@ -59,10 +98,10 @@ export default function ExperienceSlider() {
     resizeObserver.observe(track);
 
     return () => resizeObserver.disconnect();
-  }, []);
+  }, [copies, galleryImages]);
 
   useEffect(() => {
-    if (!inViewport || !pageVisible || reducedMotion || isDragging) return undefined;
+    if (!inViewport || !pageVisible || reducedMotion || isDragging || !galleryImages.length) return undefined;
     let animationFrame;
     let previousTime = performance.now();
 
@@ -83,7 +122,7 @@ export default function ExperienceSlider() {
     return () => {
       window.cancelAnimationFrame(animationFrame);
     };
-  }, [inViewport, pageVisible, reducedMotion, isDragging]);
+  }, [inViewport, pageVisible, reducedMotion, isDragging, galleryImages]);
 
   const startDragging = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -133,7 +172,7 @@ export default function ExperienceSlider() {
   return (
     <section
       id="experience"
-      ref={sectionRef}
+      ref={(node) => { sectionRef.current = node; preloadRef.current = node; }}
       className="hlt-experience-slider"
       aria-labelledby="experience-slider-title"
     >
@@ -146,6 +185,32 @@ export default function ExperienceSlider() {
         </div>
         <p>Private journeys. Exceptional service.</p>
       </header>
+
+      {/* Eager only near the footer; decode before admitting photos to the track.
+          Native horizontal lazy loading cannot keep up with a moving carousel. */}
+      <div hidden data-no-skeleton>
+        {nearViewport && experienceImages.map((image) => imageStates[image.src] !== "error" && (
+          <img key={`${image.src}-${retryVersions[image.src] || 0}`} src={image.src} alt="" loading="eager" decoding="async"
+            onLoad={(event) => {
+              const element = event.currentTarget;
+              const done = () => { if (element.isConnected) setImageState(image.src, "ready"); };
+              if (element.decode) element.decode().then(done, () => { if (element.isConnected) setImageState(image.src, "error"); });
+              else done();
+            }}
+            onError={() => setImageState(image.src, "error")} />
+        ))}
+      </div>
+
+      {!galleryImages.length && (
+        <div className="hlt-experience-loading" role="status">
+          {allSettled ? "Photos could not be loaded. Please try again." : `Preparing photos… ${readyCount}/${experienceImages.length}`}
+        </div>
+      )}
+      {!!failedImages.length && (
+        <div className="hlt-experience-retry">
+          <button type="button" onClick={() => failedImages.forEach((image) => retryImage(image.src))}>Retry unavailable photos</button>
+        </div>
+      )}
 
       <div
         ref={viewportRef}
@@ -163,7 +228,7 @@ export default function ExperienceSlider() {
       >
         <div ref={trackRef} className="hlt-experience-track">
           {slides.map((image, index) => {
-            const isDuplicate = index >= experienceImages.length;
+            const isDuplicate = index >= galleryImages.length;
 
             return (
               <figure
@@ -171,15 +236,22 @@ export default function ExperienceSlider() {
                 key={`${image.src}-${index}`}
                 aria-hidden={isDuplicate || undefined}
               >
-                <img
-                  src={image.src}
-                  alt={isDuplicate ? "" : image.alt}
-                  loading="lazy"
-                  decoding="async"
-                  draggable="false"
-                  /* focus: mốc cắt riêng cho ảnh có chủ thể lệch khỏi giữa khung */
-                  style={image.focus ? { objectPosition: image.focus } : undefined}
-                />
+                {(
+                  <img
+                    key={retryVersions[image.src] || 0}
+                    src={image.src}
+                    alt={isDuplicate ? "" : image.alt}
+                    loading="eager"
+                    decoding="sync"
+                    draggable="false"
+                    onError={() => {
+                      setImageState(image.src, "error");
+                      setGalleryImages((current) => current.filter((item) => item.src !== image.src));
+                    }}
+                    data-version={retryVersions[image.src] || 0}
+                    style={image.focus ? { objectPosition: image.focus } : undefined}
+                  />
+                )}
               </figure>
             );
           })}

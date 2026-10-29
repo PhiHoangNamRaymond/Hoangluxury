@@ -123,12 +123,6 @@
   gap: 10px;
 }
 
-/* Mỗi nút lọc nằm trong h2 (cấu trúc SEO 29/10/2026); thẻ h2 không tạo hộp riêng
-   nên hàng nút giữ nguyên bố cục. */
-.hlt-photo-filter-item {
-  display: contents;
-}
-
 .hlt-photo-filter {
   min-height: 40px;
   padding: 0 18px;

@@ -109,6 +109,7 @@
 }
 
 .hlt-experience-slide {
+  position: relative;
   width: 20vw;
   height: clamp(165px, 17vw, 260px);
   flex: 0 0 20vw;
@@ -116,6 +117,31 @@
   overflow: hidden;
   border-right: 1px solid rgba(225, 184, 99, .52);
   background: #15201e;
+}
+
+.hlt-experience-loading {
+  height: clamp(165px, 17vw, 260px);
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  color: #e8d5a8;
+  background: #15201e;
+  font: 14px/1.4 sans-serif;
+  text-align: center;
+}
+.hlt-experience-retry {
+  padding: 8px 12px;
+  text-align: center;
+  background: #15201e;
+  color: #e8d5a8;
+}
+.hlt-experience-retry button {
+  border: 1px solid #c6a45f;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
 }
 
 .hlt-experience-slide img {
@@ -174,6 +200,10 @@
     width: 72vw;
     height: min(84vw, 360px);
     flex-basis: 72vw;
+  }
+  .hlt-experience-loading {
+    height: min(84vw, 360px);
+    box-sizing: border-box;
   }
 }
 

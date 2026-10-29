@@ -193,16 +193,15 @@ export default function PhotoAlbumsPage() {
           <div className="hlt-container">
             <div className="hlt-photo-filters" role="group" aria-label="Filter albums by category">
               {categories.map((category) => (
-                <h2 className="hlt-photo-filter-item" key={category}>
-                  <button
-                    type="button"
-                    className={`hlt-photo-filter${category === activeCategory ? " is-active" : ""}`}
-                    aria-pressed={category === activeCategory}
-                    onClick={() => selectCategory(category)}
-                  >
-                    {category}
-                  </button>
-                </h2>
+                <button
+                  type="button"
+                  key={category}
+                  className={`hlt-photo-filter${category === activeCategory ? " is-active" : ""}`}
+                  aria-pressed={category === activeCategory}
+                  onClick={() => selectCategory(category)}
+                >
+                  {category}
+                </button>
               ))}
             </div>
 

@@ -49,10 +49,7 @@
 .hlt-blog-filter-label svg { width: 17px; height: 17px; flex: none; }
 .hlt-blog-filter-items { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; }
 .hlt-blog-filter-items button { border: 0; border-left: 1px solid #ece0cb; border-radius: 0; background: transparent; color: #29455c; padding: 4px 16px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-/* Mỗi nút lọc nằm trong h3/h4 (cấu trúc SEO 29/10/2026); thẻ heading không tạo
-   hộp riêng nên hàng nút giữ nguyên bố cục. */
-.hlt-blog-main .hlt-blog-filter-item { display: contents; margin: 0; font: inherit; letter-spacing: inherit; color: inherit; }
-.hlt-blog-filter-item:first-child button { border-left: 0; padding-left: 0; }
+.hlt-blog-filter-items button:first-child { border-left: 0; padding-left: 0; }
 .hlt-blog-filter-items button:hover { color: #a97c22; }
 .hlt-blog-filter-items button[aria-pressed="true"] { color: #062820; text-decoration: underline; text-decoration-color: #b89b57; text-underline-offset: 5px; text-decoration-thickness: 2px; }
 .hlt-blog-sort select { border: 1px solid #e8dac4; border-radius: 5px; background: #fff; color: #29455c; min-height: 38px; padding: 8px 12px; font-size: 11px; font-weight: 700; white-space: nowrap; max-width: 132px; }
@@ -322,7 +319,7 @@
   }
   .hlt-blog-filter-items::-webkit-scrollbar { display: none; }
   .hlt-blog-filter-items button,
-  .hlt-blog-filter-item:first-child button {
+  .hlt-blog-filter-items button:first-child {
     flex: none;
     padding: 9px 16px;
     border: 0;

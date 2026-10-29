@@ -262,15 +262,31 @@
   transform: scale(1.04);
 }
 
+/* Số | tiêu đề trên hàng 1, mô tả ở hàng 2 cột chữ. h3 (số + tiêu đề) là lưới con
+   cùng cột với khung để số và tiêu đề nằm đúng chỗ cũ. */
 .hlt-pl-style-body {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(10px, 1vw, 16px);
+  column-gap: clamp(10px, 1vw, 16px);
   align-items: start;
   padding: clamp(12px, 1.3vw, 17px) clamp(13px, 1.4vw, 18px) clamp(13px, 1.4vw, 18px);
 }
 
+.hlt-pl-style-heading {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: start;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+/* Số cao hơn dòng tiêu đề: lề âm để hàng 1 chỉ cao bằng tiêu đề, mô tả bắt đầu
+   ngay dưới tiêu đề như trước (số tràn xuống ô trống bên dưới). */
 .hlt-pl-style-no {
+  margin-bottom: -1em;
   color: var(--pl-gold);
   font-family: "Cormorant", Georgia, serif;
   font-size: clamp(20px, 1.9vw, 26px);
@@ -278,7 +294,8 @@
   line-height: 1.05;
 }
 
-.hlt-pl-style-text h3 {
+.hlt-pl-style-title {
+  display: block;
   margin: 0 0 4px;
   color: var(--pl-ink);
   font-family: "Cormorant", Georgia, serif;
@@ -287,7 +304,8 @@
   line-height: 1.15;
 }
 
-.hlt-pl-style-text p {
+.hlt-pl-style-desc {
+  grid-column: 2;
   margin: 0;
   color: var(--pl-body);
   font-size: clamp(14px, 1.1vw, 15.5px);
@@ -1107,7 +1125,7 @@
   }
 
 
-  .hlt-pl-style-text p {
+  .hlt-pl-style-desc {
     font-size: 14px;
   }
 
