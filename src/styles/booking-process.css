@@ -1436,9 +1436,11 @@
     color: #1a140a !important;
   }
 
+  /* Ảnh xe chỉ chiếm ~59% bề ngang khung PNG: 36px để thân xe rộng ~21px, bằng
+     các icon nét phía trên (svg 24px, hình vẽ ~20px) — khách yêu cầu 29/10/2026. */
   .hlt-process-car-icon-img {
-    width: 28px !important;
-    height: 28px !important;
+    width: 36px !important;
+    height: 36px !important;
     object-fit: contain;
     filter: brightness(0.12) !important;
   }

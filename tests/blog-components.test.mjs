@@ -385,7 +385,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
     destination:[...host.querySelectorAll('[aria-label="Filter articles by destination"] button')].filter((button) => button.getAttribute("aria-pressed") === "true").map((button) => button.textContent),
     topic:[...host.querySelectorAll('[aria-label="Filter articles by topic"] button')].filter((button) => button.getAttribute("aria-pressed") === "true").map((button) => button.textContent),
     query:host.querySelector('input[type="search"]').value, sort:host.querySelector("select").value,
-    title:host.querySelector(".hlt-blog-feed .hlt-blog-section-heading h2").textContent,
+    title:host.querySelector(".hlt-blog-feed .hlt-blog-section-title").textContent,
     articles:[...host.querySelectorAll(".hlt-blog-card-title")].map((heading) => heading.textContent),
     results:host.querySelector(".hlt-blog-results")?.textContent,
   });

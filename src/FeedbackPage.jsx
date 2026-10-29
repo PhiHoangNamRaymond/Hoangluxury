@@ -37,14 +37,14 @@ const guestReviews = [
     alt: "Couple standing beside a white Hoang Luxury Travel private car outside a luxury hotel in Sapa",
   },
   {
-    title: "On-Time Pick Up and Flexible Payment",
+    title: "On-Time Pick Up And Flexible Payment",
     quote: "We needed a reliable car to take us to the Ha Long cruise port because we had quite a lot of luggage and needed to arrive on time for our cruise. The driver came early, helped us with our bags and got us there earlier than expected. When it was time to pay, we realised we didn’t have enough cash with us and felt a little worried. Luckily, the Hoang Luxury Travel Team accepted card payment, so everything was sorted out quickly and easily.",
     country: "Saudi Arabia",
     guest: "Guest from Saudi Arabia",
     alt: "Two international travelers step out of a Hoang Luxury Travel private car with plenty of luggage after completing their journey from Sapa to Ha Long.",
   },
   {
-    title: "100% Private and No Multiple Pick-Ups",
+    title: "100% Private And No Multiple Pick-Ups",
     quote: "저는 버스를 타고 이동하는 걸 별로 좋아하지 않아요. 버스는 시끄럽고 좁아서 불편하거든요. 여러 가지를 알아본 후에 호앙 씨의 차량으로 사파까지 개인 차량을 이용해 가기로 결정했습니다. 솔직히 말씀드리면 저는 꽤 까다로운 편이에요. 예전에 하롱에서 서비스 이용을 하면서 몇 번 좋지 않은 경험을 한 적이 있어서 베트남의 서비스에 대해 그다지 좋은 인상을 가지고 있지는 않았어요. 그런데 이번에는 정말 만족스러웠습니다. 저와 아내 모두 모든 면에서 만족스러웠어요.",
     country: "South Korea",
     guest: "Guest from South Korea",
@@ -333,8 +333,8 @@ export default function FeedbackPage() {
         <section className="hlt-feedback-trust" aria-labelledby="feedback-title">
           <div className="hlt-container hlt-feedback-trust-inner">
             <h1 id="feedback-title">
-              <span>Trusted by Travelers</span>
-              <span>From Around the World</span>
+              <span>Trusted By Travelers</span>
+              <span>From Around The World</span>
             </h1>
             <p>Private transfer, thoughtfully delivered across Northern&nbsp;Vietnam.</p>
 
@@ -412,7 +412,7 @@ export default function FeedbackPage() {
                 <FeedbackFormOrnament />
                 <h2 id="feedback-form-title">
                   <span>Every Experience</span>
-                  <span>Matters to Us</span>
+                  <span>Matters To Us</span>
                 </h2>
                 <p className="hlt-feedback-form-copy">
                   We want every journey with Hoang Luxury Travel to be a comfortable and memorable experience.

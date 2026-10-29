@@ -998,6 +998,12 @@
     white-space: nowrap;
     font-size: min(14px, 100cqi / 12.4);
   }
+
+  /* Đoạn mô tả lùi vào 8px mỗi bên: chữ hai cột cách nhau ~16px, không còn sát
+     nhau (khách yêu cầu 29/10/2026). Tiêu đề vẫn dùng hết bề rộng cột. */
+  .hlt-pl-prep-grid p {
+    padding-inline: 8px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1029,9 +1035,13 @@
 
   /* Nhịp dọc theo banner trang Blog bản mobile (khách yêu cầu 29/10/2026): dòng
      nhỏ → tiêu đề 12px, tiêu đề → đoạn dẫn 16px, đoạn dẫn giãn dòng 1.5. */
+  /* Khung ảnh cao ~84% bề ngang như banner Blog / About bản mobile (khách yêu
+     cầu 29/10/2026; trước 62vw, banner trông dẹt hơn hai trang kia). */
+  /* Nội dung dồn xuống đáy banner như Blog / About (đáy hai nút cách mép dưới
+     30px, ngang đáy đoạn dẫn trang Blog) — khách yêu cầu 29/10/2026. */
   .hlt-pl-hero-inner {
-    align-content: center;
-    min-height: clamp(220px, 62vw, 300px);
+    align-content: end;
+    min-height: clamp(300px, 84vw, 330px);
     padding: 34px 0 30px;
   }
 

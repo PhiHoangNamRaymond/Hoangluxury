@@ -10,7 +10,7 @@
 .hlt-blog-main :is(h1,h2,h3), .hlt-blog-reader :is(h2,h3) { font-family: "Cormorant", Georgia, serif; font-weight: 600; letter-spacing: -.025em; line-height: 1.08; }
 /* Tiêu đề trình bày như heading nhưng không phải thẻ heading (cấu trúc SEO 28/10/2026).
    :where giữ độ ưu tiên thấp như quy tắc trên, để các quy tắc riêng vẫn thắng. */
-.hlt-blog-main :where(.hlt-blog-featured-title,.hlt-blog-plan-title,.hlt-blog-destination-feature-title,.hlt-blog-card-title,.hlt-blog-empty-title) { font-family: "Cormorant", Georgia, serif; font-weight: 600; letter-spacing: -.025em; line-height: 1.08; }
+.hlt-blog-main :where(.hlt-blog-section-title,.hlt-blog-featured-title,.hlt-blog-plan-title,.hlt-blog-destination-feature-title,.hlt-blog-card-title,.hlt-blog-empty-title) { font-family: "Cormorant", Georgia, serif; font-weight: 600; letter-spacing: -.025em; line-height: 1.08; }
 .hlt-blog-main :is(p,button,input,select,small), .hlt-blog-reader p { font-family: "Lato", Arial, sans-serif; }
 .hlt-blog-main button { cursor: pointer; }
 .hlt-blog-main a { text-decoration: none; }
@@ -49,7 +49,10 @@
 .hlt-blog-filter-label svg { width: 17px; height: 17px; flex: none; }
 .hlt-blog-filter-items { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; }
 .hlt-blog-filter-items button { border: 0; border-left: 1px solid #ece0cb; border-radius: 0; background: transparent; color: #29455c; padding: 4px 16px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-.hlt-blog-filter-items button:first-child { border-left: 0; padding-left: 0; }
+/* Mỗi nút lọc nằm trong h3/h4 (cấu trúc SEO 29/10/2026); thẻ heading không tạo
+   hộp riêng nên hàng nút giữ nguyên bố cục. */
+.hlt-blog-main .hlt-blog-filter-item { display: contents; margin: 0; font: inherit; letter-spacing: inherit; color: inherit; }
+.hlt-blog-filter-item:first-child button { border-left: 0; padding-left: 0; }
 .hlt-blog-filter-items button:hover { color: #a97c22; }
 .hlt-blog-filter-items button[aria-pressed="true"] { color: #062820; text-decoration: underline; text-decoration-color: #b89b57; text-underline-offset: 5px; text-decoration-thickness: 2px; }
 .hlt-blog-sort select { border: 1px solid #e8dac4; border-radius: 5px; background: #fff; color: #29455c; min-height: 38px; padding: 8px 12px; font-size: 11px; font-weight: 700; white-space: nowrap; max-width: 132px; }
@@ -91,14 +94,14 @@
 .hlt-blog-author-mark { border: 1px solid #dabb70; border-radius: 50%; display: grid; place-items: center; width: 34px; height: 34px; color: #f2d69a; font: 24px "Cormorant",serif; }
 .hlt-blog-byline>span:nth-child(3) { border-left: 1px solid #bcaa79; padding-left: 14px; }
 .hlt-blog-section-heading { display: flex; align-items: center; gap: 14px; margin: 22px 0 13px; }
-.hlt-blog-section-heading h2 { font-size: 28px; white-space: nowrap; color: #152b38; }
+.hlt-blog-section-heading .hlt-blog-section-title { font-size: 28px; white-space: nowrap; color: #152b38; }
 .hlt-blog-section-heading>span { height: 1px; background: linear-gradient(90deg,#c9a65c,transparent); flex: 1; min-width: 8px; }
 .hlt-blog-section-heading button { display: flex; align-items: center; gap: 6px; padding: 0; background: none; border: none; color: #4d6879; font-size: 11px; white-space: nowrap; }
 .hlt-blog-section-heading button svg { color: #b18a3e; width: 18px; }
 .hlt-blog-article-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
 .hlt-blog-card { min-width: 0; border: 1px solid #eadbc3; border-radius: 6px; overflow: hidden; background: #fff; transition: box-shadow .2s,transform .2s; }
 .hlt-blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px #17352612; }
-.hlt-blog-card>a { border: 0; background: none; padding: 0; text-align: left; width: 100%; height: 100%; color: inherit; display: flex; flex-direction: column; }
+.hlt-blog-card>.hlt-blog-card-body { border: 0; background: none; padding: 0; text-align: left; width: 100%; height: 100%; color: inherit; display: flex; flex-direction: column; }
 .hlt-blog-card-image { aspect-ratio: 1.8; width: 100%; overflow: hidden; }
 .hlt-blog-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
 .hlt-blog-card:hover img { transform: scale(1.04); }
@@ -114,10 +117,10 @@
 .hlt-blog-gold-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 18px; background: linear-gradient(100deg,#efcc84,#ffe5ab,#d8b16b); color: #082c23; border: 1px solid #dcba70; box-shadow: inset 0 0 0 2px #fff2ce33; border-radius: 4px; font: 800 11px "Lato",sans-serif; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; }
 .hlt-blog-gold-btn svg { width: 18px; height: 18px; }
 .hlt-blog-sidebar .hlt-blog-section-heading { gap: 8px; margin-top: 18px; }
-.hlt-blog-sidebar .hlt-blog-section-heading h2 { font-size: 25px; }
+.hlt-blog-sidebar .hlt-blog-section-heading .hlt-blog-section-title { font-size: 25px; }
 .hlt-blog-popular { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
-.hlt-blog-popular a { display: flex; width: 100%; align-items: center; gap: 9px; padding: 6px 8px; border: 1px solid #eadbc3; border-radius: 5px; background: #fff; text-align: left; color: #173343; }
-.hlt-blog-popular a:hover { background: #f7f1e7; }
+.hlt-blog-popular .hlt-blog-popular-item { display: flex; width: 100%; align-items: center; gap: 9px; padding: 6px 8px; border: 1px solid #eadbc3; border-radius: 5px; background: #fff; text-align: left; color: #173343; }
+.hlt-blog-popular .hlt-blog-popular-item:hover { background: #f7f1e7; }
 .hlt-blog-rank { border-radius: 50%; color: #fff; background: #c89e4c; font: 800 10px "Lato",sans-serif; width: 18px; height: 18px; display: grid; place-items: center; flex-shrink: 0; }
 .hlt-blog-popular img { width: 76px; height: 52px; object-fit: cover; border-radius: 3px; }
 .hlt-blog-popular strong { display: block; font: 700 17px/1 "Cormorant",serif; }
@@ -161,7 +164,7 @@
   .hlt-blog-featured { min-height: 370px; padding: 24px; }
   .hlt-blog-article-grid { gap: 12px; }
   .hlt-blog-card-copy .hlt-blog-card-title { font-size: 20px; }
-  .hlt-blog-sidebar .hlt-blog-section-heading h2 { font-size: 23px; white-space: normal; }
+  .hlt-blog-sidebar .hlt-blog-section-heading .hlt-blog-section-title { font-size: 23px; white-space: normal; }
 }
 @media (max-width: 960px) { .hlt-blog-main { padding-top: 72px; } }
 @media (max-width: 900px) {
@@ -192,7 +195,7 @@
   .hlt-blog-featured-tags { top: 18px; left: 20px; right: 20px; }
   .hlt-blog-byline { gap: 9px; font-size: 10px; }
   .hlt-blog-section-heading { gap: 8px; }
-  .hlt-blog-section-heading h2 { font-size: 27px; white-space: normal; }
+  .hlt-blog-section-heading .hlt-blog-section-title { font-size: 27px; white-space: normal; }
   .hlt-blog-section-heading button { font-size: 10px; }
   .hlt-blog-article-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .hlt-blog-card-copy { padding: 10px; }
@@ -319,7 +322,7 @@
   }
   .hlt-blog-filter-items::-webkit-scrollbar { display: none; }
   .hlt-blog-filter-items button,
-  .hlt-blog-filter-items button:first-child {
+  .hlt-blog-filter-item:first-child button {
     flex: none;
     padding: 9px 16px;
     border: 0;
@@ -348,12 +351,12 @@
   .hlt-blog-featured-copy>p:not(.hlt-blog-eyebrow) { font-size: 13.5px; }
 
   /* Danh sách bài: mỗi bài một hàng — ảnh nhỏ trái, chữ phải, mũi tên cuối */
-  .hlt-blog-section-heading h2 { font-size: 26px; }
+  .hlt-blog-section-heading .hlt-blog-section-title { font-size: 26px; }
   .hlt-blog-article-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .hlt-blog-card { border: 0; border-bottom: 1px solid #efe4d2; border-radius: 0; background: none; }
   .hlt-blog-card:hover { transform: none; box-shadow: none; }
-  .hlt-blog-card>a { position: relative; flex-direction: row; align-items: center; gap: 14px; padding: 12px 24px 12px 0; }
-  .hlt-blog-card>a::after {
+  .hlt-blog-card>.hlt-blog-card-body { position: relative; flex-direction: row; align-items: center; gap: 14px; padding: 12px 24px 12px 0; }
+  .hlt-blog-card>.hlt-blog-card-body::after {
     content: "";
     position: absolute;
     right: 4px;

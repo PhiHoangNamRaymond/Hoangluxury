@@ -68,7 +68,17 @@
   background: linear-gradient(90deg, var(--photo-gold), transparent);
 }
 
-.hlt-photo-hero h1 {
+/* H1 gồm dòng nhỏ + tiêu đề (cấu trúc SEO 29/10/2026): thẻ h1 chỉ là khung,
+   kiểu chữ nằm ở từng phần bên trong. */
+.hlt-photo-h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.hlt-photo-title {
+  display: block;
   margin: 0 0 14px;
   color: #fff;
   text-shadow: 0 2px 14px rgba(0, 0, 0, .45);
@@ -111,6 +121,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+/* Mỗi nút lọc nằm trong h2 (cấu trúc SEO 29/10/2026); thẻ h2 không tạo hộp riêng
+   nên hàng nút giữ nguyên bố cục. */
+.hlt-photo-filter-item {
+  display: contents;
 }
 
 .hlt-photo-filter {
@@ -408,7 +424,7 @@
     text-shadow: none;
   }
 
-  .hlt-photo-hero h1 {
+  .hlt-photo-title {
     color: var(--photo-ink);
     text-shadow: none;
   }
@@ -446,7 +462,7 @@
     inset: 72px 0 0;
   }
 
-  .hlt-photo-hero h1 {
+  .hlt-photo-title {
     font-size: clamp(28px, 8.4vw, 36px);
   }
 

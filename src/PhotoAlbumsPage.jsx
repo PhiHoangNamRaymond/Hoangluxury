@@ -164,14 +164,19 @@ export default function PhotoAlbumsPage() {
           aria-labelledby="photo-title"
         >
           <div className="hlt-container hlt-photo-hero-inner">
-            <p className="hlt-photo-kicker">
-              Photo Gallery
-              <span aria-hidden="true" />
-            </p>
-            <h1 id="photo-title">
-              Real Moments.
-              <br />
-              Beautifully Captured.
+            {/* H1 theo khách (29/10/2026): "Photo Gallery - Real Moments. Beautifully
+                Captured."; dấu " - " ẩn, giao diện vẫn là dòng nhỏ + tiêu đề. */}
+            <h1 id="photo-title" className="hlt-photo-h1">
+              <span className="hlt-photo-kicker">
+                Photo Gallery
+                <span aria-hidden="true" />
+              </span>
+              <span className="hlt-seo-sep"> - </span>
+              <span className="hlt-photo-title">
+                Real Moments.{" "}
+                <br />
+                Beautifully Captured.
+              </span>
             </h1>
             <p className="hlt-photo-lead">
               Explore photos from real shoots across Northern Vietnam. Discover different
@@ -188,15 +193,16 @@ export default function PhotoAlbumsPage() {
           <div className="hlt-container">
             <div className="hlt-photo-filters" role="group" aria-label="Filter albums by category">
               {categories.map((category) => (
-                <button
-                  type="button"
-                  key={category}
-                  className={`hlt-photo-filter${category === activeCategory ? " is-active" : ""}`}
-                  aria-pressed={category === activeCategory}
-                  onClick={() => selectCategory(category)}
-                >
-                  {category}
-                </button>
+                <h2 className="hlt-photo-filter-item" key={category}>
+                  <button
+                    type="button"
+                    className={`hlt-photo-filter${category === activeCategory ? " is-active" : ""}`}
+                    aria-pressed={category === activeCategory}
+                    onClick={() => selectCategory(category)}
+                  >
+                    {category}
+                  </button>
+                </h2>
               ))}
             </div>
 

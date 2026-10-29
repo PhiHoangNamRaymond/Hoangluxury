@@ -167,6 +167,13 @@
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
 }
 
+/* Lớp link phủ trên cùng vùng ảnh: bấm ở đâu trong ảnh cũng mở trang tuyến. */
+.hlt-jcard-media-link {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
 /* Destination Title in Bottom-Left of Media above Stats Bar */
 .hlt-jcard-overlay {
   position: absolute;
@@ -180,7 +187,7 @@
   pointer-events: none;
 }
 
-.hlt-jcard-overlay h2 {
+.hlt-jcard-overlay .hlt-jcard-title {
   margin: 0;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: clamp(22px, 2.3vw, 30px);
@@ -748,7 +755,7 @@
     padding: 16px 14px 70px;
   }
 
-  .hlt-jcard-overlay h2 {
+  .hlt-jcard-overlay .hlt-jcard-title {
     font-size: 20px;
   }
 
