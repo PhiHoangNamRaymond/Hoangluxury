@@ -25,6 +25,7 @@ export default function Hero() {
 
   useEffect(() => () => {
     if (manualImageRef.current) manualImageRef.current.onload = null;
+    manualImageRef.current = null;
   }, []);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function Hero() {
   const goTo = useCallback((next) => {
     const target = (next + heroSlides.length) % heroSlides.length;
     if (manualImageRef.current) manualImageRef.current.onload = null;
+    manualImageRef.current = null;
     // Set the source only on demand; retain the current photo until it loads.
     if (loadedRef.current.has(target)) {
       setIndex(target);
@@ -41,9 +43,14 @@ export default function Hero() {
     }
     const image = new Image();
     manualImageRef.current = image;
-    image.onload = () => {
+    const show = () => {
+      if (manualImageRef.current !== image) return;
       setLoaded((current) => new Set(current).add(target));
       setIndex(target);
+    };
+    image.onload = () => {
+      if (typeof image.decode === "function") image.decode().then(show, () => {});
+      else show();
     };
     image.src = heroSlideImages[heroSlides[target].image];
   }, []);
@@ -72,8 +79,12 @@ export default function Hero() {
       image = new Image();
       image.decoding = "async";
       image.fetchPriority = "low";
-      image.onload = () => {
+      const ready = () => {
         if (!cancelled) setLoaded((current) => new Set(current).add(next));
+      };
+      image.onload = () => {
+        if (typeof image.decode === "function") image.decode().then(ready, () => {});
+        else ready();
       };
       image.src = heroSlideImages[heroSlides[next].image];
     }, 1500);

@@ -510,7 +510,8 @@
   }
 
   .hlt-route-cta.hlt-route-cta-button {
-    margin-top: 12px;
+    /* Cách lưới 9 tuyến xa hơn chút (khách yêu cầu 29/10/2026; trước 12px). */
+    margin-top: 22px;
     padding: 6px 18px;
     gap: 10px;
   }

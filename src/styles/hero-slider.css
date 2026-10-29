@@ -441,14 +441,18 @@
     padding: 0 !important;
   }
 
+  /* line-height 1.08 (trước .98): chữ hoa Cormorant vượt khỏi dòng .98, trên một
+     số điện thoại (cỡ chữ hệ thống lớn) dòng vàng chạm vào đoạn mô tả bên dưới
+     (khách báo 29/10/2026). */
   .hlt-hero-title-white,
   .hlt-hero-title-gold {
     font-size: clamp(30px, 9vw, 36px) !important;
+    line-height: 1.08 !important;
   }
 
   .hlt-hero-desc {
     max-width: none !important;
-    margin: 14px 0 20px !important;
+    margin: 20px 0 20px !important;
     font-size: 15px !important;
     line-height: 1.5 !important;
   }
@@ -478,12 +482,28 @@
     margin-right: 0 !important;
   }
 
-  /* Dãy chấm: góc dưới dải ảnh, trên tiêu đề */
+  /* Mobile tắt zoom liên tục của ảnh slide: tiêu đề (có bóng chữ đậm) đè lên mép
+     dưới ảnh nên máy yếu phải vẽ lại cả hai mỗi khung hình, chữ trông giật
+     (khách báo 29/10/2026). Vẫn giữ hiệu ứng mờ dần khi chuyển ảnh. */
+  .hlt-hero-slide-image {
+    will-change: auto;
+  }
+
+  .hlt-hero-slide.is-active .hlt-hero-slide-image {
+    animation: none;
+  }
+
+  /* Dãy chấm: giữa, dưới hai nút (khách yêu cầu 29/10/2026; trước nằm góc
+     phải trên dải ảnh). Hero chừa thêm đáy cho dãy chấm. */
+  .hlt-hero {
+    padding-bottom: 54px !important;
+  }
+
   .hlt-hero-dots {
-    top: calc(72px + 14px);
-    bottom: auto !important;
-    left: auto;
-    right: 14px;
-    transform: none;
+    top: auto;
+    bottom: 18px !important;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 }

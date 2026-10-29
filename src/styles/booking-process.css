@@ -756,12 +756,14 @@
   line-height: 1;
 }
 
+/* Cùng cỡ / độ đậm với giá trị các dòng bên dưới (.hlt-mobile-row-value, vd. tên
+   khách) để mã booking không nổi hơn hẳn (khách yêu cầu 29/10/2026; trước 17px / 700). */
 .hlt-mobile-top-id-value {
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   color: #ffffff;
-  letter-spacing: .02em;
+  letter-spacing: .01em;
   line-height: 1.15;
   margin-top: 3px;
 }
@@ -859,7 +861,7 @@
     font-size: 17px;
   }
   .hlt-mobile-top-id-value {
-    font-size: 15px;
+    font-size: 14px;
   }
   .hlt-mobile-card-row {
     gap: 10px;

@@ -10,6 +10,7 @@ import {
 } from "./config/assets.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { formTextError } from "./lib/public-config.js";
+import { formatBookingIdInput, isValidBookingId } from "./lib/booking-id.js";
 import { validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import Turnstile from "./components/Turnstile.jsx";
 
@@ -265,6 +266,11 @@ export default function FeedbackPage() {
       setSubmission({ state: "error", message: "Please enter your Booking ID, choose a rating and write your feedback." });
       return;
     }
+    if (!isValidBookingId(bookingId)) {
+      setSubmission({ state: "error", message: "Please enter the full Booking ID from your confirmation, e.g. HLT-100826-RKS001-001." });
+      bookingIdRef.current?.focus();
+      return;
+    }
 
     if (!feedbackEndpoint || !turnstileToken) {
       setSubmission({ state: "error", message: "Feedback is being configured. Please contact us via WhatsApp." });
@@ -430,9 +436,13 @@ export default function FeedbackPage() {
                         name="bookingId"
                         placeholder="e.g. HLT-100826-RKS001-001"
                         autoComplete="off"
-                        maxLength="80"
+                        autoCapitalize="characters"
+                        spellCheck="false"
+                        maxLength="21"
+                        pattern="HLT-[0-9]{6}-RKS[0-9]{3}-[0-9]{3}"
+                        title="Booking ID, e.g. HLT-100826-RKS001-001"
                         value={bookingId}
-                        onChange={(event) => setBookingId(event.target.value)}
+                        onChange={(event) => setBookingId(formatBookingIdInput(event.target.value))}
                       />
                     </span>
                   </label>

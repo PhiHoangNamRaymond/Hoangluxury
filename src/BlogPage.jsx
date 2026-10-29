@@ -28,6 +28,7 @@ function Icon({ name, ...props }) {
     chat: <><path d="M21 11a9 9 0 0 1-13 8l-6 2 2-6A9 9 0 1 1 21 11Z" /><path d="M8 7c0 5 2 7 7 7l1-2-3-1-1 1-2-2 1-1-1-3-2 1Z" /></>,
     pin: <><path d="M12 21.5s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z" /><circle cx="12" cy="9.2" r="2.5" /></>,
     close: <path d="m6 6 12 12M6 18 18 6" />,
+    reset: <><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5" /><path d="M3.5 3.5v5h5" /></>,
     plus: <path d="M12 5v14M5 12h14" />,
   };
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>{paths[name]}</svg>;
@@ -136,6 +137,33 @@ export default function BlogPage() {
                 {blogTopics.map((item) => <button key={item} type="button" aria-pressed={topic === item} onClick={() => toggleTopic(item)}>{item}</button>)}
               </div>
             </div>
+            {/* Bộ lọc đang bật: mỗi bộ lọc một thẻ có dấu × để bỏ riêng, cộng nút xoá hết
+                (khách yêu cầu 29/10/2026). Chưa lọc gì thì không hiện. */}
+            {!noFilter && (
+              <div className="hlt-blog-active-filters" role="group" aria-label="Active filters">
+                <span className="hlt-blog-active-label">Filtered by</span>
+                <div className="hlt-blog-active-chips">
+                  {destination && (
+                    <button type="button" onClick={() => toggleDestination(destination)} aria-label={`Remove destination filter: ${destination}`}>
+                      <Icon name="pin" />{destination}<Icon name="close" className="hlt-blog-chip-x" />
+                    </button>
+                  )}
+                  {topic && (
+                    <button type="button" onClick={() => toggleTopic(topic)} aria-label={`Remove topic filter: ${topic}`}>
+                      <Icon name="book" />{topic}<Icon name="close" className="hlt-blog-chip-x" />
+                    </button>
+                  )}
+                  {query.trim() && (
+                    <button type="button" onClick={() => { setQuery(""); setLimit(6); }} aria-label={`Clear search: ${query.trim()}`}>
+                      <Icon name="search" />&ldquo;{query.trim()}&rdquo;<Icon name="close" className="hlt-blog-chip-x" />
+                    </button>
+                  )}
+                </div>
+                <button type="button" className="hlt-blog-clear-all" onClick={() => resetFilters()}>
+                  <Icon name="reset" />Clear all filters
+                </button>
+              </div>
+            )}
           </div>
 
 

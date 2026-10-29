@@ -84,11 +84,11 @@ test("GAS denies direct writes and deduplicates identical bookings without accep
 
 test("GAS accepts public feedback with a manually entered ID and deduplicates retries without a booking lookup",async () => {
   const f = await fixture();
-  const data = {form:"feedback",bookingId:"test",rating:"5",feedback:"Offline test",proxySecret:secret,requestId:randomUUID()};
+  const data = {form:"feedback",bookingId:"HLT-100826-RKS001-001",rating:"5",feedback:"Offline test",proxySecret:secret,requestId:randomUUID()};
   assert.equal(f.post(data).ok,true);
   assert.equal(f.post(data).ok,true);
   assert.equal(f.sheets.get("Feedback").rows.length,2);
-  assert.deepEqual(f.sheets.get("Feedback").rows[1],["test",5,"Offline test",""]);
+  assert.deepEqual(f.sheets.get("Feedback").rows[1],["HLT-100826-RKS001-001",5,"Offline test",""]);
   assert.equal(f.sheets.has("Bookings"),false,"feedback must not look up/create the bookings sheet");
   assert.equal(f.post({...data,feedback:"Changed content"}).ok,false,"changed payload cannot reuse a request ID");
   assert.equal(f.post({...data,requestId:randomUUID()}).ok,true,"new feedback is not limited to one lifetime submission per ID");
@@ -98,26 +98,26 @@ test("GAS accepts public feedback with a manually entered ID and deduplicates re
 
 test("public feedback still requires the proxy secret and validates input and spreadsheet formulas",async () => {
   const f = await fixture();
-  const fields = {form:"feedback",bookingId:"test",rating:"5",feedback:"Offline test",requestId:randomUUID()};
+  const fields = {form:"feedback",bookingId:"HLT-100826-RKS001-001",rating:"5",feedback:"Offline test",requestId:randomUUID()};
   assert.equal(f.post(fields).ok,false);
-  for (const changes of [{proxySecret:"wrong"},{bookingId:" "},{feedback:" "},{rating:""},{rating:"0"},{rating:"6"},{rating:"1.5"},{feedback:"x".repeat(4001)},{bookingId:"x".repeat(101)}]) {
+  for (const changes of [{proxySecret:"wrong"},{bookingId:" "},{feedback:" "},{rating:""},{rating:"0"},{rating:"6"},{rating:"1.5"},{feedback:"x".repeat(4001)},{bookingId:"x".repeat(101)},{bookingId:"test"},{bookingId:"HLT-100826-RKS001-01"},{bookingId:"HLT-321326-RKS001-001"},{bookingId:"=HLT-100826-RKS001-001"}]) {
     assert.equal(f.post({...fields,proxySecret:secret,...changes}).ok,false);
   }
   assert.equal(f.sheets.has("Feedback"),false);
-  assert.equal(f.post({...fields,proxySecret:secret,bookingId:"=123",feedback:"=SUM(1,2)"}).ok,true);
-  assert.deepEqual(f.sheets.get("Feedback").rows[1],["'=123",5,"'=SUM(1,2)",""]);
+  assert.equal(f.post({...fields,proxySecret:secret,feedback:"=SUM(1,2)"}).ok,true);
+  assert.deepEqual(f.sheets.get("Feedback").rows[1],["HLT-100826-RKS001-001",5,"'=SUM(1,2)",""]);
 });
 
 test("public feedback rate limits entered IDs, preserves the global cap and prevents uncertain retries",async () => {
   const f = await fixture();
-  const fields = {form:"feedback",bookingId:"Manual-ID",rating:"5",feedback:"Offline test",proxySecret:secret};
+  const fields = {form:"feedback",bookingId:"HLT-100826-RKS001-001",rating:"5",feedback:"Offline test",proxySecret:secret};
   for(let i=0;i<5;i++) assert.equal(f.post({...fields,requestId:randomUUID()}).ok,true);
-  assert.equal(f.post({...fields,bookingId:" manual-id ",requestId:randomUUID()}).ok,false);
-  assert.equal(f.post({...fields,bookingId:"another-id",requestId:randomUUID()}).ok,true);
+  assert.equal(f.post({...fields,bookingId:" hlt-100826-rks001-001 ",requestId:randomUUID()}).ok,false);
+  assert.equal(f.post({...fields,bookingId:"HLT-100826-RKS001-002",requestId:randomUUID()}).ok,true);
   assert.equal(f.sheets.get("Feedback").rows.length,7);
   const global = await fixture(); global.props.set("FORM_HOURLY_LIMIT","2");
-  for(const bookingId of ["a","b"]) assert.equal(global.post({...fields,bookingId,requestId:randomUUID()}).ok,true);
-  assert.equal(global.post({...fields,bookingId:"c",requestId:randomUUID()}).ok,false);
+  for(const bookingId of ["HLT-100826-RKS001-011","HLT-100826-RKS001-012"]) assert.equal(global.post({...fields,bookingId,requestId:randomUUID()}).ok,true);
+  assert.equal(global.post({...fields,bookingId:"HLT-100826-RKS001-013",requestId:randomUUID()}).ok,false);
   const pending = await fixture();
   const data = {...fields,requestId:randomUUID()};
   pending.context.finishRequest_=()=>{throw new Error("Simulated partial failure");};
@@ -135,7 +135,7 @@ test("public feedback goes through CAPTCHA verification and the protected GAS wr
     assert.equal(options.body.has("feedbackToken"),false);
     return Response.json(f.post(Object.fromEntries(options.body)));
   }});
-  const request = (changes={}) => new Request("https://edge.invalid",{method:"POST",headers:{Origin:"http://localhost:5173","Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({form:"feedback",bookingId:"test",rating:"5",feedback:"Offline test",requestId:randomUUID(),turnstileToken:"offline-token",...changes})});
+  const request = (changes={}) => new Request("https://edge.invalid",{method:"POST",headers:{Origin:"http://localhost:5173","Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({form:"feedback",bookingId:"HLT-100826-RKS001-001",rating:"5",feedback:"Offline test",requestId:randomUUID(),turnstileToken:"offline-token",...changes})});
   assert.equal((await handler(request())).status,200);
   assert.equal(forwarded,1);
   assert.equal(f.sheets.get("Feedback").rows.length,2);

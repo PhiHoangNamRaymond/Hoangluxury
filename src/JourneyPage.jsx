@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { FleetSpecIcon } from "./components/home/Fleet.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
@@ -354,6 +354,30 @@ export default function JourneyPage({ slug }) {
   /* Tuyến nối tỉnh không qua sân bay nên thẻ "Personal Meet & Greet" đổi thành
      "Door-to-Door", dùng ảnh đón tại khách sạn thay cho ảnh cầm biển ở sảnh đến. */
   const heroImage = journeyBannerBySlug[slug] || heroBannerUrl;
+
+  /* Đoạn chữ trắng dưới tên tuyến rộng bằng dòng tiêu đề dài nhất (khách yêu cầu
+     29/10/2026). Cỡ chữ tên tuyến co theo độ dài nên chỉ đo được sau khi vẽ: ghi
+     bề rộng vào --hero-title-w để CSS dùng; đo lại khi đổi cỡ màn hoặc font tải xong. */
+  const heroContentRef = useRef(null);
+  useLayoutEffect(() => {
+    const content = heroContentRef.current;
+    if (!content) return undefined;
+    const measure = () => {
+      const left = content.getBoundingClientRect().left;
+      const range = document.createRange();
+      let right = 0;
+      content.querySelectorAll(".hlt-journey-title > span").forEach((line) => {
+        range.selectNodeContents(line);
+        for (const rect of range.getClientRects()) right = Math.max(right, rect.right);
+      });
+      if (right > left) content.style.setProperty("--hero-title-w", `${Math.ceil(right - left)}px`);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(content);
+    document.fonts?.ready.then(measure);
+    return () => observer.disconnect();
+  }, [slug]);
   const experienceImages = journey.cityPickup ? journeyExperienceCityImages : journeyExperienceImages;
   const experienceImageAlts = journey.cityPickup ? journeyExperienceCityImageAlts : journeyExperienceImageAlts;
   const experienceCards = journey.cityPickup ? journeyExperienceCity : journeyExperience;
@@ -412,7 +436,7 @@ export default function JourneyPage({ slug }) {
           )}
           <div className="hlt-journey-hero-main">
           <div className="hlt-container">
-            <div className="hlt-journey-hero-content">
+            <div className="hlt-journey-hero-content" ref={heroContentRef}>
               {/* H1 theo khách (28/10/2026): "Private Transfer Hanoi to Sapa" — dòng nhỏ
                   nằm trong h1; dấu cách giữa các khối để Google đọc liền từ. */}
               <h1>
@@ -617,7 +641,13 @@ export default function JourneyPage({ slug }) {
                       </div>
                     )}
                     <p>
-                      {option.lines.map((line) => <span key={line}>{line}</span>)}
+                      {/* Dòng tuyến (có →): --len để bản mobile co chữ cho vừa một dòng; tên
+                          quá dài (Mu Cang Chai) không vừa nổi thì giữ cỡ thường, xuống 2 dòng. */}
+                      {option.lines.map((line) => (
+                        line.includes("→")
+                          ? <span key={line} className={line.length > 35 ? "is-route is-long" : "is-route"} style={{ "--len": line.length }}>{line}</span>
+                          : <span key={line}>{line}</span>
+                      ))}
                     </p>
                   </article>
                 ))}
