@@ -14,7 +14,8 @@ import {
   photoPagePath,
 } from "./config/photo-albums.js";
 import { captureBookingSource } from "./config/booking-source.js";
-import { blogArticleUrl, blogPagePath } from "./lib/blog-article.js";
+import { blogDestinationSlug, blogPagePath } from "./lib/blog-article.js";
+import { blogDestinations } from "./config/blog-taxonomy.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import "./styles/index.css";
 
@@ -57,14 +58,15 @@ const pages = {
   "/routes": JourneysPage,
 };
 
-// Bài blog: /hoangphoto/blog/<slug>/ (nhận cả đường dẫn cũ /blog/<slug>/). Blog
-// resolve trực tiếp từ DB; bài không tồn tại có màn hình riêng, không về home.
-const requestedPostSlug = normalizedPath.match(/^\/(?:hoangphoto\/)?blog\/([^/]+)$/)?.[1];
-const postSlug = requestedPostSlug || null;
-
-if (postSlug && `${normalizedPath}/` !== blogArticleUrl(postSlug)) {
-  window.history.replaceState(null, "", `${blogArticleUrl(postSlug)}${window.location.search}${window.location.hash}`);
-}
+// Bài blog: /blog/<địa điểm>/<slug>/. Đường dẫn cũ một cấp (/blog/<slug>/,
+// /hoangphoto/blog/<slug>/) vẫn mở đúng bài; BlogArticlePage đổi sang URL chuẩn khi
+// đọc được địa điểm của bài. /blog/<địa điểm>/ không phải bài: về trang Blog.
+// Blog resolve trực tiếp từ DB; bài không tồn tại có màn hình riêng, không về home.
+const blogSectionSlugs = new Set(blogDestinations.map(blogDestinationSlug));
+const blogPathMatch = normalizedPath.match(/^\/(?:hoangphoto\/)?blog\/([^/]+)(?:\/([^/]+))?$/);
+const isBlogSectionPath = Boolean(blogPathMatch && !blogPathMatch[2] && blogSectionSlugs.has(blogPathMatch[1]));
+const postSlug = blogPathMatch && !isBlogSectionPath ? blogPathMatch[2] || blogPathMatch[1] : null;
+const isCanonicalPostPath = Boolean(postSlug && blogPathMatch[2] && normalizedPath.startsWith("/blog/"));
 
 // Một album: /hoangphoto/<phong cách>/<album>/ (đường dẫn chuẩn theo photoAlbumUrl);
 // nhận cả đường dẫn cũ /photo/albums/<album>/ và album đặt dưới phong cách khác.
@@ -96,21 +98,23 @@ const canonicalPathByAlias = {
   "/ha-long-cruises": cruisesPagePath,
   "/photo": photoPagePath,
   "/photo/albums": photoAlbumsPath,
-  "/blog": blogPagePath,
+  "/hoangphoto/blog": blogPagePath,
   "/about": "/about-us/",
 };
+
+if (isBlogSectionPath) canonicalPathByAlias[normalizedPath] = blogPagePath;
 
 if (canonicalPathByAlias[normalizedPath]) {
   window.history.replaceState(null, "", `${canonicalPathByAlias[normalizedPath]}${window.location.search}${window.location.hash}`);
 }
 
 const routeSeo = {
-  "/hoangphoto/blog": {
+  "/blog": {
     title: "Travel Blog | Hoang Luxury Travel",
     description: "Travel stories, practical guides and local insights for your private journey through Sapa, Ha Giang, Ha Long and Northern Vietnam.",
   },
   "/": {
-    title: "Private Car Transfer | Hoang Luxury Travel",
+    title: "Private Car Transfer From Hanoi/Noi Bai Airport | Hoang Luxury Travel",
     description:
       "Hoang Luxury Travel provides private transfer and car-with-driver services across Northern Vietnam. We specialize in long-distance journeys from Hanoi and Noi Bai International Airport to Sa Pa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations.",
   },
@@ -132,7 +136,7 @@ const routeSeo = {
   "/routes/halong-bay-cruises": {
     title: "Halong Bay Cruise | Hoang Luxury Travel",
     description:
-      "Discover Ha Long Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
+      "Discover Halong Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
   },
   "/feedback": {
     title: "Guest Feedback | Hoang Luxury Travel",
@@ -140,9 +144,9 @@ const routeSeo = {
       "Read feedback from international travelers and share your experience with Hoang Luxury Travel.",
   },
   "/routes": {
-    title: "Private Transfer Routes | Hoang Luxury Travel",
+    title: "Private Transfer Routes From Hanoi/Noi Bai Airport | Hoang Luxury Travel",
     description:
-      "Explore private transfer routes from Hanoi and Noi Bai Airport to destinations across Northern Vietnam.",
+      "Hoang Luxury Travel provides private transfer and car-with-driver services across Northern Vietnam. We specialize in long-distance journeys from Hanoi and Noi Bai International Airport to Sa Pa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations.",
   },
   "/hoangphoto": {
     title: "Private Photo Shoots | Hoang Luxury Travel",
@@ -150,16 +154,17 @@ const routeSeo = {
       "Book a private photo shoot in Northern Vietnam with Hoang Luxury Travel. Explore a variety of creative concepts with convenient door-to-door private car service.",
   },
   "/hoangphoto/albums": {
-    title: "Photo Albums | Hoang Luxury Travel",
+    title: "Hoang Photo Gallery In VietNam | Hoang Luxury Travel",
     description:
-      "Real photographs from private journeys across Northern Vietnam with Hoang Luxury Travel.",
+      "Explore travel photo albums across Northern Vietnam with Hoang Luxury Travel, featuring stunning landscapes, couples, local culture and diverse creative concepts.",
   },
 };
 
 const canonicalPath = journey
   ? journeyPagePath(journey)
   : postSlug
-    ? blogArticleUrl(postSlug)
+    // Đường dẫn cũ: tạm trỏ canonical về trang Blog, bài tự sửa khi tải xong.
+    ? isCanonicalPostPath ? `${normalizedPath}/` : blogPagePath
     : albumSlug
       ? photoAlbumUrl(albumSlug)
       : photoCategory
@@ -173,7 +178,7 @@ const seo = journey
       description: journeys[journey].metaDescription || journeys[journey].intro,
     }
   : postSlug
-    ? routeSeo["/hoangphoto/blog"]
+    ? routeSeo["/blog"]
     : album
       ? {
           title: `${album.title} | Hoang Luxury Travel`,
@@ -202,7 +207,9 @@ const RootPage = isAdminRoute
         ? () => <PhotoAlbumPage slug={albumSlug} />
         : photoCategory
           ? PhotoAlbumsPage
-          : pages[normalizedPath] || App;
+          : isBlogSectionPath
+            ? BlogPage
+            : pages[normalizedPath] || App;
 
 // Home hiển thị ngay, không chạy hiệu ứng trượt nội dung khi vào trang.
 // Các trang có transition riêng giữ nguyên; toggle cũng xóa class cũ khi HMR.

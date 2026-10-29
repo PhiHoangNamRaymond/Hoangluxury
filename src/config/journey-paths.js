@@ -39,7 +39,7 @@ const routePathByKey = {
   "sapa-to-ninh-binh": "/routes/sapa-to-ninh-binh-private-car/",
   "sapa-to-ha-giang": "/routes/sapa-to-ha-giang-private-car/",
   "sapa-to-mu-cang-chai": "/routes/sapa-to-mu-cang-chai-private-car/",
-  "ha-long-to-sapa": "/routes/halong-to-sapa-private-car/",
+  "ha-long-to-sapa": "/routes/halong-bay-to-sapa-private-car/",
   "ninh-binh-to-sapa": "/routes/ninh-binh-to-sapa-private-car/",
 };
 

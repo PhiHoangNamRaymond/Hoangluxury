@@ -27,7 +27,7 @@ const origin = "https://hoangluxury.travel";
 const routes = [
   { path: "/admin/", title: "Quản trị blog | Hoang Luxury Travel", description: "Private blog administration.", private: true },
   {
-    path: "/hoangphoto/blog/",
+    path: "/blog/",
     title: "Travel Blog | Hoang Luxury Travel",
     description: "Travel stories, practical guides and local insights for your private journey through Sapa, Ha Giang, Ha Long and Northern Vietnam.",
   },
@@ -45,9 +45,9 @@ const routes = [
   },
   {
     path: "/hoangphoto/albums/",
-    title: "Photo Albums | Hoang Luxury Travel",
+    title: "Hoang Photo Gallery In VietNam | Hoang Luxury Travel",
     description:
-      "Real photographs from private journeys across Northern Vietnam with Hoang Luxury Travel.",
+      "Explore travel photo albums across Northern Vietnam with Hoang Luxury Travel, featuring stunning landscapes, couples, local culture and diverse creative concepts.",
   },
   {
     path: "/booking/",
@@ -64,7 +64,7 @@ const routes = [
     path: "/routes/halong-bay-cruises/",
     title: "Halong Bay Cruise | Hoang Luxury Travel",
     description:
-      "Discover Ha Long Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
+      "Discover Halong Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
   },
   {
     path: "/feedback/",
@@ -74,9 +74,9 @@ const routes = [
   },
   {
     path: "/routes/",
-    title: "Private Transfer Routes | Hoang Luxury Travel",
+    title: "Private Transfer Routes From Hanoi/Noi Bai Airport | Hoang Luxury Travel",
     description:
-      "Explore private transfer routes from Hanoi and Noi Bai Airport to destinations across Northern Vietnam.",
+      "Hoang Luxury Travel provides private transfer and car-with-driver services across Northern Vietnam. We specialize in long-distance journeys from Hanoi and Noi Bai International Airport to Sa Pa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations.",
   },
 ];
 
@@ -122,7 +122,7 @@ if (env.VITE_SUPABASE_URL && env.VITE_SUPABASE_ANON_KEY) {
 }
 for (const article of blogArticles) {
   routes.push({
-    path: blogArticleUrl(article.slug),
+    path: blogArticleUrl(article),
     title: `${article.title} | Hoang Luxury Travel`,
     description: article.metaDescription || article.excerpt,
   });
@@ -135,6 +135,27 @@ for (const route of routes) {
 }
 
 console.log(`Generated ${routes.length} route-specific HTML files.`);
+
+// URL bài cũ (/hoangphoto/blog/<bài>/, /blog/<bài>/ — trước 29/10/2026) chuyển ngay
+// sang /blog/<địa điểm>/<bài>/. Host tĩnh không biết địa điểm của từng bài nên dùng
+// trang chuyển hướng tức thì (meta refresh + canonical, Google xử lý như 301).
+const escapeAttr = (value) => value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+for (const article of blogArticles) {
+  const target = `${origin}${blogArticleUrl(article)}`;
+  const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>${escapeAttr(article.title)} | Hoang Luxury Travel</title>
+<link rel="canonical" href="${escapeAttr(target)}">
+<meta name="robots" content="noindex, follow">
+<meta http-equiv="refresh" content="0; url=${escapeAttr(blogArticleUrl(article))}">
+</head><body><a href="${escapeAttr(blogArticleUrl(article))}">${escapeAttr(article.title)}</a></body></html>
+`;
+  for (const legacyPath of [`/hoangphoto/blog/${article.slug}/`, `/blog/${article.slug}/`]) {
+    const outputPath = resolve(distDir, legacyPath.slice(1), "index.html");
+    await mkdir(dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, html, "utf8");
+  }
+}
 
 // Sitemap sinh cùng lúc với các trang tĩnh để không bao giờ lệch với routes ở trên.
 // Ghi đè bản trong dist/ do Vite chép từ public/.

@@ -45,6 +45,14 @@ export default function BlogArticlePage({ slug }) {
     let robots;
     let jsonLd;
     if (article) {
+      // URL chuẩn /blog/<địa điểm>/<bài>/: mở bằng đường dẫn cũ hoặc sai địa điểm
+      // thì đổi thanh địa chỉ và canonical sang đúng URL của bài.
+      const articlePath = blogArticleUrl(article);
+      if (window.location.pathname !== articlePath) {
+        window.history.replaceState(null, "", `${articlePath}${window.location.search}${window.location.hash}`);
+      }
+      setMeta('link[rel="canonical"]', "href", `https://hoangluxury.travel${articlePath}`);
+      setMeta('meta[property="og:url"]', "content", `https://hoangluxury.travel${articlePath}`);
       setMeta('meta[name="description"]', "content", article.metaDescription);
       setMeta('meta[property="og:title"]', "content", document.title);
       setMeta('meta[property="og:description"]', "content", article.metaDescription);
@@ -53,7 +61,7 @@ export default function BlogArticlePage({ slug }) {
       jsonLd.type = "application/ld+json";
       jsonLd.textContent = JSON.stringify({ "@context": "https://schema.org", "@type": "BlogPosting", headline: article.title,
         description: article.excerpt, datePublished: article.date, image: article.imageUrl || undefined,
-        author: { "@type": "Person", name: article.author }, url: `https://hoangluxury.travel${blogArticleUrl(slug)}` });
+        author: { "@type": "Person", name: article.author }, url: `https://hoangluxury.travel${articlePath}` });
       document.head.append(jsonLd);
     } else {
       robots = document.createElement("meta");
@@ -175,14 +183,14 @@ export default function BlogArticlePage({ slug }) {
               <div className="hlt-blog-section-heading">
                 <h2 id="article-related-title">Keep Reading</h2>
                 <span />
-                <a href={blogArticleUrl(next.slug)}>
+                <a href={blogArticleUrl(next)}>
                   Next article
                   <ArrowIcon />
                 </a>
               </div>
               <div className="hlt-article-related-grid">
                 {related.map((item) => (
-                  <a className="hlt-article-related-card" href={blogArticleUrl(item.slug)} key={item.slug}>
+                  <a className="hlt-article-related-card" href={blogArticleUrl(item)} key={item.slug}>
                     {item.imageUrl ? <img src={item.imageUrl} alt="" loading="lazy" /> : <span className="hlt-article-related-blank" />}
                     <span>
                       <strong>{item.title}</strong>

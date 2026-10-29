@@ -44,8 +44,9 @@ RewriteRule ^journey/sapa-to-ha-giang/?$ /routes/sapa-to-ha-giang-private-car/ [
 RewriteRule ^journey/sapa-to-ha-giang-private-transfer/?$ /routes/sapa-to-ha-giang-private-car/ [R=301,L]
 RewriteRule ^journey/sapa-to-mu-cang-chai/?$ /routes/sapa-to-mu-cang-chai-private-car/ [R=301,L]
 RewriteRule ^journey/sapa-to-mu-cang-chai-private-transfer/?$ /routes/sapa-to-mu-cang-chai-private-car/ [R=301,L]
-RewriteRule ^journey/ha-long-to-sapa/?$ /routes/halong-to-sapa-private-car/ [R=301,L]
-RewriteRule ^journey/ha-long-to-sapa-private-transfer/?$ /routes/halong-to-sapa-private-car/ [R=301,L]
+RewriteRule ^journey/ha-long-to-sapa/?$ /routes/halong-bay-to-sapa-private-car/ [R=301,L]
+RewriteRule ^journey/ha-long-to-sapa-private-transfer/?$ /routes/halong-bay-to-sapa-private-car/ [R=301,L]
+RewriteRule ^routes/halong-to-sapa-private-car/?$ /routes/halong-bay-to-sapa-private-car/ [R=301,L]
 RewriteRule ^journey/ninh-binh-to-sapa/?$ /routes/ninh-binh-to-sapa-private-car/ [R=301,L]
 RewriteRule ^journey/ninh-binh-to-sapa-private-transfer/?$ /routes/ninh-binh-to-sapa-private-car/ [R=301,L]
 RewriteRule ^cruises/?$ /routes/halong-bay-cruises/ [R=301,L]
@@ -83,9 +84,10 @@ RewriteRule ^photo/albums/a-rosy-dream/?$ /hoangphoto/natural-landscapes/a-rosy-
 RewriteRule ^photo/albums/youthful-days/?$ /hoangphoto/natural-landscapes/youthful-days/ [R=301,L]
 RewriteRule ^photo/albums/northern-vietnam-on-film/?$ /hoangphoto/cinematic-travel/northern-vietnam-on-film/ [R=301,L]
 
-# Blog chuyển vào /hoangphoto/blog/, About sang /about-us/ (28/10/2026).
-RewriteRule ^blog/?$ /hoangphoto/blog/ [R=301,L]
-RewriteRule ^blog/([^/]+)/?$ /hoangphoto/blog/$1/ [R=301,L]
+# Blog về /blog/, bài nằm dưới địa điểm: /blog/<địa điểm>/<bài>/ (29/10/2026).
+# URL bài cũ khác có trang chuyển hướng tĩnh sinh lúc build. About sang /about-us/.
+RewriteRule ^hoangphoto/blog/?$ /blog/ [R=301,L]
+RewriteRule ^(hoangphoto/)?blog/sapa-travel-guide-everything-you-need-to-know/?$ /blog/sapa/sapa-travel-guide-everything-you-need-to-know/ [R=301,L]
 RewriteRule ^about/?$ /about-us/ [R=301,L]
 
 # React/Vite SPA fallback.

@@ -329,7 +329,7 @@ export default function JourneyPage({ slug }) {
   // cho từng tuyến để kết quả tìm kiếm không hiện trùng tiêu đề.
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = journey.seoTitle || `Hanoi to ${journey.name} Private Car Transfer | Hoang Luxury Travel`;
+    document.title = journey.seoTitle || `Hanoi To ${journey.name} Private Car Transfer | Hoang Luxury Travel`;
 
     const description = document.querySelector('meta[name="description"]');
     const previousDescription = description?.getAttribute("content");

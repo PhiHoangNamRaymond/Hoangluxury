@@ -100,7 +100,7 @@ test("incoming Home Fleet/Services/Routes starts at top and uses the same animat
 });
 
 test("all secondary pages link both desktop and mobile Fleet/Services/Routes to Home", async () => {
-  for (const path of ["/about-us/", "/booking/", "/catalog/", "/hoangphoto/", "/hoangphoto/blog/", "/journeys/", "/routes/hanoi-to-sapa-private-transfer/"]) {
+  for (const path of ["/about-us/", "/booking/", "/catalog/", "/hoangphoto/", "/blog/", "/journeys/", "/routes/hanoi-to-sapa-private-transfer/"]) {
     reset(path);
     const root = createRoot(document.getElementById("root"));
     try {
