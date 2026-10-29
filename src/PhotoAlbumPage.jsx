@@ -54,7 +54,7 @@ function AlbumVideo({ id, title, vertical }) {
         <button type="button" className="hlt-album-video-play" onClick={() => setPlaying(true)} aria-label={`Play ${title}`}>
           <img
             src={thumb}
-            alt=""
+            alt=" "
             loading="lazy"
             onLoad={(event) => {
               if (event.currentTarget.naturalWidth <= 120) useFallback();
@@ -132,7 +132,7 @@ export default function PhotoAlbumPage({ slug }) {
                   <ContentImage
                     src={photo}
                     {...albumPhotoDimensions[photo]}
-                    alt=""
+                    alt=" "
                     loading={position < 2 ? "eager" : "lazy"}
                     decoding="async"
                   />

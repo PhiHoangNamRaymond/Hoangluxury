@@ -41,7 +41,7 @@ export const popularRouteArtworkAlts = [
   "Hanoi or Noi Bai Airport to Cat Ba private transfer",
   "Private car from Hanoi or Noi Bai Airport to Cao Bang",
   "Private transfer from Hanoi or Noi Bai Airport to Moc Chau",
-  "Private car trip from Hanoi or Noi Bai Airport to Mu Cang Chai",
+  "Private car transfer from Hanoi or Noi Bai Airport to Mu Cang Chai",
   "Hanoi or Noi Bai Airport to Ta Xua private transfer",
 ];
 
@@ -208,7 +208,7 @@ export const fleet = [
   {
     image: "vf9",
     name: "VF9 Luxury",
-    alt: "White VF9 electric SUV in the Hoang Luxury Travel private car fleet",
+    alt: "White VF9 electric in the Hoang Luxury Travel private car fleet",
     specs: ["6 Seats", "Electric", "Luxury SUV"],
   },
 ];

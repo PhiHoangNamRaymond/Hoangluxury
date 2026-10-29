@@ -3,7 +3,13 @@ import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { whatsappUrl } from "./data.js";
-import { catalogBackgroundUrl } from "./config/assets.js";
+import {
+  bookingOnTimeIconUrl,
+  bookingPaymentIconUrl,
+  bookingPrivateCarIconUrl,
+  bookingSafeIconUrl,
+  catalogBackgroundUrl,
+} from "./config/assets.js";
 import { countries } from "./config/countries.js";
 import { dialCodes } from "./config/dial-codes.js";
 import { getBookingSource } from "./config/booking-source.js";
@@ -42,15 +48,6 @@ const bookingSteps = [
 ];
 
 function FormIcon({ type, className = "hlt-book-field-icon" }) {
-  // Ô "Private Cars" dùng icon xe nét đặc (khách gửi), không phải nét viền.
-  if (type === "carSolid") {
-    return (
-      <svg className={`${className} hlt-book-icon-solid`} viewBox="86 263 1082 765" aria-hidden="true">
-        <path fillRule="evenodd" d="M356 263 H898 q42 0 57 39 L1013 452 h84 q71 0 71 60 q0 58 -71 58 q33 20 33 66 V930 h-30 v70 q0 28 -28 28 H976 q-28 0 -28 -28 V930 H306 v70 q0 28 -28 28 H182 q-28 0 -28 -28 V930 h-30 V636 q0 -46 33 -66 q-71 0 -71 -58 q0 -60 71 -60 h84 L299 302 q15 -39 57 -39 Z M372 336 q-30 0 -40 28 l-62 172 q-8 22 16 22 H968 q24 0 16 -22 l-62 -172 q-10 -28 -40 -28 Z M178 654 q-4 -14 10 -12 l186 30 q14 2 14 16 v52 q0 16 -15 12 l-186 -42 q-12 -3 -12 -15 Z M1076 654 q4 -14 -10 -12 l-186 30 q-14 2 -14 16 v52 q0 16 15 12 l186 -42 q12 -3 12 -15 Z M444 694 H810 q22 0 14 20 l-28 62 q-6 14 -22 14 H480 q-16 0 -22 -14 l-28 -62 q-8 -20 14 -20 Z M205 862 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0 Z M973 862 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0 Z" />
-      </svg>
-    );
-  }
-
   const icons = {
     calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4M16 3v4M3 10h18" /></>,
     location: <><path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></>,
@@ -61,9 +58,7 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
     car: <><path d="m5 16-2-2v-3l2-5h14l2 5v3l-2 2" /><path d="M4 11h16M7 16v2M17 16v2" /><circle cx="7" cy="14" r="1" /><circle cx="17" cy="14" r="1" /></>,
     luggage: <><rect x="5" y="7" width="14" height="14" rx="2" /><path d="M9 7V4h6v3M9 11v6M15 11v6" /></>,
     note: <><path d="M4 20h4L20 8l-4-4L4 16v4Z" /><path d="m14 6 4 4" /></>,
-    shield: <><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z" /><path d="m9 12 2 2 4-5" /></>,
     clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v6l4 2" /></>,
-    payment: <><rect x="2.5" y="5.5" width="19" height="13" rx="2" /><path d="M2.5 9.5h19M6 15h4" /></>,
     globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c3 3.4 4.2 6.4 4.2 9S15 17.6 12 21c-3-3.4-4.2-6.4-4.2-9S9 6.4 12 3Z" /></>,
     headset: <><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><path d="M4 14h3v6H5a1 1 0 0 1-1-1v-5ZM20 14h-3v6h2a1 1 0 0 0 1-1v-5ZM17 20c0 1-1 2-3 2h-2" /></>,
   };
@@ -71,11 +66,13 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
   return <svg className={className} viewBox="0 0 24 24" aria-hidden="true">{icons[type]}</svg>;
 }
 
+// Icon 4 điểm mạnh là file ảnh có tên riêng, alt rỗng vì chỉ để trang trí (khách
+// yêu cầu 29/10/2026). Ô "Private Cars" là icon xe nét đặc khách gửi.
 const highlights = [
-  ["shield", "Safe & Professional", "Experienced drivers, your safety is our priority."],
-  ["carSolid", "Private Cars", "Modern, clean, and reserved just for you."],
-  ["clock", "On-Time Service", "Always on time, so you never have to wait."],
-  ["payment", "Flexible Payment", "Pay conveniently by cash or card at your destination."],
+  [bookingSafeIconUrl, "Safe & Professional", "Experienced drivers, your safety is our priority."],
+  [bookingPrivateCarIconUrl, "Private Cars", "Modern, clean, and reserved just for you."],
+  [bookingOnTimeIconUrl, "On-Time Service", "Always on time, so you never have to wait."],
+  [bookingPaymentIconUrl, "Flexible Payment", "Pay conveniently by cash or card at your destination."],
 ];
 
 /* Ảnh cờ 4:3 lấy theo mã ISO; alt là mã nước để vẫn đọc được nếu ảnh không tải */
@@ -380,7 +377,7 @@ export default function BookingPage() {
           <div className="hlt-book-highlights">
             {highlights.map(([icon, title, text]) => (
               <article key={title}>
-                <div><FormIcon type={icon} className="hlt-book-highlight-icon" /></div>
+                <div><img src={icon} alt="" className="hlt-book-highlight-icon" data-no-skeleton /></div>
                 <div className="hlt-book-highlight-copy"><h3>{title}</h3><span>{text}</span></div>
               </article>
             ))}

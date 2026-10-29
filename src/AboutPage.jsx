@@ -8,6 +8,7 @@ import {
   aboutImages,
   aboutStatIcons,
   aboutCtaBackgroundUrl,
+  aboutLicenceIconUrl,
   logoGoldUrl,
 } from "./config/assets.js";
 import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";
@@ -152,9 +153,10 @@ export default function AboutPage() {
         {/* Hero */}
         <section
           className="hlt-about-hero"
-          style={{ "--about-hero": `url(${aboutImages.heroBanner})` }}
           aria-labelledby="about-title"
         >
+          {/* Ảnh banner là thẻ img có tên file, alt rỗng (khách yêu cầu 29/10/2026). */}
+          <img className="hlt-about-hero-img" src={aboutImages.heroBanner} alt="" fetchPriority="high" data-no-skeleton />
           <div className="hlt-container hlt-about-hero-inner">
             <div className="hlt-about-hero-copy">
               {/* H1 theo khách (28/10/2026): "Hoang Luxury Travel’s Story - More Than A
@@ -260,9 +262,9 @@ export default function AboutPage() {
         <section
           id="about-commitments"
           className="hlt-about-commitments"
-          style={{ "--about-commitments-bg": `url(${aboutImages.commitments})` }}
           aria-labelledby="about-commitments-title"
         >
+          <img className="hlt-about-commitments-img" src={aboutImages.commitments} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-container">
             <h2 id="about-commitments-title" className="hlt-about-lined-title is-light">
               Our Commitments To You
@@ -294,10 +296,7 @@ export default function AboutPage() {
             </div>
             <div className="hlt-about-licence-body">
               <div className="hlt-about-licence-head">
-                <svg className="hlt-about-doc" viewBox="0 0 32 40" aria-hidden="true">
-                  <path d="M4 2h17l9 9v27H4Z" />
-                  <path d="M21 2v9h9M10 19h14M10 25h14M10 31h9" />
-                </svg>
+                <img className="hlt-about-doc" src={aboutLicenceIconUrl} alt="" data-no-skeleton />
                 <div>
                   <h2 id="about-licence-title">Licensed Transport Operator In Vietnam</h2>
                   <p>
@@ -447,7 +446,8 @@ export default function AboutPage() {
       </main>
 
       {/* Match the Blog CTA design while preserving the About actions and copy. */}
-      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="about-cta-title" style={{ backgroundImage: `url(${aboutCtaBackgroundUrl})` }}>
+      <section className="hlt-cruise-cta-section hlt-blog-story-cta" aria-labelledby="about-cta-title" >
+        <img className="hlt-story-cta-img" src={aboutCtaBackgroundUrl} alt="" loading="lazy" decoding="async" data-no-skeleton />
         <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
         <div className="hlt-container hlt-cruise-cta-content">
           <div className="hlt-cruise-cta-text">

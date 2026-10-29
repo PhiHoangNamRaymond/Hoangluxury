@@ -1,44 +1,30 @@
 import React from "react";
 import useNearViewport from "../../hooks/useNearViewport.js";
 import {
+  bookingConfirmIconUrl,
+  bookingContactIconUrl,
   bookingJourneyCarIconUrl,
+  bookingPlanIconUrl,
   bookingProcessBackgroundUrl,
   botanicalCornerGoldUrl,
   logoUrl,
 } from "../../config/assets.js";
 import { bookingRows, catalogPageUrl, whatsappUrl } from "../../data.js";
 
+// Icon 4 bước là file ảnh có tên riêng, alt rỗng vì chỉ để trang trí (khách yêu
+// cầu 29/10/2026).
+const processIcons = {
+  whatsapp: bookingContactIconUrl,
+  calendar: bookingPlanIconUrl,
+  card: bookingConfirmIconUrl,
+};
+
 function BookingProcessIcon({ type }) {
   if (type === "car") {
     return <img src={bookingJourneyCarIconUrl} alt="" className="hlt-process-car-icon-img" />;
   }
 
-  const icons = {
-    whatsapp: (
-      <>
-        <path d="M19.1 4.9A9.8 9.8 0 0 0 12 2C6.6 2 2.1 6.5 2.1 11.9c0 1.8.5 3.5 1.3 5L2.1 22l5.2-1.4a9.8 9.8 0 0 0 4.7 1.2h.1c5.4 0 9.9-4.4 9.9-9.9 0-2.6-1-5.1-2.9-7Z" />
-        <path d="M8.7 7.9c.7 3.6 2.7 5.7 6.3 6.6l1.2-1.2 1.8.9c-.2 1.5-1.2 2.3-2.8 2.3-4.4-.5-7.2-3.2-7.7-7.5 0-1.5.8-2.4 2.2-2.6L10 8.1 8.7 7.9Z" />
-      </>
-    ),
-    calendar: (
-      <>
-        <rect x="4" y="6" width="16" height="14" rx="2" />
-        <path d="M8 3v5M16 3v5M4 10h16M8 14h2M13 14h2M8 17h2M13 17h2" />
-      </>
-    ),
-    card: (
-      <>
-        <rect x="3" y="5" width="18" height="14" rx="2" />
-        <path d="M3 9h18M7 15h4" />
-      </>
-    ),
-  };
-
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      {icons[type]}
-    </svg>
-  );
+  return <img src={processIcons[type]} alt="" className="hlt-process-icon-img" data-no-skeleton />;
 }
 
 function BookingRowIcon({ label }) {

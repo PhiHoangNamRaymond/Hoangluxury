@@ -215,7 +215,7 @@ export default function PhotoAlbumsPage() {
               {visible.map((item) => (
                 <article className="hlt-photo-card" key={item.title}>
                   <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn}>
-                    <img src={item.image} alt="" loading="lazy" />
+                    <img src={item.image} alt=" " loading="lazy" />
                     {item.videos && (
                       <span className="hlt-photo-card-badge">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.5v11l9-5.5-9-5.5Z" /></svg>

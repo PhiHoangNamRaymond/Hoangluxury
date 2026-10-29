@@ -35,8 +35,21 @@
    phần chữ đó không bị cắt mất khi khung hẹp lại. */
 .hlt-pl-hero {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
-  background: #10140f var(--pl-hero) right center / cover no-repeat;
+  background: #10140f;
+}
+
+/* Ảnh banner là thẻ img (có alt) nằm dưới lớp phủ ::before và nội dung. */
+.hlt-pl-hero-img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
 }
 
 .hlt-pl-hero::before {
@@ -747,10 +760,14 @@
   color: var(--pl-gold);
 }
 
-/* Icon PNG (xe, nhãn giá) lấy từ trang cung đường: dùng làm mặt nạ rồi tô
-   cùng màu vàng với hai icon nét vẽ, để cả 4 icon đồng một màu. */
-.hlt-pl-why-ic.is-mask {
+/* 4 icon là thẻ img (tên file + alt rỗng). Hai icon PNG (xe, nhãn giá) có màu
+   riêng nên ảnh dùng làm mặt nạ rồi tô vàng để cả 4 icon đồng một màu: padding
+   đẩy hình gốc ra khỏi khung, chỉ còn nền vàng cắt theo hình icon. */
+img.hlt-pl-why-ic {
   display: block;
+  box-sizing: border-box;
+  padding-left: 100%;
+  overflow: hidden;
   background-color: currentColor;
   -webkit-mask: var(--why-icon) center / contain no-repeat;
   mask: var(--why-icon) center / contain no-repeat;
@@ -766,11 +783,29 @@
 
 .hlt-pl-cta {
   position: relative;
+  isolation: isolate;
   padding: clamp(34px, 4vw, 54px) 0;
-  background:
-    linear-gradient(100deg, rgba(10, 22, 18, .93) 30%, rgba(10, 22, 18, .58) 62%, rgba(10, 22, 18, .82)),
-    var(--pl-cta-bg) center / cover no-repeat;
   color: #f4ece0;
+}
+
+/* Ảnh nền CTA là thẻ img; lớp phủ màu ở ::before nằm trên ảnh, dưới nội dung. */
+.hlt-pl-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg, rgba(10, 22, 18, .93) 30%, rgba(10, 22, 18, .58) 62%, rgba(10, 22, 18, .82));
+}
+
+.hlt-pl-cta-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hlt-pl-cta-inner {
@@ -905,8 +940,8 @@
 
   /* Khung hẹp chỉ thấy khoảng một phần ba bề ngang ảnh. Neo về 64% để giữ đôi
      nhân vật và cắt bỏ dòng chữ viết tay ở mép phải, nếu không nó đè lên nút. */
-  .hlt-pl-hero {
-    background-position: 64% center;
+  .hlt-pl-hero-img {
+    object-position: 64% center;
   }
 
   /* Ghi chú gói: khung rộng hết hàng, chữ căn trái cạnh icon. */
@@ -1037,8 +1072,8 @@
 
 @media (max-width: 640px) {
   /* Mobile: compact landscape banner; keep all copy and both actions visible. */
-  .hlt-pl-hero {
-    background-position: 64% center;
+  .hlt-pl-hero-img {
+    object-position: 64% center;
   }
 
   .hlt-pl-hero::before {
@@ -1192,9 +1227,14 @@
      vừa phải để vẫn thấy cảnh. */
   .hlt-pl-cta {
     padding: 44px 0 40px;
-    background:
-      linear-gradient(180deg, rgba(10, 22, 18, .5) 0%, rgba(10, 22, 18, .58) 55%, rgba(10, 22, 18, .78) 100%),
-      var(--pl-cta-bg) 70% center / cover no-repeat;
+  }
+
+  .hlt-pl-cta::before {
+    background: linear-gradient(180deg, rgba(10, 22, 18, .5) 0%, rgba(10, 22, 18, .58) 55%, rgba(10, 22, 18, .78) 100%);
+  }
+
+  .hlt-pl-cta-img {
+    object-position: 70% center;
   }
 
   .hlt-pl-cta-inner {
