@@ -4,6 +4,7 @@ import { blogImageAccept, blogImageExtension, blogImageError, blogImageHint } fr
 import { supabase, blogImageUrl } from "../lib/supabase.js";
 import { blogDestinations, blogTopics } from "../config/blog-taxonomy.js";
 import { slugify } from "../lib/slugify.js";
+import { blogArticleUrl } from "../lib/blog-article.js";
 import RichTextEditor from "./RichTextEditor.jsx";
 
 /* Giờ Việt Nam: input datetime-local không mang múi giờ nên phải tự quy đổi. */
@@ -330,7 +331,8 @@ export default function ArticleEditor({ article, profile, onDone, onCancel, onDi
               maxLength={120}
               onChange={(event) => { setSlugTouched(true); update({ slug: event.target.value }); }}
             />
-            <small>hoangluxury.travel/hoangphoto/blog/<b>{slugify(form.slug) || "duong-dan"}</b>/</small>
+            {/* Bài nằm dưới địa điểm đầu tiên đã chọn: /blog/<địa điểm>/<đường dẫn>/ */}
+            <small>hoangluxury.travel{blogArticleUrl({ destinations: form.destinations, slug: "" }).slice(0, -1)}<b>{slugify(form.slug) || "duong-dan"}</b>/</small>
           </label>
 
           <label className="hlt-admin-field">

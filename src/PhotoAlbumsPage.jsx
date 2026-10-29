@@ -66,7 +66,7 @@ export default function PhotoAlbumsPage() {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = activeCategory === ALL ? "Photo Albums | Hoang Luxury Travel" : photoCategoryPageTitle(activeCategory);
+    document.title = activeCategory === ALL ? "Hoang Photo Gallery In VietNam | Hoang Luxury Travel" : photoCategoryPageTitle(activeCategory);
     return () => {
       document.title = previousTitle;
     };

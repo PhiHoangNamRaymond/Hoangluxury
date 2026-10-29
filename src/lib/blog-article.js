@@ -8,7 +8,15 @@ export function sortArticles(articles) {
   });
 }
 
-/* Blog nằm trong khu Hoang Photo (khách duyệt 28/10/2026; trước đây là /blog/…,
-   đường dẫn cũ chuyển hướng 301 ở vercel.json / public/.htaccess). */
-export const blogPagePath = "/hoangphoto/blog/";
-export const blogArticleUrl = (slug) => `${blogPagePath}${slug}/`;
+/* Blog ở /blog/, mỗi bài nằm dưới địa điểm đầu tiên của bài:
+   /blog/sapa/sapa-travel-guide-everything-you-need-to-know/ (khách duyệt 29/10/2026;
+   trước đó /hoangphoto/blog/<bài>/ và /blog/<bài>/ — trang cũ chuyển sang URL mới). */
+export const blogPagePath = "/blog/";
+// Bài chưa gắn địa điểm nằm dưới mục chung này.
+const fallbackBlogSection = "northern-vietnam";
+
+export const blogDestinationSlug = (destination) =>
+  String(destination || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+export const blogArticleUrl = (article) =>
+  `${blogPagePath}${blogDestinationSlug(article.destinations?.[0]) || fallbackBlogSection}/${article.slug}/`;

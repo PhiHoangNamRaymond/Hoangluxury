@@ -51,7 +51,7 @@ test("Home renders the requested SEO heading hierarchy and matching metadata", a
     ]);
 
     const shell = new JSDOM(await readFile(new URL("../index.html", import.meta.url), "utf8"));
-    const title = "Private Car Transfer | Hoang Luxury Travel";
+    const title = "Private Car Transfer From Hanoi/Noi Bai Airport | Hoang Luxury Travel";
     const description = "Hoang Luxury Travel provides private transfer and car-with-driver services across Northern Vietnam. We specialize in long-distance journeys from Hanoi and Noi Bai International Airport to Sa Pa, Ha Long Bay, Ninh Binh, Ha Giang and other famous destinations.";
     assert.equal(shell.window.document.title, title);
     assert.equal(shell.window.document.querySelector('meta[name="description"]').content, description);
