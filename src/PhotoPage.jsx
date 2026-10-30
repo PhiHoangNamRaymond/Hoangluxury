@@ -117,7 +117,7 @@ const reasons = [
   [photoWhyIcons.pickup, "Private Transport, Hotel Pick-up", "Hoang Luxury Travel picks you up at your hotel and takes care of transport between photo locations."],
   [photoWhyIcons.pricing, "Transparent Pricing", "All inclusions and optional extras are clearly explained before you book."],
   // Mảng 2 phần: phần đầu chỉ hiện trên PC (mobile bỏ cho ngắn — khách yêu cầu 28/10/2026).
-  [photoWhyIcons.camera, "No Posing Experience Needed", ["You do not need to know how to pose. ", "The photographer guides you throughout the shoot so you can feel comfortable and be yourself."]],
+  [photoWhyIcons.camera, "No Posing Experience Needed", "The photographer guides you throughout the shoot so you can feel comfortable and be yourself."],
   [photoWhyIcons.weather, "Flexible When The Weather Changes", "If the weather changes, we can adjust the time or location whenever possible."],
 ];
 
@@ -361,7 +361,7 @@ export default function PhotoPage() {
               ))}
             </div>
             <a className="hlt-pl-view-all-photos" href={albumsUrl}>
-              View All Photos
+              View All Album
             </a>
           </div>
         </section>
@@ -470,16 +470,7 @@ export default function PhotoPage() {
                       />
                     </span>
                     <h3>{title}</h3>
-                    <p>
-                      {Array.isArray(text) ? (
-                        <>
-                          <span className="hlt-pl-desktop-only">{text[0]}</span>
-                          {text[1]}
-                        </>
-                      ) : (
-                        text
-                      )}
-                    </p>
+                    <p>{text}</p>
                   </article>
                 ))}
               </div>

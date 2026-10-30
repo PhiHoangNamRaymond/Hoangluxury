@@ -43,11 +43,17 @@ test("Home defers background/map media, preserves content, and preloads only the
     const booking = document.getElementById("contact");
     assert.equal(services.style.getPropertyValue("--services-bg"), "none");
     assert.equal(booking.style.getPropertyValue("--booking-process-bg"), "none");
-    assert.equal(routes.querySelector("image").getAttribute("href"), null);
+    const mapImage = routes.querySelector("picture img");
+    assert.equal(mapImage.getAttribute("src"), null);
+    assert.equal(routes.querySelector("picture source"), null, "PC and mobile share one map");
+    assert.equal(mapImage.getAttribute("loading"), "lazy");
+    assert.equal(routes.querySelector('#hlt-route-map-desktop-gold'), null, "map colours are baked into the image");
     assert.equal(routes.querySelectorAll("h3").length, 9);
     const mapCaption = routes.querySelector("figure figcaption");
-    assert.equal(mapCaption?.textContent, "Bản đồ minh hoạ");
+    assert.equal(mapCaption?.textContent.trim(), "This is an illustrative travel map. Locations and distances are not shown to scale.");
     assert.equal(mapCaption.closest('[aria-hidden="true"]'), null, "map caption stays accessible");
+    assert.equal(mapImage.closest('[aria-hidden="true"]'), null, "map image is exposed with its alt text");
+    assert.equal(mapImage.getAttribute("alt"), "Illustrated tourism map of Vietnam showing popular travel destinations, mountains, coastal scenery and cultural landmarks");
     for (const img of document.querySelectorAll(".hlt-service-image img, .hlt-fleet-img img")) {
       assert.equal(img.getAttribute("loading"), "lazy");
       assert.ok(img.getAttribute("src"), "SEO content photo keeps its source");
@@ -68,7 +74,7 @@ test("Home defers background/map media, preserves content, and preloads only the
     await intersect(booking, true);
     assert.match(services.style.getPropertyValue("--services-bg"), /url\(/);
     assert.match(booking.style.getPropertyValue("--booking-process-bg"), /url\(/);
-    assert.ok(routes.querySelector("image").getAttribute("href"));
+    assert.match(mapImage.getAttribute("src"), /vietnam-tourism-illustrated-map\.webp/);
 
     const { default: Hero } = await server.ssrLoadModule("/src/components/home/Hero.jsx");
     await act(() => root.render(React.createElement(Hero)));

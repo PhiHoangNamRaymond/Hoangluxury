@@ -2680,6 +2680,14 @@ section.hlt-booking-showcase-footer.hlt-journey-cta.hlt-journey-cta-route {
   text-align: justify;
 }
 
+/* Mobile căn trái: căn đều làm hở khoảng trắng giữa các từ (khách yêu cầu
+   30/10/2026); PC giữ căn đều. */
+@media (max-width: 600px) {
+  .hlt-journey-hero .hlt-journey-lead {
+    text-align: left;
+  }
+}
+
 /* Journey Experience dùng cùng nền với section "Private Car Transfer" trang Home
    (ảnh services-background + lớp phủ rất nhẹ, như services-refinements.css). */
 .hlt-journey-experience {

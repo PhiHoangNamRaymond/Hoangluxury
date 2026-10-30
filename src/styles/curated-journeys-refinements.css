@@ -606,7 +606,13 @@
   -webkit-mask-image: none;
   mask-image: none;
 }
-
+.hlt-route-map--full-vietnam .hlt-route-map-artwork > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+}
 @media (min-width: 961px) {
   .hlt-route-showcase {
     grid-template-columns: minmax(500px, 1.25fr) minmax(400px, .75fr);
@@ -618,5 +624,10 @@
     width: calc(100% + 28px);
     max-width: none;
     margin-inline: -14px;
+  }
+
+  /* Bản đồ tràn sát mép màn hình; dòng chú thích dưới bản đồ vẫn chừa lề. */
+  .hlt-route-map--full-vietnam .hlt-route-map-caption {
+    padding-inline: 16px;
   }
 }

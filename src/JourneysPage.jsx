@@ -287,8 +287,9 @@ export default function JourneysPage() {
                         </span>
                         <strong className="hlt-jcard-stat-val">
                           {/* Khoảng trắng sau "→" thành không ngắt: tuyến dài chỉ xuống dòng
-                              trước mũi tên ("Hanoi" / "→ Mu Cang Chai"). */}
-                          <span className="hlt-jcard-route-name">{item.routeLine.replace(/ (?=[^→]*$)/g, "\u00a0")}</span>
+                              trước mũi tên ("Hanoi" / "→ Mu Cang Chai"). --len để thẻ rộng
+                              co chữ cho vừa một dòng (journeys-page.css). */}
+                          <span className="hlt-jcard-route-name" style={{ "--len": item.routeLine.length }}>{item.routeLine.replace(/ (?=[^→]*$)/g, "\u00a0")}</span>
                           <span className="hlt-jcard-route-approx">{item.approxTime}</span>
                         </strong>
                       </div>

@@ -7,6 +7,7 @@ import {
   fleetImages,
   routeArtwork,
   routeViewAllButtonUrl,
+  vietnamRoutesMapAlt,
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
 import { fleet as fleetItems, getJourneyPageUrl, popularRouteArtworkAlts, popularRoutes } from "../../data.js";
@@ -80,21 +81,21 @@ export default function Fleet() {
           />
 
           <figure className="hlt-route-map hlt-route-map--full-vietnam">
-            <svg
-              className="hlt-route-map-artwork"
-              viewBox="0 0 1282 1227"
-              preserveAspectRatio="xMidYMin meet"
-              focusable="false"
-              aria-hidden="true"
-            >
-              <image
-                href={routesNear ? vietnamRoutesMapUrl : undefined}
+            {/* One map for PC and mobile: thin borders and motifs in the light
+                bronze of the route-card border (requested 2026-10-30). */}
+            <picture className="hlt-route-map-artwork">
+              <img
+                src={routesNear ? vietnamRoutesMapUrl : undefined}
                 width="1282"
                 height="1227"
-                preserveAspectRatio="xMidYMin meet"
+                alt={vietnamRoutesMapAlt}
+                loading="lazy"
+                decoding="async"
               />
-            </svg>
-            <figcaption className="hlt-route-map-caption">Bản đồ minh hoạ</figcaption>
+            </picture>
+            <figcaption className="hlt-route-map-caption">
+              This is an illustrative travel map. Locations and distances are not shown to scale.
+            </figcaption>
           </figure>
 
           <div className="hlt-route-content">

@@ -141,8 +141,36 @@
 
 /* ---------- Tiêu đề chung của từng dải ---------- */
 
+/* Nút "View All Album" dưới lưới phong cách: PC thêm theo mẫu khách gửi
+   (30/10/2026) — nút viền vàng căn giữa, ngay trước dải hai gói giá. */
 .hlt-pl-view-all-photos {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 44px;
+  margin: clamp(24px, 2.4vw, 34px) auto 0;
+  padding: 10px 34px;
+  border: 1px solid rgba(197, 161, 90, .75);
+  border-radius: 6px;
+  background: #fdfaf4;
+  color: #ac792a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.hlt-pl-view-all-photos:hover {
+  background: #ac792a;
+  color: #fff;
+}
+
+.hlt-pl-view-all-photos:focus-visible {
+  outline: 2px solid #ac792a;
+  outline-offset: 3px;
 }
 
 @media (max-width: 640px) {
@@ -162,11 +190,6 @@
     font-weight: 700;
     letter-spacing: .04em;
     text-transform: uppercase;
-  }
-
-  .hlt-pl-view-all-photos:focus-visible {
-    outline: 2px solid #ac792a;
-    outline-offset: 3px;
   }
 }
 
@@ -747,6 +770,12 @@
     padding-bottom: clamp(18px, 1.8vw, 26px);
   }
 
+  /* Dải Why: mô tả "No Posing" còn 2 dòng, dải "Planning Your Photo Shoot" bên
+     dưới dịch lên một chút (khách yêu cầu 30/10/2026, trước tối đa 66px). */
+  .hlt-pl-why {
+    padding-bottom: clamp(30px, 3vw, 44px);
+  }
+
   .hlt-pl-prep-text {
     padding-inline: 4px;
   }
@@ -1183,11 +1212,6 @@ img.hlt-pl-why-ic {
   /* Thẻ gói: ảnh thấp hơn */
   .hlt-pl-plan-media {
     aspect-ratio: 16 / 9;
-  }
-
-  /* Câu đầu của mục "No Posing Experience Needed" chỉ hiện trên PC. */
-  .hlt-pl-desktop-only {
-    display: none;
   }
 
   /* Why: lưới 2×2 căn giữa, vạch dọc giữa hai cột và vạch ngang giữa hai hàng */

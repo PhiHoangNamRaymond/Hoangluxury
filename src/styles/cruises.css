@@ -1579,12 +1579,15 @@
     padding: 0 !important;
   }
 
-  .hlt-cruise-hero-mobile-frame {
-    display: block !important;
-    position: absolute !important;
-    inset: 0 !important;
-    pointer-events: none !important;
-    z-index: 6 !important;
+  /* Bỏ khung viền vàng (góc lượn) và vạch vương miện dưới tiêu đề trên mobile
+     (khách yêu cầu 30/10/2026); tiêu đề tự chừa khoảng cách thay cho vạch. */
+  .hlt-cruise-hero-mobile-frame,
+  .hlt-cruise-hero .hlt-cruise-crown-divider {
+    display: none !important;
+  }
+
+  .hlt-cruise-hero .hlt-cruise-hero-title {
+    margin-bottom: 14px !important;
   }
 
   .hlt-cruise-hero-scallop-svg {

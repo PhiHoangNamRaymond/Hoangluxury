@@ -110,7 +110,7 @@ if (canonicalPathByAlias[normalizedPath]) {
 
 const routeSeo = {
   "/blog": {
-    title: "Travel Blog | Hoang Luxury Travel",
+    title: "Travel Blog, Guides & Local Tips | Hoang Luxury Travel",
     description: "Travel stories, practical guides and local insights for your private journey through Sapa, Ha Giang, Ha Long and Northern Vietnam.",
   },
   "/": {
