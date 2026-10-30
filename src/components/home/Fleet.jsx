@@ -80,21 +80,22 @@ export default function Fleet() {
             aria-hidden="true"
           />
 
-          <figure className="hlt-route-map hlt-route-map--full-vietnam">
-            {/* One map for PC and mobile: thin borders and motifs in the light
-                bronze of the route-card border (requested 2026-10-30). */}
-            <picture className="hlt-route-map-artwork">
-              <img
-                src={routesNear ? vietnamRoutesMapUrl : undefined}
-                width="1282"
-                height="1227"
-                alt={vietnamRoutesMapAlt}
-                loading="lazy"
-                decoding="async"
+          <figure className="hlt-route-map hlt-route-map--northern-vietnam">
+            {/* Original northern-map viewport and responsive sizing, including
+                the original side margins. Do not use the full-country zoom. */}
+            <svg className="hlt-route-map-artwork" viewBox="0 0 1491 1055" preserveAspectRatio="xMidYMin meet" role="img" aria-label={vietnamRoutesMapAlt} focusable="false">
+              <image
+                href={routesNear ? vietnamRoutesMapUrl : undefined}
+                width="1491"
+                height="1055"
+                preserveAspectRatio="xMidYMin meet"
+                aria-hidden="true"
               />
-            </picture>
+              <text className="hlt-route-map-label" x="1058" y="681" aria-hidden="true">CAT BA</text>
+            </svg>
             <figcaption className="hlt-route-map-caption">
-              This is an illustrative travel map. Locations and distances are not shown to scale.
+              <span>This is an illustrative travel map.</span>{" "}
+              <span>Locations and distances are not shown to scale.</span>
             </figcaption>
           </figure>
 

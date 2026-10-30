@@ -111,6 +111,10 @@ Apply SQL and redeploy the Edge Function/Apps Script before testing the new cont
 
 ## Vercel release checklist
 
+For the Hostinger/File Manager production release, use
+[Hostinger publishing and Vietnam IP-block checklist](HOSTINGER-PUBLISH.md).
+Run `npm run release:hostinger` on Windows to build and package public files only.
+
 1. In the same Supabase project used by the frontend, open Edge Functions →
    Secrets. If this deployment needs blog account management, add its exact
    origin to the existing `BLOG_ALLOWED_ORIGINS` value, preserving other intended

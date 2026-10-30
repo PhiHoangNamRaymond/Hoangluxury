@@ -1,0 +1,7 @@
+/* No global user-select:none: retain reading, selection, keyboard navigation
+   and accessible forms. This only deters ordinary image dragging. */
+.hlt-content-protected img,
+.hlt-content-protected video,
+.hlt-content-protected canvas {
+  -webkit-user-drag: none;
+}
