@@ -178,10 +178,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    /* Gọn theo chữ như PC, không kéo full chiều ngang (khách yêu cầu 30/10/2026). */
+    width: fit-content;
     min-height: 44px;
     margin-top: 20px;
-    padding: 10px 16px;
+    padding: 10px 34px;
     border: 1px solid rgba(197, 161, 90, .65);
     border-radius: 6px;
     background: #fdfaf4;

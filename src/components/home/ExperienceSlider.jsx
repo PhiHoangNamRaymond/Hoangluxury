@@ -202,7 +202,7 @@ export default function ExperienceSlider() {
         <div className="hlt-experience-title-row">
           <span aria-hidden="true" />
           {/* Không dùng thẻ heading: dải này lặp ở mọi trang, tránh làm rối cấu trúc H2 (SEO). */}
-          <div id="experience-slider-title" className="hlt-experience-title"><span className="hlt-experience-title-lead">Hoang Luxury Travel</span> Experience</div>
+          <div id="experience-slider-title" className="hlt-experience-title"><span className="hlt-experience-title-line">Hoang Luxury</span> <span className="hlt-experience-title-line">Travel Experience</span></div>
           <span aria-hidden="true" />
         </div>
         <p>Private journeys. Exceptional service.</p>

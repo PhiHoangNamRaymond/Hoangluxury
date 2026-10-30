@@ -10,6 +10,7 @@ Options -Indexes
   Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com; upgrade-insecure-requests"
   Header always set Cache-Control "no-store" "expr=%{REQUEST_URI} =~ m#^/admin(?:/|$)#"
+  Header always set X-Robots-Tag "noindex, nofollow" "expr=%{REQUEST_URI} =~ m#^/admin(?:/|$)#"
 </IfModule>
 
 # Never serve source, credentials or database exports even if mis-uploaded.
@@ -19,6 +20,10 @@ Options -Indexes
 
 RewriteEngine On
 RewriteBase /
+
+# Canonical hostname. HTTPS for the apex is enabled in hosting/Cloudflare.
+RewriteCond %{HTTP_HOST} ^www\.hoangluxury\.travel$ [NC]
+RewriteRule ^ https://hoangluxury.travel%{REQUEST_URI} [R=301,L]
 
 RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
 RewriteRule ^(?:src|api|supabase|google-apps-script|tests|scripts|node_modules|backups|credentials|secrets)(?:/|$) - [F,L,NC]

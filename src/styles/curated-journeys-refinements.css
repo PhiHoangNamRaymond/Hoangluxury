@@ -588,7 +588,8 @@
   margin: 0 auto;
   overflow: visible;
 }
-.hlt-route-map--full-vietnam .hlt-route-map-caption {
+.hlt-route-map--full-vietnam .hlt-route-map-caption,
+.hlt-route-map--northern-vietnam .hlt-route-map-caption {
   margin: 10px 0 0;
   color: #756345;
   font-size: 13px;
@@ -613,10 +614,12 @@
   object-fit: contain;
   object-position: center top;
 }
-@media (min-width: 961px) {
-  .hlt-route-showcase {
-    grid-template-columns: minmax(500px, 1.25fr) minmax(400px, .75fr);
-  }
+/* Northern map: use the original responsive widths/transforms above, not
+   full-country overrides. Reset only the browser's default figure margin. */
+.hlt-route-map--northern-vietnam {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 @media (max-width: 600px) {
@@ -627,7 +630,18 @@
   }
 
   /* Bản đồ tràn sát mép màn hình; dòng chú thích dưới bản đồ vẫn chừa lề. */
-  .hlt-route-map--full-vietnam .hlt-route-map-caption {
+  .hlt-route-map--northern-vietnam {
+    margin: 8px -14px;
+  }
+
+  .hlt-route-map--full-vietnam .hlt-route-map-caption,
+  .hlt-route-map--northern-vietnam .hlt-route-map-caption {
     padding-inline: 16px;
+  }
+
+  /* Mobile: chú thích tách 2 câu thành 2 dòng (khách yêu cầu 30/10/2026). */
+  .hlt-route-map--full-vietnam .hlt-route-map-caption > span,
+  .hlt-route-map--northern-vietnam .hlt-route-map-caption > span {
+    display: block;
   }
 }

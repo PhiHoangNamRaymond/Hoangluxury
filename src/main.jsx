@@ -17,6 +17,7 @@ import { captureBookingSource } from "./config/booking-source.js";
 import { blogDestinationSlug, blogPagePath } from "./lib/blog-article.js";
 import { blogDestinations } from "./config/blog-taxonomy.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
+import { setupContentProtection } from "./lib/content-protection.js";
 import "./styles/index.css";
 
 // Chỉ tải mã trang phụ khi đường dẫn cần đến; giữ trang chủ và CSS chung
@@ -246,3 +247,6 @@ createRoot(document.getElementById("root")).render(
 
 // Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
 setupImageSkeletons();
+
+const cleanupContentProtection = setupContentProtection(document, { enabled: !isAdminRoute });
+if (import.meta.hot) import.meta.hot.dispose(cleanupContentProtection);

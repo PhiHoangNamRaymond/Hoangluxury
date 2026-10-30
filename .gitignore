@@ -60,6 +60,7 @@ Desktop.ini
 *.db
 
 # Packaged releases are not source files
+/releases/
 *.zip
 *.7z
 *.rar
