@@ -109,7 +109,8 @@
     border-left: 1px solid rgba(197, 161, 90, .38);
   }
 
-  .hlt-fleet-specs svg {
+  .hlt-fleet-specs svg,
+  .hlt-fleet-specs img {
     width: 28px;
     height: 28px;
   }

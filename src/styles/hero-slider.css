@@ -468,8 +468,14 @@
   }
 }
 
-/* Đoạn mô tả dưới "Private Car Transfer" căn đều hai bên trên PC và mobile
-   (khách yêu cầu 29/10/2026). Đặt ngoài @media để áp cho mọi cỡ màn. */
+/* Đoạn mô tả dưới "Private Car Transfer": mobile căn đều hai bên (29/10/2026);
+   PC căn trái vì căn đều làm hở khoảng trắng giữa các từ (khách yêu cầu 30/10/2026). */
 .hlt-hero .hlt-hero-desc {
   text-align: justify !important;
+}
+
+@media (min-width: 961px) {
+  .hlt-hero .hlt-hero-desc {
+    text-align: left !important;
+  }
 }

@@ -121,9 +121,12 @@
   text-decoration: none;
 }
 
-.hlt-book-support svg {
+.hlt-book-support svg,
+.hlt-book-support img {
   width: 44px;
   height: 44px;
+  min-width: 0;
+  object-fit: contain;
   color: #e3b52d;
   fill: none;
   stroke: currentColor;
@@ -596,7 +599,9 @@
   gap: 9px;
 }
 
-.hlt-fleet-specs svg {
+/* img: icon thông số xe trang tuyến là file ảnh có tên riêng (30/10/2026). */
+.hlt-fleet-specs svg,
+.hlt-fleet-specs img {
   width: 25px;
   height: 25px;
   fill: none;

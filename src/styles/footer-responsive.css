@@ -902,18 +902,21 @@
     margin: 17px auto 17px;
   }
 
+  /* Dòng 6 Seats / Comfort / Spacious to hơn cho dễ đọc (khách yêu cầu 30/10/2026,
+     trước 10px chữ, 16px icon). */
   .hlt-fleet-specs {
     gap: 7px;
-    font-size: 10px;
+    font-size: clamp(11px, 3.6vw, 13px);
   }
 
   .hlt-fleet-specs span {
-    gap: 5px;
+    gap: 6px;
   }
 
-  .hlt-fleet-specs svg {
-    width: 16px;
-    height: 16px;
+  .hlt-fleet-specs svg,
+  .hlt-fleet-specs img {
+    width: clamp(17px, 5.5vw, 20px);
+    height: clamp(17px, 5.5vw, 20px);
   }
 
   .hlt-route-showcase {

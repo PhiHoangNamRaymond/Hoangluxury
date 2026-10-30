@@ -126,7 +126,7 @@ const preparations = [
   ["Your Preferences", "Share your photo style, group size and special requests."],
   ["Photo Locations", "Choose places suited to your style and package."],
   ["Best Time To Shoot","Find the ideal time based on lighting, weather and your schedule."],
-  ["Outfit Preparation", "Choose your favorite traditional local outfit and get helpful styling tips."],
+  ["Outfit Preparation", "Choose your favorite traditional local outfit and get helpful tips."],
   ["Makeup & Hair", "Choose your preferred makeup and hairstyle for the shoot."],
   ["Final Plan & Confirmation", "Review your itinerary and booking confirmation before the shoot."],
 ];
@@ -380,11 +380,14 @@ export default function PhotoPage() {
               {packages.map((item) => (
                 <article className="hlt-pl-plan" key={item.id}>
                   <div className="hlt-pl-plan-media" style={{ "--plan-focus": item.focus, "--plan-focus-y": item.focusY }}>
+                    {/* Hai thẻ img riêng thay cho <picture>: F12 trên mobile phải hiện đúng tên
+                        file ảnh mobile (khách yêu cầu 30/10/2026). Ảnh lazy bị ẩn bằng CSS
+                        không được tải, nên mỗi màn hình chỉ tải một ảnh. */}
                     {item.mobileImage ? (
-                      <picture className="hlt-pl-plan-mobile-picture">
-                        <source media="(max-width: 640px)" srcSet={item.mobileImage} />
-                        <img src={item.image} alt="" loading="lazy" decoding="async" />
-                      </picture>
+                      <>
+                        <img className="hlt-pl-plan-img-pc" src={item.image} alt="" loading="lazy" decoding="async" />
+                        <img className="hlt-pl-plan-img-mobile" src={item.mobileImage} alt="" loading="lazy" decoding="async" />
+                      </>
                     ) : (
                       <img src={item.image} alt="" loading="lazy" />
                     )}

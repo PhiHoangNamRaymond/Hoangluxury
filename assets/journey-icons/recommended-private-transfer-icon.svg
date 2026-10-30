@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#c5a15a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<!-- Recommended: cùng hình với executive-private-transfer-icon; chú thích này giữ hai file khác nội dung để bản build không gộp làm một tên. -->
+<rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 7V4h6v3M4 12h16M10 12v2h4v-2"/>
+</svg>

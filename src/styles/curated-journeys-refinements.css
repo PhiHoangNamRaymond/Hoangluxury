@@ -577,3 +577,46 @@
     padding-top: 6px;
   }
 }
+
+/* Full-country artwork: preserve the southern tip and both offshore groups.
+   The old northern-only map used zoom/masking that would crop this version. */
+.hlt-route-map.hlt-route-map--full-vietnam {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  overflow: visible;
+}
+.hlt-route-map--full-vietnam .hlt-route-map-caption {
+  margin: 10px 0 0;
+  color: #756345;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: center;
+}
+.hlt-route-map--full-vietnam .hlt-route-map-artwork {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1282 / 1227;
+  transform: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+@media (min-width: 961px) {
+  .hlt-route-showcase {
+    grid-template-columns: minmax(500px, 1.25fr) minmax(400px, .75fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .hlt-route-map.hlt-route-map--full-vietnam {
+    width: calc(100% + 28px);
+    max-width: none;
+    margin-inline: -14px;
+  }
+}

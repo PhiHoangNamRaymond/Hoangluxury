@@ -45,6 +45,9 @@ test("Home defers background/map media, preserves content, and preloads only the
     assert.equal(booking.style.getPropertyValue("--booking-process-bg"), "none");
     assert.equal(routes.querySelector("image").getAttribute("href"), null);
     assert.equal(routes.querySelectorAll("h3").length, 9);
+    const mapCaption = routes.querySelector("figure figcaption");
+    assert.equal(mapCaption?.textContent, "Bản đồ minh hoạ");
+    assert.equal(mapCaption.closest('[aria-hidden="true"]'), null, "map caption stays accessible");
     for (const img of document.querySelectorAll(".hlt-service-image img, .hlt-fleet-img img")) {
       assert.equal(img.getAttribute("loading"), "lazy");
       assert.ok(img.getAttribute("src"), "SEO content photo keeps its source");

@@ -314,14 +314,13 @@
   place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  border: 1.5px solid #c5a15a;
-  background: #061e17;
+  border: 0;
+  background: transparent;
   color: #d4af37;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
-/* Icon minh hoạ vàng cho từng điểm; 40px ≈ 71% vòng tròn để góc không lòi ra */
+/* Chỉ giữ họa tiết vàng, không nền hoặc viền tròn phía sau. */
 .hlt-jcard-point-icon img {
   width: 40px;
   height: 40px;
@@ -363,47 +362,6 @@
   height: 0;
   margin-left: 70px; /* 56px icon + 14px khoảng cách tới chữ */
   border-top: 1px dashed rgba(197, 161, 90, 0.45);
-}
-
-/* Hình thoi trên vạch, thẳng cột với tâm icon (28px - 70px = -42px) */
-.hlt-jcard-route-sep::after {
-  content: "◆";
-  position: absolute;
-  top: -.5px;
-  left: -42px;
-  transform: translate(-50%, -50%);
-  z-index: 3;
-  font-size: 8px;
-  color: #c5a15a;
-  background: #faf6ed;
-  padding: 3px 0;
-  line-height: 1;
-}
-
-/* Đường nối dọc: hai nửa gặp nhau ở tâm vạch (14px gap + .5px) */
-.hlt-jcard-point:first-child,
-.hlt-jcard-point:last-child {
-  position: relative;
-}
-
-.hlt-jcard-point:first-child::before,
-.hlt-jcard-point:last-child::before {
-  content: "";
-  position: absolute;
-  left: 27.5px;
-  width: 1px;
-  background: #c5a15a;
-  z-index: 1;
-}
-
-.hlt-jcard-point:first-child::before {
-  top: 50%;
-  bottom: -14.5px;
-}
-
-.hlt-jcard-point:last-child::before {
-  top: -14.5px;
-  bottom: 50%;
 }
 
 /* Action Buttons */

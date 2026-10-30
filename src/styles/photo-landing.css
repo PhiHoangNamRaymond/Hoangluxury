@@ -397,14 +397,18 @@
   object-position: var(--plan-focus, center) var(--plan-focus-y, 30%);
 }
 
-.hlt-pl-plan-mobile-picture {
-  display: block;
-  width: 100%;
-  height: 100%;
+/* Thẻ có ảnh riêng cho mobile: mỗi màn hình chỉ hiện (và tải) một ảnh. */
+.hlt-pl-plan-media .hlt-pl-plan-img-mobile {
+  display: none;
 }
 
 @media (max-width: 640px) {
-  .hlt-pl-plan-mobile-picture img {
+  .hlt-pl-plan-media .hlt-pl-plan-img-pc {
+    display: none;
+  }
+
+  .hlt-pl-plan-media .hlt-pl-plan-img-mobile {
+    display: block;
     object-position: center 20%;
   }
 }
@@ -734,6 +738,18 @@
   color: var(--pl-body);
   font-size: clamp(13px, 1.02vw, 14.5px);
   line-height: 1.45;
+}
+
+/* PC 6 cột: lề chữ hẹp lại để cả 6 đoạn mô tả đều đúng 2 dòng, dải nền tối bên
+   dưới dịch lên một chút (khách yêu cầu 30/10/2026). */
+@media (min-width: 1101px) {
+  .hlt-pl-prep {
+    padding-bottom: clamp(18px, 1.8vw, 26px);
+  }
+
+  .hlt-pl-prep-text {
+    padding-inline: 4px;
+  }
 }
 
 /* ---------- Icon nét mảnh dùng chung ---------- */

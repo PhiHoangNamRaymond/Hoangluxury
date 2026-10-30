@@ -1166,19 +1166,19 @@
   }
 }
 
-/* Lời review căn đều hai bên trên mọi cỡ màn (khách yêu cầu 29/10/2026). Đặt ngoài
-   mọi @media, cuối file, để chỉnh riêng PC hay mobile không làm mất căn đều. */
+/* Lời review căn trái trên PC và mobile, tránh giãn khoảng cách giữa các từ. */
 .hlt-feedback-review-card blockquote {
-  text-align: justify;
+  text-align: left;
   /* PC giữ nguyên: bỏ qua điểm ngắt từ đặt sẵn trong FeedbackPage.jsx. */
   hyphens: none;
 }
 
-/* Mobile: cột chữ hẹp, cho ngắt từ dài tại điểm ngắt đặt sẵn (gạch nối mềm) để dòng
-   căn đều không bị giãn khoảng trắng lớn (khách báo 29/10/2026). */
+/* Mobile: căn trái lời review, không giãn từ hoặc ngắt bằng gạch nối. PC giữ nguyên. */
 @media (max-width: 760px) {
   .hlt-feedback-review-card blockquote {
-    hyphens: manual;
-    -webkit-hyphens: manual;
+    text-align: left;
+    text-align-last: left;
+    hyphens: none;
+    -webkit-hyphens: none;
   }
 }

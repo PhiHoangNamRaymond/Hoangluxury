@@ -79,24 +79,23 @@ export default function Fleet() {
             aria-hidden="true"
           />
 
-          <div className="hlt-route-map" aria-hidden="true">
+          <figure className="hlt-route-map hlt-route-map--full-vietnam">
             <svg
               className="hlt-route-map-artwork"
-              viewBox="0 0 1491 1055"
+              viewBox="0 0 1282 1227"
               preserveAspectRatio="xMidYMin meet"
               focusable="false"
+              aria-hidden="true"
             >
               <image
                 href={routesNear ? vietnamRoutesMapUrl : undefined}
-                width="1491"
-                height="1055"
+                width="1282"
+                height="1227"
                 preserveAspectRatio="xMidYMin meet"
               />
-              <text className="hlt-route-map-label" x="1058" y="681">
-                CAT BA
-              </text>
             </svg>
-          </div>
+            <figcaption className="hlt-route-map-caption">Bản đồ minh hoạ</figcaption>
+          </figure>
 
           <div className="hlt-route-content">
             <div className="hlt-route-heading">

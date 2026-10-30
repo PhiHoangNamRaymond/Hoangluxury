@@ -82,13 +82,14 @@ function AboutIcon({ type }) {
         <path d="M3 9.4h18M9.6 4.2 8.2 9.4 12 20.4l3.8-11-1.4-5.2" />
       </>
     ),
+    // Xe nhìn ngang theo mẫu khách gửi (30/10/2026); rộng 19 đơn vị, to ngang icon
+    // tài liệu "Clear confirmations".
     car: (
       <>
-        <path d="M4 16v-3.2l1.8-4.3A2 2 0 0 1 7.6 7h8.8a2 2 0 0 1 1.8 1.5l1.8 4.3V16" />
-        {/* Hai bánh xe đối xứng (trước đây thiếu bánh trái). */}
-        <path d="M4 12.8h16M4 16h16M5 16v2.5h3V16M16 16v2.5h3V16" />
-        <circle cx="7.6" cy="14.4" r=".9" />
-        <circle cx="16.4" cy="14.4" r=".9" />
+        <path d="M5 10.5 6 6.2A1.5 1.5 0 0 1 7.5 5H14a1.5 1.5 0 0 1 1.2.6l3.4 4.9M11 5v5.5" />
+        <path d="M4.7 16.5h-.2a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.2M9.3 16.5h5.4" />
+        <circle cx="7" cy="16.5" r="2.3" />
+        <circle cx="17" cy="16.5" r="2.3" />
       </>
     ),
     doc: (
@@ -323,8 +324,7 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="hlt-about-licence-foot">
-                {/* Số giấy phép bọc riêng để bản mobile đưa xuống dòng, chữ to (PC giữ một dòng). */}
-                <span>Transport licence No. <span className="hlt-about-licence-no">15260263</span></span>
+                <span>Transport licence No. 15260263</span>
                 <span className="is-gold">hoangluxury.travel</span>
               </div>
             </div>
