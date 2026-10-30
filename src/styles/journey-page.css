@@ -2832,7 +2832,8 @@ img.hlt-journey-point-icon {
     white-space: nowrap;
   }
 
-  .hlt-journey-vehicles .hlt-fleet-specs svg {
+  .hlt-journey-vehicles .hlt-fleet-specs svg,
+  .hlt-journey-vehicles .hlt-fleet-specs img {
     width: 12px;
     height: 12px;
   }
@@ -2909,6 +2910,9 @@ img.hlt-journey-point-icon {
     display: grid;
     grid-row: span 4;
     grid-template-rows: subgrid;
+    /* Cột ngầm mặc định rộng theo nội dung dài nhất ("CUSTOM QUOTE", tiêu đề) làm
+       chữ tràn ra ngoài mép thẻ trên điện thoại (khách báo 30/10/2026). */
+    grid-template-columns: minmax(0, 1fr);
     row-gap: 0;
     justify-items: center;
     align-items: start;
@@ -2935,6 +2939,16 @@ img.hlt-journey-point-icon {
 
   .hlt-journey-option-price strong {
     font-size: clamp(18px, 5.5vw, 23px);
+  }
+
+  /* "CUSTOM QUOTE" dài hơn giá số: co theo bề ngang thẻ để không tràn mép phải
+     (khách báo 30/10/2026); các thẻ giá giữ cỡ chữ cũ. */
+  .hlt-journey-options .hlt-journey-option-price {
+    container-type: inline-size;
+  }
+
+  .hlt-journey-option-price strong.is-quote {
+    font-size: min(clamp(18px, 5.5vw, 23px), 12.4cqi);
   }
 
   .hlt-journey-option-price span {

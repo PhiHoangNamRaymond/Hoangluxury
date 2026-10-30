@@ -23,6 +23,8 @@ import {
   journeyIconBySlug,
   journeyPickupIconUrl,
   journeyNamedIcons,
+  journeyOptionIcons,
+  journeyVehicleSpecIcons,
 } from "./config/assets.js";
 import {
   approxUsd,
@@ -55,20 +57,6 @@ function LineIcon({ type, className }) {
   }
 
   const shapes = {
-    calendar: (
-      <>
-        <rect x="10" y="23" width="80" height="68" rx="9" />
-        <path d="M10 40h80" />
-        <rect x="24" y="11" width="9" height="23" rx="4.5" />
-        <rect x="67" y="11" width="9" height="23" rx="4.5" />
-        <rect x="22.5" y="51" width="11.5" height="11.5" rx="1.5" />
-        <rect x="44.2" y="51" width="11.5" height="11.5" rx="1.5" />
-        <rect x="66" y="51" width="11.5" height="11.5" rx="1.5" />
-        <rect x="22.5" y="70" width="11.5" height="11.5" rx="1.5" />
-        <rect x="44.2" y="70" width="11.5" height="11.5" rx="1.5" />
-        <rect x="66" y="70" width="11.5" height="11.5" rx="1.5" />
-      </>
-    ),
     passenger: (
       <>
         <circle cx="50" cy="32" r="18.5" />
@@ -110,27 +98,6 @@ function LineIcon({ type, className }) {
         <path d="M13 74v6.5q0 3 3 3h6q3 0 3-3V77M87 74v6.5q0 3-3 3h-6q-3 0-3-3V77" />
         <path d="M15 50.5 31 51.5l2.8 7.4-15.5-.8ZM85 50.5 69 51.5l-2.8 7.4 15.5-.8Z" />
         <path d="M38 65h24" />
-      </>
-    ),
-    // Hai mũi tên xoay vòng (khứ hồi)
-    roundTrip: (
-      <>
-        <path d="M16.5 43.5C20 28 34 17 50 17s27 7 35 22" />
-        <path d="M88.7 29v18l-16.5-7.5" />
-        <path d="M83.5 56.5C80 72 66 83 50 83s-27-7-35-22" />
-        <path d="M11.3 71V53l16.5 7.5" />
-      </>
-    ),
-    // Hai ghim bản đồ nối bằng đường nét đứt (hành trình tự chọn)
-    routePins: (
-      <>
-        <path d="M22.6 82c-8-9-14-16-14-23.5a14 14 0 0 1 28 0c0 7.5-6 14.5-14 23.5Z" />
-        <circle cx="22.6" cy="58.5" r="5.2" />
-        <ellipse cx="22.6" cy="85" rx="13.5" ry="4" />
-        <path d="M78.7 44c-7-8-12.5-14-12.5-20.8a12.5 12.5 0 0 1 25 0c0 6.8-5.5 12.8-12.5 20.8Z" />
-        <circle cx="78.7" cy="23.2" r="4.6" />
-        <ellipse cx="78.7" cy="47" rx="12.3" ry="3.6" />
-        <path d="M37 81c18-2 35-9 41.5-26" strokeDasharray="5 8" />
       </>
     ),
     pagoda: (
@@ -508,7 +475,9 @@ export default function JourneyPage({ slug }) {
 
                         return (
                           <span key={spec}>
-                            <FleetSpecIcon spec={journeySpec} />
+                            {journeyVehicleSpecIcons[journeySpec]
+                              ? <img src={journeyVehicleSpecIcons[journeySpec]} alt="" data-no-skeleton />
+                              : <FleetSpecIcon spec={journeySpec} />}
                             {journeySpec}
                           </span>
                         );
@@ -550,16 +519,12 @@ export default function JourneyPage({ slug }) {
                     key={option.title}
                   >
                     {option.featured && <span className="hlt-journey-option-badge">Most Popular</span>}
-                    {option.icon === "car" ? (
-                      <img className="hlt-journey-option-icon" src={journeyFactIcons.vehicle} alt="" />
-                    ) : (
-                      <LineIcon type={option.icon} className="hlt-journey-option-icon" />
-                    )}
+                    <img className="hlt-journey-option-icon" src={journeyOptionIcons[option.icon]} alt="" data-no-skeleton />
                     <h3>{option.title}</h3>
                     {/* Chỉ tuyến Hanoi to… có bảng giá; tuyến nối tỉnh chưa hiện giá. */}
                     {journey.optionPrices?.[index] && (
                       <div className="hlt-journey-option-price">
-                        <strong>{journey.optionPrices[index].vnd}</strong>
+                        <strong className={journey.optionPrices[index].usd ? undefined : "is-quote"}>{journey.optionPrices[index].vnd}</strong>
                         {/* Thẻ Custom Quote không có USD: giữ chỗ trống để dòng mô tả
                             thẳng hàng với các thẻ bên cạnh. */}
                         {journey.optionPrices[index].usd

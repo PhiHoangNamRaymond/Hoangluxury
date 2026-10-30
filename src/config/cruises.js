@@ -132,7 +132,7 @@ export const cruiseData = {
     description: "Wake up surrounded by limestone islands, savor refined dining, explore hidden caves and create unforgettable memories in one of the world's most extraordinary landscapes.",
     items: [
       { id: "cabin", label: "Luxury Cabin", imageKey: "expCabin", alt: "A cozy cruise cabin with a double bed and large windows overlooking the bay" },
-      { id: "dining", label: "Fine Dining", imageKey: "expDining", alt: "Freshly prepared seafood served by the window with beautiful views of Ha Long Bay" },
+      { id: "dining", label: "Fine Dining", imageKey: "expDining", alt: "Freshly prepared seafood served by the window with beautiful views of Halong Bay" },
       { id: "sunset", label: "Sunset Experience", imageKey: "expSunset", alt: "Friends enjoying drinks and conversation on the cruise deck as the sun sets" },
       { id: "activities", label: "Bay Activities", imageKey: "expKayaking", alt: "Two guests kayaking through emerald waters between towering limestone cliffs" },
     ],

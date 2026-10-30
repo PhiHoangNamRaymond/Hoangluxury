@@ -315,11 +315,12 @@
     white-space: normal;
   }
 
+  /* Chữ mô tả to hơn cho dễ đọc (khách yêu cầu 30/10/2026, trước 12.5px). */
   .hlt-service-card p {
     margin-top: 5px;
-    font-size: 12.5px;
+    font-size: 13.5px;
     line-height: 1.45;
-    text-align: justify;
+    text-align: left;
     text-align-last: left;
   }
 

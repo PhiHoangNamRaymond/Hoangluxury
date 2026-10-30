@@ -54,7 +54,7 @@ import cruiseStellarSeasUrl from "../../assets/opt/stellar-of-the-seas-cruise-ha
 import cruiseEraCruisesUrl from "../../assets/opt/era-cruise-halong-bay.jpg";
 import cruiseSeamlessTransferUrl from "../../assets/opt/private-transfer-hanoi-to-halong-and-cruise.jpg";
 import cruiseExpCabinUrl from "../../assets/opt/luxury-cruise-cabin-bay-view.jpg";
-import cruiseExpDiningUrl from "../../assets/opt/ha-long-cruise-fine-dining.jpg";
+import cruiseExpDiningUrl from "../../assets/opt/halong-bay-cruise-fine-dining.jpg";
 import cruiseExpSunsetUrl from "../../assets/opt/cruise-sunset-deck-experience.jpg";
 import cruiseExpKayakingUrl from "../../assets/opt/halong-bay-cruise-kayaking-experience.jpg";
 import cruiseCtaSunsetUrl from "../../assets/halong-bay-cruise-booking-banner.jpg";
@@ -758,6 +758,36 @@ export const journeyNamedIcons = {
   allInclusivePricing: journeyPricingIconImg,
 };
 export const journeyPathCarIconUrl = journeyPathCarIconImg;
+/* Icon 4 thẻ "Choose Your Transfer Option" trang tuyến, tên file theo khách (30/10/2026).
+   Khoá là option.icon trong JourneyPage.jsx; alt rỗng vì chỉ trang trí. */
+import journeyOptionOneWayIconImg from "../../assets/journey-icons/one-way-private-transfer-icon.png?no-inline";
+import journeyOptionRoundTripIconImg from "../../assets/journey-icons/round-trip-private-transfer-icon.svg?no-inline";
+import journeyOptionPackageIconImg from "../../assets/journey-icons/three-days-two-nights-private-car-icon.svg?no-inline";
+import journeyOptionPersonalIconImg from "../../assets/journey-icons/personalized-private-car-service-icon.svg?no-inline";
+export const journeyOptionIcons = {
+  car: journeyOptionOneWayIconImg,
+  roundTrip: journeyOptionRoundTripIconImg,
+  calendar: journeyOptionPackageIconImg,
+  routePins: journeyOptionPersonalIconImg,
+};
+/* Icon dòng thông số dưới 3 thẻ xe "Our Vehicles" trang tuyến, tên file theo khách
+   (30/10/2026). Khoá là chữ hiện cạnh icon; alt rỗng vì chỉ trang trí. */
+import vehicleSeatsIconImg from "../../assets/journey-icons/private-car-6-seats-icon.svg?no-inline";
+import vehicleComfortIconImg from "../../assets/journey-icons/comfortable-private-car-icon.svg?no-inline";
+import vehicleRecommendedIconImg from "../../assets/journey-icons/recommended-private-transfer-icon.svg?no-inline";
+import vehiclePremiumIconImg from "../../assets/journey-icons/premium-private-car-icon.svg?no-inline";
+import vehicleExecutiveIconImg from "../../assets/journey-icons/executive-private-transfer-icon.svg?no-inline";
+import vehicleElectricIconImg from "../../assets/journey-icons/electric-private-car-icon.svg?no-inline";
+import vehicleLuxurySuvIconImg from "../../assets/journey-icons/luxury-suv-private-car-icon.svg?no-inline";
+export const journeyVehicleSpecIcons = {
+  "6 Seats": vehicleSeatsIconImg,
+  Comfort: vehicleComfortIconImg,
+  Recommended: vehicleRecommendedIconImg,
+  Premium: vehiclePremiumIconImg,
+  Executive: vehicleExecutiveIconImg,
+  Electric: vehicleElectricIconImg,
+  "Luxury SUV": vehicleLuxurySuvIconImg,
+};
 
 /* Banner đầu trang cho từng tuyến. Tuyến nối tỉnh dùng bản sao ảnh của điểm đến;
    tuyến nào chưa có ảnh riêng thì trang tự dùng banner chung. */
@@ -851,7 +881,7 @@ import serviceLongDistanceUrl from "../../assets/long-distance-private-transfer.
 import vehicleLimoPrimeUrl from "../../assets/limo-prime-private-transfer-front-view.webp";
 import vehicleLimoLuxUrl from "../../assets/limo-lux-private-car-white-exterior.webp";
 import vehicleVf9Url from "../../assets/hoang-luxury-travel-vf9-private-car.webp";
-import vietnamRoutesMapUrl from "../../assets/opt/vietnam-routes-map-detail-balanced-2026.webp";
+import vietnamRoutesMapUrl from "../../assets/opt/vietnam-illustrative-travel-map-transparent.webp";
 import whatsappQrUrl from "../../assets/hoang-luxury-travel-whatsapp-qr.png";
 import whyDriverIconUrl from "../../assets/professional-private-driver-icon.png";
 import whyPricingIconUrl from "../../assets/flexible-payment-methods-icon.png";
@@ -870,6 +900,10 @@ import bookingSafeIconUrl from "../../assets/safe-professional-driver-icon.svg?n
 import bookingPrivateCarIconUrl from "../../assets/private-car-service-icon.svg?no-inline";
 import bookingOnTimeIconUrl from "../../assets/on-time-pickup-icon.svg?no-inline";
 import bookingPaymentIconUrl from "../../assets/flexible-payment-icon.svg?no-inline";
+/* Icon lịch cạnh tiêu đề form và icon tai nghe ô Assistance & Support trang Booking,
+   tên file theo khách (30/10/2026). */
+import bookingDepartureDateIconUrl from "../../assets/private-transfer-departure-date-icon.svg?no-inline";
+import bookingSupportIconUrl from "../../assets/private-car-customer-support-icon.svg?no-inline";
 import footerFlourishDividerUrl from "../../assets/footer-flourish-divider.png";
 
 import iconPrefCouplesUrl from "../../assets/icon-pref-couples.svg";
@@ -903,6 +937,8 @@ export {
   bookingPrivateCarIconUrl,
   bookingOnTimeIconUrl,
   bookingPaymentIconUrl,
+  bookingDepartureDateIconUrl,
+  bookingSupportIconUrl,
 };
 
 export const heroSlideImages = {
@@ -1092,7 +1128,7 @@ export const cruiseImages = {
 export const cruiseBackgroundAlts = {
   heroHalong: "Luxury cruise sailing through Ha Long Bay at sunset, surrounded by towering limestone islands",
   seamlessTransfer: "Private car transfer of Hoang Luxury Travel from a Hanoi hotel to Ha Long cruise, with guests arriving for their luxury cruise",
-  mosaicPanorama: "A luxury cruise sailing between the limestone islands of Ha Long Bay at sunset",
+  mosaicPanorama: "A luxury cruise sailing between the limestone islands of Halong Bay at sunset",
 };
 
 export const preferenceIconImages = {

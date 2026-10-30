@@ -345,12 +345,13 @@
     display: none;
   }
 
+  /* Chữ mô tả to hơn cho dễ đọc (khách yêu cầu 30/10/2026, trước 12px). */
   .hlt-why-card p {
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.45;
     color: #555555;
-    text-align: justify;
+    text-align: left;
     text-align-last: left;
   }
 }

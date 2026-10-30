@@ -446,15 +446,6 @@
     text-align: center;
   }
 
-  /* Số giấy phép xuống dòng riêng, chữ to; không in đậm (khách yêu cầu 29/10/2026). */
-  .hlt-about-licence-no {
-    display: block;
-    margin-top: 0;
-    color: var(--about-ink);
-    font-size: clamp(20px, 5.8vw, 24px);
-    font-weight: 500;
-    letter-spacing: .02em;
-  }
 
   .hlt-about-licence-foot .is-gold {
     display: none;

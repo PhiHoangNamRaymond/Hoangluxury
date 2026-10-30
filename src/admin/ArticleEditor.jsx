@@ -120,11 +120,12 @@ export default function ArticleEditor({ article, profile, onDone, onCancel, onDi
     update({ [field]: list.includes(value) ? list.filter((item) => item !== value) : [...list, value] });
   };
 
-  /** Tải ảnh lên kho blog-images và trả về đường dẫn trong kho. */
+  /** Tải ảnh lên kho blog-images và trả về đường dẫn trong kho. Mã ngẫu nhiên là
+      thư mục riêng, tên file giữ đúng tên người viết đặt (SEO, khách yêu cầu 30/10/2026). */
   const uploadImage = async (file) => {
     const safeName = slugify(file.name.replace(/\.[^.]+$/, "")) || "image";
     const ext = blogImageExtension(file);
-    const path = `${profile.id}/${crypto.randomUUID()}-${safeName.slice(0, 80)}${ext}`;
+    const path = `${profile.id}/${crypto.randomUUID()}/${safeName.slice(0, 80)}${ext}`;
     const { error } = await supabase.storage.from("blog-images").upload(path, file, {
       cacheControl: "31536000",
       upsert: false,

@@ -4,6 +4,8 @@ import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { whatsappUrl } from "./data.js";
 import {
+  bookingDepartureDateIconUrl,
+  bookingSupportIconUrl,
   bookingOnTimeIconUrl,
   bookingPaymentIconUrl,
   bookingPrivateCarIconUrl,
@@ -59,9 +61,7 @@ function FormIcon({ type, className = "hlt-book-field-icon" }) {
     luggage: <><rect x="5" y="7" width="14" height="14" rx="2" /><path d="M9 7V4h6v3M9 11v6M15 11v6" /></>,
     note: <><path d="M4 20h4L20 8l-4-4L4 16v4Z" /><path d="m14 6 4 4" /></>,
     clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v6l4 2" /></>,
-    globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c3 3.4 4.2 6.4 4.2 9S15 17.6 12 21c-3-3.4-4.2-6.4-4.2-9S9 6.4 12 3Z" /></>,
-    headset: <><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><path d="M4 14h3v6H5a1 1 0 0 1-1-1v-5ZM20 14h-3v6h2a1 1 0 0 0 1-1v-5ZM17 20c0 1-1 2-3 2h-2" /></>,
-  };
+    globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c3 3.4 4.2 6.4 4.2 9S15 17.6 12 21c-3-3.4-4.2-6.4-4.2-9S9 6.4 12 3Z" /></>,  };
 
   return <svg className={className} viewBox="0 0 24 24" aria-hidden="true">{icons[type]}</svg>;
 }
@@ -383,14 +383,14 @@ export default function BookingPage() {
             ))}
           </div>
           <a className="hlt-book-support" href="tel:+84839779888">
-            <FormIcon type="headset" className="hlt-book-support-icon" />
+            <img src={bookingSupportIconUrl} alt="" className="hlt-book-support-icon" data-no-skeleton />
             <span><strong>Assistance &amp; Support</strong><small>Hoang Luxury Travel is ready to assist you anytime.</small><b>+84 839 779 888</b></span>
           </a>
         </aside>
 
         <form className="hlt-book-form" data-current-step={currentStep} onSubmit={submitBooking} spellCheck={false} autoCorrect="off">
           <header>
-            <div className="hlt-book-form-icon"><FormIcon type="calendar" className="hlt-book-form-heading-icon" /></div>
+            <div className="hlt-book-form-icon"><img src={bookingDepartureDateIconUrl} alt="" className="hlt-book-form-heading-icon" data-no-skeleton /></div>
             <div><h1 id="booking-page-title">Book Your Private Transfer</h1><p>Choose your preferred option: message us on WhatsApp or fill out the form below.</p></div>
           </header>
 
