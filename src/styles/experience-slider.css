@@ -186,9 +186,17 @@
     height: 6px;
   }
 
+  /* Mobile chia 2 dòng "HOANG LUXURY TRAVEL" / "EXPERIENCE" (khách yêu cầu
+     30/10/2026). Dòng đầu dài ~12.2em, chữ co theo bề ngang màn hình trừ lề,
+     hai vạch trang trí và khoảng cách (~96px) để luôn nằm gọn một dòng. */
   .hlt-experience-heading .hlt-experience-title {
-    font-size: clamp(21px, 6.4vw, 28px);
+    font-size: min(clamp(21px, 6.4vw, 28px), (100vw - 96px) / 12.4);
     line-height: .96;
+  }
+
+  .hlt-experience-title-lead {
+    display: block;
+    white-space: nowrap;
   }
 
   .hlt-experience-heading p {

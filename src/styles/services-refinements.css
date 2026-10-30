@@ -324,6 +324,13 @@
     text-align-last: left;
   }
 
+  /* Chỉ thẻ 2 (Long-Distance) và 3 (Custom Private Trip) căn đều hai bên; thẻ 1, 4
+     giữ căn trái (khách yêu cầu 30/10/2026). */
+  .hlt-service-card:nth-child(2) p,
+  .hlt-service-card:nth-child(3) p {
+    text-align: justify;
+  }
+
   .hlt-service-grid {
     gap: 13px;
   }

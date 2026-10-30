@@ -28,7 +28,7 @@ const routes = [
   { path: "/admin/", title: "Quản trị blog | Hoang Luxury Travel", description: "Private blog administration.", private: true },
   {
     path: "/blog/",
-    title: "Travel Blog | Hoang Luxury Travel",
+    title: "Travel Blog, Guides & Local Tips | Hoang Luxury Travel",
     description: "Travel stories, practical guides and local insights for your private journey through Sapa, Ha Giang, Ha Long and Northern Vietnam.",
   },
   {

@@ -29,7 +29,7 @@ test("experience gallery admits decoded photos only, fills failed-image gaps and
     assert.equal(document.querySelectorAll("#experience img").length, 0, "no footer downloads at page entry");
     await act(() => observers.forEach((observer) => observer.callback([{ isIntersecting: true }])));
     const preloads = [...document.querySelectorAll("#experience [hidden] img")];
-    assert.ok(preloads.length > 5);
+    assert.equal(preloads.length, 5, "only the first (left-most) batch of photos is requested");
     assert.equal(document.querySelectorAll(".hlt-experience-track img").length, 0);
     let decode;
     preloads[0].decode = () => new Promise((resolve) => { decode = resolve; });
@@ -43,12 +43,22 @@ test("experience gallery admits decoded photos only, fills failed-image gaps and
     assert.ok(displayed.length >= 6, "repeat surviving photos to cover desktop, not empty slots");
     assert.ok(displayed.every((img) => img.src === preloads[0].src));
     assert.ok(frames.size > 0, "smooth animation scheduled");
+    const hiddenSources = () => [...document.querySelectorAll("#experience [hidden] img")].map((img) => img.src);
+    assert.equal(hiddenSources().filter((src) => !preloads.some((img) => img.src === src)).length, 5,
+      "the next batch starts once the first has settled");
     await act(() => document.querySelector(".hlt-experience-retry button").click());
     assert.ok(document.querySelectorAll(".hlt-experience-track img").length >= 6, "retry retains the working gallery");
     assert.ok(frames.size > 0, "retry does not pause the track");
-    await act(() => [...document.querySelectorAll("#experience [hidden] img")].slice(1).forEach((img) => img.dispatchEvent(new window.Event("load"))));
+    // Settle every requested photo; each settled batch releases the next one.
+    for (let round = 0; round < 4; round += 1) {
+      await act(() => [...document.querySelectorAll("#experience [hidden] img")]
+        .forEach((img) => img.dispatchEvent(new window.Event("load"))));
+    }
     assert.equal(document.querySelector(".hlt-experience-retry"), null);
-    assert.equal(new Set([...document.querySelectorAll(".hlt-experience-track img")].map((img) => img.src)).size, preloads.length);
+    const shown = [...new Set([...document.querySelectorAll(".hlt-experience-track img")].map((img) => img.src))];
+    assert.ok(hiddenSources().length > 10, "all three batches were requested");
+    assert.equal(shown.length, hiddenSources().length, "every photo joins the track");
+    assert.equal(shown[0], preloads[0].src, "photos keep their left-to-right order");
   } finally {
     await act(() => root.unmount());
     assert.equal(frames.size, 0, "animation cleanup");
