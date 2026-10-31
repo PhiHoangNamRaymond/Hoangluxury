@@ -1,14 +1,15 @@
-/* Booking ID dạng HLT-<ddMMyy>-RKS<3 số>-<3 số>, ví dụ HLT-100826-RKS001-001:
-   đúng 18 chữ và số (không tính dấu gạch). Dùng cho ô Booking ID trang Feedback
-   để khách không gõ bừa / spam (khách yêu cầu 29/10/2026). Cùng quy tắc với
+/* Booking ID dạng HLT-<ddMMyy>-RKS<3 số>-<3 số>, ví dụ HLT-100826-RKS001-001.
+   Ô nhập trang Feedback để khách tự gõ, tối đa 21 ký tự, không tự sửa khi đang
+   gõ (khách yêu cầu 31/10/2026): đổi giá trị lúc gõ làm con trỏ nhảy về cuối
+   trên mobile. Chỉ chuẩn hoá và kiểm tra khi gửi. Cùng quy tắc với
    google-apps-script/Code.gs (bookingIdValid_). */
 
-export const BOOKING_ID_CHARS = 18;
+export const BOOKING_ID_MAX_LENGTH = 21;
 
-/* Chuẩn hoá khi gõ: in hoa, bỏ mọi ký tự không phải chữ / số, tối đa 18 ký tự,
-   tự chèn dấu gạch sau ký tự thứ 3, 9 và 15. */
-export function formatBookingIdInput(value) {
-  const chars = String(value || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, BOOKING_ID_CHARS);
+/* Chuẩn hoá khi gửi: in hoa, bỏ mọi ký tự không phải chữ / số, chèn dấu gạch sau
+   ký tự thứ 3, 9 và 15. Không cắt bớt: thừa ký tự thì isValidBookingId từ chối. */
+export function normalizeBookingId(value) {
+  const chars = String(value || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
   return [chars.slice(0, 3), chars.slice(3, 9), chars.slice(9, 15), chars.slice(15)]
     .filter(Boolean)
     .join("-");

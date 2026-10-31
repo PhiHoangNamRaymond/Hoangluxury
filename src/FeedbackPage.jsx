@@ -10,7 +10,7 @@ import {
 } from "./config/assets.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { formTextError } from "./lib/public-config.js";
-import { formatBookingIdInput, isValidBookingId } from "./lib/booking-id.js";
+import { BOOKING_ID_MAX_LENGTH, isValidBookingId, normalizeBookingId } from "./lib/booking-id.js";
 import { validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import Turnstile from "./components/Turnstile.jsx";
 
@@ -260,6 +260,11 @@ export default function FeedbackPage() {
     setSubmission({ state: "idle", message: "" });
   };
 
+  // Errors belong to the last submit only: nothing is shown while the guest edits.
+  const clearSubmitError = () => {
+    setSubmission((current) => (current.state === "error" ? { state: "idle", message: "" } : current));
+  };
+
   useEffect(() => {
     if (submission.state !== "success") return;
     const previousFocus = document.activeElement;
@@ -305,7 +310,8 @@ export default function FeedbackPage() {
       setSubmission({ state: "error", message: "Please enter your Booking ID, choose a rating and write your feedback." });
       return;
     }
-    if (!isValidBookingId(bookingId)) {
+    const normalizedBookingId = normalizeBookingId(bookingId);
+    if (!isValidBookingId(normalizedBookingId)) {
       setSubmission({ state: "error", message: "Please enter the full Booking ID from your confirmation, e.g. HLT-100826-RKS001-001." });
       bookingIdRef.current?.focus();
       return;
@@ -320,7 +326,7 @@ export default function FeedbackPage() {
 
     const fields = {
       form: "feedback",
-      bookingId: bookingId.trim(),
+      bookingId: normalizedBookingId,
       rating: String(rating),
       feedback: experience.trim(),
       submittedFrom: window.location.origin + window.location.pathname,
@@ -477,11 +483,9 @@ export default function FeedbackPage() {
                         autoComplete="off"
                         autoCapitalize="characters"
                         spellCheck="false"
-                        maxLength="21"
-                        pattern="HLT-[0-9]{6}-RKS[0-9]{3}-[0-9]{3}"
-                        title="Booking ID, e.g. HLT-100826-RKS001-001"
+                        maxLength={BOOKING_ID_MAX_LENGTH}
                         value={bookingId}
-                        onChange={(event) => setBookingId(formatBookingIdInput(event.target.value))}
+                        onChange={(event) => { setBookingId(event.target.value); clearSubmitError(); }}
                       />
                     </span>
                   </label>
@@ -501,7 +505,7 @@ export default function FeedbackPage() {
                             name="rating"
                             value={value}
                             checked={rating === value}
-                            onChange={() => setRating(value)}
+                            onChange={() => { setRating(value); clearSubmitError(); }}
                           />
                           <svg viewBox="0 0 48 48" aria-hidden="true">
                             <path d="m24 4.5 5.9 12 13.2 1.9-9.5 9.3 2.2 13.1L24 34.6l-11.8 6.2 2.2-13.1-9.5-9.3 13.2-1.9L24 4.5Z" />
@@ -521,7 +525,7 @@ export default function FeedbackPage() {
                         placeholder="Please share your experience, including anything you particularly enjoyed or anything we could improve..."
                         maxLength="4000"
                         value={experience}
-                        onChange={(event) => setExperience(event.target.value)}
+                        onChange={(event) => { setExperience(event.target.value); clearSubmitError(); }}
                       />
                       <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M4 20h4L20 8l-4-4L4 16v4ZM14 6l4 4" />
