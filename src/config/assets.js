@@ -882,8 +882,8 @@ import vehicleLimoPrimeUrl from "../../assets/limo-prime-private-transfer-front-
 import vehicleLimoLuxUrl from "../../assets/limo-lux-private-car-white-exterior.webp";
 import vehicleVf9Url from "../../assets/hoang-luxury-travel-vf9-private-car.webp";
 /* Bản đồ trang chủ (PC và mobile dùng chung), tên file và alt theo khách 30/10/2026. */
-import vietnamRoutesMapUrl from "../../assets/opt/vietnam-routes-map-detail-balanced-2026.webp";
-const vietnamRoutesMapAlt = "Illustrated map of Northern Vietnam showing Hanoi, Noi Bai and popular private transfer destinations";
+import vietnamRoutesMapUrl from "../../assets/opt/vietnam-tourism-illustrated-map.webp";
+const vietnamRoutesMapAlt = "Illustrated tourism map of Vietnam showing popular travel destinations, mountains, coastal scenery and cultural landmarks";
 import whatsappQrUrl from "../../assets/hoang-luxury-travel-whatsapp-qr.png";
 import whyDriverIconUrl from "../../assets/professional-private-driver-icon.png";
 import whyPricingIconUrl from "../../assets/flexible-payment-methods-icon.png";

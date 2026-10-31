@@ -119,7 +119,7 @@ test("public Feedback rejects missing or whitespace-only fields without sending 
   }
 });
 
-test("public Feedback formats the Booking ID while typing and rejects incomplete IDs",async () => {
+test("public Feedback leaves the Booking ID as typed, keeps the caret and only reports errors on submit",async () => {
   window.history.replaceState(null,"","/feedback/");
   document.body.innerHTML='<div id="root"></div>';
   const host = document.getElementById("root");
@@ -130,13 +130,32 @@ test("public Feedback formats the Booking ID while typing and rejects incomplete
   try {
     await act(async () => root.render(React.createElement(FeedbackPage)));
     const input = host.querySelector('input[name="bookingId"]');
-    await fill(input,"hlt!100826 rks001-001-999 extra");
-    assert.equal(input.value,"HLT-100826-RKS001-001","uppercased, symbols dropped, capped at 18 characters");
+    assert.equal(input.maxLength,21);
+    assert.equal(input.getAttribute("pattern"),null,"no native format check");
+    await fill(input,"hlt-1008");
+    assert.equal(input.value,"hlt-1008","not reformatted while typing");
+    assert.equal(host.querySelector('[role="alert"]'),null,"no message while typing");
+    // An edit in the middle of the text must not send the caret to the end.
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,"value").set.call(input,"hlt-10X08");
+      input.setSelectionRange(7,7);
+      input.dispatchEvent(new window.Event("input",{bubbles:true}));
+    });
+    assert.equal(input.value,"hlt-10X08");
+    assert.equal(input.selectionStart,7);
     await fillFeedback(host);
     await fill(input,"HLT-1008");
     await verify(host);
-    await act(async () => host.querySelector("form").dispatchEvent(new window.Event("submit",{bubbles:true,cancelable:true})));
+    const submit = () => act(async () => host.querySelector("form").dispatchEvent(new window.Event("submit",{bubbles:true,cancelable:true})));
+    await submit();
     assert.equal(calls,0);
+    assert.match(host.textContent,/full Booking ID/);
+    assert.equal(input.value,"HLT-1008","the entered text stays for the guest to correct");
+    await fill(input,"HLT-10082");
+    assert.equal(host.querySelector('[role="alert"]'),null,"editing clears the submit error");
+    await fill(input,"HLT100826RKS001001999");
+    await submit();
+    assert.equal(calls,0,"extra characters are rejected, not cut off");
     assert.match(host.textContent,/full Booking ID/);
   } finally {
     await act(async () => root.unmount());
@@ -161,7 +180,7 @@ test("failed public Feedback keeps entered data and retries with the same reques
     assert.equal(calls.length,1);
     assert.match(host.textContent,/We could not send your feedback/);
     assert.equal(host.querySelector('[role="dialog"]'),null,"failed acknowledgement never shows a success popup");
-    assert.equal(host.querySelector('input[name="bookingId"]').value,"HLT-100826-RKS001-001");
+    assert.equal(host.querySelector('input[name="bookingId"]').value,"hlt 100826 rks001 001");
     assert.equal(host.querySelector('textarea[name="experience"]').value,"A comfortable journey.");
     assert.equal(button.disabled,true,"failed request resets CAPTCHA, not entered data");
     await verify(host);

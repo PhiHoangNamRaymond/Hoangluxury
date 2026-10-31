@@ -75,3 +75,19 @@ At the user's request PC and mobile now share this classic file: the homepage lo
 `picture`/`source` switch. `opt/vietnam-illustrative-travel-map-islands.webp` is no
 longer referenced by the site but stays as the source the classic file was made from.
 The "Responsive color variants" section above is historical.
+
+## New full-country map (2026-10-31)
+
+`opt/vietnam-tourism-illustrated-map.webp` now holds a new user-supplied illustration
+(1665 x 2000 px, transparent, used as delivered). It replaced both the processed map
+described above (recoverable from git history) and the northern route map
+`opt/vietnam-routes-map-detail-balanced-2026.webp`, which the site showed briefly on
+2026-10-30 and is kept for recovery. The number badges match the order of
+`popularRoutes` in `src/data.js`, so keep them in step if that order changes.
+
+As requested, the land colour now equals the Private Transfer Routes background,
+`#EDE0CC`. The delivered image is kept as `opt/vietnam-tourism-illustrated-map-original.webp`.
+Each channel was scaled by `#EDE0CC / (237,214,186)` (the darker paper tone of the
+neighbouring countries) and capped at `#EDE0CC`, so paper flattens to the background
+while ink, borders, labels and motifs stay. Vietnam therefore no longer has its own
+lighter fill. If the section background changes, reprocess from the original.

@@ -34,15 +34,6 @@
   mask-image: none;
 }
 
-.hlt-route-map-label {
-  fill: #201b16;
-  font-family: "Cormorant", Georgia, "Times New Roman", serif;
-  font-size: 25px;
-  font-weight: 700;
-  letter-spacing: .35px;
-  text-anchor: middle;
-}
-
 @media (min-width: 901px) {
   .hlt-route-showcase {
     align-items: start;
@@ -588,8 +579,7 @@
   margin: 0 auto;
   overflow: visible;
 }
-.hlt-route-map--full-vietnam .hlt-route-map-caption,
-.hlt-route-map--northern-vietnam .hlt-route-map-caption {
+.hlt-route-map--full-vietnam .hlt-route-map-caption {
   margin: 10px 0 0;
   color: #756345;
   font-size: 13px;
@@ -602,7 +592,7 @@
   width: 100%;
   max-width: 100%;
   height: auto;
-  aspect-ratio: 1282 / 1227;
+  aspect-ratio: 1665 / 2000;
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -614,13 +604,6 @@
   object-fit: contain;
   object-position: center top;
 }
-/* Northern map: use the original responsive widths/transforms above, not
-   full-country overrides. Reset only the browser's default figure margin. */
-.hlt-route-map--northern-vietnam {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-}
 
 @media (max-width: 600px) {
   .hlt-route-map.hlt-route-map--full-vietnam {
@@ -630,18 +613,12 @@
   }
 
   /* Bản đồ tràn sát mép màn hình; dòng chú thích dưới bản đồ vẫn chừa lề. */
-  .hlt-route-map--northern-vietnam {
-    margin: 8px -14px;
-  }
-
-  .hlt-route-map--full-vietnam .hlt-route-map-caption,
-  .hlt-route-map--northern-vietnam .hlt-route-map-caption {
+  .hlt-route-map--full-vietnam .hlt-route-map-caption {
     padding-inline: 16px;
   }
 
   /* Mobile: chú thích tách 2 câu thành 2 dòng (khách yêu cầu 30/10/2026). */
-  .hlt-route-map--full-vietnam .hlt-route-map-caption > span,
-  .hlt-route-map--northern-vietnam .hlt-route-map-caption > span {
+  .hlt-route-map--full-vietnam .hlt-route-map-caption > span {
     display: block;
   }
 }
