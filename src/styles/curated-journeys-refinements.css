@@ -594,8 +594,9 @@
   height: auto;
   aspect-ratio: 1665 / 2000;
   transform: none;
-  -webkit-mask-image: none;
-  mask-image: none;
+  /* Ảnh bị cắt thẳng ở mép trái: mờ dần cho hoà vào nền (khách yêu cầu 01/11/2026). */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 10%);
+  mask-image: linear-gradient(to right, transparent 0, #000 10%);
 }
 .hlt-route-map--full-vietnam .hlt-route-map-artwork > img {
   display: block;
@@ -603,6 +604,15 @@
   height: 100%;
   object-fit: contain;
   object-position: center top;
+}
+
+/* PC: đáy ảnh bản đồ có khoảng trong suốt, kéo chú thích lên gần mũi Cà Mau và
+   in đậm (khách yêu cầu 01/11/2026). Dùng % để giữ tỉ lệ khi bản đồ co giãn. */
+@media (min-width: 961px) {
+  .hlt-route-map--full-vietnam .hlt-route-map-caption {
+    margin-top: -4%;
+    font-weight: 700;
+  }
 }
 
 @media (max-width: 600px) {
@@ -614,6 +624,9 @@
 
   /* Bản đồ tràn sát mép màn hình; dòng chú thích dưới bản đồ vẫn chừa lề. */
   .hlt-route-map--full-vietnam .hlt-route-map-caption {
+    /* Chỉ dòng chữ dịch lên, các thẻ tuyến bên dưới giữ nguyên vị trí. */
+    margin-top: -3%;
+    margin-bottom: 3%;
     padding-inline: 16px;
   }
 
