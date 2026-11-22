@@ -11,6 +11,10 @@ npm run build
 npm run preview
 ```
 
+`npm run dev` only listens on this computer (localhost). To open the dev site from a
+phone on the same Wi-Fi, run `npm run dev:lan` and stop it when you are done: it exposes
+the dev server to everyone on that network.
+
 ## Structure
 
 - `src/main.jsx` - Entry point and pathname-to-page routing.
