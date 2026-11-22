@@ -146,6 +146,7 @@ import journeyExpComfortUrl from "../../assets/journey-experience/private-car-co
 import journeyExpGreetUrl from "../../assets/journey-experience/hoang-luxury-travel-airport-meet-and-greet.webp";
 import journeyExpGreetCityUrl from "../../assets/journey-experience/hoang-luxury-travel-private-car-door-to-door.webp";
 import journeyExpLuggageUrl from "../../assets/journey-experience/hoang-luxury-travel-private-driver-luggage-assistance.webp";
+import journeyExpStopsUrl from "../../assets/journey-experience/hoang-luxury-travel-private-transfer-flexible-rest-stops.webp";
 import journeyExpCoffeeStopUrl from "../../assets/journey-experience/private-transfer-flexible-stops.webp";
 
 /* Nền dải "Ready to start your journey?" trang tuyến (cắt dải núi + mây từ Sapa2.png, JPEG 1920×565) */
@@ -832,8 +833,9 @@ export const journeyExperienceImages = [
   journeyExpComfortUrl,
   journeyExpGreetUrl,
   journeyExpLuggageUrl,
-  // Thẻ Flexible Stops: cùng ảnh dừng chân uống cà phê với tuyến nối tỉnh (khách đổi 11/11/2026).
-  journeyExpCoffeeStopUrl,
+  // Tuyến từ Hà Nội giữ ảnh cũ (khách yêu cầu 22/11/2026); ảnh dừng chân uống cà
+  // phê chỉ dùng cho tuyến nối tỉnh (journeyExperienceCityImages).
+  journeyExpStopsUrl,
 ];
 
 /* Tuyến nối tỉnh (cùng thứ tự với journeyExperienceCity): đón tận nơi tại
@@ -857,7 +859,7 @@ const journeyExpAlts = {
   stops: "Enjoying a smooth and relaxing journey in a private car with spacious leather seats and beautiful mountain views",
   coffeeStop: "A traveler enjoying the mountain views during a flexible rest stop on her private car journey",
 };
-export const journeyExperienceImageAlts = [journeyExpAlts.comfort, journeyExpAlts.greet, journeyExpAlts.luggage, journeyExpAlts.coffeeStop];
+export const journeyExperienceImageAlts = [journeyExpAlts.comfort, journeyExpAlts.greet, journeyExpAlts.luggage, journeyExpAlts.stops];
 export const journeyExperienceCityImageAlts = [
   "A guest stepping out of a private car at her hotel with Hoang Luxury Travel's door-to-door transfer service",
   journeyExpAlts.luggage,

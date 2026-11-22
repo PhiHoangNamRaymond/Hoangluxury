@@ -85,8 +85,11 @@
   margin-top: 2px;
 }
 
+/* 276px: "VIEW FLEET, ROUTES & PRICING" nằm trọn một dòng (khách yêu cầu
+   22/11/2026; trước 240px bị xuống 2 dòng). Hai nút giữ bằng nhau. */
 .hlt-catalog-button {
-  width: 240px;
+  width: 276px;
+  white-space: nowrap;
   min-height: 42px;
   display: inline-flex;
   align-items: center;
