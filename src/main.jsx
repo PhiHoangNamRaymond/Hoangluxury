@@ -18,6 +18,7 @@ import { blogDestinationSlug, blogPagePath } from "./lib/blog-article.js";
 import { blogDestinations } from "./config/blog-taxonomy.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import { setupContentProtection } from "./lib/content-protection.js";
+import { setupGtm } from "./lib/gtm.js";
 import { cruiseSeo } from "./config/cruise-seo.js";
 import "./styles/index.css";
 
@@ -38,6 +39,9 @@ const JourneyPage = lazy(() => import("./JourneyPage.jsx"));
 const PoliciesPage = lazy(() => import("./PoliciesPage.jsx"));
 const JourneysPage = lazy(() => import("./JourneysPage.jsx"));
 const AdminApp = lazy(() => import("./admin/AdminApp.jsx"));
+
+// Google Tag Manager nạp sớm nhất có thể (trừ trang quản trị).
+setupGtm();
 
 // Nhớ nguồn khách (?src= / ?utm_source=) để ghép vào Booking ID khi đặt xe.
 captureBookingSource();

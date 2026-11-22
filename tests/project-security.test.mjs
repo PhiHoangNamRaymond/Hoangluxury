@@ -120,7 +120,8 @@ test("production header configurations block scripts/frames and keep admin uncac
   const apache=await readFile(new URL("../public/.htaccess",import.meta.url),"utf8");
   const vercel=JSON.parse(await readFile(new URL("../vercel.json",import.meta.url),"utf8"));
   const headers=Object.fromEntries(vercel.headers[0].headers.map(({key,value})=>[key,value]));
-  assert.match(headers["Content-Security-Policy"],/script-src 'self' https:\/\/challenges.cloudflare.com;/);
+  // Chỉ thêm tên miền Google Tag Manager (22/11/2026), vẫn không cho script viết thẳng.
+  assert.match(headers["Content-Security-Policy"],/script-src 'self' https:\/\/challenges.cloudflare.com https:\/\/www.googletagmanager.com;/);
   assert.doesNotMatch(headers["Content-Security-Policy"],/script-src[^;]*(unsafe-inline|unsafe-eval)/);
   for(const directive of ["object-src 'none'","base-uri 'none'","frame-ancestors 'none'","form-action 'none'"]) assert.ok(headers["Content-Security-Policy"].includes(directive));
   assert.equal(headers["Referrer-Policy"],"no-referrer");
