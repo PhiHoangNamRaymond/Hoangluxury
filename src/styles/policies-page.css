@@ -22,6 +22,15 @@
 .hlt-policies-help { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: #0a2a21; color: #fff5e0; }
 .hlt-policies-help h2 { font-size: 25px; }
 .hlt-policies-help a { display: inline-flex; gap: 10px; padding: 9px 16px; border-radius: 8px; background: #efd08c; color: #14251c; font-weight: 800; }
+.hlt-policies-site .hlt-policies-related { margin-top: 15px; font-size: 12px !important; }
+.hlt-policies-related a { display: inline; min-height: 0; padding: 0; border: 0; color: #a77422; }
+.hlt-terms-intro { padding: clamp(22px, 3vw, 36px); }
+.hlt-terms-intro h2 { margin: 10px 0 16px; }
+.hlt-terms-intro p + p { margin-top: 14px; }
+.hlt-terms-intro .hlt-terms-review { padding: 13px 16px; background: #f4ead6; border-left: 3px solid #b88a42; }
+.hlt-terms-section { padding: 23px 0 25px; border-bottom: 1px solid #dfcfaf; scroll-margin-top: 108px; }
+.hlt-terms-section h2 { margin: 0 0 13px; color: #9b6a2c; font-size: clamp(23px, 2.4vw, 31px); font-weight: 500; text-transform: uppercase; }
+.hlt-terms-section p + p { margin-top: 13px; }
 @media (max-width: 760px) {
   .hlt-policies-container { width: calc(100% - 28px); }
   .hlt-policies-hero { padding: 106px 0 25px; }

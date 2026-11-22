@@ -137,9 +137,13 @@
   transition: background .2s ease, color .2s ease, border-color .2s ease;
 }
 
-.hlt-photo-filter:hover {
-  border-color: var(--photo-gold);
-  background: rgba(185, 138, 58, .1);
+/* Chỉ máy có chuột: trên điện thoại hover bị "dính" sau khi chạm, nút vừa bấm
+   nháy màu nền hover rồi mới đổi sang màu vàng. */
+@media (hover: hover) {
+  .hlt-photo-filter:hover {
+    border-color: var(--photo-gold);
+    background: rgba(185, 138, 58, .1);
+  }
 }
 
 .hlt-photo-filter.is-active {

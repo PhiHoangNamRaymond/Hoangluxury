@@ -349,6 +349,16 @@ body {
   font-feature-settings: "lnum" 1, "tnum" 1 !important;
 }
 
+/* Nút bấm trên điện thoại: nhấn giữ không bôi đen chữ / không hiện menu sao chép,
+   chạm không nháy khung màu (khách báo ở bộ lọc album 22/11/2026). Áp cho mọi nút
+   của site; chữ trên nút không cần sao chép. */
+.hlt-site button {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .hlt-site a {
   text-decoration: none;
 }

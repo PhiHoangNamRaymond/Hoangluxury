@@ -57,7 +57,7 @@
 .hlt-blog-filter-items { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; }
 .hlt-blog-filter-items button { border: 0; border-left: 1px solid #ece0cb; border-radius: 0; background: transparent; color: #29455c; padding: 4px 16px; font-size: 11px; font-weight: 700; white-space: nowrap; }
 .hlt-blog-filter-items button:first-child { border-left: 0; padding-left: 0; }
-.hlt-blog-filter-items button:hover { color: #a97c22; }
+@media (hover: hover) { .hlt-blog-filter-items button:hover { color: #a97c22; } }
 .hlt-blog-filter-items button[aria-pressed="true"] { color: #062820; text-decoration: underline; text-decoration-color: #b89b57; text-underline-offset: 5px; text-decoration-thickness: 2px; }
 .hlt-blog-sort select { border: 1px solid #e8dac4; border-radius: 5px; background: #fff; color: #29455c; min-height: 38px; padding: 8px 12px; font-size: 11px; font-weight: 700; white-space: nowrap; max-width: 132px; }
 /* Hàng "Filtered by": chỉ hiện khi đang lọc. Nhãn rộng bằng nhãn Destinations /

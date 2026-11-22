@@ -54,7 +54,7 @@ import cruiseHeritageBinhChuanUrl from "../../assets/opt/heritage-binh-chuan-cru
 import cruiseStellarSeasUrl from "../../assets/opt/stellar-of-the-seas-cruise-ha-long-bay.jpg";
 import cruiseEraCruisesUrl from "../../assets/opt/era-cruise-halong-bay.jpg";
 import cruiseSeamlessTransferUrl from "../../assets/opt/private-transfer-hanoi-to-halong-and-cruise.jpg";
-import cruiseSeamlessTransferDesktopUrl from "../../assets/opt/hoang-luxury-travel-private-car-halong-cruise-transfer-desktop.webp";
+import cruiseSeamlessTransferDesktopUrl from "../../assets/opt/hoang-luxury-hotel-car-cruise-preview.jpg";
 import cruiseExpCabinUrl from "../../assets/opt/luxury-cruise-cabin-bay-view.jpg";
 import cruiseExpDiningUrl from "../../assets/opt/halong-bay-cruise-fine-dining.jpg";
 import cruiseExpSunsetUrl from "../../assets/opt/cruise-sunset-deck-experience.jpg";
@@ -914,10 +914,12 @@ import bookingDepartureDateIconUrl from "../../assets/private-transfer-departure
 import bookingSupportIconUrl from "../../assets/private-car-customer-support-icon.svg?no-inline";
 import footerFlourishDividerUrl from "../../assets/footer-flourish-divider.png";
 
-import iconPrefCouplesUrl from "../../assets/icon-pref-couples.svg";
-import iconPrefFamilyUrl from "../../assets/icon-pref-family.svg";
-import iconPrefLuxuryUrl from "../../assets/icon-pref-luxury.svg";
-import iconPrefScenicUrl from "../../assets/icon-pref-scenic.svg";
+/* Icon 4 phong cách du thuyền (khối "Not Sure Which Cruise to Choose?"), bộ icon vàng
+   khách gửi 22/11/2026, dùng cho cả PC và mobile. */
+import iconPrefCouplesUrl from "../../assets/cruise-icons/cruise-style-couples-icon.webp";
+import iconPrefFamilyUrl from "../../assets/cruise-icons/cruise-style-family-icon.webp";
+import iconPrefLuxuryUrl from "../../assets/cruise-icons/cruise-style-luxury-icon.webp";
+import iconPrefScenicUrl from "../../assets/cruise-icons/cruise-style-scenic-icon.webp";
 
 import botanicalCornerGoldUrl from "../../assets/botanical-corner-gold.webp";
 
@@ -1105,6 +1107,13 @@ export const feedbackStatIcons = [
   feedbackStatStarUrl,
   feedbackStatPrivateCarUrl,
 ];
+
+/* 4 icon các bước "From Your Hotel to Your Cruise" (bộ icon khách gửi 22/11/2026). */
+import cruiseFlowHotelIcon from "../../assets/cruise-icons/cruise-transfer-hotel-icon.png?no-inline";
+import cruiseFlowCarIcon from "../../assets/cruise-icons/cruise-transfer-private-car-icon.png?no-inline";
+import cruiseFlowAnchorIcon from "../../assets/cruise-icons/cruise-transfer-port-anchor-icon.png?no-inline";
+import cruiseFlowCruiseIcon from "../../assets/cruise-icons/cruise-transfer-luxury-cruise-icon.png?no-inline";
+export const cruiseFlowIcons = { hotel: cruiseFlowHotelIcon, car: cruiseFlowCarIcon, anchor: cruiseFlowAnchorIcon, cruise: cruiseFlowCruiseIcon };
 
 export const cruiseImages = {
   heroHalong: cruiseHeroHalongUrl,

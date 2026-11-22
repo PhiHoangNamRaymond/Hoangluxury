@@ -3,7 +3,9 @@ import { footerFlourishDividerUrl, logoUrl, whatsappQrUrl } from "../../config/a
 import { catalogPageUrl, feedbackPageUrl, whatsappUrl } from "../../data.js";
 import { policiesPath, policySections } from "../../config/policies.js";
 
-const policyLinks = () => policySections.map(({ id, title, footerTitle }) => (
+// Footer chỉ hiện 2 mục như thiết kế cũ: Privacy Policy, Terms of Service.
+const footerPolicyIds = ["privacy", "terms"];
+const policyLinks = () => footerPolicyIds.map((policyId) => policySections.find(({ id }) => id === policyId)).map(({ id, title, footerTitle }) => (
   <a key={id} href={`${policiesPath}#${id}`}>{footerTitle || title}</a>
 ));
 
@@ -71,12 +73,12 @@ export default function Footer({ whatsappHref = whatsappUrl } = {}) {
               </svg>
               +84.839.779.888
             </a>
-            <a href="mailto:hoangluxury.travel@gmail.com">
+            <a href="mailto:info@hoangluxury.travel">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3.5 6.5h17v11h-17z" />
                 <path d="m4 7 8 6 8-6" />
               </svg>
-              hoangluxury.travel@gmail.com
+              info@hoangluxury.travel
             </a>
             <span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -166,14 +168,14 @@ export default function Footer({ whatsappHref = whatsappUrl } = {}) {
               <span>+84.839.779.888</span>
             </a>
 
-            <a href="mailto:hoangluxury.travel@gmail.com" className="hlt-footer-mobile-contact-item">
+            <a href="mailto:info@hoangluxury.travel" className="hlt-footer-mobile-contact-item">
               <div className="hlt-footer-mobile-icon-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <polyline points="3 7 12 13 21 7" />
                 </svg>
               </div>
-              <span>hoangluxury.travel@gmail.com</span>
+              <span>info@hoangluxury.travel</span>
             </a>
 
             <div className="hlt-footer-mobile-contact-item hlt-footer-mobile-address" onClickCapture={(event) => event.preventDefault()}>
