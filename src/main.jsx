@@ -18,6 +18,7 @@ import { blogDestinationSlug, blogPagePath } from "./lib/blog-article.js";
 import { blogDestinations } from "./config/blog-taxonomy.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import { setupContentProtection } from "./lib/content-protection.js";
+import { cruiseSeo } from "./config/cruise-seo.js";
 import "./styles/index.css";
 
 // Chỉ tải mã trang phụ khi đường dẫn cần đến; giữ trang chủ và CSS chung
@@ -30,9 +31,11 @@ const PhotoPage = lazy(() => import("./PhotoPage.jsx"));
 const PhotoAlbumsPage = lazy(() => import("./PhotoAlbumsPage.jsx"));
 const PhotoAlbumPage = lazy(() => import("./PhotoAlbumPage.jsx"));
 const BlogPage = lazy(() => import("./BlogPage.jsx"));
+const NotFoundPage = lazy(() => import("./NotFoundPage.jsx"));
 const BlogArticlePage = lazy(() => import("./BlogArticlePage.jsx"));
 const FeedbackPage = lazy(() => import("./FeedbackPage.jsx"));
 const JourneyPage = lazy(() => import("./JourneyPage.jsx"));
+const PoliciesPage = lazy(() => import("./PoliciesPage.jsx"));
 const JourneysPage = lazy(() => import("./JourneysPage.jsx"));
 const AdminApp = lazy(() => import("./admin/AdminApp.jsx"));
 
@@ -51,6 +54,7 @@ const pages = {
   "/blog": BlogPage,
   "/booking": BookingPage,
   "/catalog": CatalogPage,
+  "/policies": PoliciesPage,
   "/routes/halong-bay-cruises": CruisesPage,
   "/cruises": CruisesPage,
   "/ha-long-cruises": CruisesPage,
@@ -71,7 +75,7 @@ const isCanonicalPostPath = Boolean(postSlug && blogPathMatch[2] && normalizedPa
 
 // Một album: /hoangphoto/<phong cách>/<album>/ (đường dẫn chuẩn theo photoAlbumUrl);
 // nhận cả đường dẫn cũ /photo/albums/<album>/ và album đặt dưới phong cách khác.
-// /hoangphoto/blog/… là bài blog, không phải album. Slug lạ thì rơi về trang chủ.
+// /hoangphoto/blog/… là bài blog, không phải album. Slug lạ thì hiện trang 404.
 const requestedAlbumSlug = normalizedPath.match(/^\/(?:photo\/albums|hoangphoto\/albums|hoangphoto\/(?!blog\/)[a-z0-9-]+)\/([a-z0-9-]+)$/)?.[1];
 const albumSlug = requestedAlbumSlug && photoAlbumBySlug[requestedAlbumSlug] ? requestedAlbumSlug : null;
 
@@ -79,7 +83,7 @@ const albumSlug = requestedAlbumSlug && photoAlbumBySlug[requestedAlbumSlug] ? r
 const photoCategory = photoCategoryFromSlug(normalizedPath.match(/^\/hoangphoto\/([a-z0-9-]+)$/)?.[1]);
 
 // Trang tuyến: /journey/<slug>/ hoặc /routes/<slug>/ (đường dẫn chuẩn từng tuyến ở
-// config/journey-paths.js). Slug lạ thì rơi về trang chủ như mọi đường dẫn không khớp.
+// config/journey-paths.js). Slug lạ thì hiện trang 404 như mọi đường dẫn không khớp.
 const requestedJourneySlug = normalizedPath.match(/^\/(?:journey|routes)\/([a-z0-9-]+)$/)?.[1];
 const journeyKey = requestedJourneySlug ? journeyKeyFromSlug(requestedJourneySlug) : null;
 const journey = journeyKey && journeys[journeyKey] ? journeyKey : null;
@@ -134,10 +138,10 @@ const routeSeo = {
     description:
       "View private transfer vehicles, routes and transparent pricing from Hoang Luxury Travel.",
   },
-  "/routes/halong-bay-cruises": {
-    title: "Halong Bay Cruise | Hoang Luxury Travel",
-    description:
-      "Discover Halong Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
+  "/routes/halong-bay-cruises": cruiseSeo,
+  "/policies": {
+    title: "Terms & Policies | Hoang Luxury Travel",
+    description: "Preview Hoang Luxury Travel’s terms of service, privacy information, and cancellation and refund guidance.",
   },
   "/feedback": {
     title: "Guest Feedback | Hoang Luxury Travel",
@@ -160,6 +164,14 @@ const routeSeo = {
       "Explore travel photo albums across Northern Vietnam with Hoang Luxury Travel, featuring stunning landscapes, couples, local culture and diverse creative concepts.",
   },
 };
+
+// Đường dẫn không khớp trang nào: trang 404 (noindex), không hiện trang chủ (tránh
+// "soft 404", khách báo 11/11/2026). Máy chủ cũng trả mã 404 (vercel.json, .htaccess).
+const isAdminRoute = normalizedPath === "/admin";
+const isNotFound = !(
+  normalizedPath === "/" || isAdminRoute || journey || postSlug || albumSlug || photoCategory ||
+  isBlogSectionPath || pages[normalizedPath]
+);
 
 const canonicalPath = journey
   ? journeyPagePath(journey)
@@ -187,17 +199,19 @@ const seo = journey
         }
       : photoCategory
         ? { title: photoCategoryPageTitle(photoCategory), description: photoCategoryPageDescription(photoCategory) }
-        : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
+        : isNotFound
+          ? { title: "Page Not Found | Hoang Luxury Travel", description: routeSeo["/"].description }
+          : routeSeo[canonicalPath.replace(/\/$/, "") || "/"] || routeSeo["/"];
 const canonicalUrl = `https://hoangluxury.travel${canonicalPath}`;
 
 document.title = seo.title;
+if (isNotFound) document.querySelector('link[rel="canonical"]')?.remove();
 document.querySelector('meta[name="description"]')?.setAttribute("content", seo.description);
 document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonicalUrl);
 document.querySelector('meta[property="og:title"]')?.setAttribute("content", seo.title);
 document.querySelector('meta[property="og:description"]')?.setAttribute("content", seo.description);
 document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl);
 
-const isAdminRoute = normalizedPath === "/admin";
 const RootPage = isAdminRoute
   ? AdminApp
   : journey
@@ -210,7 +224,9 @@ const RootPage = isAdminRoute
           ? PhotoAlbumsPage
           : isBlogSectionPath
             ? BlogPage
-            : pages[normalizedPath] || App;
+            : isNotFound
+              ? NotFoundPage
+              : pages[normalizedPath] || App;
 
 // Home hiển thị ngay, không chạy hiệu ứng trượt nội dung khi vào trang.
 // Các trang có transition riêng giữ nguyên; toggle cũng xóa class cũ khi HMR.
@@ -225,6 +241,7 @@ const pagesWithOwnTransition = new Set([
   "/photo/albums",
   "/booking",
   "/catalog",
+  "/policies",
   "/routes/halong-bay-cruises",
   "/cruises",
   "/ha-long-cruises",
@@ -234,7 +251,7 @@ const pagesWithOwnTransition = new Set([
 ]);
 document.documentElement.classList.toggle(
   "hlt-page-anim",
-  RootPage !== App && !journey && !albumSlug && !photoCategory && !postSlug && !isAdminRoute && !pagesWithOwnTransition.has(normalizedPath),
+  RootPage !== App && !isNotFound && !journey && !albumSlug && !photoCategory && !postSlug && !isAdminRoute && !pagesWithOwnTransition.has(normalizedPath),
 );
 
 createRoot(document.getElementById("root")).render(
@@ -248,8 +265,8 @@ createRoot(document.getElementById("root")).render(
 // Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
 setupImageSkeletons();
 
-// TẠM TẮT chặn chuột phải / sao chép / kéo ảnh để kiểm tra bằng F12 (khách yêu cầu
-// 01/11/2026). Bật lại: đổi thành true.
-const contentProtectionOn = false;
+// Chặn chuột phải / sao chép / bôi đen / kéo ảnh trên trang công khai (khách bật lại
+// 11/11/2026; tạm tắt từ 01/11 để kiểm tra bằng F12). Tắt: đổi thành false.
+const contentProtectionOn = true;
 const cleanupContentProtection = setupContentProtection(document, { enabled: contentProtectionOn && !isAdminRoute });
 if (import.meta.hot) import.meta.hot.dispose(cleanupContentProtection);

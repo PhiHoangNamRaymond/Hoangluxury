@@ -77,7 +77,8 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   max-width: 100%;
   margin-top: 16px;
   justify-content: center;
-  gap: 14px;
+  gap: 6px 12px;
+  flex-wrap: wrap;
 }
 
 .hlt-footer.hlt-footer-compact .hlt-footer-legal span {

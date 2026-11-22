@@ -1,3 +1,12 @@
+// Record only a coarse device category. A narrow PC window is still a PC.
+export function bookingDevice(browser) {
+  const agent = browser.userAgent || "";
+  const ipadDesktopMode = /Macintosh/i.test(agent) && browser.maxTouchPoints > 1;
+  return browser.userAgentData?.mobile || /Android|iPhone|iPad|iPod|Mobile/i.test(agent) || ipadDesktopMode
+    ? "Mobile"
+    : "PC";
+}
+
 export function validFormsProxy(value) {
   try {
     const url = new URL(value);

@@ -37,7 +37,7 @@ const BOOKING_HEADERS = [
   "Journey Type",          // N
   "Note (Special Requirements)", // O
   "Status",                // P
-  "Assigned Driver",       // Q
+  "Device",                // Q
   "Source",                // R
   "Internal Note",         // S
 ];
@@ -62,6 +62,7 @@ const BOOKING_STATUSES = [
 const JOURNEY_TYPES = [
   "One-way",
   "Round Trip",
+  "Multi-day",
   "Custom Request",
 ];
 
@@ -158,7 +159,7 @@ function saveBooking_(data) {
       safeCell_(data.journeyType),                             // N
       safeCell_(data.requirements),                            // O
       "New",                                                   // P
-      "",                                                      // Q
+      data.device || "",                                       // Q (blank for older website builds)
       source,                                                  // R
       "",                                                      // S
     ];
@@ -428,15 +429,18 @@ function validateBooking_(data) {
   if (!/^\+?[0-9]{6,19}$/.test(String(data.phone).trim())) throw new Error("Invalid phone");
   parsePassengers_(data.passengers);
   const departure = parseDate_(data.departureDate, "departureDate");
+  const today = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd");
+  if (String(data.departureDate).trim() < today) throw new Error("Departure date is in the past");
   const returning = parseOptionalDate_(data.returnDate, "returnDate");
   if (returning && returning < departure) throw new Error("Invalid return date");
   if (JOURNEY_TYPES.indexOf(String(data.journeyType || "").trim()) < 0) throw new Error("Invalid journey type");
+  if (data.device && data.device !== "PC" && data.device !== "Mobile") throw new Error("Invalid device");
 }
 
 function validateFieldBounds_(data) {
   const limits = { fullName:160, country:120, nationality:120, phone:24, passengers:2,
     luggage:300, departureDate:10, returnDate:10, flight:40, flightTimeZone:40,
-    pickup:500, dropoff:500, journeyType:40, requirements:4000, bookingId:100,
+    pickup:500, dropoff:500, journeyType:40, device:6, requirements:4000, bookingId:100,
     feedback:4000, experience:4000, rating:1, source:20, website:300,
     submittedFrom:2048, clientTimestamp:40, form:20, noFlight:5,
     proxySecret:256, requestId:36 };

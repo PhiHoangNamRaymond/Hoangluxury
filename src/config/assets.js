@@ -33,6 +33,7 @@ import aboutCeoSignatureUrl from "../../assets/about-ceo-signature.png";
 
 /* Cruise Page Assets */
 import cruiseHeroHalongUrl from "../../assets/opt/hoang-luxury-travel-halong-bay-cruise-banner.jpg";
+import cruiseHeroDesktopUrl from "../../assets/opt/hoang-luxury-travel-halong-bay-sunset-cruise-desktop.webp";
 import cruiseMosaicPanoramaUrl from "../../assets/opt/halong-bay-luxury-cruise.jpg";
 import cruiseMomentSundeckUrl from "../../assets/opt/real-cruise-moments-sundeck.jpg";
 /* Bản sao có tên riêng: 3 thẻ "Choose Your Cruise Duration" (cùng hình thẻ du thuyền)
@@ -53,6 +54,7 @@ import cruiseHeritageBinhChuanUrl from "../../assets/opt/heritage-binh-chuan-cru
 import cruiseStellarSeasUrl from "../../assets/opt/stellar-of-the-seas-cruise-ha-long-bay.jpg";
 import cruiseEraCruisesUrl from "../../assets/opt/era-cruise-halong-bay.jpg";
 import cruiseSeamlessTransferUrl from "../../assets/opt/private-transfer-hanoi-to-halong-and-cruise.jpg";
+import cruiseSeamlessTransferDesktopUrl from "../../assets/opt/hoang-luxury-travel-private-car-halong-cruise-transfer-desktop.webp";
 import cruiseExpCabinUrl from "../../assets/opt/luxury-cruise-cabin-bay-view.jpg";
 import cruiseExpDiningUrl from "../../assets/opt/halong-bay-cruise-fine-dining.jpg";
 import cruiseExpSunsetUrl from "../../assets/opt/cruise-sunset-deck-experience.jpg";
@@ -144,7 +146,6 @@ import journeyExpComfortUrl from "../../assets/journey-experience/private-car-co
 import journeyExpGreetUrl from "../../assets/journey-experience/hoang-luxury-travel-airport-meet-and-greet.webp";
 import journeyExpGreetCityUrl from "../../assets/journey-experience/hoang-luxury-travel-private-car-door-to-door.webp";
 import journeyExpLuggageUrl from "../../assets/journey-experience/hoang-luxury-travel-private-driver-luggage-assistance.webp";
-import journeyExpStopsUrl from "../../assets/journey-experience/hoang-luxury-travel-private-transfer-flexible-rest-stops.webp";
 import journeyExpCoffeeStopUrl from "../../assets/journey-experience/private-transfer-flexible-stops.webp";
 
 /* Nền dải "Ready to start your journey?" trang tuyến (cắt dải núi + mây từ Sapa2.png, JPEG 1920×565) */
@@ -808,6 +809,7 @@ export const journeyBannerBySlug = {
   "sapa-to-mu-cang-chai": bannerMuCangChaiUrl,
   "ha-long-to-sapa": bannerSapaUrl,
   "ninh-binh-to-sapa": bannerSapaUrl,
+  "mu-cang-chai-to-sapa": bannerSapaUrl,
 };
 
 /* Alt của banner tuyến, tra theo ảnh. Banner là ảnh nền CSS; JourneyPage.jsx
@@ -830,7 +832,8 @@ export const journeyExperienceImages = [
   journeyExpComfortUrl,
   journeyExpGreetUrl,
   journeyExpLuggageUrl,
-  journeyExpStopsUrl,
+  // Thẻ Flexible Stops: cùng ảnh dừng chân uống cà phê với tuyến nối tỉnh (khách đổi 11/11/2026).
+  journeyExpCoffeeStopUrl,
 ];
 
 /* Tuyến nối tỉnh (cùng thứ tự với journeyExperienceCity): đón tận nơi tại
@@ -852,13 +855,14 @@ const journeyExpAlts = {
   greet: "The professional Hoang Luxury Travel driver welcoming international travelers at the Noi Bai Airport with a personalized pick-up sign",
   luggage: "Professional driver carefully loading a traveler's suitcase into a private car outside a hotel",
   stops: "Enjoying a smooth and relaxing journey in a private car with spacious leather seats and beautiful mountain views",
+  coffeeStop: "A traveler enjoying the mountain views during a flexible rest stop on her private car journey",
 };
-export const journeyExperienceImageAlts = [journeyExpAlts.comfort, journeyExpAlts.greet, journeyExpAlts.luggage, journeyExpAlts.stops];
+export const journeyExperienceImageAlts = [journeyExpAlts.comfort, journeyExpAlts.greet, journeyExpAlts.luggage, journeyExpAlts.coffeeStop];
 export const journeyExperienceCityImageAlts = [
   "A guest stepping out of a private car at her hotel with Hoang Luxury Travel's door-to-door transfer service",
   journeyExpAlts.luggage,
   journeyExpAlts.stops,
-  "A traveler enjoying the mountain views during a flexible rest stop on her private car journey",
+  journeyExpAlts.coffeeStop,
 ];
 
 export const journeyFactIcons = {
@@ -1089,6 +1093,7 @@ export const journeyIconBySlug = {
   "sapa-to-mu-cang-chai": journeyMuCangChaiIconUrl,
   "ha-long-to-sapa": journeySaPaIconUrl,
   "ninh-binh-to-sapa": journeySaPaIconUrl,
+  "mu-cang-chai-to-sapa": journeySaPaIconUrl,
 };
 
 /* Icon dải chỉ số trang Feedback, theo thứ tự feedbackStats */
@@ -1101,6 +1106,7 @@ export const feedbackStatIcons = [
 
 export const cruiseImages = {
   heroHalong: cruiseHeroHalongUrl,
+  heroDesktop: cruiseHeroDesktopUrl,
   mosaicPanorama: cruiseMosaicPanoramaUrl,
   momentSundeck: cruiseMomentSundeckUrl,
   avatarJessica: avatarJessicaUrl,
@@ -1113,6 +1119,7 @@ export const cruiseImages = {
   stellarSeas: cruiseStellarSeasUrl,
   eraCruises: cruiseEraCruisesUrl,
   seamlessTransfer: cruiseSeamlessTransferUrl,
+  seamlessTransferDesktop: cruiseSeamlessTransferDesktopUrl,
   expCabin: cruiseExpCabinUrl,
   expDining: cruiseExpDiningUrl,
   expSunset: cruiseExpSunsetUrl,

@@ -14,7 +14,7 @@ import {
 } from "./config/assets.js";
 import { formatVnd, VND_PER_USD } from "./config/journeys.js";
 import { photoAlbumsPath, photoCategoryPath } from "./config/photo-album-list.js";
-import { whatsappPhotoUrl } from "./data.js";
+import { whatsappPhotoInquiryUrl, whatsappPhotoHalfDayUrl, whatsappPhotoFullDayUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 /* Trang giới thiệu dịch vụ chụp ảnh. Lưới album ảnh thật nằm ở /hoangphoto/albums/;
@@ -80,6 +80,7 @@ const packages = [
     ],
     price: 299,
     button: "Book Half-Day",
+    whatsappUrl: whatsappPhotoHalfDayUrl,
     script: ["A few hours.", "Beautiful memories"],
     image: photoPlanImages.halfDay,
     focus: "58%", // cô gái hơi lệch phải
@@ -103,6 +104,7 @@ const packages = [
     ],
     price: 379,
     button: "Book Full-Day",
+    whatsappUrl: whatsappPhotoFullDayUrl,
     script: ["More time.", "More moments to remember"],
     image: photoPlanImages.fullDay,
     mobileImage: photoPlanImages.fullDayMobile,
@@ -312,7 +314,7 @@ export default function PhotoPage() {
             <div className="hlt-pl-hero-actions">
               <a
                 className="hlt-btn hlt-btn-gold"
-                href={whatsappPhotoUrl}
+                href={whatsappPhotoInquiryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -409,7 +411,7 @@ export default function PhotoPage() {
                       </p>
                       <a
                         className="hlt-pl-plan-btn"
-                        href={whatsappPhotoUrl}
+                        href={item.whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -523,7 +525,7 @@ export default function PhotoPage() {
             <div className="hlt-pl-cta-copy">
               <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Let&rsquo;s plan your photo experience today.</p>
-              <a className="hlt-pl-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
+              <a className="hlt-pl-cta-btn" href={whatsappPhotoInquiryUrl} target="_blank" rel="noopener noreferrer">
                 <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                 Chat on WhatsApp
               </a>

@@ -1,3 +1,14 @@
+export const cruiseLanding = {
+  heading: "Ha Long & Lan Ha Bay Cruises",
+  intro: "Handpicked cruises, private transfers and personal support for your journey through Northern Vietnam.",
+  types: [
+    { id: "day", badge: "Day Cruise", title: "Day Cruises", schedule: "Half-Day / Full-Day", text: "See the bay without an overnight stay. Ask about sailing times and the stops on your preferred itinerary.", image: "mosaicPanorama" },
+    { id: "overnight", badge: "Overnight", title: "Overnight Cruises", schedule: "2 Days 1 Night / 3 Days 2 Nights", text: "Spend the night on the bay and enjoy more time on the water. Compare cabin options and itineraries.", image: "duration2d1n" },
+    { id: "dinner", badge: "Dinner Cruise", title: "Dinner Cruises", schedule: "Evening Dining Experience", text: "Enjoy dinner on the water. Ask about departure times, menus and dietary options.", image: "expSunset" },
+    { id: "private", badge: "Private Charter", title: "Private Charters", schedule: "Private Group Experience", text: "Plan a cruise for your own group. Tell us your preferred date, group size and itinerary.", image: "durationPrivate" },
+  ],
+};
+
 export const cruiseData = {
   hero: {
     kicker: "HANDPICKED CRUISES · PRIVATE HANOI TRANSFER · PERSONAL SUPPORT",

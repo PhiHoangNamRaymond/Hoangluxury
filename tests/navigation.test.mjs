@@ -6,6 +6,9 @@ import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import { JSDOM } from "jsdom";
 import { transformWithEsbuild } from "vite";
+import { approxUsd, intercityTransfers, journeys } from "../src/config/journeys.js";
+import { cruisesPagePath, journeyKeyFromSlug, journeyPagePath } from "../src/config/journey-paths.js";
+import { cruiseSeo } from "../src/config/cruise-seo.js";
 
 const require = createRequire(import.meta.url);
 const dom = new JSDOM('<div id="root"></div>', { url: "http://fixture.invalid/" });
@@ -21,7 +24,7 @@ const dataSource = (await readFile(new URL("../src/data.js", import.meta.url), "
   .replace('from "./config/photo-album-list.js"', `from ${JSON.stringify(new URL("../src/config/photo-album-list.js", import.meta.url).href)}`)
   .replace('from "./lib/blog-article.js"', `from ${JSON.stringify(new URL("../src/lib/blog-article.js", import.meta.url).href)}`)
   .replace("import.meta.env.VITE_CATALOG_URL", "undefined");
-const { navLinks, routesMenu, whatsappUrl } = await import(`data:text/javascript;base64,${Buffer.from(dataSource).toString("base64")}`);
+const { navLinks, routesMenu, whatsappUrl, whatsappInquiryUrl, whatsappTransferRouteUrl } = await import(`data:text/javascript;base64,${Buffer.from(dataSource).toString("base64")}`);
 const source = (await readFile(new URL("../src/components/layout/Header.jsx", import.meta.url), "utf8"))
   .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
   .replace('import { logoUrl } from "../../config/assets.js";', 'const logoUrl = "/fixture.png";')
@@ -53,6 +56,43 @@ function frame(time) {
   pending.forEach((callback) => callback(time));
 }
 function finish() { for (let time = 0; time <= 1400; time += 100) frame(time); }
+
+test("WhatsApp header uses the inquiry message only when the page supplies it", async () => {
+  reset("/");
+  const root = createRoot(document.getElementById("root"));
+  const readLink = () => new URL(document.querySelector(".hlt-header-cta").href);
+  try {
+    await act(async () => root.render(React.createElement(Header, { whatsappHref: whatsappInquiryUrl })));
+    assert.equal(readLink().origin + readLink().pathname, "https://wa.me/84839779888");
+    assert.deepEqual(readLink().searchParams.getAll("text"), ["Hello Hoang Luxury Travel, I'd like to inquire about a private transfer."]);
+    await act(async () => root.render(React.createElement(Header)));
+    assert.equal(readLink().href, whatsappUrl);
+  } finally { await act(async () => root.unmount()); }
+});
+
+test("each transfer WhatsApp link has one text parameter and the correct route direction", () => {
+  for (const [key, { origin, destination, routeLabel }] of Object.entries(journeys)) {
+    assert.equal(`${origin} ↔ ${destination}`, routeLabel, key);
+    const url = new URL(whatsappTransferRouteUrl(origin, destination));
+    assert.equal(url.hostname, "wa.me");
+    assert.deepEqual([...url.searchParams], [["text", `Hello Hoang Luxury Travel, I'd like to inquire about a private transfer from ${origin} to ${destination}.`]], key);
+  }
+  assert.equal(new URL(whatsappTransferRouteUrl("HANOI", "SAPA")).searchParams.get("text"),
+    "Hello Hoang Luxury Travel, I'd like to inquire about a private transfer from HANOI to SAPA.");
+});
+
+test("Mu Cang Chai to Sapa is in the routes menu and shares the updated round-direction fare", () => {
+  const key = "mu-cang-chai-to-sapa";
+  const path = "/routes/mu-cang-chai-to-sapa-private-car/";
+  assert.equal(journeyPagePath(key),path);
+  assert.equal(journeyKeyFromSlug(path.split("/")[2]),key);
+  assert.deepEqual(routesMenu.routes.find(([title]) => title === "Mu Cang Chai to Sapa"),["Mu Cang Chai to Sapa",path]);
+  assert.equal(journeys[key].seoTitle,"Mu Cang Chai To Sapa Private Transfer | Hoang Luxury travel");
+  const fare = intercityTransfers.find(({ id }) => id === journeys[key].intercityId);
+  assert.equal(fare.id, journeys["sapa-to-mu-cang-chai"].intercityId);
+  assert.equal(fare.price,3_900_000);
+  assert.equal(approxUsd(fare.price),"≈ $150 USD");
+});
 
 test("desktop and mobile keep Feedback before Photo with the correct links and active state", async () => {
   const pageLinks = navLinks.filter(([, href]) => !href.startsWith("#"));
@@ -175,6 +215,11 @@ test("every routed page has its own SEO title matching the static build", async 
   for (const entry of generator.matchAll(/path:\s*"(\/[^"]*)",\s*\n\s*title:\s*"([^"]+)"/g)) {
     staticTitles.set(entry[1].replace(/\/$/, "") || "/", entry[2]);
   }
+  const cruisePath = cruisesPagePath.slice(0, -1);
+  assert.ok(slice(main, "const routeSeo = {").includes(`"${cruisePath}": cruiseSeo`));
+  assert.match(generator, /path: cruisesPagePath,\s*\.\.\.cruiseSeo,/);
+  routeSeo.set(cruisePath, cruiseSeo.title);
+  staticTitles.set(cruisePath, cruiseSeo.title);
 
   assert.ok(routeSeo.size > 5 && pagePaths.length > 5 && staticTitles.size > 5, "không đọc được cấu hình route");
   for (const path of pagePaths) {

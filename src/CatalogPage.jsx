@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
-import { catalogUrl, whatsappUrl } from "./data.js";
+import { catalogUrl, whatsappInquiryUrl } from "./data.js";
 import { catalogBackgroundUrl, catalogOpenBookUrl } from "./config/assets.js";
 
 function BookIcon() {
@@ -28,7 +28,7 @@ export default function CatalogPage() {
 
   return (
     <div className="hlt-site hlt-catalog-site">
-      <Header />
+      <Header whatsappHref={whatsappInquiryUrl} />
 
       <main className="hlt-catalog-main">
         <section
@@ -52,11 +52,11 @@ export default function CatalogPage() {
                 rel={hasPdfUrl ? "noopener noreferrer" : undefined}
               >
                 <BookIcon />
-                <span>VIEWS ROUTES & PRICING</span>
+                <span>VIEW FLEET, ROUTES &amp; PRICING</span>
               </a>
               <a
                 className="hlt-catalog-button hlt-catalog-button-gold"
-                href={whatsappUrl}
+                href={whatsappInquiryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -69,7 +69,7 @@ export default function CatalogPage() {
       </main>
 
       <ExperienceSlider />
-      <Footer />
+      <Footer whatsappHref={whatsappInquiryUrl} />
     </div>
   );
 }

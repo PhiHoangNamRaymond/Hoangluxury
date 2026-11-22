@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
-import { cruiseData } from "./config/cruises.js";
+import { cruiseData, cruiseLanding } from "./config/cruises.js";
 import { cruiseBackgroundAlts, cruiseImages, preferenceIconImages } from "./config/assets.js";
-import { whatsappUrl } from "./data.js";
+import { catalogPageUrl, whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
+import CruiseLandingCollection, { cruiseInquiry } from "./components/CruiseLandingCollection.jsx";
+import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";
+import CruiseDesktopIcon from "./components/CruiseDesktopIcon.jsx";
+import "./styles/cruise-landing-desktop.css";
+import "./styles/cruise-landing-mobile.css";
 
 export default function CruisesPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const moveReview = (direction) => setReviewIndex((current) => (current + direction + cruiseData.reviews.length) % cruiseData.reviews.length);
+  const cruiseWhatsApp = cruiseInquiry("a Ha Long Bay or Lan Ha Bay cruise");
   const pageEntered = usePageEntered();
 
   const toggleFaq = (index) => {
@@ -26,18 +34,16 @@ export default function CruisesPage() {
     <div
       className={`hlt-site hlt-cruises-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}
     >
-      <Header />
+      <Header mobileAction={<a className="hlt-cruise-mobile-contact hlt-cruise-mobile-only" href={cruiseWhatsApp} target="_blank" rel="noopener noreferrer" aria-label="Ask about cruises on WhatsApp"><WhatsAppGlyph /></a>} />
 
       <main className="hlt-cruises-main">
         {/* =========================================================================
             1. HERO BANNER & USPs TRUSTBAR (Dark Gold Luxury)
         ========================================================================= */}
-        <section
-          className="hlt-cruise-hero"
-          style={{ backgroundImage: `url(${cruiseImages.heroHalong})` }}
-        >
-          {/* Ảnh nền CSS không có alt: ảnh ẩn cùng file mang alt cho trình đọc màn hình / tìm kiếm. */}
-          <img className="hlt-cruise-bg-alt" src={cruiseImages.heroHalong} alt={cruiseBackgroundAlts.heroHalong} />
+        <section className="hlt-cruise-hero">
+          <picture className="hlt-cruise-hero-media">
+            <img src={cruiseImages.heroDesktop} alt={cruiseBackgroundAlts.heroHalong} fetchPriority="high" data-no-skeleton />
+          </picture>
           <div className="hlt-cruise-hero-overlay" aria-hidden="true" />
 
           <div className="hlt-container hlt-cruise-hero-container">
@@ -59,11 +65,10 @@ export default function CruisesPage() {
             </div>
 
             <div className="hlt-cruise-hero-content">
-              <p className="hlt-cruise-hero-kicker">HANDPICKED · LUXURY · PRIVATE TRANSFER</p>
+              <p className="hlt-cruise-v1-kicker">Luxury Bay Cruises</p>
               <h1 className="hlt-cruise-hero-title">
-                {/* Chữ thường + dấu cách: Google đọc "Luxury Ha Long Cruises"; CSS vẫn in hoa. */}
-                <span className="hlt-title-white">Luxury</span>{" "}
-                <span className="hlt-title-gold">Ha Long Cruises</span>
+                <span className="hlt-title-white">Ha Long &amp; Lan Ha </span>
+                <span className="hlt-title-gold">Bay Cruises</span>
               </h1>
 
               <div className="hlt-cruise-crown-divider" aria-hidden="true">
@@ -75,30 +80,13 @@ export default function CruisesPage() {
                 <span className="hlt-cruise-crown-line" />
               </div>
 
-              <p className="hlt-cruise-hero-subtitle">
-                Find your ideal cruise in Ha Long Bay &amp; Lan Ha Bay
-              </p>
-              <p className="hlt-cruise-hero-bullets">
-                Choose your cruise. Let us help with the details.
-              </p>
-
-              <div className="hlt-cruise-hero-actions">
-                <a className="hlt-btn hlt-cruise-btn-gold" href="#find-cruise">
-                  Explore Cruises
-                </a>
-                <a
-                  className="hlt-btn hlt-cruise-btn-glass"
-                  href={getCustomInquiryUrl("Luxury Ha Long Cruise & Private Transfer")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="hlt-whatsapp-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.45 9.9-9.91a9.82 9.82 0 0 0-2.9-7Zm-7 15.24h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 5.83 2.42 8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.28Z" />
-                    </svg>
-                  </span>
-                  <span>Chat on WhatsApp</span>
-                </a>
+              <div className="hlt-cruise-v1-hero-copy">
+                <p>{cruiseLanding.intro}</p>
+                <div className="hlt-cruise-v1-actions">
+                  <a className="hlt-cruise-v1-btn" href={cruiseInquiry("a Ha Long Bay or Lan Ha Bay cruise")} target="_blank" rel="noopener noreferrer"><WhatsAppGlyph /> Book via WhatsApp</a>
+                  <a className="hlt-cruise-v1-btn is-outline" href={catalogPageUrl}>View Catalog</a>
+                </div>
+                <a className="hlt-cruise-v1-hero-jump hlt-cruise-pc-only" href="#find-cruise">Explore Cruises <span aria-hidden="true">↓</span></a>
               </div>
             </div>
           </div>
@@ -107,6 +95,7 @@ export default function CruisesPage() {
             <div className="hlt-container hlt-cruise-trustbar-inner">
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
+                  <CruiseDesktopIcon name="boat" />
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
                     <path d="M2 9h20" />
@@ -118,6 +107,7 @@ export default function CruisesPage() {
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
+                  <CruiseDesktopIcon name="car" />
                   <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M 2.5,14.5 V 7 C 2.5,5 4,4 6,4 H 16 L 22.5,9.5 H 25 C 26,9.5 26.5,10.5 26.5,12 V 14.5" />
                     <path d="M 2.5,14.5 H 4.5" />
@@ -135,6 +125,7 @@ export default function CruisesPage() {
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
+                  <CruiseDesktopIcon name="support" />
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
                     <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
@@ -145,6 +136,7 @@ export default function CruisesPage() {
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
+                  <CruiseDesktopIcon name="price" />
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M20.6 12.4 12.4 20.6a1.6 1.6 0 0 1-2.3 0L3 13.5V5a2 2 0 0 1 2-2h8.5l7.1 7.1a1.6 1.6 0 0 1 0 2.3Z" />
                     <circle cx="8.3" cy="8.3" r="1.6" />
@@ -159,113 +151,16 @@ export default function CruisesPage() {
         {/* =========================================================================
             2. FIND YOUR CRUISE (Staggered Layout)
         ========================================================================= */}
-        <section id="find-cruise" className="hlt-cruise-catalog-section">
-          <div className="hlt-container hlt-cruise-catalog-container">
-            {/* Top Row: Intro + First 3 Cards */}
-            <div className="hlt-cruise-row-top">
-              <div className="hlt-cruise-catalog-intro">
-                <h2 className="hlt-cruise-catalog-title">
-                  Our Cruise Collection
-                </h2>
-                <p className="hlt-cruise-catalog-desc">
-                  Explore Ha Long Bay &amp; Lan Ha Bay cruises. Choose the itinerary, cabin and price that suit you.
-                </p>
-                <div className="hlt-cruise-gold-rule" aria-hidden="true" />
-              </div>
-
-              {cruiseData.cruises.slice(0, 3).map((cruise) => {
-                const cruiseImg = cruiseImages[cruise.imageKey] || cruiseImages.heroHalong;
-                return (
-                  <article className="hlt-cruise-card" key={cruise.id}>
-                    <div className="hlt-cruise-card-media">
-                      <img
-                        src={cruiseImg}
-                        alt=""
-                        loading="lazy"
-                        className="hlt-cruise-card-img"
-                      />
-                      <span className="hlt-cruise-card-badge">
-                        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                          <path d="M8 1a5 5 0 0 0-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 0 0-5-5Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" />
-                        </svg>
-                        <span>{cruise.locationBadge}</span>
-                      </span>
-                    </div>
-
-                    <div className="hlt-cruise-card-body">
-                      <h3 className="hlt-cruise-card-title">{cruise.name}</h3>
-                      <p className="hlt-cruise-card-durations">{cruise.durations}</p>
-
-                      <div className="hlt-cruise-card-meta">
-                        <span className="hlt-cruise-card-rating">
-                          <span className="hlt-star">★</span> {cruise.rating} <span className="hlt-cruise-reviews-count">({cruise.reviewsCount})</span>
-                        </span>
-                      </div>
-
-                      <button
-                        type="button"
-                        className="hlt-cruise-card-btn"
-                        onClick={() => setSelectedCruise(cruise)}
-                      >
-                        View Cruise
-                      </button>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-
-            {/* Bottom Row: 3 Cards Offset / Staggered */}
-            <div className="hlt-cruise-row-bottom">
-              {cruiseData.cruises.slice(3, 6).map((cruise) => {
-                const cruiseImg = cruiseImages[cruise.imageKey] || cruiseImages.heroHalong;
-                return (
-                  <article className="hlt-cruise-card" key={cruise.id}>
-                    <div className="hlt-cruise-card-media">
-                      <img
-                        src={cruiseImg}
-                        alt=""
-                        loading="lazy"
-                        className="hlt-cruise-card-img"
-                      />
-                      <span className="hlt-cruise-card-badge">
-                        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                          <path d="M8 1a5 5 0 0 0-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 0 0-5-5Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" />
-                        </svg>
-                        <span>{cruise.locationBadge}</span>
-                      </span>
-                    </div>
-
-                    <div className="hlt-cruise-card-body">
-                      <h3 className="hlt-cruise-card-title">{cruise.name}</h3>
-                      <p className="hlt-cruise-card-durations">{cruise.durations}</p>
-
-                      <div className="hlt-cruise-card-meta">
-                        <span className="hlt-cruise-card-rating">
-                          <span className="hlt-star">★</span> {cruise.rating} <span className="hlt-cruise-reviews-count">({cruise.reviewsCount})</span>
-                        </span>
-                      </div>
-
-                      <button
-                        type="button"
-                        className="hlt-cruise-card-btn"
-                        onClick={() => setSelectedCruise(cruise)}
-                      >
-                        View Cruise
-                      </button>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        <div id="find-cruise">
+        <CruiseLandingCollection />
+        </div>
 
         {/* =========================================================================
             3. NOT SURE WHICH CRUISE TO CHOOSE? (Dark Navy Luxury)
         ========================================================================= */}
         <section className="hlt-cruise-match-section">
           <div className="hlt-container">
+            <h2 className="hlt-cruise-mobile-only hlt-cruise-mobile-styles-title">Travel Styles We Recommend</h2>
             <div className="hlt-cruise-match-layout">
               <div className="hlt-cruise-match-left">
                 <div className="hlt-cruise-match-title">Not Sure Which Cruise to Choose?</div>
@@ -290,6 +185,7 @@ export default function CruisesPage() {
                     className="hlt-cruise-pref-box"
                   >
                     <div className="hlt-cruise-pref-icon">
+                      <CruiseDesktopIcon name={cat.id} />
                       <img
                         src={preferenceIconImages[cat.id]}
                         alt={cat.title}
@@ -312,7 +208,10 @@ export default function CruisesPage() {
         <section className="hlt-cruise-seamless-section">
           <div className="hlt-cruise-seamless-banner">
             {/* Ảnh là thẻ img hiển thị thật (tên file + alt, khách yêu cầu 29/10/2026). */}
-            <img className="hlt-cruise-seamless-img" src={cruiseImages.seamlessTransfer} alt={cruiseBackgroundAlts.seamlessTransfer} loading="lazy" decoding="async" data-no-skeleton />
+            <picture className="hlt-cruise-seamless-media">
+              <source media="(min-width: 961px)" srcSet={cruiseImages.seamlessTransferDesktop} />
+              <img className="hlt-cruise-seamless-img" src={cruiseImages.seamlessTransfer} alt={cruiseBackgroundAlts.seamlessTransfer} loading="lazy" decoding="async" data-no-skeleton />
+            </picture>
             <div className="hlt-cruise-seamless-overlay" aria-hidden="true" />
             <div className="hlt-container hlt-cruise-seamless-content">
               <div className="hlt-cruise-seamless-title">From Your Hotel to Your Cruise — Seamlessly</div>
@@ -324,6 +223,7 @@ export default function CruisesPage() {
               <div className="hlt-cruise-flow-steps">
                 <div className="hlt-cruise-flow-step">
                   <span className="hlt-flow-svg">
+                    <CruiseDesktopIcon name="hotel" />
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16M4 21h16" />
                       <rect x="7" y="6" width="3" height="3" rx="0.5" />
@@ -338,6 +238,7 @@ export default function CruisesPage() {
                 <div className="hlt-cruise-flow-arrow" aria-hidden="true">→</div>
                 <div className="hlt-cruise-flow-step">
                   <span className="hlt-flow-svg">
+                    <CruiseDesktopIcon name="car" />
                     <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M 2.5,14.5 V 7 C 2.5,5 4,4 6,4 H 16 L 22.5,9.5 H 25 C 26,9.5 26.5,10.5 26.5,12 V 14.5" />
                       <path d="M 2.5,14.5 H 4.5" />
@@ -355,6 +256,7 @@ export default function CruisesPage() {
                 <div className="hlt-cruise-flow-arrow" aria-hidden="true">→</div>
                 <div className="hlt-cruise-flow-step">
                   <span className="hlt-flow-svg">
+                    <CruiseDesktopIcon name="anchor" />
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="5" r="2.5" />
                       <line x1="12" y1="7.5" x2="12" y2="21" />
@@ -369,6 +271,7 @@ export default function CruisesPage() {
                 <div className="hlt-cruise-flow-arrow" aria-hidden="true">→</div>
                 <div className="hlt-cruise-flow-step">
                   <span className="hlt-flow-svg">
+                    <CruiseDesktopIcon name="yacht" />
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M3 17l1.5 4h15L21 17H3z" />
                       <path d="M5 17V11h14v6" />
@@ -657,7 +560,7 @@ export default function CruisesPage() {
 
               <div className="hlt-cruise-reviews-grid">
                 {cruiseData.reviews.map((rev, idx) => (
-                  <article className="hlt-cruise-review-card" key={idx}>
+                  <article className={`hlt-cruise-review-card${idx === reviewIndex ? " is-mobile-active" : ""}`} key={idx}>
                     <div className="hlt-cruise-review-stars">★★★★★</div>
                     <p className="hlt-cruise-review-quote">"{rev.text}"</p>
                     <div className="hlt-cruise-review-author">
@@ -678,6 +581,11 @@ export default function CruisesPage() {
                     </div>
                   </article>
                 ))}
+              </div>
+              <div className="hlt-cruise-mobile-only hlt-cruise-review-controls" aria-label="Review navigation">
+                <button type="button" onClick={() => moveReview(-1)} aria-label="Previous review">‹</button>
+                <div>{cruiseData.reviews.map((review, idx) => <button key={review.name} type="button" aria-label={`Show review ${idx + 1}`} aria-pressed={idx === reviewIndex} onClick={() => setReviewIndex(idx)} />)}</div>
+                <button type="button" onClick={() => moveReview(1)} aria-label="Next review">›</button>
               </div>
             </div>
 
@@ -741,7 +649,7 @@ export default function CruisesPage() {
             11. YOUR HA LONG JOURNEY STARTS HERE (Pre-footer Dark Gold CTA)
         ========================================================================= */}
         <section
-          className="hlt-cruise-cta-section"
+          className="hlt-cruise-cta-section hlt-cruise-pc-only"
         >
           <img className="hlt-cruise-cta-img" src={cruiseImages.ctaSunset} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
@@ -762,10 +670,12 @@ export default function CruisesPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Check Cruise Availability
+                  <span className="hlt-cruise-mobile-only">Check Cruise Availability</span>
+                  <span className="hlt-whatsapp-icon hlt-cruise-pc-only is-desktop" aria-hidden="true"><WhatsAppGlyph /></span>
+                  <span className="hlt-cruise-pc-only">WhatsApp</span>
                 </a>
                 <a
-                  className="hlt-cruise-btn-dark-wa"
+                  className="hlt-cruise-btn-dark-wa hlt-cruise-mobile-only"
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -777,6 +687,7 @@ export default function CruisesPage() {
                   </span>
                   WhatsApp Us
                 </a>
+                <a className="hlt-cruise-btn-dark-wa hlt-cruise-pc-only" href={catalogPageUrl}>View Catalog</a>
               </div>
               <div className="hlt-cruise-cta-trust">
                 <span>Personal Support</span>

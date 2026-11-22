@@ -6,7 +6,7 @@ import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";
 import { blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.js";
 import usePublicBlog from "./hooks/usePublicBlog.js";
-import { aboutPageUrl, whatsappUrl } from "./data.js";
+import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 const images = { hero: blogImages.hero, plan: blogImages.plan, sapa: journeyCardImages[0] };
@@ -35,7 +35,7 @@ function Icon({ name, ...props }) {
 }
 
 function PlanButton({ children = "Plan your journey" }) {
-  return <a className="hlt-blog-gold-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><WhatsAppGlyph />{children}<Icon name="arrow" /></a>;
+  return <a className="hlt-blog-gold-btn" href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer"><WhatsAppGlyph />{children}</a>;
 }
 
 function SectionHeading({ children, action, onAction, plain = false }) {
@@ -238,7 +238,7 @@ export default function BlogPage() {
               <section className="hlt-blog-plan"><img className="hlt-blog-plan-img" src={images.plan} alt="" loading="lazy" decoding="async" data-no-skeleton /><div className="hlt-blog-plan-title">EXPLORE MORE. TRAVEL YOUR WAY</div><p>Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.</p><PlanButton /></section>
               <section><SectionHeading action="View all" onAction={() => { resetFilters(true); setLimit(blogArticles.length); }}>Popular Reads</SectionHeading><ol className="hlt-blog-popular">{popular.map((article, index) => <li key={article.slug}><div className="hlt-blog-popular-item"><span className="hlt-blog-rank">{index + 1}</span>{article.imageUrl ? <img src={article.imageUrl} alt="" loading="lazy" /> : <span className="hlt-blog-rank-blank" />}<span><strong>{article.title}</strong><small>{article.topics[0] || article.destinations[0] || "Travel journal"}</small></span></div></li>)}</ol></section>
 
-              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><div className="hlt-blog-destination-feature-title">Sapa</div><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations<Icon name="arrow" /></span></div></section>
+              <section className="hlt-blog-destinations"><SectionHeading>Explore Northern Vietnam</SectionHeading><div className="hlt-blog-destination-panel"><p>Nine incredible destinations. Countless unforgettable stories.</p><button type="button" className="hlt-blog-destination-feature" aria-label="Filter articles by Sapa" aria-pressed={destination === "Sapa"} onClick={() => showDestination("Sapa")}><img src={images.sapa} alt="Sapa valley at sunset" loading="lazy" /><div><small>Featured destination</small><div className="hlt-blog-destination-feature-title">Sapa</div><p>Mountains · Terraces · Culture</p><span>Explore Sapa <Icon name="arrow" /></span></div></button><div className="hlt-blog-destination-grid">{destinations.map(([name, description, index]) => <div key={name}><img src={journeyCardImages[index]} alt="" loading="lazy" /><span><strong>{name}</strong><small>{description}</small></span></div>)}</div><span className="hlt-blog-all-destinations">Explore all destinations</span></div></section>
             </aside>
           </div>
         </div>

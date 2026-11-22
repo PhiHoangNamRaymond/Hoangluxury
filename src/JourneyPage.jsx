@@ -5,7 +5,7 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { fleet as fleetItems, whatsappUrl } from "./data.js";
+import { fleet as fleetItems, whatsappTransferRouteUrl } from "./data.js";
 import {
   fleetImages,
   heroBannerUrl,
@@ -149,10 +149,10 @@ function WhatsAppIcon() {
 
 /* Hai nút dưới bảng giá, giống nhau ở mọi trang cung đường: đặt qua WhatsApp
    hoặc điền form trên trang Booking. */
-function JourneyBookActions() {
+function JourneyBookActions({ whatsappHref }) {
   return (
     <div className="hlt-journey-options-actions">
-      <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+      <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
         <WhatsAppIcon />
         <span>Book via WhatsApp</span>
       </a>
@@ -167,7 +167,7 @@ function JourneyBookActions() {
    khách gửi 24/10/2026, giá sửa theo mẫu 27/10). Dùng lại khung thẻ và kiểu
    giá của dải 4 gói; thẻ tuyến đang xem
    tô xanh đậm, các thẻ khác dẫn sang trang của tuyến đó. */
-function IntercityTransfers({ currentId, currentTitle }) {
+function IntercityTransfers({ currentId, currentTitle, whatsappHref }) {
   const title = "Choose Your Route";
   /* Thẻ tô đậm luôn đứng ô thứ 3 (như mẫu); ba thẻ còn lại giữ thứ tự gốc. */
   const others = intercityTransfers.filter((item) => item.id !== currentId);
@@ -209,7 +209,7 @@ function IntercityTransfers({ currentId, currentTitle }) {
           })}
         </div>
 
-        <JourneyBookActions />
+        <JourneyBookActions whatsappHref={whatsappHref} />
       </div>
     </section>
   );
@@ -217,6 +217,7 @@ function IntercityTransfers({ currentId, currentTitle }) {
 
 export default function JourneyPage({ slug }) {
   const journey = journeys[slug];
+  const whatsappHref = whatsappTransferRouteUrl(journey.origin, journey.destination);
   const pageEntered = usePageEntered();
 
   // index.html chỉ có một <title> tĩnh dùng chung cho mọi trang; đặt riêng
@@ -316,7 +317,7 @@ export default function JourneyPage({ slug }) {
     <div
       className={`hlt-site hlt-journey-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}
     >
-      <Header />
+      <Header whatsappHref={whatsappHref} />
 
       <main className="hlt-journey">
         <section
@@ -349,7 +350,7 @@ export default function JourneyPage({ slug }) {
               </h1>
               <p className="hlt-journey-lead">{journey.intro}</p>
               <div className="hlt-journey-actions">
-                <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon />
                   <span>Book via WhatsApp</span>
                 </a>
@@ -498,7 +499,7 @@ export default function JourneyPage({ slug }) {
         {/* Tuyến nối tỉnh: 4 tuyến Sa Pa kèm giá, thẻ của tuyến đang xem tô xanh đậm.
             Tuyến Hanoi to…: 4 gói hành trình, dẫn tới bảng giá hoặc WhatsApp. */}
         {journey.intercityId ? (
-          <IntercityTransfers currentId={journey.intercityId} currentTitle={journey.intercityTitle} />
+          <IntercityTransfers currentId={journey.intercityId} currentTitle={journey.intercityTitle} whatsappHref={whatsappHref} />
         ) : (
           <section className="hlt-journey-section hlt-journey-options">
             <div className="hlt-container">
@@ -545,7 +546,7 @@ export default function JourneyPage({ slug }) {
                 ))}
               </div>
 
-              <JourneyBookActions />
+              <JourneyBookActions whatsappHref={whatsappHref} />
             </div>
           </section>
         )}
@@ -566,7 +567,16 @@ export default function JourneyPage({ slug }) {
                   <img src={experienceImages[index]} alt={experienceImageAlts[index]} loading="lazy" />
                   <div className="hlt-journey-experience-body">
                     <h3>{title}</h3>
-                    <p>{text}</p>
+                    <p>
+                      {Array.isArray(text)
+                        ? text.map((line, lineIndex) => (
+                            <React.Fragment key={line}>
+                              {lineIndex > 0 && <br />}
+                              {line}
+                            </React.Fragment>
+                          ))
+                        : text}
+                    </p>
                   </div>
                 </article>
               ))}
@@ -626,9 +636,9 @@ export default function JourneyPage({ slug }) {
 
       </main>
 
-      <JourneyCallToAction variant="route" />
+      <JourneyCallToAction variant="route" whatsappHref={whatsappHref} />
       <ExperienceSlider />
-      <Footer />
+      <Footer whatsappHref={whatsappHref} />
     </div>
   );
 }

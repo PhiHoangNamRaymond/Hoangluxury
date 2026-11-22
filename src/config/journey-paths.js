@@ -20,6 +20,7 @@ export const legacyJourneySlugByKey = {
   "sapa-to-mu-cang-chai": "sapa-to-mu-cang-chai-private-transfer",
   "ha-long-to-sapa": "ha-long-to-sapa-private-transfer",
   "ninh-binh-to-sapa": "ninh-binh-to-sapa-private-transfer",
+  "mu-cang-chai-to-sapa": "mu-cang-chai-to-sapa-private-transfer",
 };
 
 // URL mới theo SEO (khách duyệt 28/10/2026). Tuyến chưa có ở đây giữ /journey/<slug cũ>/;
@@ -41,6 +42,7 @@ const routePathByKey = {
   "sapa-to-mu-cang-chai": "/routes/sapa-to-mu-cang-chai-private-car/",
   "ha-long-to-sapa": "/routes/halong-bay-to-sapa-private-car/",
   "ninh-binh-to-sapa": "/routes/ninh-binh-to-sapa-private-car/",
+  "mu-cang-chai-to-sapa": "/routes/mu-cang-chai-to-sapa-private-car/",
 };
 
 export const journeyPagePath = (key) => routePathByKey[key] || `/journey/${legacyJourneySlugByKey[key]}/`;

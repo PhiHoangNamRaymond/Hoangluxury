@@ -13,7 +13,7 @@ import {
   photoCategoryPageTitle,
   photoCategoryPath,
 } from "./config/photo-albums.js";
-import { whatsappPhotoUrl } from "./data.js";
+import { whatsappPhotoUrl, whatsappPhotoInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { rememberAlbumReturn, takeAlbumReturnScroll } from "./lib/album-return.js";
 
@@ -286,7 +286,7 @@ export default function PhotoAlbumsPage() {
               <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Tell us your destination and preferred date. We&rsquo;ll take care of the details.</p>
             </div>
-            <a className="hlt-photo-cta-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
+            <a className="hlt-photo-cta-btn" href={whatsappPhotoInquiryUrl} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon />
               Book via WhatsApp
               <svg className="hlt-photo-cta-arrow" viewBox="0 0 24 24" aria-hidden="true">

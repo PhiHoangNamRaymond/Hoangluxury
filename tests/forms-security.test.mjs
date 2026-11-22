@@ -5,12 +5,21 @@ import vm from "node:vm";
 import { createHash, randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { createFormsHandler } from "../supabase/functions/forms-proxy/index.js";
-import { submitForm, requestIdFor } from "../src/lib/forms.js";
+import { bookingDevice, submitForm, requestIdFor } from "../src/lib/forms.js";
 
 const endpoint = "https://script.google.com/macros/s/offline-fixture/exec";
 const secret = "offline-fixture-not-a-live-secret-123456789";
 const proxyUrl = "https://fixture.supabase.co/functions/v1/forms-proxy";
 const booking = {form:"booking",fullName:"Offline Guest",phone:"+84839779888",departureDate:"2026-10-20",pickup:"Airport",dropoff:"Hotel",passengers:"4",journeyType:"One-way"};
+
+test("booking records coarse device categories without using viewport width", () => {
+  assert.equal(bookingDevice({userAgent:"Windows NT 10.0",maxTouchPoints:10}),"PC");
+  assert.equal(bookingDevice({userAgent:"Macintosh",maxTouchPoints:0}),"PC");
+  assert.equal(bookingDevice({userAgent:"Macintosh",maxTouchPoints:5}),"Mobile");
+  assert.equal(bookingDevice({userAgent:"Android",userAgentData:{mobile:false}}),"Mobile");
+  assert.equal(bookingDevice({userAgent:"iPhone"}),"Mobile");
+  assert.equal(bookingDevice({userAgentData:{mobile:true}}),"Mobile");
+});
 
 test("booking free-text fields inherit disabled browser spellcheck and autocorrect", async () => {
   const source = await readFile(new URL("../src/BookingPage.jsx", import.meta.url), "utf8");
@@ -62,13 +71,37 @@ async function fixture() {
     LockService:{getScriptLock:()=>({waitLock:()=>{},releaseLock:()=>{}})},
     SpreadsheetApp:{getActiveSpreadsheet:()=>({getSheetByName:(name)=>sheets.get(name),insertSheet:sheet}),flush:()=>{}},
     Session:{getScriptTimeZone:()=>"Asia/Ho_Chi_Minh"},
-    Utilities:{DigestAlgorithm:{SHA_256:"sha256"},Charset:{UTF_8:"utf8"},computeDigest:(_algorithm,value)=>[...createHash("sha256").update(value).digest()],formatDate:()=>"051026"},
+    Utilities:{DigestAlgorithm:{SHA_256:"sha256"},Charset:{UTF_8:"utf8"},computeDigest:(_algorithm,value)=>[...createHash("sha256").update(value).digest()],formatDate:(_date,_zone,pattern)=>pattern === "yyyy-MM-dd" ? "2026-10-05" : "051026"},
     ContentService:{MimeType:{JSON:"json"},createTextOutput:(text)=>({text,setMimeType(){return this;}})},
   });
   vm.runInContext(await readFile(new URL("../google-apps-script/Code.gs",import.meta.url),"utf8"),context);
   const post = (fields) => JSON.parse(context.doPost({parameter:fields,parameters:Object.fromEntries(Object.entries(fields).map(([key,value])=>[key,[value]])),postData:{type:"application/x-www-form-urlencoded",contents:new URLSearchParams(fields).toString()}}).text);
   return {context,props,sheets,post};
 }
+
+test("GAS rejects past departures before writing and accepts today's departure", async () => {
+  const f = await fixture();
+  const fields = {...booking,proxySecret:secret,requestId:randomUUID()};
+  assert.equal(f.post({...fields,departureDate:"2020-01-01"}).ok,false);
+  assert.equal(f.sheets.size,0);
+  assert.equal(f.post({...fields,departureDate:"2026-10-05"}).ok,true);
+});
+
+test("GAS saves Multi-day and device without shifting Source or overwriting old rows", async () => {
+  const f = await fixture();
+  const send = (changes) => f.post({...booking,proxySecret:secret,requestId:randomUUID(),...changes});
+  assert.equal(send({}).ok,true,"older frontend may omit device");
+  const rows = f.sheets.get("Bookings").rows;
+  rows[1][16] = "Assigned Driver";
+  assert.equal(send({device:"=1+1",journeyType:"Multi-day"}).ok,false);
+  assert.equal(send({device:"Mobile",journeyType:"Multi-day",source:"RKS002"}).ok,true);
+  assert.equal(send({device:"PC",journeyType:"Round Trip"}).ok,true);
+  assert.deepEqual(rows[1].slice(15,18),["Status","Device","Source"]);
+  assert.equal(rows[2][16],"");
+  assert.equal(rows[3][13],"Multi-day");
+  assert.deepEqual(rows[3].slice(15,18),["New","Mobile","RKS002"]);
+  assert.equal(rows[4][16],"PC");
+});
 
 test("GAS denies direct writes and deduplicates identical bookings without accepting changed retries",async () => {
   const f = await fixture();

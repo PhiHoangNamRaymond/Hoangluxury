@@ -362,7 +362,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
     .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
     .replace('import ExperienceSlider from "./components/home/ExperienceSlider.jsx";', 'const ExperienceSlider = () => null;')
     .replace('import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";', 'const blogImages = {hero:"/fixture.png", plan:"/fixture.png"}; const journeyCardImages = Array(9).fill("/fixture.png"); const blogStoryBackgroundUrl = "/fixture-blog-sunrise.png";')
-    .replace('import { aboutPageUrl, whatsappUrl } from "./data.js";', 'const aboutPageUrl = "/about-us/", whatsappUrl = "https://wa.me/fixture";')
+    .replace('import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";', 'const aboutPageUrl = "/about-us/", whatsappInquiryUrl = "https://wa.me/fixture";')
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
     .replace('import usePublicBlog from "./hooks/usePublicBlog.js";', 'const usePublicBlog = () => globalThis.__blogFilterFixture;')
     .replace('from "./config/blog.js"', `from ${JSON.stringify(new URL("../src/config/blog.js", import.meta.url).href)}`);
@@ -413,6 +413,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           assert.equal(plan.querySelector("p").textContent,"Save time with private transfers, flexible departures and door-to-door service. Contact us to plan your trip.");
           assert.equal(plan.querySelector("a").textContent,"Plan your journey");
           assert.equal(plan.querySelector("a").getAttribute("href"),"https://wa.me/fixture");
+          assert.equal(plan.querySelector("a svg"),null,"stubbed WhatsApp glyph is the only icon; no arrow");
           if (initial) await act(async () => destinationButton(initial).click());
           if (initial === "Ha Long") {
             await act(async () => [...host.querySelectorAll('[aria-label="Filter articles by topic"] button')].find((button) => button.textContent === "Travel Tips").click());
@@ -427,6 +428,8 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
           scrolls=[];
           const card=host.querySelector(".hlt-blog-destination-feature");
           assert.equal(card.tagName,"BUTTON");
+          assert.ok(card.querySelector("span svg"),"Explore Sapa keeps its arrow");
+          assert.equal(host.querySelector(".hlt-blog-all-destinations svg"),null);
           assert.equal(card.hasAttribute("href"),false);
           const url=window.location.href;
           await act(async () => (trigger === "filter" ? destinationButton("Sapa") : card).click());
@@ -475,13 +478,19 @@ test("About uses the Blog CTA design and background without changing its contact
       const aboutImages = {}, aboutStatIcons = {}, aboutDestinationImages = Array(10).fill("/fixture.png");
       const aboutCtaBackgroundUrl = "/fixture-about-valley.png", aboutLicenceIconUrl = "/licence.svg";
     `)
-    .replace('import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";', 'const catalogPageUrl = "/catalog/", getJourneyPageUrl = () => "/journeys/", whatsappUrl = "https://wa.me/fixture";')
+    .replace('import { catalogPageUrl, whatsappInquiryUrl } from "./data.js";', 'const catalogPageUrl = "/catalog/", whatsappInquiryUrl = "https://wa.me/fixture";')
+    .replace('from "./config/journey-paths.js";', `from ${JSON.stringify(new URL("../src/config/journey-paths.js", import.meta.url).href)};`)
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;');
   const { code } = await transformWithEsbuild(source, "AboutPage.jsx", { loader:"jsx", jsx:"transform" });
   const AboutPage = (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
   const root = createRoot(host);
   try {
     await act(async () => root.render(React.createElement(AboutPage)));
+    // 9 thẻ điểm đến dẫn đúng trang tuyến (thẻ "Ha Long Bay" từng dẫn tới /journey/undefined/).
+    const destinationLinks = [...host.querySelectorAll(".hlt-about-destination")].map((el) => el.getAttribute("href"));
+    assert.equal(destinationLinks.length, 9);
+    for (const href of destinationLinks) assert.match(href, /^\/routes\/hanoi-to-[a-z-]+\/$/);
+    assert.ok(destinationLinks.includes("/routes/hanoi-to-halong-bay-private-transfer/"));
     const cta = host.querySelector('.hlt-blog-story-cta');
     assert.ok(cta.classList.contains('hlt-cruise-cta-section'));
     assert.ok(cta.querySelector('.hlt-cruise-cta-overlay'));
