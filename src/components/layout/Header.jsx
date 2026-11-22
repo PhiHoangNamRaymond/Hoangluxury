@@ -28,7 +28,7 @@ const getInitialActiveHref = () => {
   return "";
 };
 
-export default function Header({ whatsappHref = whatsappUrl, mobileAction } = {}) {
+export default function Header({ whatsappHref = whatsappUrl } = {}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileJourneysOpen, setMobileJourneysOpen] = useState(
     () => getInitialActiveHref() === "/routes/"
@@ -339,7 +339,6 @@ export default function Header({ whatsappHref = whatsappUrl, mobileAction } = {}
             })}
           </nav>
 
-          {mobileAction}
           <button
             className="hlt-menu-toggle"
             type="button"

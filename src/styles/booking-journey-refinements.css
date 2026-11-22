@@ -81,7 +81,8 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   flex-wrap: wrap;
 }
 
-.hlt-footer.hlt-footer-compact .hlt-footer-legal span {
+.hlt-footer.hlt-footer-compact .hlt-footer-legal span,
+.hlt-footer.hlt-footer-compact .hlt-footer-qr .hlt-footer-legal a {
   color: #c5a15a;
   font-family: "Cormorant", Georgia, "Times New Roman", serif;
   font-size: 13.5px;
@@ -91,6 +92,12 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
+}
+
+/* Giữ kiểu chữ cũ nhưng vẫn bấm được để mở trang chính sách. */
+.hlt-footer.hlt-footer-compact .hlt-footer-qr .hlt-footer-legal a {
+  pointer-events: auto;
+  text-decoration: none;
 }
 
 @media (min-width: 961px) {
@@ -823,5 +830,13 @@ section.hlt-booking-showcase-footer.hlt-journey-cta + footer.hlt-footer.hlt-foot
 @media (max-width: 600px) {
   .hlt-site .hlt-booking-showcase {
     padding-bottom: 43px !important;
+  }
+}
+
+/* PC rộng: "Privacy Policy" và "Terms of Service" nằm trên cùng một hàng như thiết kế cũ. */
+@media (min-width: 1360px) {
+  .hlt-footer.hlt-footer-compact .hlt-footer-legal {
+    flex-wrap: nowrap;
+    width: max-content;
   }
 }

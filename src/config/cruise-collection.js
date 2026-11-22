@@ -21,4 +21,4 @@ export const cruiseCollection = [
 
 export const cruiseCollectionEntries = cruiseCollection.flatMap(({ bay, tiers }) =>
   cruiseTiers.flatMap((tier) => tiers[tier].map((name) => ({ bay, tier, name }))),
-);
+).map((item, index) => ({ ...item, photoIndex: index + 1 }));

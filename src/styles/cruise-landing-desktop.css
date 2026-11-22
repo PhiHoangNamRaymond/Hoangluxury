@@ -6,12 +6,9 @@
   .hlt-cruises-site .hlt-cruise-pc-only { display: block; }
   .hlt-cruises-site .hlt-cruise-mobile-only { display: none; }
   .hlt-cruises-site .hlt-cruise-desktop-icon { display: block; }
-  .hlt-cruises-site :is(.hlt-trust-svg, .hlt-flow-svg) > svg:not(.hlt-cruise-desktop-icon),
-  .hlt-cruises-site .hlt-cruise-pref-img { display: none; }
+  .hlt-cruises-site :is(.hlt-trust-svg, .hlt-flow-svg) > svg:not(.hlt-cruise-desktop-icon) { display: none; }
   .hlt-cruises-site .hlt-trust-svg { width: clamp(29px, 3vw, 44px); height: 31px; color: #e6ba73; }
-  .hlt-cruises-site .hlt-cruise-pref-icon .hlt-cruise-desktop-icon { width: 62px; height: 52px; color: #e6ba73; }
   .hlt-cruises-site .hlt-flow-svg { width: 48px; }
-  .hlt-cruises-site .hlt-flow-svg .hlt-cruise-desktop-icon { stroke: #ad761b; }
   .hlt-cruises-site .hlt-cruise-cta-actions .hlt-cruise-pc-only { display: inline-flex; }
   .hlt-cruises-site .hlt-cruise-v1-hero-jump { display: inline-flex; }
   .hlt-cruise-cta-actions .hlt-whatsapp-icon.is-desktop { color: inherit; }
@@ -23,22 +20,15 @@
     --cruise-paper: #fffaf1;
     --cruise-line: #dfceb1;
   }
-  .hlt-cruises-site .hlt-header-inner {
-    grid-template-columns: max-content minmax(0, 1fr) max-content;
-    gap: clamp(8px, 1.1vw, 16px);
-  }
-  .hlt-cruises-site #primary-navigation.hlt-nav {
-    gap: clamp(7px, 1.15vw, 17px);
-    font-size: clamp(12px, 1vw, 15px);
-    letter-spacing: .015em;
-  }
-  .hlt-cruises-site .hlt-brand-text span { white-space: nowrap; }
+  /* Banner cao hơn + neo ảnh lên trên để thấy trọn cánh buồm và thân thuyền dưới
+     header (khách báo ảnh bị cắt cụt 22/11/2026). Ảnh 16:9 phủ hết bề ngang cao
+     ~56vw; cánh buồm ở ~18%, đáy thuyền ở ~79% chiều cao ảnh. */
   .hlt-cruise-hero {
-    min-height: unset;
+    min-height: clamp(560px, calc(38vw + 125px), 880px);
     padding: clamp(108px, 11vw, 167px) 0 0;
   }
-  .hlt-cruise-hero-media img { object-position: center 52%; }
-  .hlt-cruise-seamless-img { object-position: center 67%; }
+  .hlt-cruise-hero-media img { object-position: center 14%; }
+  .hlt-cruise-seamless-img { object-position: center 82%; }
   .hlt-cruise-seamless-overlay {
     position: absolute;
     inset: 0;
@@ -66,11 +56,13 @@
     text-transform: uppercase;
     letter-spacing: .1em;
   }
+  /* Đoạn mô tả và 2 nút banner theo đúng banner trang tuyến (.hlt-journey-lead,
+     .hlt-btn trong journey-page.css) — khách yêu cầu 22/11/2026. */
   .hlt-cruise-v1-hero-copy p {
-    max-width: 420px;
-    margin: 16px 0 20px;
-    font: 500 clamp(14px, 1.2vw, 18px)/1.45 "Lato", system-ui, sans-serif !important;
-    color: #fff9ed;
+    max-width: 480px;
+    margin: 16px 0 24px;
+    font: 400 clamp(15px, 1.25vw, 19px)/1.5 "Cormorant", Georgia, "Times New Roman", serif !important;
+    color: rgba(255, 255, 255, .92);
   }
   .hlt-cruise-v1-hero-jump {
     color: #fff0cd;
@@ -148,29 +140,27 @@
     color: #ffe3a1;
     font: 750 12px/1.2 "Lato", system-ui, sans-serif !important;
   }
+  /* Nhãn 4 loại du thuyền có icon vàng trước chữ (theo thiết kế 22/11/2026). */
+  .hlt-cruise-v1-badge:has(.hlt-cruise-v1-badge-icon) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px 5px 9px;
+    border: 1px solid rgba(230, 186, 115, .55);
+  }
+  .hlt-cruise-v1-badge-icon {
+    flex: none;
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: #e6ba73;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
   .hlt-cruise-v1-body { flex: 1; display: flex; flex-direction: column; padding: 12px 14px; }
   .hlt-cruise-v1-body h3 { margin: 0; font-size: clamp(20px, 2vw, 28px); line-height: 1.05; }
   .hlt-cruise-v1-body .hlt-cruise-v1-emphasis { font-weight: 750 !important; }
-  .hlt-cruise-v1-type-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 7px;
-    padding-top: 12px;
-    margin-top: auto;
-    color: #5c3c0a;
-    font: 750 13px/1.3 "Lato", system-ui, sans-serif !important;
-  }
-  .hlt-cruise-v1-type-link span {
-    display: grid;
-    place-items: center;
-    width: 25px;
-    height: 25px;
-    flex: none;
-    border: 1px solid #d9ac5b;
-    border-radius: 50%;
-    background: #fff0cb;
-  }
   .hlt-cruise-v1-collection { display: grid; grid-template-columns: minmax(150px, 17%) minmax(0, 1fr); gap: 18px; }
   .hlt-cruise-v1-filter { align-self: start; margin: 0; min-width: 0; padding: 12px; border: 1px solid var(--cruise-line); border-radius: 11px; background: var(--cruise-paper); }
   .hlt-cruise-v1-filter legend { padding: 0 7px; font-size: 22px; font-weight: 700; }
@@ -260,17 +250,72 @@
   .hlt-cruise-v1-btn.is-outline { background: #082b22; color: #fff1ce; }
   .hlt-cruise-v1-btn:hover { filter: brightness(1.07); }
   .hlt-cruise-v1-btn svg { flex: none; width: 17px; height: 17px; }
-  .hlt-cruise-v1-btn:focus-visible, .hlt-cruise-v1-type-link:focus-visible,
+  .hlt-cruise-v1-hero-copy .hlt-cruise-v1-actions {
+    width: min(100%, 620px);
+    flex-wrap: nowrap;
+    gap: 14px;
+  }
+  .hlt-cruises-site .hlt-cruise-v1-hero-copy .hlt-cruise-v1-btn {
+    flex: 1 1 0;
+    gap: 16px;
+    min-height: clamp(50px, 3.9vw, 60px);
+    padding: 0 clamp(18px, 1.35vw, 24px);
+    border: 1px solid #c5a15a;
+    border-radius: 6px;
+    background: #c5a15a;
+    box-shadow: 0 18px 32px rgba(0, 0, 0, .25);
+    color: #111;
+    font: 700 clamp(14px, 1.15vw, 18px)/1 "Cormorant", Georgia, "Times New Roman", serif !important;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .hlt-cruises-site .hlt-cruise-v1-hero-copy .hlt-cruise-v1-btn:not(.is-outline) { flex-grow: 1.15; }
+  .hlt-cruises-site .hlt-cruise-v1-hero-copy .hlt-cruise-v1-btn.is-outline {
+    background: rgba(4, 20, 15, .45);
+    box-shadow: none;
+    color: #fff;
+  }
+  .hlt-cruise-v1-hero-copy .hlt-cruise-v1-btn svg { width: 26px; height: 26px; }
+  .hlt-cruise-v1-btn:focus-visible,
   .hlt-cruise-v1-tiers label:focus-within, .hlt-cruise-v1-filter label:focus-within {
     outline: 2px solid #ad7b2b;
     outline-offset: 3px;
   }
 }
 
-@media (min-width: 961px) and (max-width: 1120px) {
-  .hlt-cruises-site #primary-navigation.hlt-nav {
-    gap: 6px;
-    font-size: 11.5px;
-    letter-spacing: 0;
+
+/* Dải CTA cuối trang cùng khung 1180px như CTA Blog / About (trang Du thuyền
+   mặc định nới .hlt-container lên 1320px). */
+.hlt-cruises-site .hlt-blog-story-cta .hlt-container {
+  width: min(1180px, calc(100% - 48px));
+}
+
+/* "Not Sure Which Cruise to Choose?" — thẻ viền vàng phát sáng, icon 3D lớn,
+   tiêu đề serif (theo thiết kế). Chỉ PC; mobile giữ bố cục riêng. */
+@media (min-width: 961px) {
+  .hlt-cruises-site .hlt-cruise-match-grid { gap: clamp(14px, 1.5vw, 22px); }
+  .hlt-cruises-site .hlt-cruise-pref-box {
+    min-height: clamp(180px, 15vw, 210px);
+    padding: 18px 12px 20px;
+    background: radial-gradient(120% 90% at 50% 40%, #10222e 0%, #0a1620 70%);
+    border: 1.5px solid #d6a84c;
+    border-radius: 14px;
+    box-shadow:
+      0 0 0 1px rgba(232, 190, 110, 0.22),
+      0 0 18px rgba(226, 178, 92, 0.30),
+      inset 0 0 16px rgba(226, 178, 92, 0.12);
+  }
+  .hlt-cruises-site .hlt-cruise-pref-icon {
+    width: clamp(92px, 8vw, 118px);
+    height: clamp(92px, 8vw, 118px);
+    margin-bottom: 10px;
+  }
+  .hlt-cruises-site .hlt-cruise-pref-img { width: 100%; height: 100%; }
+  .hlt-cruises-site .hlt-cruise-pref-box .hlt-cruise-pref-title {
+    font-family: "Cormorant", Georgia, "Times New Roman", serif;
+    font-size: clamp(19px, 1.6vw, 24px);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #ffffff;
   }
 }
