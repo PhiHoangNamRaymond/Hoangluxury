@@ -679,6 +679,9 @@
   gap: 9px;
   color: #7f5318;
   font-size: 12px;
+  /* Chữ đậm như khi dòng này còn là thẻ label (kế thừa .hlt-book-fields label). */
+  font-weight: 800;
+  letter-spacing: .015em;
   text-transform: none;
 }
 

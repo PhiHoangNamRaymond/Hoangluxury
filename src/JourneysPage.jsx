@@ -379,7 +379,7 @@ export default function JourneysPage() {
             <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} width="216" height="216" loading="lazy" decoding="async" alt="" aria-hidden="true" />
 
             <div className="hlt-journeys-outro-title">
-              Travel with confidence
+              Ready for a comfortable journey?
             </div>
 
             <p className="hlt-journeys-outro-text">

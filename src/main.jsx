@@ -269,8 +269,9 @@ createRoot(document.getElementById("root")).render(
 // Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
 setupImageSkeletons();
 
-// Chặn chuột phải / sao chép / bôi đen / kéo ảnh trên trang công khai (khách bật lại
-// 11/11/2026; tạm tắt từ 01/11 để kiểm tra bằng F12). Tắt: đổi thành false.
-const contentProtectionOn = true;
+// Chặn chuột phải / sao chép / bôi đen / kéo ảnh trên trang công khai. TẠM TẮT từ
+// 22/11/2026 để đội marketing kiểm tra GTM bằng F12 (chuột phải > Inspect). Bật lại:
+// đổi thành true.
+const contentProtectionOn = false;
 const cleanupContentProtection = setupContentProtection(document, { enabled: contentProtectionOn && !isAdminRoute });
 if (import.meta.hot) import.meta.hot.dispose(cleanupContentProtection);
