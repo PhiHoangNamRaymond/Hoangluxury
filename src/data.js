@@ -5,16 +5,23 @@ import { blogPagePath } from "./lib/blog-article.js";
 
 /* Số WhatsApp của công ty; mọi link chat đều dựng từ đây. */
 const WHATSAPP_NUMBER = "84839779888";
-const whatsappLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+export const whatsappLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export const whatsappUrl = whatsappLink("Hello Hoang Luxury Travel, I would like to book a private transfer.");
+const privateTransferInquiry = "Hello Hoang Luxury Travel, I'd like to inquire about a private transfer";
+export const whatsappInquiryUrl = whatsappLink(`${privateTransferInquiry}.`);
+export const whatsappTransferRouteUrl = (origin, destination) =>
+  whatsappLink(`${privateTransferInquiry} from ${origin} to ${destination}.`);
 
 /* Các nút đặt chụp ảnh trên /photo/ và trang album: tin nhắn soạn sẵn nói về
    buổi chụp, không phải đặt xe. */
 export const whatsappPhotoUrl = whatsappLink("Hello Hoang Luxury Travel, I would like to book a photo shoot.");
+export const whatsappPhotoInquiryUrl = whatsappLink("Hello Hoang Luxury Travel, I'd like to inquire about a photo shoot.");
+export const whatsappPhotoHalfDayUrl = whatsappLink("Hello Hoang Luxury Travel, I'd like to inquire about a half-day photo shoot.");
+export const whatsappPhotoFullDayUrl = whatsappLink("Hello Hoang Luxury Travel, I'd like to inquire about a full-day photo shoot.");
 
 export const catalogUrl = safeCatalogUrl(import.meta.env.VITE_CATALOG_URL,
-  "https://drive.google.com/file/d/14nh1z-ONGZ3I5KKwkx8__xjs08bmkd8O/view");
+  "https://drive.google.com/file/d/1fBS9u5C7WoZeOARIQ8PAFPcAy-6ohEyl/view?usp=drive_link");
 export const catalogPageUrl = "/catalog/";
 export const feedbackPageUrl = "/feedback/";
 export const aboutPageUrl = "/about-us/";
@@ -73,6 +80,7 @@ const routeColumns = [
     "Sapa to Mu Cang Chai",
     "Ha Long to Sapa",
     "Ninh Binh to Sapa",
+    "Mu Cang Chai to Sapa",
   ].map(cityRoute),
 ];
 

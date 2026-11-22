@@ -522,15 +522,15 @@
     gap: 8px;
   }
 
-  .hlt-book-form[data-current-step="1"] .hlt-book-fields label[data-book-step]:not([data-book-step="1"]),
-  .hlt-book-form[data-current-step="2"] .hlt-book-fields label[data-book-step]:not([data-book-step="2"]),
-  .hlt-book-form[data-current-step="3"] .hlt-book-fields label[data-book-step]:not([data-book-step="3"]),
-  .hlt-book-form[data-current-step="4"] .hlt-book-fields label[data-book-step]:not([data-book-step="4"]),
-  .hlt-book-form[data-current-step="5"] .hlt-book-fields label[data-book-step] {
+  .hlt-book-form[data-current-step="1"] .hlt-book-fields > [data-book-step]:not([data-book-step="1"]),
+  .hlt-book-form[data-current-step="2"] .hlt-book-fields > [data-book-step]:not([data-book-step="2"]),
+  .hlt-book-form[data-current-step="3"] .hlt-book-fields > [data-book-step]:not([data-book-step="3"]),
+  .hlt-book-form[data-current-step="4"] .hlt-book-fields > [data-book-step]:not([data-book-step="4"]),
+  .hlt-book-form[data-current-step="5"] .hlt-book-fields > [data-book-step] {
     display: none;
   }
 
-  .hlt-book-fields label[data-book-step] {
+  .hlt-book-fields > [data-book-step] {
     animation: hlt-book-mobile-field-enter .32s ease-out both;
   }
 
@@ -680,7 +680,6 @@
   color: #7f5318;
   font-size: 12px;
   text-transform: none;
-  cursor: pointer;
 }
 
 .hlt-book-fields .hlt-book-no-flight input {
@@ -689,6 +688,7 @@
   margin: 0;
   padding: 0;
   accent-color: #b8781f;
+  cursor: pointer;
 }
 
 .hlt-book-control :disabled {
@@ -705,7 +705,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hlt-book-success-backdrop,
   .hlt-book-success-popup,
-  .hlt-book-fields label[data-book-step] {
+  .hlt-book-fields > [data-book-step] {
     animation: none;
   }
 }

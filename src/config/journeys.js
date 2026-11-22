@@ -5,12 +5,14 @@
 // `price` hiện không hiển thị trên trang (cột Rates dẫn tới Catalog) nhưng giữ
 // lại để dùng khi cần; tuyến chưa có giá để `null`.
 
-// Section Journey Experience: 4 thẻ ảnh (ảnh ghép trong JourneyPage.jsx).
+// Section Journey Experience: 4 thẻ ảnh (ảnh ghép trong JourneyPage.jsx). Mô tả
+// dạng mảng: mỗi phần tử một dòng.
 export const journeyExperience = [
   ["Smooth & Comfortable", "Nappa leather seats, spacious comfort, less motion sickness."],
   ["Personal Meet & Greet", "Your driver welcomes you at the airport with a clear name board."],
   ["Luggage Assistance", "Your driver helps load and arrange your luggage."],
-  ["Flexible Stops", "Stop whenever you need. Coffee - Restroom - Photos"],
+  // Hai dòng theo khách (11/11/2026).
+  ["Flexible Stops", ["Stop whenever you need", "ATM - Bank - Restroom - Coffee - Photos."]],
 ];
 
 // Tuyến nối tỉnh (cityPickup) không đón ở sân bay: thẻ đón tận nơi thay cho
@@ -96,6 +98,8 @@ const priceTag = (amount) => ({ vnd: formatVnd(amount), usd: approxUsd(amount) }
    tên 4 thẻ "Choose Your … Journey"; gói tuỳ chỉnh ghi "Custom Quote" vì báo
    giá theo từng hành trình. */
 const privateTransferPage = (destination, travelTime, [oneWay, roundTrip, packageTitle, packagePrice]) => ({
+  origin: "Hanoi",
+  destination,
   packageTitle,
   optionPrices: [priceTag(oneWay), priceTag(roundTrip), priceTag(packagePrice), { vnd: "Custom Quote" }],
   seoTitle: `Hanoi To ${destination} Private Transfer | HOANG LUXURY TRAVEL`,
@@ -125,10 +129,10 @@ const privateTransferPage = (destination, travelTime, [oneWay, roundTrip, packag
   },
 });
 
-/* Dải "Choose Your Route" trên 6 trang tuyến nối tỉnh, thay cho
+/* Dải "Choose Your Route" trên các trang tuyến nối tỉnh, thay cho
    4 gói của trang Hanoi to…. Giá 1 chiều (VND, cập nhật 11/2026). Mỗi trang
    khai `intercityId` để tô xanh đậm thẻ của chính tuyến đó; Ha Long ↔ Sa Pa và
-   Ninh Binh ↔ Sa Pa dùng chung một thẻ cho cả hai chiều, trang chiều ngược khai
+   Ninh Binh ↔ Sa Pa và Mu Cang Chai ↔ Sa Pa dùng chung một thẻ cho cả hai chiều, trang chiều ngược khai
    thêm `intercityTitle` để thẻ tô đậm ghi đúng chiều của trang. */
 export const intercityTransfers = [
   {
@@ -155,7 +159,7 @@ export const intercityTransfers = [
   {
     id: "mu-cang-chai",
     title: "Sapa – Mu Cang Chai",
-    price: 3_500_000,
+    price: 3_900_000,
     unit: "Per one-way transfer",
     routeKey: "sapa-to-mu-cang-chai",
   },
@@ -164,6 +168,8 @@ export const intercityTransfers = [
 /* Tuyến nối tỉnh (không xuất phát từ Hà Nội). Cùng bố cục trang với tuyến
    Hanoi to…, chỉ đổi điểm đón. */
 const cityTransferPage = (origin, destination, travelTime) => ({
+  origin,
+  destination,
   seoTitle: `${origin} To ${destination} Private Transfer | HOANG LUXURY TRAVEL`,
   metaDescription:
     `Book a ${origin} to ${destination} private transfer with a professional driver. Private car, door-to-door pickup, flexible stops, transparent pricing and 24/7 WhatsApp support`,
@@ -466,6 +472,24 @@ export const journeys = {
     originIconSlug: "ninh-binh",
     distance: "400 - 415 km",
     duration: "7 - 7.5 hours",
+    dropoffNote: "Hotels, Resorts or Town Center",
+    badgeIcon: "mountain",
+  },
+  "mu-cang-chai-to-sapa": {
+    name: "Sapa",
+    titleAccent: "TO SAPA",
+    titlePrefix: "Mu Cang Chai",
+    ...cityTransferPage("Mu Cang Chai", "Sapa", "3.5 – 4.5 hours"),
+    seoTitle: "Mu Cang Chai To Sapa Private Transfer | Hoang Luxury travel",
+    metaDescription: "Private transfer from Mu Cang Chai to Sapa with Hoang Luxury Travel. Enjoy door-to-door service, flexible departure, save time and stop whenever you need.",
+    intercityId: "mu-cang-chai",
+    intercityTitle: "Mu Cang Chai – Sapa",
+    originLabel: "Mu Cang Chai",
+    originShort: "Mu Cang Chai",
+    originNote: "Hotels, Resorts or Terraced Valleys",
+    originIconSlug: "mu-cang-chai",
+    distance: "140 - 170 km",
+    duration: "3.5 - 4.5 hours",
     dropoffNote: "Hotels, Resorts or Town Center",
     badgeIcon: "mountain",
   },

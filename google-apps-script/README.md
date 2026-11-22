@@ -21,13 +21,19 @@ Không cần link mời/token và không xác minh ID có thuộc một booking 
 5. Tùy chọn FORM_HOURLY_LIMIT: mặc định **100 lần ghi mới/giờ toàn hệ thống**, tối
    đa 5000; mỗi số phone/Booking ID feedback tối đa 5 lần thử mới/giờ. Đây là chính sách
    khởi điểm cần owner duyệt; đừng nâng vô hạn để xử lý lỗi. Không lấy IP từ browser.
-6. Chạy `setupSheets` trong editor, cấp quyền cho tài khoản vận hành. Cột Booking
-   A–S và Feedback A–D giữ nguyên. Request hợp lệ đầu tiên tạo tab **Form Requests**
+6. Chạy `setupSheets` trong editor, cấp quyền cho tài khoản vận hành. Trong tab
+   Bookings, Q đổi từ **Assigned Driver** thành **Device** (`PC`/`Mobile` cho đơn mới);
+   **Source** vẫn ở R. Script không sửa giá trị Q của đơn cũ. Nếu Q đang lưu tên
+   tài xế, sao lưu dữ liệu đó trước để không nhầm với thiết bị. `setupBookingsSheet`
+   cũng cập nhật danh sách **Journey Type** có `Multi-day`. Feedback A–D không đổi.
+   Request hợp lệ đầu tiên tạo tab **Form Requests**
    (hoặc FORM_REQUESTS_SHEET_NAME): chỉ ID, fingerprint, trạng thái, giờ, loại form.
    Tab này cũng private; không đổi tên/xóa/ghi tay khi chưa backup/reconcile.
 7. Deploy → Web app, Execute as me, Anyone. Lưu URL `/exec` vào **Edge Secrets**
    GOOGLE_FORMS_ENDPOINT. Khi nâng cấp bản cũ: Manage deployments → Edit → **New
    version** → Deploy; không chỉ Save. Endpoint thiếu/sai secret phải trả ok:false.
+   Khi cập nhật Device/Multi-day trên hệ thống đã chạy, triển khai Apps Script vào
+   deployment hiện có **trước** khi upload ZIP mới. Không cần đổi URL hoặc deploy lại proxy.
 
 ## 2. Cloudflare Turnstile
 

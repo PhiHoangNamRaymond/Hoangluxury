@@ -1414,8 +1414,7 @@
   }
 }
 /* ==========================================================================
-   Khối khép lại dưới lưới 9 tuyến: "Looking for another destination?"
-   Nút dẫn sang form đặt xe ở /booking/.
+   Khối khép lại dưới lưới 9 tuyến, dẫn sang /about-us/.
    ========================================================================== */
 .hlt-journeys-outro {
   padding: clamp(34px, 3.8vw, 56px) 0;

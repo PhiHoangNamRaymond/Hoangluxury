@@ -57,6 +57,7 @@ test("public env guards reject misplaced server keys and unsafe destinations wit
 function gasFixture() {
   const logs=[];
   const context=vm.createContext({ console:{error:(message)=>logs.push(message)},
+    Utilities:{formatDate:()=>"2026-10-05"},
     ContentService:{MimeType:{JSON:"json"},createTextOutput:(text)=>({text,setMimeType(){return this;}})},
     PropertiesService:{getScriptProperties:()=>({getProperty:()=>null})} });
   return readFile(new URL("../google-apps-script/Code.gs",import.meta.url),"utf8").then((code)=>{

@@ -1452,9 +1452,10 @@
 
   .hlt-footer-mobile-legal {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 6px 12px;
     font-family: "Cormorant", Georgia, serif;
     font-size: 14px;
     color: #c5a15a;

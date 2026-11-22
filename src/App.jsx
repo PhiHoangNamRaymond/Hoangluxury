@@ -8,19 +8,20 @@ import Services from "./components/home/Services.jsx";
 import WhyChoose from "./components/home/WhyChoose.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
+import { whatsappInquiryUrl } from "./data.js";
 
 export default function App() {
   return (
     <div className="hlt-site">
-      <Header />
+      <Header whatsappHref={whatsappInquiryUrl} />
       <Hero />
       <WhyChoose />
       <Services />
       <Fleet />
       <BookingProcess />
-      <JourneyCallToAction headingLevel="h2" title="Ready To Start Your Journey?" className="is-home" secondary="form" />
+      <JourneyCallToAction headingLevel="h2" title="Ready To Start Your Journey?" className="is-home" secondary="form" whatsappHref={whatsappInquiryUrl} />
       <ExperienceSlider />
-      <Footer />
+      <Footer whatsappHref={whatsappInquiryUrl} />
     </div>
   );
 }

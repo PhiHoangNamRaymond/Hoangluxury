@@ -91,3 +91,11 @@ Each channel was scaled by `#EDE0CC / (237,214,186)` (the darker paper tone of t
 neighbouring countries) and capped at `#EDE0CC`, so paper flattens to the background
 while ink, borders, labels and motifs stay. Vietnam therefore no longer has its own
 lighter fill. If the section background changes, reprocess from the original.
+
+## Sharper labels (2026-11-11)
+
+The user supplied a new copy of the same illustration with crisp labels (Da Lat and
+Ho Chi Minh City looked blurred in the old file). It replaced
+`opt/vietnam-tourism-illustrated-map-original.webp`, and the site file was reprocessed
+from it with the same colour scaling as above, then saved as WebP quality 90
+(alpha quality 100). File name and alt text are unchanged.

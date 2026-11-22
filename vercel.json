@@ -154,10 +154,9 @@
     { "source": "/journeys", "destination": "/routes/", "permanent": true },
     { "source": "/journeys/", "destination": "/routes/", "permanent": true }
   ],
+  "trailingSlash": true,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/blog/:path+", "destination": "/index.html" },
+    { "source": "/admin/:path*", "destination": "/index.html" }
   ]
 }

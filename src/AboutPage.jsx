@@ -11,7 +11,8 @@ import {
   aboutLicenceIconUrl,
   logoGoldUrl,
 } from "./config/assets.js";
-import { catalogPageUrl, getJourneyPageUrl, whatsappUrl } from "./data.js";
+import { catalogPageUrl, whatsappInquiryUrl } from "./data.js";
+import { journeyPagePath } from "./config/journey-paths.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
@@ -32,7 +33,8 @@ const commitments = [
   ["04", "Support When You Need It", "From planning to arrival, we're here whenever you need support."],
 ];
 
-// Cùng thứ tự với journeyCardImages trong config/assets.js
+// Cùng thứ tự với journeyCardImages trong config/assets.js. Link lấy theo mã tuyến
+// (slug), không theo tên hiển thị: "Ha Long Bay" từng thành /journey/undefined/.
 const destinations = [
   ["Sapa", "sapa"],
   ["Ha Long Bay", "ha-long"],
@@ -149,7 +151,7 @@ export default function AboutPage() {
 
   return (
     <div className={`hlt-site hlt-about-site hlt-page-slide-down${pageEntered ? " is-entered" : ""}`}>
-      <Header />
+      <Header whatsappHref={whatsappInquiryUrl} />
 
       <main className="hlt-about-main">
         {/* Hero */}
@@ -429,7 +431,7 @@ export default function AboutPage() {
               {destinationRows.map((row, rowIndex) => (
                 <div className={`hlt-about-destination-row is-row-${rowIndex + 1}`} key={rowIndex}>
                   {row.map((item) => (
-                    <a className="hlt-about-destination" href={getJourneyPageUrl(item.name)} key={item.slug}>
+                    <a className="hlt-about-destination" href={journeyPagePath(item.slug)} key={item.slug}>
                       <img src={item.image} alt={`Hanoi to ${item.name} private transfer`} loading="lazy" />
                       <span>{item.name}</span>
                     </a>
@@ -458,7 +460,7 @@ export default function AboutPage() {
           </div>
           {/* Cặp nút chung của trang chủ: nút vàng đặc + nút viền. */}
           <div className="hlt-blog-story-actions">
-            <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a className="hlt-btn hlt-btn-gold" href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer">
               <span className="hlt-hero-whatsapp-icon" aria-hidden="true"><WhatsAppMark /></span>
               Book via WhatsApp
             </a>
@@ -467,7 +469,7 @@ export default function AboutPage() {
         </div>
       </section>
       <ExperienceSlider />
-      <Footer />
+      <Footer whatsappHref={whatsappInquiryUrl} />
     </div>
   );
 }

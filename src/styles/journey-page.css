@@ -300,6 +300,19 @@ a.hlt-journey-fact:focus-visible strong {
   text-underline-offset: 3px;
 }
 
+/* Give long airport-to-destination labels room in the desktop facts strip. */
+@media (min-width: 861px) {
+  .hlt-journey-hero .hlt-journey-fact:first-child strong {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 1081px) {
+  .hlt-journey-hero .hlt-journey-facts {
+    grid-template-columns: minmax(max-content, 1.4fr) repeat(2, minmax(0, 1fr)) minmax(0, 1.1fr);
+  }
+}
+
 /* Một cột trên mobile: cụm căn trái cho dễ đọc */
 @media (max-width: 600px) {
   .hlt-journey-fact {

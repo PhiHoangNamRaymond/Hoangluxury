@@ -1,5 +1,16 @@
-/* No global user-select:none: retain reading, selection, keyboard navigation
-   and accessible forms. This only deters ordinary image dragging. */
+/* Không cho bôi đen chữ trên trang công khai (khách yêu cầu 11/11/2026). Ô nhập
+   liệu, vùng soạn thảo, thông tin liên hệ ở footer và chỗ đánh dấu data-allow-copy
+   vẫn bôi đen / sao chép được (khớp danh sách cho phép trong content-protection.js). */
+.hlt-content-protected {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.hlt-content-protected :is(input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [data-allow-copy], .hlt-footer-contact, .hlt-footer-mobile-contact) {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 .hlt-content-protected img,
 .hlt-content-protected video,
 .hlt-content-protected canvas {

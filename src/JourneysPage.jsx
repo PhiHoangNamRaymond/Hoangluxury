@@ -4,7 +4,7 @@ import Footer from "./components/layout/Footer.jsx";
 import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { whatsappUrl, getJourneyPageUrl } from "./data.js";
+import { aboutPageUrl, whatsappTransferRouteUrl, getJourneyPageUrl } from "./data.js";
 import {
   journeyCardImages,
   journeyIconImages,
@@ -227,9 +227,8 @@ export default function JourneysPage() {
           <div className="hlt-journeys-grid">
             {allRoutesData.map((item) => {
               const routePageUrl = getJourneyPageUrl(item.name);
-              const whatsappRouteUrl = `${whatsappUrl}&text=${encodeURIComponent(
-                `Hello Hoang Luxury Travel, I would like to book a private transfer from Hanoi to ${item.name}.`
-              )}`;
+              const destination = item.slug === "sapa" ? "SAPA" : item.name.toUpperCase();
+              const whatsappRouteUrl = whatsappTransferRouteUrl("HANOI", destination);
 
               return (
                 <article className="hlt-jcard" data-slug={item.slug} key={item.num}>
@@ -374,21 +373,21 @@ export default function JourneysPage() {
 
         </div>
 
-        {/* Khối khép lại danh sách tuyến, dẫn khách sang form đặt xe. */}
+        {/* Khối khép lại danh sách tuyến, dẫn khách tới trang About Us. */}
         <section className="hlt-journeys-outro">
           <div className="hlt-container">
             <img className="hlt-journeys-outro-mark" src={journeysOutroWheelUrl} width="216" height="216" loading="lazy" decoding="async" alt="" aria-hidden="true" />
 
             <div className="hlt-journeys-outro-title">
-              Looking for another destination?
+              Travel with confidence
             </div>
 
             <p className="hlt-journeys-outro-text">
-              We also arrange private transfers and custom journeys across Northern Vietnam.
+              We provide clean private cars, on-time pick-ups and attentive service.
             </p>
 
-            <a className="hlt-journeys-outro-btn" href="/booking/">
-              <span>Request a custom journey</span>
+            <a className="hlt-journeys-outro-btn" href={aboutPageUrl}>
+              <span>Discover more about us</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <line x1="4" y1="12" x2="19" y2="12" />
                 <polyline points="12.5 5.5 19 12 12.5 18.5" />

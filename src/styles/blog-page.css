@@ -146,7 +146,6 @@
 .hlt-blog-destination-grid strong { font: 600 17px/1 "Cormorant",serif; display: block; }
 .hlt-blog-destination-grid small { font-size: 9px; display: block; margin-top: 4px; }
 .hlt-blog-all-destinations { display: flex; gap: 10px; align-items: center; justify-content: center; padding: 12px 8px; margin-top: 9px; border-radius: 4px; background: #f8efdf; color: #1d3846; font: 800 10px "Lato",sans-serif; text-transform: uppercase; }
-.hlt-blog-all-destinations svg { color: #be9549; }
 .hlt-blog-results { font-size: 13px; color: #596d75; margin: 0 0 15px !important; }
 .hlt-blog-empty { padding: 65px 20px; border: 1px solid #e8dac4; text-align: center; border-radius: 6px; }
 .hlt-blog-empty>svg { width: 36px; height: 36px; color: #aa8745; }

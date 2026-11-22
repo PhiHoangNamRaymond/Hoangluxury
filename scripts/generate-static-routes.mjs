@@ -1,10 +1,15 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { loadEnv } from "vite";
 import { createClient } from "@supabase/supabase-js";
+import { createElement as h } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { journeys } from "../src/config/journeys.js";
-import { journeyPagePath, legacyJourneySlugByKey } from "../src/config/journey-paths.js";
+import { cruisesPagePath, journeyPagePath, legacyJourneySlugByKey } from "../src/config/journey-paths.js";
+import { cruiseData, cruiseLanding } from "../src/config/cruises.js";
+import { cruiseCollection, cruiseTiers } from "../src/config/cruise-collection.js";
+import { cruiseSeo } from "../src/config/cruise-seo.js";
 import {
   ALL_PHOTO_CATEGORIES,
   photoAlbumRows,
@@ -61,10 +66,14 @@ const routes = [
     description: "View private transfer vehicles, routes and transparent pricing from Hoang Luxury Travel.",
   },
   {
-    path: "/routes/halong-bay-cruises/",
-    title: "Halong Bay Cruise | Hoang Luxury Travel",
-    description:
-      "Discover Halong Bay cruises with Hoang Luxury Travel. Explore beautiful scenery, choose a cruise that suits your plans and get assistance with booking.",
+    path: "/policies/",
+    title: "Terms & Policies | Hoang Luxury Travel",
+    description: "Preview Hoang Luxury Travel’s terms of service, privacy information, and cancellation and refund guidance.",
+    private: true, // Draft: noindex and excluded from the sitemap until the policy text is approved.
+  },
+  {
+    path: cruisesPagePath,
+    ...cruiseSeo,
   },
   {
     path: "/feedback/",
@@ -128,13 +137,51 @@ for (const article of blogArticles) {
   });
 }
 
+// Include the cruise guide in the initial HTML. React replaces this fallback
+// with the interactive page; non-JS visitors can still read the same guide.
+const cruiseMarkup = renderToStaticMarkup(h("main", { className: "hlt-cruise-static" },
+  h("h1", null, cruiseLanding.heading),
+  h("p", null, cruiseLanding.intro),
+  h("h2", null, "Choose Your Cruise Experience"),
+  ...cruiseLanding.types.map((type) => h("section", { key: type.id },
+    h("h3", null, type.title), h("p", null, type.schedule + ". " + type.text))),
+  h("h2", null, "Our Handpicked Cruise Collection"),
+  ...cruiseCollection.map(({ bay, tiers }) => h("section", { key: bay },
+    h("h3", null, bay),
+    ...cruiseTiers.filter((tier) => tiers[tier].length > 0).map((tier) => h("section", { key: tier },
+      h("h4", null, tier),
+      h("ul", null, ...tiers[tier].map((name) => h("li", { key: name }, name))),
+    )),
+  )),
+  h("h2", null, "Frequently Asked Questions"),
+  ...cruiseData.faqs.map(({ q, a }) =>
+    h("details", { key: q }, h("summary", null, q), h("p", null, a))),
+  h("p", null, h("a", { href: "/catalog/" }, "View private transfer catalog")),
+));
+const cruiseRoot = '<div id="root"></div>';
+if (!shell.includes(cruiseRoot)) throw new Error("Missing app root for the cruise guide");
+
 for (const route of routes) {
   const outputPath = resolve(distDir, route.path.slice(1), "index.html");
   await mkdir(dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, renderRoute(shell, origin, route), "utf8");
+  const pageShell = route.path === cruisesPagePath
+    ? shell.replace(cruiseRoot, () => `<div id="root">${cruiseMarkup}</div>`)
+    : shell;
+  await writeFile(outputPath, renderRoute(pageShell, origin, route), "utf8");
 }
 
 console.log(`Generated ${routes.length} route-specific HTML files.`);
+
+// Trang 404 cho đường dẫn không tồn tại: Vercel tự trả dist/404.html với mã 404,
+// Hostinger qua ErrorDocument trong .htaccess. Không canonical, noindex; app vẫn
+// chạy và hiện NotFoundPage (khách báo lỗi "soft 404" 11/11/2026).
+const notFoundHtml = renderRoute(shell, origin, {
+  path: "/",
+  title: "Page Not Found | Hoang Luxury Travel",
+  description: "The page you are looking for may have been moved, or the address may be incorrect.",
+  private: true,
+}).replace(/\s*<link rel="canonical" href="[^"]*"\s*\/>/, "");
+await writeFile(resolve(distDir, "404.html"), notFoundHtml, "utf8");
 
 // URL bài cũ (/hoangphoto/blog/<bài>/, /blog/<bài>/ — trước 29/10/2026) chuyển ngay
 // sang /blog/<địa điểm>/<bài>/. Host tĩnh không biết địa điểm của từng bài nên dùng

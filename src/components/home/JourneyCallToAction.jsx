@@ -31,6 +31,7 @@ export default function JourneyCallToAction({
   // "form": nút thứ hai là Book via Form (/booking/) thay cho View Catalog —
   // trang chủ và /journeys/ theo yêu cầu khách 28/10/2026.
   secondary = "catalog",
+  whatsappHref = whatsappUrl,
 }) {
   const Heading = headingLevel === "h2" ? "h2" : "h3";
   if (variant === "route") {
@@ -75,7 +76,7 @@ export default function JourneyCallToAction({
             </ol>
 
             <div className="hlt-journey-cta-route-actions">
-              <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon />
                 Book via WhatsApp
               </a>
@@ -103,7 +104,7 @@ export default function JourneyCallToAction({
             <p>{text}</p>
           </div>
           <div className="hlt-showcase-actions">
-            <a className="hlt-btn hlt-btn-gold" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
               Book via WhatsApp
             </a>
             <a

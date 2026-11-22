@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Footer from "./components/layout/Footer.jsx";
 import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
-import { whatsappUrl } from "./data.js";
+import { whatsappInquiryUrl } from "./data.js";
 import {
   bookingDepartureDateIconUrl,
   bookingSupportIconUrl,
@@ -16,7 +16,7 @@ import { countries } from "./config/countries.js";
 import { dialCodes } from "./config/dial-codes.js";
 import { getBookingSource } from "./config/booking-source.js";
 import { formTextError } from "./lib/public-config.js";
-import { validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
+import { bookingDevice, validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import Turnstile from "./components/Turnstile.jsx";
 
 const initialForm = {
@@ -40,6 +40,16 @@ const initialForm = {
 
 const configuredBookingEndpoint = import.meta.env.VITE_FORMS_PROXY_URL?.trim();
 const bookingEndpoint = validFormsProxy(configuredBookingEndpoint) ? configuredBookingEndpoint : "";
+
+// Booking dates follow the local date at the pick-up location, not the visitor's device timezone.
+const bookingDateFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Asia/Ho_Chi_Minh", year: "numeric", month: "2-digit", day: "2-digit",
+});
+
+function bookingToday() {
+  const parts = Object.fromEntries(bookingDateFormatter.formatToParts(new Date()).map(({ type, value }) => [type, value]));
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
 
 const bookingSteps = [
   { number: 1, label: "Journey Route", fields: ["departureDate", "returnDate", "pickup", "dropoff"] },
@@ -246,6 +256,7 @@ export default function BookingPage() {
   const [turnstileToken, setTurnstileToken] = useState("");
   const [verificationReset, setVerificationReset] = useState(0);
   const requestRef = useRef(null);
+  const today = bookingToday();
 
   const updateField = (event) => {
     const { checked, name, type, value } = event.target;
@@ -288,6 +299,7 @@ export default function BookingPage() {
       }
 
       const field = document.querySelector(`.hlt-book-form [name="${fieldName}"]`);
+      if (field && fieldName === "departureDate") field.min = bookingToday();
       if (field && !field.checkValidity()) {
         field.reportValidity();
         return false;
@@ -315,6 +327,10 @@ export default function BookingPage() {
   const submitBooking = async (event) => {
     event.preventDefault();
     if (submission.state === "loading") return;
+    if (!form.departureDate || form.departureDate < bookingToday()) {
+      setSubmission({ state: "error", message: "Please select a departure date that is today or later." });
+      return;
+    }
     const inputError = formTextError(form);
     if (inputError) { setSubmission({ state: "error", message: inputError }); return; }
 
@@ -335,6 +351,7 @@ export default function BookingPage() {
       ...rest,
       form: "booking",
       phone: `${phoneCode}${form.phone}`,
+      device: bookingDevice(window.navigator),
       source: getBookingSource(),
       submittedFrom: window.location.origin + window.location.pathname,
     };
@@ -359,7 +376,7 @@ export default function BookingPage() {
 
   return (
     <div className="hlt-site hlt-booking-site">
-      <Header />
+      <Header whatsappHref={whatsappInquiryUrl} />
       <main
         className="hlt-book-page"
         style={{ "--booking-page-bg": `url(${catalogBackgroundUrl})` }}
@@ -382,10 +399,10 @@ export default function BookingPage() {
               </article>
             ))}
           </div>
-          <a className="hlt-book-support" href="tel:+84839779888">
+          <div className="hlt-book-support">
             <img src={bookingSupportIconUrl} alt="" className="hlt-book-support-icon" data-no-skeleton />
             <span><strong>Assistance &amp; Support</strong><small>Hoang Luxury Travel is ready to assist you anytime.</small><b>+84 839 779 888</b></span>
-          </a>
+          </div>
         </aside>
 
         <form className="hlt-book-form" data-current-step={currentStep} onSubmit={submitBooking} spellCheck={false} autoCorrect="off">
@@ -410,11 +427,11 @@ export default function BookingPage() {
 
           <label className="hlt-book-honeypot" aria-hidden="true">Website<input name="website" value={form.website} onChange={updateField} tabIndex="-1" autoComplete="off" /></label>
           <div className="hlt-book-fields">
-            <label data-book-step="1"><span className="hlt-book-label-text">Departure Date</span><div className="hlt-book-control"><FormIcon type="calendar" /><input required type="date" name="departureDate" max={form.returnDate || undefined} value={form.departureDate} onChange={updateField} /></div></label>
-            <label data-book-step="1"><span className="hlt-book-label-text">Return Date <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="calendar" /><input type="date" name="returnDate" min={form.departureDate || undefined} value={form.returnDate} onChange={updateField} /></div></label>
-            <label data-book-step="1"><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="e.g. Noi Bai International Airport, Hanoi - 8:00 AM" /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Departure Date</span><div className="hlt-book-control"><FormIcon type="calendar" /><input required type="date" name="departureDate" min={today} max={form.returnDate || undefined} value={form.departureDate} onChange={updateField} /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Return Date <small>(Optional)</small></span><div className="hlt-book-control"><FormIcon type="calendar" /><input type="date" name="returnDate" min={form.departureDate > today ? form.departureDate : today} value={form.returnDate} onChange={updateField} /></div></label>
+            <label data-book-step="1"><span className="hlt-book-label-text">Pick-up Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="pickup" value={form.pickup} onChange={updateField} placeholder="Noi Bai Airport or Ha Noi Hotel - 8:00 AM" /></div></label>
             <label data-book-step="1"><span className="hlt-book-label-text">Drop-off Location</span><div className="hlt-book-control"><FormIcon type="location" /><input required name="dropoff" value={form.dropoff} onChange={updateField} placeholder="e.g. Hotel name, street address, Sapa" autoComplete="street-address" /></div></label>
-            <label className="hlt-book-no-flight" data-book-step="2"><input type="checkbox" name="noFlight" checked={form.noFlight} onChange={updateField} /><span>I am not arriving by flight</span></label>
+            <div className="hlt-book-no-flight" data-book-step="2"><input type="checkbox" name="noFlight" aria-labelledby="hlt-book-no-flight-text" checked={form.noFlight} onChange={updateField} /><span id="hlt-book-no-flight-text">I am not arriving by flight</span></div>
             <label data-book-step="2"><span className="hlt-book-label-text">Flight Number <small>(Optional when not flying)</small></span><div className="hlt-book-control"><FormIcon type="plane" /><input required={!form.noFlight} disabled={form.noFlight} name="flight" value={form.flight} onChange={updateField} placeholder="e.g. VN 1222" /></div></label>
             <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour, UTC+7) <small>(Optional<span className="hlt-book-label-extra"> when not flying</span>)</small></span><div className="hlt-book-control"><FormIcon type="clock" /><input required={!form.noFlight} disabled={form.noFlight} type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
@@ -422,7 +439,7 @@ export default function BookingPage() {
             <label data-book-step="3"><span className="hlt-book-label-text">Contact Number / WhatsApp</span><div className="hlt-book-control hlt-book-control-phone"><FormIcon type="phone" /><PhoneCodeSelect value={form.phoneCode} onChange={(code) => setForm((current) => ({ ...current, phoneCode: code }))} /><input required type="tel" inputMode="numeric" autoComplete="tel-national" pattern="[0-9]{6,15}" maxLength="15" title="Enter 6 to 15 digits, without the country code." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. 839779888" /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><select required name="country" value={form.country} onChange={updateField}><option value="" disabled>Select your country</option>{countries.map((country) => <option key={country} value={country}>{country}</option>)}</select></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Number of People</span><div className="hlt-book-control"><FormIcon type="passengers" /><select required name="passengers" value={form.passengers} onChange={updateField}><option value="" disabled>Select number of people</option>{[1,2,3,4,5,6].map((count) => <option key={count} value={count}>{count} {count === 1 ? "person" : "people"}</option>)}</select></div></label>
-            <label data-book-step="4"><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>One-way</option><option>Round Trip</option><option>Custom Request</option></select></div></label>
+            <label data-book-step="4"><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>One-way</option><option>Round Trip</option><option>Multi-day</option><option>Custom Request</option></select></div></label>
             <label data-book-step="4"><span className="hlt-book-label-text">Luggage <LuggageHint /></span><div className="hlt-book-control"><FormIcon type="luggage" /><input required name="luggage" value={form.luggage} onChange={updateField} placeholder="e.g. 2 Carry, 2 Medium, 1 Large" /></div></label>
             <label className="hlt-book-requirements" data-book-step="4"><span className="hlt-book-label-text">Special Requirements <small>(Optional)</small></span><div className="hlt-book-control hlt-book-control-textarea"><FormIcon type="note" /><textarea name="requirements" value={form.requirements} onChange={updateField} placeholder="Tell us your requests, special needs, or other details." /></div></label>
           </div>
@@ -446,7 +463,7 @@ export default function BookingPage() {
             </div>
             <div className="hlt-book-actions">
               <button type="submit" disabled={submission.state === "loading" || !turnstileToken || !bookingEndpoint}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
+              <a href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
             </div>
           </div>
           {submission.message && submission.state !== "success" && <p className={`hlt-book-status is-${submission.state}`} role="status" aria-live="polite">{submission.message}</p>}
@@ -480,7 +497,7 @@ export default function BookingPage() {
         )}
       </main>
       <ExperienceSlider />
-      <Footer />
+      <Footer whatsappHref={whatsappInquiryUrl} />
     </div>
   );
 }

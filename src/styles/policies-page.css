@@ -1,0 +1,31 @@
+.hlt-policies-site { background: #f7f1e6; color: #12251d; }
+.hlt-policies-container { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+.hlt-policies-hero { padding: clamp(132px, 12vw, 176px) 0 44px; background: linear-gradient(122deg, #071b15, #14342a); color: #fff9ea; border-bottom: 1px solid #d4af6a; }
+.hlt-policies-hero h1 { margin: 5px 0; font-size: clamp(45px, 7vw, 83px); line-height: .99; }
+.hlt-policies-site p { margin: 0; font: 400 15px/1.65 "Lato", system-ui, sans-serif !important; }
+.hlt-policies-site .hlt-policies-kicker { color: #e7c57d; font-size: 12px !important; font-weight: 800 !important; letter-spacing: .09em; text-transform: uppercase; }
+.hlt-policies-layout { display: grid; grid-template-columns: minmax(215px, 240px) minmax(0, 1fr); align-items: start; gap: clamp(20px, 4vw, 58px); padding: 32px 0 54px; }
+.hlt-policies-nav { position: sticky; top: 108px; background: #fffaf1; padding: 16px; border: 1px solid #dfcfaf; border-radius: 13px; }
+.hlt-policies-nav h2 { margin: 0 0 10px; font-size: 23px; }
+.hlt-policies-nav a { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 6px; border-top: 1px solid #e4d6be; color: #1c352a; font-weight: 750; }
+.hlt-policies-nav a:hover, .hlt-policies-nav a:focus-visible { background: #f6e7ca; color: #66400c; }
+.hlt-policies-nav span, .hlt-policy-panel header > span { color: #845312; }
+.hlt-policies-notice, .hlt-policy-panel, .hlt-policies-help { padding: clamp(16px, 3vw, 29px); border: 1px solid #dfcfaf; border-radius: 14px; margin-bottom: 15px; }
+.hlt-policies-notice { background: #f6e6c8; }
+.hlt-policies-notice strong { font-size: 20px; }
+.hlt-policy-panel { background: #fffcf6; scroll-margin-top: 108px; }
+.hlt-policy-panel header { display: flex; align-items: flex-start; gap: 13px; }
+.hlt-policy-panel header > span { font-size: 23px; font-weight: 800; }
+.hlt-policy-panel h2, .hlt-policies-help h2 { margin: 0; font-size: clamp(27px, 3.8vw, 38px); line-height: 1.05; }
+.hlt-policy-topic { margin-top: 16px; border-top: 1px solid #ebdfc8; padding-top: 12px; }
+.hlt-policy-topic h3 { margin: 0 0 3px; font-size: 22px; }
+.hlt-policies-help { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: #0a2a21; color: #fff5e0; }
+.hlt-policies-help h2 { font-size: 25px; }
+.hlt-policies-help a { display: inline-flex; gap: 10px; padding: 9px 16px; border-radius: 8px; background: #efd08c; color: #14251c; font-weight: 800; }
+@media (max-width: 760px) {
+  .hlt-policies-container { width: calc(100% - 28px); }
+  .hlt-policies-hero { padding: 106px 0 25px; }
+  .hlt-policies-layout { grid-template-columns: minmax(0, 1fr); gap: 13px; padding-top: 16px; }
+  .hlt-policies-nav { position: static; }
+  .hlt-policy-panel { scroll-margin-top: 82px; }
+}
