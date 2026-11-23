@@ -1,11 +1,11 @@
 export const cruiseLanding = {
   heading: "Ha Long & Lan Ha Bay Cruises",
-  intro: "Hoang Luxury Travel provides private car transfers to your cruise departure point, ensuring a comfortable, convenient and seamless journey with professional drivers and flexible pick-up times.",
+  intro: "Hoang Luxury Travel provides private car transfers to your cruise departure point, ensuring a comfortable, convenient and seamless journey with professional drivers and save time.",
   types: [
-    { id: "day", badge: "Day Cruise", title: "Day Cruises", text: "Explore the beauty of the bay on a day cruise and enjoy exciting experiences without staying overnight in Halong Bay.", image: "typeDay" },
+    { id: "day", badge: "Day Cruise", title: "Day Cruises", schedule: "Full Day", text: "Explore the beauty of the bay on a day cruise and enjoy exciting experiences without staying overnight in Halong Bay.", image: "typeDay" },
     { id: "overnight", badge: "Overnight", title: "Overnight Cruises", schedule: "2 Days 1 Night / 3 Days 2 Nights", text: "Spend the night on the bay, enjoy more time on the water and take in the breathtaking scenery throughout your journey in Halong Bay.", image: "typeOvernight" },
     { id: "dinner", badge: "Dinner Cruise", title: "Dinner Cruises", schedule: "Evening Dining Experience", text: "Enjoy a delightful dinner, share memorable moments with friends and explore a range of exciting entertainment activities on the cruise.", image: "typeDinner" },
-    { id: "sunset", badge: "Sunset Cruise", title: "Sunset Cruise", text: "Explore the beauty of the bay in the afternoon, admire the stunning sunset and relax in a peaceful Halong Bay’s atmosphere.", image: "typeSunset" },
+    { id: "sunset", badge: "Sunset Cruise", title: "Sunset Cruise", schedule: "Sunset Experience", text: "Explore the beauty of the bay in the afternoon, admire the stunning sunset and relax in a peaceful Halong Bay’s atmosphere.", image: "typeSunset" },
   ],
 };
 
@@ -100,14 +100,14 @@ export const cruiseData = {
     {
       id: "couples",
       tagline: "A romantic cruise for two",
-      title: "Couples",
+      title: "Couples Retreat",
       icon: "heart",
       desc: "Romantic getaways, private balcony suites, candlelit dining & sunset champagne",
     },
     {
       id: "family",
       tagline: "Fun and comfortable for all ages",
-      title: "Family",
+      title: "Family Escape",
       icon: "family",
       desc: "Interconnecting family suites, kid-friendly activities, kayaking & cooking class",
     },

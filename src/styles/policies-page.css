@@ -1,5 +1,7 @@
 /* Trang Privacy Policy / Terms of Service (thiết kế khách gửi 23/11/2026). */
 .hlt-policies-site { background: #f7f1e6; color: #12251d; }
+/* .hlt-site đặt overflow-x: hidden làm "Mục lục" không dính được khi cuộn; clip giữ chống tràn ngang mà không tạo khung cuộn. */
+.hlt-site.hlt-policies-site { overflow-x: clip; overflow-y: visible; }
 .hlt-policies-container { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
 .hlt-policies-site p { margin: 0; font: 400 15px/1.7 "Lato", system-ui, sans-serif !important; }
 
@@ -121,3 +123,14 @@
   .hlt-policies-help-contact { padding: 12px 0 0; border-left: 0; border-top: 1px solid rgba(212, 175, 106, .45); }
   .hlt-policies-help-btn { justify-self: start; }
 }
+
+/* Nội dung bản chuẩn (23/11/2026): tiêu đề phụ 4.1, 6.1…, dòng Email/Hotline. */
+.hlt-terms-subheading { margin: 22px 0 8px; color: #12251d; font-size: clamp(19px, 1.7vw, 23px); font-weight: 600; line-height: 1.2; }
+.hlt-terms-section h2 + .hlt-terms-subheading { margin-top: 0; }
+.hlt-terms-section p + .hlt-terms-subheading, .hlt-terms-list + .hlt-terms-subheading { margin-top: 22px; }
+.hlt-terms-intro .hlt-terms-list { margin: 10px 0 14px; }
+.hlt-policies-site .hlt-terms-contact { display: grid; gap: 4px; }
+.hlt-terms-contact a { color: #8a5d1c; font-weight: 700; }
+.hlt-terms-contact a:hover { text-decoration: underline; }
+/* Chữ đậm trong đoạn giữ cùng font với đoạn văn (mặc định strong của site là Cormorant). */
+.hlt-policies-site :is(p, li) strong { font-family: inherit !important; font-weight: 800; color: #12251d; }

@@ -1,7 +1,7 @@
 import { privacySections } from "./privacy-policy.js";
 
 /* Hai trang chính sách riêng (khách yêu cầu 23/11/2026), thay cho trang gộp
-   /policies/ cũ. Nội dung vẫn là bản nháp, chờ bản chuẩn từ khách. */
+   /policies/ cũ. Nội dung là bản chuẩn khách gửi 23/11/2026 (config/terms-of-service.js, privacy-policy.js). */
 export const privacyPolicyPath = "/privacy-policy/";
 export const termsPath = "/terms-and-conditions/";
 

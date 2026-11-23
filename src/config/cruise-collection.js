@@ -13,8 +13,8 @@ export const cruiseCollection = [
     bay: "Lan Ha Bay",
     tiers: {
       Luxury: ["Stellar of the Seas Cruise", "Paradise Grand", "Elite of the Seas", "Ambassador Cruise Signature"],
-      Deluxe: ["Lyra Grandeur Cruise", "Celina of the Sea", "Indochine Cruise", "Diana Cruises"],
-      Standard: [],
+      Deluxe: ["Lyra Grandeur Cruise", "Celina of the Sea", "Indochine Cruise"],
+      Standard: ["Diana Cruises"],
     },
   },
 ];
