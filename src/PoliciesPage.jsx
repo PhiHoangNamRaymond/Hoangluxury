@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import { legacyPolicyHash, legacyPolicyPath, privacyPolicyPath, termsPath } from "./config/policies.js";
-import { termsSections } from "./config/terms-of-service.js";
-import { privacySections } from "./config/privacy-policy.js";
+import { termsIntro, termsSections } from "./config/terms-of-service.js";
+import { privacyIntro, privacySections } from "./config/privacy-policy.js";
 import { whatsappUrl } from "./data.js";
 import "./styles/policies-page.css";
 
@@ -37,20 +37,14 @@ function PolicyPage({ kind }) {
     title: "Terms of Service",
     intro: "The terms and conditions for using our website and booking private transportation services.",
     anchor: "terms",
-    paragraphs: [
-      "Welcome to Hoang Luxury Travel (HLT). Please read these Terms of Service before using our website or booking our services.",
-      "Submitting a booking request does not confirm a reservation. Please review the itinerary, price and applicable conditions in the written confirmation before paying.",
-    ],
+    paragraphs: termsIntro,
     badges: ["Clear Terms", "Transparent Pricing", "Dedicated Support"],
     help: "Our team is ready to help with bookings, service details and questions about these terms.",
   } : {
     title: "Privacy Policy",
     intro: "How we collect, use, protect and manage your personal information.",
     anchor: "privacy",
-    paragraphs: [
-      "At Hoang Luxury Travel (HLT), we believe that privacy and the protection of personal information are essential parts of a premium service experience.",
-      "You can explore our website without actively providing personal information. When you contact us or request a booking, we ask for information relevant to providing advice, arranging travel and supporting your journey.",
-    ],
+    paragraphs: privacyIntro,
     badges: ["Privacy First", "Secure Handling", "Customer Control"],
     help: "We are happy to assist with your personal information and privacy-related questions.",
   };
@@ -91,7 +85,7 @@ function PolicyPage({ kind }) {
                 <p className="hlt-terms-updated">Last updated: [Day/Month/Year of publication]</p>
               </div>
               <h2 id={`${page.anchor}-title`}>{page.title}</h2>
-              {page.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {page.paragraphs.map((item, itemIndex) => <PolicyBlock key={itemIndex} item={item} />)}
               <p className="hlt-terms-badges">
                 {page.badges.map((badge, index) => <React.Fragment key={badge}>
                   {index > 0 && <span aria-hidden="true">✦</span>}{badge}
@@ -123,12 +117,22 @@ function PolicyPage({ kind }) {
   );
 }
 
-/* Một đoạn nội dung: chuỗi = đoạn văn; { list: [...] } = danh sách gạch đầu dòng;
-   { strong: "..." } = đoạn in đậm (để ghép bản chuẩn của khách khi có). */
+/* Đoạn có **chữ đậm**: tách theo dấu ** để in đậm đúng phần khách đánh dấu. */
+function RichText({ text }) {
+  return text.split("**").map((part, index) => (index % 2 ? <strong key={index}>{part}</strong> : part));
+}
+
+/* Một khối nội dung chính sách (định dạng ở config/terms-of-service.js):
+   chuỗi = đoạn văn; { h3 } = tiêu đề phụ; { list } = gạch đầu dòng;
+   { contact } = dòng Email / Hotline có link. */
 function PolicyBlock({ item }) {
-  if (typeof item === "string") return <p>{item}</p>;
-  if (item.list) return <ul className="hlt-terms-list">{item.list.map((entry) => <li key={entry}>{entry}</li>)}</ul>;
-  if (item.strong) return <p><strong>{item.strong}</strong></p>;
+  if (typeof item === "string") return <p><RichText text={item} /></p>;
+  if (item.h3) return <h3 className="hlt-terms-subheading">{item.h3}</h3>;
+  if (item.list) return <ul className="hlt-terms-list">{item.list.map((entry) => <li key={entry}><RichText text={entry} /></li>)}</ul>;
+  if (item.contact) return <p className="hlt-terms-contact">
+    <span><strong>Email:</strong> <a href="mailto:info@hoangluxury.travel">info@hoangluxury.travel</a></span>
+    <span><strong>Hotline:</strong> <a href="tel:+84839779888">+84 839 779 888</a></span>
+  </p>;
   return null;
 }
 

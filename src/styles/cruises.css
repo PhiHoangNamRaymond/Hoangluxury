@@ -493,60 +493,6 @@
   color: #ffffff;
 }
 
-.hlt-cruise-match-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: clamp(24px, 4vw, 44px);
-  align-items: center;
-}
-
-.hlt-cruise-match-left {
-  max-width: 280px;
-}
-
-.hlt-cruise-match-left .hlt-cruise-match-title {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(23px, 2.4vw, 27px);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.15;
-  margin: 0 0 12px;
-}
-
-.hlt-cruise-match-left p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.78);
-  line-height: 1.45;
-  margin: 0 0 18px;
-}
-
-.hlt-cruise-match-left .hlt-cruise-btn-gold {
-  all: unset !important;
-  box-sizing: border-box !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 8px 16px !important;
-  background: #c89d53 !important;
-  color: #111a18 !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-  font-size: 12.5px !important;
-  font-weight: 550 !important;
-  letter-spacing: normal !important;
-  text-transform: none !important;
-  white-space: nowrap !important;
-  border-radius: 6px !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
-  transition: background 0.2s ease, transform 0.2s ease !important;
-}
-
-.hlt-cruise-match-left .hlt-cruise-btn-gold:hover {
-  background: #d4a75b !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(200, 157, 83, 0.35) !important;
-}
 
 .hlt-cruise-match-grid {
   display: grid;
@@ -1198,7 +1144,7 @@
 
 .hlt-cruise-reviews-left h2 {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(24px, 2.6vw, 32px);
+  font-size: clamp(28px, 2.8vw, 37px);
   font-weight: 700;
   color: #07201b;
   line-height: 1.15;
@@ -1229,10 +1175,7 @@
 }
 
 .hlt-cruise-review-quote {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.5;
+  font: 500 clamp(15px, 1.15vw, 17px)/1.6 "Lato", Arial, sans-serif !important;
   color: #0b1a17;
   margin: 0 0 12px;
   flex: 1;
@@ -1272,7 +1215,7 @@
 
 .hlt-review-info strong {
   display: block;
-  font-size: 13px;
+  font-size: 15px;
   color: #07201b;
   font-weight: 700;
   line-height: 1.2;
@@ -1280,7 +1223,7 @@
 
 .hlt-review-info span {
   display: block;
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 600;
   color: #4b5d59;
   line-height: 1.2;
@@ -1303,7 +1246,7 @@
 
 .hlt-cruise-faq-left h2 {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(24px, 2.6vw, 32px);
+  font-size: clamp(28px, 2.8vw, 37px);
   font-weight: 700;
   color: #07201b;
   line-height: 1.15;
@@ -1337,10 +1280,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
   text-align: left;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
+  font: 600 clamp(15px, 1.12vw, 17px)/1.4 "Lato", Arial, sans-serif !important;
   cursor: pointer;
 }
 
@@ -1363,6 +1306,7 @@
 
 .hlt-cruise-faq-answer p {
   margin: 10px 0 0;
+  font: 400 clamp(15px, 1.08vw, 16px)/1.6 "Lato", Arial, sans-serif !important;
 }
 
 /* ==========================================================================
@@ -1528,7 +1472,6 @@
 
 @media (max-width: 960px) {
   .hlt-cruise-catalog-layout,
-  .hlt-cruise-match-layout,
   .hlt-cruise-exp-layout,
   .hlt-cruise-stats-layout,
   .hlt-cruise-reviews-layout,
@@ -1841,7 +1784,6 @@
     margin: 0 auto;
   }
 
-  .hlt-cruise-match-left .hlt-cruise-match-title,
   .hlt-cruise-seamless-content .hlt-cruise-seamless-title,
   .hlt-cruise-exp-intro h2,
   .hlt-cruise-durations-intro h2,
@@ -1889,63 +1831,6 @@
     padding: 36px 0;
   }
 
-  .hlt-cruise-match-layout {
-    grid-template-columns: 1fr !important;
-    gap: 28px !important;
-    text-align: center;
-  }
-
-  .hlt-cruise-match-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hlt-cruise-match-left .hlt-cruise-match-title {
-    font-size: 26px !important;
-    line-height: 1.2 !important;
-    margin-bottom: 10px !important;
-  }
-
-  .hlt-cruise-match-left p {
-    font-size: 14px !important;
-    max-width: 320px;
-    margin: 0 auto 20px !important;
-  }
-
-  .hlt-cruise-match-left .hlt-cruise-btn-gold {
-    width: 100% !important;
-    max-width: 300px;
-    height: 44px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .hlt-cruise-match-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-  }
-
-  .hlt-cruise-pref-box {
-    min-height: 135px !important;
-    padding: 16px 8px 14px !important;
-  }
-
-  .hlt-cruise-pref-icon {
-    width: 46px !important;
-    height: 46px !important;
-    margin-bottom: 8px !important;
-  }
-
-  .hlt-cruise-pref-img {
-    width: 40px !important;
-    height: 40px !important;
-  }
-
-  .hlt-cruise-pref-box .hlt-cruise-pref-title {
-    font-size: 13.5px !important;
-  }
 
   /* 4. From Hotel to Cruise Seamlessly */
   .hlt-cruise-seamless-banner {
@@ -2213,7 +2098,6 @@
 
   .hlt-cruise-faq-question {
     min-height: 48px !important;
-    font-size: 14px !important;
     padding: 12px 14px !important;
   }
 
@@ -2268,7 +2152,7 @@
 /* Câu hỏi FAQ là h3 (cấu trúc SEO 28/10/2026): giữ đúng chữ như nút cũ. */
 .hlt-cruise-faq-question .hlt-cruise-faq-q {
   margin: 0;
-  font: inherit;
+  font: inherit !important;
   letter-spacing: inherit;
   color: inherit;
 }

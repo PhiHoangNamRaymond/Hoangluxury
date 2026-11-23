@@ -54,7 +54,7 @@ import cruiseHeritageBinhChuanUrl from "../../assets/opt/heritage-binh-chuan-cru
 import cruiseStellarSeasUrl from "../../assets/opt/stellar-of-the-seas-cruise-ha-long-bay.jpg";
 import cruiseEraCruisesUrl from "../../assets/opt/era-cruise-halong-bay.jpg";
 import cruiseSeamlessTransferUrl from "../../assets/opt/private-transfer-hanoi-to-halong-and-cruise.jpg";
-import cruiseSeamlessTransferDesktopUrl from "../../assets/opt/hoang-luxury-hotel-car-cruise-preview.jpg";
+import cruiseSeamlessTransferDesktopUrl from "../../assets/opt/hoang-luxury-hotel-to-cruise-hlt.webp";
 import cruiseExpCabinUrl from "../../assets/opt/luxury-cruise-cabin-bay-view.jpg";
 import cruiseExpDiningUrl from "../../assets/opt/halong-bay-cruise-fine-dining.jpg";
 import cruiseExpSunsetUrl from "../../assets/opt/cruise-sunset-deck-experience.jpg";
@@ -914,13 +914,6 @@ import bookingDepartureDateIconUrl from "../../assets/private-transfer-departure
 import bookingSupportIconUrl from "../../assets/private-car-customer-support-icon.svg?no-inline";
 import footerFlourishDividerUrl from "../../assets/footer-flourish-divider.png";
 
-/* Icon 4 phong cách du thuyền (khối "Not Sure Which Cruise to Choose?"), bộ icon vàng
-   khách gửi 22/11/2026, dùng cho cả PC và mobile. */
-import iconPrefCouplesUrl from "../../assets/cruise-icons/cruise-style-couples-icon.webp";
-import iconPrefFamilyUrl from "../../assets/cruise-icons/cruise-style-family-icon.webp";
-import iconPrefLuxuryUrl from "../../assets/cruise-icons/cruise-style-luxury-icon.webp";
-import iconPrefScenicUrl from "../../assets/cruise-icons/cruise-style-scenic-icon.webp";
-
 import botanicalCornerGoldUrl from "../../assets/botanical-corner-gold.webp";
 
 export {
@@ -1160,13 +1153,6 @@ export const cruiseBackgroundAlts = {
   heroHalong: "Luxury cruise sailing through Ha Long Bay at sunset, surrounded by towering limestone islands",
   seamlessTransfer: "Private car transfer of Hoang Luxury Travel from a Hanoi hotel to Ha Long cruise, with guests arriving for their luxury cruise",
   mosaicPanorama: "A luxury cruise sailing between the limestone islands of Halong Bay at sunset",
-};
-
-export const preferenceIconImages = {
-  couples: iconPrefCouplesUrl,
-  family: iconPrefFamilyUrl,
-  luxury: iconPrefLuxuryUrl,
-  scenic: iconPrefScenicUrl,
 };
 
 /* Trang About (/about/): ảnh JPEG đã tối ưu (cắt từ Sapa2.png, hero-reception-lobby-2026.png,

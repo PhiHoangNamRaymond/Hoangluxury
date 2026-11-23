@@ -3,13 +3,33 @@ import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { cruiseData, cruiseLanding } from "./config/cruises.js";
-import { cruiseBackgroundAlts, cruiseFlowIcons, cruiseImages, preferenceIconImages } from "./config/assets.js";
+import { cruiseBackgroundAlts, cruiseFlowIcons, cruiseImages } from "./config/assets.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import CruiseLandingCollection, { cruiseInquiry } from "./components/CruiseLandingCollection.jsx";
 import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";
 import CruiseDesktopIcon from "./components/CruiseDesktopIcon.jsx";
+import couplesGold from "../assets/cruise-icons/preference-gold-couples.png";
+import familyGold from "../assets/cruise-icons/preference-gold-family.png";
+import luxuryGold from "../assets/cruise-icons/preference-gold-luxury.png";
+import scenicGold from "../assets/cruise-icons/preference-gold-scenic.png";
+import preferenceWave from "../assets/cruise-icons/preference-gold-wave.png";
+import preferenceBackground from "../assets/opt/cruise-preference-lan-ha-sunset.jpg";
+import finalCtaBackground from "../assets/opt/cruise-final-cta-golden-bay.jpg";
+import experienceLotus from "../assets/cruise-icons/experience-gold-lotus.png";
 import "./styles/cruise-landing-desktop.css";
 import "./styles/cruise-landing-mobile.css";
+
+const preferenceIcons = { couples: couplesGold, family: familyGold, luxury: luxuryGold, scenic: scenicGold };
+
+/* Tên thử cho thẻ đánh giá 2 và 3, CHỈ khi chạy máy dev (npm run dev) để khách xem thử
+   (yêu cầu 23/11/2026). Bản build/deploy (import.meta.env.DEV = false) vẫn hiện tên
+   gốc: không đăng tên người không có thật lên web thật. */
+const reviewTestOverrides = import.meta.env?.DEV
+  ? {
+      1: { name: "Yuki Natsumi", country: "Japan", avatarLetter: "Y", avatarKey: null },
+      2: { name: "Kim Ji Uon", country: "South Korea", avatarLetter: "K", avatarKey: null },
+    }
+  : {};
 
 export default function CruisesPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
@@ -157,19 +177,14 @@ export default function CruisesPage() {
         {/* =========================================================================
             3. NOT SURE WHICH CRUISE TO CHOOSE? (Dark Navy Luxury)
         ========================================================================= */}
-        <section className="hlt-cruise-match-section">
+        <section className="hlt-cruise-match-section" aria-labelledby="cruise-preference-heading">
+          <img className="hlt-cruise-match-background" src={preferenceBackground} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-container">
-            <h2 className="hlt-cruise-mobile-only hlt-cruise-mobile-styles-title">Discover Luxury Cruises in Halong Bay</h2>
-            {/* Thiết kế 23/11/2026: tiêu đề giữa, 4 thẻ có dòng mô tả ngắn, nút ở dưới; nền navy trơn. */}
-            <header className="hlt-cruise-match-head hlt-cruise-pc-only">
+            <header className="hlt-cruise-match-head">
               <p className="hlt-cruise-match-kicker">Personalized Cruise Selection</p>
-              <h2 className="hlt-cruise-match-title">Discover Luxury Cruises in Halong Bay</h2>
-              <svg className="hlt-cruise-match-swoosh" viewBox="0 0 80 18" aria-hidden="true">
-                <path d="M4 11c8-6 17-7 26-3 6 3 11 4 16 1M30 13c9 3 18 2 26-3 5-3 11-4 20-1M37 9c2-3 6-4 9-2" />
-              </svg>
+              <h2 id="cruise-preference-heading" className="hlt-cruise-match-title">Discover Luxury Cruises in Halong Bay</h2>
               <p className="hlt-cruise-match-intro">
-                Explore luxury cruises in Halong Bay, bringing memorable experiences to couples, families,
-                luxury travelers, and nature lovers.
+                Tailored cruise experiences for every traveler, from romantic getaways to family holidays and unforgettable nature journeys.
               </p>
             </header>
 
@@ -178,21 +193,22 @@ export default function CruisesPage() {
                 <div key={cat.id} className="hlt-cruise-pref-box">
                   <div className="hlt-cruise-pref-icon">
                     <img
-                      src={preferenceIconImages[cat.id]}
+                      src={preferenceIcons[cat.id]}
                       alt=""
                       className="hlt-cruise-pref-img"
-                      width="300"
-                      height="240"
+                      width="224"
+                      height="224"
                       loading="lazy"
                       decoding="async"
                       data-no-skeleton
                     />
                   </div>
                   <div className="hlt-cruise-pref-title">{cat.title}</div>
-                  <p className="hlt-cruise-pref-tagline hlt-cruise-pc-only">{cat.tagline}</p>
+                  <p className="hlt-cruise-pref-tagline">{cat.tagline}</p>
                 </div>
               ))}
             </div>
+            <img className="hlt-cruise-match-wave" src={preferenceWave} alt="" loading="lazy" decoding="async" data-no-skeleton />
           </div>
         </section>
 
@@ -264,7 +280,7 @@ export default function CruisesPage() {
               <div className="hlt-cruise-exp-intro">
                 {/* Thiết kế 23/11/2026: hoa sen + dòng nhỏ phía trên tiêu đề. */}
                 <div className="hlt-cruise-exp-kicker" aria-hidden="true">
-                  <svg viewBox="0 0 32 20"><path d="M16 17c-2.6-2.1-3.6-5-3-8.6 2.6 1.6 3.6 4.4 3 8.6Zm0 0c2.6-2.1 3.6-5 3-8.6-2.6 1.6-3.6 4.4-3 8.6Zm0 0c-3.8.6-7.2-.8-9.5-3.9 3.6-.8 6.8.5 9.5 3.9Zm0 0c3.8.6 7.2-.8 9.5-3.9-3.6-.8-6.8.5-9.5 3.9ZM16 8.6c-1.3-2.2-1.3-4.4 0-6.6 1.3 2.2 1.3 4.4 0 6.6Z" /></svg>
+                  <img src={experienceLotus} alt="" width="144" height="94" loading="lazy" decoding="async" data-no-skeleton />
                   <span>Hoang Luxury Travel</span>
                 </div>
                 <h2>What To Expect On Your Cruise</h2>
@@ -314,7 +330,7 @@ export default function CruisesPage() {
               </div>
 
               <div className="hlt-cruise-reviews-grid">
-                {cruiseData.reviews.map((rev, idx) => (
+                {cruiseData.reviews.map((review, idx) => ({ ...review, ...reviewTestOverrides[idx] })).map((rev, idx) => (
                   <article className={`hlt-cruise-review-card${idx === reviewIndex ? " is-mobile-active" : ""}`} key={idx}>
                     <div className="hlt-cruise-review-stars">★★★★★</div>
                     <p className="hlt-cruise-review-quote">"{rev.text}"</p>
@@ -404,9 +420,9 @@ export default function CruisesPage() {
             11. YOUR HA LONG JOURNEY STARTS HERE (Pre-footer Dark Gold CTA)
         ========================================================================= */}
         <section
-          className="hlt-cruise-cta-section hlt-blog-story-cta hlt-cruise-pc-only"
+          className="hlt-cruise-cta-section hlt-blog-story-cta hlt-cruise-final-cta hlt-cruise-pc-only"
         >
-          <img className="hlt-cruise-cta-img" src={cruiseImages.ctaSunset} alt="" loading="lazy" decoding="async" data-no-skeleton />
+          <img className="hlt-cruise-cta-img" src={finalCtaBackground} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
           {/* Cùng kích thước dải CTA trang Blog / About (khách yêu cầu 22/11/2026):
               chữ và cặp nút chung .hlt-btn. */}
@@ -414,7 +430,7 @@ export default function CruisesPage() {
             <div className="hlt-cruise-cta-text">
               <div className="hlt-cruise-cta-title">Ready to explore Halong Bay?</div>
               <p className="hlt-blog-story-description">
-                Start planning your journey today!
+                Start planning your journey with a private transfer today!
               </p>
             </div>
 
