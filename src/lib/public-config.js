@@ -64,7 +64,7 @@ export function publicEnvError(env) {
   }
   const endpoint = env.VITE_BOOKING_SHEET_ENDPOINT?.trim();
   if (endpoint && !validFormsEndpoint(endpoint)) return "Booking endpoint phải là Google Apps Script HTTPS Web App /exec.";
-  if (env.VITE_FORMS_PROXY_URL && !validFormsProxy(env.VITE_FORMS_PROXY_URL.trim())) return "Forms proxy phải là Supabase HTTPS function forms-proxy.";
+  if (env.VITE_FORMS_PROXY_URL && !validFormsProxy(env.VITE_FORMS_PROXY_URL.trim())) return "Forms proxy phải là Supabase forms-proxy hoặc HTTPS hoangluxury.travel/api/forms.";
   if (env.VITE_CATALOG_URL && safeCatalogUrl(env.VITE_CATALOG_URL, "") === "") return "Catalog URL phải là HTTPS hoặc đường dẫn nội bộ.";
   return "";
 }
