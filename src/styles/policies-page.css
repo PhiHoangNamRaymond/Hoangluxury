@@ -17,12 +17,18 @@
   border-bottom: 1px solid #d4af6a;
 }
 .hlt-policies-hero-mobile-art { display: none; }
+.hlt-policies-hero-photo { display: none; }
 @media (min-width: 761px) {
-  .hlt-policies-hero {
+  .hlt-policies-hero-photo { display: block; position: absolute; inset: 0; z-index: -2; }
+  .hlt-policies-hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 70% center; }
+  .hlt-policies-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background:
       radial-gradient(ellipse at 48% 52%, #031613b5, #03161330 80%),
-      linear-gradient(180deg, #03161355, #03161333 44%, #03161388),
-      #0a241c url("../../assets/opt/hlt-policy-banner.png") 70% center / cover no-repeat;
+      linear-gradient(180deg, #03161355, #03161333 44%, #03161388);
   }
   .hlt-policies-hero > .hlt-policies-container { transform: translateX(-2vw); }
 }
@@ -121,7 +127,9 @@
 @media (max-width: 760px) {
   .hlt-policies-container { width: calc(100% - 28px); }
   .hlt-policies-hero { padding: 106px 0 28px; }
-  .hlt-policies-hero-mobile-art { display: block; position: absolute; inset: auto 0 0; z-index: -1; width: 100%; height: 72%; }
+  .hlt-policies-hero-mobile-art,
+  .hlt-policies-hero-photo.has-mobile-banner { display: block; position: absolute; inset: auto 0 0; z-index: -1; width: 100%; height: 72%; }
+  .hlt-policies-hero-photo.has-mobile-banner img { display: block; width: 100%; height: 100%; }
   .hlt-policies-hero-mobile-art circle { fill: rgba(231, 197, 125, .05); }
   .hlt-policies-hero-mobile-art .is-far { fill: rgba(255, 255, 255, .035); }
   .hlt-policies-hero-mobile-art .is-near { fill: rgba(0, 0, 0, .16); }
@@ -130,6 +138,8 @@
   .hlt-policies-nav { position: static; }
   .hlt-policy-panel, .hlt-terms-section { scroll-margin-top: 82px; }
   .hlt-terms-section { padding-inline: 23px; }
+  .hlt-policies-content :is(.hlt-terms-intro, .hlt-terms-section) > p:not([class]),
+  .hlt-policies-content .hlt-terms-list > li { text-align: justify; hyphens: auto; }
   .hlt-policies-site .hlt-terms-badges { gap: 6px 10px; padding-inline: 10px; font-size: clamp(12px, 3.7vw, 15px) !important; text-align: center; }
   .hlt-terms-badge { gap: 10px; }
   .hlt-terms-badge:last-child { flex-basis: 100%; }

@@ -2,10 +2,10 @@ export const cruiseLanding = {
   heading: "Ha Long & Lan Ha Bay Cruises",
   intro: "Hoang Luxury Travel provides private car transfers to your Halong Bay cruise departure point, ensuring a comfortable, convenient and seamless journey with professional drivers and save time.",
   types: [
-    { id: "day", badge: "Day Cruise", title: "Day Cruises", schedule: "Full Day", text: "Explore the beauty of the bay on a day cruise and enjoy exciting experiences without staying overnight in Halong Bay.", image: "typeDay" },
-    { id: "overnight", badge: "Overnight", title: "Overnight Cruises", schedule: "2 Days 1 Night / 3 Days 2 Nights", text: "Spend the night on the bay, enjoy more time on the water and take in the breathtaking scenery throughout your journey in Halong Bay.", image: "typeOvernight" },
-    { id: "dinner", badge: "Dinner Cruise", title: "Dinner Cruises", schedule: "Evening Dining Experience", text: "Enjoy a delightful dinner, share memorable moments with friends and explore a range of exciting entertainment activities on the cruise.", image: "typeDinner" },
-    { id: "sunset", badge: "Sunset Cruise", title: "Sunset Cruise", schedule: "Sunset Experience", text: "Explore the beauty of the bay in the afternoon, admire the stunning sunset and relax in a peaceful Halong Bay’s atmosphere.", image: "typeSunset" },
+    { id: "day", badge: "Day Cruise", title: "Day Cruises", schedule: "Full Day", text: "Explore the beauty of the bay on a day cruise and enjoy exciting experiences without staying overnight in Halong Bay.", image: "typeDay", alt: "Day cruise sailing among limestone islands in Halong Bay at sunset." },
+    { id: "overnight", badge: "Overnight", title: "Overnight Cruises", schedule: "2 Days 1 Night / 3 Days 2 Nights", text: "Spend the night on the bay, enjoy more time on the water and take in the breathtaking scenery throughout your journey in Halong Bay.", image: "typeOvernight", alt: "Luxury overnight cruise sailing through the scenic limestone islands of Halong Bay." },
+    { id: "dinner", badge: "Dinner Cruise", title: "Dinner Cruises", schedule: "Evening Dining Experience", text: "Enjoy a delightful dinner, share memorable moments with friends and explore a range of exciting entertainment activities on the cruise.", image: "typeDinner", alt: "Luxury dinner cruise with illuminated decks and traditional sails on Halong Bay at dusk." },
+    { id: "sunset", badge: "Sunset Cruise", title: "Sunset Cruise", schedule: "Sunset Experience", text: "Explore the beauty of the bay in the afternoon, admire the stunning sunset and relax in a peaceful Halong Bay’s atmosphere.", image: "typeSunset", alt: "Traditional cruise sailing through Halong Bay at sunset." },
   ],
 };
 
@@ -220,10 +220,18 @@ export const cruiseData = {
     },
   ],
   faqs: [
-  // Thứ tự theo lưới 2 cột (hàng ngang): 1|4, 2|5, 3|6. Giữ câu 2 và 5, còn lại khách thay 23/11/2026.
+    // Đọc từ trái sang phải rồi xuống hàng; mobile giữ cùng thứ tự.
     {
       q: "How can I book and confirm my booking?",
       a: "You can book your private car with a driver through Hoang Luxury Travel in two simple ways: message us directly via WhatsApp for quick assistance and booking support, or click Booking and fill in your trip details. After receiving your request, our team will contact you to discuss your itinerary, confirm the details, and complete your private transfer booking. Your detailed trip information will be sent in a Booking Confirmation 48 hours before departure. Please review the details, then relax and enjoy your journey.",
+    },
+    {
+      q: "Do I need to pay a deposit? What payment methods do you accept?",
+      a: "You don’t need to pay anything before your trip. After you arrive at your destination, you can pay 100% of the total amount directly to your driver. We offer flexible payment options, including cash and card payments. If you choose to pay by card, a 3% processing fee applies for international card payments.",
+    },
+    {
+      q: "Is the price all-inclusive? Are there any hidden fees?",
+      a: "Yes, the quoted price includes everything in your agreed itinerary. Pricing depends on your route and specific needs. Our prices are transparent, with no hidden fees. If you request additional services outside the agreed itinerary, we’ll explain any extra charges in advance and only apply them with your approval.",
     },
     {
       q: "Can we make flexible stops along the way?",
@@ -236,14 +244,6 @@ export const cruiseData = {
     {
       q: "Where do cruises depart from?",
       a: "Cruises depart from Tuan Chau International Port (Ha Long Bay cruises) or Ha Long International Cruise Port (Sun Group Port), and Got Pier / Tuan Chau for Lan Ha Bay cruises. Your driver will drop you directly at your specific cruise check-in lounge.",
-    },
-    {
-      q: "Is the price all-inclusive? Are there any hidden fees?",
-      a: "Yes, the quoted price includes everything in your agreed itinerary. Pricing depends on your route and specific needs. Our prices are transparent, with no hidden fees. If you request additional services outside the agreed itinerary, we’ll explain any extra charges in advance and only apply them with your approval.",
-    },
-    {
-      q: "Do I need to pay a deposit? What payment methods do you accept?",
-      a: "You don’t need to pay anything before your trip. After you arrive at your destination, you can pay 100% of the total amount directly to your driver. We offer flexible payment options, including cash and card payments. If you choose to pay by card, a 3% processing fee applies for international card payments.",
     },
   ],
 };

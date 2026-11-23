@@ -13,8 +13,8 @@ import familyGold from "../assets/cruise-icons/preference-gold-family.png";
 import luxuryGold from "../assets/cruise-icons/preference-gold-luxury.png";
 import scenicGold from "../assets/cruise-icons/preference-gold-scenic.png";
 import preferenceWave from "../assets/cruise-icons/preference-gold-wave.png";
-import preferenceBackground from "../assets/opt/cruise-preference-lan-ha-sunset.jpg";
-import finalCtaBackground from "../assets/opt/halong-bay-calm-sunrise-cta.png";
+import preferenceBackground from "../assets/opt/halong-bay-sunset-landscape-hoang-luxury-travel.jpg";
+import finalCtaBackground from "../assets/opt/halong-bay-sunset-private-transfer-hoang-luxury-travel.png";
 import experienceLotus from "../assets/cruise-icons/experience-gold-lotus.png";
 import "./styles/cruise-landing-desktop.css";
 import "./styles/cruise-landing-mobile.css";
@@ -173,7 +173,7 @@ export default function CruisesPage() {
           <img className="hlt-cruise-match-background" src={preferenceBackground} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-container">
             <header className="hlt-cruise-match-head">
-              <h2 id="cruise-preference-heading" className="hlt-cruise-match-title">Discover Luxury Cruises in Halong Bay</h2>
+              <h2 id="cruise-preference-heading" className="hlt-cruise-match-title">Discover Luxury Cruises In Halong Bay</h2>
               <p className="hlt-cruise-match-intro">
                 Explore luxury cruises in Halong Bay, bringing memorable experiences to couples, families, luxury travelers, and nature lovers.
               </p>
@@ -215,7 +215,7 @@ export default function CruisesPage() {
             </picture>
             <div className="hlt-cruise-seamless-overlay" aria-hidden="true" />
             <div className="hlt-container hlt-cruise-seamless-content">
-              <div className="hlt-cruise-seamless-title">From Your Hotel to Your Cruise</div>
+              <div className="hlt-cruise-seamless-title">From Your Hotel To Your Cruise</div>
               <p className="hlt-cruise-seamless-subtitle">
                 Enjoy a private journey from Hanoi or Noi Bai Airport directly to your cruise terminal.
               </p>

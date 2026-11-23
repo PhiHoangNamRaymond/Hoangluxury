@@ -33,7 +33,7 @@ import aboutCeoSignatureUrl from "../../assets/about-ceo-signature.png";
 
 /* Cruise Page Assets */
 import cruiseHeroHalongUrl from "../../assets/opt/hoang-luxury-travel-halong-bay-cruise-banner.jpg";
-import cruiseHeroDesktopUrl from "../../assets/opt/hoang-luxury-travel-halong-bay-sunset-cruise-desktop.webp";
+import cruiseHeroDesktopUrl from "../../assets/opt/halong-bay-luxury-cruise-private-transfer.webp";
 import cruiseMosaicPanoramaUrl from "../../assets/opt/halong-bay-luxury-cruise.jpg";
 import cruiseMomentSundeckUrl from "../../assets/opt/real-cruise-moments-sundeck.jpg";
 /* Bản sao có tên riêng: 3 thẻ "Choose Your Cruise Duration" (cùng hình thẻ du thuyền)
@@ -1109,10 +1109,10 @@ import cruiseFlowCruiseIcon from "../../assets/cruise-icons/cruise-transfer-luxu
 export const cruiseFlowIcons = { hotel: cruiseFlowHotelIcon, car: cruiseFlowCarIcon, anchor: cruiseFlowAnchorIcon, cruise: cruiseFlowCruiseIcon };
 
 /* Ảnh 4 thẻ "Choose Your Cruise Experience" (khách gửi 23/11/2026). */
-import cruiseTypeDayUrl from "../../assets/cruise-types/halong-bay-day-cruise-hoang-luxury-travel.webp";
-import cruiseTypeOvernightUrl from "../../assets/cruise-types/halong-bay-overnight-cruise-hoang-luxury-travel.webp";
-import cruiseTypeDinnerUrl from "../../assets/cruise-types/halong-bay-dinner-cruise-hoang-luxury-travel.webp";
-import cruiseTypeSunsetUrl from "../../assets/cruise-types/halong-bay-sunset-cruise-hoang-luxury-travel.webp";
+import cruiseTypeDayUrl from "../../assets/cruise-types/halong-bay-day-cruise-private-car-hoang-luxury-travel.webp";
+import cruiseTypeOvernightUrl from "../../assets/cruise-types/halong-bay-overnight-cruise-private-transfer.webp";
+import cruiseTypeDinnerUrl from "../../assets/cruise-types/halong-bay-dinner-cruise-private-transfer-hoang-luxury-travel.webp";
+import cruiseTypeSunsetUrl from "../../assets/cruise-types/halong-bay-sunset-cruise-hoang-luxury-travel-private-car.webp";
 
 export const cruiseImages = {
   typeDay: cruiseTypeDayUrl,
@@ -1150,7 +1150,7 @@ export const cruiseImages = {
 /* Alt ảnh nền trang Cruises (banner đầu trang, dải "From Your Hotel…", ảnh lớn
    khối trải nghiệm). CruisesPage.jsx thêm một <img> ẩn mang alt này. */
 export const cruiseBackgroundAlts = {
-  heroHalong: "Luxury cruise sailing through Ha Long Bay at sunset, surrounded by towering limestone islands",
+  heroHalong: "Luxury cruise sailing through Halong Bay at sunset",
   seamlessTransfer: "Private car transfer of Hoang Luxury Travel from a Hanoi hotel to Ha Long cruise, with guests arriving for their luxury cruise",
   mosaicPanorama: "A luxury cruise sailing between the limestone islands of Halong Bay at sunset",
 };

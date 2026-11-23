@@ -6,6 +6,8 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import { legacyPolicyHash, legacyPolicyPath, privacyPolicyPath, termsPath } from "./config/policies.js";
 import { termsIntro, termsSections } from "./config/terms-of-service.js";
 import { privacyIntro, privacySections } from "./config/privacy-policy.js";
+import policyBanner from "../assets/opt/private-car-transfer-hoang-luxury-travel.png";
+import privacyMobileBanner from "../assets/opt/privacy-policy-mobile-banner-hoang-luxury-travel-private-car.svg?no-inline";
 import usePageEntered from "./hooks/usePageEntered.js";
 import "./styles/policies-page.css";
 
@@ -58,11 +60,16 @@ function PolicyPage({ kind }) {
       <Header />
       <main>
         <div className="hlt-policies-hero">
-          <svg className="hlt-policies-hero-mobile-art" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+          <picture className={showTerms ? "hlt-policies-hero-photo" : "hlt-policies-hero-photo has-mobile-banner"}>
+            <source media="(min-width: 761px)" srcSet={policyBanner} />
+            {!showTerms && <source media="(max-width: 760px)" srcSet={privacyMobileBanner} />}
+            <img alt="" fetchPriority="high" decoding="async" data-no-skeleton />
+          </picture>
+          {showTerms && <svg className="hlt-policies-hero-mobile-art" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
             <circle cx="1130" cy="70" r="46" />
             <path className="is-far" d="M0 170 130 92l90 52 120-86 150 92 110-58 140 80 130-96 150 88 120-62 140 80 160-74v132H0Z" />
             <path className="is-near" d="M0 200 160 128l120 60 150-80 170 92 140-54 160 70 150-84 170 76 120-40v142H0Z" />
-          </svg>
+          </svg>}
           <div className="hlt-policies-container">
             <p className="hlt-policies-kicker">HOANG LUXURY TRAVEL</p>
             <h1>{page.title}</h1>
