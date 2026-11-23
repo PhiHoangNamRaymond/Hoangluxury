@@ -1,0 +1,111 @@
+SECURITY REVIEW - HOANG LUXURY TRAVEL - 23/11/2026
+
+Scope and limits
+Source/configuration review of the local project, reachable local Git history,
+dependency advisory audit, offline regression/security tests and limited read-only
+HTTP checks. No production writes, test bookings, credential extraction, DNS or
+account permission changes. This is not a penetration test or a claim of zero flaws.
+Google Sheet ACLs, account MFA, published-to-web status, actual DB policies and
+Cloudflare/Hostinger secrets were NOT accessible in this review. Screenshots and
+previous successful form submissions are not proof of those controls.
+
+CHANGES MADE
+1. .gitignore: added Wrangler .dev.vars variants and .wrangler cache, local npm/
+   network/cloud credentials, credential JSON naming patterns, keystores,
+   private-data/customer-data/exports folders, HAR/packet captures.
+   Existing env, backup, release, archive and key exclusions retained.
+2. Secret guard rejects accidentally tracked private files as well as known
+   server-key/JWT/private-key formats, GitHub/AWS key shapes and literal form-server
+   secrets. It reports paths only, not secret values. Added TS/TSX scanning.
+3. Added tests/private-config.test.mjs proving ignore rules and that deployment
+   configs/SQL/examples remain versionable. Added it and booking-context tests to
+   npm run test:security.
+No tracked secret file required removal. No customer data or source deleted.
+No commit/push/deploy or Git history rewrite performed.
+
+RESULTS
+- npm audit: 0 reported vulnerabilities, 117 dependency nodes, current registry
+  response at review time. Does not prove absence of unpublished vulnerabilities.
+- Current source scanner: 140 source/config text files, no matches under its rules.
+- Reachable Git objects: 3464; scanned 862 eligible text blobs; no recognized
+  credential patterns or non-template env-file history. Only local refs included;
+  not deleted/unreachable objects, GitHub forks/PR caches or another developer's refs.
+- git status initially clean (confirmed outside filesystem sandbox). .env.local
+  not tracked. Local env still required by build; ignoring it does not encrypt it.
+- Security suite: 118 tests passed. Includes real in-memory PostgreSQL RLS tests,
+  VM Apps Script tests, server-handler tests, sanitization and credential boundaries.
+- Full regression suite: 128 tests passed; production build passed,
+  generated 57 route HTML files and 56 sitemap URLs. No production deployment.
+- Vercel GET /booking/: 200 with CSP and nosniff; /.env and /.git/config: 404.
+- Apex GET /booking/, /.env, /.git/config: all 525. Cannot determine exposure or
+  headers behind this origin failure. Do not interpret a 525 as a security pass.
+
+FINDINGS / REQUIRED OPERATOR CHECKS
+
+HIGH PRIORITY - Origin TLS unavailable from audit environment
+hoangluxury.travel returned HTTP 525 in three read-only checks. Cloudflare defines
+this as a failed Cloudflare-to-origin TLS handshake. Verify Hostinger certificate,
+origin hostname/SNI and Cloudflare SSL/TLS settings. Do not switch to Flexible or
+disable certificate checks as a workaround. A Worker route can still work even
+when origin pages fail. Evidence is point-in-time, not a universal outage claim.
+Reference: https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-525/
+
+HIGH PRIORITY - Sheet access remains unverified, not established as vulnerable
+Verify Share=Restricted, no unintended editors/viewers/groups, and Publish to web
+is OFF. Restrict Apps Script project editors as they can access properties and the
+Sheet through the script owner's permissions. Protect Google owner credentials
+with passkeys/MFA; review sessions, third-party app grants and recovery channels.
+Marketing should see aggregate reports, not full contact/itinerary data.
+The previously exposed form proxy key was reportedly rotated by the owner; no
+attempt was made to re-use it. Confirm all active deployments use the replacement,
+and retire old Apps Script deployments/secret copies. Gitignore cannot revoke keys.
+
+MEDIUM - Account reset action bypasses application rate counter
+supabase/functions/invite-writer/index.js checks verified identity and active-admin
+role for all operations, but action=reset returns before consume_blog_invite.
+Creation is application-rate-limited; password resets lack the equivalent DB
+counter. Not a public authentication bypass. A compromised admin session can
+perform many resets. Consider a separate atomic limiter and MFA/step-up before
+account administration. This review did not change account behavior.
+
+MEDIUM - Public artifact deny-list is incomplete defense in depth
+scripts/package-hostinger.mjs checks .env/key/source/etc but does not reject every
+new private format, e.g. .dev.vars or .har accidentally copied into public/.
+No such artifact was identified by this review's Git/source checks. .gitignore
+does NOT stop Vite copying an ignored private file from public/ into dist/.
+Before deployment, inspect output and use a strict public-asset manifest or extend
+the package deny-list for local secrets, diagnostic captures and customer exports.
+Do not upload the entire repository or leave release ZIPs in public_html.
+
+RESIDUAL RISKS (known design limits, not new proven data breaches)
+- Apps Script doGet returns service status only. doPost requires server secret;
+  proxy verifies CAPTCHA hostname/action. No booking-list reader found in this
+  source. A leaked script-owner account or sharing grant bypasses these controls.
+- Origin/CORS allowlists are browser controls, not authentication. CAPTCHA + secret
+  must remain enabled. Device/browser labels can be spoofed; IP geo is approximate.
+- Global form limit (default 100 new writes/hour) and public Google endpoint quota
+  can be abused to deny service. Ledger stops new writes at 10000 records and needs
+  reviewed maintenance. Do not delete ledger blindly to clear limits/duplicates.
+- Admin sessions persist in localStorage. XSS could steal them; sanitizer/CSP reduce
+  risk but don't provide HttpOnly-cookie isolation. Real DB grants/RLS must match
+  migrations 01-05. Source tests do not verify deployed SQL.
+- Blog images bucket is intentionally public, including draft uploads. Never store
+  customer documents there. Browser MIME checks alone do not validate image bytes.
+- Markdown permits remote HTTPS images; these can expose reader connection data to
+  image hosts. CSP connect-src permits *.supabase.co rather than the one project.
+- cloudflare/wrangler.toml contains apex/www origins only; dashboard temporarily
+  allows Vercel. Future CLI deploy must preserve required staging origins explicitly
+  or remove Vercel intentionally after testing. No wildcard origins recommended.
+
+WHAT SHOULD STAY IN GIT
+vercel.json, cloudflare/wrangler.toml, public/.htaccess, SQL migrations, templates,
+source and package-lock.json contain reviewable configuration, not server secrets.
+Do not hide security policies in gitignore. Store actual secrets only in Cloudflare
+Secrets / Supabase Secrets / Apps Script properties or ignored local secret files.
+
+FOLLOW-UP
+Commit reviewed local changes; enable GitHub secret scanning/push protection where
+available. Inspect hosting output and live headers after origin TLS is repaired.
+Review account/Sheet/DB permissions separately. Re-run npm run test:security,
+npm run security:secrets, npm audit and npm run build before releases. Keep audit
+reports private where operational details are sensitive.

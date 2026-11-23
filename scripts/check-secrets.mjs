@@ -8,6 +8,12 @@ const files = [...new Set(execFileSync("git", ["ls-files", "--cached", "--others
 const findings=[];
 let checked=0;
 function hasSecret(text) {
+  if (/(?:ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{40,}|AKIA[A-Z0-9]{16})/.test(text)) return true;
+  // Literal server secrets accidentally pasted into code/config. Fixture names
+  // are excluded, but genuine random hex/base64-style values fail the gate.
+  for (const match of text.matchAll(/(?:FORMS_PROXY_SECRET|TURNSTILE_SECRET_KEY|BLOG_SERVER_KEY)\s*["']?\s*[:=]\s*["']([A-Za-z0-9_-]{32,})["']/g)) {
+    if (!/fixture|example|offline/i.test(match[1])) return true;
+  }
   if (/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s\S]+-----END/.test(text)) return true;
   for (const match of text.matchAll(/sb_secret_[A-Za-z0-9_-]{24,}/g)) {
     if (match[0] !== "sb_secret_ThisIsOnlyAnOfflineTestValue") return true;
@@ -18,13 +24,17 @@ function hasSecret(text) {
   return false;
 }
 for(const path of files) {
-  if(!path || /^(?:assets|dist|node_modules)\//.test(path) || !/\.(?:[cm]?js|jsx|json|sql|gs|md|toml|ya?ml|html|txt)$|(?:^|\/)\.env(?:\.|$)/i.test(path)) continue;
+  if (!path) continue;
+  // git ls-files includes already-tracked files even after a new ignore rule.
+  const sensitiveFile = /(?:^|\/)(?:\.env(?:\.[^/]*)?|\.dev\.vars(?:\.[^/]*)?|\.npmrc|\.netrc|_netrc)$|\.(?:pem|key|p12|pfx|jks|kdbx|har|pcap|pcapng)$|(?:service-account|client_secret)[^/]*\.json$/i.test(path);
+  if (sensitiveFile && !/\.(?:example|template)$/i.test(path)) { findings.push(path); continue; }
+  if(/^(?:assets|dist|node_modules)\//.test(path) || !/\.(?:[cm]?[jt]s|jsx|tsx|json|sql|gs|md|toml|ya?ml|html|txt)$|(?:^|\/)(?:\.env|\.dev\.vars)(?:\.|$)/i.test(path)) continue;
   try {
     const text=await readFile(new URL(path.replaceAll("\\","/"), new URL("..",import.meta.url)),"utf8");
     checked++;
     if(hasSecret(text)) findings.push(path);
   } catch(error) { if(error.code !== "ENOENT") throw error; } // Deleted tracked files.
 }
-console.log(`Checked ${checked} source/config files for known Supabase server keys and private keys.`);
+console.log(`Checked ${checked} source/config files for known credential signatures and accidentally tracked private files.`);
 if(findings.length) { console.error("Possible secrets in these files (values redacted):",findings); process.exitCode=1; }
 else console.log("No matching secrets found. Ignored env files and Git history are NOT covered.");
