@@ -40,6 +40,11 @@ const BOOKING_HEADERS = [
   "Device",                // Q
   "Source",                // R
   "Internal Note",         // S
+  "Browser (estimated)",   // T
+  "IP City (estimated)",   // U
+  "IP Region (estimated)", // V
+  "IP Country (estimated)",// W
+  "Location Source",       // X
 ];
 
 // Tiêu đề cột tab Feedback, đúng thứ tự A -> D trong file mẫu.
@@ -162,6 +167,11 @@ function saveBooking_(data) {
       data.device || "",                                       // Q (blank for older website builds)
       source,                                                  // R
       "",                                                      // S
+      safeCell_(data.browser || "Unknown"),                     // T
+      safeCell_(data.ipCity || "Unknown"),                      // U
+      safeCell_(data.ipRegion || "Unknown"),                    // V
+      safeCell_(data.ipCountry || "Unknown"),                   // W
+      safeCell_(data.locationSource || "Unavailable"),          // X
     ];
 
     const targetRow = Math.max(sheet.getLastRow() + 1, headerRow + 1);
@@ -443,7 +453,8 @@ function validateFieldBounds_(data) {
     pickup:500, dropoff:500, journeyType:40, device:6, requirements:4000, bookingId:100,
     feedback:4000, experience:4000, rating:1, source:20, website:300,
     submittedFrom:2048, clientTimestamp:40, form:20, noFlight:5,
-    proxySecret:256, requestId:36 };
+    proxySecret:256, requestId:36, browser:120, ipCity:120, ipRegion:120,
+    ipCountry:120, locationSource:40 };
   Object.keys(data).forEach(function (key) {
     if (!Object.prototype.hasOwnProperty.call(limits, key) ||
         String(data[key]).length > limits[key] || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(String(data[key]))) {
@@ -473,7 +484,7 @@ function securityHash_(value) {
 }
 
 function requestFingerprint_(data) {
-  const ignored = ["proxySecret", "requestId", "submittedFrom", "clientTimestamp"];
+  const ignored = ["proxySecret", "requestId", "submittedFrom", "clientTimestamp", "browser", "ipCity", "ipRegion", "ipCountry", "locationSource"];
   const fields = Object.keys(data).filter(function (key) { return ignored.indexOf(key) < 0; }).sort()
     .map(function (key) { return [key, String(data[key])]; });
   return securityHash_(JSON.stringify(fields));

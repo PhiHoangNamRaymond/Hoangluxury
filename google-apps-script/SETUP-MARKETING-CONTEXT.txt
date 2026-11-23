@@ -1,0 +1,86 @@
+BOOKING CONTEXT - HUONG DAN CAU HINH
+
+Trang thai: ma nguon da chuan bi; CHUA thay doi Sheet, Cloudflare hay hosting that.
+Chi lay boi canh luc GUI BOOKING, khong theo doi moi luot truy cap.
+Country cot D la khach tu chon. IP Country la vi tri ket noi uoc luong.
+PC/Mobile cot Q nhu truoc (tablet tinh Mobile). R Source, S Internal Note giu nguyen.
+Them T Browser (estimated), U IP City (estimated), V IP Region (estimated),
+W IP Country (estimated, ma US/VN...), X Location Source.
+Khong xac dinh duoc: Unknown. VPN/mobile network co the lam sai vi tri.
+Khong luu IP tho trong Sheet. Cloudflare van xu ly du lieu ket noi cua ho.
+
+1. SAO LUU VA QUYEN TRUY CAP
+- Tao ban sao Sheet truoc khi chay setup. Share -> General access: Restricted.
+- Khong Publish to web. Chi nguoi xu ly booking duoc vao Sheet goc.
+- Bat 2-step verification. Marketing nen nhan bao cao tong hop, khong ho ten/phone.
+- Neu cot Q van co ten tai xe, sao luu cot do truoc khi doi tieu de Device.
+- Dam bao T:X chua co du lieu rieng. Neu co: DUNG, doi so do cot truoc khi setup.
+- Khong xoa tab Form Requests: tab nay quan ly chong ghi trung.
+
+2. APPS SCRIPT (lam tren Sheet test rieng truoc)
+- Mo Sheet -> Extensions -> Apps Script.
+- Thay toan bo noi dung Code.gs bang file google-apps-script/Code.gs trong du an.
+- Project Settings -> timezone Asia/Ho_Chi_Minh.
+- Script properties: SPREADSHEET_ID dung file dich; SHEET_NAME dung tab Bookings.
+- FORMS_PROXY_SECRET: giu secret dang hoat dong; khong gui vao chat hay VITE_.
+  Neu chua co, tao secret ngau nhien it nhat 32 byte bang password manager.
+- Chay setupBookingsSheet, cap quyen cho tai khoan quan tri. Kiem tra A:S khong lech,
+  T:X hien cac cot moi, dong cu khong bi ghi de. Khong sua tay du lieu cot moi cu.
+- Deploy -> Manage deployments -> Edit -> Version: New version -> Deploy.
+- Web app Execute as: Me; access Anyone (chi endpoint ghi qua secret/CAPTCHA,
+  KHONG co nghia la mo quyen xem Google Sheet).
+- Giu URL /exec cua deployment hien tai, hoac dung deployment test cho Sheet test.
+
+3. CLOUDFLARE WORKER (cong nhan form co vi tri)
+- Website van nam tren Hostinger; KHONG doi nameserver hay A/MX/TXT.
+- Tu thu muc du an, dung Wrangler CLI da cai va dang nhap tai khoan Cloudflare.
+  Wrangler doc cau hinh: cloudflare/wrangler.toml; entrypoint: forms-worker.js.
+- Chay: npx wrangler login
+- Nhap secrets qua prompt (khong dan vao file/code/chat):
+  npx wrangler secret put GOOGLE_FORMS_ENDPOINT --config cloudflare/wrangler.toml
+  Gia tri: URL Apps Script /exec o buoc 2.
+  npx wrangler secret put FORMS_PROXY_SECRET --config cloudflare/wrangler.toml
+  Gia tri: cung secret voi Apps Script.
+  npx wrangler secret put TURNSTILE_SECRET_KEY --config cloudflare/wrangler.toml
+  Gia tri: secret widget dang dung cho hoangluxury.travel, khong phai site key.
+- Widget Turnstile phai cho phep hoangluxury.travel va www neu dung www.
+- Kiem tra trong wrangler.toml routes chi la hai duong /api/forms, khong bat /*.
+- Deploy: npx wrangler deploy --config cloudflare/wrangler.toml
+- Neu CLI yeu cau tao Worker truoc secret, chay deploy truoc, them secrets sau;
+  CHUA doi frontend cho toi khi secret du. Handler thieu secret se tu choi gui.
+- Route chi hoat dong khi DNS website duoc proxy qua Cloudflare (may cam).
+- Metadata thanh pho lay tu request.cf cua Cloudflare, khong tu header do khach gui.
+- Khong bat log body/phone/IP. Giu CAPTCHA va secret, khong bo de sua loi.
+- Supabase cu co the giu de rollback; khong can chuyen database hay mo Sheet.
+
+4. FRONTEND VA THONG BAO PRIVACY
+- Duyet va cong bo noi dung Privacy ve device/browser/vi tri IP uoc luong.
+- Trong .env.local, doi DUY NHAT bien public:
+  VITE_FORMS_PROXY_URL=https://hoangluxury.travel/api/forms
+- Giu VITE_TURNSTILE_SITE_KEY nhu cu. Khong dua secret vao bien VITE_.
+- Chay npm test, npm run release:hostinger.
+- Upload NOI DUNG ZIP vao public_html nhu quy trinh cu (backup ban dang chay truoc).
+- .htaccess/CSP hien tai cho phep connect-src 'self'; giu cau hinh bao mat do.
+- Ma frontend local hien van tro proxy Supabase cu de tranh kich hoat khi Worker chua san sang.
+
+5. KIEM TRA
+- Test Sheet rieng va hostname staging voi Turnstile/origin cau hinh rieng truoc.
+- Production: gui mot booking duoc danh dau TEST co ngay tu hom nay, dung phone
+  cua nguoi van hanh. Khong nhap thong tin khach that de thu.
+- Doi popup thanh cong; kiem tra Sheet co DU MOT dong, Q PC/Mobile, T ten browser,
+  U/V/W vi tri uoc luong; khong lay Country tu cot D lam IP Country.
+- Thu PC Chrome, mobile Safari/Chrome va GUI LAI khi loi de kiem tra khong trung.
+- Thanh pho co the Unknown; khong duoc chan booking chi vi thieu vi tri.
+- Loi 400: xem CAPTCHA hostname/action hoac Apps Script version/validation.
+  503: secrets/config/upstream. 403: Origin. Khong tat bao mat de vuot loi.
+- Neu can rollback: doi VITE_FORMS_PROXY_URL ve gia tri Supabase da sao luu,
+  build va upload lai. Cot moi co the de nguyen; du lieu moi Unknown neu thieu geo.
+
+6. LUU TRU THU CONG
+- Anh tu copy sang Sheet Restricted rieng; kiem tra du dong va Booking ID truoc
+  khi xoa dong nguon. Khong cap marketing quyen vao ban sao du lieu khach day du.
+- Khong co tinh nang tu dong copy/xoa trong ban code nay. Xoa o khong xoa lich su.
+
+Tham khao:
+https://developers.cloudflare.com/workers/runtime-apis/request/
+https://developers.cloudflare.com/workers/wrangler/commands/

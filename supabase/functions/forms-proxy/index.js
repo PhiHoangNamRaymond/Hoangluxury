@@ -2,13 +2,23 @@ const productionOrigins = "https://hoangluxury.travel,https://www.hoangluxury.tr
 const message = "Unable to process request. Please contact us via WhatsApp.";
 const validEndpoint = (value) => /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(value || "");
 
+export function browserName(agent = "") {
+  if (/Edg(?:e|A|iOS)?\//i.test(agent)) return "Edge";
+  if (/OPR\/|Opera|OPiOS\//i.test(agent)) return "Opera";
+  if (/SamsungBrowser\//i.test(agent)) return "Samsung Internet";
+  if (/Firefox\/|FxiOS\//i.test(agent)) return "Firefox";
+  if (/Chrome\/|CriOS\//i.test(agent)) return "Chrome";
+  if (/Safari\//i.test(agent) && /Version\//i.test(agent)) return "Safari";
+  return "Unknown";
+}
+const locationText = (value) => typeof value === "string" && value.length <= 120 && !/[\u0000-\u001f\u007f]/.test(value) ? value : "Unknown";
+
 async function boundedText(response, max = 32768) {
   const reader = response.body?.getReader();
   if (!reader) throw new Error("Missing body");
   const chunks = []; let size = 0;
   let timedOut = false;
   const timer = setTimeout(() => { timedOut = true; reader.cancel().catch(() => {}); },5000);
-  timer.unref?.();
   try {
     while (true) {
       const { value, done } = await reader.read();
@@ -24,7 +34,7 @@ async function boundedText(response, max = 32768) {
   return new TextDecoder().decode(bytes);
 }
 
-export function createFormsHandler({ endpoint, proxySecret, turnstileSecret, allowedOrigins = productionOrigins, fetcher = fetch }) {
+export function createFormsHandler({ endpoint, proxySecret, turnstileSecret, allowedOrigins = productionOrigins, fetcher = fetch, visitorLocation }) {
   const origins = allowedOrigins.split(",").map((value) => value.trim()).filter(Boolean);
   // Vendor dummy keys are intentionally not accepted by a deployable proxy.
   const dummySecret = ["1x", "2x", "3x"].some((prefix) => turnstileSecret === prefix + "0".repeat(29) + "AA");
@@ -58,6 +68,16 @@ export function createFormsHandler({ endpoint, proxySecret, turnstileSecret, all
       const result = JSON.parse(await boundedText(check,4096));
       if (result.success !== true || result.action !== form || result.hostname !== new URL(origin).hostname) return respond(400);
       data.delete("turnstileToken");
+      // Never accept browser-supplied location or browser labels as authoritative.
+      for (const key of ["browser", "ipCity", "ipRegion", "ipCountry", "locationSource"]) data.delete(key);
+      if (form === "booking") {
+        const geo = visitorLocation?.(request) || {};
+        data.set("browser", browserName(request.headers.get("User-Agent") || ""));
+        data.set("ipCity", locationText(geo.city));
+        data.set("ipRegion", locationText(geo.region));
+        data.set("ipCountry", locationText(geo.country));
+        data.set("locationSource", geo.source === "Cloudflare IP estimate" ? geo.source : "Unavailable");
+      }
       data.set("proxySecret",proxySecret);
       const upstream = await fetcher(endpoint,{method:"POST",body:data,signal:AbortSignal.timeout(15000),redirect:"follow"});
       if (!upstream.ok) return respond(503);

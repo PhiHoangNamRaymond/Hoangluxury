@@ -12,6 +12,7 @@ export const privacySections = [
     id: "website-data-cookies", title: "Website Access Data and Cookies",
     paragraphs: [
       "Our website may use cookies and similar technologies to support website functions and improve the browsing experience. Depending on the tools used, browser, device and website interaction data may be processed.",
+      "When a booking request is submitted, we may record device category, an estimated browser name and an approximate city, region and country derived from the connection IP to understand booking activity and improve our services. These estimates can be inaccurate, especially with VPNs or mobile networks. The booking spreadsheet does not store the raw IP address for this reporting feature. Infrastructure providers may process connection data under their own policies.",
       "Cookies may support essential functions, remember preferences, help identify technical issues or measure permitted advertising activity. You can manage or restrict cookies through your browser settings and any privacy controls provided on the website."
     ]
   },

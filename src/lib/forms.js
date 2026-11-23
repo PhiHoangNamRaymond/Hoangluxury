@@ -10,6 +10,7 @@ export function bookingDevice(browser) {
 export function validFormsProxy(value) {
   try {
     const url = new URL(value);
+    if (url.protocol === "https:" && ["hoangluxury.travel", "www.hoangluxury.travel"].includes(url.hostname) && url.pathname === "/api/forms" && !url.search && !url.hash && !url.port && !url.username && !url.password) return true;
     return url.protocol === "https:" && /^[a-z0-9-]+\.supabase\.co$/.test(url.hostname) &&
       url.pathname === "/functions/v1/forms-proxy" && !url.search && !url.hash && !url.port && !url.username && !url.password;
   } catch { return false; }

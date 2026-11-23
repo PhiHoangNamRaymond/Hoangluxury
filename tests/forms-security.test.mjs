@@ -103,6 +103,17 @@ test("GAS saves Multi-day and device without shifting Source or overwriting old 
   assert.equal(rows[4][16],"PC");
 });
 
+test("GAS appends context and does not duplicate a retry when IP city changes", async () => {
+  const f = await fixture();
+  const fields = {...booking,proxySecret:secret,requestId:randomUUID(),browser:"Chrome",ipCity:"New York",ipRegion:"New York",ipCountry:"US",locationSource:"Cloudflare IP estimate"};
+  assert.equal(f.post(fields).ok,true);
+  const rows = f.sheets.get("Bookings").rows;
+  assert.deepEqual(rows[2].slice(19,24),["Chrome","New York","New York","US","Cloudflare IP estimate"]);
+  assert.equal(f.post({...fields,ipCity:"Boston"}).ok,true);
+  assert.equal(rows.length,3);
+  assert.equal(rows[2][20],"New York");
+});
+
 test("GAS denies direct writes and deduplicates identical bookings without accepting changed retries",async () => {
   const f = await fixture();
   assert.equal(f.post({...booking,requestId:randomUUID()}).ok,false);
