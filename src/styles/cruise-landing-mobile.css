@@ -3,47 +3,54 @@
   .hlt-cruises-site .hlt-container { width: min(620px, calc(100% - 26px)); }
 
   .hlt-cruises-site .hlt-cruise-hero {
-    min-height: 0; padding: 72px 0 0; align-items: stretch !important; gap: 0;
+    display: grid !important; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto;
+    min-height: 0; padding: 72px 0 0; align-items: stretch !important; gap: 0; background: #071c17;
   }
-  .hlt-cruises-site .hlt-cruise-hero-media, .hlt-cruises-site .hlt-cruise-hero-overlay { bottom: 84px; height: auto; }
-  .hlt-cruises-site .hlt-cruise-hero-media img { object-position: 77% 61%; }
+  .hlt-cruises-site .hlt-cruise-hero-media, .hlt-cruises-site .hlt-cruise-hero-overlay { grid-area: 1 / 1 / 2 / 2; height: auto; }
+  .hlt-cruises-site .hlt-cruise-hero-media {
+    top: clamp(52px, 17vw, 96px); bottom: clamp(58px, 21vw, 120px);
+    mask-image: linear-gradient(transparent, #000 17%, #000 86%, transparent);
+  }
+  .hlt-cruises-site .hlt-cruise-hero-media img { object-position: 82% center; }
   .hlt-cruises-site .hlt-cruise-hero-overlay {
-    background: linear-gradient(130deg,#041e29dc 0%,#06232e82 34%,transparent 67%),
-                linear-gradient(0deg,#06221b 0%,transparent 33%) !important;
+    background: linear-gradient(145deg,#031813e6 0%,#041c2166 31%,transparent 54%),
+                linear-gradient(0deg,#071c17 0%,#071c1780 16%,transparent 34%) !important;
   }
   .hlt-cruises-site .hlt-cruise-hero-container {
-    width: min(620px, calc(100% - 30px)) !important;
-    max-width: none !important; margin: 0 auto !important; padding: 23px 0 14px !important;
+    grid-area: 1 / 1; width: min(620px, calc(100% - 40px)) !important;
+    max-width: none !important; margin: 0 auto !important; padding: 23px 0 22px !important;
   }
   .hlt-cruises-site .hlt-cruise-hero-content { min-height: 0 !important; width: 100%; max-width: none !important; text-align: left !important; padding: 0 !important; }
-  .hlt-cruises-site .hlt-cruise-v1-kicker { margin: 0 0 6px; color: var(--cruise-gold); font: 800 12px/1.2 "Lato",sans-serif !important; text-transform: uppercase; }
+  .hlt-cruises-site .hlt-cruise-v1-kicker { margin: 0 0 6px; color: var(--cruise-gold); font: 700 14px/1.2 var(--hlt-font-family) !important; text-transform: uppercase; }
   .hlt-cruises-site .hlt-cruise-hero-title {
-    margin: 0 0 9px !important; font-size: clamp(29px,7.8vw,48px) !important;
+    margin: 0 0 9px !important; font-size: clamp(22px, 7.2vw, 44px) !important;
     letter-spacing: -.025em !important; line-height: 1 !important; align-items: flex-start !important;
   }
+  .hlt-cruises-site .hlt-cruise-hero-title > span { font-size: inherit !important; letter-spacing: inherit !important; white-space: nowrap; }
   .hlt-cruises-site .hlt-cruise-hero .hlt-title-gold { color: var(--cruise-gold) !important; }
-  .hlt-cruises-site .hlt-cruise-v1-hero-copy p {
-    width: min(58%, 250px); min-height: 94px; margin: 0 0 12px; color: #fff;
-    font: 600 13px/1.32 "Lato",sans-serif !important;
+  .hlt-cruises-site .hlt-cruise-v1-hero-copy .hlt-cruise-mobile-only {
+    width: min(100%, 340px); margin: 0; color: #fff;
+    font: 400 clamp(14px, 3.7vw, 17px)/1.25 var(--hlt-font-family) !important;
   }
-  .hlt-cruise-v1-hero-copy .hlt-cruise-v1-actions { margin-top: clamp(32px, 12vw, 76px); }
-  .hlt-cruise-v1-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .hlt-cruise-v1-hero-copy .hlt-cruise-v1-actions { margin-top: clamp(170px, 53vw, 310px); }
+  .hlt-cruise-v1-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .hlt-cruises-site .hlt-cruise-v1-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 5px;
     min-height: 40px; padding: 7px 6px; border: 1px solid #cf9a3f; border-radius: 10px;
     background: linear-gradient(#ffe3a0,#edb648); color: #12180f; text-align: center;
     font: 800 clamp(10px,2.85vw,13px)/1.15 "Lato",sans-serif !important;
   }
-  .hlt-cruise-v1-actions .hlt-cruise-v1-btn { text-transform: uppercase; }
+  .hlt-cruise-v1-actions .hlt-cruise-v1-btn { min-height: 44px; font: 700 15px/1.15 var(--hlt-font-family) !important; text-transform: uppercase; }
   .hlt-cruises-site .hlt-cruise-v1-btn.is-outline { color: #fff9e6; background: #063328; border-color: #ecc768; }
   .hlt-cruise-v1-btn svg { width: 18px; height: 18px; flex: none; }
-  .hlt-cruises-site .hlt-cruise-trustbar { min-height: 84px; padding: 10px 0 !important; background: #052a22 !important; }
-  .hlt-cruises-site .hlt-cruise-trustbar-inner { display: grid !important; grid-template-columns: repeat(4,minmax(0,1fr)) !important; gap: 0 !important; width: 100% !important; }
+  .hlt-cruises-site .hlt-cruise-trustbar { grid-area: 2 / 1; padding: 10px 0 !important; background: #052a22 !important; }
+  .hlt-cruises-site .hlt-cruise-trustbar-inner { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; align-items: stretch !important; gap: 0 !important; }
   .hlt-cruises-site .hlt-cruise-trust-divider { display: none !important; }
-  .hlt-cruises-site .hlt-cruise-trust-item { min-width: 0; display: flex !important; flex-direction: column; justify-content: center; align-items: center; gap: 4px !important; padding: 0 3px !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; text-align: center; }
-  .hlt-cruises-site .hlt-cruise-trust-item ~ .hlt-cruise-trust-item { border-left: 1px solid #e6c37465 !important; }
-  .hlt-cruises-site .hlt-cruise-trust-item span:not(.hlt-trust-svg) { white-space: normal !important; font: 750 11px/1.12 "Lato",sans-serif !important; }
-  .hlt-cruises-site .hlt-trust-svg { width: 34px !important; height: 25px !important; color: var(--cruise-gold); }
+  .hlt-cruises-site .hlt-cruise-trust-item { min-width: 0; min-height: 60px; display: flex !important; flex-direction: row !important; justify-content: flex-start !important; align-items: center; gap: 9px !important; padding: 8px !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; text-align: left !important; }
+  .hlt-cruises-site .hlt-cruise-trust-item:nth-child(4n + 3) { border-left: 1px solid #e6c37465 !important; }
+  .hlt-cruises-site .hlt-cruise-trust-item:nth-child(n + 5) { border-top: 1px solid #e6c37465 !important; }
+  .hlt-cruises-site .hlt-cruise-trust-item span:not(.hlt-trust-svg) { white-space: normal !important; font: 600 14px/1.15 var(--hlt-font-family) !important; }
+  .hlt-cruises-site .hlt-trust-svg { width: 36px !important; height: 36px !important; padding: 6px; border: 1px solid #c5a15a; border-radius: 50%; color: var(--cruise-gold); }
   .hlt-cruises-site .hlt-trust-svg .hlt-cruise-desktop-icon { display: block; }
   .hlt-cruises-site .hlt-trust-svg svg:not(.hlt-cruise-desktop-icon) { display: none; }
 
@@ -63,15 +70,15 @@
   .hlt-cruise-v1-body h3 { margin: 0; font-size: var(--cruise-card-title-size); line-height: 1.12; }
   .hlt-cruise-v1-body p { margin: 5px 0; font: 650 12px/1.32 "Lato",sans-serif !important; }
   .hlt-cruise-v1-types .hlt-cruise-v1-body p:not(.hlt-cruise-v1-emphasis) { display: none; }
-  .hlt-cruise-v1-filter { display: none; }
-  .hlt-cruise-v1-tiers { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 3px; padding: 4px; margin: 0 0 8px; min-width: 0; border: 0; border-radius: 9px; background: #eee4d5; }
-  .hlt-cruise-v1-tiers legend { margin-bottom: 3px; font-weight: 700; }
-  .hlt-cruise-v1-tiers label { position: relative; padding: 8px 0; border: 2px solid transparent; border-radius: 9px; text-align: center; font: 800 11px/1.1 "Lato",sans-serif !important; }
-  .hlt-cruise-v1-tiers label.is-selected { border: 2px solid transparent; background: linear-gradient(#0b3025, #0b3025) padding-box, linear-gradient(180deg, #e8c060 0%, #b9862a 22%, #f6dc8c 50%, #b9862a 78%, #8f6418 100%) border-box; color: #fffdf8; box-shadow: 0 1px 5px rgba(150, 105, 30, .25); }
-  .hlt-cruise-v1-tiers input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; }
-  .hlt-cruise-v1-tiers label:has(input:focus-visible) { outline: 2px solid #b58430; outline-offset: 1px; }
-  .hlt-cruise-mobile-destination { display: flex; align-items: center; gap: 9px; font-weight: 700; padding: 4px 10px; border-radius: 13px; background: #fffaf2; border: 1px solid #eaddc8; }
-  .hlt-cruise-mobile-destination select { flex: 1; min-width: 0; min-height: 33px; border: 0; background: transparent; font-size: 16px; color: inherit; }
+  .hlt-cruise-v1-filter, .hlt-cruise-v1-tiers { min-width: 0; border: 0; margin: 0 0 8px; padding: 0; }
+  .hlt-cruise-v1-pills, .hlt-cruise-v1-tiers { display: grid; gap: 6px; }
+  .hlt-cruise-v1-pills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hlt-cruise-v1-tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  :is(.hlt-cruise-v1-filter, .hlt-cruise-v1-tiers) legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  :is(.hlt-cruise-v1-filter, .hlt-cruise-v1-tiers) label { position: relative; display: grid; place-items: center; min-height: 40px; padding: 5px; border: 1px solid #eaddc8; border-radius: 9px; background: #fffaf2; text-align: center; font: 600 15px/1.1 var(--hlt-font-family) !important; }
+  :is(.hlt-cruise-v1-filter, .hlt-cruise-v1-tiers) label.is-selected { border-color: #b98a36; background: #0b3025; color: #fffdf8; }
+  :is(.hlt-cruise-v1-filter, .hlt-cruise-v1-tiers) input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; }
+  :is(.hlt-cruise-v1-filter, .hlt-cruise-v1-tiers) label:has(input:focus-visible) { outline: 2px solid #b58430; outline-offset: 1px; }
   .hlt-cruise-v1-results-note, .hlt-cruise-v1-empty { margin: 7px 0; font: 650 12px/1.3 "Lato",sans-serif !important; }
   .hlt-cruise-v1-cards { grid-auto-flow: column; grid-auto-columns: 94%; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 8px; }
   .hlt-cruise-v1-cards .hlt-cruise-v1-card { scroll-snap-align: start; }
@@ -84,7 +91,7 @@
   .hlt-cruise-v1-results-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .hlt-cruise-v1-tier-badge { position: absolute; top: 8px; left: 8px; }
   .hlt-cruise-v1-tier-badge img { display: block; width: auto; height: 24px; }
-  .hlt-cruise-v1-cards .hlt-cruise-v1-body p.hlt-cruise-v1-description { font-style: italic !important; padding-bottom: 7px; border-bottom: 1px solid #eaddc8; }
+  .hlt-cruise-v1-cards .hlt-cruise-v1-body p.hlt-cruise-v1-description { font: 400 var(--cruise-body-size)/1.6 var(--hlt-font-family) !important; padding-bottom: 7px; border-bottom: 1px solid #eaddc8; }
   .hlt-cruise-v1-amenities { display: flex; flex-wrap: wrap; gap: 4px 0; margin: 2px 0 8px; padding: 0; list-style: none; }
   .hlt-cruise-v1-amenities li { display: flex; align-items: center; gap: 4px; padding: 0 8px; font: 650 11.5px/1.2 "Lato",sans-serif; }
   .hlt-cruise-v1-amenities li:first-child { padding-left: 0; }
@@ -95,26 +102,40 @@
   .hlt-cruises-site .hlt-cruise-reviews-section,
   .hlt-cruises-site .hlt-cruise-faq-section { background: var(--cruise-paper); color: #151d17; padding: 12px 0; }
   .hlt-cruises-site .hlt-cruise-seamless-content { max-width: min(92%,460px); }
-  .hlt-cruises-site .hlt-cruise-flow-steps { flex-direction: row !important; align-items: flex-start !important; gap: 4px !important; }
-  .hlt-cruises-site .hlt-cruise-flow-step { width: auto !important; flex: 1 1 0; min-width: 0; padding: 8px 3px !important; }
-  .hlt-cruises-site .hlt-cruise-flow-step span:last-child { font: 750 11px/1.22 "Lato",sans-serif !important; }
-  .hlt-cruises-site .hlt-cruise-flow-arrow { display: block; margin: 10px 0 0 !important; transform: none !important; }
-  .hlt-cruises-site .hlt-cruise-exp-banner,
+  .hlt-cruises-site .hlt-cruise-flow-steps { flex-direction: row !important; align-items: center !important; gap: 4px !important; }
+  .hlt-cruises-site .hlt-cruise-flow-step { width: auto !important; flex: 1 1 0; min-width: 0; padding: 8px 3px !important; background: transparent !important; backdrop-filter: none !important; box-shadow: none !important; }
+  .hlt-cruises-site .hlt-cruise-flow-step > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .hlt-cruises-site .hlt-cruise-flow-step .hlt-flow-svg { margin: 0 auto; }
+  .hlt-cruises-site .hlt-cruise-flow-arrow { display: block; margin: 0 !important; transform: none !important; }
+  .hlt-cruise-exp-kicker { display: flex; justify-content: center; margin: 0 auto 8px; }
+  .hlt-cruise-exp-kicker img { width: min(70%, 220px); height: auto; }
+  .hlt-cruise-exp-kicker span { display: none; }
+  .hlt-cruises-site .hlt-cruise-exp-banner { display: block; height: auto !important; aspect-ratio: 2 / 1; margin-bottom: 7px; border-radius: 12px; overflow: hidden; }
   .hlt-cruises-site :is(.hlt-cruise-durations-section,.hlt-cruise-stats-section,.hlt-cruise-moments-section) { display: none; }
   .hlt-cruises-site .hlt-cruise-exp-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 7px; }
   .hlt-cruises-site .hlt-cruise-exp-card { min-height: 90px; }
-  .hlt-cruises-site .hlt-cruise-reviews-grid { display: block !important; }
-  .hlt-cruises-site .hlt-cruise-review-card:not(.is-mobile-active) { display: none; }
-  .hlt-cruise-review-controls, .hlt-cruise-review-controls > div { display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .hlt-cruise-review-controls { margin-top: 6px; }
-  .hlt-cruise-review-controls button { min-width: 38px; min-height: 38px; border-radius: 50%; border: 1px solid #ddc8a4; background: #fff9ee; color: #8c5913; font-size: 24px; }
-  .hlt-cruise-review-controls > div button { min-width: 28px; min-height: 30px; border: 0; background: radial-gradient(circle at center,#e3c58e 0 4px,transparent 5px); }
-  .hlt-cruise-review-controls > div button[aria-pressed="true"] { background: radial-gradient(circle at center,#593e13 0 4px,transparent 5px); }
-  .hlt-cruises-site .hlt-cruise-faq-grid { grid-template-columns: minmax(0,1fr) !important; gap: 5px; }
-}
+  .hlt-cruises-site .hlt-cruise-reviews-grid { display: grid !important; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .hlt-cruises-site .hlt-cruise-faq-grid { grid-template-columns: minmax(0,1fr) !important; gap: 7px; }
+  .hlt-cruises-site .hlt-cruise-faq-question { min-height: 44px; padding: 9px 12px !important; font-size: 14px !important; }
+  .hlt-cruises-site .hlt-cruise-faq-answer { padding: 0 12px 12px; border-top: 1px dashed #c5a15a4d; }
+  .hlt-cruise-faq-question .hlt-faq-chevron { display: none; }
+  .hlt-cruise-faq-question .hlt-cruise-faq-plus {
+    flex: none; color: #a97b2c; font: 400 24px/1 "Lato", Arial, sans-serif !important; transition: transform .2s ease;
+  }
+  .hlt-cruise-faq-question[aria-expanded="true"] .hlt-cruise-faq-plus { transform: rotate(45deg); }
 
-@media (max-width: 375px) {
-  .hlt-cruises-site .hlt-cruise-faq-question {
-    min-height: calc(3lh + 24px);
+  .hlt-cruises-site .hlt-cruise-final-cta {
+    width: min(620px, calc(100% - 26px)); margin: 10px auto 18px; padding: 22px 14px !important;
+    border: 1px solid #b98a3660; border-radius: 14px; isolation: isolate;
+  }
+  .hlt-cruise-final-cta .hlt-cruise-cta-img { object-position: 65% center; }
+  .hlt-cruise-final-cta .hlt-cruise-cta-overlay { background: linear-gradient(180deg, #041c1966, #041c19ee); }
+  .hlt-cruises-site .hlt-cruise-final-cta .hlt-cruise-cta-content { width: 100%; max-width: 340px; padding: 0; gap: 14px !important; }
+  .hlt-cruises-site .hlt-cruise-final-cta .hlt-blog-story-actions { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .hlt-cruises-site .hlt-cruise-final-cta .hlt-blog-story-actions .hlt-btn { width: 100%; min-width: 0; min-height: 44px; justify-content: center; }
+  .hlt-cruises-site .hlt-cruise-final-cta .hlt-cruise-cta-title { text-wrap: balance; }
+  .hlt-cruises-site .hlt-cruise-final-cta .hlt-cruise-cta-text p { text-wrap: balance; }
+  @media (prefers-reduced-motion: reduce) {
+    .hlt-cruise-faq-question .hlt-cruise-faq-plus { transition: none; }
   }
 }
