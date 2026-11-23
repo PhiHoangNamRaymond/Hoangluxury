@@ -34,19 +34,10 @@ const reviewTestOverrides = import.meta.env?.DEV
 
 export default function CruisesPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [reviewIndex, setReviewIndex] = useState(0);
-  const moveReview = (direction) => setReviewIndex((current) => (current + direction + cruiseData.reviews.length) % cruiseData.reviews.length);
   const pageEntered = usePageEntered();
 
   const toggleFaq = (index) => {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
-  };
-
-  const getCustomInquiryUrl = (topic) => {
-    const text = encodeURIComponent(
-      `Hello Hoang Luxury Travel, I would like personal recommendation and rates for ${topic}.`
-    );
-    return `https://wa.me/84839779888?text=${text}`;
   };
 
   return (
@@ -101,9 +92,10 @@ export default function CruisesPage() {
               </div>
 
               <div className="hlt-cruise-v1-hero-copy">
-                <p>{cruiseLanding.intro}</p>
+                <p className="hlt-cruise-pc-only">{cruiseLanding.intro}</p>
+                <p className="hlt-cruise-mobile-only">Hoang Luxury Travel provides curated cruise experiences in Ha Long &amp; Lan Ha Bay, combining comfort, elegance and exceptional service.</p>
                 <div className="hlt-cruise-v1-actions">
-                  <a className="hlt-cruise-v1-btn" href={cruiseInquiry("a Ha Long Bay or Lan Ha Bay cruise")} target="_blank" rel="noopener noreferrer" {...waCta("hero", "whatsapp_cruise_hero")}><WhatsAppGlyph /> Book via WhatsApp</a>
+                  <a className="hlt-cruise-v1-btn" href={cruiseInquiry("a Halong Bay cruise")} target="_blank" rel="noopener noreferrer" {...waCta("hero", "whatsapp_cruise_hero")}><WhatsAppGlyph /> Book via WhatsApp</a>
                   <a className="hlt-cruise-v1-btn is-outline" href="/catalog/">View Catalog</a>
                 </div>
               </div>
@@ -261,7 +253,7 @@ export default function CruisesPage() {
               </div>
               {/* 2 nút đặt (khách yêu cầu 23/11/2026). */}
               <div className="hlt-cruise-seamless-actions">
-                <a className="hlt-cruise-seamless-btn is-gold" href={cruiseInquiry("a private transfer to my Ha Long cruise")} target="_blank" rel="noopener noreferrer" {...waCta("transfer_section", "whatsapp_cruise_transfer", { service: "private_transfer" })}>
+                <a className="hlt-cruise-seamless-btn is-gold" href={cruiseInquiry("a private transfer to my Halong Bay cruise")} target="_blank" rel="noopener noreferrer" {...waCta("transfer_section", "whatsapp_cruise_transfer", { service: "private_transfer" })}>
                   <span className="hlt-cruise-seamless-btn-icon" aria-hidden="true"><WhatsAppGlyph /></span>
                   Book via WhatsApp
                 </a>
@@ -331,7 +323,7 @@ export default function CruisesPage() {
 
               <div className="hlt-cruise-reviews-grid">
                 {cruiseData.reviews.map((review, idx) => ({ ...review, ...reviewTestOverrides[idx] })).map((rev, idx) => (
-                  <article className={`hlt-cruise-review-card${idx === reviewIndex ? " is-mobile-active" : ""}`} key={idx}>
+                  <article className="hlt-cruise-review-card" key={idx}>
                     <div className="hlt-cruise-review-stars">★★★★★</div>
                     <p className="hlt-cruise-review-quote">"{rev.text}"</p>
                     <div className="hlt-cruise-review-author">
@@ -352,11 +344,6 @@ export default function CruisesPage() {
                     </div>
                   </article>
                 ))}
-              </div>
-              <div className="hlt-cruise-mobile-only hlt-cruise-review-controls" aria-label="Review navigation">
-                <button type="button" onClick={() => moveReview(-1)} aria-label="Previous review">‹</button>
-                <div>{cruiseData.reviews.map((review, idx) => <button key={review.name} type="button" aria-label={`Show review ${idx + 1}`} aria-pressed={idx === reviewIndex} onClick={() => setReviewIndex(idx)} />)}</div>
-                <button type="button" onClick={() => moveReview(1)} aria-label="Next review">›</button>
               </div>
             </div>
 
@@ -389,6 +376,7 @@ export default function CruisesPage() {
                         aria-expanded={isOpen}
                       >
                         <h3 className="hlt-cruise-faq-q">{faq.q}</h3>
+                        <span className="hlt-cruise-mobile-only hlt-cruise-faq-plus" aria-hidden="true">+</span>
                         <svg
                           className="hlt-faq-chevron"
                           viewBox="0 0 16 16"
@@ -420,7 +408,7 @@ export default function CruisesPage() {
             11. YOUR HA LONG JOURNEY STARTS HERE (Pre-footer Dark Gold CTA)
         ========================================================================= */}
         <section
-          className="hlt-cruise-cta-section hlt-blog-story-cta hlt-cruise-final-cta hlt-cruise-pc-only"
+          className="hlt-cruise-cta-section hlt-blog-story-cta hlt-cruise-final-cta"
         >
           <img className="hlt-cruise-cta-img" src={finalCtaBackground} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-cruise-cta-overlay" aria-hidden="true" />
@@ -436,7 +424,7 @@ export default function CruisesPage() {
 
             <div className="hlt-cruise-cta-right">
               <div className="hlt-blog-story-actions">
-                <a className="hlt-btn hlt-btn-gold" href={getCustomInquiryUrl("Check Cruise Availability & Rates")} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", "whatsapp_cruise_bottom_cta")}>
+                <a className="hlt-btn hlt-btn-gold" href={cruiseInquiry("a private transfer to Halong cruise")} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", "whatsapp_cruise_bottom_cta")}>
                   Book via WhatsApp
                 </a>
                 <a className="hlt-btn hlt-btn-outline" href="/booking/">Book via Form</a>

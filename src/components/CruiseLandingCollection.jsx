@@ -109,11 +109,6 @@ export default function CruiseLandingCollection() {
             </label>)}
           </fieldset>
         </div>
-        <label className="hlt-cruise-mobile-only hlt-cruise-mobile-destination">Destination:
-          <select value={bay} onChange={(event) => selectBay(event.target.value)}>
-            {bays.map((label) => <option key={label}>{label}</option>)}
-          </select>
-        </label>
         <div className="hlt-cruise-v1-results-head">
           <p className="hlt-cruise-v1-results-note" aria-live="polite">{tier} Collection</p>
           <span className="hlt-cruise-v1-results-line" aria-hidden="true" />
@@ -124,9 +119,9 @@ export default function CruiseLandingCollection() {
           {matching.slice(0, limit).map((item) => {
             const highlight = cruiseHighlights[item.name];
             const photo = cruisePhotos[item.photoIndex] || bayArtwork[item.bay];
-            const showFullPhoto = item.name === "Catherine Cruises";
+            const focusOnHull = item.name === "Catherine Cruises";
             return <article className="hlt-cruise-v1-card" key={item.name}>
-              <div className={`hlt-cruise-v1-photo${showFullPhoto ? " is-full-frame" : ""}`}>
+              <div className={`hlt-cruise-v1-photo${focusOnHull ? " is-hull-focused" : ""}`}>
                 <img src={photo} alt={`${item.name} cruise`} loading="lazy" decoding="async" />
                 <span className="hlt-cruise-v1-tier-badge">
                   <img src={tierBadges[item.tier]} alt={item.tier} />

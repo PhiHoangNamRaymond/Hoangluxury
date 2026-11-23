@@ -37,16 +37,12 @@
 .hlt-cruise-v1-curated::before,
 .hlt-cruise-v1-curated::after {
   content: "";
-  width: .8em;
-  height: 1.12em;
-  background: url("../../assets/cruise-icons/curated-laurels-gold-v2.png") no-repeat;
-  background-size: auto 207%;
-  background-position: 12.1% 52.4%;
+  width: .94em;
+  height: 1em;
+  background: url("../../assets/cruise-icons/curated-champagne-star.png") center / auto 128% no-repeat;
 }
 
-.hlt-cruise-v1-curated::after { background-position-x: 87.9%; }
-
-.hlt-cruise-v1-photo.is-full-frame { aspect-ratio: 4 / 3; }
+.hlt-cruise-v1-photo.is-hull-focused > img { object-position: center 94%; }
 
 /* Match the road-transfer headings without changing other cruise titles. */
 .hlt-cruises-site :is(#cruise-types, #cruise-collection-title, .hlt-cruise-reviews-left h2, .hlt-cruise-faq-left h2) {
@@ -335,7 +331,7 @@
     margin: 8px 0 0;
     padding-bottom: 12px;
     border-bottom: 1px solid #e6d6b8;
-    font: italic 400 var(--cruise-body-size)/1.45 "Cormorant", Georgia, serif !important;
+    font: 400 var(--cruise-body-size)/1.6 var(--hlt-font-family) !important;
     color: #2b2a24;
   }
   .hlt-cruise-v1-amenities {

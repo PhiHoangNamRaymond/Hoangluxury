@@ -16,8 +16,19 @@
   text-align: center;
   border-bottom: 1px solid #d4af6a;
 }
-.hlt-policies-hero-art { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 70% center; }
-.hlt-policies-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 52%, #031613b5, #03161330 80%), linear-gradient(180deg, #03161355, #03161333 44%, #03161388); }
+.hlt-policies-hero-mobile-art { display: none; }
+@media (min-width: 761px) {
+  .hlt-policies-hero {
+    background:
+      radial-gradient(ellipse at 48% 52%, #031613b5, #03161330 80%),
+      linear-gradient(180deg, #03161355, #03161333 44%, #03161388),
+      #0a241c url("../../assets/opt/hlt-policy-banner.png") 70% center / cover no-repeat;
+  }
+  .hlt-policies-hero > .hlt-policies-container { transform: translateX(-2vw); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hlt-policies-site.hlt-page-slide-down > :is(main, section, footer) { transform: none; transition: none; }
+}
 .hlt-policies-site .hlt-policies-kicker {
   color: #e7c57d;
   font-size: 12px !important;
@@ -30,7 +41,7 @@
 .hlt-policies-hero .hlt-policies-kicker::after { content: ""; width: 46px; height: 1px; background: #c99a3e; }
 .hlt-policies-hero h1 {
   margin: 10px 0 12px;
-  font-size: clamp(40px, 5.6vw, 76px);
+  font-size: clamp(30px, 3.7vw, 58px);
   font-weight: 500;
   line-height: 1;
   letter-spacing: .04em;
@@ -41,19 +52,6 @@
 .hlt-policies-breadcrumb a { color: inherit; }
 .hlt-policies-breadcrumb a:hover { color: #e7c57d; }
 .hlt-policies-breadcrumb [aria-current] { color: #e7c57d; }
-.hlt-policies-hero-scroll {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin: 14px auto 0;
-  border: 1px solid #e7c57d;
-  border-radius: 50%;
-  background: #03161380;
-  color: #fff9ea;
-}
-.hlt-policies-hero-scroll:hover,
-.hlt-policies-hero-scroll:focus-visible { background: #e7c57d; color: #0a241c; }
 
 /* Cột mục lục + nội dung. */
 .hlt-policies-layout { display: grid; grid-template-columns: minmax(215px, 250px) minmax(0, 1fr); align-items: start; gap: clamp(20px, 4vw, 58px); padding: 36px 0 60px; }
@@ -123,8 +121,11 @@
 @media (max-width: 760px) {
   .hlt-policies-container { width: calc(100% - 28px); }
   .hlt-policies-hero { padding: 106px 0 28px; }
-  .hlt-policies-hero-art { object-position: 82% center; }
-  .hlt-policies-hero h1 { letter-spacing: .02em; }
+  .hlt-policies-hero-mobile-art { display: block; position: absolute; inset: auto 0 0; z-index: -1; width: 100%; height: 72%; }
+  .hlt-policies-hero-mobile-art circle { fill: rgba(231, 197, 125, .05); }
+  .hlt-policies-hero-mobile-art .is-far { fill: rgba(255, 255, 255, .035); }
+  .hlt-policies-hero-mobile-art .is-near { fill: rgba(0, 0, 0, .16); }
+  .hlt-policies-hero h1 { font-size: clamp(32px, 7vw, 48px); letter-spacing: .02em; }
   .hlt-policies-layout { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 18px 0 40px; }
   .hlt-policies-nav { position: static; }
   .hlt-policy-panel, .hlt-terms-section { scroll-margin-top: 82px; }

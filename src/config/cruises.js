@@ -1,6 +1,6 @@
 export const cruiseLanding = {
   heading: "Ha Long & Lan Ha Bay Cruises",
-  intro: "Hoang Luxury Travel provides private car transfers to your cruise departure point, ensuring a comfortable, convenient and seamless journey with professional drivers and save time.",
+  intro: "Hoang Luxury Travel provides private car transfers to your Halong Bay cruise departure point, ensuring a comfortable, convenient and seamless journey with professional drivers and save time.",
   types: [
     { id: "day", badge: "Day Cruise", title: "Day Cruises", schedule: "Full Day", text: "Explore the beauty of the bay on a day cruise and enjoy exciting experiences without staying overnight in Halong Bay.", image: "typeDay" },
     { id: "overnight", badge: "Overnight", title: "Overnight Cruises", schedule: "2 Days 1 Night / 3 Days 2 Nights", text: "Spend the night on the bay, enjoy more time on the water and take in the breathtaking scenery throughout your journey in Halong Bay.", image: "typeOvernight" },
