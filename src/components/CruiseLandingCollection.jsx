@@ -23,7 +23,9 @@ const tiers = cruiseTiers;
 const batchSize = 6;
 const bayArtwork = { "Ha Long Bay": cruiseImages.ctaSunset, "Lan Ha Bay": cruiseImages.expKayaking };
 const photoFiles = import.meta.glob("../assets/cruise-collection/optimized/*", { eager: true, query: "?url", import: "default" });
-const cruisePhotos = Object.fromEntries(Object.entries(photoFiles).map(([path, url]) => [Number(path.match(/\/(\d{2})-/)?.[1]), url]));
+const cruisePhotos = Object.fromEntries(Object.entries(photoFiles).map(([path, url]) => [
+  path.split("/").pop().replace(/\.[^.]+$/, ""), url,
+]));
 
 export function cruiseInquiry(topic) {
   return whatsappLink(`Hello Hoang Luxury Travel, I'd like to inquire about ${topic}.`);
@@ -66,9 +68,9 @@ export default function CruiseLandingCollection() {
     <section className="hlt-container hlt-cruise-v1-section" aria-labelledby="cruise-types">
       <SectionHeading id="cruise-types" subtitle="Four ways to experience Ha Long Bay and Lan Ha Bay.">Choose Your Cruise Experience</SectionHeading>
       <div className="hlt-cruise-v1-types">
-        {cruiseLanding.types.map((item, index) => <article className="hlt-cruise-v1-card" key={item.id}>
+        {cruiseLanding.types.map((item, index) => <article className="hlt-cruise-v1-card" data-cruise-type={item.id} key={item.id}>
           <div className="hlt-cruise-v1-photo">
-            <img src={cruiseImages[item.image]} alt="" loading="lazy" decoding="async" />
+            <img src={cruiseImages[item.image]} alt={item.alt} loading="lazy" decoding="async" />
             <span className="hlt-cruise-v1-badge">
               {typeBadgeIcons[item.id] && <svg className="hlt-cruise-v1-badge-icon" viewBox="0 0 24 24" aria-hidden="true">{typeBadgeIcons[item.id]}</svg>}
               {item.badge}
@@ -85,7 +87,7 @@ export default function CruiseLandingCollection() {
 
     <section id="cruise-collection" className="hlt-container hlt-cruise-v1-section hlt-cruise-v1-collection-section" aria-labelledby="cruise-collection-title">
       <header className="hlt-cruise-v1-heading is-collection">
-        <h2 id="cruise-collection-title">Introducing the Cruise Collection</h2>
+        <h2 id="cruise-collection-title">Introducing The Cruise Collection</h2>
         <p>Experience a journey aboard some of the finest luxury cruises in Halong Bay.</p>
         <GoldSwoosh className="hlt-cruise-v1-swoosh" />
       </header>
@@ -118,11 +120,11 @@ export default function CruiseLandingCollection() {
         <div className="hlt-cruise-v1-cards">
           {matching.slice(0, limit).map((item) => {
             const highlight = cruiseHighlights[item.name];
-            const photo = cruisePhotos[item.photoIndex] || bayArtwork[item.bay];
+            const photo = cruisePhotos[highlight?.photo] || bayArtwork[item.bay];
             const focusOnHull = item.name === "Catherine Cruises";
             return <article className="hlt-cruise-v1-card" key={item.name}>
               <div className={`hlt-cruise-v1-photo${focusOnHull ? " is-hull-focused" : ""}`}>
-                <img src={photo} alt={`${item.name} cruise`} loading="lazy" decoding="async" />
+                <img src={photo} alt={highlight?.photoAlt || `${item.name} cruise`} loading="lazy" decoding="async" />
                 <span className="hlt-cruise-v1-tier-badge">
                   <img src={tierBadges[item.tier]} alt={item.tier} />
                 </span>

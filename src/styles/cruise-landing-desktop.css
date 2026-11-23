@@ -57,7 +57,7 @@
   text-wrap: balance;
 }
 @media (min-width: 961px) {
-  .hlt-cruises-site :is(.hlt-cruise-faq-answer p, .hlt-cruise-review-quote) {
+  .hlt-cruises-site .hlt-cruise-faq-answer p {
     text-align: justify;
   }
 

@@ -1,4 +1,4 @@
 export const cruiseSeo = {
   title: "Ha Long & Lan Ha Bay Cruises | Hoang Luxury Travel",
-  description: "Explore day cruises, overnight itineraries, dinner cruises and private charters in Ha Long Bay and Lan Ha Bay. Arrange a private transfer from Hanoi or Noi Bai Airport.",
+  description: "Explore day, overnight, dinner and sunset cruises in Halong Bay and Lan Ha Bay. Hoang Luxury Travel provides private car transfers from your location to your cruise departure point.",
 };
