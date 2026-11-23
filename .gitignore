@@ -15,6 +15,33 @@ node_modules/
 !.env.template
 !.env.*.template
 
+# Cloudflare local secrets (Wrangler); templates must contain placeholders only.
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+!.dev.vars.*.example
+.wrangler/
+
+# Local package-manager authentication and cloud credentials
+.npmrc
+.netrc
+_netrc
+.aws/
+.config/gcloud/
+*credentials*.json
+*client_secret*.json
+*.jks
+*.kdbx
+
+# Customer exports, diagnostic captures and private operator files
+/private-data/
+/customer-data/
+/exports/
+*.har
+*.har.json
+*.pcap
+*.pcapng
+
 # Deployment and Supabase CLI local state (not schema or migrations)
 .vercel/
 /supabase/.temp/
