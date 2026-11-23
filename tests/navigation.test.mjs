@@ -31,7 +31,8 @@ const source = (await readFile(new URL("../src/components/layout/Header.jsx", im
   .replace('import { logoUrl } from "../../config/assets.js";', 'const logoUrl = "/fixture.png";')
   .replace('import { navLinks, routesMenu, whatsappUrl } from "../../data.js";',
     `const navLinks = ${JSON.stringify(navLinks)}; const routesMenu = ${JSON.stringify(routesMenu)}; const whatsappUrl = ${JSON.stringify(whatsappUrl)};`)
-  .replace('import BackToTop from "./BackToTop.jsx";', 'const BackToTop = () => null;');
+  .replace('import BackToTop from "./BackToTop.jsx";', 'const BackToTop = () => null;')
+  .replace(/from "(?:\.\.?\/)+lib\/whatsapp-tracking\.js"/, `from ${JSON.stringify(new URL("../src/lib/whatsapp-tracking.js", import.meta.url).href)}`);
 const { code } = await transformWithEsbuild(source, "Header.jsx", { loader: "jsx", jsx: "transform" });
 const Header = (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
 

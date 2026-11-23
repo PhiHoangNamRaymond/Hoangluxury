@@ -8,6 +8,7 @@ import { photoAlbumBySlug, photoAlbumsPath, photoAlbumUrl, photoAlbums } from ".
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { albumReturnUrl, markAlbumReturn } from "./lib/album-return.js";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 /* /photo/albums/<slug>/ - xem hết ảnh của một album: ảnh xếp dọc, cỡ lớn,
    tên album ở trên cùng theo đúng kiểu dòng chữ ở trang lưới. */
@@ -141,7 +142,7 @@ export default function PhotoAlbumPage({ slug }) {
             </div>
 
             <div className="hlt-album-foot">
-              <a className="hlt-album-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">
+              <a className="hlt-album-btn" href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", "whatsapp_photo_album_bottom_cta")}>
                 <WhatsAppIcon />
                 Book via Photo
               </a>

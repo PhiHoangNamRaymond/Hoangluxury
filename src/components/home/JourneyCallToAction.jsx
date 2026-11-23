@@ -1,6 +1,7 @@
 import React from "react";
 import { journeyCtaMountainsUrl } from "../../config/assets.js";
 import { catalogPageUrl, whatsappUrl } from "../../data.js";
+import { waCta } from "../../lib/whatsapp-tracking.js";
 
 // Ba bước đặt xe cho bản "route" (trang /journey/<slug>/): số, tiêu đề (h3, PC
 // và mobile), phụ đề chỉ hiện trên PC.
@@ -32,6 +33,8 @@ export default function JourneyCallToAction({
   // trang chủ và /journeys/ theo yêu cầu khách 28/10/2026.
   secondary = "catalog",
   whatsappHref = whatsappUrl,
+  // Mã nút trong Data Layer: whatsapp_<trackingPage>_bottom_cta.
+  trackingPage = "page",
 }) {
   const Heading = headingLevel === "h2" ? "h2" : "h3";
   if (variant === "route") {
@@ -76,7 +79,7 @@ export default function JourneyCallToAction({
             </ol>
 
             <div className="hlt-journey-cta-route-actions">
-              <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+              <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", `whatsapp_${trackingPage}_bottom_cta`)}>
                 <WhatsAppIcon />
                 Book via WhatsApp
               </a>
@@ -104,7 +107,7 @@ export default function JourneyCallToAction({
             <p>{text}</p>
           </div>
           <div className="hlt-showcase-actions">
-            <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+            <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", `whatsapp_${trackingPage}_bottom_cta`)}>
               Book via WhatsApp
             </a>
             <a

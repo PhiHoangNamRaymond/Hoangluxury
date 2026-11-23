@@ -39,6 +39,7 @@ import {
   journeys,
 } from "./config/journeys.js";
 import { journeyPagePath } from "./config/journey-paths.js";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
@@ -152,7 +153,7 @@ function WhatsAppIcon() {
 function JourneyBookActions({ whatsappHref }) {
   return (
     <div className="hlt-journey-options-actions">
-      <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+      <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer" {...waCta("pricing", "whatsapp_route_pricing")}>
         <WhatsAppIcon />
         <span>Book via WhatsApp</span>
       </a>
@@ -350,7 +351,7 @@ export default function JourneyPage({ slug }) {
               </h1>
               <p className="hlt-journey-lead">{journey.intro}</p>
               <div className="hlt-journey-actions">
-                <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                <a className="hlt-btn hlt-btn-gold" href={whatsappHref} target="_blank" rel="noopener noreferrer" {...waCta("hero", "whatsapp_route_hero")}>
                   <WhatsAppIcon />
                   <span>Book via WhatsApp</span>
                 </a>
@@ -636,7 +637,7 @@ export default function JourneyPage({ slug }) {
 
       </main>
 
-      <JourneyCallToAction variant="route" whatsappHref={whatsappHref} />
+      <JourneyCallToAction variant="route" whatsappHref={whatsappHref} trackingPage="route" />
       <ExperienceSlider />
       <Footer whatsappHref={whatsappHref} />
     </div>

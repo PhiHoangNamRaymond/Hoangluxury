@@ -14,10 +14,11 @@ import luxuryGold from "../assets/cruise-icons/preference-gold-luxury.png";
 import scenicGold from "../assets/cruise-icons/preference-gold-scenic.png";
 import preferenceWave from "../assets/cruise-icons/preference-gold-wave.png";
 import preferenceBackground from "../assets/opt/cruise-preference-lan-ha-sunset.jpg";
-import finalCtaBackground from "../assets/opt/cruise-final-cta-golden-bay.jpg";
+import finalCtaBackground from "../assets/opt/halong-bay-golden-sunrise-cta.png";
 import experienceLotus from "../assets/cruise-icons/experience-gold-lotus.png";
 import "./styles/cruise-landing-desktop.css";
 import "./styles/cruise-landing-mobile.css";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 const preferenceIcons = { couples: couplesGold, family: familyGold, luxury: luxuryGold, scenic: scenicGold };
 
@@ -102,9 +103,8 @@ export default function CruisesPage() {
               <div className="hlt-cruise-v1-hero-copy">
                 <p>{cruiseLanding.intro}</p>
                 <div className="hlt-cruise-v1-actions">
-                  <a className="hlt-cruise-v1-btn" href={cruiseInquiry("a Ha Long Bay or Lan Ha Bay cruise")} target="_blank" rel="noopener noreferrer"><WhatsAppGlyph /> Book via WhatsApp</a>
-                  {/* Không dẫn đi đâu, chỉ hiển thị (khách yêu cầu 22/11/2026). */}
-                  <span className="hlt-cruise-v1-btn is-outline">View Catalog</span>
+                  <a className="hlt-cruise-v1-btn" href={cruiseInquiry("a Ha Long Bay or Lan Ha Bay cruise")} target="_blank" rel="noopener noreferrer" {...waCta("hero", "whatsapp_cruise_hero")}><WhatsAppGlyph /> Book via WhatsApp</a>
+                  <a className="hlt-cruise-v1-btn is-outline" href="/catalog/">View Catalog</a>
                 </div>
               </div>
             </div>
@@ -181,10 +181,9 @@ export default function CruisesPage() {
           <img className="hlt-cruise-match-background" src={preferenceBackground} alt="" loading="lazy" decoding="async" data-no-skeleton />
           <div className="hlt-container">
             <header className="hlt-cruise-match-head">
-              <p className="hlt-cruise-match-kicker">Personalized Cruise Selection</p>
               <h2 id="cruise-preference-heading" className="hlt-cruise-match-title">Discover Luxury Cruises in Halong Bay</h2>
               <p className="hlt-cruise-match-intro">
-                Tailored cruise experiences for every traveler, from romantic getaways to family holidays and unforgettable nature journeys.
+                Explore luxury cruises in Halong Bay, bringing memorable experiences to couples, families, luxury travelers, and nature lovers.
               </p>
             </header>
 
@@ -261,7 +260,7 @@ export default function CruisesPage() {
               </div>
               {/* 2 nút đặt (khách yêu cầu 23/11/2026). */}
               <div className="hlt-cruise-seamless-actions">
-                <a className="hlt-cruise-seamless-btn is-gold" href={cruiseInquiry("a private transfer to my Ha Long cruise")} target="_blank" rel="noopener noreferrer">
+                <a className="hlt-cruise-seamless-btn is-gold" href={cruiseInquiry("a private transfer to my Ha Long cruise")} target="_blank" rel="noopener noreferrer" {...waCta("transfer_section", "whatsapp_cruise_transfer", { service: "private_transfer" })}>
                   <span className="hlt-cruise-seamless-btn-icon" aria-hidden="true"><WhatsAppGlyph /></span>
                   Book via WhatsApp
                 </a>
@@ -436,7 +435,7 @@ export default function CruisesPage() {
 
             <div className="hlt-cruise-cta-right">
               <div className="hlt-blog-story-actions">
-                <a className="hlt-btn hlt-btn-gold" href={getCustomInquiryUrl("Check Cruise Availability & Rates")} target="_blank" rel="noopener noreferrer">
+                <a className="hlt-btn hlt-btn-gold" href={getCustomInquiryUrl("Check Cruise Availability & Rates")} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", "whatsapp_cruise_bottom_cta")}>
                   Book via WhatsApp
                 </a>
                 <a className="hlt-btn hlt-btn-outline" href="/booking/">Book via Form</a>

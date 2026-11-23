@@ -8,6 +8,7 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import { blogArticleUrl, blogPagePath } from "./config/blog.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 function formatDate(value) {
   if (!value) return "";
@@ -166,7 +167,7 @@ export default function BlogArticlePage({ slug }) {
             <div className="hlt-article-body" dangerouslySetInnerHTML={{ __html: html }} />
 
             <footer className="hlt-article-foot">
-              <a className="hlt-article-cta" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <a className="hlt-article-cta" href={whatsappUrl} target="_blank" rel="noopener noreferrer" {...waCta("content", "whatsapp_blog_article_plan")}>
                 Plan this journey with us
                 <ArrowIcon />
               </a>
@@ -204,7 +205,7 @@ export default function BlogArticlePage({ slug }) {
         )}
       </main>
 
-      <JourneyCallToAction />
+      <JourneyCallToAction trackingPage="blog_article" />
       <ExperienceSlider />
       <Footer />
     </div>

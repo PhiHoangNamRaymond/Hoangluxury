@@ -4,6 +4,7 @@ import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { catalogUrl, whatsappInquiryUrl } from "./data.js";
 import { catalogBackgroundUrl, catalogOpenBookUrl } from "./config/assets.js";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 function BookIcon() {
   return (
@@ -57,6 +58,7 @@ export default function CatalogPage() {
               <a
                 className="hlt-catalog-button hlt-catalog-button-gold"
                 href={whatsappInquiryUrl}
+                {...waCta("hero", "whatsapp_catalog_hero")}
                 target="_blank"
                 rel="noopener noreferrer"
               >

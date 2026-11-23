@@ -18,6 +18,7 @@ import { getBookingSource } from "./config/booking-source.js";
 import { formTextError } from "./lib/public-config.js";
 import { bookingDevice, validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import Turnstile from "./components/Turnstile.jsx";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 const initialForm = {
   departureDate: "",
@@ -464,7 +465,7 @@ export default function BookingPage() {
             </div>
             <div className="hlt-book-actions">
               <button type="submit" disabled={submission.state === "loading" || !turnstileToken || !bookingEndpoint}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
-              <a href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
+              <a href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer" {...waCta("booking_form", "whatsapp_booking_form")}>Chat via WhatsApp</a>
             </div>
           </div>
           {submission.message && submission.state !== "success" && <p className={`hlt-book-status is-${submission.state}`} role="status" aria-live="polite">{submission.message}</p>}

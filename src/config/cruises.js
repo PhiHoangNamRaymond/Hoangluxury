@@ -214,7 +214,7 @@ export const cruiseData = {
       stars: 5,
       text: "Amazing experience in Ha Long Bay. The transfer was excellent and the staff supported us on WhatsApp 24/7.",
       name: "Marco R.",
-      country: "Italy",
+      country: "Canada",
       avatarLetter: "M",
       avatarKey: "avatarMarco",
     },

@@ -19,6 +19,7 @@ import { blogDestinations } from "./config/blog-taxonomy.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import { setupContentProtection } from "./lib/content-protection.js";
 import { setupGtm } from "./lib/gtm.js";
+import { routeIdFromJourneyKey, setupWhatsAppTracking } from "./lib/whatsapp-tracking.js";
 import { cruiseSeo } from "./config/cruise-seo.js";
 import { legacyPolicyHash, legacyPolicyPath, policyPageSeo, privacyPolicyPath, termsPath } from "./config/policies.js";
 import "./styles/index.css";
@@ -276,6 +277,43 @@ createRoot(document.getElementById("root")).render(
     </Suspense>
   </StrictMode>
 );
+
+// Data Layer nút WhatsApp (hlt_whatsapp_click): loại trang, dịch vụ và tuyến mặc
+// định của trang này; từng nút có thể ghi đè (xem lib/whatsapp-tracking.js).
+const pageTypeByPath = {
+  "/": "home",
+  "/routes": "route_list", "/journeys": "route_list",
+  "/routes/halong-bay-cruises": "cruise", "/cruises": "cruise", "/ha-long-cruises": "cruise",
+  "/booking": "booking",
+  "/catalog": "catalog",
+  "/hoangphoto": "photo_landing", "/photo": "photo_landing",
+  "/hoangphoto/albums": "photo_albums", "/photo/albums": "photo_albums",
+  "/blog": "blog", "/hoangphoto/blog": "blog",
+  "/about-us": "about", "/about": "about",
+  "/privacy-policy": "policy", "/terms-and-conditions": "policy", "/policies": "policy", "/terms-conditions": "policy",
+  "/feedback": "feedback",
+};
+const trackingPageType = journey ? "route_detail"
+  : postSlug ? "blog_article"
+    : albumSlug ? "photo_album"
+      : photoCategory ? "photo_albums"
+        : isBlogSectionPath ? "blog"
+          : isNotFound ? "not_found"
+            : pageTypeByPath[normalizedPath] || "home";
+const serviceTypeByPage = {
+  home: "private_transfer", route_list: "private_transfer", route_detail: "private_transfer",
+  booking: "private_transfer", catalog: "private_transfer", about: "private_transfer",
+  blog: "private_transfer", blog_article: "private_transfer",
+  cruise: "cruise",
+  photo_landing: "photography", photo_albums: "photography", photo_album: "photography",
+};
+if (!isAdminRoute) {
+  setupWhatsAppTracking({
+    pageType: trackingPageType,
+    serviceType: serviceTypeByPage[trackingPageType] || null,
+    routeId: journey ? routeIdFromJourneyKey(journey) : null,
+  });
+}
 
 // Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
 setupImageSkeletons();

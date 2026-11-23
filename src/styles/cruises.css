@@ -1255,8 +1255,18 @@
 
 .hlt-cruise-faq-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 10px;
+}
+
+.hlt-cruise-faq-grid:has(.is-open) {
+  align-items: start;
+  grid-auto-rows: auto;
+}
+
+.hlt-cruise-faq-item:not(.is-open) .hlt-cruise-faq-question {
+  height: 100%;
 }
 
 .hlt-cruise-faq-item {
@@ -1274,6 +1284,7 @@
 .hlt-cruise-faq-question {
   width: 100%;
   padding: 10px 14px;
+  min-height: calc(2lh + 20px);
   background: transparent;
   border: none;
   color: #07201b;
@@ -1282,8 +1293,7 @@
   justify-content: space-between;
   gap: 10px;
   text-align: left;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font: 600 clamp(15px, 1.12vw, 17px)/1.4 "Lato", Arial, sans-serif !important;
+  font: 400 clamp(15px, 1.12vw, 17px)/1.4 "Lato", Arial, sans-serif !important;
   cursor: pointer;
 }
 
@@ -1843,7 +1853,7 @@
   }
 
   .hlt-cruise-seamless-content .hlt-cruise-seamless-title {
-    font-size: clamp(24px, 6.8vw, 32px) !important;
+    font-size: var(--cruise-section-title-size) !important;
     line-height: 1.15 !important;
   }
 
@@ -1914,7 +1924,7 @@
   }
 
   .hlt-cruise-exp-intro h2 {
-    font-size: 26px !important;
+    font-size: var(--cruise-section-title-size) !important;
   }
 
   .hlt-cruise-exp-intro p {
@@ -2097,7 +2107,7 @@
   }
 
   .hlt-cruise-faq-question {
-    min-height: 48px !important;
+    min-height: calc(2lh + 24px);
     padding: 12px 14px !important;
   }
 

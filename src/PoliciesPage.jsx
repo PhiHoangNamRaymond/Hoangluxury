@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
+import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import { legacyPolicyHash, legacyPolicyPath, privacyPolicyPath, termsPath } from "./config/policies.js";
 import { termsIntro, termsSections } from "./config/terms-of-service.js";
 import { privacyIntro, privacySections } from "./config/privacy-policy.js";
-import { whatsappUrl } from "./data.js";
 import "./styles/policies-page.css";
 
 function PolicyPage({ kind }) {
@@ -39,15 +40,16 @@ function PolicyPage({ kind }) {
     anchor: "terms",
     paragraphs: termsIntro,
     badges: ["Clear Terms", "Transparent Pricing", "Dedicated Support"],
-    help: "Our team is ready to help with bookings, service details and questions about these terms.",
   } : {
     title: "Privacy Policy",
     intro: "How we collect, use, protect and manage your personal information.",
     anchor: "privacy",
     paragraphs: privacyIntro,
     badges: ["Privacy First", "Secure Handling", "Customer Control"],
-    help: "We are happy to assist with your personal information and privacy-related questions.",
   };
+  const related = showTerms
+    ? { title: "Privacy Policy", href: privacyPolicyPath }
+    : { title: "Terms of Service", href: termsPath };
 
   return (
     <div className="hlt-site hlt-policies-site">
@@ -64,7 +66,7 @@ function PolicyPage({ kind }) {
             <h1>{page.title}</h1>
             <p className="hlt-policies-hero-intro">{page.intro}</p>
             <nav className="hlt-policies-breadcrumb" aria-label="Breadcrumb">
-              <a href="/">Home</a><span aria-hidden="true">/</span><span>Legal</span><span aria-hidden="true">/</span><span aria-current="page">{page.title}</span>
+              <a href="/">Home</a><span aria-hidden="true">/</span><a href={related.href}>{related.title}</a><span aria-hidden="true">/</span><span aria-current="page">{page.title}</span>
             </nav>
           </div>
         </div>
@@ -76,13 +78,13 @@ function PolicyPage({ kind }) {
                 <span aria-hidden="true">0{index + 1}</span>{title}
               </a>
             ))}
-            <p className="hlt-policies-related">Read also: <a href={showTerms ? privacyPolicyPath : termsPath}>{showTerms ? "Privacy Policy" : "Terms of Service"} <span aria-hidden="true">↗</span></a></p>
+            <p className="hlt-policies-related">Read also: <a href={related.href}>{related.title} <span aria-hidden="true">↗</span></a></p>
           </nav>
           <div className="hlt-policies-content">
             <section id={page.anchor} className="hlt-policy-panel hlt-terms-intro" aria-labelledby={`${page.anchor}-title`}>
               <div className="hlt-terms-intro-top">
                 <p className="hlt-policies-kicker">Guest information · Hoang Luxury Travel</p>
-                <p className="hlt-terms-updated">Last updated: [Day/Month/Year of publication]</p>
+                <p className="hlt-terms-updated">Last updated: <time dateTime="2026-11-25">25/11/2026</time></p>
               </div>
               <h2 id={`${page.anchor}-title`}>{page.title}</h2>
               {page.paragraphs.map((item, itemIndex) => <PolicyBlock key={itemIndex} item={item} />)}
@@ -98,20 +100,9 @@ function PolicyPage({ kind }) {
             </section>)}
           </div>
         </div>
-        <section className="hlt-policies-help" aria-labelledby="policies-help-title">
-          <div className="hlt-policies-container hlt-policies-help-inner">
-            <div>
-              <h2 id="policies-help-title">Need assistance?</h2>
-              <p>{page.help}</p>
-            </div>
-            <ul className="hlt-policies-help-contact">
-              <li><a href="tel:+84839779888">+84 839 779 888</a></li>
-              <li><a href="mailto:info@hoangluxury.travel">info@hoangluxury.travel</a></li>
-            </ul>
-            <a className="hlt-policies-help-btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Contact us now <span aria-hidden="true">→</span></a>
-          </div>
-        </section>
       </main>
+      <JourneyCallToAction className="is-home" secondary="form" headingLevel="h2" title="Ready To Start Your Journey?" trackingPage={showTerms ? "terms" : "privacy"} />
+      <ExperienceSlider />
       <Footer />
     </div>
   );

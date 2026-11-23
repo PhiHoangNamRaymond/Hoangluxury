@@ -14,6 +14,7 @@ import {
 import { catalogPageUrl, whatsappInquiryUrl } from "./data.js";
 import { journeyPagePath } from "./config/journey-paths.js";
 import usePageEntered from "./hooks/usePageEntered.js";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
 const luxuryValues = [
@@ -460,7 +461,7 @@ export default function AboutPage() {
           </div>
           {/* Cặp nút chung của trang chủ: nút vàng đặc + nút viền. */}
           <div className="hlt-blog-story-actions">
-            <a className="hlt-btn hlt-btn-gold" href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer">
+            <a className="hlt-btn hlt-btn-gold" href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", "whatsapp_about_bottom_cta")}>
               <span className="hlt-hero-whatsapp-icon" aria-hidden="true"><WhatsAppMark /></span>
               Book via WhatsApp
             </a>
