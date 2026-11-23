@@ -11,6 +11,7 @@ import {
   journeyPickupIconUrl,
   journeysOutroWheelUrl,
 } from "./config/assets.js";
+import { routeIdFromJourneyKey, waCta } from "./lib/whatsapp-tracking.js";
 
 const allRoutesData = [
   {
@@ -361,6 +362,7 @@ export default function JourneysPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hlt-jcard-btn hlt-jcard-btn-book"
+                      {...waCta("route_card", "whatsapp_route_card", { route: routeIdFromJourneyKey(item.slug) })}
                     >
                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.1 4.9A9.8 9.8 0 0 0 12 2a9.9 9.9 0 0 0-8.6 14.9L2 22l5.3-1.4a9.9 9.9 0 0 0 4.7 1.2A9.9 9.9 0 0 0 19.1 4.9Z" /></svg>
                       <span>BOOK VIA WHATSAPP</span>
@@ -398,7 +400,7 @@ export default function JourneysPage() {
 
       </main>
 
-      <JourneyCallToAction secondary="form" headingLevel="h2" title="Ready To Start Your Journey?" />
+      <JourneyCallToAction secondary="form" headingLevel="h2" title="Ready To Start Your Journey?" trackingPage="routes" />
       <ExperienceSlider />
       <Footer />
     </div>

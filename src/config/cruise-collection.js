@@ -41,27 +41,35 @@ export const cruiseHighlights = {
   },
   "Dolphin Cruise": {
     description: "This modern entertainment cruise in Halong Bay combines a year-round swimming pool, a domed stage and unique dining experiences.",
+    amenities: [["dining", "Dining"], ["activities", "Domed Stage"], ["scenic", "Pool"]],
   },
   "Ambassador Cruise": {
     description: "Admire the beauty of Halong Bay from a spacious observation deck, relax in an outdoor Jacuzzi, and experience fine dining aboard this luxury cruise.",
+    amenities: [["dining", "Fine Dining"], ["spa", "Jacuzzi"], ["sightseeing", "View Deck"]],
   },
   "Catherine Cruises": {
     description: "An Indochine-style cruise with a year-round infinity pool, a mini golf course and relaxing spa services.",
+    amenities: [["scenic", "Infinity Pool"], ["activities", "Mini Golf"], ["spa", "Spa"]],
   },
   "Sea Stars Cruises": {
     description: "On this premium leisure cruise, guests can relax by the swimming pool, play mini golf, and dine at a restaurant with panoramic views of Halong Bay.",
+    amenities: [["dining", "Dining"], ["scenic", "Pool"], ["activities", "Mini Golf"]],
   },
   "Athena Premium Cruise": {
     description: "Relax by a year-round infinity pool, experience a Japanese onsen and take in panoramic views of Halong Bay.",
+    amenities: [["scenic", "Infinity Pool"], ["spa", "Onsen"], ["sightseeing", "Bay Views"]],
   },
   "Luna Ha Long Cruise": {
     description: "Highlights include a glass-bottom swimming pool, 360-degree sundecks with a wide selection of Asian and European dishes in Halong Bay.",
+    amenities: [["dining", "Dining"], ["scenic", "Pool"], ["sightseeing", "Sundecks"]],
   },
   "Calista Cruise": {
     description: "A heated infinity pool, an outdoor Jacuzzi and spa services create a relaxing retreat in Halong Bay.",
+    amenities: [["scenic", "Heated Pool"], ["spa", "Jacuzzi"], ["spa", "Spa"]],
   },
   "Seaoctopus Cruises": {
     description: "Dining takes center stage with a buffet of over 60 dishes, live music and two spacious sundecks overlooking Halong Bay.",
+    amenities: [["dining", "Buffet"], ["activities", "Live Music"], ["sightseeing", "Sundecks"]],
   },
   "Stellar of the Seas Cruise": {
     description: "Relax by the outdoor pool, play mini golf, and admire panoramic views of Lan Ha Bay from the onboard bar.",
@@ -77,14 +85,18 @@ export const cruiseHighlights = {
   },
   "Lyra Grandeur Cruise": {
     description: "Enjoy a waterslide, a heated pool, and an outdoor Nordic-style sauna for both recreation and relaxation while cruising through Lan Ha Bay.",
+    amenities: [["activities", "Waterslide"], ["scenic", "Heated Pool"], ["spa", "Sauna"]],
   },
   "Celina of the Sea": {
     description: "Spacious suites with private balconies, a glass skybridge, and a Sky Bar are highlights of this luxury Lan Ha Bay cruise.",
+    amenities: [["scenic", "Balconies"], ["sightseeing", "Skybridge"], ["dining", "Sky Bar"]],
   },
   "Indochine Cruise": {
     description: "This cruise stands out for its elegant Indochine-style design, spacious sundeck, infinity pool, and refined dining spaces.",
+    amenities: [["dining", "Dining"], ["scenic", "Infinity Pool"], ["sightseeing", "Sundeck"]],
   },
   "Diana Cruises": {
     description: "Stay in a suite with a private balcony, relax in the rooftop lounge, and dine with panoramic views of Lan Ha Bay.",
+    amenities: [["dining", "Dining"], ["scenic", "Balconies"], ["sightseeing", "Rooftop"]],
   },
 };

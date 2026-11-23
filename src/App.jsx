@@ -19,7 +19,7 @@ export default function App() {
       <Services />
       <Fleet />
       <BookingProcess />
-      <JourneyCallToAction headingLevel="h2" title="Ready To Start Your Journey?" className="is-home" secondary="form" whatsappHref={whatsappInquiryUrl} />
+      <JourneyCallToAction headingLevel="h2" title="Ready To Start Your Journey?" className="is-home" secondary="form" whatsappHref={whatsappInquiryUrl} trackingPage="home" />
       <ExperienceSlider />
       <Footer whatsappHref={whatsappInquiryUrl} />
     </div>

@@ -16,6 +16,7 @@ import {
 import { whatsappPhotoUrl, whatsappPhotoInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { rememberAlbumReturn, takeAlbumReturnScroll } from "./lib/album-return.js";
+import { waCta } from "./lib/whatsapp-tracking.js";
 
 const ALL = ALL_PHOTO_CATEGORIES;
 const PER_PAGE = 12;
@@ -234,7 +235,7 @@ export default function PhotoAlbumsPage() {
             {filtered.length === 0 && (
               <p className="hlt-photo-empty">
                 New albums for this style are coming soon.{" "}
-                <a href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a> to see
+                <a href={whatsappPhotoUrl} target="_blank" rel="noopener noreferrer" {...waCta("content", "whatsapp_photo_albums_empty")}>Message us on WhatsApp</a> to see
                 more of our recent work.
               </p>
             )}
@@ -286,7 +287,7 @@ export default function PhotoAlbumsPage() {
               <h2 id="photo-cta-title">Ready To Plan Your Photo Shoot?</h2>
               <p>Tell us your destination and preferred date. We&rsquo;ll take care of the details.</p>
             </div>
-            <a className="hlt-photo-cta-btn" href={whatsappPhotoInquiryUrl} target="_blank" rel="noopener noreferrer">
+            <a className="hlt-photo-cta-btn" href={whatsappPhotoInquiryUrl} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", "whatsapp_photo_albums_bottom_cta")}>
               <WhatsAppIcon />
               Book via WhatsApp
               <svg className="hlt-photo-cta-arrow" viewBox="0 0 24 24" aria-hidden="true">

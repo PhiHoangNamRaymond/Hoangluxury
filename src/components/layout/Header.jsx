@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { logoUrl } from "../../config/assets.js";
 import { navLinks, routesMenu, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
+import { waCta } from "../../lib/whatsapp-tracking.js";
 
 const normalizePath = (pathname) => pathname.replace(/\/+$/, "");
 
@@ -352,7 +353,7 @@ export default function Header({ whatsappHref = whatsappUrl } = {}) {
             <span />
           </button>
 
-          <a className="hlt-header-cta" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+          <a className="hlt-header-cta" href={whatsappHref} target="_blank" rel="noopener noreferrer" {...waCta("header", "whatsapp_header")}>
             <span className="hlt-phone-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.31-.31.77-.42 1.18-.28 1.3.43 2.7.66 4.11.66.72 0 1.3.58 1.3 1.3v3.44c0 .72-.58 1.3-1.3 1.3C10.28 22.1 1.9 13.72 1.9 3.3 1.9 2.58 2.48 2 3.2 2h3.45c.72 0 1.3.58 1.3 1.3 0 1.41.23 2.8.66 4.11.13.4.03.86-.29 1.18l-1.7 2.2Z" />

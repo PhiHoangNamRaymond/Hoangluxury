@@ -7,13 +7,13 @@ import GoldSwoosh from "./GoldSwoosh.jsx";
 import standardBadge from "../../assets/cruise-icons/tier-standard.png";
 import deluxeBadge from "../../assets/cruise-icons/tier-deluxe.png";
 import luxuryBadge from "../../assets/cruise-icons/tier-luxury.png";
-import curatedSelection from "../../assets/cruise-icons/curated-selection-gold.png";
 import dining from "../../assets/cruise-icons/amenity-dining.png";
 import spa from "../../assets/cruise-icons/amenity-spa.png";
 import kayak from "../../assets/cruise-icons/amenity-kayak.png";
 import activities from "../../assets/cruise-icons/amenity-activities.png";
 import sightseeing from "../../assets/cruise-icons/amenity-sightseeing.png";
 import scenic from "../../assets/cruise-icons/amenity-scenic.png";
+import { waCta } from "../lib/whatsapp-tracking.js";
 
 const amenityIcons = { dining, spa, kayak, activities, sightseeing, scenic };
 
@@ -31,7 +31,7 @@ export function cruiseInquiry(topic) {
 }
 
 function WhatsAppAction({ topic, children }) {
-  return <a className="hlt-cruise-v1-btn" href={cruiseInquiry(topic)} target="_blank" rel="noopener noreferrer">
+  return <a className="hlt-cruise-v1-btn" href={cruiseInquiry(topic)} target="_blank" rel="noopener noreferrer" {...waCta("cruise_card", "whatsapp_cruise_view_details")}>
     {children}
   </a>;
 }
@@ -122,17 +122,20 @@ export default function CruiseLandingCollection() {
           </select>
         </label>
         <div className="hlt-cruise-v1-results-head">
-          <p className="hlt-cruise-v1-results-note" aria-live="polite">{matching.length} {matching.length === 1 ? "Cruise" : "Cruises"} · {bay} · {tier} Collection</p>
+          <p className="hlt-cruise-v1-results-note" aria-live="polite">{tier} Collection</p>
           <span className="hlt-cruise-v1-results-line" aria-hidden="true" />
-          <img className="hlt-cruise-v1-curated" src={curatedSelection} alt="Curated Selection" width="480" height="101" />
+          <span className="hlt-cruise-v1-curated">Curated Selection</span>
         </div>
         {matching.length === 0 && <p className="hlt-cruise-v1-empty">No {tier} cruises are listed for {bay}. Please choose another tier.</p>}
         <div className="hlt-cruise-v1-cards">
           {matching.slice(0, limit).map((item) => {
             const highlight = cruiseHighlights[item.name];
+            const photo = cruisePhotos[item.photoIndex] || bayArtwork[item.bay];
+            const showFullPhoto = item.name === "Catherine Cruises";
             return <article className="hlt-cruise-v1-card" key={item.name}>
-              <div className="hlt-cruise-v1-photo">
-                <img src={cruisePhotos[item.photoIndex] || bayArtwork[item.bay]} alt={`${item.name} cruise`} loading="lazy" decoding="async" />
+              <div className={`hlt-cruise-v1-photo${showFullPhoto ? " is-wide-framed" : ""}`}
+                style={showFullPhoto ? { "--cruise-photo": `url("${photo}")` } : undefined}>
+                <img src={photo} alt={`${item.name} cruise`} loading="lazy" decoding="async" />
                 <span className="hlt-cruise-v1-tier-badge">
                   <img src={tierBadges[item.tier]} alt={item.tier} />
                 </span>

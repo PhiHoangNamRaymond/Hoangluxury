@@ -2,6 +2,7 @@ import React from "react";
 import { footerFlourishDividerUrl, logoUrl, whatsappQrUrl } from "../../config/assets.js";
 import { catalogPageUrl, feedbackPageUrl, whatsappUrl } from "../../data.js";
 import { privacyPolicyPath, termsPath } from "../../config/policies.js";
+import { waCta } from "../../lib/whatsapp-tracking.js";
 
 // Footer chỉ hiện 2 mục như thiết kế cũ: Privacy Policy, Terms of Service — mỗi mục
 // là một trang riêng (23/11/2026).
@@ -68,7 +69,7 @@ export default function Footer({ whatsappHref = whatsappUrl } = {}) {
         <div className="hlt-footer-col hlt-footer-contact">
           <div className="hlt-footer-title">Contact Us</div>
           <div className="hlt-footer-col-body">
-            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp at +84 839 779 888">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp at +84 839 779 888" {...waCta("footer", "whatsapp_footer_phone")}>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1.3.4 2.6.6 4 .6.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.3 22.1 1.9 13.7 1.9 3.4c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.4.2 2.7.6 4 .1.4 0 .8-.3 1.2l-1.7 2.2Z" />
               </svg>
@@ -104,7 +105,7 @@ export default function Footer({ whatsappHref = whatsappUrl } = {}) {
 
         <div className="hlt-footer-qr">
           <div className="hlt-footer-qr-frame">
-            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp" {...waCta("footer", "whatsapp_footer_qr", { text: "WhatsApp QR" })}>
               <img src={whatsappQrUrl} alt="QR code to contact Hoang Luxury Travel on WhatsApp" loading="lazy" decoding="async" />
             </a>
             <p>WhatsApp</p>
@@ -144,7 +145,7 @@ export default function Footer({ whatsappHref = whatsappUrl } = {}) {
 
           <div className="hlt-footer-mobile-card-qr">
             <div className="hlt-footer-mobile-qr-box">
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp" {...waCta("footer", "whatsapp_footer_qr_mobile", { text: "WhatsApp QR" })}>
                 <img src={whatsappQrUrl} alt="QR code to contact Hoang Luxury Travel on WhatsApp" loading="lazy" decoding="async" />
               </a>
               <p>WhatsApp</p>
@@ -160,7 +161,7 @@ export default function Footer({ whatsappHref = whatsappUrl } = {}) {
           </div>
 
           <div className="hlt-footer-mobile-contact-list">
-            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp at +84 839 779 888" className="hlt-footer-mobile-contact-item">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp at +84 839 779 888" className="hlt-footer-mobile-contact-item" {...waCta("footer", "whatsapp_footer_phone_mobile")}>
               <div className="hlt-footer-mobile-icon-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
