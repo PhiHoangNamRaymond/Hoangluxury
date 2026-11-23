@@ -1115,7 +1115,17 @@ import cruiseFlowAnchorIcon from "../../assets/cruise-icons/cruise-transfer-port
 import cruiseFlowCruiseIcon from "../../assets/cruise-icons/cruise-transfer-luxury-cruise-icon.png?no-inline";
 export const cruiseFlowIcons = { hotel: cruiseFlowHotelIcon, car: cruiseFlowCarIcon, anchor: cruiseFlowAnchorIcon, cruise: cruiseFlowCruiseIcon };
 
+/* Ảnh 4 thẻ "Choose Your Cruise Experience" (khách gửi 23/11/2026). */
+import cruiseTypeDayUrl from "../../assets/cruise-types/halong-bay-day-cruise-hoang-luxury-travel.webp";
+import cruiseTypeOvernightUrl from "../../assets/cruise-types/halong-bay-overnight-cruise-hoang-luxury-travel.webp";
+import cruiseTypeDinnerUrl from "../../assets/cruise-types/halong-bay-dinner-cruise-hoang-luxury-travel.webp";
+import cruiseTypeSunsetUrl from "../../assets/cruise-types/halong-bay-sunset-cruise-hoang-luxury-travel.webp";
+
 export const cruiseImages = {
+  typeDay: cruiseTypeDayUrl,
+  typeOvernight: cruiseTypeOvernightUrl,
+  typeDinner: cruiseTypeDinnerUrl,
+  typeSunset: cruiseTypeSunsetUrl,
   heroHalong: cruiseHeroHalongUrl,
   heroDesktop: cruiseHeroDesktopUrl,
   mosaicPanorama: cruiseMosaicPanoramaUrl,

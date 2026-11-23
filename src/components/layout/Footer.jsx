@@ -1,13 +1,14 @@
 import React from "react";
 import { footerFlourishDividerUrl, logoUrl, whatsappQrUrl } from "../../config/assets.js";
 import { catalogPageUrl, feedbackPageUrl, whatsappUrl } from "../../data.js";
-import { policiesPath, policySections } from "../../config/policies.js";
+import { privacyPolicyPath, termsPath } from "../../config/policies.js";
 
-// Footer chỉ hiện 2 mục như thiết kế cũ: Privacy Policy, Terms of Service.
-const footerPolicyIds = ["privacy", "terms"];
-const policyLinks = () => footerPolicyIds.map((policyId) => policySections.find(({ id }) => id === policyId)).map(({ id, title, footerTitle }) => (
-  <a key={id} href={`${policiesPath}#${id}`}>{footerTitle || title}</a>
-));
+// Footer chỉ hiện 2 mục như thiết kế cũ: Privacy Policy, Terms of Service — mỗi mục
+// là một trang riêng (23/11/2026).
+const policyLinks = () => [
+  <a key="privacy" href={privacyPolicyPath}>Privacy Policy</a>,
+  <a key="terms" href={termsPath}>Terms of Service</a>,
+];
 
 export default function Footer({ whatsappHref = whatsappUrl } = {}) {
   const isHomePage = window.location.pathname.replace(/\/+$/, "") === "";

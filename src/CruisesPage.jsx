@@ -4,7 +4,6 @@ import Footer from "./components/layout/Footer.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { cruiseData, cruiseLanding } from "./config/cruises.js";
 import { cruiseBackgroundAlts, cruiseFlowIcons, cruiseImages, preferenceIconImages } from "./config/assets.js";
-import { catalogPageUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import CruiseLandingCollection, { cruiseInquiry } from "./components/CruiseLandingCollection.jsx";
 import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";
@@ -95,18 +94,6 @@ export default function CruisesPage() {
             <div className="hlt-container hlt-cruise-trustbar-inner">
               <div className="hlt-cruise-trust-item">
                 <span className="hlt-trust-svg" aria-hidden="true">
-                  <CruiseDesktopIcon name="boat" />
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
-                    <path d="M2 9h20" />
-                    <path d="m12 21 4-12-4-6-4 6 4 12z" />
-                  </svg>
-                </span>
-                <span>Cruises to Suit You</span>
-              </div>
-              <div className="hlt-cruise-trust-divider" aria-hidden="true" />
-              <div className="hlt-cruise-trust-item">
-                <span className="hlt-trust-svg" aria-hidden="true">
                   <CruiseDesktopIcon name="car" />
                   <svg viewBox="0 0 28 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M 2.5,14.5 V 7 C 2.5,5 4,4 6,4 H 16 L 22.5,9.5 H 25 C 26,9.5 26.5,10.5 26.5,12 V 14.5" />
@@ -121,6 +108,18 @@ export default function CruisesPage() {
                   </svg>
                 </span>
                 <span>Private Car Transfers</span>
+              </div>
+              <div className="hlt-cruise-trust-divider" aria-hidden="true" />
+              <div className="hlt-cruise-trust-item">
+                <span className="hlt-trust-svg" aria-hidden="true">
+                  <CruiseDesktopIcon name="boat" />
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M6 3h12l4 6-10 12L2 9l4-6z" />
+                    <path d="M2 9h20" />
+                    <path d="m12 21 4-12-4-6-4 6 4 12z" />
+                  </svg>
+                </span>
+                <span>Luxury Cruises</span>
               </div>
               <div className="hlt-cruise-trust-divider" aria-hidden="true" />
               <div className="hlt-cruise-trust-item">
@@ -160,46 +159,39 @@ export default function CruisesPage() {
         ========================================================================= */}
         <section className="hlt-cruise-match-section">
           <div className="hlt-container">
-            <h2 className="hlt-cruise-mobile-only hlt-cruise-mobile-styles-title">Travel Styles We Recommend</h2>
-            <div className="hlt-cruise-match-layout">
-              <div className="hlt-cruise-match-left">
-                <div className="hlt-cruise-match-title">Not Sure Which Cruise to Choose?</div>
-                <p>
-                  Tell us what you're looking for. We'll recommend the most suitable cruise based on your
-                  travel dates, preferences and budget.
-                </p>
-                <a
-                  className="hlt-cruise-btn-gold"
-                  href={getCustomInquiryUrl("Cruise Recommendation")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get a Personal Recommendation
-                </a>
-              </div>
+            <h2 className="hlt-cruise-mobile-only hlt-cruise-mobile-styles-title">Discover Luxury Cruises in Halong Bay</h2>
+            {/* Thiết kế 23/11/2026: tiêu đề giữa, 4 thẻ có dòng mô tả ngắn, nút ở dưới; nền navy trơn. */}
+            <header className="hlt-cruise-match-head hlt-cruise-pc-only">
+              <p className="hlt-cruise-match-kicker">Personalized Cruise Selection</p>
+              <h2 className="hlt-cruise-match-title">Discover Luxury Cruises in Halong Bay</h2>
+              <svg className="hlt-cruise-match-swoosh" viewBox="0 0 80 18" aria-hidden="true">
+                <path d="M4 11c8-6 17-7 26-3 6 3 11 4 16 1M30 13c9 3 18 2 26-3 5-3 11-4 20-1M37 9c2-3 6-4 9-2" />
+              </svg>
+              <p className="hlt-cruise-match-intro">
+                Explore luxury cruises in Halong Bay, bringing memorable experiences to couples, families,
+                luxury travelers, and nature lovers.
+              </p>
+            </header>
 
-              <div className="hlt-cruise-match-grid">
-                {cruiseData.preferenceCategories.map((cat) => (
-                  <div
-                    key={cat.id}
-                    className="hlt-cruise-pref-box"
-                  >
-                    <div className="hlt-cruise-pref-icon">
-                      <img
-                        src={preferenceIconImages[cat.id]}
-                        alt=""
-                        className="hlt-cruise-pref-img"
-                        width="240"
-                        height="240"
-                        loading="lazy"
-                        decoding="async"
-                        data-no-skeleton
-                      />
-                    </div>
-                    <div className="hlt-cruise-pref-title">{cat.title}</div>
+            <div className="hlt-cruise-match-grid">
+              {cruiseData.preferenceCategories.map((cat) => (
+                <div key={cat.id} className="hlt-cruise-pref-box">
+                  <div className="hlt-cruise-pref-icon">
+                    <img
+                      src={preferenceIconImages[cat.id]}
+                      alt=""
+                      className="hlt-cruise-pref-img"
+                      width="300"
+                      height="240"
+                      loading="lazy"
+                      decoding="async"
+                      data-no-skeleton
+                    />
                   </div>
-                ))}
-              </div>
+                  <div className="hlt-cruise-pref-title">{cat.title}</div>
+                  <p className="hlt-cruise-pref-tagline hlt-cruise-pc-only">{cat.tagline}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -216,7 +208,7 @@ export default function CruisesPage() {
             </picture>
             <div className="hlt-cruise-seamless-overlay" aria-hidden="true" />
             <div className="hlt-container hlt-cruise-seamless-content">
-              <div className="hlt-cruise-seamless-title">From Your Hotel to Your Cruise — Seamlessly</div>
+              <div className="hlt-cruise-seamless-title">From Your Hotel to Your Cruise</div>
               <p className="hlt-cruise-seamless-subtitle">
                 Enjoy a private journey from Hanoi or Noi Bai Airport directly to your cruise terminal.
               </p>
@@ -251,6 +243,14 @@ export default function CruisesPage() {
                   <span>Luxury Cruise</span>
                 </div>
               </div>
+              {/* 2 nút đặt (khách yêu cầu 23/11/2026). */}
+              <div className="hlt-cruise-seamless-actions">
+                <a className="hlt-cruise-seamless-btn is-gold" href={cruiseInquiry("a private transfer to my Ha Long cruise")} target="_blank" rel="noopener noreferrer">
+                  <span className="hlt-cruise-seamless-btn-icon" aria-hidden="true"><WhatsAppGlyph /></span>
+                  Book via WhatsApp
+                </a>
+                <a className="hlt-cruise-seamless-btn is-dark" href="/booking/">Book via Form</a>
+              </div>
             </div>
           </div>
         </section>
@@ -262,11 +262,16 @@ export default function CruisesPage() {
           <div className="hlt-container">
             <div className="hlt-cruise-exp-layout">
               <div className="hlt-cruise-exp-intro">
+                {/* Thiết kế 23/11/2026: hoa sen + dòng nhỏ phía trên tiêu đề. */}
+                <div className="hlt-cruise-exp-kicker" aria-hidden="true">
+                  <svg viewBox="0 0 32 20"><path d="M16 17c-2.6-2.1-3.6-5-3-8.6 2.6 1.6 3.6 4.4 3 8.6Zm0 0c2.6-2.1 3.6-5 3-8.6-2.6 1.6-3.6 4.4-3 8.6Zm0 0c-3.8.6-7.2-.8-9.5-3.9 3.6-.8 6.8.5 9.5 3.9Zm0 0c3.8.6 7.2-.8 9.5-3.9-3.6-.8-6.8.5-9.5 3.9ZM16 8.6c-1.3-2.2-1.3-4.4 0-6.6 1.3 2.2 1.3 4.4 0 6.6Z" /></svg>
+                  <span>Hoang Luxury Travel</span>
+                </div>
                 <h2>What To Expect On Your Cruise</h2>
                 <p>
-                  Wake up to limestone islands beyond your window, explore quiet caves and linger over
-                  dinner as the sun sets over the bay. Take time to enjoy the scenery and the company
-                  of those beside you.
+                  Wake up to limestone islands beyond your window, explore quiet caves and hidden lagoons,
+                  and savor exceptional dining as the sun sets over the bay. A refined cruise experience
+                  where natural wonders and world-class hospitality come together.
                 </p>
               </div>
 
@@ -407,27 +412,18 @@ export default function CruisesPage() {
               chữ và cặp nút chung .hlt-btn. */}
           <div className="hlt-container hlt-cruise-cta-content">
             <div className="hlt-cruise-cta-text">
-              <div className="hlt-cruise-cta-title">Your Ha Long Journey Starts Here</div>
+              <div className="hlt-cruise-cta-title">Ready to explore Halong Bay?</div>
               <p className="hlt-blog-story-description">
-                Tell us your travel date and preferences. We'll help you select the right cruise and
-                arrange your private journey from Hanoi.
+                Start planning your journey today!
               </p>
             </div>
 
             <div className="hlt-cruise-cta-right">
               <div className="hlt-blog-story-actions">
                 <a className="hlt-btn hlt-btn-gold" href={getCustomInquiryUrl("Check Cruise Availability & Rates")} target="_blank" rel="noopener noreferrer">
-                  <span className="hlt-hero-whatsapp-icon" aria-hidden="true"><WhatsAppGlyph /></span>
                   Book via WhatsApp
                 </a>
-                <a className="hlt-btn hlt-btn-outline" href={catalogPageUrl}>View Catalog</a>
-              </div>
-              <div className="hlt-cruise-cta-trust">
-                <span>Personal Support</span>
-                <span className="hlt-cta-dot">·</span>
-                <span>Secure Booking</span>
-                <span className="hlt-cta-dot">·</span>
-                <span>Private Transfer Available</span>
+                <a className="hlt-btn hlt-btn-outline" href="/booking/">Book via Form</a>
               </div>
             </div>
           </div>

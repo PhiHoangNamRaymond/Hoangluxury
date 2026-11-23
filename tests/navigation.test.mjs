@@ -9,6 +9,7 @@ import { transformWithEsbuild } from "vite";
 import { approxUsd, intercityTransfers, journeys } from "../src/config/journeys.js";
 import { cruisesPagePath, journeyKeyFromSlug, journeyPagePath } from "../src/config/journey-paths.js";
 import { cruiseSeo } from "../src/config/cruise-seo.js";
+import { policyPageSeo, privacyPolicyPath, termsPath } from "../src/config/policies.js";
 
 const require = createRequire(import.meta.url);
 const dom = new JSDOM('<div id="root"></div>', { url: "http://fixture.invalid/" });
@@ -220,6 +221,14 @@ test("every routed page has its own SEO title matching the static build", async 
   assert.match(generator, /path: cruisesPagePath,\s*\.\.\.cruiseSeo,/);
   routeSeo.set(cruisePath, cruiseSeo.title);
   staticTitles.set(cruisePath, cruiseSeo.title);
+  // Hai trang chính sách lấy tiêu đề từ config/policies.js cho cả runtime và HTML tĩnh.
+  for (const [kind, path] of [["privacy", privacyPolicyPath], ["terms", termsPath]]) {
+    const route = path.slice(0, -1);
+    assert.ok(slice(main, "const routeSeo = {").includes(`"${route}": policyPageSeo.${kind}`));
+    assert.ok(generator.includes(`{ path: ${kind === "privacy" ? "privacyPolicyPath" : "termsPath"}, ...policyPageSeo.${kind}`));
+    routeSeo.set(route, policyPageSeo[kind].title);
+    staticTitles.set(route, policyPageSeo[kind].title);
+  }
 
   assert.ok(routeSeo.size > 5 && pagePaths.length > 5 && staticTitles.size > 5, "không đọc được cấu hình route");
   for (const path of pagePaths) {

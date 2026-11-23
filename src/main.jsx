@@ -20,6 +20,7 @@ import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import { setupContentProtection } from "./lib/content-protection.js";
 import { setupGtm } from "./lib/gtm.js";
 import { cruiseSeo } from "./config/cruise-seo.js";
+import { legacyPolicyHash, legacyPolicyPath, policyPageSeo, privacyPolicyPath, termsPath } from "./config/policies.js";
 import "./styles/index.css";
 
 // Chỉ tải mã trang phụ khi đường dẫn cần đến; giữ trang chủ và CSS chung
@@ -36,7 +37,8 @@ const NotFoundPage = lazy(() => import("./NotFoundPage.jsx"));
 const BlogArticlePage = lazy(() => import("./BlogArticlePage.jsx"));
 const FeedbackPage = lazy(() => import("./FeedbackPage.jsx"));
 const JourneyPage = lazy(() => import("./JourneyPage.jsx"));
-const PoliciesPage = lazy(() => import("./PoliciesPage.jsx"));
+const PrivacyPolicyPage = lazy(() => import("./PoliciesPage.jsx").then((m) => ({ default: m.PrivacyPolicyPage })));
+const TermsPage = lazy(() => import("./PoliciesPage.jsx").then((m) => ({ default: m.TermsPage })));
 const JourneysPage = lazy(() => import("./JourneysPage.jsx"));
 const AdminApp = lazy(() => import("./admin/AdminApp.jsx"));
 
@@ -58,7 +60,11 @@ const pages = {
   "/blog": BlogPage,
   "/booking": BookingPage,
   "/catalog": CatalogPage,
-  "/policies": PoliciesPage,
+  "/privacy-policy": PrivacyPolicyPage,
+  "/terms-and-conditions": TermsPage,
+  // Đường dẫn cũ (trang gộp /policies/#…, /terms-conditions/): mở đúng trang mới.
+  "/policies": legacyPolicyPath(window.location.hash) === privacyPolicyPath ? PrivacyPolicyPage : TermsPage,
+  "/terms-conditions": TermsPage,
   "/routes/halong-bay-cruises": CruisesPage,
   "/cruises": CruisesPage,
   "/ha-long-cruises": CruisesPage,
@@ -109,12 +115,15 @@ const canonicalPathByAlias = {
   "/photo/albums": photoAlbumsPath,
   "/hoangphoto/blog": blogPagePath,
   "/about": "/about-us/",
+  "/policies": legacyPolicyPath(window.location.hash),
+  "/terms-conditions": termsPath,
 };
 
 if (isBlogSectionPath) canonicalPathByAlias[normalizedPath] = blogPagePath;
 
 if (canonicalPathByAlias[normalizedPath]) {
-  window.history.replaceState(null, "", `${canonicalPathByAlias[normalizedPath]}${window.location.search}${window.location.hash}`);
+  const hash = normalizedPath === "/policies" ? legacyPolicyHash(window.location.hash) : window.location.hash;
+  window.history.replaceState(null, "", `${canonicalPathByAlias[normalizedPath]}${window.location.search}${hash}`);
 }
 
 const routeSeo = {
@@ -143,10 +152,9 @@ const routeSeo = {
       "View private transfer vehicles, routes and transparent pricing from Hoang Luxury Travel.",
   },
   "/routes/halong-bay-cruises": cruiseSeo,
-  "/policies": {
-    title: "Terms & Policies | Hoang Luxury Travel",
-    description: "Preview Hoang Luxury Travel’s terms of service, privacy information, and cancellation and refund guidance.",
-  },
+  "/privacy-policy": policyPageSeo.privacy,
+  "/terms-and-conditions": policyPageSeo.terms,
+
   "/feedback": {
     title: "Guest Feedback | Hoang Luxury Travel",
     description:
@@ -245,7 +253,10 @@ const pagesWithOwnTransition = new Set([
   "/photo/albums",
   "/booking",
   "/catalog",
+  "/privacy-policy",
+  "/terms-and-conditions",
   "/policies",
+  "/terms-conditions",
   "/routes/halong-bay-cruises",
   "/cruises",
   "/ha-long-cruises",

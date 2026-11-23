@@ -10,6 +10,7 @@ import { cruisesPagePath, journeyPagePath, legacyJourneySlugByKey } from "../src
 import { cruiseData, cruiseLanding } from "../src/config/cruises.js";
 import { cruiseCollection, cruiseTiers } from "../src/config/cruise-collection.js";
 import { cruiseSeo } from "../src/config/cruise-seo.js";
+import { policyPageSeo, privacyPolicyPath, termsPath } from "../src/config/policies.js";
 import {
   ALL_PHOTO_CATEGORIES,
   photoAlbumRows,
@@ -65,12 +66,11 @@ const routes = [
     title: "Private Transfer Pricing Catalog | Hoang Luxury Travel",
     description: "View private transfer vehicles, routes and transparent pricing from Hoang Luxury Travel.",
   },
-  {
-    path: "/policies/",
-    title: "Terms & Policies | Hoang Luxury Travel",
-    description: "Preview Hoang Luxury Travel’s terms of service, privacy information, and cancellation and refund guidance.",
-    private: true, // Draft: noindex and excluded from the sitemap until the policy text is approved.
-  },
+  // Hai trang chính sách riêng (23/11/2026). Nội dung còn là bản nháp: noindex và
+  // không vào sitemap cho tới khi khách duyệt bản chuẩn.
+  { path: privacyPolicyPath, ...policyPageSeo.privacy, private: true },
+  { path: termsPath, ...policyPageSeo.terms, private: true },
+
   {
     path: cruisesPagePath,
     ...cruiseSeo,
@@ -144,8 +144,8 @@ const cruiseMarkup = renderToStaticMarkup(h("main", { className: "hlt-cruise-sta
   h("p", null, cruiseLanding.intro),
   h("h2", null, "Choose Your Cruise Experience"),
   ...cruiseLanding.types.map((type) => h("section", { key: type.id },
-    h("h3", null, type.title), h("p", null, type.schedule + ". " + type.text))),
-  h("h2", null, "Our Handpicked Cruise Collection"),
+    h("h3", null, type.title), h("p", null, type.schedule ? `${type.schedule}. ${type.text}` : type.text))),
+  h("h2", null, "Introducing the Cruise Collection"),
   ...cruiseCollection.map(({ bay, tiers }) => h("section", { key: bay },
     h("h3", null, bay),
     ...cruiseTiers.filter((tier) => tiers[tier].length > 0).map((tier) => h("section", { key: tier },

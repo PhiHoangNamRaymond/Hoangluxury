@@ -2,10 +2,14 @@ import React from "react";
 
 const outlines = {
   boat: <path d="M2 24h38c0-3 4-8 6-10-8 0-12 3-21 3H11c-4 0-6 2-7 7m5-9c1-2 2-3 5-3h18c2 0 3 1 4 2m-24-4 2-3h15l2 3" />,
-  car: <>
-    <path d="m5 14 5-7c1-1 3-2 5-2h13c3 0 5 1 7 3l6 5c3 1 4 3 4 6v5H33m-9 0h-9m-8 0H3v-6c0-2 1-3 2-4Zm0 0 36-1M16 5l-4 9m10-9 8 9m-9 4h5m11-1h6m-7 4h8" />
-    <ellipse cx="11" cy="23" rx="4" ry="5" /><ellipse cx="29" cy="24" rx="5" ry="6" />
-  </>,
+  /* Xe SUV nhìn nghiêng theo mẫu khách gửi 23/11/2026; vẽ theo toạ độ ảnh mẫu
+     (1240px) rồi thu về khung 48×32, nét 35 ≈ 1.7 sau khi thu. */
+  car: <g transform="translate(-5.8 -15.4) scale(0.0487)" strokeWidth="35">
+    <path d="M320 428H690C740 428 770 445 800 470L880 548C960 556 1020 575 1045 610C1065 635 1070 680 1068 705C1068 760 1050 790 1010 797H655" />
+    <path d="M320 428C280 428 258 440 235 472L180 560C165 585 162 620 162 685C162 705 170 718 182 725M314 752 480 773M195 563 882 565M400 445 360 545M480 445 562 548" />
+    <path d="M680 650H800M932 650H1042M728 733 1040 730M893 812A62 50 0 0 0 1017 812" />
+    <ellipse cx="243" cy="737" rx="58" ry="83" /><ellipse cx="567" cy="765" rx="73" ry="98" />
+  </g>,
   support: <>
     <path d="M11 19v-4a13 13 0 0 1 26 0v5m0 4c0 4-2 6-6 6h-4" />
     <rect x="9" y="16" width="6" height="10" rx="3" /><rect x="33" y="16" width="6" height="10" rx="3" />
