@@ -6,6 +6,7 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import { legacyPolicyHash, legacyPolicyPath, privacyPolicyPath, termsPath } from "./config/policies.js";
 import { termsIntro, termsSections } from "./config/terms-of-service.js";
 import { privacyIntro, privacySections } from "./config/privacy-policy.js";
+import policyBanner from "../assets/opt/hlt-policy-banner.png";
 import "./styles/policies-page.css";
 
 function PolicyPage({ kind }) {
@@ -39,10 +40,10 @@ function PolicyPage({ kind }) {
     intro: "The terms and conditions for using our website and booking private transportation services.",
     anchor: "terms",
     paragraphs: termsIntro,
-    badges: ["Clear Terms", "Transparent Pricing", "Dedicated Support"],
+    badges: ["Privacy First", "Data Security", "Transparency & Trust"],
   } : {
     title: "Privacy Policy",
-    intro: "How we collect, use, protect and manage your personal information.",
+    intro: "Find out how we handle your personal information and protect your privacy.",
     anchor: "privacy",
     paragraphs: privacyIntro,
     badges: ["Privacy First", "Secure Handling", "Customer Control"],
@@ -56,18 +57,19 @@ function PolicyPage({ kind }) {
       <Header />
       <main>
         <div className="hlt-policies-hero">
-          <svg className="hlt-policies-hero-art" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
-            <circle cx="1130" cy="70" r="46" />
-            <path className="is-far" d="M0 170 130 92l90 52 120-86 150 92 110-58 140 80 130-96 150 88 120-62 140 80 160-74v132H0Z" />
-            <path className="is-near" d="M0 200 160 128l120 60 150-80 170 92 140-54 160 70 150-84 170 76 120-40v142H0Z" />
-          </svg>
+          <img className="hlt-policies-hero-art" src={policyBanner} alt="" fetchPriority="high" decoding="async" data-no-skeleton />
           <div className="hlt-policies-container">
-            <p className="hlt-policies-kicker">Guest information</p>
+            <p className="hlt-policies-kicker">HOANG LUXURY TRAVEL</p>
             <h1>{page.title}</h1>
             <p className="hlt-policies-hero-intro">{page.intro}</p>
             <nav className="hlt-policies-breadcrumb" aria-label="Breadcrumb">
               <a href="/">Home</a><span aria-hidden="true">/</span><a href={related.href}>{related.title}</a><span aria-hidden="true">/</span><span aria-current="page">{page.title}</span>
             </nav>
+            <a className="hlt-policies-hero-scroll" href={`#${page.anchor}`} aria-label={`Read the ${page.title}`}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </a>
           </div>
         </div>
         <div className="hlt-policies-container hlt-policies-layout">
@@ -89,9 +91,11 @@ function PolicyPage({ kind }) {
               <h2 id={`${page.anchor}-title`}>{page.title}</h2>
               {page.paragraphs.map((item, itemIndex) => <PolicyBlock key={itemIndex} item={item} />)}
               <p className="hlt-terms-badges">
-                {page.badges.map((badge, index) => <React.Fragment key={badge}>
-                  {index > 0 && <span aria-hidden="true">✦</span>}{badge}
-                </React.Fragment>)}
+                {page.badges.map((badge, index) => <span key={badge} className="hlt-terms-badge">
+                  {index > 0 && <span className="hlt-terms-badge-separator" aria-hidden="true">✦</span>}
+                  {badge}
+                  {index === page.badges.length - 1 && <span className="hlt-terms-badge-separator is-mobile-end" aria-hidden="true">✦</span>}
+                </span>)}
               </p>
             </section>
             {focusedSections.map(({ id, title, paragraphs }, index) => <section key={id} id={id} className="hlt-terms-section" aria-labelledby={`${id}-title`}>

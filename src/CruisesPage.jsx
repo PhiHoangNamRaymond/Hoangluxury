@@ -14,7 +14,7 @@ import luxuryGold from "../assets/cruise-icons/preference-gold-luxury.png";
 import scenicGold from "../assets/cruise-icons/preference-gold-scenic.png";
 import preferenceWave from "../assets/cruise-icons/preference-gold-wave.png";
 import preferenceBackground from "../assets/opt/cruise-preference-lan-ha-sunset.jpg";
-import finalCtaBackground from "../assets/opt/halong-bay-golden-sunrise-cta.png";
+import finalCtaBackground from "../assets/opt/halong-bay-calm-sunrise-cta.png";
 import experienceLotus from "../assets/cruise-icons/experience-gold-lotus.png";
 import "./styles/cruise-landing-desktop.css";
 import "./styles/cruise-landing-mobile.css";
@@ -232,7 +232,8 @@ export default function CruisesPage() {
               <div className="hlt-cruise-flow-steps">
                 <div className="hlt-cruise-flow-step">
                   <span className="hlt-flow-svg">
-                    <img src={cruiseFlowIcons.hotel} alt="" data-no-skeleton />
+                    <span className="hlt-flow-hotel-glyph" aria-hidden="true"
+                      style={{ "--hlt-flow-hotel-image": `url("${cruiseFlowIcons.hotel}")` }} />
                   </span>
                   <span>Hanoi Hotel</span>
                 </div>

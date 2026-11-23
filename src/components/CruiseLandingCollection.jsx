@@ -13,7 +13,6 @@ import kayak from "../../assets/cruise-icons/amenity-kayak.png";
 import activities from "../../assets/cruise-icons/amenity-activities.png";
 import sightseeing from "../../assets/cruise-icons/amenity-sightseeing.png";
 import scenic from "../../assets/cruise-icons/amenity-scenic.png";
-import { waCta } from "../lib/whatsapp-tracking.js";
 
 const amenityIcons = { dining, spa, kayak, activities, sightseeing, scenic };
 
@@ -28,12 +27,6 @@ const cruisePhotos = Object.fromEntries(Object.entries(photoFiles).map(([path, u
 
 export function cruiseInquiry(topic) {
   return whatsappLink(`Hello Hoang Luxury Travel, I'd like to inquire about ${topic}.`);
-}
-
-function WhatsAppAction({ topic, children }) {
-  return <a className="hlt-cruise-v1-btn" href={cruiseInquiry(topic)} target="_blank" rel="noopener noreferrer" {...waCta("cruise_card", "whatsapp_cruise_view_details")}>
-    {children}
-  </a>;
 }
 
 /* Icon nhãn 4 loại du thuyền, theo thiết kế khách gửi (22/11/2026). */
@@ -133,8 +126,7 @@ export default function CruiseLandingCollection() {
             const photo = cruisePhotos[item.photoIndex] || bayArtwork[item.bay];
             const showFullPhoto = item.name === "Catherine Cruises";
             return <article className="hlt-cruise-v1-card" key={item.name}>
-              <div className={`hlt-cruise-v1-photo${showFullPhoto ? " is-wide-framed" : ""}`}
-                style={showFullPhoto ? { "--cruise-photo": `url("${photo}")` } : undefined}>
+              <div className={`hlt-cruise-v1-photo${showFullPhoto ? " is-full-frame" : ""}`}>
                 <img src={photo} alt={`${item.name} cruise`} loading="lazy" decoding="async" />
                 <span className="hlt-cruise-v1-tier-badge">
                   <img src={tierBadges[item.tier]} alt={item.tier} />
@@ -148,7 +140,7 @@ export default function CruiseLandingCollection() {
                     <img src={amenityIcons[icon]} alt="" width="22" height="22" />{label}
                   </li>)}
                 </ul>}
-                <WhatsAppAction topic={item.name}>View Details</WhatsAppAction>
+                <button className="hlt-cruise-v1-btn" type="button" disabled>View Details</button>
               </div>
             </article>;
           })}
