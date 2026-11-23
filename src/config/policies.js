@@ -1,35 +1,29 @@
-export const policiesPath = "/policies/";
+import { privacySections } from "./privacy-policy.js";
 
-export const policySections = [
-  {
-    id: "terms",
-    title: "Terms of Service",
-    intro: "What to check before you confirm a private transfer or cruise arrangement.",
-    topics: [
-      ["Booking and confirmation", "Submitting the booking form or sending a WhatsApp message is a request, not a confirmed reservation. Before confirming, check your dates, route, pick-up point, passenger count and any special requirements."],
-      ["Quotes and inclusions", "Ask for a written quote that identifies the service, currency, payment arrangements and any extras. For a cruise, check which services are provided by the cruise operator and which are arranged separately."],
-      ["Journey changes", "If your flight, sailing or pick-up details change, contact us with your booking reference so we can check the available options."],
-    ],
+/* Hai trang chính sách riêng (khách yêu cầu 23/11/2026), thay cho trang gộp
+   /policies/ cũ. Nội dung vẫn là bản nháp, chờ bản chuẩn từ khách. */
+export const privacyPolicyPath = "/privacy-policy/";
+export const termsPath = "/terms-and-conditions/";
+
+export const policyPageSeo = {
+  privacy: {
+    title: "Privacy Policy | Hoang Luxury Travel",
+    description: "How Hoang Luxury Travel collects, uses, protects and manages your personal information.",
   },
-  {
-    id: "privacy",
-    title: "Privacy Policy",
-    intro: "What information you may provide when using the site or contacting us.",
-    topics: [
-      ["Booking and contact information", "The booking form asks for contact details and journey information, such as your name, phone number, travel dates and pick-up and drop-off locations. Only include information relevant to your request. Do not send card numbers or passwords through the form."],
-      ["External services", "Links to WhatsApp and Google Drive open services with their own privacy notices. Ask us if you need information about how your details are stored or shared for a specific booking."],
-      ["Questions about your information", "Email us if you want to ask about your personal information or request a correction. Include enough context for us to identify your request, without sending unnecessary sensitive details."],
-    ],
+  terms: {
+    title: "Terms & Conditions | Hoang Luxury Travel",
+    description: "The terms and conditions for using the Hoang Luxury Travel website and booking private transportation services.",
   },
-  {
-    id: "cancellation-refunds",
-    title: "Cancellation & Refund Policy",
-    footerTitle: "Cancellation & Refunds",
-    intro: "What to confirm before booking and how to request a change or cancellation.",
-    topics: [
-      ["Check your booking conditions", "Before paying, ask for the applicable cancellation deadline, any fees, and the refund terms. Check each service separately if you are arranging both a cruise and a private transfer."],
-      ["Request a cancellation or change", "Contact us through the channel you used to book. Include your booking reference, travel date and the service you want to change or cancel. Ask for written confirmation before making alternative plans."],
-      ["Refund questions", "Ask what amount is eligible for refund, how it will be paid, and how long it is expected to take. This preview does not specify a cancellation fee, refund amount or processing deadline."],
-    ],
-  },
-];
+};
+
+/* Liên kết cũ /policies/#… và /terms-conditions/: phần Privacy (#privacy hoặc
+   mục của Privacy Policy) về /privacy-policy/, còn lại về /terms-and-conditions/. */
+const privacyAnchors = new Set(["privacy", ...privacySections.map(({ id }) => id)]);
+export function legacyPolicyPath(hash = "") {
+  const id = hash.replace(/^#/, "");
+  return privacyAnchors.has(id) ? privacyPolicyPath : termsPath;
+}
+export function legacyPolicyHash(hash = "") {
+  const id = hash.replace(/^#/, "");
+  return id === "privacy" || id === "terms" ? "" : hash;
+}

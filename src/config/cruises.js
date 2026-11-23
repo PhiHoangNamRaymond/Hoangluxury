@@ -1,11 +1,11 @@
 export const cruiseLanding = {
   heading: "Ha Long & Lan Ha Bay Cruises",
-  intro: "Handpicked cruises, private transfers and personal support for your journey through Northern Vietnam.",
+  intro: "Hoang Luxury Travel provides private car transfers to your cruise departure point, ensuring a comfortable, convenient and seamless journey with professional drivers and flexible pick-up times.",
   types: [
-    { id: "day", badge: "Day Cruise", title: "Day Cruises", schedule: "Half-Day / Full-Day", text: "See the bay without an overnight stay. Ask about sailing times and the stops on your preferred itinerary.", image: "mosaicPanorama" },
-    { id: "overnight", badge: "Overnight", title: "Overnight Cruises", schedule: "2 Days 1 Night / 3 Days 2 Nights", text: "Spend the night on the bay and enjoy more time on the water. Compare cabin options and itineraries.", image: "duration2d1n" },
-    { id: "dinner", badge: "Dinner Cruise", title: "Dinner Cruises", schedule: "Evening Dining Experience", text: "Enjoy dinner on the water. Ask about departure times, menus and dietary options.", image: "expSunset" },
-    { id: "private", badge: "Private Charter", title: "Private Charters", schedule: "Private Group Experience", text: "Plan a cruise for your own group. Tell us your preferred date, group size and itinerary.", image: "durationPrivate" },
+    { id: "day", badge: "Day Cruise", title: "Day Cruises", text: "Explore the beauty of the bay on a day cruise and enjoy exciting experiences without staying overnight in Halong Bay.", image: "typeDay" },
+    { id: "overnight", badge: "Overnight", title: "Overnight Cruises", schedule: "2 Days 1 Night / 3 Days 2 Nights", text: "Spend the night on the bay, enjoy more time on the water and take in the breathtaking scenery throughout your journey in Halong Bay.", image: "typeOvernight" },
+    { id: "dinner", badge: "Dinner Cruise", title: "Dinner Cruises", schedule: "Evening Dining Experience", text: "Enjoy a delightful dinner, share memorable moments with friends and explore a range of exciting entertainment activities on the cruise.", image: "typeDinner" },
+    { id: "sunset", badge: "Sunset Cruise", title: "Sunset Cruise", text: "Explore the beauty of the bay in the afternoon, admire the stunning sunset and relax in a peaceful Halong Bay’s atmosphere.", image: "typeSunset" },
   ],
 };
 
@@ -16,8 +16,8 @@ export const cruiseData = {
     subtitle: "Find your ideal cruise in Ha Long Bay & Lan Ha Bay",
     description: "Handpicked 5-star cruises paired with private luxury chauffeur transfers from Hanoi. Personalized service, transparent pricing, and direct WhatsApp assistance.",
     usps: [
-      { icon: "diamond", label: "Cruises to Suit You" },
       { icon: "van", label: "Private Car Transfers" },
+      { icon: "diamond", label: "Luxury Cruises" },
       { icon: "support", label: "24/7 WhatsApp Support" },
       { icon: "tag", label: "Transparent Pricing" },
     ],
@@ -99,31 +99,35 @@ export const cruiseData = {
   preferenceCategories: [
     {
       id: "couples",
+      tagline: "A romantic cruise for two",
       title: "Couples",
       icon: "heart",
       desc: "Romantic getaways, private balcony suites, candlelit dining & sunset champagne",
     },
     {
       id: "family",
+      tagline: "Fun and comfortable for all ages",
       title: "Family",
       icon: "family",
       desc: "Interconnecting family suites, kid-friendly activities, kayaking & cooking class",
     },
     {
       id: "luxury",
+      tagline: "Premium service & exclusive amenities",
       title: "Luxury Experience",
       icon: "diamond",
       desc: "5-star superyacht facilities, sundeck pools, spa treatments & fine wine cellars",
     },
     {
       id: "scenic",
+      tagline: "Breathtaking views & nature discovery",
       title: "Scenic Journey",
       icon: "mountains",
       desc: "Tranquil Lan Ha & Bai Tu Long routes away from crowds into untouched lagoons",
     },
   ],
   seamlessTransfer: {
-    heading: "From Your Hotel to Your Cruise — Seamlessly",
+    heading: "From Your Hotel to Your Cruise",
     subtitle: "Enjoy a private journey from Hanoi or Noi Bai Airport directly to your cruise terminal.",
     steps: [
       { label: "Hanoi Hotel", icon: "hotel" },
@@ -216,13 +220,14 @@ export const cruiseData = {
     },
   ],
   faqs: [
+  // Thứ tự theo lưới 2 cột (hàng ngang): 1|4, 2|5, 3|6. Giữ câu 2 và 5, còn lại khách thay 23/11/2026.
     {
-      q: "Which cruise should I choose?",
-      a: "It depends on your travel style! For modern luxury with infinity pools, we recommend Stellar of the Seas. For romantic couples and Lan Ha Bay tranquility, Orchid Premium or Heritage Binh Chuan are exceptional. Contact us on WhatsApp for a personalized recommendation tailored to your budget and travel dates.",
+      q: "How can I book and confirm my booking?",
+      a: "You can book your private car with a driver through Hoang Luxury Travel in two simple ways: message us directly via WhatsApp for quick assistance and booking support, or click Booking and fill in your trip details. After receiving your request, our team will contact you to discuss your itinerary, confirm the details, and complete your private transfer booking. Your detailed trip information will be sent in a Booking Confirmation 48 hours before departure. Please review the details, then relax and enjoy your journey.",
     },
     {
-      q: "Can I book cruise and private transfer together?",
-      a: "Yes, absolutely! We specialize in combined packages where your private luxury chauffeur picks you up directly at your Hanoi hotel or Noi Bai Airport, takes you straight to the correct cruise lounge in Ha Long / Tuan Chau / Hai Phong, and brings you back after disembarkation.",
+      q: "Can we make flexible stops along the way?",
+      a: "Yes, of course. During your private transfer, you can stop along the way for a restroom break, coffee, sightseeing, or photos. We are happy to make flexible stops whenever possible, as long as the location is safe and legally permitted for stopping or parking.",
     },
     {
       q: "Is hotel pickup included?",
@@ -233,12 +238,12 @@ export const cruiseData = {
       a: "Cruises depart from Tuan Chau International Port (Ha Long Bay cruises) or Ha Long International Cruise Port (Sun Group Port), and Got Pier / Tuan Chau for Lan Ha Bay cruises. Your driver will drop you directly at your specific cruise check-in lounge.",
     },
     {
-      q: "What is included in the cruise price?",
-      a: "Cruise rates typically include luxury en-suite cabin accommodation, all onboard gourmet meals (lunch, dinner, breakfast, brunch), bay excursions (kayaking, cave visits, bamboo boats, swimming), entrance & sightseeing fees, and English-speaking tour guide onboard.",
+      q: "Is the price all-inclusive? Are there any hidden fees?",
+      a: "Yes, the quoted price includes everything in your agreed itinerary. Pricing depends on your route and specific needs. Our prices are transparent, with no hidden fees. If you request additional services outside the agreed itinerary, we’ll explain any extra charges in advance and only apply them with your approval.",
     },
     {
-      q: "What happens after I request availability?",
-      a: "Our dedicated travel consultant will instantly check live cabin availability with the cruise management, confirm the best rate, provide itinerary details, and coordinate your private chauffeur pickup schedule via WhatsApp or email.",
+      q: "Do I need to pay a deposit? What payment methods do you accept?",
+      a: "You don’t need to pay anything before your trip. After you arrive at your destination, you can pay 100% of the total amount directly to your driver. We offer flexible payment options, including cash and card payments. If you choose to pay by card, a 3% processing fee applies for international card payments.",
     },
   ],
 };

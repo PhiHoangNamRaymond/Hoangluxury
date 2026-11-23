@@ -95,6 +95,8 @@ RewriteRule ^photo/albums/northern-vietnam-on-film/?$ /hoangphoto/cinematic-trav
 RewriteRule ^hoangphoto/blog/?$ /blog/ [R=301,L]
 RewriteRule ^(hoangphoto/)?blog/sapa-travel-guide-everything-you-need-to-know/?$ /blog/sapa/sapa-travel-guide-everything-you-need-to-know/ [R=301,L]
 RewriteRule ^about/?$ /about-us/ [R=301,L]
+# Trang chính sách gộp cũ và URL Terms cũ sang trang Terms & Conditions riêng (23/11/2026).
+RewriteRule ^(?:policies|terms-conditions)/?$ /terms-and-conditions/ [R=301,L]
 
 # React/Vite fallback chỉ cho bài blog (bài mới đăng chưa có HTML tĩnh tới lần build
 # sau) và trang quản trị. Mọi trang công khai khác đã có index.html riêng lúc build;

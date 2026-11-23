@@ -176,7 +176,8 @@ function PhoneCodeSelect({ value, onChange }) {
 
     document.addEventListener("pointerdown", onDocumentDown);
     document.addEventListener("keydown", onKey);
-    searchRef.current?.focus();
+    // Trên điện thoại không tự focus ô tìm kiếm: bàn phím bật lên sẽ che danh sách mã.
+    if (window.matchMedia?.("(hover: hover) and (pointer: fine)").matches) searchRef.current?.focus();
 
     return () => {
       document.removeEventListener("pointerdown", onDocumentDown);

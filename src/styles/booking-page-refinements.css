@@ -534,6 +534,14 @@
     animation: hlt-book-mobile-field-enter .32s ease-out both;
   }
 
+  /* Hiệu ứng trên giữ transform nên mỗi ô là một lớp xếp chồng riêng, ô sau đè
+     ô trước. Khi bảng chọn mã quốc gia đang mở, đưa ô số điện thoại lên trên để
+     bảng không bị "Country" / "Number of People" che. */
+  .hlt-book-fields > [data-book-step]:has(.hlt-book-dial-panel) {
+    position: relative;
+    z-index: 20;
+  }
+
   .hlt-book-fields input,
   .hlt-book-fields select,
   .hlt-book-fields textarea {

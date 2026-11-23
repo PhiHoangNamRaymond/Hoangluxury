@@ -8,7 +8,7 @@
   .hlt-cruises-site .hlt-cruise-desktop-icon { display: block; }
   .hlt-cruises-site :is(.hlt-trust-svg, .hlt-flow-svg) > svg:not(.hlt-cruise-desktop-icon) { display: none; }
   .hlt-cruises-site .hlt-trust-svg { width: clamp(29px, 3vw, 44px); height: 31px; color: #e6ba73; }
-  .hlt-cruises-site .hlt-flow-svg { width: 48px; }
+  .hlt-cruises-site .hlt-flow-svg { width: 56px; height: 42px; }
   .hlt-cruises-site .hlt-cruise-cta-actions .hlt-cruise-pc-only { display: inline-flex; }
   .hlt-cruises-site .hlt-cruise-v1-hero-jump { display: inline-flex; }
   .hlt-cruise-cta-actions .hlt-whatsapp-icon.is-desktop { color: inherit; }
@@ -161,57 +161,184 @@
   .hlt-cruise-v1-body { flex: 1; display: flex; flex-direction: column; padding: 12px 14px; }
   .hlt-cruise-v1-body h3 { margin: 0; font-size: clamp(20px, 2vw, 28px); line-height: 1.05; }
   .hlt-cruise-v1-body .hlt-cruise-v1-emphasis { font-weight: 750 !important; }
-  .hlt-cruise-v1-collection { display: grid; grid-template-columns: minmax(150px, 17%) minmax(0, 1fr); gap: 18px; }
-  .hlt-cruise-v1-filter { align-self: start; margin: 0; min-width: 0; padding: 12px; border: 1px solid var(--cruise-line); border-radius: 11px; background: var(--cruise-paper); }
-  .hlt-cruise-v1-filter legend { padding: 0 7px; font-size: 22px; font-weight: 700; }
-  .hlt-cruise-v1-filter label {
+  /* "Our Handpicked Cruise Collection" — thiết kế 23/11/2026: khung lọc ngang
+     (Destination | Cruise Category), dòng kết quả + "Curated Selection", thẻ có
+     mô tả, tiện ích và nút "View Details". */
+  .hlt-cruise-v1-heading.is-collection h2 { display: block; font-size: clamp(32px, 3.6vw, 50px); color: #0b3326; }
+  .hlt-cruise-v1-heading.is-collection h2::before, .hlt-cruise-v1-heading.is-collection h2::after { content: none; }
+  .hlt-cruise-v1 .hlt-cruise-v1-heading.is-collection p {
+    margin-top: 10px;
+    font: italic 400 clamp(17px, 1.45vw, 21px)/1.35 "Cormorant", Georgia, serif !important;
+    color: #2b2a24;
+  }
+  .hlt-cruise-v1-swoosh {
+    display: block;
+    width: 78px;
+    height: 18px;
+    margin: 8px auto 0;
+    fill: none;
+    stroke: #c99a3e;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .hlt-cruise-v1-collection { display: block; }
+  .hlt-cruise-v1-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) auto minmax(0, 1.25fr);
+    align-items: center;
+    gap: clamp(18px, 2.4vw, 40px);
+    padding: clamp(14px, 1.4vw, 20px) clamp(20px, 3vw, 48px);
+    border: 1px solid #ecd9b4;
+    border-radius: 18px;
+    background: #fffaf1;
+    box-shadow: 0 8px 22px rgba(80, 56, 20, .12);
+  }
+  .hlt-cruise-v1-filter, .hlt-cruise-v1-tiers { margin: 0; padding: 0; min-width: 0; border: 0; background: none; }
+  .hlt-cruise-v1-filter legend, .hlt-cruise-v1-tiers legend {
     display: flex;
     align-items: center;
-    gap: 7px;
-    min-height: 38px;
-    padding: 6px;
-    border-radius: 6px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .hlt-cruise-v1-filter label.is-selected { background: #ffe5b4; }
-  .hlt-cruise-v1-filter input { margin: 0; accent-color: #754e16; }
-  .hlt-cruise-v1-filter small { margin-left: auto; }
-  .hlt-cruise-v1-tiers {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
-    min-width: 0;
-    padding: 0;
-    margin: 0 0 12px;
-    border: 0;
+    padding: 0 0 10px;
+    font: 600 clamp(18px, 1.5vw, 22px)/1.1 "Cormorant", Georgia, serif;
+    color: #1d211b;
   }
-  .hlt-cruise-v1-tiers legend { padding: 0 0 7px; font-size: 18px; font-weight: 700; }
-  .hlt-cruise-v1-tiers label {
+  .hlt-cruise-v1-legend-icon {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #c0882c;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hlt-cruise-v1-pills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .hlt-cruise-v1-tiers { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 12px; }
+  .hlt-cruise-v1-tiers legend { grid-column: 1 / -1; }
+  .hlt-cruise-v1-filters-divider { align-self: stretch; width: 1px; margin: 8px 0; background: #d9b56f; }
+  .hlt-cruise-v1-filter label, .hlt-cruise-v1-tiers label {
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     min-width: 0;
-    padding: 8px 5px;
-    border: 1px solid var(--cruise-line);
-    border-radius: 8px;
-    background: var(--cruise-paper);
-    text-align: center;
-    font-weight: 700;
+    min-height: clamp(38px, 3.1vw, 46px);
+    padding: 6px 10px;
+    border: 1px solid #e3d2b2;
+    border-radius: 9px;
+    background: #fffdf8;
+    color: #1d211b;
+    font: 500 clamp(16px, 1.35vw, 20px)/1 "Cormorant", Georgia, serif;
+    white-space: nowrap;
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(80, 56, 20, .08);
   }
-  .hlt-cruise-v1-tiers label.is-selected {
-    background: #082b22;
-    color: #fff1ce;
-    border-color: #ad7b2b;
+  .hlt-cruise-v1-filter label.is-selected, .hlt-cruise-v1-tiers label.is-selected {
+    background: #0b3326;
+    border-color: #0b3326;
+    color: #fff8e8;
   }
-  .hlt-cruise-v1-tiers input {
+  .hlt-cruise-v1-filter small, .hlt-cruise-v1-tiers small { margin: 0; font-size: inherit; }
+  .hlt-cruise-v1-check { font-family: system-ui, sans-serif; font-size: .9em; }
+  .hlt-cruise-v1-filter input, .hlt-cruise-v1-tiers input {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    margin: 0;
     opacity: 0;
     cursor: pointer;
+  }
+  .hlt-cruise-v1-results-head { display: flex; align-items: center; gap: 22px; margin: clamp(20px, 2vw, 28px) 0 clamp(14px, 1.4vw, 20px); }
+  .hlt-cruise-v1 .hlt-cruise-v1-results-head .hlt-cruise-v1-results-note {
     margin: 0;
+    font: 600 clamp(22px, 2.1vw, 32px)/1.1 "Cormorant", Georgia, serif !important;
+    color: #1d211b;
+    white-space: nowrap;
+  }
+  .hlt-cruise-v1-results-line { flex: 1; height: 1px; background: #c99a3e; }
+  .hlt-cruise-v1-curated {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 600 clamp(16px, 1.35vw, 20px)/1 "Cormorant", Georgia, serif;
+    color: #b07d2a;
+    white-space: nowrap;
+  }
+  .hlt-cruise-v1-curated svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: #c0882c;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hlt-cruise-v1-curated svg.is-mirrored { transform: scaleX(-1); }
+  .hlt-cruise-v1-cards { gap: clamp(14px, 1.7vw, 26px); }
+  .hlt-cruise-v1-cards .hlt-cruise-v1-card { border-radius: 16px; border-color: #ecdcbc; background: #fffaf1; box-shadow: 0 10px 24px rgba(80, 56, 20, .14); }
+  .hlt-cruise-v1-cards .hlt-cruise-v1-badge.is-tier {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    top: 12px;
+    left: 14px;
+    padding: 4px 13px 4px 10px;
+    border: 1px solid #c99a3e;
+    background: #0b3326;
+    color: #f2cf86;
+    font: 600 clamp(15px, 1.25vw, 19px)/1.1 "Cormorant", Georgia, serif !important;
+  }
+  .hlt-cruise-v1-badge.is-tier .hlt-cruise-v1-badge-icon { width: 18px; height: 18px; fill: #e6ba73; stroke: #e6ba73; stroke-width: 1.2; }
+  .hlt-cruise-v1-cards .hlt-cruise-v1-body { padding: clamp(12px, 1.1vw, 16px) clamp(14px, 1.5vw, 22px) clamp(14px, 1.3vw, 18px); }
+  .hlt-cruise-v1-cards .hlt-cruise-v1-body h3 { font-size: clamp(24px, 2.4vw, 36px); font-weight: 600; color: #1d211b; }
+  .hlt-cruise-v1 .hlt-cruise-v1-cards .hlt-cruise-v1-description {
+    margin: 8px 0 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e6d6b8;
+    font: italic 400 clamp(15px, 1.3vw, 19px)/1.25 "Cormorant", Georgia, serif !important;
+    color: #2b2a24;
+  }
+  .hlt-cruise-v1-amenities {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0 14px;
+    padding: 0;
+    list-style: none;
+  }
+  .hlt-cruise-v1-amenities li {
+    display: flex;
+    align-items: center;
+    gap: clamp(3px, .45vw, 7px);
+    padding: 0 clamp(3px, .7vw, 14px);
+    font: 500 clamp(12px, 1.12vw, 17px)/1 "Cormorant", Georgia, serif;
+    color: #1d211b;
+    white-space: nowrap;
+  }
+  .hlt-cruise-v1-amenities li:first-child { padding-left: 0; }
+  .hlt-cruise-v1-amenities li:last-child { padding-right: 0; }
+  .hlt-cruise-v1-amenities li + li { border-left: 1px solid #d9c49c; }
+  .hlt-cruise-v1-amenities svg {
+    flex: none;
+    width: clamp(15px, 1.5vw, 22px);
+    height: clamp(15px, 1.5vw, 22px);
+    fill: none;
+    stroke: #b97f24;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hlt-cruises-site .hlt-cruise-v1-cards .hlt-cruise-v1-btn {
+    width: 100%;
+    min-height: clamp(44px, 3.6vw, 54px);
+    margin-top: auto;
+    border-color: #d6a548;
+    border-radius: 9px;
+    background: linear-gradient(180deg, #f9dc93 0%, #e7b24f 55%, #d59a35 100%);
+    color: #14160f;
+    font: 700 clamp(18px, 1.6vw, 24px)/1 "Cormorant", Georgia, serif !important;
+    box-shadow: 0 3px 8px rgba(120, 80, 20, .25);
   }
   .hlt-cruise-v1 .hlt-cruise-v1-empty {
     padding: 16px;
@@ -228,8 +355,6 @@
     cursor: pointer;
   }
   .hlt-cruise-v1-more { display: flex !important; margin: 16px auto 0; cursor: pointer; }
-  .hlt-cruise-v1 .hlt-cruise-v1-results-note { margin: 0 0 10px; font-weight: 700 !important; }
-  .hlt-cruise-v1-cards .hlt-cruise-v1-body p { margin-bottom: 12px; }
   .hlt-cruise-v1-card .hlt-cruise-v1-btn { margin-top: auto; }
   .hlt-cruise-v1-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
   .hlt-cruise-v1-hero-copy .hlt-cruise-v1-actions { justify-content: flex-start; }
@@ -290,32 +415,197 @@
   width: min(1180px, calc(100% - 48px));
 }
 
-/* "Not Sure Which Cruise to Choose?" — thẻ viền vàng phát sáng, icon 3D lớn,
-   tiêu đề serif (theo thiết kế). Chỉ PC; mobile giữ bố cục riêng. */
+/* "Discover Luxury Cruises in Halong Bay" (thiết kế 23/11/2026) — nền navy trơn, không ảnh
+   núi; tiêu đề giữa, thẻ viền vàng phát sáng có dòng mô tả, nút ở dưới.
+   Chỉ PC; mobile giữ bố cục riêng. */
 @media (min-width: 961px) {
-  .hlt-cruises-site .hlt-cruise-match-grid { gap: clamp(14px, 1.5vw, 22px); }
+  .hlt-cruises-site .hlt-cruise-match-section {
+    padding: clamp(40px, 4vw, 64px) 0 clamp(44px, 4.4vw, 70px);
+    background: radial-gradient(90% 120% at 50% 0%, #142b40 0%, #0c1c2c 55%, #08131f 100%);
+  }
+  .hlt-cruise-match-head { text-align: center; margin: 0 auto clamp(24px, 2.6vw, 38px); }
+  .hlt-cruises-site .hlt-cruise-match-head .hlt-cruise-match-kicker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin: 0 0 8px;
+    color: #d9b062;
+    font: 600 clamp(13px, 1.1vw, 16px)/1 "Cormorant", Georgia, serif;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .hlt-cruise-match-kicker::before, .hlt-cruise-match-kicker::after {
+    content: "";
+    width: clamp(50px, 5vw, 80px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c99a3e);
+  }
+  .hlt-cruise-match-kicker::after { background: linear-gradient(90deg, #c99a3e, transparent); }
+  .hlt-cruises-site .hlt-cruise-match-head .hlt-cruise-match-title {
+    margin: 0;
+    color: #f7f1e3;
+    font: 600 clamp(36px, 4vw, 60px)/1.05 "Cormorant", Georgia, serif;
+  }
+  .hlt-cruise-match-swoosh {
+    display: block;
+    width: 90px;
+    height: 20px;
+    margin: 4px auto 0;
+    fill: none;
+    stroke: #d6a84c;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .hlt-cruises-site .hlt-cruise-match-head .hlt-cruise-match-intro {
+    margin: 10px auto 0;
+    max-width: 900px;
+    color: rgba(247, 241, 227, .88);
+    font: italic 400 clamp(16px, 1.45vw, 22px)/1.35 "Cormorant", Georgia, serif;
+  }
+  .hlt-cruises-site .hlt-cruise-match-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 1.5vw, 22px);
+    max-width: 1180px;
+    margin: 0 auto;
+  }
   .hlt-cruises-site .hlt-cruise-pref-box {
-    min-height: clamp(180px, 15vw, 210px);
-    padding: 18px 12px 20px;
-    background: radial-gradient(120% 90% at 50% 40%, #10222e 0%, #0a1620 70%);
+    min-height: clamp(200px, 17vw, 240px);
+    padding: 16px 12px 20px;
+    justify-content: flex-start;
+    background: linear-gradient(180deg, #13283a 0%, #0c1c2b 100%);
     border: 1.5px solid #d6a84c;
-    border-radius: 14px;
+    border-radius: 16px;
     box-shadow:
-      0 0 0 1px rgba(232, 190, 110, 0.22),
-      0 0 18px rgba(226, 178, 92, 0.30),
-      inset 0 0 16px rgba(226, 178, 92, 0.12);
+      0 0 0 1px rgba(232, 190, 110, 0.20),
+      0 0 18px rgba(226, 178, 92, 0.28),
+      inset 0 0 16px rgba(226, 178, 92, 0.10);
   }
   .hlt-cruises-site .hlt-cruise-pref-icon {
-    width: clamp(92px, 8vw, 118px);
-    height: clamp(92px, 8vw, 118px);
+    width: clamp(105px, 9vw, 135px);
+    height: clamp(84px, 7.2vw, 108px);
     margin-bottom: 10px;
   }
   .hlt-cruises-site .hlt-cruise-pref-img { width: 100%; height: 100%; }
   .hlt-cruises-site .hlt-cruise-pref-box .hlt-cruise-pref-title {
     font-family: "Cormorant", Georgia, "Times New Roman", serif;
-    font-size: clamp(19px, 1.6vw, 24px);
+    font-size: clamp(21px, 1.9vw, 29px);
     font-weight: 600;
     letter-spacing: 0.01em;
     color: #ffffff;
   }
+  .hlt-cruises-site .hlt-cruise-pref-box .hlt-cruise-pref-tagline {
+    margin: 8px 0 0;
+    color: rgba(247, 241, 227, .86);
+    font: 400 clamp(14px, 1.25vw, 18px)/1.25 "Cormorant", Georgia, serif;
+  }
 }
+
+/* 2 nút đặt dưới các bước "From Your Hotel to Your Cruise" (23/11/2026). */
+.hlt-cruise-seamless-actions {
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 1.4vw, 18px);
+  margin-top: clamp(22px, 2.2vw, 32px);
+}
+.hlt-cruises-site .hlt-cruise-seamless-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: clamp(200px, 15.5vw, 250px);
+  min-height: clamp(44px, 3.4vw, 50px);
+  padding: 0 22px;
+  border-radius: 6px;
+  font: 700 clamp(14px, 1.1vw, 16px)/1 "Cormorant", Georgia, "Times New Roman", serif;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: filter .2s ease, transform .2s ease;
+}
+.hlt-cruises-site .hlt-cruise-seamless-btn.is-gold {
+  border: 1px solid #c5a15a;
+  background: #c5a15a;
+  color: #1a140a;
+  box-shadow: 0 10px 22px rgba(60, 42, 14, .28);
+}
+.hlt-cruises-site .hlt-cruise-seamless-btn.is-dark {
+  border: 1px solid #c5a15a;
+  background: #051c14;
+  color: #fff;
+}
+.hlt-cruises-site .hlt-cruise-seamless-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.hlt-cruise-seamless-btn-icon { display: inline-flex; width: 22px; height: 22px; }
+.hlt-cruise-seamless-btn-icon svg { width: 100%; height: 100%; }
+@media (max-width: 960px) {
+  .hlt-cruise-seamless-actions { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 16px; }
+  .hlt-cruises-site .hlt-cruise-seamless-btn { min-width: 0; min-height: 46px; font-size: 15px; }
+}
+
+/* "What To Expect On Your Cruise" (thiết kế 23/11/2026): hoa sen + dòng nhỏ,
+   tiêu đề serif lớn, ảnh lớn và 4 ảnh nhỏ tách rời, bo góc, có bóng. */
+.hlt-cruise-exp-kicker { display: none; }
+@media (min-width: 961px) {
+  .hlt-cruises-site .hlt-cruise-exp-section { background: #fbf6ee; padding-top: clamp(32px, 3.4vw, 52px); }
+  .hlt-cruises-site .hlt-cruise-exp-layout {
+    grid-template-columns: minmax(280px, 0.36fr) minmax(0, 1fr);
+    gap: clamp(28px, 3.4vw, 56px);
+    align-items: center;
+  }
+  .hlt-cruise-exp-kicker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 360px;
+    margin-bottom: clamp(22px, 2.4vw, 34px);
+  }
+  .hlt-cruise-exp-kicker svg { width: 30px; height: 19px; fill: none; stroke: #c99a3e; stroke-width: 1.3; stroke-linejoin: round; }
+  .hlt-cruise-exp-kicker span {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    color: #6f6658;
+    font: 500 12px/1 "Cormorant", Georgia, serif;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .hlt-cruise-exp-kicker span::before, .hlt-cruise-exp-kicker span::after { content: ""; flex: 1; height: 1px; background: #d8c39a; }
+  .hlt-cruises-site .hlt-cruise-exp-intro h2 {
+    margin: 0 0 clamp(16px, 1.6vw, 24px);
+    color: #1c2c3c;
+    font: 500 clamp(36px, 3.5vw, 54px)/1.08 "Cormorant", Georgia, serif;
+  }
+  .hlt-cruises-site .hlt-cruise-exp-intro p {
+    max-width: 400px;
+    color: #3d4248;
+    font: 400 clamp(16px, 1.3vw, 19px)/1.5 "Cormorant", Georgia, serif;
+  }
+  .hlt-cruises-site .hlt-cruise-exp-mosaic { gap: clamp(10px, 1vw, 14px); }
+  .hlt-cruises-site .hlt-cruise-exp-banner {
+    height: clamp(220px, 17.5vw, 290px);
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(60, 42, 14, .18);
+  }
+  .hlt-cruises-site .hlt-cruise-exp-grid { gap: clamp(10px, 1vw, 14px); }
+  .hlt-cruises-site .hlt-cruise-exp-card,
+  .hlt-cruises-site .hlt-cruise-exp-card:first-child,
+  .hlt-cruises-site .hlt-cruise-exp-card:last-child {
+    aspect-ratio: 4 / 2.9;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(60, 42, 14, .18);
+  }
+  .hlt-cruises-site .hlt-cruise-exp-overlay { padding: 10px; background: linear-gradient(180deg, transparent 50%, rgba(2, 8, 7, .78) 100%); }
+  .hlt-cruises-site .hlt-cruise-exp-overlay h3 {
+    font-family: "Cormorant", Georgia, serif !important;
+    font-size: clamp(16px, 1.4vw, 21px);
+    font-weight: 500;
+    letter-spacing: .01em;
+  }
+}
+/* Thẻ chỉ có mô tả (chưa có hàng tiện ích): bỏ vạch dưới, chừa khoảng trước nút. */
+.hlt-cruise-v1 .hlt-cruise-v1-cards .hlt-cruise-v1-description.is-plain { border-bottom: 0; padding-bottom: 0; margin-bottom: 14px; }

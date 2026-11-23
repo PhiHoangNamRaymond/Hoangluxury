@@ -1,40 +1,123 @@
+/* Trang Privacy Policy / Terms of Service (thiết kế khách gửi 23/11/2026). */
 .hlt-policies-site { background: #f7f1e6; color: #12251d; }
 .hlt-policies-container { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
-.hlt-policies-hero { padding: clamp(132px, 12vw, 176px) 0 44px; background: linear-gradient(122deg, #071b15, #14342a); color: #fff9ea; border-bottom: 1px solid #d4af6a; }
-.hlt-policies-hero h1 { margin: 5px 0; font-size: clamp(45px, 7vw, 83px); line-height: .99; }
-.hlt-policies-site p { margin: 0; font: 400 15px/1.65 "Lato", system-ui, sans-serif !important; }
-.hlt-policies-site .hlt-policies-kicker { color: #e7c57d; font-size: 12px !important; font-weight: 800 !important; letter-spacing: .09em; text-transform: uppercase; }
-.hlt-policies-layout { display: grid; grid-template-columns: minmax(215px, 240px) minmax(0, 1fr); align-items: start; gap: clamp(20px, 4vw, 58px); padding: 32px 0 54px; }
-.hlt-policies-nav { position: sticky; top: 108px; background: #fffaf1; padding: 16px; border: 1px solid #dfcfaf; border-radius: 13px; }
-.hlt-policies-nav h2 { margin: 0 0 10px; font-size: 23px; }
-.hlt-policies-nav a { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 6px; border-top: 1px solid #e4d6be; color: #1c352a; font-weight: 750; }
-.hlt-policies-nav a:hover, .hlt-policies-nav a:focus-visible { background: #f6e7ca; color: #66400c; }
-.hlt-policies-nav span, .hlt-policy-panel header > span { color: #845312; }
-.hlt-policies-notice, .hlt-policy-panel, .hlt-policies-help { padding: clamp(16px, 3vw, 29px); border: 1px solid #dfcfaf; border-radius: 14px; margin-bottom: 15px; }
-.hlt-policies-notice { background: #f6e6c8; }
-.hlt-policies-notice strong { font-size: 20px; }
-.hlt-policy-panel { background: #fffcf6; scroll-margin-top: 108px; }
-.hlt-policy-panel header { display: flex; align-items: flex-start; gap: 13px; }
-.hlt-policy-panel header > span { font-size: 23px; font-weight: 800; }
-.hlt-policy-panel h2, .hlt-policies-help h2 { margin: 0; font-size: clamp(27px, 3.8vw, 38px); line-height: 1.05; }
-.hlt-policy-topic { margin-top: 16px; border-top: 1px solid #ebdfc8; padding-top: 12px; }
-.hlt-policy-topic h3 { margin: 0 0 3px; font-size: 22px; }
-.hlt-policies-help { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: #0a2a21; color: #fff5e0; }
-.hlt-policies-help h2 { font-size: 25px; }
-.hlt-policies-help a { display: inline-flex; gap: 10px; padding: 9px 16px; border-radius: 8px; background: #efd08c; color: #14251c; font-weight: 800; }
-.hlt-policies-site .hlt-policies-related { margin-top: 15px; font-size: 12px !important; }
-.hlt-policies-related a { display: inline; min-height: 0; padding: 0; border: 0; color: #a77422; }
-.hlt-terms-intro { padding: clamp(22px, 3vw, 36px); }
-.hlt-terms-intro h2 { margin: 10px 0 16px; }
+.hlt-policies-site p { margin: 0; font: 400 15px/1.7 "Lato", system-ui, sans-serif !important; }
+
+/* Hero: chữ giữa, dòng nhỏ có 2 vạch, tiêu đề in hoa, breadcrumb; dãy núi vẽ mờ. */
+.hlt-policies-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(128px, 11vw, 168px) 0 clamp(36px, 3.4vw, 52px);
+  background: linear-gradient(180deg, #0a241c 0%, #12352a 100%);
+  color: #fff9ea;
+  text-align: center;
+  border-bottom: 1px solid #d4af6a;
+}
+.hlt-policies-hero-art { position: absolute; inset: auto 0 0; z-index: -1; width: 100%; height: 72%; }
+.hlt-policies-hero-art circle { fill: rgba(231, 197, 125, .05); }
+.hlt-policies-hero-art .is-far { fill: rgba(255, 255, 255, .035); }
+.hlt-policies-hero-art .is-near { fill: rgba(0, 0, 0, .16); }
+.hlt-policies-site .hlt-policies-kicker {
+  color: #e7c57d;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.hlt-policies-hero .hlt-policies-kicker { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.hlt-policies-hero .hlt-policies-kicker::before,
+.hlt-policies-hero .hlt-policies-kicker::after { content: ""; width: 46px; height: 1px; background: #c99a3e; }
+.hlt-policies-hero h1 {
+  margin: 10px 0 12px;
+  font-size: clamp(40px, 5.6vw, 76px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.hlt-policies-site .hlt-policies-hero-intro { color: rgba(255, 249, 234, .86); }
+.hlt-policies-breadcrumb { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; font: 600 12px/1.4 "Lato", system-ui, sans-serif; color: rgba(255, 249, 234, .7); }
+.hlt-policies-breadcrumb a { color: inherit; }
+.hlt-policies-breadcrumb a:hover { color: #e7c57d; }
+.hlt-policies-breadcrumb [aria-current] { color: #e7c57d; }
+
+/* Cột mục lục + nội dung. */
+.hlt-policies-layout { display: grid; grid-template-columns: minmax(215px, 250px) minmax(0, 1fr); align-items: start; gap: clamp(20px, 4vw, 58px); padding: 36px 0 60px; }
+.hlt-policies-nav { position: sticky; top: 108px; background: #fffaf1; padding: 18px 16px; border: 1px solid #dfcfaf; border-radius: 13px; box-shadow: 0 8px 22px rgba(80, 56, 20, .08); }
+.hlt-policies-nav h2 { margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid #d9bf8c; font-size: 16px; letter-spacing: .12em; text-transform: uppercase; }
+.hlt-policies-nav a { display: flex; align-items: flex-start; gap: 10px; padding: 9px 10px; border-left: 2px solid transparent; border-radius: 0 6px 6px 0; color: #3a4a40; font: 500 13px/1.4 "Lato", system-ui, sans-serif; }
+.hlt-policies-nav a + a { margin-top: 2px; }
+.hlt-policies-nav a:hover, .hlt-policies-nav a:focus-visible { background: #f6ecd8; color: #66400c; }
+.hlt-policies-nav a.is-active { background: #f3e4c4; border-left-color: #b88a42; color: #5d3c0d; font-weight: 700; }
+.hlt-policies-nav a span { flex: none; color: #a77422; font-weight: 700; }
+.hlt-policies-site .hlt-policies-related { margin-top: 14px; padding-top: 12px; border-top: 1px solid #e4d6be; font-size: 12px !important; }
+.hlt-policies-related a { display: inline; padding: 0; border: 0; color: #a77422; font-weight: 700; }
+
+/* Thẻ mở đầu: dòng nhỏ + "Last updated", tiêu đề, dải 3 cam kết. */
+.hlt-policy-panel { padding: clamp(22px, 3vw, 36px); border: 1px solid #dfcfaf; border-radius: 14px; background: #fffcf6; box-shadow: 0 10px 26px rgba(80, 56, 20, .08); scroll-margin-top: 108px; }
+.hlt-terms-intro-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px; }
+.hlt-policies-site .hlt-terms-intro-top .hlt-policies-kicker { color: #a77422; font-size: 11px !important; }
+.hlt-policies-site .hlt-terms-updated { color: #6f6658; font-size: 12px !important; font-style: italic; }
+.hlt-terms-intro h2 { margin: 12px 0 16px; font-size: clamp(30px, 3.2vw, 40px); font-weight: 500; line-height: 1.05; }
 .hlt-terms-intro p + p { margin-top: 14px; }
-.hlt-terms-intro .hlt-terms-review { padding: 13px 16px; background: #f4ead6; border-left: 3px solid #b88a42; }
-.hlt-terms-section { padding: 23px 0 25px; border-bottom: 1px solid #dfcfaf; scroll-margin-top: 108px; }
-.hlt-terms-section h2 { margin: 0 0 13px; color: #9b6a2c; font-size: clamp(23px, 2.4vw, 31px); font-weight: 500; text-transform: uppercase; }
-.hlt-terms-section p + p { margin-top: 13px; }
+.hlt-policies-site .hlt-terms-badges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 24px;
+  padding: 14px 18px;
+  border: 1px solid #e2cd9f;
+  border-radius: 8px;
+  background: #f6ead2;
+  color: #8a5d1c;
+  font: 600 clamp(15px, 1.3vw, 18px)/1.2 "Cormorant", Georgia, serif !important;
+  letter-spacing: .03em;
+}
+.hlt-terms-badges span { color: #c99a3e; }
+
+/* Các mục: tiêu đề vàng in hoa có vạch kéo dài, danh sách chấm vàng. */
+.hlt-terms-section { padding: 30px 0 28px; border-bottom: 1px solid #dfcfaf; scroll-margin-top: 108px; }
+.hlt-terms-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 16px;
+  color: #9b6a2c;
+  font-size: clamp(22px, 2.3vw, 30px);
+  font-weight: 500;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.hlt-terms-section h2::after { content: ""; flex: 0 0 clamp(40px, 6vw, 90px); height: 1px; background: #c99a3e; }
+.hlt-terms-section p + p, .hlt-terms-section p + .hlt-terms-list, .hlt-terms-list + p { margin-top: 13px; }
+.hlt-terms-section strong { font-weight: 800; color: #12251d; }
+.hlt-terms-list { margin: 0; padding: 0; list-style: none; }
+.hlt-terms-list li { position: relative; padding-left: 20px; font: 400 15px/1.7 "Lato", system-ui, sans-serif; }
+.hlt-terms-list li + li { margin-top: 6px; }
+.hlt-terms-list li::before { content: ""; position: absolute; left: 4px; top: .72em; width: 6px; height: 6px; border-radius: 50%; background: #c99a3e; }
+
+/* Dải "Need assistance?" ngay trên footer. */
+.hlt-policies-help { padding: clamp(26px, 3vw, 40px) 0; background: linear-gradient(120deg, #0a241c, #14382c); color: #fff5e0; border-top: 1px solid #d4af6a; }
+.hlt-policies-help-inner { display: grid; grid-template-columns: minmax(0, 1.3fr) auto auto; align-items: center; gap: clamp(18px, 3vw, 48px); }
+.hlt-policies-help h2 { margin: 0 0 6px; color: #e7c57d; font-size: clamp(26px, 2.6vw, 36px); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+.hlt-policies-site .hlt-policies-help p { color: rgba(255, 245, 224, .85); font-size: 14px !important; }
+.hlt-policies-help-contact { display: grid; gap: 8px; margin: 0; padding: 0 0 0 clamp(18px, 3vw, 48px); border-left: 1px solid rgba(212, 175, 106, .45); list-style: none; }
+.hlt-policies-help-contact a { color: #fff5e0; font: 600 14px/1.3 "Lato", system-ui, sans-serif; }
+.hlt-policies-help-contact a:hover { color: #e7c57d; }
+.hlt-policies-help-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 6px; background: linear-gradient(180deg, #f3d48d, #d7a64b); color: #14251c; font: 800 13px/1 "Lato", system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.hlt-policies-help-btn:hover { filter: brightness(1.06); }
+
 @media (max-width: 760px) {
   .hlt-policies-container { width: calc(100% - 28px); }
-  .hlt-policies-hero { padding: 106px 0 25px; }
-  .hlt-policies-layout { grid-template-columns: minmax(0, 1fr); gap: 13px; padding-top: 16px; }
+  .hlt-policies-hero { padding: 106px 0 28px; }
+  .hlt-policies-hero h1 { letter-spacing: .02em; }
+  .hlt-policies-layout { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 18px 0 40px; }
   .hlt-policies-nav { position: static; }
-  .hlt-policy-panel { scroll-margin-top: 82px; }
+  .hlt-policy-panel, .hlt-terms-section { scroll-margin-top: 82px; }
+  .hlt-terms-section h2::after { display: none; }
+  .hlt-policies-help-inner { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .hlt-policies-help-contact { padding: 12px 0 0; border-left: 0; border-top: 1px solid rgba(212, 175, 106, .45); }
+  .hlt-policies-help-btn { justify-self: start; }
 }
