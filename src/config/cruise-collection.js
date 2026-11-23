@@ -73,15 +73,19 @@ export const cruiseHighlights = {
   },
   "Stellar of the Seas Cruise": {
     description: "Relax by the outdoor pool, play mini golf, and admire panoramic views of Lan Ha Bay from the onboard bar.",
+    amenities: [["scenic", "Outdoor Pool"], ["activities", "Mini Golf"], ["sightseeing", "Bay Views"]],
   },
   "Paradise Grand": {
     description: "Fine dining, spa services, and a spacious sundeck add elegance to a relaxing cruise through Lan Ha Bay.",
+    amenities: [["dining", "Fine Dining"], ["spa", "Spa"], ["sightseeing", "Sundeck"]],
   },
   "Elite of the Seas": {
     description: "Modern design combines with a year-round infinity pool, a wine cellar, and spa services to create a refined and relaxing cruise experience.",
+    amenities: [["scenic", "Infinity Pool"], ["dining", "Wine Cellar"], ["spa", "Spa"]],
   },
   "Ambassador Cruise Signature": {
     description: "Each cabin has a private balcony, while the piano lounge and 360-degree sundeck provide a relaxing atmosphere in Lan Ha Bay.",
+    amenities: [["scenic", "Balconies"], ["activities", "Piano Lounge"], ["sightseeing", "Sundeck"]],
   },
   "Lyra Grandeur Cruise": {
     description: "Enjoy a waterslide, a heated pool, and an outdoor Nordic-style sauna for both recreation and relaxation while cruising through Lan Ha Bay.",
