@@ -400,3 +400,46 @@ test("every route and cruise link in the site source carries destinationCta trac
   }
   assert.deepEqual(missing, []);
 });
+
+// H2-02: mở FAQ trên trang tuyến và trang du thuyền.
+test("FAQ data carries the 10 agreed faq_ids, shared questions keep the same id on both page types", async () => {
+  const { faqIds } = await import("../src/lib/faq-tracking.js");
+  const { journeyFaq } = await import("../src/config/journeys.js");
+  const { cruiseData } = await import("../src/config/cruises.js").catch(() => ({}));
+  assert.equal(journeyFaq.length, 8);
+  const routeIds = journeyFaq.map(([, , id]) => id);
+  assert.deepEqual(new Set(routeIds).size, 8);
+  for (const id of routeIds) assert.ok(faqIds.includes(id), id);
+  const cruiseSource = await readFile("src/config/cruises.js", "utf8");
+  const cruiseFaqs = [...cruiseSource.matchAll(/id: "([a-z_]+)",\s*q: "([^"]+)"/g)].map(([, id, q]) => ({ id, q }));
+  assert.equal(cruiseFaqs.length, 6, cruiseData ? "" : "parsed from source");
+  const byQuestion = new Map(journeyFaq.map(([q, , id]) => [q, id]));
+  const shared = cruiseFaqs.filter(({ q }) => byQuestion.has(q));
+  assert.equal(shared.length, 4);
+  for (const { q, id } of shared) assert.equal(id, byQuestion.get(q), q);
+  assert.deepEqual(cruiseFaqs.filter(({ q }) => !byQuestion.has(q)).map(({ id }) => id), ["hotel_pickup", "cruise_departure_point"]);
+  assert.equal(new Set([...routeIds, ...cruiseFaqs.map(({ id }) => id)]).size, 10);
+});
+
+test("FAQ <details>: one event per user open, none for closing, programmatic opening or re-renders", async () => {
+  const { faqDetailsProps, trackFaqOpen } = await import("../src/lib/faq-tracking.js");
+  const dom = new JSDOM(`<details><summary><h3>Q</h3><span class="plus">+</span></summary><p>A</p></details>`);
+  const win = dom.window; win.dataLayer = [];
+  const details = win.document.querySelector("details");
+  const summary = win.document.querySelector("summary");
+  const props = () => faqDetailsProps("all_inclusive_pricing", { pageType: "route_detail", routeId: "hanoi_to_sapa" }, win);
+  // Mô phỏng trình duyệt: bấm summary → handler click → đổi open → sự kiện toggle.
+  const userClick = (target, p = props()) => { p.summary.onClick({ currentTarget: summary, target }); details.open = !details.open; p.details.onToggle({ currentTarget: details }); };
+  const events = () => win.dataLayer.filter(({ event }) => event === "hlt_faq_open");
+  userClick(summary.querySelector(".plus"));
+  assert.deepEqual(events(), [{ event: "hlt_faq_open", page_type: "route_detail", route_id: "hanoi_to_sapa", faq_id: "all_inclusive_pricing" }]);
+  userClick(summary.querySelector("h3"));                 // đóng
+  assert.equal(events().length, 1);
+  details.open = true; props().details.onToggle({ currentTarget: details });   // mở bằng code / khôi phục
+  assert.equal(events().length, 1);
+  details.open = false; props().details.onToggle({ currentTarget: details });
+  userClick(summary.querySelector("h3"), props());        // mở lại bằng tay (props mới = đã render lại)
+  assert.equal(events().length, 2);
+  assert.equal(trackFaqOpen({ faqId: "question 3", pageType: "cruise" }, win), false, "only the agreed ids");
+  assert.deepEqual(Object.keys(events()[0]), ["event", "page_type", "route_id", "faq_id"]);
+});

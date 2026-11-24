@@ -19,6 +19,7 @@ import experienceLotus from "../assets/cruise-icons/experience-gold-lotus.png";
 import "./styles/cruise-landing-desktop.css";
 import "./styles/cruise-landing-mobile.css";
 import { bookingCta, catalogCta, waCta } from "./lib/cta-tracking.js";
+import { trackFaqOpen } from "./lib/faq-tracking.js";
 
 const preferenceIcons = { couples: couplesGold, family: familyGold, luxury: luxuryGold, scenic: scenicGold };
 
@@ -37,6 +38,8 @@ export default function CruisesPage() {
   const pageEntered = usePageEntered();
 
   const toggleFaq = (index) => {
+    // H2-02: chỉ câu đang đóng được khách mở mới phát hlt_faq_open; câu cũ tự đóng không tính.
+    if (openFaqIndex !== index) trackFaqOpen({ faqId: cruiseData.faqs[index]?.id, pageType: "cruise", routeId: null });
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 

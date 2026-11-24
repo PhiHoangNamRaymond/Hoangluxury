@@ -221,27 +221,34 @@ export const cruiseData = {
   ],
   faqs: [
     // Đọc từ trái sang phải rồi xuống hàng; mobile giữ cùng thứ tự.
+    // id: faq_id cố định cho Data Layer H2-02; câu dùng chung với trang tuyến cùng mã.
     {
+      id: "booking_confirmation",
       q: "How can I book and confirm my booking?",
       a: "You can book your private car with a driver through Hoang Luxury Travel in two simple ways: message us directly via WhatsApp for quick assistance and booking support, or click Booking and fill in your trip details. After receiving your request, our team will contact you to discuss your itinerary, confirm the details, and complete your private transfer booking. Your detailed trip information will be sent in a Booking Confirmation 48 hours before departure. Please review the details, then relax and enjoy your journey.",
     },
     {
+      id: "payment_deposit",
       q: "Do I need to pay a deposit? What payment methods do you accept?",
       a: "You don’t need to pay anything before your trip. After you arrive at your destination, you can pay 100% of the total amount directly to your driver. We offer flexible payment options, including cash and card payments. If you choose to pay by card, a 3% processing fee applies for international card payments.",
     },
     {
+      id: "all_inclusive_pricing",
       q: "Is the price all-inclusive? Are there any hidden fees?",
       a: "Yes, the quoted price includes everything in your agreed itinerary. Pricing depends on your route and specific needs. Our prices are transparent, with no hidden fees. If you request additional services outside the agreed itinerary, we’ll explain any extra charges in advance and only apply them with your approval.",
     },
     {
+      id: "flexible_stops",
       q: "Can we make flexible stops along the way?",
       a: "Yes, of course. During your private transfer, you can stop along the way for a restroom break, coffee, sightseeing, or photos. We are happy to make flexible stops whenever possible, as long as the location is safe and legally permitted for stopping or parking.",
     },
     {
+      id: "hotel_pickup",
       q: "Is hotel pickup included?",
       a: "When you book your private transfer with Hoang Luxury Travel, door-to-door pickup from any hotel in Hanoi Old Quarter, West Lake, or Noi Bai Airport is fully coordinated with your cruise departure time.",
     },
     {
+      id: "cruise_departure_point",
       q: "Where do cruises depart from?",
       a: "Cruises depart from Tuan Chau International Port (Ha Long Bay cruises) or Ha Long International Cruise Port (Sun Group Port), and Got Pier / Tuan Chau for Lan Ha Bay cruises. Your driver will drop you directly at your specific cruise check-in lounge.",
     },

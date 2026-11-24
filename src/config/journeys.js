@@ -51,38 +51,48 @@ export const journeyHighlights = [
   ["allInclusivePricing", "All-Inclusive Pricing"],
 ];
 
+// [câu hỏi, câu trả lời, faq_id]: faq_id cố định cho Data Layer H2-02 (hlt_faq_open);
+// câu dùng chung với trang du thuyền (config/cruises.js) mang cùng mã.
 export const journeyFaq = [
   [
     "How can I book and confirm my booking?",
     "You can book your private car with a driver through Hoang Luxury Travel in two simple ways: message us directly via WhatsApp for quick assistance and booking support, or click Booking and fill in your trip details. After receiving your request, our team will contact you to discuss your itinerary, confirm the details, and complete your private transfer booking. Your detailed trip information will be sent in a Booking Confirmation 48 hours before departure. Please review the details, then relax and enjoy your journey.",
+    "booking_confirmation",
   ],
   [
     "Is the price all-inclusive? Are there any hidden fees?",
     "Yes, the quoted price includes everything in your agreed itinerary. Pricing depends on your route and specific needs. Our prices are transparent, with no hidden fees. If you request additional services outside the agreed itinerary, we’ll explain any extra charges in advance and only apply them with your approval.",
+    "all_inclusive_pricing",
   ],
   [
     "Will I be charged extra if my pickup time changes or my flight is delayed?",
     "No. If your pickup time changes or your flight is delayed, we will adjust your pickup accordingly, and your driver will wait at no extra charge. Just let us know as soon as possible so our team can make the arrangements.",
+    "pickup_flight_delay",
   ],
   [
     "There are 5 of us with 6 large suitcases. Will there be enough space in the car?",
     "Don’t worry. If you need more space, we’ll arrange a private car for your luggage so everyone can sit comfortably throughout the journey. Just let us know in advance how many people are travelling, along with the number and size of your suitcases, so we can have everything ready for you.",
+    "luggage_capacity",
   ],
   [
     "Can we make flexible stops along the way?",
     "Yes, of course. During your private transfer, you can stop along the way for a restroom break, coffee, sightseeing, or photos. We are happy to make flexible stops whenever possible, as long as the location is safe and legally permitted for stopping or parking.",
+    "flexible_stops",
   ],
   [
     "Do I need to pay a deposit? What payment methods do you accept?",
     "You don’t need to pay anything before your trip. After you arrive at your destination, you can pay 100% of the total amount directly to your driver. We offer flexible payment options, including cash and card payments. If you choose to pay by card, a 3% processing fee applies for international card payments.",
+    "payment_deposit",
   ],
   [
     "Can you plan a personalized itinerary? How many hours are included in your full-day local car service?",
     "Yes. We can help plan a personalized itinerary around your schedule and travel preferences, with useful local tips. If needed, we can also assist with restaurant and attraction reservations. If you already have your own itinerary, we are happy to review it free of charge and advise you on routes, travel times, traffic conditions, and whether your travel plan is practical in Vietnam. For our local service, there is no fixed hourly limit. Your private driver will be with you from early morning until late evening, taking you wherever you’d like to go, as long as the places you wish to visit are accessible by car.",
+    "custom_itinerary",
   ],
   [
     "Do your drivers speak English?",
     "Our professional drivers can communicate in basic English. If you need any additional help during your private transfer, you can contact us anytime via WhatsApp. Our English-speaking support team is available 24/7 to assist you throughout your journey.",
+    "driver_english",
   ],
 ];
 
