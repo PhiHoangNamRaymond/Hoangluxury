@@ -101,12 +101,8 @@ https://hoangluxury.travel,https://www.hoangluxury.travel
 
    Bỏ www nếu không dùng, không có `/` cuối. Dev/staging dùng cấu hình function
    riêng; không thêm localhost vào production.
-   Nếu dùng Vercel tại `https://hoangluxury.vercel.app`, thêm đúng origin này
-   vào giá trị hiện có, giữ lại các domain đang sử dụng:
-
-```text
-https://hoangluxury.travel,https://www.hoangluxury.travel,https://hoangluxury.vercel.app
-```
+   Không thêm `https://hoangluxury.vercel.app`: project Vercel đã xoá (25/11/2026),
+   tên miền đó có thể bị người khác đăng ký lại.
 
    Lưu Secrets là function đọc được giá trị mới, không cần deploy lại nếu chỉ
    đổi secret. Không dùng wildcard hay thêm `/admin/` vào origin. Đây là cấu
