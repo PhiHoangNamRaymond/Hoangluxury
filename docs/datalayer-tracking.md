@@ -1,6 +1,9 @@
-# Data Layer – nút WhatsApp (H1-01) và nút Booking Form (H1-02)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04)
 
-Mã nguồn: `src/lib/cta-tracking.js`. Cả hai sự kiện dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+Mã nguồn:
+
+- `src/lib/cta-tracking.js`: H1-01 và H1-02 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+- `src/lib/booking-step-tracking.js`: H1-04.
 
 # H1-01 – hlt_whatsapp_click
 
@@ -192,3 +195,50 @@ Footer trên mobile hiện không có link Booking. Trên mobile, khách vào Bo
 - Đã nhấn chuột thật, để trang chuyển thật:
   - BOOK VIA FORM ở Pricing của Hanoi to Sapa: sự kiện được ghi trên trang nguồn trước khi chuyển, `/booking/` mở bình thường, và không phát thêm sự kiện kể cả khi tải lại trang.
   - Booking trong menu mobile (375px) ở trang chủ: `page_type: home`, `cta_location: mobile_menu`, `route_id: null`, và trang chuyển bình thường.
+
+# H1-04 – hlt_booking_step_complete (chỉ mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{ event: "hlt_booking_step_complete", form_id: "transfer_booking", step_number: 2, step_name: "flight_details" }
+```
+
+| step_number | step_name | Phát khi |
+|---|---|---|
+| 1 | `journey_route` | Step 1 qua validation và form chuyển sang Step 2 |
+| 2 | `flight_details` | Step 2 → Step 3 |
+| 3 | `passenger_details` | Step 3 → Step 4 |
+| 4 | `ride_preferences` | Step 4 → Step 5 |
+
+## Cách hoạt động
+
+- Sự kiện được phát trong xử lý nút **Continue** của form nhiều bước. Nút này chỉ hiện trên mobile (màn hình ≤ 600px). Chỉ những lần nhấn qua được validation hiện có mới phát, và phát cùng lúc với lúc form chuyển bước.
+- Step 5 (Review & Send) và nút REQUEST A QUOTE không phát sự kiện này.
+- **Không phát:**
+  - Khi vào hoặc tải lại `/booking/`.
+  - Khi render form.
+  - Khi khách mới bắt đầu điền một bước.
+  - Khi nhấn Back.
+  - Khi nhấn Continue mà form chưa hợp lệ.
+  - Trên PC, vì PC là một trang và không có nút Continue.
+- **Chống trùng:** mỗi bước chỉ được tính một lần trong một lượt điền. Nếu khách bấm Back, sửa, rồi Continue lại thì không phát thêm.
+- **Lượt điền mới:**
+  - Sau khi gửi yêu cầu thành công, form được xoá trắng và các bước có thể được tính lại từ đầu.
+  - Tải lại trang cũng xoá trắng form (site không lưu nháp), nên lần điền sau cũng là một lượt mới.
+- Chỉ gửi `form_id`, `step_number` và `step_name`. Không gửi bất kỳ dữ liệu nào khách nhập.
+- Không thay đổi giao diện, validation hay tốc độ chuyển bước.
+
+## Kiểm tra
+
+- Có test tự động trong `tests/cta-tracking.test.mjs`: đủ 4 bước, đúng thứ tự, không trùng khi Back rồi Continue lại, Step 5 không phát, và bắt đầu lại được sau khi gửi thành công.
+- Trên dev, mobile 375px:
+  - Continue khi còn trống: không phát và vẫn ở Step 1.
+  - Step 1 → 2: phát `1 / journey_route`.
+  - Back rồi Continue lại: không phát thêm.
+  - Continue ở Step 2 khi chưa chọn chuyến bay: không phát.
+  - Các bước 2 → 3, 3 → 4, 4 → 5: phát đúng `flight_details`, `passenger_details`, `ride_preferences`.
+  - Back từ Step 4 về Step 3 rồi Continue lại: không phát thêm.
+  - Kết quả: đúng 4 sự kiện, và GTM đã nhận cả 4.
+- PC (1440px): form hiện đủ 14 ô trên một trang, không có nút Continue, không có sự kiện bước nào.
+- Phần bắt đầu lượt mới sau khi gửi thành công chỉ được kiểm tra bằng test tự động. Không gửi thử yêu cầu thật, để không tạo booking giả trong hệ thống.
