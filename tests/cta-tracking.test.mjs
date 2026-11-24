@@ -489,3 +489,48 @@ test("photo gallery select and album open: one event per click, right ids, no cr
   trackPhotoFilterSelect("Proposals & Celebrations", win);
   assert.deepEqual(win.dataLayer, [{ event: "hlt_photo_gallery_select", page_type: "photo_albums", concept_id: "proposals_celebrations", cta_location: "album_filters", cta_id: "filter_tab" }]);
 });
+
+// H3-04: link tới About Us.
+test("About Us clicks push one 5-field event from the source page; nothing on the About page itself", async () => {
+  const { ABOUT_EVENT, aboutCta, isAboutHref } = await import("../src/lib/cta-tracking.js");
+  for (const href of ["/about-us/", "/about-us", "/about/", "https://hoangluxury.travel/about-us/#team"]) assert.equal(isAboutHref(href), true, href);
+  for (const href of ["/about-us/team/", "/blog/", "https://evil.test/about-us/", "#about"]) assert.equal(isAboutHref(href), false, href);
+  const route = bookingPage(`
+    <header><a id="nav" href="/about-us/" ${attrs(aboutCta("header_nav", "header_about_us"))}>About Us</a></header>
+    <a id="discover" href="/about-us/" ${attrs(aboutCta("about_intro_section", "discover_more_about_us"))}><span>Discover more about us</span><svg></svg></a>
+    <footer><a id="plain" href="/about-us/">About</a></footer>`,
+  { pageType: "route_detail", serviceType: "private_transfer", pageServiceType: "private_transfer", routeId: "hanoi_to_sapa" });
+  route.click("#nav");
+  route.click("#discover span");
+  route.click("#plain");
+  assert.deepEqual(route.all(), [
+    { event: "hlt_about_us_click", page_type: "route_detail", route_id: "hanoi_to_sapa", cta_location: "header_nav", cta_id: "header_about_us", cta_text: "About Us" },
+    { event: "hlt_about_us_click", page_type: "route_detail", route_id: "hanoi_to_sapa", cta_location: "about_intro_section", cta_id: "discover_more_about_us", cta_text: "Discover more about us" },
+    { event: "hlt_about_us_click", page_type: "route_detail", route_id: "hanoi_to_sapa", cta_location: "footer", cta_id: "about_footer", cta_text: "About" },
+  ]);
+  const blog = bookingPage(`<a id="story" href="/about-us/" ${attrs(aboutCta("blog_story_banner", "explore_our_story"))}>Explore Our Story</a>`, { pageType: "blog", routeId: null }, "https://hoangluxury.travel/blog/");
+  blog.click("#story");
+  assert.deepEqual(blog.all().map((e) => [e.event, e.page_type, e.route_id, e.cta_id]), [[ABOUT_EVENT, "blog", null, "explore_our_story"]]);
+  const about = bookingPage(`<a id="self" href="/about-us/">About Us</a>`, { pageType: "about" }, "https://hoangluxury.travel/about-us/");
+  about.click("#self");
+  assert.equal(about.all().length, 0);
+});
+
+test("every About Us link in the site source carries aboutCta tracking attributes", async () => {
+  const files = [];
+  const walk = async (dir) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) { if (entry.name !== "admin") await walk(path); } else if (path.endsWith(".jsx")) files.push(path);
+    }
+  };
+  await walk("src");
+  const missing = [];
+  for (const file of files) {
+    const source = await readFile(file, "utf8");
+    for (const match of source.matchAll(/<a\b[^>]*?href=(?:"\/about(?:-us)?\/"|\{aboutPageUrl\})[^>]*>/gs)) {
+      if (!match[0].includes("aboutCta(")) missing.push(`${file}: ${match[0].slice(0, 90)}`);
+    }
+  }
+  assert.deepEqual(missing, []);
+});
