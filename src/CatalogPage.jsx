@@ -4,7 +4,7 @@ import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { catalogUrl, whatsappInquiryUrl } from "./data.js";
 import { catalogBackgroundUrl, catalogOpenBookUrl } from "./config/assets.js";
-import { waCta } from "./lib/cta-tracking.js";
+import { catalogOpenCta, waCta } from "./lib/cta-tracking.js";
 
 function BookIcon() {
   return (
@@ -49,6 +49,7 @@ export default function CatalogPage() {
               <a
                 className="hlt-catalog-button hlt-catalog-button-outline"
                 href={catalogUrl}
+                {...catalogOpenCta("hlt_customer_catalog", "catalog_view_fleet_routes_pricing")}
                 target={hasPdfUrl ? "_blank" : undefined}
                 rel={hasPdfUrl ? "noopener noreferrer" : undefined}
               >

@@ -262,29 +262,12 @@ test("GAS writes error logs to the Errors tab once, validates every field and re
   assert.equal(f.sheets.has("Bookings"),false,"error logs never touch bookings");
 });
 
-test("GAS emails server/network/unknown errors at most every 15 minutes and never for validation",async () => {
+test("GAS logs every error category to the Errors tab and never sends email",async () => {
   const f = await fixture();
-  f.post(errorLog({proxySecret:secret}));
-  assert.equal(f.mails.length,0,"no email without ERROR_ALERT_EMAIL");
-  f.props.set("ERROR_ALERT_EMAIL","ops@example.com, bad-address");
-  f.post(errorLog({proxySecret:secret,category:"validation",status:""}));
-  assert.equal(f.mails.length,0,"validation is logged only");
-  f.post(errorLog({proxySecret:secret,category:"network",status:""}));
-  assert.equal(f.mails.length,1);
-  assert.equal(f.mails[0].to,"ops@example.com");
-  assert.match(f.mails[0].body,/network/);
-  f.post(errorLog({proxySecret:secret}));
-  f.post(errorLog({proxySecret:secret,category:"unknown",status:""}));
-  assert.equal(f.mails.length,1,"throttled");
-  f.cacheStore.delete("error-alert-sent");
-  f.post(errorLog({proxySecret:secret}));
-  assert.equal(f.mails.length,2);
-  assert.match(f.mails[1].body,/2 lỗi khác/);
-  assert.equal(f.sheets.get("Errors").rows.length,7,"header plus all 6 errors are still logged");
-  f.context.MailApp.sendEmail = () => { throw new Error("quota"); };
-  f.cacheStore.delete("error-alert-sent");
-  assert.equal(f.post(errorLog({proxySecret:secret})).ok,true,"email failure keeps the log");
-  assert.equal(f.sheets.get("Errors").rows.length,8);
+  f.props.set("ERROR_ALERT_EMAIL","ops@example.com");
+  for (const category of ["validation","server","network","unknown"]) assert.equal(f.post(errorLog({proxySecret:secret,category,status:""})).ok,true);
+  assert.deepEqual(f.sheets.get("Errors").rows.slice(1).map((row)=>row[3]),["validation","server","network","unknown"]);
+  assert.equal(f.mails.length,0);
 });
 
 test("GAS caps error log rows per hour",async () => {

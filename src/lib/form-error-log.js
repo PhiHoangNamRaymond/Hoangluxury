@@ -1,7 +1,7 @@
 /* Log lỗi gửi form (Booking, Feedback) về tab "Errors" trong Google Sheet.
    Khi khách gửi form thất bại, website gửi một bản log nhỏ qua forms-proxy tới
-   Apps Script; Apps Script ghi một dòng vào tab Errors và gửi email báo (lỗi
-   server / network / unknown). Xem google-apps-script/README.md.
+   Apps Script; Apps Script ghi một dòng vào tab Errors của file Sheet booking.
+   Xem google-apps-script/README.md.
 
    Bản log KHÔNG chứa dữ liệu khách nhập: chỉ form nào, nhóm lỗi, mã HTTP, thiết
    bị, đường dẫn trang, thời điểm và một mã ngẫu nhiên để chống ghi trùng.

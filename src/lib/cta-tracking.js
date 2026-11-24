@@ -2,8 +2,9 @@
      H1-01 hlt_whatsapp_click      mọi link mở WhatsApp (23/11/2026)
      H1-02 hlt_booking_form_click  mọi link dẫn tới Booking Form /booking/ (24/11/2026)
      H1-06 hlt_catalog_click       mọi link dẫn tới trang Catalog /catalog/ (24/11/2026)
+     H1-07 hlt_catalog_open        link mở tài liệu Google Drive được đánh dấu trên trang Catalog
 
-   Một listener duy nhất ở document (pha capture) bắt cả ba loại link, nên một lượt
+   Một luồng xử lý ở document (pha capture), nên một lượt
    nhấn chỉ phát đúng một sự kiện, không phát khi render/tải trang, và chạy trước
    mọi xử lý click khác. Không preventDefault: link vẫn mở WhatsApp / chuyển sang
    /booking/, /catalog/ như cũ; push chạy đồng bộ trước khi trình duyệt điều hướng.
@@ -23,6 +24,7 @@
 export const WHATSAPP_EVENT = "hlt_whatsapp_click";
 export const BOOKING_EVENT = "hlt_booking_form_click";
 export const CATALOG_EVENT = "hlt_catalog_click";
+export const CATALOG_OPEN_EVENT = "hlt_catalog_open";
 
 const NONE = "none";
 
@@ -47,6 +49,13 @@ export const bookingCta = (location, id, { route, text } = {}) => ctaAttributes(
 /* Nút dẫn tới trang Catalog: <a href="/catalog/" {...catalogCta("hero", "catalog_home_hero")}>.
    service / route: null = không áp dụng; bỏ trống = lấy theo trang. */
 export const catalogCta = ctaAttributes;
+
+export function catalogOpenCta(catalogId, ctaId, location = "content") {
+  return {
+    ...ctaAttributes(location, ctaId),
+    "data-hlt-catalog-id": catalogId,
+  };
+}
 
 /* Mã tuyến từ khoá tuyến trong journeys.js: "sapa" → "hanoi_to_sapa",
    "sapa-to-ha-long" → "sapa_to_ha_long". */
@@ -81,9 +90,28 @@ const isSitePath = (pattern) => (href, base = "https://hoangluxury.travel/") => 
 };
 export const isBookingHref = isSitePath(/^\/booking\/?$/i);
 
-/* Link tới trang Catalog của site (/catalog hoặc /catalog/). Link Google Drive / PDF
-   bên trong trang Catalog là tên miền khác nên không tính (thuộc H2-11). */
+/* H1-06 chỉ đo link tới trang Catalog nội bộ, không đo link mở tài liệu (H1-07). */
 export const isCatalogHref = isSitePath(/^\/catalog\/?$/i);
+
+function isDriveFileHref(href) {
+  try {
+    const url = new URL(href);
+    if (url.origin !== "https://drive.google.com" || url.username || url.password) return false;
+    return /^\/file\/d\/[\w-]+(?:\/(?:view|preview))?\/?$/.test(url.pathname)
+      || (/^\/(?:open|uc)\/?$/.test(url.pathname) && /^[\w-]+$/.test(url.searchParams.get("id") || ""));
+  } catch {
+    return false;
+  }
+}
+
+function buildCatalogOpenEvent(anchor, href, context) {
+  if (context?.pageType !== "catalog") return null;
+  const catalog_id = anchor.getAttribute("data-hlt-catalog-id");
+  const cta_id = anchor.getAttribute("data-hlt-cta-id");
+  const cta_location = anchor.getAttribute("data-hlt-cta-location");
+  if (!catalog_id || !cta_id || !cta_location || !isDriveFileHref(href)) return null;
+  return { event: CATALOG_OPEN_EVENT, page_type: "catalog", catalog_id, cta_id, cta_location };
+}
 
 const cleanText = (value) => String(value || "").replace(/\s+/g, " ").trim().slice(0, 100) || null;
 const readAttr = (node, name) => node?.closest?.(`[${name}]`)?.getAttribute(name);
@@ -161,8 +189,8 @@ export function setupCtaTracking(context, win = window) {
   win.__hltCtaTracking = state;
 
   const onActivate = (event) => {
-    // auxclick: chỉ nút giữa (mở tab mới); click phải không điều hướng.
-    if (event.type === "auxclick" && event.button !== 1) return;
+    // Chuột giữa phát auxclick, chuột trái/touch/bàn phím phát click.
+    if (event.button !== (event.type === "auxclick" ? 1 : 0)) return;
     const anchor = event.target?.closest?.("a[href]");
     if (!anchor) return;
     const href = anchor.getAttribute("href");
@@ -172,6 +200,7 @@ export function setupCtaTracking(context, win = window) {
     else if (state.context?.pageType !== "booking" && isBookingHref(href, win.location.href)) payload = buildBookingEvent(anchor, state.context);
     // Đang ở chính trang Catalog thì link Catalog chỉ tải lại trang: không tính.
     else if (state.context?.pageType !== "catalog" && isCatalogHref(href, win.location.href)) payload = buildCatalogEvent(anchor, state.context);
+    else payload = buildCatalogOpenEvent(anchor, href, state.context);
     if (!payload) return;
     win.dataLayer = win.dataLayer || [];
     win.dataLayer.push(payload);

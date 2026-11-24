@@ -256,6 +256,52 @@ test("catalog clicks push one 6-field event; Drive/PDF, other pages and the Cata
   assert.equal(onCatalog.all().length, 0);
 });
 
+test("H1-07 tracks only marked Google Drive file links on Catalog, once per activation", async () => {
+  const { CATALOG_OPEN_EVENT, catalogOpenCta } = await import("../src/lib/cta-tracking.js");
+  const tag = attrs(catalogOpenCta("hlt_customer_catalog", "catalog_view_fleet_routes_pricing"));
+  const dom = new JSDOM(`<body>
+    <a id="document" href="https://drive.google.com/file/d/mock-id/view?resourcekey=never-send" target="_blank" rel="noopener noreferrer" ${tag}><span>View PDF</span></a>
+    <a id="unmarked" href="https://drive.google.com/file/d/mock-id/view">Unmarked</a>
+    <a id="folder" href="https://drive.google.com/drive/folders/mock-id" ${tag}>Folder</a>
+    <a id="fallback" href="#catalog" ${tag}>Fallback</a>
+    <a id="catalog" href="/catalog/" ${tag}>Internal Catalog</a>
+    <a id="other" href="https://example.test/file/d/mock-id/view" ${tag}>Other</a>
+    <a id="whatsapp" href="https://wa.me/123">WhatsApp</a>
+  </body>`, { url: "https://hoangluxury.travel/catalog/" });
+  const { window: win } = dom;
+  const events = () => win.dataLayer?.filter(({ event }) => event === CATALOG_OPEN_EVENT) || [];
+  const activate = (selector, type = "click", button = 0) => {
+    const target = win.document.querySelector(selector);
+    // Check that tracking does not cancel native navigation, then cancel it only in the test.
+    target.addEventListener(type, (event) => {
+      assert.equal(event.defaultPrevented, false);
+      event.preventDefault();
+    }, { once: true });
+    target.dispatchEvent(new win.MouseEvent(type, { bubbles: true, cancelable: true, button }));
+  };
+  const expected = {
+    event: "hlt_catalog_open", page_type: "catalog", catalog_id: "hlt_customer_catalog",
+    cta_id: "catalog_view_fleet_routes_pricing", cta_location: "content",
+  };
+  assert.equal(setupCtaTracking({ pageType: "catalog" }, win), true);
+  assert.equal(setupCtaTracking({ pageType: "catalog" }, win), false);
+  assert.deepEqual(events(), []);
+  for (const id of ["unmarked", "folder", "fallback", "catalog", "other", "whatsapp"]) activate(`#${id}`);
+  activate("#document span", "auxclick", 2);
+  assert.deepEqual(events(), []);
+  activate("#document span");
+  assert.deepEqual(events(), [expected]);
+  activate("#document span", "auxclick", 1);
+  assert.deepEqual(events(), [expected, expected]);
+  assert.equal(win.dataLayer.some(({ event }) => event === "hlt_catalog_click"), false);
+  setupCtaTracking({ pageType: "home" }, win);
+  activate("#catalog");
+  activate("#document span");
+  assert.deepEqual(events(), [expected, expected]);
+  assert.equal(win.dataLayer.at(-1).event, "hlt_catalog_click");
+  win.close();
+});
+
 // Mọi link /catalog/ trong mã giao diện phải có nhãn catalogCta.
 test("every Catalog link in the site source carries catalogCta tracking attributes", async () => {
   const files = [];
