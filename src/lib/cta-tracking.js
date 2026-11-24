@@ -4,6 +4,8 @@
      H1-06 hlt_catalog_click       mọi link dẫn tới trang Catalog /catalog/ (24/11/2026)
      H1-07 hlt_catalog_open        link mở tài liệu Google Drive được đánh dấu trên trang Catalog
      H2-01 hlt_destination_select  mọi link tới trang chi tiết tuyến / trang Halong Bay Cruises
+     H2-03 hlt_photo_gallery_select nút/thẻ vào thư viện ảnh trên /hoangphoto/ + đổi bộ lọc Albums
+     H2-04 hlt_album_open           link mở một album trong danh sách Photo Albums
 
    Một luồng xử lý ở document (pha capture), nên một lượt
    nhấn chỉ phát đúng một sự kiện, không phát khi render/tải trang, và chạy trước
@@ -27,6 +29,8 @@ export const BOOKING_EVENT = "hlt_booking_form_click";
 export const CATALOG_EVENT = "hlt_catalog_click";
 export const CATALOG_OPEN_EVENT = "hlt_catalog_open";
 export const DESTINATION_EVENT = "hlt_destination_select";
+export const PHOTO_GALLERY_EVENT = "hlt_photo_gallery_select";
+export const ALBUM_OPEN_EVENT = "hlt_album_open";
 
 const NONE = "none";
 
@@ -64,6 +68,32 @@ export function catalogOpenCta(catalogId, ctaId, location = "content") {
 /* Link chọn tuyến / trang du thuyền (H2-01): <a {...destinationCta("header_mega_menu", "route_menu_link")}>.
    Trang đích (destination_type, destination_id) luôn lấy từ chính href của link. */
 export const destinationCta = (location, id) => ctaAttributes(location, id);
+
+/* H2-03 / H2-04: mã concept từ tên bộ lọc ("Nature & Landscapes" → "nature_landscapes",
+   "All" → "all") và mã album từ slug cố định của album ("spring-blossom" →
+   "spring_blossom"). Một album thuộc nhiều concept vẫn chỉ có một slug, nên một mã. */
+export const photoConceptId = (category) =>
+  String(category || "all").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "all";
+export const photoAlbumId = (slug) => String(slug || "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+
+/* Nút/thẻ trên /hoangphoto/ dẫn vào thư viện ảnh (H2-03). */
+export const galleryCta = (location, id, category) => ({
+  ...ctaAttributes(location, id),
+  "data-hlt-photo-concept": photoConceptId(category),
+});
+
+/* Link mở một album trong danh sách (H2-04); category = bộ lọc đang chọn lúc vẽ thẻ. */
+export const albumCta = (slug, category) => ({
+  "data-hlt-album-id": photoAlbumId(slug),
+  "data-hlt-photo-concept": photoConceptId(category),
+});
+
+/* H2-03 phía trang Albums: khách tự đổi sang bộ lọc khác bộ lọc đang chọn. Gọi từ
+   nút lọc (không phải link), nên không đi qua listener click chung. */
+export function trackPhotoFilterSelect(category, win = window) {
+  win.dataLayer = win.dataLayer || [];
+  win.dataLayer.push({ event: PHOTO_GALLERY_EVENT, page_type: "photo_albums", concept_id: photoConceptId(category), cta_location: "album_filters", cta_id: "filter_tab" });
+}
 
 /* Mã tuyến từ khoá tuyến trong journeys.js: "sapa" → "hanoi_to_sapa",
    "sapa-to-ha-long" → "sapa_to_ha_long". */
@@ -247,6 +277,19 @@ export function setupCtaTracking(context, win = window) {
     else if (state.context?.pageType !== "booking" && isBookingHref(href, win.location.href)) payload = buildBookingEvent(anchor, state.context);
     // Đang ở chính trang Catalog thì link Catalog chỉ tải lại trang: không tính.
     else if (state.context?.pageType !== "catalog" && isCatalogHref(href, win.location.href)) payload = buildCatalogEvent(anchor, state.context);
+    // H2-04 trước H2-03: link album cũng mang concept đang lọc, nhưng chỉ là mở album.
+    else if (anchor.hasAttribute("data-hlt-album-id")) payload = {
+      event: ALBUM_OPEN_EVENT,
+      album_id: anchor.getAttribute("data-hlt-album-id"),
+      concept_id: anchor.getAttribute("data-hlt-photo-concept") || "all",
+    };
+    else if (anchor.hasAttribute("data-hlt-photo-concept")) payload = {
+      event: PHOTO_GALLERY_EVENT,
+      page_type: state.context?.pageType || null,
+      concept_id: anchor.getAttribute("data-hlt-photo-concept"),
+      cta_location: anchor.getAttribute("data-hlt-cta-location"),
+      cta_id: anchor.getAttribute("data-hlt-cta-id"),
+    };
     else {
       const destination = destinationFromHref(href, win.location.href);
       if (destination) payload = isCurrentDestination(destination, state.context) ? null : buildDestinationEvent(anchor, destination, state.context);

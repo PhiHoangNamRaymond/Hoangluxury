@@ -16,7 +16,7 @@ import { formatVnd, VND_PER_USD } from "./config/journeys.js";
 import { photoAlbumsPath, photoCategoryPath } from "./config/photo-album-list.js";
 import { whatsappPhotoInquiryUrl, whatsappPhotoHalfDayUrl, whatsappPhotoFullDayUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { waCta } from "./lib/cta-tracking.js";
+import { galleryCta, waCta } from "./lib/cta-tracking.js";
 
 /* Trang giới thiệu dịch vụ chụp ảnh. Lưới album ảnh thật nằm ở /hoangphoto/albums/;
    mũi tên trên mỗi thẻ phong cách dẫn tới lưới đã lọc sẵn (/hoangphoto/<phong cách>/). */
@@ -325,7 +325,7 @@ export default function PhotoPage() {
                 <WhatsAppGlyph className="hlt-pl-ic hlt-pl-btn-ic" />
                 Book via Photo
               </a>
-              <a className="hlt-btn hlt-btn-outline" href={albumsUrl}>
+              <a className="hlt-btn hlt-btn-outline" href={albumsUrl} {...galleryCta("photo_hero", "view_album", "All")}>
                 View Album
               </a>
             </div>
@@ -349,6 +349,7 @@ export default function PhotoPage() {
                   <a
                     className="hlt-pl-style-media"
                     href={photoCategoryPath(style.title)}
+                    {...galleryCta("photo_concepts", "concept_card", style.title)}
                     aria-label={`See ${style.title} photos`}
                   >
                     <img src={style.image} alt="" loading="lazy" />
@@ -366,7 +367,7 @@ export default function PhotoPage() {
                 </article>
               ))}
             </div>
-            <a className="hlt-pl-view-all-photos" href={albumsUrl}>
+            <a className="hlt-pl-view-all-photos" href={albumsUrl} {...galleryCta("photo_concepts", "view_all_album", "All")}>
               View All Album
             </a>
           </div>

@@ -1,8 +1,8 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02), Photo gallery select (H2-03), Album open (H2-04)
 
 Mã nguồn:
 
-- `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07 và H2-01 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+- `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07, H2-01, H2-03 và H2-04 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
 - `src/lib/faq-tracking.js`: H2-02; mã `faq_id` gắn trong `src/config/journeys.js` và `src/config/cruises.js`.
 - `src/lib/booking-submit-tracking.js`: H1-05 (gọi từ `src/BookingPage.jsx`) và H1-08 (gọi từ `src/FeedbackPage.jsx`).
@@ -574,3 +574,77 @@ Bàn giao cho Marketing ngày 24/11/2026.
     - `route_id` là `null`.
 
 **Marketing cần tạo mới** biến `faq_id`, trigger `hlt_faq_open` và tag `faq_open`. Các biến `page_type`, `route_id` dùng lại.
+
+# H2-03 – hlt_photo_gallery_select (PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{ event: "hlt_photo_gallery_select", page_type: "photo_landing", concept_id: "nature_landscapes", cta_location: "photo_concepts", cta_id: "concept_card" }
+{ event: "hlt_photo_gallery_select", page_type: "photo_albums", concept_id: "local_culture", cta_location: "album_filters", cta_id: "filter_tab" }
+```
+
+| Hành động | page_type | cta_location | cta_id | concept_id |
+|---|---|---|---|---|
+| VIEW ALBUM ở hero trang Hoang Photo | `photo_landing` | `photo_hero` | `view_album` | `all` |
+| VIEW ALL ALBUM bên dưới 6 concept | `photo_landing` | `photo_concepts` | `view_all_album` | `all` |
+| Thẻ concept (ảnh của thẻ) | `photo_landing` | `photo_concepts` | `concept_card` | mã concept của thẻ |
+| Đổi bộ lọc trong trang Albums | `photo_albums` | `album_filters` | `filter_tab` | mã bộ lọc vừa chọn |
+
+**concept_id:** `all`, `nature_landscapes`, `couples_honeymoons`, `local_culture`, `family_moments`, `cinematic_travel`, `proposals_celebrations`.
+- Mã lấy từ tên concept, nên giống nhau trên cả 2 trang.
+- Đường dẫn của concept Nature & Landscapes là `/hoangphoto/natural-landscapes/`, nhưng `concept_id` vẫn là `nature_landscapes` như yêu cầu.
+
+- **Trang Hoang Photo:**
+  - Đi chung bộ bắt click với các sự kiện khác, nên mỗi lần nhấn chỉ ra một sự kiện, trước khi chuyển trang.
+  - Ở thẻ concept, chỉ **ảnh** là link. Phần chữ (tiêu đề, mô tả) không bấm được, nên không có gì để đo ở đó.
+- **Trang Albums:** chỉ phát khi khách **đổi sang bộ lọc khác** bộ lọc đang chọn.
+- **Không phát:**
+  - Khi mở trang Albums trực tiếp, với bộ lọc All mặc định.
+  - Khi mở trang Albums đã lọc sẵn một concept. Đây là trường hợp khách vừa bấm thẻ concept ở trang Hoang Photo: thẻ đã phát một sự kiện, trang Albums không phát thêm.
+  - Khi bấm lại bộ lọc đang chọn.
+  - Khi chuyển trang danh sách, mở album, cuộn trang, render lại hay tải lại trang.
+
+# H2-04 – hlt_album_open (PC + mobile)
+
+```js
+{ event: "hlt_album_open", album_id: "melody_of_the_mountains", concept_id: "local_culture" }
+```
+
+- **Mỗi thẻ album trong danh sách Photo Albums có 2 link**, ảnh đại diện và tên album. Cả 2 đều được tính: mỗi lần nhấn ra đúng **một** sự kiện, kể cả khi nhấn vào ảnh nằm trong link.
+- **album_id** lấy từ slug cố định của album, đổi `-` thành `_` (ví dụ `spring_blossom`, `dreamy_garden`).
+  - Mỗi album thật chỉ có **một** slug, nên album nằm ở nhiều concept vẫn giữ một mã. Ví dụ Melody of the Mountains thuộc cả Couples & Honeymoons và Local Culture, Garden of Vows thuộc cả Couples & Honeymoons và Proposals & Celebrations.
+  - Đổi thứ tự hay vị trí album không làm đổi mã.
+- **concept_id** là **bộ lọc đang chọn** lúc khách nhấn, theo cùng bảng mã ở H2-03.
+- Áp dụng cho mọi album, kể cả album ở trang danh sách thứ 2 trở đi.
+- **Không phát:**
+  - Khi chỉ đổi bộ lọc hoặc chuyển trang danh sách.
+  - Khi xem ảnh trong trang chi tiết album, bấm Back, tải lại trang hoặc vào thẳng đường dẫn album.
+  - Khi nhấn "Next album" trong trang chi tiết (yêu cầu chỉ đo lượt mở từ danh sách).
+- Mở album **không** kéo theo `hlt_photo_gallery_select`. Mở lại album sau khi bấm Back vẫn tính thêm một lượt.
+
+## Kiểm tra H2-03 và H2-04
+
+- Có 2 test tự động trong `tests/cta-tracking.test.mjs`:
+  - Đủ 7 mã concept.
+  - Mỗi album thật một mã, và có album thuộc nhiều concept.
+  - Mỗi lần nhấn đúng một sự kiện. Ảnh bên trong link chỉ tính một lần.
+  - Cùng album mở từ 2 concept giữ nguyên `album_id`.
+  - Nhấn số trang danh sách không phát.
+  - Mở album không phát sự kiện chọn concept.
+- Trên dev (bấm trong trình duyệt):
+  - **Trang Hoang Photo (1440px và 375px):**
+    - VIEW ALBUM, 6 thẻ concept và VIEW ALL ALBUM ra đúng 8 sự kiện với đúng mã.
+    - Tải trang: 0 sự kiện.
+  - **Trang Albums mở trực tiếp:**
+    - Tải trang: 0 sự kiện. Bấm lại All: 0.
+    - All → Nature → Couples: 2 sự kiện. Bấm lại Couples: không thêm.
+    - Mở Melody of the Mountains từ Couples, rồi từ Local Culture: cùng `album_id`, `concept_id` khác nhau.
+    - Về All: 1 sự kiện.
+    - Trang danh sách số 2: không phát. Mở album ở trang 2: 1 `hlt_album_open` với `concept_id` là `all`.
+  - **Trang Albums mở sẵn concept Nature & Landscapes** (đúng đường dẫn của thẻ concept), cả 375px và 1440px:
+    - Bộ lọc tự áp dụng: 0 sự kiện.
+    - Bấm lại bộ lọc đang chọn: 0.
+    - Đổi sang Family Moments: 1 sự kiện.
+
+**Marketing cần tạo mới** biến `concept_id`, `album_id`, 2 trigger `hlt_photo_gallery_select` và `hlt_album_open`, 2 tag `photo_gallery_select` và `album_open`. Các biến `page_type`, `cta_location`, `cta_id` dùng lại.

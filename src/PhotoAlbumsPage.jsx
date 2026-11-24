@@ -16,7 +16,7 @@ import {
 import { whatsappPhotoUrl, whatsappPhotoInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { rememberAlbumReturn, takeAlbumReturnScroll } from "./lib/album-return.js";
-import { waCta } from "./lib/cta-tracking.js";
+import { albumCta, trackPhotoFilterSelect, waCta } from "./lib/cta-tracking.js";
 
 const ALL = ALL_PHOTO_CATEGORIES;
 const PER_PAGE = 12;
@@ -149,6 +149,9 @@ export default function PhotoAlbumsPage() {
   }, []);
 
   const selectCategory = (category) => {
+    // H2-03: chỉ khi khách đổi sang bộ lọc khác; bấm lại bộ lọc đang chọn, bộ lọc mặc
+    // định hay bộ lọc tự áp dụng từ đường dẫn khi tải trang đều không tính.
+    if (category !== activeCategory) trackPhotoFilterSelect(category);
     setActiveCategory(category);
     setPage(1);
   };
@@ -215,7 +218,7 @@ export default function PhotoAlbumsPage() {
             <div className="hlt-photo-grid">
               {visible.map((item) => (
                 <article className="hlt-photo-card" key={item.title}>
-                  <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn}>
+                  <a className="hlt-photo-card-media" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn} {...albumCta(item.slug, activeCategory)}>
                     <img src={item.image} alt="" loading="lazy" />
                     {item.videos && (
                       <span className="hlt-photo-card-badge">
@@ -224,7 +227,7 @@ export default function PhotoAlbumsPage() {
                       </span>
                     )}
                   </a>
-                  <a className="hlt-photo-card-caption" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn}>
+                  <a className="hlt-photo-card-caption" href={photoAlbumUrl(item.slug)} onClick={rememberAlbumReturn} {...albumCta(item.slug, activeCategory)}>
                     {item.name}
                     {item.note && <span className="hlt-photo-card-note"> ({item.note})</span>}
                   </a>
