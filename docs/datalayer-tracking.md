@@ -1,9 +1,10 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Submit error (H1-08)
 
 Mã nguồn:
 
 - `src/lib/cta-tracking.js`: H1-01 và H1-02 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
+- `src/lib/booking-submit-tracking.js`: H1-05 và H1-08, gọi từ hàm gửi form trong `src/BookingPage.jsx`.
 
 # H1-01 – hlt_whatsapp_click
 
@@ -242,3 +243,66 @@ Bàn giao cho Marketing ngày 24/11/2026.
   - Kết quả: đúng 4 sự kiện, và GTM đã nhận cả 4.
 - PC (1440px): form hiện đủ 14 ô trên một trang, không có nút Continue, không có sự kiện bước nào.
 - Phần bắt đầu lượt mới sau khi gửi thành công chỉ được kiểm tra bằng test tự động. Không gửi thử yêu cầu thật, để không tạo booking giả trong hệ thống.
+
+# H1-05 – hlt_booking_form_submit_success (PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{ event: "hlt_booking_form_submit_success" }
+```
+
+- Sự kiện chỉ có tên, không kèm trường nào và không có dữ liệu khách.
+- Sự kiện được phát trong hàm gửi form, ngay sau khi máy chủ xác nhận `ok` và trước khi hiện THANK YOU. Đây chính là điều kiện đang quyết định việc hiện THANK YOU, nên sự kiện không phụ thuộc vào việc popup có xuất hiện trên giao diện hay không.
+- PC và mobile dùng chung form và cùng nút REQUEST A QUOTE, nên cùng một logic.
+- **Không phát:**
+  - Khi mở hoặc điền form, khi chuyển bước.
+  - Khi bấm REQUEST A QUOTE nhưng gửi chưa thành công.
+  - Khi render lại, khi đóng hoặc mở lại THANK YOU.
+  - Khi tải lại trang.
+- **Chống trùng:**
+  - Mỗi yêu cầu có một `requestId`, cũng là mã máy chủ dùng để chống gửi trùng. Mỗi `requestId` chỉ tính một lần.
+  - Trong lúc đang gửi, các lần bấm thêm bị bỏ qua và không gửi thêm yêu cầu. Trước đây nếu bấm rất nhanh liên tiếp vẫn có thể lọt một yêu cầu thứ hai.
+  - Một yêu cầu mới (sau khi form đã được xoá trắng) có `requestId` mới, nên được tính thêm một lần.
+
+# H1-08 – hlt_booking_submit_error (PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{ event: "hlt_booking_submit_error", error_category: "server" }
+```
+
+| error_category | Khi nào |
+|---|---|
+| `validation` | Bấm REQUEST A QUOTE khi form chưa hợp lệ. Gồm hai trường hợp: (1) ô bắt buộc còn thiếu hoặc sai định dạng, trình duyệt tự chặn và hiện nhắc nhở; (2) kiểm tra của website khi gửi: ngày đi đã qua, chữ nhập không hợp lệ, chưa chọn mã quốc gia. |
+| `server` | Máy chủ trả mã lỗi (4xx/5xx), trả `ok` khác `true`, hoặc phản hồi không đọc được |
+| `network` | Không có phản hồi: mất mạng, không kết nối được, hoặc quá 30 giây |
+| `verification` | Bấm gửi khi chưa có mã xác minh Turnstile |
+| `unknown` | Website chưa cấu hình địa chỉ gửi form, hoặc lỗi không rơi vào các nhóm trên |
+
+- Mỗi lần bấm REQUEST A QUOTE thất bại phát đúng **một** sự kiện. Lần gửi sau thất bại thì phát thêm một sự kiện mới.
+- **Không phát:**
+  - Khi khách đang nhập.
+  - Khi nhấn Continue hoặc Back trên mobile.
+  - Khi gửi thành công.
+  - Khi đóng hoặc mở lại thông báo lỗi cũ, hoặc khi render lại.
+- Chỉ gửi `error_category`. Không gửi nội dung lỗi của máy chủ hay dữ liệu khách.
+- Thông báo lỗi hiển thị cho khách giữ nguyên như trước.
+- **Lưu ý về `verification`:** nút REQUEST A QUOTE vốn bị khoá cho tới khi Turnstile xác minh xong. Khi mã xác minh hết hạn, nút cũng bị khoá lại. Vì vậy trên thực tế nhóm này gần như không xuất hiện. Khách bị kẹt ở bước xác minh sẽ không bấm được nút, nên trường hợp đó không đo được bằng sự kiện này.
+- **Lưu ý về `network`:** khi khách mất mạng thật, chính sự kiện gửi lên GA4 cũng có thể không đi được, nên con số lỗi `network` trong GA4 có thể thấp hơn thực tế.
+- **Trên mobile:** các ô đã được kiểm tra ở từng bước, nên lỗi `validation` khi gửi chủ yếu đến từ kiểm tra của website, ví dụ để trang mở qua đêm khiến ngày đi đã qua.
+
+## Kiểm tra H1-05 và H1-08
+
+- `tests/booking-submit-tracking.test.mjs` dựng trang Booking thật trong môi trường test. Máy chủ và Turnstile là bản giả, không gửi booking thật. Test kiểm tra lần lượt:
+  - Mở và điền form: không phát.
+  - Bấm gửi khi còn thiếu ô bắt buộc: phát một `validation` và không gửi gì lên máy chủ.
+  - Máy chủ báo lỗi: phát một `server`.
+  - Mất mạng: phát một `network`.
+  - Thành công, bấm liên tục 3 lần: chỉ 1 yêu cầu gửi đi và 1 `hlt_booking_form_submit_success`, THANK YOU hiện ra.
+  - Đóng popup và render lại: không phát thêm.
+  - Một yêu cầu mới thành công: phát thêm 1 sự kiện, với `requestId` khác.
+  - Data Layer không chứa tên, số điện thoại, địa chỉ, hành lý hay mã Turnstile.
+- Test riêng cho `submitForm`: đúng nhóm lỗi với từng loại sự cố (mất mạng, quá thời gian, 500, `ok: false`, phản hồi không phải JSON, địa chỉ sai). Thông báo lỗi giữ nguyên.
+- Trên dev: trang Booking tải bình thường, không có lỗi console, không phát sự kiện nào khi mở trang. Không gửi thử yêu cầu thật, vì Turnstile thật yêu cầu người xác minh và địa chỉ gửi là hệ thống thật. Marketing kiểm tra trên website demo bằng GTM Preview.
