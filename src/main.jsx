@@ -348,9 +348,9 @@ if (!isAdminRoute) {
 // Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
 setupImageSkeletons();
 
-// Chặn chuột phải / sao chép / bôi đen / kéo ảnh trên trang công khai. TẠM TẮT từ
-// 22/11/2026 để đội marketing kiểm tra GTM bằng F12 (chuột phải > Inspect). Bật lại:
-// đổi thành true.
-const contentProtectionOn = false;
+// Chặn chuột phải / sao chép / bôi đen / kéo ảnh và phím tắt DevTools (F12, Ctrl+Shift+I/J/C,
+// Ctrl+U) trên trang công khai. Bật lại 25/11/2026 theo yêu cầu chủ website (đã tắt tạm
+// từ 22/11 để marketing kiểm tra GTM). Muốn tắt tạm: đổi thành false.
+const contentProtectionOn = true;
 const cleanupContentProtection = setupContentProtection(document, { enabled: contentProtectionOn && !isAdminRoute });
 if (import.meta.hot) import.meta.hot.dispose(cleanupContentProtection);

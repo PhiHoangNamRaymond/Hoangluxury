@@ -1,3 +1,7 @@
+// @ts-nocheck
+// Dashboard editor của Supabase lưu file thành index.ts và kiểm tra kiểu TypeScript,
+// báo đỏ những chỗ JS hợp lệ (await import "npm:…", Deno.env). Dòng trên chỉ tắt
+// kiểm tra kiểu đó, không ảnh hưởng cách function chạy.
 // Một file duy nhất: có thể dán toàn bộ vào index.ts của Dashboard editor.
 // verify_jwt=false ở gateway KHÔNG bỏ xác thực: mỗi POST được getUser(token)
 // kiểm tra và tra role/active từ DB trước khi dùng khóa server.

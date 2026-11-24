@@ -3,8 +3,8 @@ main = "forms-worker.js"
 compatibility_date = "2026-11-01"
 workers_dev = false
 routes = [
-  { pattern = "hoangluxury.travel/api/forms", zone_name = "hoangluxury.travel" },
-  { pattern = "www.hoangluxury.travel/api/forms", zone_name = "hoangluxury.travel" }
+  { pattern = "hoangluxury.travel/*", zone_name = "hoangluxury.travel" },
+  { pattern = "www.hoangluxury.travel/*", zone_name = "hoangluxury.travel" }
 ]
 
 [vars]
