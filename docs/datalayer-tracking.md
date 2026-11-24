@@ -1,9 +1,10 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02), Photo gallery select (H2-03), Album open (H2-04)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02), Photo gallery select (H2-03), Album open (H2-04), Blog filter (H3-01)
 
 Mã nguồn:
 
 - `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07, H2-01, H2-03 và H2-04 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
+- `src/lib/blog-filter-tracking.js`: H3-01, gọi từ bộ lọc trong `src/BlogPage.jsx`.
 - `src/lib/faq-tracking.js`: H2-02; mã `faq_id` gắn trong `src/config/journeys.js` và `src/config/cruises.js`.
 - `src/lib/booking-submit-tracking.js`: H1-05 (gọi từ `src/BookingPage.jsx`) và H1-08 (gọi từ `src/FeedbackPage.jsx`).
 
@@ -648,3 +649,57 @@ Bàn giao cho Marketing ngày 24/11/2026.
     - Đổi sang Family Moments: 1 sự kiện.
 
 **Marketing cần tạo mới** biến `concept_id`, `album_id`, 2 trigger `hlt_photo_gallery_select` và `hlt_album_open`, 2 tag `photo_gallery_select` và `album_open`. Các biến `page_type`, `cta_location`, `cta_id` dùng lại.
+
+# H3-01 – hlt_blog_filter (PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{ event: "hlt_blog_filter", filter_type: "destination", filter_value: "sapa" }
+{ event: "hlt_blog_filter", filter_type: "topic", filter_value: "travel_tips" }
+```
+
+## Tình trạng bộ lọc Blog
+
+**Bộ lọc đã hoạt động thật.** Bấm một lựa chọn sẽ đổi trạng thái bộ lọc (nút sáng lên, tiêu đề danh sách đổi, danh sách được lọc lại) ngay trên trang `/blog/`, không chuyển sang URL khác. Blog hiện chưa có bài ("No articles yet"), nhưng bộ lọc vẫn được áp dụng, nên sự kiện vẫn phát (Trường hợp 1 trong yêu cầu).
+
+## Cách hoạt động
+
+- Phát khi khách tự bấm/chạm **chọn** một lựa chọn trong DESTINATIONS hoặc TOPICS và bộ lọc đổi sang lựa chọn đó. Mỗi lần chọn là một sự kiện.
+- Hai nhóm độc lập, có thể cùng bật một địa điểm và một chủ đề.
+- **Bấm lại lựa chọn đang bật sẽ bỏ chọn nó** (cơ chế bật/tắt có sẵn của trang). Thao tác bỏ chọn **không** phát sự kiện, vì đó không phải chọn một giá trị mới. Bỏ chọn rồi chọn lại thì tính thêm một lượt.
+- Khu **"Explore Northern Vietnam"** ở cột phải (thẻ Explore Sapa…) áp dụng đúng bộ lọc Destinations, nên cũng phát `filter_type: "destination"` khi bộ lọc địa điểm thật sự đổi. Thẻ này không có chế độ bật/tắt.
+- **Không phát:**
+  - Khi mở hoặc tải lại trang Blog, khi render lại.
+  - Khi bấm lại lựa chọn đang chọn (bỏ chọn).
+  - Khi nhấn nút × trên nhãn bộ lọc, "Clear all" hoặc "Reset filters".
+  - Khi dùng ô Search, menu Newest first, "View all articles", hoặc mở bài viết.
+  - Khi vào thẳng `/blog/<địa điểm>/`. Đường dẫn này mở trang Blog nhưng không tự bật bộ lọc nào.
+- Chỉ gửi mã đã chuẩn hoá. Không gửi nội dung ô tìm kiếm.
+
+## Giá trị thực tế
+
+| filter_type | filter_value |
+|---|---|
+| `destination` | `sapa`, `halong_bay`, `ninh_binh`, `ha_giang`, `cat_ba`, `cao_bang`, `pu_luong`, `moc_chau`, `mu_cang_chai`, `ta_xua` |
+| `topic` | `plan_your_trip`, `itineraries`, `transport`, `where_to_stay`, `things_to_do`, `food_and_drink`, `travel_tips`, `travel_costs` |
+
+Nút Hạ Long trên trang hiện ghi là **"Ha Long"**, không phải "Halong Bay". Mã gửi đi vẫn là `halong_bay` như yêu cầu.
+
+## Kiểm tra
+
+- Test tích hợp trong `tests/blog-components.test.mjs` dựng trang Blog thật với 0 bài viết. Test kiểm tra:
+  - Đủ 10 + 8 mã.
+  - Mở trang: không phát.
+  - Sapa: phát; bấm lại (bỏ chọn): không phát; Sapa lần nữa: phát.
+  - Ha Giang, Ha Long, Transport, Travel Tips: mỗi cái phát 1 sự kiện.
+  - Render lại, gõ Search, đổi sắp xếp: không phát.
+  - Explore Sapa: phát khi đổi địa điểm; bấm lần 2 (vẫn Sapa): không phát.
+  - Dữ liệu chỉ có `event`, `filter_type`, `filter_value`, không có nội dung tìm kiếm.
+- Trên dev, trang `/blog/` thật ở khổ 1440px và 375px (đủ 10 Destinations, 8 Topics, đang "No articles yet"):
+  - Mở trang: 0 sự kiện.
+  - Sapa → bỏ Sapa → Sapa → Ha Giang: 3 sự kiện.
+  - Transport → Travel Tips → bỏ Travel Tips: 2 sự kiện.
+  - View all articles: không phát.
+
+**Marketing cần tạo mới** biến `filter_type`, `filter_value`, trigger `hlt_blog_filter` và tag `blog_filter`.
