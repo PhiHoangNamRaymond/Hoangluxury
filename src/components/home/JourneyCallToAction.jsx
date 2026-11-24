@@ -1,7 +1,7 @@
 import React from "react";
 import { journeyCtaMountainsUrl } from "../../config/assets.js";
 import { catalogPageUrl, whatsappUrl } from "../../data.js";
-import { bookingCta, waCta } from "../../lib/cta-tracking.js";
+import { bookingCta, catalogCta, waCta } from "../../lib/cta-tracking.js";
 
 // Ba bước đặt xe cho bản "route" (trang /journey/<slug>/): số, tiêu đề (h3, PC
 // và mobile), phụ đề chỉ hiện trên PC.
@@ -113,7 +113,7 @@ export default function JourneyCallToAction({
             <a
               className="hlt-btn hlt-btn-outline"
               href={secondary === "form" ? "/booking/" : catalogPageUrl}
-              {...(secondary === "form" ? bookingCta("bottom_cta", `booking_${trackingPage}_bottom_cta`) : {})}
+              {...(secondary === "form" ? bookingCta("bottom_cta", `booking_${trackingPage}_bottom_cta`) : catalogCta("bottom_cta", `catalog_${trackingPage}_bottom_cta`))}
             >
               {secondary === "form" ? "Book via Form" : "View Catalog"}
             </a>

@@ -11,6 +11,23 @@ export function browserName(agent = "") {
   if (/Safari\//i.test(agent) && /Version\//i.test(agent)) return "Safari";
   return "Unknown";
 }
+/* Log lỗi gửi form (tab Errors trong Sheet). Khách gặp lỗi có thể chưa có / đã hết
+   mã Turnstile nên log không đòi CAPTCHA; bù lại chỉ nhận đúng các trường liệt kê,
+   giá trị trong danh sách cố định, không có chữ tự do hay dữ liệu khách. Apps Script
+   còn giới hạn số dòng mỗi giờ và gom email báo. */
+const errorLogFields = ["form", "sourceForm", "category", "status", "device", "page", "occurredAt", "reportId"];
+export function validErrorLog(data, now = Date.now()) {
+  for (const key of data.keys()) if (!errorLogFields.includes(key)) return false;
+  const occurred = Date.parse(data.get("occurredAt") || "");
+  return ["booking", "feedback"].includes(data.get("sourceForm")) &&
+    ["validation", "server", "network", "unknown"].includes(data.get("category")) &&
+    /^(?:\d{3})?$/.test(data.get("status") ?? "") &&
+    ["PC", "Mobile"].includes(data.get("device")) &&
+    /^\/[A-Za-z0-9/_-]{0,199}$/.test(data.get("page") || "") &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(data.get("occurredAt") || "") &&
+    occurred > now - 8 * 864e5 && occurred < now + 5 * 60e3 &&
+    /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(data.get("reportId") || "");
+}
 const locationText = (value) => typeof value === "string" && value.length <= 120 && !/[\u0000-\u001f\u007f]/.test(value) ? value : "Unknown";
 
 async function boundedText(response, max = 32768) {
@@ -58,6 +75,14 @@ export function createFormsHandler({ endpoint, proxySecret, turnstileSecret, all
       const data = new URLSearchParams(body);
       for (const key of data.keys()) if (data.getAll(key).length !== 1) return respond(400);
       const form = data.get("form") || "booking";
+      if (form === "error-log") {
+        if (!validErrorLog(data)) return respond(400);
+        data.set("browser", browserName(request.headers.get("User-Agent") || ""));
+        data.set("proxySecret", proxySecret);
+        const logged = await fetcher(endpoint,{method:"POST",body:data,signal:AbortSignal.timeout(15000),redirect:"follow"});
+        if (!logged.ok) return respond(503);
+        return JSON.parse(await boundedText(logged,2048)).ok === true ? respond(200,true) : respond(400);
+      }
       const token = data.get("turnstileToken") || "";
       if (!["booking","feedback"].includes(form) || !token || token.length > 2048 || data.has("proxySecret") ||
           !/^[a-f0-9-]{36}$/.test(data.get("requestId") || "")) return respond(400);

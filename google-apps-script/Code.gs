@@ -4,12 +4,18 @@
  * Một Web App duy nhất phục vụ hai biểu mẫu, phân biệt bằng tham số `form`:
  *   - form trống hoặc "booking"  -> ghi vào tab Bookings
  *   - form = "feedback"          -> ghi vào tab Feedback
+ *   - form = "error-log"         -> ghi vào tab Errors (khách gửi form bị lỗi)
  *
  * Cài đặt (Project Settings > Script properties):
  *   SPREADSHEET_ID   id của Google Sheet. Bỏ qua được nếu project gắn sẵn
  *                    vào file Sheet (mở bằng Extensions > Apps Script).
  *   SHEET_NAME       tuỳ chọn, mặc định "Bookings"
  *   FEEDBACK_SHEET_NAME tuỳ chọn, mặc định "Feedback" (hỗ trợ FEEDBACK_SHEET cũ)
+ *   ERROR_SHEET_NAME tuỳ chọn, mặc định "Errors"
+ *   ERROR_ALERT_EMAIL  email nhận báo lỗi gửi form (nhiều email ngăn bằng dấu phẩy).
+ *                    Bỏ trống = chỉ ghi tab Errors, không gửi email. Lần đầu dùng
+ *                    phải chạy testErrorAlert() trong editor để cấp quyền gửi mail.
+ *   ERROR_LOG_HOURLY_LIMIT tuỳ chọn, mặc định 200 dòng log lỗi mỗi giờ.
  *
  * Sau khi sửa file này phải Deploy > Manage deployments > New version,
  * nếu không website vẫn gọi vào bản cũ.
@@ -54,6 +60,25 @@ const FEEDBACK_HEADERS = [
   "Feedback",   // C
   "Note",       // D
 ];
+
+// Tab Errors: mỗi lần khách gửi Booking/Feedback thất bại là một dòng. Không có dữ
+// liệu khách: chỉ nhóm lỗi, mã HTTP, thiết bị, trình duyệt, đường dẫn trang.
+const ERROR_HEADERS = [
+  "Received At",    // A  giờ Việt Nam, lúc Apps Script nhận log
+  "Occurred At",    // B  giờ Việt Nam, lúc khách gặp lỗi (log gửi lại sau khi có mạng)
+  "Form",           // C  booking / feedback
+  "Error Category", // D  validation / server / network / unknown
+  "HTTP Status",    // E
+  "Device",         // F
+  "Browser",        // G
+  "Page",           // H
+  "Report ID",      // I
+  "Note",           // J  ghi chú xử lý (nhập tay)
+];
+const ERROR_CATEGORIES = ["validation", "server", "network", "unknown"];
+const ERROR_ALERT_CATEGORIES = ["server", "network", "unknown"];
+const ERROR_SHEET_MAX_ROWS = 5000;
+const ERROR_ALERT_INTERVAL_SECONDS = 900; // tối đa 1 email / 15 phút
 
 const BOOKING_STATUSES = [
   "New",
@@ -116,8 +141,9 @@ function doPost(event) {
     if (data.website) return jsonResponse_({ ok: true });
 
     const formType = String(data.form || "booking").trim().toLowerCase();
-    if (formType !== "booking" && formType !== "feedback") throw new Error("Invalid form");
+    if (formType !== "booking" && formType !== "feedback" && formType !== "error-log") throw new Error("Invalid form");
     validateFieldBounds_(data);
+    if (formType === "error-log") return saveErrorLog_(data);
     return formType === "feedback" ? saveFeedback_(data) : saveBooking_(data);
   } catch (error) {
     // Never echo exceptions: they may contain spreadsheet IDs or customer data.
@@ -242,6 +268,114 @@ function saveFeedback_(data) {
   }
 
   return jsonResponse_({ ok: true });
+}
+
+/* ------------------------------------------------------------------ *
+ * Tab Errors: log lỗi gửi form
+ * ------------------------------------------------------------------ */
+
+function validateErrorLog_(data) {
+  const allowed = ["form", "sourceForm", "category", "status", "device", "page", "occurredAt", "reportId", "browser", "proxySecret"];
+  Object.keys(data).forEach(function (key) { if (allowed.indexOf(key) < 0) throw new Error("Invalid error log field"); });
+  if (data.sourceForm !== "booking" && data.sourceForm !== "feedback") throw new Error("Invalid error log form");
+  if (ERROR_CATEGORIES.indexOf(data.category) < 0) throw new Error("Invalid error category");
+  if (!/^(\d{3})?$/.test(String(data.status || ""))) throw new Error("Invalid status");
+  if (data.device !== "PC" && data.device !== "Mobile") throw new Error("Invalid device");
+  if (!/^\/[A-Za-z0-9\/_-]{0,199}$/.test(String(data.page || ""))) throw new Error("Invalid page");
+  if (!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(String(data.reportId || ""))) throw new Error("Invalid report ID");
+  const text = String(data.occurredAt || "");
+  const occurred = new Date(text);
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/.test(text) || isNaN(occurred.getTime())) throw new Error("Invalid time");
+  return occurred;
+}
+
+function saveErrorLog_(data) {
+  const occurred = validateErrorLog_(data);
+  const cache = CacheService.getScriptCache();
+  const seenKey = "error-log:" + data.reportId;
+  // Log gửi lại (sau khi mất mạng) có thể tới hai lần: chỉ ghi một dòng.
+  if (cache.get(seenKey)) return jsonResponse_({ ok: true });
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  let row = null;
+  try {
+    if (cache.get(seenKey)) return jsonResponse_({ ok: true });
+    const limit = Number(PropertiesService.getScriptProperties().getProperty("ERROR_LOG_HOURLY_LIMIT") || "200");
+    const hourKey = "error-log-count:" + Math.floor(Date.now() / 3600000);
+    const count = Number(cache.get(hourKey) || "0");
+    cache.put(seenKey, "1", 21600);
+    // Quá giới hạn (lỗi hàng loạt hoặc bị spam): nhận nhưng không ghi thêm, tránh đầy Sheet.
+    if (!Number.isInteger(limit) || limit < 1 || count >= limit) return jsonResponse_({ ok: true });
+    cache.put(hourKey, String(count + 1), 3600);
+
+    const sheet = getSheetByProperty_("ERROR_SHEET_NAME", "Errors");
+    ensureHeaders_(sheet, 1, ERROR_HEADERS);
+    if (sheet.getLastRow() > ERROR_SHEET_MAX_ROWS) return jsonResponse_({ ok: true });
+    const zone = "Asia/Ho_Chi_Minh";
+    row = [
+      Utilities.formatDate(new Date(), zone, "dd/MM/yyyy HH:mm:ss"),
+      Utilities.formatDate(occurred, zone, "dd/MM/yyyy HH:mm:ss"),
+      data.sourceForm, data.category, String(data.status || ""), data.device,
+      safeCell_(data.browser || "Unknown"), data.page, data.reportId, "",
+    ];
+    const target = Math.max(sheet.getLastRow() + 1, 2);
+    sheet.getRange(target, 1, 1, ERROR_HEADERS.length).setNumberFormat("@");
+    sheet.getRange(target, 1, 1, ERROR_HEADERS.length).setValues([row]);
+    SpreadsheetApp.flush();
+  } finally {
+    lock.releaseLock();
+  }
+
+  if (row && ERROR_ALERT_CATEGORIES.indexOf(data.category) >= 0) sendErrorAlert_(row, cache);
+  return jsonResponse_({ ok: true });
+}
+
+function errorAlertRecipients_() {
+  const value = String(PropertiesService.getScriptProperties().getProperty("ERROR_ALERT_EMAIL") || "");
+  return value.split(",").map(function (item) { return item.trim(); })
+    .filter(function (item) { return /^[^@\s,]+@[^@\s,]+\.[^@\s,]+$/.test(item); });
+}
+
+/* Gom email: tối đa 1 email / 15 phút; email sau báo luôn số lỗi bị gom. Lỗi gửi
+   mail (hết hạn mức, chưa cấp quyền) không làm mất dòng log đã ghi. */
+function sendErrorAlert_(row, cache) {
+  try {
+    const recipients = errorAlertRecipients_();
+    if (!recipients.length) return;
+    if (cache.get("error-alert-sent")) {
+      cache.put("error-alert-pending", String(Number(cache.get("error-alert-pending") || "0") + 1), 21600);
+      return;
+    }
+    const pending = Number(cache.get("error-alert-pending") || "0");
+    let sheetUrl = "";
+    try { sheetUrl = getSpreadsheet_().getUrl(); } catch (error) { sheetUrl = ""; }
+    const lines = [
+      "Website Hoang Luxury Travel vừa có khách gửi form không thành công.",
+      "",
+      "Thời điểm: " + row[1],
+      "Form: " + row[2],
+      "Nhóm lỗi: " + row[3] + (row[4] ? " (HTTP " + row[4] + ")" : ""),
+      "Thiết bị: " + row[5] + " / " + row[6],
+      "Trang: " + row[7],
+    ];
+    if (pending) lines.push("", "Ngoài ra còn " + pending + " lỗi khác kể từ email trước.");
+    lines.push("", "Xem chi tiết ở tab Errors" + (sheetUrl ? ": " + sheetUrl : " trong file Google Sheet booking."));
+    MailApp.sendEmail({ to: recipients.join(","), subject: "[HLT] Lỗi gửi form trên website", body: lines.join("\n") });
+    cache.put("error-alert-sent", "1", ERROR_ALERT_INTERVAL_SECONDS);
+    cache.remove("error-alert-pending");
+  } catch (error) {
+    console.error("HLT error alert email failed");
+  }
+}
+
+/* Chạy tay một lần trong editor (Run > testErrorAlert) để cấp quyền gửi email và
+   kiểm tra ERROR_ALERT_EMAIL. Không ghi gì vào Sheet. */
+function testErrorAlert() {
+  const recipients = errorAlertRecipients_();
+  if (!recipients.length) throw new Error("Chua co ERROR_ALERT_EMAIL trong Script properties.");
+  MailApp.sendEmail({ to: recipients.join(","), subject: "[HLT] Thử email báo lỗi form",
+    body: "Email báo lỗi gửi form của website Hoang Luxury Travel đã hoạt động." });
 }
 
 function parseRating_(value) {
@@ -454,7 +588,8 @@ function validateFieldBounds_(data) {
     feedback:4000, experience:4000, rating:1, source:20, website:300,
     submittedFrom:2048, clientTimestamp:40, form:20, noFlight:5,
     proxySecret:256, requestId:36, browser:120, ipCity:120, ipRegion:120,
-    ipCountry:120, locationSource:40 };
+    ipCountry:120, locationSource:40,
+    sourceForm:20, category:20, status:3, page:200, occurredAt:40, reportId:36 };
   Object.keys(data).forEach(function (key) {
     if (!Object.prototype.hasOwnProperty.call(limits, key) ||
         String(data[key]).length > limits[key] || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(String(data[key]))) {

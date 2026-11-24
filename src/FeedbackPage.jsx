@@ -12,6 +12,7 @@ import usePageEntered from "./hooks/usePageEntered.js";
 import { formTextError } from "./lib/public-config.js";
 import { BOOKING_ID_MAX_LENGTH, isValidBookingId, normalizeBookingId } from "./lib/booking-id.js";
 import { validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
+import { reportFormError } from "./lib/form-error-log.js";
 import Turnstile from "./components/Turnstile.jsx";
 
 // Dùng chung Web App với form đặt xe; phân biệt bằng tham số form=feedback.
@@ -304,14 +305,17 @@ export default function FeedbackPage() {
   const submitFeedback = async (event) => {
     event.preventDefault();
     if (submission.state === "loading") return;
+    const logValidation = () => { reportFormError(feedbackEndpoint, { form: "feedback", category: "validation" }); };
     const inputError = formTextError({ bookingId, experience });
-    if (inputError) { setSubmission({ state: "error", message: inputError }); return; }
+    if (inputError) { logValidation(); setSubmission({ state: "error", message: inputError }); return; }
     if (!bookingId.trim() || !experience.trim() || rating < 1 || rating > 5) {
+      logValidation();
       setSubmission({ state: "error", message: "Please enter your Booking ID, choose a rating and write your feedback." });
       return;
     }
     const normalizedBookingId = normalizeBookingId(bookingId);
     if (!isValidBookingId(normalizedBookingId)) {
+      logValidation();
       setSubmission({ state: "error", message: "Please enter the full Booking ID from your confirmation, e.g. HLT-100826-RKS001-001." });
       bookingIdRef.current?.focus();
       return;
@@ -339,7 +343,9 @@ export default function FeedbackPage() {
       setExperience("");
       setRating(0);
       setSubmission({ state: "success", message: "Thank you. Your feedback has been sent to our management team." });
-    } catch {
+    } catch (error) {
+      // Ghi lỗi vào tab Errors của Sheet (không kèm dữ liệu khách).
+      reportFormError(feedbackEndpoint, { form: "feedback", category: error?.category || "unknown", status: error?.status });
       setSubmission({ state: "error", message: "We could not send your feedback. Please try again or contact us via WhatsApp." });
     } finally {
       setTurnstileToken(""); setVerificationReset((value) => value + 1);

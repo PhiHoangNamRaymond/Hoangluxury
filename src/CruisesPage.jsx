@@ -18,7 +18,7 @@ import finalCtaBackground from "../assets/opt/halong-bay-sunset-private-transfer
 import experienceLotus from "../assets/cruise-icons/experience-gold-lotus.png";
 import "./styles/cruise-landing-desktop.css";
 import "./styles/cruise-landing-mobile.css";
-import { bookingCta, waCta } from "./lib/cta-tracking.js";
+import { bookingCta, catalogCta, waCta } from "./lib/cta-tracking.js";
 
 const preferenceIcons = { couples: couplesGold, family: familyGold, luxury: luxuryGold, scenic: scenicGold };
 
@@ -96,7 +96,7 @@ export default function CruisesPage() {
                 <p className="hlt-cruise-mobile-only">Hoang Luxury Travel provides curated cruise experiences in Ha Long &amp; Lan Ha Bay, combining comfort, elegance and exceptional service.</p>
                 <div className="hlt-cruise-v1-actions">
                   <a className="hlt-cruise-v1-btn" href={cruiseInquiry("a Halong Bay cruise")} target="_blank" rel="noopener noreferrer" {...waCta("hero", "whatsapp_cruise_hero")}><WhatsAppGlyph /> Book via WhatsApp</a>
-                  <a className="hlt-cruise-v1-btn is-outline" href="/catalog/">View Catalog</a>
+                  <a className="hlt-cruise-v1-btn is-outline" href="/catalog/" {...catalogCta("hero", "catalog_cruise_hero")}>View Catalog</a>
                 </div>
               </div>
             </div>

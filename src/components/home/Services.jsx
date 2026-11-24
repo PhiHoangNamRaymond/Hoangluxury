@@ -8,6 +8,7 @@ import {
   servicesBackgroundUrl,
 } from "../../config/assets.js";
 import { catalogPageUrl, services as serviceItems } from "../../data.js";
+import { catalogCta } from "../../lib/cta-tracking.js";
 
 export default function Services() {
   const [sectionRef, near] = useNearViewport();
@@ -52,7 +53,7 @@ export default function Services() {
         </div>
 
         <div className="hlt-services-cta">
-          <a href={catalogPageUrl}>
+          <a href={catalogPageUrl} {...catalogCta("content", "catalog_home_services")}>
             <span>View All Services</span>
             <svg className="hlt-services-chev" viewBox="0 0 18 18" aria-hidden="true">
               <path d="m6.5 3.8 5 5.2-5 5.2" />

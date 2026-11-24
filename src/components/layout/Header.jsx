@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { logoUrl } from "../../config/assets.js";
 import { navLinks, routesMenu, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
-import { bookingCta, waCta } from "../../lib/cta-tracking.js";
+import { bookingCta, catalogCta, waCta } from "../../lib/cta-tracking.js";
 
 const normalizePath = (pathname) => pathname.replace(/\/+$/, "");
 
@@ -295,7 +295,8 @@ export default function Header({ whatsappHref = whatsappUrl } = {}) {
                   key={label}
                   aria-current={activeHref === href ? "page" : undefined}
                   onClick={(event) => handleNavigation(event, href, resolvedHref)}
-                  {...(href === "/booking/" ? bookingCta("header", "booking_header", { route: null }) : {})}
+                  {...(href === "/booking/" ? bookingCta("header", "booking_header", { route: null })
+                    : href === "/catalog/" ? catalogCta("header", "catalog_header_desktop") : {})}
                 >
                   {label}
                 </a>
@@ -515,7 +516,8 @@ export default function Header({ whatsappHref = whatsappUrl } = {}) {
                 href={resolvedHref}
                 key={label}
                 onClick={(event) => handleNavigation(event, href, resolvedHref)}
-                {...(href === "/booking/" ? bookingCta("mobile_menu", "booking_mobile_menu", { route: null }) : {})}
+                {...(href === "/booking/" ? bookingCta("mobile_menu", "booking_mobile_menu", { route: null })
+                  : href === "/catalog/" ? catalogCta("mobile_menu", "catalog_mobile_menu") : {})}
               >
                 {isActive && <span className="hlt-mobile-nav-active-bar" />}
                 <span>{label}</span>

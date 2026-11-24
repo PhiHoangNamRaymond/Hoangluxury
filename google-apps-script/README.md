@@ -105,6 +105,55 @@ VITE_TURNSTILE_SITE_KEY=YOUR_PUBLIC_SITE_KEY
 - Rate subjects tối đa 500/giờ. Theo dõi quota, số pending, failed requests và dung lượng.
   Properties `feedback-token:*` từ bản cũ không còn được đọc; không cần tạo link mời.
 
+## 5b. Log lỗi gửi form (tab Errors) và email báo
+
+**Mục đích:** khi khách gửi Booking hoặc Feedback **thất bại**, website gửi kèm một bản log nhỏ. Apps Script ghi bản log đó thành một dòng ở tab **Errors**, và gửi email báo khi lỗi nghiêm trọng. Gửi thành công thì không có log, vì dòng ở tab Bookings/Feedback đã là bằng chứng.
+
+**Một dòng log chỉ gồm:**
+- Received At, Occurred At (giờ Việt Nam)
+- Form (`booking`/`feedback`)
+- Error Category: `validation` / `server` / `network` / `unknown`
+- HTTP Status
+- Device, Browser (ước lượng)
+- Page (chỉ đường dẫn)
+- Report ID (mã ngẫu nhiên)
+- Note (để trống, nhập tay khi xử lý)
+
+**Không có** tên, số điện thoại, email, địa chỉ hay nội dung khách nhập.
+
+| Nhóm lỗi | Khi nào | Email |
+|---|---|---|
+| `validation` | Website từ chối khi bấm gửi: ngày đi đã qua, chữ không hợp lệ, thiếu mã quốc gia, Booking ID sai định dạng… | Không, chỉ ghi Sheet |
+| `server` | Proxy/Apps Script trả lỗi hoặc không xác nhận `ok`. Ví dụ HTTP 400: CAPTCHA/kiểm tra phía máy chủ từ chối hoặc vượt giới hạn; 503: Apps Script/proxy lỗi. | Có |
+| `network` | Trình duyệt không nhận được phản hồi: mất mạng, chặn kết nối, quá 30 giây | Có |
+| `unknown` | Website chưa cấu hình địa chỉ gửi form, hoặc lỗi khác | Có |
+
+**Cách hệ thống xử lý:**
+- Email được gom: **tối đa 1 email / 15 phút**. Email sau ghi kèm số lỗi đã bị gom.
+- Gửi email thất bại (chưa cấp quyền, hết hạn mức) không làm mất dòng log.
+- Tối đa `ERROR_LOG_HOURLY_LIMIT` dòng mỗi giờ (mặc định 200), và tab Errors tối đa 5000 dòng. Quá giới hạn thì bỏ qua để không làm đầy Sheet.
+- Khi khách mất mạng, bản log được giữ trên trình duyệt (tối đa 10 bản, 7 ngày) và gửi lại khi có mạng hoặc ở lần tải trang sau. Log trùng (cùng Report ID) chỉ ghi một lần.
+- Log đi qua forms-proxy, **không cần CAPTCHA**, vì khách gặp lỗi có thể đã mất mã xác minh. Bù lại, proxy và Apps Script chỉ nhận đúng các trường kể trên, với giá trị trong danh sách cố định, và vẫn bắt buộc có FORMS_PROXY_SECRET.
+
+**Triển khai** (theo đúng thứ tự):
+
+1. **Apps Script:** dán `Code.gs` mới.
+2. **Script properties:**
+   - Thêm `ERROR_ALERT_EMAIL`. Có thể nhiều email, ngăn bằng dấu phẩy. Bỏ trống thì chỉ ghi Sheet, không gửi email.
+   - Tùy chọn: `ERROR_LOG_HOURLY_LIMIT`, `ERROR_SHEET_NAME` (mặc định `Errors`).
+3. **Cấp quyền gửi email:** trong editor chọn hàm `testErrorAlert` → Run. Google sẽ hỏi quyền gửi email; đồng ý, rồi kiểm tra hộp thư đã nhận email thử.
+4. **Deploy Apps Script:** Manage deployments → Edit → **New version** → Deploy. Giữ nguyên URL `/exec`.
+5. **Deploy lại Edge Function `forms-proxy`** bằng `supabase/functions/forms-proxy/index.js` mới. Secrets không đổi.
+6. **Upload website mới.** Website cũ không gửi log, nên làm bước này cuối cùng.
+7. **Kiểm tra:**
+   - Trên staging, mở trang Feedback, nhập Booking ID sai định dạng rồi gửi. Tab Errors phải có dòng `feedback / validation`, và không có email.
+   - Muốn thử email: tạm đặt sai `GOOGLE_FORMS_ENDPOINT` trên **staging** rồi gửi thử, sẽ được dòng `server` 503 kèm email.
+   - Đừng thử trên production bằng booking thật.
+
+Tab Errors được tạo tự động ở lần log đầu tiên. Giữ tab ở chế độ private như các tab khác. Cột Note dành cho người xử lý ghi chú.
+
+**Giới hạn:** nếu proxy hoặc Apps Script hỏng hoàn toàn, bản log cũng không ghi được ngay. Nó chờ trên trình duyệt khách và chỉ được ghi khi hệ thống chạy lại. Muốn biết ngay khi hệ thống sập, cần thêm một dịch vụ kiểm tra định kỳ, ví dụ UptimeRobot gọi `doGet` của Apps Script. Việc này chưa làm.
+
 ## 6. Chuyển production (chỉ khi owner cho phép)
 
 Chuẩn bị secrets/widget/template và test staging trước. Trong khoảng bảo trì,

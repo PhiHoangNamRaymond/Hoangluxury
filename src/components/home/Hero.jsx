@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import useNearViewport from "../../hooks/useNearViewport.js";
 import { heroSlideImages } from "../../config/assets.js";
 import { catalogPageUrl, heroSlides, whatsappInquiryUrl } from "../../data.js";
-import { waCta } from "../../lib/cta-tracking.js";
+import { catalogCta, waCta } from "../../lib/cta-tracking.js";
 
 // Một vòng = 5 slide x (6000 + 900) ~ 30 giây.
 const SLIDE_DURATION = 6000;
@@ -196,6 +196,7 @@ export default function Hero() {
               className="hlt-btn hlt-btn-outline"
               id="catalog"
               href={catalogPageUrl}
+              {...catalogCta("hero", "catalog_home_hero")}
             >
               View Catalog
             </a>

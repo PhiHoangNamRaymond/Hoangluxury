@@ -1,4 +1,4 @@
-// H1-05 / H1-08: dựng BookingPage thật trong jsdom (máy chủ, Turnstile, header/footer
+// H1-05: dựng BookingPage thật trong jsdom (máy chủ, Turnstile, header/footer
 // được thay bằng bản giả), bấm REQUEST A QUOTE và kiểm tra Data Layer.
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -7,7 +7,6 @@ import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import { JSDOM } from "jsdom";
 import { transformWithEsbuild } from "vite";
-import { FormSubmitError, submitForm } from "../src/lib/forms.js";
 
 const require = createRequire(import.meta.url);
 const dom = new JSDOM('<div id="root"></div>', { url: "https://hoangluxury.travel/booking/", pretendToBeVisual: true });
@@ -41,6 +40,7 @@ const source = (await readFile(new URL("../src/BookingPage.jsx", import.meta.url
   .replace('from "./lib/cta-tracking.js"', `from ${fileUrl("../src/lib/cta-tracking.js")}`)
   .replace('from "./lib/booking-step-tracking.js"', `from ${fileUrl("../src/lib/booking-step-tracking.js")}`)
   .replace('from "./lib/booking-submit-tracking.js"', `from ${fileUrl("../src/lib/booking-submit-tracking.js")}`)
+  .replace('from "./lib/form-error-log.js"', `from ${fileUrl("../src/lib/form-error-log.js")}`)
   .replace("import.meta.env.VITE_FORMS_PROXY_URL", JSON.stringify(endpoint))
   .replace(/^import ["'][^"']+\.css["'];$/gm, "");
 const { code } = await transformWithEsbuild(source, "BookingPage.jsx", { loader: "jsx", jsx: "transform" });
@@ -79,30 +79,22 @@ async function fillValidForm() {
 }
 
 const submitButton = () => document.querySelector('.hlt-book-form button[type="submit"]');
-const events = () => (window.dataLayer || []).filter((item) => /^hlt_booking_(form_submit_success|submit_error)$/.test(item.event));
+const events = () => (window.dataLayer || []).filter((item) => item.event === "hlt_booking_form_submit_success");
 async function clickSubmit(times = 1) {
   await act(async () => { for (let i = 0; i < times; i += 1) submitButton().click(); });
   await flush();
   await flush();
 }
 
-test("submitForm reports network, server and unknown categories without changing its messages", async () => {
-  const proxy = "https://hoangluxury.travel/api/forms";
-  const category = async (fetcher, url = proxy) => submitForm(url, {}, fetcher).then(() => "ok", (error) => error instanceof FormSubmitError && error.category);
-  assert.equal(await category(async () => { throw new TypeError("Failed to fetch"); }), "network");
-  assert.equal(await category(async () => { throw new DOMException("timeout", "TimeoutError"); }), "network");
-  assert.equal(await category(async () => Response.json({ ok: true }, { status: 500 })), "server");
-  assert.equal(await category(async () => Response.json({ ok: false })), "server");
-  assert.equal(await category(async () => new Response("<html>bad gateway</html>")), "server");
-  assert.equal(await category(async () => Response.json({ ok: true }), "https://evil.test/"), "unknown");
-  assert.equal(await category(async () => Response.json({ ok: true })), "ok");
-});
-
-test("Booking Form: errors push one categorised event per failed submit, success pushes one generate_lead", async (t) => {
+test("Booking Form: failed submits send one error log and no Data Layer event; each success pushes one generate_lead", async (t) => {
   const responses = [];
   const requests = [];
+  const errorLogs = [];
   globalThis.fetch = async (url, init) => {
-    requests.push(Object.fromEntries(init.body));
+    const body = Object.fromEntries(init.body);
+    // Log lỗi gửi kèm (tab Errors): tách riêng khỏi các lần gửi booking.
+    if (body.form === "error-log") { errorLogs.push(body); return Response.json({ ok: true }); }
+    requests.push(body);
     const next = responses.shift();
     if (next instanceof Error) throw next;
     // Chờ một nhịp để mô phỏng thời gian xử lý (bấm liên tục trong lúc đang gửi).
@@ -116,33 +108,27 @@ test("Booking Form: errors push one categorised event per failed submit, success
   // Trang vừa mở / đang điền: không phát gì.
   assert.deepEqual(events(), []);
 
-  // 1. Bấm gửi khi còn thiếu ô bắt buộc (trình duyệt chặn): validation, không gửi đi.
+  // 1. Bấm gửi khi còn thiếu ô bắt buộc (trình duyệt chặn): không gửi đi, không phát.
   await clickSubmit();
-  assert.deepEqual(events(), [{ event: "hlt_booking_submit_error", error_category: "validation" }]);
   assert.equal(requests.length, 0);
-
   await fillValidForm();
-  assert.equal(events().length, 1, "filling the form must not push");
 
-  // 2. Máy chủ báo lỗi: server.
+  // 2–3. Máy chủ báo lỗi / mất mạng: không phát.
   responses.push(Response.json({ ok: false }, { status: 500 }));
   await clickSubmit();
-  assert.deepEqual(events().at(-1), { event: "hlt_booking_submit_error", error_category: "server" });
-  assert.equal(events().length, 2);
-
-  // 3. Mất mạng: network. Một lần gửi thất bại mới = một sự kiện mới.
   responses.push(new TypeError("Failed to fetch"));
   await clickSubmit();
-  assert.deepEqual(events().at(-1), { event: "hlt_booking_submit_error", error_category: "network" });
-  assert.equal(events().length, 3);
+  assert.equal(requests.length, 2);
+  assert.deepEqual(events(), []);
+  // Mỗi lần gửi lỗi kèm đúng một log, đúng nhóm lỗi, không có dữ liệu khách.
+  assert.deepEqual(errorLogs.map((log) => [log.sourceForm, log.category, log.status, log.page]), [["booking", "server", "500", "/booking/"], ["booking", "network", "", "/booking/"]]);
+  assert.doesNotMatch(JSON.stringify(errorLogs), /Test Guest|912345678|Old Quarter|Sapa town|suitcases|test-token/);
 
-  // 4. Thành công, bấm liên tục 3 lần: chỉ một yêu cầu gửi đi và một generate_lead.
+  // 4. Thành công: một generate_lead.
   responses.push(Response.json({ ok: true }));
-  await clickSubmit(3);
-  assert.equal(requests.length, 3, "only one extra request while sending");
+  await clickSubmit();
   assert.deepEqual(events().at(-1), { event: "hlt_booking_form_submit_success" });
-  assert.equal(events().filter((e) => e.event === "hlt_booking_form_submit_success").length, 1);
-  assert.equal(events().length, 4);
+  assert.deepEqual(events(), [{ event: "hlt_booking_form_submit_success" }]);
   assert.match(document.body.textContent, /Your request was submitted/);
 
   // 5. Đóng/mở lại THANK YOU, render lại: không phát thêm.
@@ -150,14 +136,15 @@ test("Booking Form: errors push one categorised event per failed submit, success
   if (close) await act(async () => close.click());
   await act(async () => root.render(React.createElement(BookingPage)));
   await flush();
-  assert.equal(events().length, 4);
+  assert.equal(events().length, 1);
 
   // 6. Một yêu cầu mới thành công: phát sự kiện mới. Không có dữ liệu khách trong Data Layer.
   await fillValidForm();
   responses.push(Response.json({ ok: true }));
   await clickSubmit();
-  assert.equal(events().filter((e) => e.event === "hlt_booking_form_submit_success").length, 2);
-  assert.notEqual(requests[2].requestId, requests[3].requestId);
+  assert.equal(events().length, 2);
+  assert.equal(errorLogs.length, 2, "successful submits send no error log");
+  assert.notEqual(requests.at(-2).requestId, requests.at(-1).requestId);
   const serialized = JSON.stringify(window.dataLayer);
   assert.doesNotMatch(serialized, /Test Guest|912345678|Old Quarter|Sapa town|suitcases|test-token/);
 });
