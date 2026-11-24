@@ -1,16 +1,17 @@
 /* Data Layer cho các nút chuyển đổi (yêu cầu marketing):
      H1-01 hlt_whatsapp_click      mọi link mở WhatsApp (23/11/2026)
      H1-02 hlt_booking_form_click  mọi link dẫn tới Booking Form /booking/ (24/11/2026)
+     H1-06 hlt_catalog_click       mọi link dẫn tới trang Catalog /catalog/ (24/11/2026)
 
-   Một listener duy nhất ở document (pha capture) bắt cả hai loại link, nên một lượt
+   Một listener duy nhất ở document (pha capture) bắt cả ba loại link, nên một lượt
    nhấn chỉ phát đúng một sự kiện, không phát khi render/tải trang, và chạy trước
    mọi xử lý click khác. Không preventDefault: link vẫn mở WhatsApp / chuyển sang
-   /booking/ như cũ; push chạy đồng bộ trước khi trình duyệt điều hướng.
+   /booking/, /catalog/ như cũ; push chạy đồng bộ trước khi trình duyệt điều hướng.
 
    Nhãn trên từng nút (thêm bằng waCta() / bookingCta(), không đổi class CSS):
      data-hlt-cta-location  khu vực: header, hero, pricing, route_card, bottom_cta, …
      data-hlt-cta-id        mã nút ổn định, ví dụ whatsapp_route_pricing, booking_route_pricing
-     data-hlt-cta-service   (tuỳ chọn, chỉ WhatsApp) dịch vụ; "none" = null
+     data-hlt-cta-service   (tuỳ chọn, WhatsApp / Catalog) dịch vụ; "none" = null
      data-hlt-cta-route     (tuỳ chọn, đặt được ở phần tử cha) mã tuyến; "none" = null
      data-hlt-cta-text      (tuỳ chọn) chữ thay cho nút chỉ có ảnh (mã QR)
    Link chưa gắn nhãn (ví dụ link trong bài blog) vẫn được ghi nhận với khu vực suy
@@ -21,6 +22,7 @@
 
 export const WHATSAPP_EVENT = "hlt_whatsapp_click";
 export const BOOKING_EVENT = "hlt_booking_form_click";
+export const CATALOG_EVENT = "hlt_catalog_click";
 
 const NONE = "none";
 
@@ -41,6 +43,10 @@ export const waCta = ctaAttributes;
 /* Nút dẫn tới Booking Form: <a href="/booking/" {...bookingCta("pricing", "booking_route_pricing")}>.
    route: null = nút Booking chung; bỏ trống = tuyến của trang (nếu có). */
 export const bookingCta = (location, id, { route, text } = {}) => ctaAttributes(location, id, { route, text });
+
+/* Nút dẫn tới trang Catalog: <a href="/catalog/" {...catalogCta("hero", "catalog_home_hero")}>.
+   service / route: null = không áp dụng; bỏ trống = lấy theo trang. */
+export const catalogCta = ctaAttributes;
 
 /* Mã tuyến từ khoá tuyến trong journeys.js: "sapa" → "hanoi_to_sapa",
    "sapa-to-ha-long" → "sapa_to_ha_long". */
@@ -64,15 +70,20 @@ export function isWhatsAppHref(href) {
 
 /* Link tới trang Booking Form của site (cùng tên miền, /booking hoặc /booking/,
    kể cả có ?src=… hay #…). */
-export function isBookingHref(href, base = "https://hoangluxury.travel/") {
+const isSitePath = (pattern) => (href, base = "https://hoangluxury.travel/") => {
   if (!href) return false;
   try {
     const url = new URL(href, base);
-    return url.origin === new URL(base).origin && /^\/booking\/?$/i.test(url.pathname);
+    return url.origin === new URL(base).origin && pattern.test(url.pathname);
   } catch {
     return false;
   }
-}
+};
+export const isBookingHref = isSitePath(/^\/booking\/?$/i);
+
+/* Link tới trang Catalog của site (/catalog hoặc /catalog/). Link Google Drive / PDF
+   bên trong trang Catalog là tên miền khác nên không tính (thuộc H2-11). */
+export const isCatalogHref = isSitePath(/^\/catalog\/?$/i);
 
 const cleanText = (value) => String(value || "").replace(/\s+/g, " ").trim().slice(0, 100) || null;
 const readAttr = (node, name) => node?.closest?.(`[${name}]`)?.getAttribute(name);
@@ -119,6 +130,23 @@ export function buildBookingEvent(anchor, context = {}) {
   };
 }
 
+/* H1-06: dữ liệu sự kiện cho một link Catalog vừa được nhấn (6 trường như H1-01).
+   service_type theo dịch vụ của trang (context.pageServiceType: trang chủ, About…
+   không gắn dịch vụ là null). Link Catalog ở header/menu/footer chưa gắn nhãn là nút
+   chung nhưng vẫn mang trang xuất phát: route_id theo trang (null nếu không phải tuyến). */
+export function buildCatalogEvent(anchor, context = {}) {
+  const { location, cta_id, cta_text } = ctaBase(anchor, "catalog");
+  return {
+    event: CATALOG_EVENT,
+    page_type: context.pageType || null,
+    service_type: valueOrNull(readAttr(anchor, "data-hlt-cta-service") ?? undefined, context.pageServiceType ?? null),
+    route_id: valueOrNull(readAttr(anchor, "data-hlt-cta-route") ?? undefined, context.routeId ?? null),
+    cta_location: location,
+    cta_id,
+    cta_text,
+  };
+}
+
 /* Gắn listener một lần cho cả trang. context: { pageType, serviceType, routeId }
    do main.jsx tính từ đường dẫn (mỗi trang là một lần tải mới, nên route_id của
    trang trước không bị giữ lại). */
@@ -142,6 +170,8 @@ export function setupCtaTracking(context, win = window) {
     if (isWhatsAppHref(href)) payload = buildWhatsAppEvent(anchor, state.context);
     // Đang ở chính trang Booking thì link Booking chỉ tải lại trang: không tính.
     else if (state.context?.pageType !== "booking" && isBookingHref(href, win.location.href)) payload = buildBookingEvent(anchor, state.context);
+    // Đang ở chính trang Catalog thì link Catalog chỉ tải lại trang: không tính.
+    else if (state.context?.pageType !== "catalog" && isCatalogHref(href, win.location.href)) payload = buildCatalogEvent(anchor, state.context);
     if (!payload) return;
     win.dataLayer = win.dataLayer || [];
     win.dataLayer.push(payload);

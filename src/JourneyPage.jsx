@@ -39,7 +39,7 @@ import {
   journeys,
 } from "./config/journeys.js";
 import { journeyPagePath } from "./config/journey-paths.js";
-import { bookingCta, waCta } from "./lib/cta-tracking.js";
+import { bookingCta, catalogCta, waCta } from "./lib/cta-tracking.js";
 
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
@@ -362,7 +362,9 @@ export default function JourneyPage({ slug }) {
                 <a
                   className="hlt-btn hlt-btn-outline"
                   href={journey.secondaryActionHref || "/booking/"}
-                  {...bookingCta("hero", "booking_route_hero")}
+                  {...((journey.secondaryActionHref || "/booking/") === "/catalog/"
+                    ? catalogCta("hero", "catalog_route_hero")
+                    : bookingCta("hero", "booking_route_hero"))}
                 >
                   {journey.secondaryActionLabel || "Request Availability"}
                 </a>

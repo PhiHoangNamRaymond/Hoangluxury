@@ -1,10 +1,10 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Submit error (H1-08)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06)
 
 Mã nguồn:
 
-- `src/lib/cta-tracking.js`: H1-01 và H1-02 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+- `src/lib/cta-tracking.js`: H1-01, H1-02 và H1-06 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
-- `src/lib/booking-submit-tracking.js`: H1-05 và H1-08, gọi từ hàm gửi form trong `src/BookingPage.jsx`.
+- `src/lib/booking-submit-tracking.js`: H1-05, gọi từ hàm gửi form trong `src/BookingPage.jsx`.
 
 # H1-01 – hlt_whatsapp_click
 
@@ -180,7 +180,7 @@ Footer trên mobile hiện không có link Booking. Trên mobile, khách vào Bo
 
 - **Hero trang chủ:** chỉ có Book via WhatsApp và View Catalog.
 - **Route Cards trang chủ và các thẻ trên `/routes/`:** chỉ dẫn tới trang tuyến hoặc WhatsApp.
-- **Hero trang tuyến:** nút thứ hai là "View Catalog", dẫn tới `/catalog/`. Nút này đã được gắn sẵn mã `booking_route_hero`, nên nếu sau này đổi đích sang `/booking/` thì sẽ tự được tính.
+- **Hero trang tuyến:** nút thứ hai là "View Catalog", dẫn tới `/catalog/`, nên được tính là H1-06 (`catalog_route_hero`). Nếu sau này đổi đích sang `/booking/`, nút sẽ tự chuyển sang H1-02 với mã `booking_route_hero`.
 - **Catalog, Blog, About Us:** không có link tới `/booking/`.
 
 ## Kiểm tra
@@ -262,47 +262,81 @@ Bàn giao cho Marketing ngày 24/11/2026.
   - Khi tải lại trang.
 - **Chống trùng:**
   - Mỗi yêu cầu có một `requestId`, cũng là mã máy chủ dùng để chống gửi trùng. Mỗi `requestId` chỉ tính một lần.
-  - Trong lúc đang gửi, các lần bấm thêm bị bỏ qua và không gửi thêm yêu cầu. Trước đây nếu bấm rất nhanh liên tiếp vẫn có thể lọt một yêu cầu thứ hai.
   - Một yêu cầu mới (sau khi form đã được xoá trắng) có `requestId` mới, nên được tính thêm một lần.
 
-# H1-08 – hlt_booking_submit_error (PC + mobile)
+## Kiểm tra H1-05
+
+- `tests/booking-submit-tracking.test.mjs` dựng trang Booking thật trong môi trường test. Máy chủ và Turnstile là bản giả, không gửi booking thật. Test kiểm tra lần lượt:
+  - Mở và điền form: không phát.
+  - Bấm gửi khi còn thiếu ô bắt buộc, máy chủ báo lỗi, mất mạng: không phát.
+  - Thành công: 1 `hlt_booking_form_submit_success`, THANK YOU hiện ra.
+  - Đóng popup và render lại: không phát thêm.
+  - Một yêu cầu mới thành công: phát thêm 1 sự kiện, với `requestId` khác.
+  - Data Layer không chứa tên, số điện thoại, địa chỉ, hành lý hay mã Turnstile.
+- Trên dev: trang Booking tải bình thường, không có lỗi console, không phát sự kiện nào khi mở trang. Không gửi thử yêu cầu thật, vì Turnstile thật yêu cầu người xác minh và địa chỉ gửi là hệ thống thật. Marketing kiểm tra trên website demo bằng GTM Preview.
+
+# H1-06 – hlt_catalog_click (PC + mobile)
 
 Bàn giao cho Marketing ngày 24/11/2026.
 
 ```js
-{ event: "hlt_booking_submit_error", error_category: "server" }
+{
+  event: "hlt_catalog_click",
+  page_type: "route_detail",
+  service_type: "private_transfer",
+  route_id: "hanoi_to_sapa",
+  cta_location: "hero",
+  cta_id: "catalog_route_hero",
+  cta_text: "VIEW CATALOG"
+}
 ```
 
-| error_category | Khi nào |
-|---|---|
-| `validation` | Bấm REQUEST A QUOTE khi form chưa hợp lệ. Gồm hai trường hợp: (1) ô bắt buộc còn thiếu hoặc sai định dạng, trình duyệt tự chặn và hiện nhắc nhở; (2) kiểm tra của website khi gửi: ngày đi đã qua, chữ nhập không hợp lệ, chưa chọn mã quốc gia. |
-| `server` | Máy chủ trả mã lỗi (4xx/5xx), trả `ok` khác `true`, hoặc phản hồi không đọc được |
-| `network` | Không có phản hồi: mất mạng, không kết nối được, hoặc quá 30 giây |
-| `verification` | Bấm gửi khi chưa có mã xác minh Turnstile |
-| `unknown` | Website chưa cấu hình địa chỉ gửi form, hoặc lỗi không rơi vào các nhóm trên |
+## Cách hoạt động
 
-- Mỗi lần bấm REQUEST A QUOTE thất bại phát đúng **một** sự kiện. Lần gửi sau thất bại thì phát thêm một sự kiện mới.
+- Dùng chung bộ bắt click với H1-01 và H1-02. Mọi link có đích là trang Catalog nội bộ (`/catalog/` trên chính site) phát đúng **một** sự kiện, kèm đủ 6 trường giống H1-01, trong một lần push, trước khi trình duyệt chuyển trang. Không thêm độ trễ.
+- Nhận theo **đích thực tế của link**, không theo chữ trên nút. Ví dụ VIEW ALL SERVICES ở trang chủ đang dẫn tới `/catalog/` nên được tính. Nút nào dẫn tới trang khác thì không tính.
+- Link Catalog mới thêm sau này vẫn được tính tự động: link chưa gắn nhãn nhận `cta_location` là `header` / `footer` / `content` và `cta_id` là `catalog_<vị trí>`. Có test tự động báo lỗi nếu trong mã có link `/catalog/` chưa gắn nhãn.
 - **Không phát:**
-  - Khi khách đang nhập.
-  - Khi nhấn Continue hoặc Back trên mobile.
-  - Khi gửi thành công.
-  - Khi đóng hoặc mở lại thông báo lỗi cũ, hoặc khi render lại.
-- Chỉ gửi `error_category`. Không gửi nội dung lỗi của máy chủ hay dữ liệu khách.
-- Thông báo lỗi hiển thị cho khách giữ nguyên như trước.
-- **Lưu ý về `verification`:** nút REQUEST A QUOTE vốn bị khoá cho tới khi Turnstile xác minh xong. Khi mã xác minh hết hạn, nút cũng bị khoá lại. Vì vậy trên thực tế nhóm này gần như không xuất hiện. Khách bị kẹt ở bước xác minh sẽ không bấm được nút, nên trường hợp đó không đo được bằng sự kiện này.
-- **Lưu ý về `network`:** khi khách mất mạng thật, chính sự kiện gửi lên GA4 cũng có thể không đi được, nên con số lỗi `network` trong GA4 có thể thấp hơn thực tế.
-- **Trên mobile:** các ô đã được kiểm tra ở từng bước, nên lỗi `validation` khi gửi chủ yếu đến từ kiểm tra của website, ví dụ để trang mở qua đêm khiến ngày đi đã qua.
+  - Khi mở trực tiếp hoặc tải lại trang Catalog.
+  - Khi nhấn link Catalog ngay trên trang Catalog, vì đó chỉ là tải lại trang.
+  - Khi nhấn nút mở tài liệu Google Drive/PDF trong Catalog (thuộc H2-11).
+  - Khi nhấn link tới trang khác.
+- **service_type** theo dịch vụ của **trang xuất phát**:
 
-## Kiểm tra H1-05 và H1-08
+| Trang | service_type |
+|---|---|
+| Trang tuyến, `/routes/`, Booking | `private_transfer` |
+| Photo, Albums, Album | `photography` |
+| Cruise | `cruise` |
+| Trang chủ, About Us, Blog, bài blog, Feedback, Policy, 404 | `null` |
 
-- `tests/booking-submit-tracking.test.mjs` dựng trang Booking thật trong môi trường test. Máy chủ và Turnstile là bản giả, không gửi booking thật. Test kiểm tra lần lượt:
-  - Mở và điền form: không phát.
-  - Bấm gửi khi còn thiếu ô bắt buộc: phát một `validation` và không gửi gì lên máy chủ.
-  - Máy chủ báo lỗi: phát một `server`.
-  - Mất mạng: phát một `network`.
-  - Thành công, bấm liên tục 3 lần: chỉ 1 yêu cầu gửi đi và 1 `hlt_booking_form_submit_success`, THANK YOU hiện ra.
-  - Đóng popup và render lại: không phát thêm.
-  - Một yêu cầu mới thành công: phát thêm 1 sự kiện, với `requestId` khác.
-  - Data Layer không chứa tên, số điện thoại, địa chỉ, hành lý hay mã Turnstile.
-- Test riêng cho `submitForm`: đúng nhóm lỗi với từng loại sự cố (mất mạng, quá thời gian, 500, `ok: false`, phản hồi không phải JSON, địa chỉ sai). Thông báo lỗi giữ nguyên.
-- Trên dev: trang Booking tải bình thường, không có lỗi console, không phát sự kiện nào khi mở trang. Không gửi thử yêu cầu thật, vì Turnstile thật yêu cầu người xác minh và địa chỉ gửi là hệ thống thật. Marketing kiểm tra trên website demo bằng GTM Preview.
+- **route_id:** trên trang tuyến, mọi nút Catalog (kể cả Header, menu mobile, Footer) mang mã tuyến của trang đó, đúng như yêu cầu "mã tuyến nếu khách đang ở trang Route Detail". Các trang khác là `null`.
+
+## Danh sách nút (PC + mobile)
+
+| Trang | cta_location | cta_id | Chữ trên nút |
+|---|---|---|---|
+| Mọi trang, PC | header | `catalog_header_desktop` | CATALOG |
+| Mọi trang, mobile | mobile_menu | `catalog_mobile_menu` | Catalog |
+| Mọi trang, PC | footer | `catalog_footer` | Catalog |
+| Trang chủ | hero | `catalog_home_hero` | VIEW CATALOG |
+| Trang chủ, khu Services | content | `catalog_home_services` | VIEW ALL SERVICES |
+| Trang tuyến | hero | `catalog_route_hero` | VIEW CATALOG |
+| Cruise | hero | `catalog_cruise_hero` | VIEW CATALOG |
+| About Us | bottom_cta | `catalog_about_bottom_cta` | VIEW CATALOG |
+| Bài blog | bottom_cta | `catalog_blog_article_bottom_cta` | VIEW CATALOG |
+
+**Vị trí không có nút Catalog:** Footer bản mobile, thanh cố định/sticky (site không có), trang Photo, Booking, Feedback ngoài Header và Footer.
+
+## Kiểm tra
+
+- Có 2 test tự động trong `tests/cta-tracking.test.mjs`:
+  - Đủ 6 trường; trang chủ có `service_type` và `route_id` là `null`.
+  - Mỗi lượt nhấn một sự kiện.
+  - Link `/services/`, Google Drive, PDF và link Catalog ngay trên trang Catalog không phát.
+  - Mọi link `/catalog/` trong mã đều có nhãn.
+- Trên dev, đã nhấn mọi link Catalog trên 11 trang: số sự kiện bằng đúng số link, không phát nhầm sự kiện WhatsApp/Booking, và trang Catalog: 0 sự kiện.
+- Đã nhấn thật trên mobile 375px, để trang chuyển thật:
+  - VIEW CATALOG ở hero trang Hanoi to Sapa: được `route_detail / private_transfer / hanoi_to_sapa / hero / catalog_route_hero`. Sự kiện ghi trước khi chuyển, Catalog mở bình thường, và không phát thêm khi tới Catalog.
+  - Catalog trong menu mobile từ trang Blog: được `blog / null / null / mobile_menu / catalog_mobile_menu`, trang chuyển bình thường.
+- Nút "VIEW FLEET, ROUTES & PRICING" mở Google Drive trong trang Catalog không phát sự kiện nào.

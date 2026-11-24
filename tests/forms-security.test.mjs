@@ -66,7 +66,10 @@ async function fixture() {
     sheets.set(name,result); return result;
   };
   const properties = {getProperty:(key)=>props.get(key) ?? null,setProperty:(key,value)=>props.set(key,value),deleteProperty:(key)=>props.delete(key),getProperties:()=>Object.fromEntries(props)};
+  const cacheStore = new Map(); const mails = [];
   const context = vm.createContext({console:{error:()=>{}},
+    CacheService:{getScriptCache:()=>({get:(key)=>cacheStore.get(key) ?? null,put:(key,value)=>cacheStore.set(key,String(value)),remove:(key)=>cacheStore.delete(key)})},
+    MailApp:{sendEmail:(message)=>mails.push(message)},
     PropertiesService:{getScriptProperties:()=>properties},
     LockService:{getScriptLock:()=>({waitLock:()=>{},releaseLock:()=>{}})},
     SpreadsheetApp:{getActiveSpreadsheet:()=>({getSheetByName:(name)=>sheets.get(name),insertSheet:sheet}),flush:()=>{}},
@@ -76,7 +79,7 @@ async function fixture() {
   });
   vm.runInContext(await readFile(new URL("../google-apps-script/Code.gs",import.meta.url),"utf8"),context);
   const post = (fields) => JSON.parse(context.doPost({parameter:fields,parameters:Object.fromEntries(Object.entries(fields).map(([key,value])=>[key,[value]])),postData:{type:"application/x-www-form-urlencoded",contents:new URLSearchParams(fields).toString()}}).text);
-  return {context,props,sheets,post};
+  return {context,props,sheets,post,mails,cacheStore};
 }
 
 test("GAS rejects past departures before writing and accepts today's departure", async () => {
@@ -236,4 +239,120 @@ test("client requires readable positive acknowledgement; request ID persists on 
   const ref={current:null}; const id=requestIdFor(ref,{fullName:"a"});
   assert.equal(requestIdFor(ref,{fullName:"a"}),id);
   assert.notEqual(requestIdFor(ref,{fullName:"b"}),id);
+});
+
+// Log lỗi gửi form (tab Errors): không CAPTCHA nhưng chỉ nhận trường cố định, không dữ liệu khách.
+const errorLog = (changes={}) => ({form:"error-log",sourceForm:"booking",category:"server",status:"503",device:"Mobile",page:"/booking/",occurredAt:new Date().toISOString(),reportId:randomUUID(),...changes});
+
+test("GAS writes error logs to the Errors tab once, validates every field and requires the proxy secret",async () => {
+  const f = await fixture();
+  assert.equal(f.post(errorLog()).ok,false,"direct write without proxy secret");
+  assert.equal(f.sheets.has("Errors"),false);
+  const report = errorLog({proxySecret:secret,browser:"Chrome"});
+  assert.equal(f.post(report).ok,true);
+  assert.equal(f.post(report).ok,true,"retried report is accepted");
+  const rows = f.sheets.get("Errors").rows;
+  assert.equal(rows.length,2,"header plus exactly one row");
+  assert.deepEqual(rows[0].slice(0,5),["Received At","Occurred At","Form","Error Category","HTTP Status"]);
+  assert.deepEqual(rows[1].slice(2,9),["booking","server","503","Mobile","Chrome","/booking/",report.reportId]);
+  for (const bad of [{fullName:"Guest"},{phone:"+84839779888"},{category:"other"},{sourceForm:"admin"},{status:"50"},{device:"=1+1"},{page:"https://evil.test/"},{page:"/a?b=c"},{reportId:"x"},{occurredAt:"yesterday"}]) {
+    assert.equal(f.post(errorLog({proxySecret:secret,...bad})).ok,false,JSON.stringify(bad));
+  }
+  assert.equal(rows.length,2);
+  assert.equal(f.sheets.has("Bookings"),false,"error logs never touch bookings");
+});
+
+test("GAS emails server/network/unknown errors at most every 15 minutes and never for validation",async () => {
+  const f = await fixture();
+  f.post(errorLog({proxySecret:secret}));
+  assert.equal(f.mails.length,0,"no email without ERROR_ALERT_EMAIL");
+  f.props.set("ERROR_ALERT_EMAIL","ops@example.com, bad-address");
+  f.post(errorLog({proxySecret:secret,category:"validation",status:""}));
+  assert.equal(f.mails.length,0,"validation is logged only");
+  f.post(errorLog({proxySecret:secret,category:"network",status:""}));
+  assert.equal(f.mails.length,1);
+  assert.equal(f.mails[0].to,"ops@example.com");
+  assert.match(f.mails[0].body,/network/);
+  f.post(errorLog({proxySecret:secret}));
+  f.post(errorLog({proxySecret:secret,category:"unknown",status:""}));
+  assert.equal(f.mails.length,1,"throttled");
+  f.cacheStore.delete("error-alert-sent");
+  f.post(errorLog({proxySecret:secret}));
+  assert.equal(f.mails.length,2);
+  assert.match(f.mails[1].body,/2 lỗi khác/);
+  assert.equal(f.sheets.get("Errors").rows.length,7,"header plus all 6 errors are still logged");
+  f.context.MailApp.sendEmail = () => { throw new Error("quota"); };
+  f.cacheStore.delete("error-alert-sent");
+  assert.equal(f.post(errorLog({proxySecret:secret})).ok,true,"email failure keeps the log");
+  assert.equal(f.sheets.get("Errors").rows.length,8);
+});
+
+test("GAS caps error log rows per hour",async () => {
+  const f = await fixture(); f.props.set("ERROR_LOG_HOURLY_LIMIT","2");
+  for (let i=0;i<4;i++) assert.equal(f.post(errorLog({proxySecret:secret})).ok,true);
+  assert.equal(f.sheets.get("Errors").rows.length,3);
+});
+
+test("proxy forwards valid error logs without CAPTCHA and rejects anything else",async () => {
+  let siteverify = 0; const forwarded = [];
+  const handler = createFormsHandler({endpoint,proxySecret:secret,turnstileSecret:"offline",fetcher:async (url,options)=>{
+    if (url.includes("siteverify")) { siteverify++; return Response.json({success:false}); }
+    forwarded.push(Object.fromEntries(options.body));
+    return Response.json({ok:true});
+  }});
+  const request = (fields,origin="https://hoangluxury.travel") => new Request("https://edge.invalid",{method:"POST",headers:{Origin:origin,"Content-Type":"application/x-www-form-urlencoded","User-Agent":"Mozilla/5.0 Chrome/120"},body:new URLSearchParams(fields)});
+  assert.equal((await handler(request(errorLog()))).status,200);
+  assert.equal(siteverify,0);
+  assert.equal(forwarded[0].proxySecret,secret);
+  assert.equal(forwarded[0].browser,"Chrome");
+  for (const bad of [{fullName:"Guest"},{turnstileToken:"x"},{category:"other"},{page:"/a?b"},{occurredAt:new Date(Date.now()-9*864e5).toISOString()},{reportId:"1"},{proxySecret:"injected"}]) {
+    assert.equal((await handler(request(errorLog(bad)))).status,400,JSON.stringify(bad));
+  }
+  assert.equal((await handler(request(errorLog(),"https://evil.test"))).status,403);
+  assert.equal(forwarded.length,1);
+});
+
+test("client error log carries no customer data, queues while offline and flushes once online",async () => {
+  const { buildErrorReport, reportFormError, flushFormErrorQueue } = await import("../src/lib/form-error-log.js");
+  const store = new Map();
+  const win = { navigator:{userAgent:"iPhone"}, location:{pathname:"/booking/",search:"?src=RKS002&token=secret"},
+    crypto:{randomUUID}, localStorage:{getItem:(k)=>store.get(k) ?? null,setItem:(k,v)=>store.set(k,v),removeItem:(k)=>store.delete(k)} };
+  const report = buildErrorReport({form:"booking",category:"server",status:503},win);
+  assert.deepEqual(Object.keys(report).sort(),["category","device","form","occurredAt","page","reportId","sourceForm","status"]);
+  assert.deepEqual([report.sourceForm,report.category,report.status,report.device,report.page],["booking","server","503","Mobile","/booking/"]);
+  assert.equal(buildErrorReport({form:"feedback",category:"weird"},win).category,"unknown");
+  let online = false; const sent = [];
+  const fetcher = async (_url,options) => { if (!online) throw new TypeError("offline"); sent.push(Object.fromEntries(options.body)); return Response.json({ok:true}); };
+  assert.equal(await reportFormError("https://evil.test/",{form:"booking",category:"server"},{win,fetcher}),false);
+  assert.equal(store.size,0,"never queue for an unknown endpoint");
+  assert.equal(await reportFormError(proxyUrl,{form:"booking",category:"network"},{win,fetcher}),false);
+  assert.equal(JSON.parse(store.get("hlt-form-error-log")).length,1);
+  online = true;
+  assert.equal(await flushFormErrorQueue(proxyUrl,{win,fetcher}),1);
+  assert.equal(store.size,0);
+  assert.equal(sent[0].category,"network");
+  assert.equal(await reportFormError(proxyUrl,{form:"feedback",category:"validation"},{win,fetcher}),true);
+  assert.doesNotMatch(JSON.stringify(sent),/secret|RKS002|token/);
+});
+
+test("submitForm classifies failures for the error log without changing messages",async () => {
+  const { FormSubmitError } = await import("../src/lib/forms.js");
+  const outcome = (fetcher,url=proxyUrl) => submitForm(url,{},fetcher).then(()=>"ok",(error)=>error instanceof FormSubmitError ? `${error.category}:${error.status}` : "other");
+  assert.equal(await outcome(async()=>{throw new TypeError("Failed to fetch");}),"network:");
+  assert.equal(await outcome(async()=>{throw new DOMException("t","TimeoutError");}),"network:");
+  assert.equal(await outcome(async()=>Response.json({ok:true},{status:503})),"server:503");
+  assert.equal(await outcome(async()=>Response.json({ok:false},{status:400})),"server:400");
+  assert.equal(await outcome(async()=>Response.json({ok:false})),"server:200");
+  assert.equal(await outcome(async()=>new Response("<html>")),"server:200");
+  assert.equal(await outcome(async()=>Response.json({ok:true}),"https://evil.test/"),"unknown:");
+});
+
+test("client drops error logs the server rejects (4xx) and keeps them on 5xx",async () => {
+  const { reportFormError } = await import("../src/lib/form-error-log.js");
+  const store = new Map();
+  const win = { navigator:{userAgent:"Windows"}, location:{pathname:"/feedback/"}, crypto:{randomUUID}, localStorage:{getItem:(k)=>store.get(k) ?? null,setItem:(k,v)=>store.set(k,v),removeItem:(k)=>store.delete(k)} };
+  assert.equal(await reportFormError(proxyUrl,{form:"feedback",category:"server"},{win,fetcher:async()=>Response.json({ok:false},{status:400})}),false);
+  assert.equal(store.size,0);
+  assert.equal(await reportFormError(proxyUrl,{form:"feedback",category:"server"},{win,fetcher:async()=>Response.json({ok:false},{status:503})}),false);
+  assert.equal(JSON.parse(store.get("hlt-form-error-log")).length,1);
 });

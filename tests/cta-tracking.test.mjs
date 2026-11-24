@@ -161,7 +161,8 @@ test("booking clicks push exactly one 5-field event with the clicked button's ro
   click("#plain");
   const [, bottom, nav, plain] = events();
   assert.equal(events().length, 4, "catalog link must not count as booking");
-  assert.equal(all().length, 4, "no WhatsApp event for booking links");
+  assert.equal(all().filter((item) => item.event === "hlt_whatsapp_click").length, 0, "no WhatsApp event for booking links");
+  assert.equal(all().filter((item) => item.event === "hlt_catalog_click").length, 1, "the /catalog/ link is a catalog click, not a booking click");
   assert.equal(bottom.cta_location, "bottom_cta");
   assert.equal(bottom.route_id, "hanoi_to_sapa");
   assert.deepEqual([nav.cta_location, nav.cta_id, nav.route_id], ["header", "booking_header", null]);
@@ -217,4 +218,60 @@ test("booking steps 1-4 push once per form attempt; step 5 never; reset starts a
   tracker.reset();
   tracker.complete(1);
   assert.equal(steps().length, 5);
+});
+
+// H1-06: link tới trang Catalog nội bộ.
+test("catalog clicks push one 6-field event; Drive/PDF, other pages and the Catalog page itself do not", async () => {
+  const { CATALOG_EVENT, catalogCta, isCatalogHref } = await import("../src/lib/cta-tracking.js");
+  for (const href of ["/catalog/", "/catalog", "https://hoangluxury.travel/catalog/?x=1"]) assert.equal(isCatalogHref(href), true, href);
+  for (const href of ["/catalogue/", "https://drive.google.com/file/d/x/view", "/files/catalog.pdf", "https://evil.test/catalog/", "/services/"]) assert.equal(isCatalogHref(href), false, href);
+
+  const route = bookingPage(`
+    <header><a id="nav" href="/catalog/" ${attrs(catalogCta("header", "catalog_header_desktop"))}>Catalog</a></header>
+    <a id="hero" href="/catalog/" ${attrs(catalogCta("hero", "catalog_route_hero"))}><span>View Catalog</span></a>
+    <a id="services" href="/services/">View All Services</a>
+    <footer><a id="plain" href="/catalog/">Catalog</a></footer>`,
+  { pageType: "route_detail", serviceType: "private_transfer", pageServiceType: "private_transfer", routeId: "hanoi_to_sapa" });
+  route.click("#hero span");
+  const catalog = () => route.all().filter((item) => item.event === CATALOG_EVENT);
+  assert.deepEqual(catalog(), [{
+    event: "hlt_catalog_click", page_type: "route_detail", service_type: "private_transfer", route_id: "hanoi_to_sapa",
+    cta_location: "hero", cta_id: "catalog_route_hero", cta_text: "View Catalog",
+  }]);
+  route.click("#services");
+  route.click("#nav");
+  route.click("#plain");
+  assert.equal(route.all().length, 3, "the Services link is not a catalog click; one event per click");
+  assert.deepEqual([catalog()[1].cta_id, catalog()[2].cta_location, catalog()[2].cta_id], ["catalog_header_desktop", "footer", "catalog_footer"]);
+
+  const home = bookingPage(`<a id="nav" href="/catalog/" ${attrs(catalogCta("header", "catalog_header_desktop"))}>Catalog</a>`,
+    { pageType: "home", serviceType: "private_transfer", pageServiceType: null, routeId: null }, "https://hoangluxury.travel/");
+  home.click("#nav");
+  assert.deepEqual(home.all()[0], { event: "hlt_catalog_click", page_type: "home", service_type: null, route_id: null, cta_location: "header", cta_id: "catalog_header_desktop", cta_text: "Catalog" });
+
+  const onCatalog = bookingPage(`<a id="nav" href="/catalog/">Catalog</a><a id="pdf" href="https://drive.google.com/file/d/x/view">View PDF</a>`,
+    { pageType: "catalog", pageServiceType: "private_transfer" }, "https://hoangluxury.travel/catalog/");
+  onCatalog.click("#nav");
+  onCatalog.click("#pdf");
+  assert.equal(onCatalog.all().length, 0);
+});
+
+// Mọi link /catalog/ trong mã giao diện phải có nhãn catalogCta.
+test("every Catalog link in the site source carries catalogCta tracking attributes", async () => {
+  const files = [];
+  const walk = async (dir) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) { if (entry.name !== "admin") await walk(path); } else if (path.endsWith(".jsx")) files.push(path);
+    }
+  };
+  await walk("src");
+  const missing = [];
+  for (const file of files) {
+    const source = await readFile(file, "utf8");
+    for (const match of source.matchAll(/<a\b[^>]*?href=(?:"\/catalog\/"|\{catalogPageUrl\}|\{[^}]*(?:catalogPageUrl|secondaryActionHref)[^}]*\})[^>]*>/gs)) {
+      if (!match[0].includes("catalogCta(")) missing.push(`${file}: ${match[0].slice(0, 90)}`);
+    }
+  }
+  assert.deepEqual(missing, []);
 });

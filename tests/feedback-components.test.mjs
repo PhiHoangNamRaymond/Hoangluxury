@@ -100,8 +100,9 @@ test("public Feedback rejects missing or whitespace-only fields without sending 
   const host = document.getElementById("root");
   const root = createRoot(host);
   const originalFetch = globalThis.fetch;
-  let calls = 0;
-  globalThis.fetch = async () => { calls++; return Response.json({ok:true}); };
+  let calls = 0; const errorLogs = [];
+  // Chỉ đếm lần gửi feedback; log lỗi (tab Errors) đếm riêng và không có dữ liệu khách.
+  globalThis.fetch = async (_url,options) => { const body = Object.fromEntries(options.body); if (body.form === "error-log") errorLogs.push(body); else calls++; return Response.json({ok:true}); };
   try {
     await act(async () => root.render(React.createElement(FeedbackPage)));
     await verify(host);
@@ -113,6 +114,7 @@ test("public Feedback rejects missing or whitespace-only fields without sending 
     await act(async () => host.querySelector("form").dispatchEvent(new window.Event("submit",{bubbles:true,cancelable:true})));
     assert.equal(calls,0);
     assert.match(host.textContent,/Please enter your Booking ID/);
+    assert.deepEqual(errorLogs.map((log) => [log.sourceForm,log.category]),[["feedback","validation"],["feedback","validation"]]);
   } finally {
     await act(async () => root.unmount());
     globalThis.fetch = originalFetch;
@@ -125,8 +127,9 @@ test("public Feedback leaves the Booking ID as typed, keeps the caret and only r
   const host = document.getElementById("root");
   const root = createRoot(host);
   const originalFetch = globalThis.fetch;
-  let calls = 0;
-  globalThis.fetch = async () => { calls++; return Response.json({ok:true}); };
+  let calls = 0; const errorLogs = [];
+  // Chỉ đếm lần gửi feedback; log lỗi (tab Errors) đếm riêng và không có dữ liệu khách.
+  globalThis.fetch = async (_url,options) => { const body = Object.fromEntries(options.body); if (body.form === "error-log") errorLogs.push(body); else calls++; return Response.json({ok:true}); };
   try {
     await act(async () => root.render(React.createElement(FeedbackPage)));
     const input = host.querySelector('input[name="bookingId"]');
@@ -157,6 +160,8 @@ test("public Feedback leaves the Booking ID as typed, keeps the caret and only r
     await submit();
     assert.equal(calls,0,"extra characters are rejected, not cut off");
     assert.match(host.textContent,/full Booking ID/);
+    assert.equal(errorLogs.length,2);
+    assert.doesNotMatch(JSON.stringify(errorLogs),/HLT|comfortable/i);
   } finally {
     await act(async () => root.unmount());
     globalThis.fetch = originalFetch;
@@ -169,8 +174,12 @@ test("failed public Feedback keeps entered data and retries with the same reques
   const host = document.getElementById("root");
   const root = createRoot(host);
   const originalFetch = globalThis.fetch;
-  const calls = [];
-  globalThis.fetch = async (_url,options) => { calls.push(Object.fromEntries(options.body)); return Response.json({ok:calls.length > 1}); };
+  const calls = []; const errorLogs = [];
+  globalThis.fetch = async (_url,options) => {
+    const body = Object.fromEntries(options.body);
+    if (body.form === "error-log") { errorLogs.push(body); return Response.json({ok:true}); }
+    calls.push(body); return Response.json({ok:calls.length > 1});
+  };
   try {
     await act(async () => root.render(React.createElement(FeedbackPage)));
     await fillFeedback(host);
@@ -188,6 +197,7 @@ test("failed public Feedback keeps entered data and retries with the same reques
     assert.equal(calls.length,2);
     assert.equal(calls[0].requestId,calls[1].requestId);
     assert.match(host.textContent,/Your feedback has been sent/);
+    assert.deepEqual(errorLogs.map((log) => [log.sourceForm,log.category,log.status,log.page]),[["feedback","server","200","/feedback/"]],"one error log for the failed attempt only");
   } finally {
     await act(async () => root.unmount());
     globalThis.fetch = originalFetch;

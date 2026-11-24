@@ -20,6 +20,7 @@ import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import { setupContentProtection } from "./lib/content-protection.js";
 import { setupGtm } from "./lib/gtm.js";
 import { routeIdFromJourneyKey, setupCtaTracking } from "./lib/cta-tracking.js";
+import { flushFormErrorQueue } from "./lib/form-error-log.js";
 import { cruiseSeo } from "./config/cruise-seo.js";
 import { legacyPolicyHash, legacyPolicyPath, policyPageSeo, privacyPolicyPath, termsPath } from "./config/policies.js";
 import "./styles/index.css";
@@ -307,12 +308,28 @@ const serviceTypeByPage = {
   cruise: "cruise",
   photo_landing: "photography", photo_albums: "photography", photo_album: "photography",
 };
+// H1-06 Catalog: dịch vụ của chính trang xuất phát; trang chung (trang chủ, About,
+// Blog, Policy…) là null theo yêu cầu marketing.
+const pageServiceByPage = {
+  route_list: "private_transfer", route_detail: "private_transfer", booking: "private_transfer", catalog: "private_transfer",
+  cruise: "cruise",
+  photo_landing: "photography", photo_albums: "photography", photo_album: "photography",
+};
 if (!isAdminRoute) {
   setupCtaTracking({
     pageType: trackingPageType,
     serviceType: serviceTypeByPage[trackingPageType] || null,
+    pageServiceType: pageServiceByPage[trackingPageType] || null,
     routeId: journey ? routeIdFromJourneyKey(journey) : null,
   });
+}
+
+// Log lỗi gửi form còn kẹt do mất mạng: gửi lại khi tải trang / khi có mạng trở lại.
+if (!isAdminRoute) {
+  const formsEndpoint = import.meta.env.VITE_FORMS_PROXY_URL?.trim();
+  const flushErrors = () => { flushFormErrorQueue(formsEndpoint); };
+  window.setTimeout(flushErrors, 3000);
+  window.addEventListener("online", flushErrors);
 }
 
 // Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.

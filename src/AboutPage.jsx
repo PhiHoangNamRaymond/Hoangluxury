@@ -14,7 +14,7 @@ import {
 import { catalogPageUrl, whatsappInquiryUrl } from "./data.js";
 import { journeyPagePath } from "./config/journey-paths.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { waCta } from "./lib/cta-tracking.js";
+import { catalogCta, waCta } from "./lib/cta-tracking.js";
 
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
 const luxuryValues = [
@@ -465,7 +465,7 @@ export default function AboutPage() {
               <span className="hlt-hero-whatsapp-icon" aria-hidden="true"><WhatsAppMark /></span>
               Book via WhatsApp
             </a>
-            <a className="hlt-btn hlt-btn-outline" href={catalogPageUrl}>View Catalog</a>
+            <a className="hlt-btn hlt-btn-outline" href={catalogPageUrl} {...catalogCta("bottom_cta", "catalog_about_bottom_cta")}>View Catalog</a>
           </div>
         </div>
       </section>
