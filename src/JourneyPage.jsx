@@ -39,7 +39,8 @@ import {
   journeys,
 } from "./config/journeys.js";
 import { journeyPagePath } from "./config/journey-paths.js";
-import { bookingCta, catalogCta, destinationCta, waCta } from "./lib/cta-tracking.js";
+import { bookingCta, catalogCta, destinationCta, routeIdFromJourneyKey, waCta } from "./lib/cta-tracking.js";
+import { faqDetailsProps } from "./lib/faq-tracking.js";
 
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
@@ -626,9 +627,12 @@ export default function JourneyPage({ slug }) {
               </div>
 
               <div className="hlt-jfaq-grid">
-                {journeyFaq.map(([question, answer]) => (
-                  <details key={question} className="hlt-jfaq-item">
-                    <summary className="hlt-jfaq-summary">
+                {journeyFaq.map(([question, answer, faqId]) => {
+                  // H2-02: chỉ phát hlt_faq_open khi khách tự mở câu đang đóng.
+                  const faq = faqDetailsProps(faqId, { pageType: "route_detail", routeId: routeIdFromJourneyKey(slug) });
+                  return (
+                  <details key={question} className="hlt-jfaq-item" {...faq.details}>
+                    <summary className="hlt-jfaq-summary" {...faq.summary}>
                       <h3 className="hlt-jfaq-q">{question}</h3>
                       <span className="hlt-jfaq-plus" aria-hidden="true">+</span>
                     </summary>
@@ -636,7 +640,8 @@ export default function JourneyPage({ slug }) {
                       <p>{answer}</p>
                     </div>
                   </details>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

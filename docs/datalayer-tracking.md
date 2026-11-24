@@ -1,9 +1,10 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02)
 
 Mã nguồn:
 
 - `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07 và H2-01 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
+- `src/lib/faq-tracking.js`: H2-02; mã `faq_id` gắn trong `src/config/journeys.js` và `src/config/cruises.js`.
 - `src/lib/booking-submit-tracking.js`: H1-05 (gọi từ `src/BookingPage.jsx`) và H1-08 (gọi từ `src/FeedbackPage.jsx`).
 
 # H1-01 – hlt_whatsapp_click
@@ -507,3 +508,69 @@ Toàn bộ thẻ HA LONG BAY CRUISES (tiêu đề, mô tả và chữ EXPLORE) l
 - Menu ROUTES trên mobile dùng chung danh sách với PC và đã được bấm trong cùng lần kiểm tra. Marketing nên kiểm tra lại trên điện thoại thật bằng GTM Preview.
 
 **Marketing cần tạo mới** biến `destination_type`, `destination_id`, trigger `hlt_destination_select` và tag `destination_select`. Các biến `page_type`, `cta_location`, `cta_id` dùng lại.
+
+# H2-02 – hlt_faq_open (17 trang tuyến + Halong Bay Cruises, PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{ event: "hlt_faq_open", page_type: "route_detail", route_id: "hanoi_to_sapa", faq_id: "all_inclusive_pricing" }
+{ event: "hlt_faq_open", page_type: "cruise", route_id: null, faq_id: "cruise_departure_point" }
+```
+
+## Cách hoạt động
+
+- Chỉ phát khi **khách tự bấm/chạm** mở một câu đang đóng **và** câu đó thật sự chuyển sang mở. Mỗi lần mở là một sự kiện, cùng một quy tắc trên cả hai loại trang.
+- Bấm vào chữ câu hỏi hay vào dấu +/mũi tên đều là cùng một vùng bấm, nên chỉ tính **một** sự kiện.
+- **Không phát:**
+  - Khi mở trang, cuộn tới hay nhìn thấy khu FAQ.
+  - Khi bấm để đóng câu đang mở.
+  - Khi câu mở bằng code hay tự khôi phục trạng thái, khi render lại, khi tải lại trang.
+  - Khi một câu tự đóng vì khách mở câu khác (trang Cruise mỗi lúc chỉ mở một câu).
+- Đóng rồi tự mở lại thì tính thêm một lượt.
+- **Cách bắt trên từng loại trang:**
+  - **Trang tuyến** dùng thẻ đóng/mở của trình duyệt. Website chỉ tính khi vừa có cú bấm của khách vào câu hỏi **và** trình duyệt báo câu đó đã chuyển sang mở.
+  - **Trang Cruise:** sự kiện được phát trong chính hàm mở/đóng câu hỏi, và chỉ cho câu đang đóng được khách bấm mở.
+- `page_type`: trang tuyến là `route_detail`, trang du thuyền là `cruise`, đúng giá trị của các sự kiện trước. `route_id` là mã tuyến đang xem; trên trang du thuyền là `null`.
+- Không gửi nội dung câu hỏi hay câu trả lời.
+
+## 10 mã faq_id
+
+| faq_id | Câu hỏi | Trang tuyến (8) | Trang Cruise (6) |
+|---|---|---|---|
+| `booking_confirmation` | How can I book and confirm my booking? | ✓ | ✓ |
+| `all_inclusive_pricing` | Is the price all-inclusive? Are there any hidden fees? | ✓ | ✓ |
+| `flexible_stops` | Can we make flexible stops along the way? | ✓ | ✓ |
+| `payment_deposit` | Do I need to pay a deposit? What payment methods do you accept? | ✓ | ✓ |
+| `pickup_flight_delay` | Will I be charged extra if my pickup time changes or my flight is delayed? | ✓ | |
+| `luggage_capacity` | There are 5 of us with 6 large suitcases… | ✓ | |
+| `custom_itinerary` | Can you plan a personalized itinerary?… | ✓ | |
+| `driver_english` | Do your drivers speak English? | ✓ | |
+| `hotel_pickup` | Is hotel pickup included? | | ✓ |
+| `cruise_departure_point` | Where do cruises depart from? | | ✓ |
+
+- Mã được gắn cố định cho từng câu ngay trong dữ liệu FAQ, nên sửa chữ hay đổi thứ tự câu hỏi cũng không làm đổi mã.
+- 17 trang tuyến dùng chung một bộ 8 câu, nên cùng câu luôn cùng mã, chỉ `route_id` thay đổi.
+
+## Kiểm tra
+
+- Có 2 test tự động trong `tests/cta-tracking.test.mjs`:
+  - Đủ 8 + 6 câu, đủ 10 mã, không trùng.
+  - 4 câu dùng chung mang cùng mã trên cả hai loại trang.
+  - Mở → 1 sự kiện; đóng → không phát; mở bằng code → không phát; mở lại sau khi trang vẽ lại → 1 sự kiện mới.
+  - Mã lạ bị từ chối.
+  - Sự kiện có đúng 4 trường.
+- Trên dev, bấm thật trong trình duyệt:
+  - **Hanoi to Sapa (1440px) và Hanoi to Ninh Binh (375px):**
+    - Đủ 8 câu đúng mã.
+    - Mở bằng dấu + → 1 sự kiện; bấm đóng → không phát; mở lại bằng chữ câu hỏi → thêm 1 sự kiện.
+    - Mở bằng code → không phát.
+    - `route_id` đổi đúng theo tuyến.
+  - **Halong Bay Cruises (375px):**
+    - Mở trang → 0 sự kiện.
+    - Mở `hotel_pickup`, rồi `cruise_departure_point`. Câu trước tự đóng và không bị tính.
+    - Bấm đóng → không phát.
+    - Bấm mũi tên ở câu dùng chung → `all_inclusive_pricing`.
+    - `route_id` là `null`.
+
+**Marketing cần tạo mới** biến `faq_id`, trigger `hlt_faq_open` và tag `faq_open`. Các biến `page_type`, `route_id` dùng lại.
