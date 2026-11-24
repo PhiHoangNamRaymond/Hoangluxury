@@ -44,6 +44,19 @@ const TermsPage = lazy(() => import("./PoliciesPage.jsx").then((m) => ({ default
 const JourneysPage = lazy(() => import("./JourneysPage.jsx"));
 const AdminApp = lazy(() => import("./admin/AdminApp.jsx"));
 
+// Link mời Feedback cũ (?bookingId=…&token=…) không còn dùng: xoá khỏi địa chỉ TRƯỚC khi
+// GTM/GA4 đọc page_location, để mã đặt chỗ và token không bị gửi sang analytics
+// (audit 25/11/2026). Các tham số khác (src, utm_…) giữ nguyên.
+{
+  const legacyQuery = new URLSearchParams(window.location.search);
+  if (["token", "bookingId"].some((name) => legacyQuery.has(name))) {
+    legacyQuery.delete("token");
+    legacyQuery.delete("bookingId");
+    const rest = legacyQuery.toString();
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${rest ? `?${rest}` : ""}${window.location.hash}`);
+  }
+}
+
 // Google Tag Manager nạp sớm nhất có thể (trừ trang quản trị).
 setupGtm();
 

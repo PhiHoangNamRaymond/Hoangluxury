@@ -12,7 +12,9 @@
  *   SHEET_NAME       tuỳ chọn, mặc định "Bookings"
  *   FEEDBACK_SHEET_NAME tuỳ chọn, mặc định "Feedback" (hỗ trợ FEEDBACK_SHEET cũ)
  *   ERROR_SHEET_NAME tuỳ chọn, mặc định "Errors"
- *   ERROR_LOG_HOURLY_LIMIT tuỳ chọn, mặc định 200 dòng log lỗi mỗi giờ.
+ *   ERROR_LOG_HOURLY_LIMIT tuỳ chọn, mặc định 100 dòng log lỗi mỗi giờ (tối đa 1000).
+ *   FEEDBACK_HOURLY_LIMIT tuỳ chọn, mặc định 30 feedback mới mỗi giờ (giới hạn riêng,
+ *                    không dùng chung với booking).
  *
  * Sau khi sửa file này phải Deploy > Manage deployments > New version,
  * nếu không website vẫn gọi vào bản cũ.
@@ -74,6 +76,7 @@ const ERROR_HEADERS = [
 ];
 const ERROR_CATEGORIES = ["validation", "server", "network", "unknown"];
 const ERROR_SHEET_MAX_ROWS = 5000;
+const ERROR_SHEET_TRIM_ROWS = 500; // đầy thì xoá 500 dòng cũ nhất
 
 const BOOKING_STATUSES = [
   "New",
@@ -196,8 +199,9 @@ function saveBooking_(data) {
     ];
 
     const targetRow = Math.max(sheet.getLastRow() + 1, headerRow + 1);
-    sheet.getRange(targetRow, 1, 1, BOOKING_HEADERS.length).setValues([row]);
+    // Định dạng trước rồi mới ghi, để Sheets không tự đổi chữ thành ngày/số.
     formatBookingRow_(sheet, targetRow, 1);
+    sheet.getRange(targetRow, 1, 1, BOOKING_HEADERS.length).setValues([row]);
     SpreadsheetApp.flush();
     finishRequest_(request);
   } finally {
@@ -252,10 +256,10 @@ function saveFeedback_(data) {
 
     const row = [bookingId, rating, feedback, ""];
     const targetRow = Math.max(sheet.getLastRow() + 1, headerRow + 1);
-    sheet.getRange(targetRow, 1, 1, FEEDBACK_HEADERS.length).setValues([row]);
     sheet.getRange(targetRow, 1).setNumberFormat("@");
     sheet.getRange(targetRow, 2).setNumberFormat("0");
     sheet.getRange(targetRow, 3, 1, 2).setNumberFormat("@");
+    sheet.getRange(targetRow, 1, 1, FEEDBACK_HEADERS.length).setValues([row]);
     SpreadsheetApp.flush();
     finishRequest_(request);
   } finally {
@@ -284,43 +288,42 @@ function validateErrorLog_(data) {
   return occurred;
 }
 
+/* Log lỗi KHÔNG giữ khoá chung (getScriptLock) của Booking/Feedback: nhánh này không
+   cần CAPTCHA, nên nếu bị gửi dồn dập cũng không được làm chậm hay chặn việc ghi
+   booking (audit 25/11/2026). Chống trùng và giới hạn mỗi giờ kiểm tra bằng
+   CacheService trước mọi thao tác với Sheet; appendRow tự ghi nguyên khối một dòng.
+   Đếm giới hạn không khoá nên có thể vượt vài dòng khi nhiều request cùng lúc. */
 function saveErrorLog_(data) {
   const occurred = validateErrorLog_(data);
   const cache = CacheService.getScriptCache();
   const seenKey = "error-log:" + data.reportId;
   // Log gửi lại (sau khi mất mạng) có thể tới hai lần: chỉ ghi một dòng.
   if (cache.get(seenKey)) return jsonResponse_({ ok: true });
+  cache.put(seenKey, "1", 21600);
 
-  const lock = LockService.getScriptLock();
-  lock.waitLock(10000);
-  try {
-    if (cache.get(seenKey)) return jsonResponse_({ ok: true });
-    const limit = Number(PropertiesService.getScriptProperties().getProperty("ERROR_LOG_HOURLY_LIMIT") || "200");
-    const hourKey = "error-log-count:" + Math.floor(Date.now() / 3600000);
-    const count = Number(cache.get(hourKey) || "0");
-    cache.put(seenKey, "1", 21600);
-    // Quá giới hạn (lỗi hàng loạt hoặc bị spam): nhận nhưng không ghi thêm, tránh đầy Sheet.
-    if (!Number.isInteger(limit) || limit < 1 || count >= limit) return jsonResponse_({ ok: true });
-    cache.put(hourKey, String(count + 1), 3600);
+  const limit = Number(PropertiesService.getScriptProperties().getProperty("ERROR_LOG_HOURLY_LIMIT") || "100");
+  const hourKey = "error-log-count:" + Math.floor(Date.now() / 3600000);
+  const count = Number(cache.get(hourKey) || "0");
+  // Quá giới hạn (lỗi hàng loạt hoặc bị spam): nhận nhưng không ghi, trả về ngay.
+  if (!Number.isInteger(limit) || limit < 1 || limit > 1000 || count >= limit) return jsonResponse_({ ok: true });
+  cache.put(hourKey, String(count + 1), 3600);
 
-    const sheet = getSheetByProperty_("ERROR_SHEET_NAME", "Errors");
+  const sheet = getSheetByProperty_("ERROR_SHEET_NAME", "Errors");
+  if (!cache.get("error-log-sheet-ready")) {
     ensureHeaders_(sheet, 1, ERROR_HEADERS);
-    if (sheet.getLastRow() > ERROR_SHEET_MAX_ROWS) return jsonResponse_({ ok: true });
-    const zone = "Asia/Ho_Chi_Minh";
-    const row = [
-      Utilities.formatDate(new Date(), zone, "dd/MM/yyyy HH:mm:ss"),
-      Utilities.formatDate(occurred, zone, "dd/MM/yyyy HH:mm:ss"),
-      data.sourceForm, data.category, String(data.status || ""), data.device,
-      safeCell_(data.browser || "Unknown"), data.page, data.reportId, "",
-    ];
-    const target = Math.max(sheet.getLastRow() + 1, 2);
-    sheet.getRange(target, 1, 1, ERROR_HEADERS.length).setNumberFormat("@");
-    sheet.getRange(target, 1, 1, ERROR_HEADERS.length).setValues([row]);
-    SpreadsheetApp.flush();
-  } finally {
-    lock.releaseLock();
+    // Cả cột là văn bản để ngày giờ / mã không bị Sheets tự đổi kiểu.
+    sheet.getRange(1, 1, sheet.getMaxRows(), ERROR_HEADERS.length).setNumberFormat("@");
+    cache.put("error-log-sheet-ready", "1", 21600);
   }
-
+  // Đầy thì xoá khối dòng cũ nhất, để log mới vẫn được ghi (không im luôn).
+  if (sheet.getLastRow() > ERROR_SHEET_MAX_ROWS) sheet.deleteRows(2, ERROR_SHEET_TRIM_ROWS);
+  const zone = "Asia/Ho_Chi_Minh";
+  sheet.appendRow([
+    Utilities.formatDate(new Date(), zone, "dd/MM/yyyy HH:mm:ss"),
+    Utilities.formatDate(occurred, zone, "dd/MM/yyyy HH:mm:ss"),
+    data.sourceForm, data.category, String(data.status || ""), data.device,
+    safeCell_(data.browser || "Unknown"), data.page, data.reportId, "",
+  ]);
   return jsonResponse_({ ok: true });
 }
 
@@ -604,14 +607,19 @@ function enforceFormRate_(data, form) {
   // Salted identifier avoids storing phone numbers/entered IDs in rate records.
   // Feedback is public: its entered Booking ID is not proof of a real booking.
   const subject = securityHash_(properties.getProperty("FORMS_PROXY_SECRET") + ":" + form + ":" + (form === "booking" ? String(data.phone).replace(/^\+/, "") : String(data.bookingId || "").trim().toLowerCase()));
-  const keys = ["form-rate:global", "form-rate:" + subject];
-  const limit = Number(properties.getProperty("FORM_HOURLY_LIMIT") || "100");
+  // Giới hạn chung tách riêng từng form (audit 25/11/2026): feedback công khai không
+  // được dùng hết lượt của booking. Feedback mặc định 30/giờ và không vượt mức booking.
+  const keys = ["form-rate:global:" + form, "form-rate:" + subject];
+  const bookingLimit = Number(properties.getProperty("FORM_HOURLY_LIMIT") || "100");
+  const limit = form === "feedback"
+    ? Number(properties.getProperty("FEEDBACK_HOURLY_LIMIT") || String(Math.min(30, bookingLimit)))
+    : bookingLimit;
   if (!Number.isInteger(limit) || limit < 1 || limit > 5000) throw new Error("Invalid rate configuration");
   const all = properties.getProperties(); let liveSubjects = 0;
   Object.keys(all).filter(function (key) { return key.indexOf("form-rate:") === 0; }).forEach(function (key) {
     const record = JSON.parse(all[key]);
     if (record.window !== windowId) properties.deleteProperty(key);
-    else if (key !== "form-rate:global") liveSubjects += 1;
+    else if (key.indexOf("form-rate:global") !== 0) liveSubjects += 1;
   });
   if (liveSubjects >= 500 && !all[keys[1]]) throw new Error("Rate storage full");
   keys.forEach(function (key,index) {

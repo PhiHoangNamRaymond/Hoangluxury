@@ -18,7 +18,9 @@ Không cần link mời/token và không xác minh ID có thuộc một booking 
    trong kho secrets riêng. Đặt FORMS_PROXY_SECRET bằng cùng giá trị ở Apps Script
    và Edge Function. Không dán vào chat, code, URL, VITE_ hoặc Git. Không dùng giá
    trị fixture trong tests. Secret tối đa 256 ký tự.
-5. Tùy chọn FORM_HOURLY_LIMIT: mặc định **100 lần ghi mới/giờ toàn hệ thống**, tối
+5. Tùy chọn FORM_HOURLY_LIMIT: mặc định **100 booking mới/giờ**. Feedback có giới hạn
+   riêng `FEEDBACK_HOURLY_LIMIT` (mặc định 30/giờ), không dùng chung lượt với booking
+   (audit 25/11/2026). Tối
    đa 5000; mỗi số phone/Booking ID feedback tối đa 5 lần thử mới/giờ. Đây là chính sách
    khởi điểm cần owner duyệt; đừng nâng vô hạn để xử lý lỗi. Không lấy IP từ browser.
 6. Chạy `setupSheets` trong editor, cấp quyền cho tài khoản vận hành. Trong tab
@@ -129,13 +131,15 @@ VITE_TURNSTILE_SITE_KEY=YOUR_PUBLIC_SITE_KEY
 | `unknown` | Website chưa cấu hình địa chỉ gửi form, hoặc lỗi khác |
 
 **Cách hệ thống xử lý:**
-- Tối đa `ERROR_LOG_HOURLY_LIMIT` dòng mỗi giờ (mặc định 200), và tab Errors tối đa 5000 dòng. Quá giới hạn thì bỏ qua để không làm đầy Sheet.
+- Tối đa `ERROR_LOG_HOURLY_LIMIT` dòng mỗi giờ (mặc định 100, tối đa 1000). Vượt giới hạn thì trả về ngay, không đụng tới Sheet.
+- Tab Errors tối đa 5000 dòng. Khi đầy, 500 dòng cũ nhất bị xoá để log mới vẫn được ghi.
+- Nhánh log **không dùng khoá chung** của Booking/Feedback, nên dù bị gửi dồn dập cũng không làm chậm hay chặn việc ghi booking.
 - Khi khách mất mạng, bản log được giữ trên trình duyệt (tối đa 10 bản, 7 ngày) và gửi lại khi có mạng hoặc ở lần tải trang sau. Log trùng (cùng Report ID) chỉ ghi một lần.
 - Log đi qua forms-proxy, **không cần CAPTCHA**, vì khách gặp lỗi có thể đã mất mã xác minh. Bù lại, proxy và Apps Script chỉ nhận đúng các trường kể trên, với giá trị trong danh sách cố định, và vẫn bắt buộc có FORMS_PROXY_SECRET.
 
 **Triển khai** (theo đúng thứ tự):
 
-1. **Apps Script:** dán `Code.gs` mới và lưu. Không cần thêm Script property nào. Tùy chọn: `ERROR_SHEET_NAME` (mặc định `Errors`), `ERROR_LOG_HOURLY_LIMIT`.
+1. **Apps Script:** dán `Code.gs` mới và lưu. Không cần thêm Script property nào. Tùy chọn: `ERROR_SHEET_NAME` (mặc định `Errors`), `ERROR_LOG_HOURLY_LIMIT`, `FEEDBACK_HOURLY_LIMIT`.
 2. **Deploy Apps Script:** Manage deployments → Edit → **New version** → Deploy. Giữ nguyên URL `/exec`. Không cần cấp quyền mới, vì code không dùng email.
 3. **Deploy lại Edge Function `forms-proxy`** bằng `supabase/functions/forms-proxy/index.js` mới. Secrets không đổi.
 4. **Upload website mới.** Làm bước này cuối cùng.

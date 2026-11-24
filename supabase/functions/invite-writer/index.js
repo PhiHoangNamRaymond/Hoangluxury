@@ -17,6 +17,7 @@ export function createInviteHandler({ client, allowedOrigins, logger = (event) =
   return async (request) => {
     const requestId = crypto.randomUUID();
     let actorId = null;
+    let targetId = null; // tài khoản bị đặt lại mật khẩu (chỉ UUID, không email)
     const origin = request.headers.get("origin");
     const headers = { "Content-Type": "application/json", "Cache-Control": "no-store", Vary: "Origin",
       "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info, x-retry-count, traceparent, tracestate, baggage" };
@@ -25,7 +26,7 @@ export function createInviteHandler({ client, allowedOrigins, logger = (event) =
     headers["X-Request-ID"] = requestId;
     const reply = (status, body) => {
       // No email, name, password, bearer token, request body or raw exception in logs.
-      try { logger({ event: "blog_account", request_id: requestId, actor_id: actorId, status }); } catch { /* logs must not break the response */ }
+      try { logger({ event: "blog_account", request_id: requestId, actor_id: actorId, target_id: targetId, status }); } catch { /* logs must not break the response */ }
       return new Response(JSON.stringify(body), { status, headers });
     };
     if (origin && !origins.includes(origin)) return reply(403, { ok: false, error: "Tên miền gọi API chưa được cho phép." });
@@ -77,6 +78,12 @@ export function createInviteHandler({ client, allowedOrigins, logger = (event) =
       if (body?.action === "reset") {
         const userId = typeof body?.userId === "string" ? body.userId : "";
         if (!UUID.test(userId)) return reply(400, { ok: false, error: "Thiếu tài khoản cần đặt lại mật khẩu." });
+        targetId = userId;
+        // Đặt lại mật khẩu dùng chung giới hạn với tạo tài khoản (10 thao tác/admin/giờ,
+        // audit 25/11/2026): phiên admin bị chiếm không reset hàng loạt được.
+        const { data: allowed, error: resetLimitError } = await client.rpc("consume_blog_invite", { actor: actorId });
+        if (resetLimitError) return reply(503, { ok: false, error: "Chưa thiết lập giới hạn bảo mật. Chạy migration 04 rồi thử lại." });
+        if (allowed !== true) return reply(429, { ok: false, error: "Đã đạt giới hạn thao tác tài khoản. Thử lại sau một giờ." });
         const { error: resetError } = await client.auth.admin.updateUserById(userId, { password });
         if (resetError) return reply(400, { ok: false, error: "Không đặt lại được mật khẩu. Kiểm tra tài khoản còn tồn tại trong Auth users." });
         return reply(200, { ok: true });
