@@ -8,7 +8,7 @@ import { photoAlbumBySlug, photoAlbumsPath, photoAlbumUrl, photoAlbums } from ".
 import { whatsappPhotoUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { albumReturnUrl, markAlbumReturn } from "./lib/album-return.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 /* /photo/albums/<slug>/ - xem hết ảnh của một album: ảnh xếp dọc, cỡ lớn,
    tên album ở trên cùng theo đúng kiểu dòng chữ ở trang lưới. */

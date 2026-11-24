@@ -11,7 +11,7 @@ import {
   journeyPickupIconUrl,
   journeysOutroWheelUrl,
 } from "./config/assets.js";
-import { routeIdFromJourneyKey, waCta } from "./lib/whatsapp-tracking.js";
+import { routeIdFromJourneyKey, waCta } from "./lib/cta-tracking.js";
 
 const allRoutesData = [
   {

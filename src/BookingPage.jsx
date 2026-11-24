@@ -18,7 +18,7 @@ import { getBookingSource } from "./config/booking-source.js";
 import { formTextError } from "./lib/public-config.js";
 import { bookingDevice, validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import Turnstile from "./components/Turnstile.jsx";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 const initialForm = {
   departureDate: "",

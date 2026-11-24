@@ -4,7 +4,7 @@ import Header from "./components/layout/Header.jsx";
 import ExperienceSlider from "./components/home/ExperienceSlider.jsx";
 import { catalogUrl, whatsappInquiryUrl } from "./data.js";
 import { catalogBackgroundUrl, catalogOpenBookUrl } from "./config/assets.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 function BookIcon() {
   return (

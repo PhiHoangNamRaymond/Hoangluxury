@@ -18,7 +18,7 @@ import finalCtaBackground from "../assets/opt/halong-bay-sunset-private-transfer
 import experienceLotus from "../assets/cruise-icons/experience-gold-lotus.png";
 import "./styles/cruise-landing-desktop.css";
 import "./styles/cruise-landing-mobile.css";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { bookingCta, waCta } from "./lib/cta-tracking.js";
 
 const preferenceIcons = { couples: couplesGold, family: familyGold, luxury: luxuryGold, scenic: scenicGold };
 
@@ -257,7 +257,7 @@ export default function CruisesPage() {
                   <span className="hlt-cruise-seamless-btn-icon" aria-hidden="true"><WhatsAppGlyph /></span>
                   Book via WhatsApp
                 </a>
-                <a className="hlt-cruise-seamless-btn is-dark" href="/booking/">Book via Form</a>
+                <a className="hlt-cruise-seamless-btn is-dark" href="/booking/" {...bookingCta("transfer_section", "booking_cruise_transfer")}>Book via Form</a>
               </div>
             </div>
           </div>
@@ -427,7 +427,7 @@ export default function CruisesPage() {
                 <a className="hlt-btn hlt-btn-gold" href={cruiseInquiry("a private transfer to Halong cruise")} target="_blank" rel="noopener noreferrer" {...waCta("bottom_cta", "whatsapp_cruise_bottom_cta")}>
                   Book via WhatsApp
                 </a>
-                <a className="hlt-btn hlt-btn-outline" href="/booking/">Book via Form</a>
+                <a className="hlt-btn hlt-btn-outline" href="/booking/" {...bookingCta("bottom_cta", "booking_cruise_bottom_cta")}>Book via Form</a>
               </div>
             </div>
           </div>

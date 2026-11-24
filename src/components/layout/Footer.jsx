@@ -2,7 +2,7 @@ import React from "react";
 import { footerFlourishDividerUrl, logoUrl, whatsappQrUrl } from "../../config/assets.js";
 import { catalogPageUrl, feedbackPageUrl, whatsappUrl } from "../../data.js";
 import { privacyPolicyPath, termsPath } from "../../config/policies.js";
-import { waCta } from "../../lib/whatsapp-tracking.js";
+import { bookingCta, waCta } from "../../lib/cta-tracking.js";
 
 // Footer chỉ hiện 2 mục như thiết kế cũ: Privacy Policy, Terms of Service — mỗi mục
 // là một trang riêng (23/11/2026).
@@ -50,7 +50,7 @@ export default function Footer({ whatsappHref = whatsappUrl } = {}) {
             <a href={sectionHref("#home")}>Home</a>
             <a href={sectionHref("#routes")}>Routes</a>
             <a href={catalogPageUrl}>Catalog</a>
-            <a href="/booking/">Booking</a>
+            <a href="/booking/" {...bookingCta("footer", "booking_footer", { route: null })}>Booking</a>
             <a href={feedbackPageUrl}>Feedback</a>
           </div>
         </div>

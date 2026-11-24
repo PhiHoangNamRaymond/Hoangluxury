@@ -365,7 +365,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
     .replace('import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";', 'const aboutPageUrl = "/about-us/", whatsappInquiryUrl = "https://wa.me/fixture";')
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
     .replace('import usePublicBlog from "./hooks/usePublicBlog.js";', 'const usePublicBlog = () => globalThis.__blogFilterFixture;')
-    .replace(/from "(?:\.\.?\/)+lib\/whatsapp-tracking\.js"/, `from ${JSON.stringify(new URL("../src/lib/whatsapp-tracking.js", import.meta.url).href)}`)
+    .replace(/from "(?:\.\.?\/)+lib\/cta-tracking\.js"/, `from ${JSON.stringify(new URL("../src/lib/cta-tracking.js", import.meta.url).href)}`)
     .replace('from "./config/blog.js"', `from ${JSON.stringify(new URL("../src/config/blog.js", import.meta.url).href)}`);
   const { code } = await transformWithEsbuild(source, "BlogPage.jsx", { loader:"jsx", jsx:"transform" });
   const BlogPage = (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
@@ -482,7 +482,7 @@ test("About uses the Blog CTA design and background without changing its contact
     .replace('import { catalogPageUrl, whatsappInquiryUrl } from "./data.js";', 'const catalogPageUrl = "/catalog/", whatsappInquiryUrl = "https://wa.me/fixture";')
     .replace('from "./config/journey-paths.js";', `from ${JSON.stringify(new URL("../src/config/journey-paths.js", import.meta.url).href)};`)
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
-    .replace(/from "(?:\.\.?\/)+lib\/whatsapp-tracking\.js"/, `from ${JSON.stringify(new URL("../src/lib/whatsapp-tracking.js", import.meta.url).href)}`);
+    .replace(/from "(?:\.\.?\/)+lib\/cta-tracking\.js"/, `from ${JSON.stringify(new URL("../src/lib/cta-tracking.js", import.meta.url).href)}`);
   const { code } = await transformWithEsbuild(source, "AboutPage.jsx", { loader:"jsx", jsx:"transform" });
   const AboutPage = (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
   const root = createRoot(host);

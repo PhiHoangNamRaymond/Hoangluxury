@@ -19,7 +19,7 @@ import { blogDestinations } from "./config/blog-taxonomy.js";
 import { setupImageSkeletons } from "./lib/image-skeleton.js";
 import { setupContentProtection } from "./lib/content-protection.js";
 import { setupGtm } from "./lib/gtm.js";
-import { routeIdFromJourneyKey, setupWhatsAppTracking } from "./lib/whatsapp-tracking.js";
+import { routeIdFromJourneyKey, setupCtaTracking } from "./lib/cta-tracking.js";
 import { cruiseSeo } from "./config/cruise-seo.js";
 import { legacyPolicyHash, legacyPolicyPath, policyPageSeo, privacyPolicyPath, termsPath } from "./config/policies.js";
 import "./styles/index.css";
@@ -279,7 +279,7 @@ createRoot(document.getElementById("root")).render(
 );
 
 // Data Layer nút WhatsApp (hlt_whatsapp_click): loại trang, dịch vụ và tuyến mặc
-// định của trang này; từng nút có thể ghi đè (xem lib/whatsapp-tracking.js).
+// định của trang này; từng nút có thể ghi đè (xem lib/cta-tracking.js).
 const pageTypeByPath = {
   "/": "home",
   "/routes": "route_list", "/journeys": "route_list",
@@ -308,7 +308,7 @@ const serviceTypeByPage = {
   photo_landing: "photography", photo_albums: "photography", photo_album: "photography",
 };
 if (!isAdminRoute) {
-  setupWhatsAppTracking({
+  setupCtaTracking({
     pageType: trackingPageType,
     serviceType: serviceTypeByPage[trackingPageType] || null,
     routeId: journey ? routeIdFromJourneyKey(journey) : null,

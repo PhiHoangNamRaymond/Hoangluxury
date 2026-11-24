@@ -8,7 +8,7 @@ import JourneyCallToAction from "./components/home/JourneyCallToAction.jsx";
 import { blogArticleUrl, blogPagePath } from "./config/blog.js";
 import { whatsappUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 function formatDate(value) {
   if (!value) return "";
