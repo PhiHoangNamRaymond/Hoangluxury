@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { logoUrl } from "../../config/assets.js";
 import { navLinks, routesMenu, whatsappUrl } from "../../data.js";
 import BackToTop from "./BackToTop.jsx";
-import { bookingCta, catalogCta, waCta } from "../../lib/cta-tracking.js";
+import { bookingCta, catalogCta, destinationCta, waCta } from "../../lib/cta-tracking.js";
 
 const normalizePath = (pathname) => pathname.replace(/\/+$/, "");
 
@@ -316,14 +316,14 @@ export default function Header({ whatsappHref = whatsappUrl } = {}) {
                       {routesMenu.columns.map((column, columnIndex) => (
                         <div className="hlt-nav-menu-col" key={columnIndex}>
                           {column.map(([childLabel, childHref]) => (
-                            <a href={childHref} key={childLabel}>
+                            <a href={childHref} key={childLabel} {...destinationCta("header_mega_menu", "route_menu_link")}>
                               {childLabel}
                             </a>
                           ))}
                         </div>
                       ))}
 
-                      <a className="hlt-nav-menu-cruise" href={routesMenu.cruise.url}>
+                      <a className="hlt-nav-menu-cruise" href={routesMenu.cruise.url} {...destinationCta("header_mega_menu", "cruise_explore")}>
                         <svg className="hlt-nav-menu-cruise-icon" viewBox="0 0 40 24" aria-hidden="true">
                           <path d="M4 16h32l-3.4 5.2a2 2 0 0 1-1.7.8H9.1a2 2 0 0 1-1.7-.8L4 16Z" />
                           <path d="M8 16V9.4h24V16" />
@@ -479,6 +479,7 @@ export default function Header({ whatsappHref = whatsappUrl } = {}) {
                       key={childLabel}
                       aria-current={isChildActive ? "page" : undefined}
                       tabIndex={mobileJourneysOpen ? 0 : -1}
+                      {...destinationCta("mobile_routes_menu", "route_menu_link")}
                     >
                       {childLabel}
                     </a>
@@ -488,6 +489,7 @@ export default function Header({ whatsappHref = whatsappUrl } = {}) {
                 <a
                   className="hlt-mobile-journey-cruise"
                   href={routesMenu.cruise.url}
+                  {...destinationCta("mobile_routes_menu", "cruise_explore")}
                   tabIndex={mobileJourneysOpen ? 0 : -1}
                 >
                   <svg className="hlt-mobile-journey-cruise-icon" viewBox="0 0 40 24" aria-hidden="true">

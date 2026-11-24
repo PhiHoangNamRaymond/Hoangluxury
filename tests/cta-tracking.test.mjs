@@ -321,3 +321,82 @@ test("every Catalog link in the site source carries catalogCta tracking attribut
   }
   assert.deepEqual(missing, []);
 });
+
+// H2-01: chọn tuyến / trang du thuyền.
+test("destination select covers every route page and the cruise page, and skips /routes/ and the current page", async () => {
+  const { DESTINATION_EVENT, destinationCta, destinationFromHref } = await import("../src/lib/cta-tracking.js");
+  const { journeyPagePath, legacyJourneySlugByKey } = await import("../src/config/journey-paths.js");
+  const keys = Object.keys(legacyJourneySlugByKey);
+  assert.ok(keys.length >= 17, "all routes with a detail page, not only the 9 featured ones");
+  for (const key of keys) {
+    const expected = { destination_type: "private_transfer", destination_id: routeIdFromJourneyKey(key) };
+    assert.deepEqual(destinationFromHref(journeyPagePath(key)), expected, key);
+    assert.deepEqual(destinationFromHref(`/journey/${legacyJourneySlugByKey[key]}/`), expected, `legacy ${key}`);
+  }
+  for (const href of ["/routes/halong-bay-cruises/", "/routes/halong-bay-cruises", "/cruises/", "https://hoangluxury.travel/ha-long-cruises/"]) {
+    assert.deepEqual(destinationFromHref(href), { destination_type: "cruise", destination_id: "halong_bay_cruises" }, href);
+  }
+  for (const href of ["/routes/", "/routes", "/#routes", "#routes", "/routes/unknown-place/", "/catalog/", "https://evil.test/routes/hanoi-to-sapa-private-transfer/"]) {
+    assert.equal(destinationFromHref(href), null, href);
+  }
+
+  const sapa = journeyPagePath("sapa"), ninhBinh = journeyPagePath("ninh-binh"), sapaToHaLong = journeyPagePath("sapa-to-ha-long");
+  const home = bookingPage(`
+    <header>
+      <a id="routes-scroll" href="/#routes">Routes</a>
+      <a id="all-routes" href="/routes/">All Private Transfer Routes</a>
+      <a id="menu-intercity" href="${sapaToHaLong}" ${attrs(destinationCta("header_mega_menu", "route_menu_link"))}>Sapa to Halong</a>
+      <a id="explore" href="/routes/halong-bay-cruises/" ${attrs(destinationCta("header_mega_menu", "cruise_explore"))}><span>HA LONG BAY CRUISES</span><span>EXPLORE</span></a>
+    </header>
+    <a id="map" href="${sapa}" ${attrs(destinationCta("routes_map", "route_map_card"))}><span><img alt=""></span><span>Sapa</span></a>
+    <a id="plain" href="${ninhBinh}">Ninh Binh</a>`,
+  { pageType: "home", serviceType: "private_transfer", pageServiceType: null, routeId: null }, "https://hoangluxury.travel/");
+  const events = () => home.all().filter((item) => item.event === DESTINATION_EVENT);
+  home.click("#routes-scroll");
+  home.click("#all-routes");
+  assert.equal(home.all().length, 0, "scrolling to the map or opening /routes/ is not a selection");
+  home.click("#map img");
+  assert.deepEqual(events(), [{ event: "hlt_destination_select", page_type: "home", destination_type: "private_transfer", destination_id: "hanoi_to_sapa", cta_location: "routes_map", cta_id: "route_map_card" }]);
+  home.click("#menu-intercity");
+  home.click("#explore span:last-child");
+  home.click("#plain");
+  assert.equal(home.all().length, 4, "one event per click, nothing else fires");
+  assert.deepEqual(events().slice(1).map((e) => [e.destination_type, e.destination_id, e.cta_location, e.cta_id]), [
+    ["private_transfer", "sapa_to_ha_long", "header_mega_menu", "route_menu_link"],
+    ["cruise", "halong_bay_cruises", "header_mega_menu", "cruise_explore"],
+    ["private_transfer", "hanoi_to_ninh_binh", "content", "route_link"],
+  ]);
+  assert.deepEqual(Object.keys(events()[0]), ["event", "page_type", "destination_type", "destination_id", "cta_location", "cta_id"]);
+
+  // Đang ở Hanoi to Sapa: chọn tuyến khác thì tính theo trang đích; bấm lại chính tuyến đang xem thì không.
+  const route = bookingPage(`
+    <a id="same" href="${sapa}" ${attrs(destinationCta("header_mega_menu", "route_menu_link"))}>Hanoi to Sapa</a>
+    <a id="other" href="${ninhBinh}" ${attrs(destinationCta("header_mega_menu", "route_menu_link"))}>Hanoi to Ninh Binh</a>`,
+  { pageType: "route_detail", routeId: "hanoi_to_sapa" });
+  route.click("#same");
+  route.click("#other");
+  assert.deepEqual(route.all().map((e) => [e.page_type, e.destination_id]), [["route_detail", "hanoi_to_ninh_binh"]]);
+  const cruise = bookingPage(`<a id="self" href="/routes/halong-bay-cruises/">Cruises</a>`, { pageType: "cruise" }, "https://hoangluxury.travel/routes/halong-bay-cruises/");
+  cruise.click("#self");
+  assert.equal(cruise.all().length, 0);
+});
+
+// Mọi link tới trang tuyến / du thuyền trong mã giao diện phải có nhãn destinationCta.
+test("every route and cruise link in the site source carries destinationCta tracking attributes", async () => {
+  const files = [];
+  const walk = async (dir) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) { if (entry.name !== "admin") await walk(path); } else if (path.endsWith(".jsx")) files.push(path);
+    }
+  };
+  await walk("src");
+  const missing = [];
+  for (const file of files) {
+    const source = await readFile(file, "utf8");
+    for (const match of source.matchAll(/<a\b[^>]*?href=\{(?:journeyPagePath\([^)]*\)|getJourneyPageUrl\([^)]*\)|routePageUrl|routesMenu\.cruise\.url|childHref)\}[^>]*>/gs)) {
+      if (!match[0].includes("destinationCta(")) missing.push(`${file}: ${match[0].slice(0, 90)}`);
+    }
+  }
+  assert.deepEqual(missing, []);
+});

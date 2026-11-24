@@ -13,6 +13,7 @@ import { formTextError } from "./lib/public-config.js";
 import { BOOKING_ID_MAX_LENGTH, isValidBookingId, normalizeBookingId } from "./lib/booking-id.js";
 import { validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import { reportFormError } from "./lib/form-error-log.js";
+import { trackFeedbackSubmitSuccess } from "./lib/booking-submit-tracking.js";
 import Turnstile from "./components/Turnstile.jsx";
 
 // Dùng chung Web App với form đặt xe; phân biệt bằng tham số form=feedback.
@@ -339,6 +340,8 @@ export default function FeedbackPage() {
 
     try {
       await submitForm(feedbackEndpoint,payload);
+      // H1-08: máy chủ đã xác nhận lưu Feedback, ngay trước khi hiện THANK YOU.
+      trackFeedbackSubmitSuccess(payload.requestId);
       setBookingId("");
       setExperience("");
       setRating(0);

@@ -11,6 +11,7 @@ import {
   vietnamRoutesMapUrl,
 } from "../../config/assets.js";
 import { fleet as fleetItems, getJourneyPageUrl, popularRouteArtworkAlts, popularRoutes } from "../../data.js";
+import { destinationCta } from "../../lib/cta-tracking.js";
 
 export function FleetSpecIcon({ spec }) {
   const type = spec.toLowerCase();
@@ -110,6 +111,7 @@ export default function Fleet() {
                   className="hlt-route-card"
                   key={route}
                   href={getJourneyPageUrl(route)}
+                  {...destinationCta("routes_map", "route_map_card")}
                   aria-label={`Hanoi / Noi Bai to ${route}`}
                 >
                   <span className="hlt-route-number">{String(index + 1).padStart(2, "0")}</span>

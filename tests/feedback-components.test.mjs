@@ -263,3 +263,68 @@ test("Feedback success popup waits for acknowledgement, traps focus and closes a
     document.body.style.overflow=originalOverflow;
   }
 });
+
+// H1-08: hlt_feedback_submit chỉ phát khi máy chủ xác nhận lưu, mỗi Feedback một lần.
+test("Feedback pushes hlt_feedback_submit once per confirmed feedback and never for failures or repeats",async () => {
+  window.history.replaceState(null,"","/feedback/");
+  document.body.innerHTML='<div id="root"></div>';
+  const host = document.getElementById("root");
+  const root = createRoot(host);
+  const originalFetch = globalThis.fetch;
+  const responses = [];
+  const sent = [];
+  globalThis.fetch = async (_url,options) => {
+    const body = Object.fromEntries(options.body);
+    if (body.form === "error-log") return Response.json({ok:true});
+    sent.push(body);
+    return responses.shift() ?? Response.json({ok:true});
+  };
+  window.dataLayer = [];
+  const events = () => window.dataLayer.filter(({event}) => event === "hlt_feedback_submit");
+  const submit = () => act(async () => host.querySelector("form").dispatchEvent(new window.Event("submit",{bubbles:true,cancelable:true})));
+  try {
+    await act(async () => root.render(React.createElement(React.StrictMode,null,React.createElement(FeedbackPage))));
+    // Mở trang, nhập Booking ID, chọn sao, viết nhận xét: không phát.
+    await fillFeedback(host);
+    assert.deepEqual(events(),[]);
+    // Booking ID sai định dạng (validation): không phát, không gửi.
+    await fill(host.querySelector('input[name="bookingId"]'),"HLT-123");
+    await verify(host);
+    await submit();
+    assert.equal(sent.length,0);
+    assert.deepEqual(events(),[]);
+    // Máy chủ từ chối (CAPTCHA/Booking ID bị từ chối/lỗi backend): không phát.
+    await fillFeedback(host);
+    responses.push(Response.json({ok:false},{status:400}));
+    await verify(host);
+    await submit();
+    assert.equal(sent.length,1);
+    assert.deepEqual(events(),[]);
+    // Máy chủ xác nhận: đúng một sự kiện, chỉ có tên sự kiện.
+    await verify(host);
+    await submit();
+    assert.equal(sent.length,2);
+    assert.deepEqual(events(),[{event:"hlt_feedback_submit"}]);
+    assert.match(host.textContent,/Your feedback has been sent/);
+    // Render lại / THANK YOU hiện lại: không phát thêm.
+    await act(async () => root.render(React.createElement(React.StrictMode,null,React.createElement(FeedbackPage))));
+    assert.equal(events().length,1);
+    // Gửi lại đúng nội dung cũ: cùng requestId, máy chủ không ghi thêm dòng nào → không phát.
+    await fillFeedback(host);
+    await verify(host);
+    await submit();
+    assert.equal(sent.at(-1).requestId,sent.at(-2).requestId);
+    assert.equal(events().length,1);
+    // Feedback mới: sự kiện mới.
+    await fillFeedback(host);
+    await fill(host.querySelector('textarea[name="experience"]'),"Second trip was great too.");
+    await verify(host);
+    await submit();
+    assert.notEqual(sent.at(-1).requestId,sent.at(-2).requestId);
+    assert.equal(events().length,2);
+    assert.deepEqual(window.dataLayer.map((item) => Object.keys(item)),[["event"],["event"]],"only the event name, no customer data");
+  } finally {
+    await act(async () => root.unmount());
+    globalThis.fetch = originalFetch;
+  }
+});
