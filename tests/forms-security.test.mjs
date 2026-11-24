@@ -41,13 +41,15 @@ test("booking phone input accepts only digits and caps typed/pasted values at 15
     ["abc123xyz456", "123456"],
     ["", ""],
   ]) {
-    let form = {phone:""};
+    let form = {phone:""}; let started = 0;
     vm.runInNewContext(handlerSource + '\nupdateField(event);', {
       event:{target:{name:"phone",type:"tel",value}},
       setForm:(update) => { form = update(form); },
+      markFormStarted:() => { started += 1; },
     });
     assert.equal(form.phone, expected);
     assert.ok(form.phone.length <= 15);
+    assert.equal(started, 1, "typing in a field marks the booking form as started (H1-03)");
   }
 });
 

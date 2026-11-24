@@ -19,7 +19,7 @@ import { formTextError } from "./lib/public-config.js";
 import { bookingDevice, validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import Turnstile from "./components/Turnstile.jsx";
 import { waCta } from "./lib/cta-tracking.js";
-import { createBookingStepTracker } from "./lib/booking-step-tracking.js";
+import { createBookingFormStartTracker, createBookingStepTracker } from "./lib/booking-step-tracking.js";
 import { trackBookingSubmitSuccess } from "./lib/booking-submit-tracking.js";
 import { reportFormError } from "./lib/form-error-log.js";
 
@@ -263,10 +263,18 @@ export default function BookingPage() {
   const requestRef = useRef(null);
   // H1-04: bước nào đã hoàn thành trong lượt điền này (chỉ form nhiều bước mobile).
   const stepTrackerRef = useRef(null);
+  // H1-03: lượt điền form này đã phát hlt_booking_form_start chưa.
+  const formStartRef = useRef(null);
+  const markFormStarted = () => {
+    formStartRef.current ??= createBookingFormStartTracker();
+    formStartRef.current.start();
+  };
   const today = bookingToday();
 
   const updateField = (event) => {
     const { checked, name, type, value } = event.target;
+    // Ô "website" là bẫy bot ẩn, khách thật không điền nên không tính là bắt đầu form.
+    if (name !== "website") markFormStarted();
     let nextValue = type === "checkbox" ? checked : value;
 
     if (name === "noFlight") {
@@ -377,6 +385,7 @@ export default function BookingPage() {
       trackBookingSubmitSuccess(payload.requestId);
       requestRef.current = null;
       stepTrackerRef.current?.reset();
+      formStartRef.current?.reset();
       setForm(initialForm);
       setCurrentStep(1);
       setSubmission({
@@ -453,7 +462,7 @@ export default function BookingPage() {
             <label data-book-step="2"><span className="hlt-book-label-text">Flight Time (24-hour, UTC+7) <small>(Optional<span className="hlt-book-label-extra"> when not flying</span>)</small></span><div className="hlt-book-control"><FormIcon type="clock" /><input required={!form.noFlight} disabled={form.noFlight} type="time" step="60" name="flightTimeZone" value={form.flightTimeZone} onChange={updateField} title="Use 24-hour time, for example 16:30." /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Full Name</span><div className="hlt-book-control"><FormIcon type="user" /><input required name="fullName" value={form.fullName} onChange={updateField} placeholder="Enter your full name" /></div></label>
             {/* Mã quốc gia chọn riêng để khách không quên điền (ví dụ +84) */}
-            <label data-book-step="3"><span className="hlt-book-label-text">Contact Number / WhatsApp</span><div className="hlt-book-control hlt-book-control-phone"><FormIcon type="phone" /><PhoneCodeSelect value={form.phoneCode} onChange={(code) => setForm((current) => ({ ...current, phoneCode: code }))} /><input required type="tel" inputMode="numeric" autoComplete="tel-national" pattern="[0-9]{6,15}" maxLength="15" title="Enter 6 to 15 digits, without the country code." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. 839779888" /></div></label>
+            <label data-book-step="3"><span className="hlt-book-label-text">Contact Number / WhatsApp</span><div className="hlt-book-control hlt-book-control-phone"><FormIcon type="phone" /><PhoneCodeSelect value={form.phoneCode} onChange={(code) => { markFormStarted(); setForm((current) => ({ ...current, phoneCode: code })); }} /><input required type="tel" inputMode="numeric" autoComplete="tel-national" pattern="[0-9]{6,15}" maxLength="15" title="Enter 6 to 15 digits, without the country code." name="phone" value={form.phone} onChange={updateField} placeholder="e.g. 839779888" /></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Country</span><div className="hlt-book-control"><FormIcon type="globe" /><select required name="country" value={form.country} onChange={updateField}><option value="" disabled>Select your country</option>{countries.map((country) => <option key={country} value={country}>{country}</option>)}</select></div></label>
             <label data-book-step="3"><span className="hlt-book-label-text">Number of People</span><div className="hlt-book-control"><FormIcon type="passengers" /><select required name="passengers" value={form.passengers} onChange={updateField}><option value="" disabled>Select number of people</option>{[1,2,3,4,5,6].map((count) => <option key={count} value={count}>{count} {count === 1 ? "person" : "people"}</option>)}</select></div></label>
             <label data-book-step="4"><span className="hlt-book-label-text">Journey Type</span><div className="hlt-book-control"><FormIcon type="car" /><select required name="journeyType" value={form.journeyType} onChange={updateField}><option value="" disabled>Select journey type</option><option>One-way</option><option>Round Trip</option><option>Multi-day</option><option>Custom Request</option></select></div></label>
