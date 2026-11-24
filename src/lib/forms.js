@@ -22,8 +22,31 @@ export function requestIdFor(reference, fields) {
   return reference.current.id;
 }
 
+// Lỗi gửi form kèm nhóm lỗi chuẩn hoá cho Data Layer (H1-08): "network" khi không
+// kết nối được / quá thời gian, "server" khi máy chủ trả lỗi hoặc không xác nhận ok,
+// "unknown" khi chưa cấu hình. Thông báo hiển thị cho khách giữ nguyên như trước.
+export class FormSubmitError extends Error {
+  constructor(message, category) {
+    super(message);
+    this.name = "FormSubmitError";
+    this.category = category;
+  }
+}
+
+const notConfirmed = "We could not confirm your request. Please retry or contact us via WhatsApp.";
+
 export async function submitForm(endpoint, fields, fetcher = fetch) {
-  if (!validFormsProxy(endpoint)) throw new Error("Online forms are being configured. Please contact us via WhatsApp.");
-  const response = await fetcher(endpoint,{method:"POST",credentials:"omit",body:new URLSearchParams(fields),signal:AbortSignal.timeout(30000)});
-  if (!response.ok || (await response.json()).ok !== true) throw new Error("We could not confirm your request. Please retry or contact us via WhatsApp.");
+  if (!validFormsProxy(endpoint)) throw new FormSubmitError("Online forms are being configured. Please contact us via WhatsApp.", "unknown");
+  let response;
+  try {
+    response = await fetcher(endpoint,{method:"POST",credentials:"omit",body:new URLSearchParams(fields),signal:AbortSignal.timeout(30000)});
+  } catch (error) {
+    // fetch() chỉ ném lỗi khi không có phản hồi: mất mạng, DNS, CORS, hết 30 giây.
+    const network = error instanceof TypeError || ["TimeoutError", "AbortError", "NetworkError"].includes(error?.name);
+    throw new FormSubmitError(notConfirmed, network ? "network" : "unknown");
+  }
+  if (!response.ok) throw new FormSubmitError(notConfirmed, "server");
+  let body = null;
+  try { body = await response.json(); } catch { /* phản hồi không phải JSON: máy chủ lỗi */ }
+  if (body?.ok !== true) throw new FormSubmitError(notConfirmed, "server");
 }

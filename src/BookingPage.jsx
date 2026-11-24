@@ -20,6 +20,7 @@ import { bookingDevice, validFormsProxy, requestIdFor, submitForm } from "./lib/
 import Turnstile from "./components/Turnstile.jsx";
 import { waCta } from "./lib/cta-tracking.js";
 import { createBookingStepTracker } from "./lib/booking-step-tracking.js";
+import { trackBookingSubmitError, trackBookingSubmitSuccess } from "./lib/booking-submit-tracking.js";
 
 const initialForm = {
   departureDate: "",
@@ -261,6 +262,8 @@ export default function BookingPage() {
   const requestRef = useRef(null);
   // H1-04: bước nào đã hoàn thành trong lượt điền này (chỉ form nhiều bước mobile).
   const stepTrackerRef = useRef(null);
+  // Đang gửi: chặn lần bấm thứ hai trước khi nút kịp chuyển sang "Sending..." (tránh gửi trùng).
+  const sendingRef = useRef(false);
   const today = bookingToday();
 
   const updateField = (event) => {
@@ -331,26 +334,38 @@ export default function BookingPage() {
     });
   };
 
+  // H1-08: ô bắt buộc còn thiếu/sai thì trình duyệt tự chặn gửi và hiện nhắc nhở,
+  // submitBooking không chạy; ghi nhận lỗi validation ngay tại lần bấm này.
+  const trackBlockedSubmit = (event) => {
+    const formElement = event.currentTarget.form;
+    if (formElement && !formElement.noValidate && !formElement.checkValidity()) trackBookingSubmitError("validation");
+  };
+
   const submitBooking = async (event) => {
     event.preventDefault();
-    if (submission.state === "loading") return;
+    if (submission.state === "loading" || sendingRef.current) return;
+    // H1-08: mỗi lần bấm REQUEST A QUOTE thất bại phát một hlt_booking_submit_error.
     if (!form.departureDate || form.departureDate < bookingToday()) {
+      trackBookingSubmitError("validation");
       setSubmission({ state: "error", message: "Please select a departure date that is today or later." });
       return;
     }
     const inputError = formTextError(form);
-    if (inputError) { setSubmission({ state: "error", message: inputError }); return; }
+    if (inputError) { trackBookingSubmitError("validation"); setSubmission({ state: "error", message: inputError }); return; }
 
     if (!form.phoneCode) {
+      trackBookingSubmitError("validation");
       setSubmission({ state: "error", message: "Please select the country code for your phone number." });
       return;
     }
 
     if (!bookingEndpoint || !turnstileToken) {
+      trackBookingSubmitError(bookingEndpoint ? "verification" : "unknown");
       setSubmission({ state: "error", message: "Online booking is being configured. Please contact us via WhatsApp." });
       return;
     }
 
+    sendingRef.current = true;
     setSubmission({ state: "loading", message: "Sending your booking request..." });
     // Gộp mã quốc gia vào số điện thoại trước khi gửi, ví dụ "+84839779888"
     const { phoneCode, ...rest } = form;
@@ -367,6 +382,8 @@ export default function BookingPage() {
 
     try {
       await submitForm(bookingEndpoint, payload);
+      // H1-05: máy chủ đã xác nhận, ngay trước khi hiện THANK YOU.
+      trackBookingSubmitSuccess(payload.requestId);
       requestRef.current = null;
       stepTrackerRef.current?.reset();
       setForm(initialForm);
@@ -375,9 +392,11 @@ export default function BookingPage() {
         state: "success",
         message: "Your request was submitted. Our concierge team will contact you shortly to confirm it.",
       });
-    } catch {
+    } catch (error) {
+      trackBookingSubmitError(error?.category || "unknown");
       setSubmission({ state: "error", message: "We could not send your request. Please try again or contact us via WhatsApp." });
     } finally {
+      sendingRef.current = false;
       setTurnstileToken(""); setVerificationReset((value) => value + 1);
     }
   };
@@ -470,7 +489,7 @@ export default function BookingPage() {
               <Turnstile action="booking" onToken={setTurnstileToken} resetKey={verificationReset} />
             </div>
             <div className="hlt-book-actions">
-              <button type="submit" disabled={submission.state === "loading" || !turnstileToken || !bookingEndpoint}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
+              <button type="submit" disabled={submission.state === "loading" || !turnstileToken || !bookingEndpoint} onClick={trackBlockedSubmit}>{submission.state === "loading" ? "Sending..." : "Request a Quote"}<span aria-hidden="true">→</span></button>
               <a href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer" {...waCta("booking_form", "whatsapp_booking_form")}>Chat via WhatsApp</a>
             </div>
           </div>
