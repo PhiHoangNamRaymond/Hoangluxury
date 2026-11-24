@@ -3084,6 +3084,15 @@ img.hlt-journey-point-icon {
     pointer-events: none;
   }
 
+  .hlt-journey-hero.has-compact-mobile-origin {
+    --band-top: calc(72px + 28vw + clamp(0px, 38px - 8vw, 12px));
+  }
+
+  .hlt-journey-hero.has-compact-mobile-origin .hlt-journey-title-origin {
+    font-size: min(1em, calc(100cqi / (var(--origin-len) * .72)));
+    white-space: nowrap;
+  }
+
   .hlt-journey-hero::before {
     z-index: -2;
     background: var(--journey-hero-img) 100% var(--band-top) / 180% auto no-repeat;

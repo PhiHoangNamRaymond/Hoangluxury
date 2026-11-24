@@ -8,10 +8,10 @@ import usePageEntered from "./hooks/usePageEntered.js";
 import CruiseLandingCollection, { cruiseInquiry } from "./components/CruiseLandingCollection.jsx";
 import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";
 import CruiseDesktopIcon from "./components/CruiseDesktopIcon.jsx";
-import couplesGold from "../assets/cruise-icons/preference-gold-couples.png";
-import familyGold from "../assets/cruise-icons/preference-gold-family.png";
-import luxuryGold from "../assets/cruise-icons/preference-gold-luxury.png";
-import scenicGold from "../assets/cruise-icons/preference-gold-scenic.png";
+import couplesGold from "../assets/cruise-icons/halong-bay-couples-cruise-icon-hoang-luxury-travel.png";
+import familyGold from "../assets/cruise-icons/family-cruise-icon-private-car-hoang-luxury-travel.png";
+import luxuryGold from "../assets/cruise-icons/private-transfer-luxury-cruise-experience-icon-halong-bay.png";
+import scenicGold from "../assets/cruise-icons/hoang-luxury-travel-halong-bay-scenic-cruise-icon.png";
 import preferenceWave from "../assets/cruise-icons/preference-gold-wave.png";
 import preferenceBackground from "../assets/opt/halong-bay-sunset-landscape-hoang-luxury-travel.jpg";
 import finalCtaBackground from "../assets/opt/halong-bay-sunset-private-transfer-hoang-luxury-travel.png";
@@ -416,7 +416,7 @@ export default function CruisesPage() {
               chữ và cặp nút chung .hlt-btn. */}
           <div className="hlt-container hlt-cruise-cta-content">
             <div className="hlt-cruise-cta-text">
-              <div className="hlt-cruise-cta-title">Ready to explore Halong Bay?</div>
+              <div className="hlt-cruise-cta-title">Ready To Explore Halong Bay?</div>
               <p className="hlt-blog-story-description">
                 Start planning your journey with a private transfer today!
               </p>
