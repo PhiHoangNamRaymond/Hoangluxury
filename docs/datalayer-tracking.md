@@ -1,8 +1,8 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02), Photo gallery select (H2-03), Album open (H2-04), Blog filter (H3-01)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02), Photo gallery select (H2-03), Album open (H2-04), Blog filter (H3-01), About Us click (H3-04)
 
 Mã nguồn:
 
-- `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07, H2-01, H2-03 và H2-04 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+- `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07, H2-01, H2-03, H2-04 và H3-04 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
 - `src/lib/blog-filter-tracking.js`: H3-01, gọi từ bộ lọc trong `src/BlogPage.jsx`.
 - `src/lib/faq-tracking.js`: H2-02; mã `faq_id` gắn trong `src/config/journeys.js` và `src/config/cruises.js`.
@@ -703,3 +703,53 @@ Nút Hạ Long trên trang hiện ghi là **"Ha Long"**, không phải "Halong B
   - View all articles: không phát.
 
 **Marketing cần tạo mới** biến `filter_type`, `filter_value`, trigger `hlt_blog_filter` và tag `blog_filter`.
+
+# H3-04 – hlt_about_us_click (toàn website, PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{ event: "hlt_about_us_click", page_type: "route_detail", route_id: "hanoi_to_sapa", cta_location: "header_nav", cta_id: "header_about_us", cta_text: "ABOUT US" }
+```
+
+## Cách hoạt động
+
+- Dùng chung bộ bắt click với các sự kiện trước. Sự kiện được nhận theo **đích của link**: mọi link tới `/about-us/`, kể cả đường dẫn cũ `/about/`, đều phát đúng **một** sự kiện, trong một lần push, ngay trên trang nguồn và trước khi chuyển trang. Vì vậy `page_location` trong GA4 là URL trang nguồn.
+- Nhận theo đích chứ không theo chữ trên nút, nên EXPLORE OUR STORY hay DISCOVER MORE ABOUT US đều được tính.
+- Nút About Us thêm sau này vẫn tự được tính: link chưa gắn nhãn nhận `cta_location` là `header` / `footer` / `content` và `cta_id` là `about_<vị trí>`. Có test báo lỗi nếu trong mã có link About Us chưa gắn nhãn.
+- **page_type** là trang xuất phát, theo cùng bảng giá trị của các sự kiện trước (`home`, `route_detail`, `route_list`, `blog`, `photo_landing`, `catalog`, `cruise`…).
+- **route_id** là mã tuyến khi nhấn từ trang tuyến, `null` ở mọi trang khác.
+- **Không phát:**
+  - Khi vào thẳng, tải lại hoặc bấm Back về trang About Us.
+  - Khi nhấn link About Us **ngay trên trang About Us**.
+  - Khi mở menu mobile, rê chuột, cuộn trang, render lại.
+  - Khi nhấn nút dẫn tới trang khác.
+- Mỗi link là một vùng nhấn duy nhất. Nhấn vào chữ hay vào mũi tên bên trong vẫn chỉ tính một lần.
+
+## Các vị trí đã gắn
+
+| Vị trí | Có trên trang | cta_location | cta_id | cta_text |
+|---|---|---|---|---|
+| ABOUT US trên Header PC | Mọi trang | `header_nav` | `header_about_us` | ABOUT US |
+| About Us trong menu mobile | Mọi trang | `mobile_menu` | `mobile_about_us` | About Us |
+| Banner EXPLORE OUR STORY | Blog | `blog_story_banner` | `explore_our_story` | EXPLORE OUR STORY |
+| Nút DISCOVER MORE ABOUT US | Trang `/routes/` (cuối trang) | `about_intro_section` | `discover_more_about_us` | DISCOVER MORE ABOUT US |
+
+- **Footer hiện không có link About Us** (cả PC và mobile), nên chưa có `footer_links`. Nếu sau này thêm, link đó tự được tính; gắn nhãn `aboutCta("footer_links", "footer_about_us")` để đúng mã đề xuất.
+- Ngoài 4 vị trí trên, toàn bộ mã nguồn không còn link nào khác tới About Us.
+
+## Kiểm tra
+
+- Có 2 test tự động trong `tests/cta-tracking.test.mjs`:
+  - Nhận đúng `/about-us/` và `/about/`.
+  - Đủ 5 trường; trên trang tuyến có `route_id`.
+  - Nhấn chữ bên trong link chỉ tính một lần.
+  - Link chưa gắn nhãn vẫn được tính.
+  - Trên trang About Us không phát.
+  - Mọi link About Us trong mã đều có nhãn.
+- Trên dev, đã bấm mọi link About Us trên 9 trang: trang chủ, 2 trang tuyến, `/routes/`, Blog, Photo, Catalog, Cruise, About Us. Chạy ở khổ 1440px và 375px:
+  - Mỗi link 1 sự kiện, không phát nhầm sự kiện khác.
+  - `page_type` đúng; `route_id` là `hanoi_to_sapa` / `sapa_to_ha_long` trên trang tuyến, `null` ở trang khác.
+  - Trên trang About Us: 0 sự kiện.
+
+Marketing không cần tạo biến mới: dùng lại `page_type`, `route_id`, `cta_location`, `cta_id`, `cta_text`. Chỉ cần trigger `hlt_about_us_click` và tag `about_us_click`.

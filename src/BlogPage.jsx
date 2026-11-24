@@ -8,7 +8,7 @@ import { blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.
 import usePublicBlog from "./hooks/usePublicBlog.js";
 import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { waCta } from "./lib/cta-tracking.js";
+import { aboutCta, waCta } from "./lib/cta-tracking.js";
 import { trackBlogFilter } from "./lib/blog-filter-tracking.js";
 
 const images = { hero: blogImages.hero, plan: blogImages.plan, sapa: journeyCardImages[0] };
@@ -260,7 +260,7 @@ export default function BlogPage() {
             <div id="blog-story-title" className="hlt-cruise-cta-title">Discover Vietnam in Your Own Way</div>
             <p className="hlt-blog-story-description">Our stories go beyond the destinations — they&rsquo;re about people, culture and the moments that make travel truly meaningful.</p>
           </div>
-          <a className="hlt-cruise-btn-gold hlt-blog-story-button" href={aboutPageUrl}>Explore Our Story<Icon name="arrow" /></a>
+          <a className="hlt-cruise-btn-gold hlt-blog-story-button" href={aboutPageUrl} {...aboutCta("blog_story_banner", "explore_our_story")}>Explore Our Story<Icon name="arrow" /></a>
         </div>
       </section>
       <ExperienceSlider />

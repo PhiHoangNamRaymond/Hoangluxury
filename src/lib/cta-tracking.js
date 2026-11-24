@@ -6,6 +6,7 @@
      H2-01 hlt_destination_select  mọi link tới trang chi tiết tuyến / trang Halong Bay Cruises
      H2-03 hlt_photo_gallery_select nút/thẻ vào thư viện ảnh trên /hoangphoto/ + đổi bộ lọc Albums
      H2-04 hlt_album_open           link mở một album trong danh sách Photo Albums
+     H3-04 hlt_about_us_click       mọi link dẫn tới trang About Us /about-us/
 
    Một luồng xử lý ở document (pha capture), nên một lượt
    nhấn chỉ phát đúng một sự kiện, không phát khi render/tải trang, và chạy trước
@@ -31,6 +32,7 @@ export const CATALOG_OPEN_EVENT = "hlt_catalog_open";
 export const DESTINATION_EVENT = "hlt_destination_select";
 export const PHOTO_GALLERY_EVENT = "hlt_photo_gallery_select";
 export const ALBUM_OPEN_EVENT = "hlt_album_open";
+export const ABOUT_EVENT = "hlt_about_us_click";
 
 const NONE = "none";
 
@@ -130,6 +132,26 @@ export const isBookingHref = isSitePath(/^\/booking\/?$/i);
 
 /* H1-06 chỉ đo link tới trang Catalog nội bộ, không đo link mở tài liệu (H1-07). */
 export const isCatalogHref = isSitePath(/^\/catalog\/?$/i);
+
+/* H3-04: link tới trang About Us (/about-us/, kể cả đường dẫn cũ /about/). */
+export const isAboutHref = isSitePath(/^\/about(?:-us)?\/?$/i);
+
+/* Nút/link dẫn tới About Us: <a href="/about-us/" {...aboutCta("header_nav", "header_about_us")}>. */
+export const aboutCta = (location, id) => ctaAttributes(location, id);
+
+/* H3-04: 5 trường như H1-01 (không có service_type). route_id theo trang xuất phát:
+   mã tuyến trên trang tuyến, null ở trang khác. */
+export function buildAboutEvent(anchor, context = {}) {
+  const { location, cta_id, cta_text } = ctaBase(anchor, "about");
+  return {
+    event: ABOUT_EVENT,
+    page_type: context.pageType || null,
+    route_id: context.routeId ?? null,
+    cta_location: location,
+    cta_id,
+    cta_text,
+  };
+}
 
 /* H2-01: trang đích của một link nội bộ, hoặc null nếu không phải trang tuyến/du thuyền.
    Nhận mọi đường dẫn tuyến (URL mới /routes/…, URL cũ /journey/…, khoá tuyến), nên
@@ -277,6 +299,8 @@ export function setupCtaTracking(context, win = window) {
     else if (state.context?.pageType !== "booking" && isBookingHref(href, win.location.href)) payload = buildBookingEvent(anchor, state.context);
     // Đang ở chính trang Catalog thì link Catalog chỉ tải lại trang: không tính.
     else if (state.context?.pageType !== "catalog" && isCatalogHref(href, win.location.href)) payload = buildCatalogEvent(anchor, state.context);
+    // Đang ở chính trang About Us thì link About Us chỉ tải lại trang: không tính.
+    else if (isAboutHref(href, win.location.href)) payload = state.context?.pageType === "about" ? null : buildAboutEvent(anchor, state.context);
     // H2-04 trước H2-03: link album cũng mang concept đang lọc, nhưng chỉ là mở album.
     else if (anchor.hasAttribute("data-hlt-album-id")) payload = {
       event: ALBUM_OPEN_EVENT,

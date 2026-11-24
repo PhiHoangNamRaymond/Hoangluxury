@@ -11,7 +11,7 @@ import {
   journeyPickupIconUrl,
   journeysOutroWheelUrl,
 } from "./config/assets.js";
-import { destinationCta, routeIdFromJourneyKey, waCta } from "./lib/cta-tracking.js";
+import { aboutCta, destinationCta, routeIdFromJourneyKey, waCta } from "./lib/cta-tracking.js";
 
 const allRoutesData = [
   {
@@ -391,7 +391,7 @@ export default function JourneysPage() {
               We provide clean private cars, on-time pick-ups and attentive service.
             </p>
 
-            <a className="hlt-journeys-outro-btn" href={aboutPageUrl}>
+            <a className="hlt-journeys-outro-btn" href={aboutPageUrl} {...aboutCta("about_intro_section", "discover_more_about_us")}>
               <span>Discover more about us</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <line x1="4" y1="12" x2="19" y2="12" />
