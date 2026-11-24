@@ -1,6 +1,10 @@
-# Data Layer – hlt_whatsapp_click
+# Data Layer – nút WhatsApp (H1-01) và nút Booking Form (H1-02)
 
-Bàn giao cho Marketing (23/11/2026). Mã nguồn: `src/lib/whatsapp-tracking.js`.
+Mã nguồn: `src/lib/cta-tracking.js`. Cả hai sự kiện dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+
+# H1-01 – hlt_whatsapp_click
+
+Bàn giao cho Marketing ngày 23/11/2026.
 
 ## Cách hoạt động
 
@@ -110,7 +114,7 @@ Bàn giao cho Marketing (23/11/2026). Mã nguồn: `src/lib/whatsapp-tracking.js
 
 ## Kiểm tra
 
-- Có 5 test tự động trong `tests/whatsapp-tracking.test.mjs`:
+- Có 5 test tự động cho H1-01 trong `tests/cta-tracking.test.mjs`:
   - Mỗi lượt nhấn phát đúng một sự kiện với đủ trường.
   - Không lộ URL, tin nhắn hay số điện thoại của khách.
   - Chỉ render trang thì không phát sự kiện.
@@ -120,3 +124,71 @@ Bàn giao cho Marketing (23/11/2026). Mã nguồn: `src/lib/whatsapp-tracking.js
   - Pricing và Bottom CTA của Hanoi to Sapa.
   - BOOK HALF-DAY và BOOK FULL-DAY trên mobile 375px.
   - GTM nhận sự kiện (có `gtm.uniqueEventId`).
+
+# H1-02 – hlt_booking_form_click
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+## Cách hoạt động
+
+- Khi khách nhấn link dẫn tới Booking Form (`/booking/` trên chính site, kể cả có `?src=…`), website gọi đúng **một lần** `window.dataLayer.push()`.
+- Mỗi lần push gồm tên sự kiện và **5 trường**: `page_type`, `route_id`, `cta_location`, `cta_id`, `cta_text`. Không có `service_type`.
+- Sự kiện được push ngay trên trang nguồn, đồng bộ, trước khi trình duyệt chuyển trang. Không thêm độ trễ và không chặn điều hướng.
+- **Không phát** trong các trường hợp:
+  - Khi tải hoặc tải lại `/booking/`.
+  - Khi thao tác bên trong Booking Form.
+  - Khi nhấn link Booking ngay trên trang `/booking/`, vì đó chỉ là tải lại trang.
+  - Với các nút chỉ mở WhatsApp, kể cả BOOK HALF-DAY và BOOK FULL-DAY của Photo. Các nút này chỉ phát `hlt_whatsapp_click`.
+- `page_type` là trang nguồn, theo bảng ở phần H1-01.
+- `route_id`:
+  - Nút trong trang tuyến (Pricing, Bottom CTA) mang mã tuyến đang xem.
+  - Nút Booking chung (Header, menu mobile, Footer) luôn là `null`.
+  - Các trang khác: `null`.
+
+```js
+{
+  event: "hlt_booking_form_click",
+  page_type: "route_detail",
+  route_id: "hanoi_to_sapa",
+  cta_location: "pricing",
+  cta_id: "booking_route_pricing",
+  cta_text: "BOOK VIA FORM"
+}
+```
+
+## Danh sách nút (PC + mobile)
+
+| Trang | cta_location | cta_id | route_id | Chữ trên nút |
+|---|---|---|---|---|
+| Mọi trang, PC | header | `booking_header` | null | BOOKING |
+| Mọi trang, mobile | mobile_menu | `booking_mobile_menu` | null | Booking |
+| Mọi trang, PC | footer | `booking_footer` | null | Booking |
+| Home | bottom_cta | `booking_home_bottom_cta` | null | BOOK VIA FORM |
+| Routes (`/routes/`) | bottom_cta | `booking_routes_bottom_cta` | null | BOOK VIA FORM |
+| Trang tuyến | pricing | `booking_route_pricing` | mã tuyến | BOOK VIA FORM |
+| Trang tuyến | bottom_cta | `booking_route_bottom_cta` | mã tuyến | BOOK VIA FORM |
+| Cruise | transfer_section | `booking_cruise_transfer` | null | BOOK VIA FORM |
+| Cruise | bottom_cta | `booking_cruise_bottom_cta` | null | BOOK VIA FORM |
+
+Footer trên mobile hiện không có link Booking. Trên mobile, khách vào Booking qua menu (`booking_mobile_menu`) và các nút BOOK VIA FORM trong trang.
+
+## Các vị trí trong yêu cầu hiện không có nút Booking
+
+- **Hero trang chủ:** chỉ có Book via WhatsApp và View Catalog.
+- **Route Cards trang chủ và các thẻ trên `/routes/`:** chỉ dẫn tới trang tuyến hoặc WhatsApp.
+- **Hero trang tuyến:** nút thứ hai là "View Catalog", dẫn tới `/catalog/`. Nút này đã được gắn sẵn mã `booking_route_hero`, nên nếu sau này đổi đích sang `/booking/` thì sẽ tự được tính.
+- **Catalog, Blog, About Us:** không có link tới `/booking/`.
+
+## Kiểm tra
+
+- Có 4 test tự động cho H1-02 trong `tests/cta-tracking.test.mjs`:
+  - Một lượt nhấn phát đúng một sự kiện 5 trường.
+  - Nút trên tuyến lấy đúng tuyến; nút chung có `route_id` là `null`.
+  - Link `/catalog/` không bị tính.
+  - Trên trang Booking không phát.
+  - Nút WhatsApp không phát H1-02.
+  - Mọi link `/booking/` trong mã giao diện đều có nhãn.
+- Ở môi trường dev, đã nhấn mọi link Booking trên 11 trang: số sự kiện bằng đúng số link trên từng trang, và không sự kiện nào có `service_type`. Trên `/booking/`: 0 sự kiện.
+- Đã nhấn chuột thật, để trang chuyển thật:
+  - BOOK VIA FORM ở Pricing của Hanoi to Sapa: sự kiện được ghi trên trang nguồn trước khi chuyển, `/booking/` mở bình thường, và không phát thêm sự kiện kể cả khi tải lại trang.
+  - Booking trong menu mobile (375px) ở trang chủ: `page_type: home`, `cta_location: mobile_menu`, `route_id: null`, và trang chuyển bình thường.

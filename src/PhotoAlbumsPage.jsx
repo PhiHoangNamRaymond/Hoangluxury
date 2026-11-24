@@ -16,7 +16,7 @@ import {
 import { whatsappPhotoUrl, whatsappPhotoInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { rememberAlbumReturn, takeAlbumReturnScroll } from "./lib/album-return.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 const ALL = ALL_PHOTO_CATEGORIES;
 const PER_PAGE = 12;

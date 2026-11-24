@@ -8,7 +8,7 @@ import { blogDestinations, blogTopics, filterBlogArticles } from "./config/blog.
 import usePublicBlog from "./hooks/usePublicBlog.js";
 import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 const images = { hero: blogImages.hero, plan: blogImages.plan, sapa: journeyCardImages[0] };
 const destinations = [

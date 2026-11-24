@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import useNearViewport from "../../hooks/useNearViewport.js";
 import { heroSlideImages } from "../../config/assets.js";
 import { catalogPageUrl, heroSlides, whatsappInquiryUrl } from "../../data.js";
-import { waCta } from "../../lib/whatsapp-tracking.js";
+import { waCta } from "../../lib/cta-tracking.js";
 
 // Một vòng = 5 slide x (6000 + 900) ~ 30 giây.
 const SLIDE_DURATION = 6000;

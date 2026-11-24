@@ -39,7 +39,7 @@ import {
   journeys,
 } from "./config/journeys.js";
 import { journeyPagePath } from "./config/journey-paths.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { bookingCta, waCta } from "./lib/cta-tracking.js";
 
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
@@ -157,7 +157,7 @@ function JourneyBookActions({ whatsappHref }) {
         <WhatsAppIcon />
         <span>Book via WhatsApp</span>
       </a>
-      <a className="hlt-btn hlt-journey-btn-dark" href="/booking/">
+      <a className="hlt-btn hlt-journey-btn-dark" href="/booking/" {...bookingCta("pricing", "booking_route_pricing")}>
         Book via Form
       </a>
     </div>
@@ -362,6 +362,7 @@ export default function JourneyPage({ slug }) {
                 <a
                   className="hlt-btn hlt-btn-outline"
                   href={journey.secondaryActionHref || "/booking/"}
+                  {...bookingCta("hero", "booking_route_hero")}
                 >
                   {journey.secondaryActionLabel || "Request Availability"}
                 </a>

@@ -16,7 +16,7 @@ import { formatVnd, VND_PER_USD } from "./config/journeys.js";
 import { photoAlbumsPath, photoCategoryPath } from "./config/photo-album-list.js";
 import { whatsappPhotoInquiryUrl, whatsappPhotoHalfDayUrl, whatsappPhotoFullDayUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 /* Trang giới thiệu dịch vụ chụp ảnh. Lưới album ảnh thật nằm ở /hoangphoto/albums/;
    mũi tên trên mỗi thẻ phong cách dẫn tới lưới đã lọc sẵn (/hoangphoto/<phong cách>/). */

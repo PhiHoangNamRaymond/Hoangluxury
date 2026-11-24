@@ -14,7 +14,7 @@ import {
 import { catalogPageUrl, whatsappInquiryUrl } from "./data.js";
 import { journeyPagePath } from "./config/journey-paths.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { waCta } from "./lib/whatsapp-tracking.js";
+import { waCta } from "./lib/cta-tracking.js";
 
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
 const luxuryValues = [
