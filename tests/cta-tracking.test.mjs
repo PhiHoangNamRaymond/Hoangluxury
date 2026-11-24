@@ -443,3 +443,49 @@ test("FAQ <details>: one event per user open, none for closing, programmatic ope
   assert.equal(trackFaqOpen({ faqId: "question 3", pageType: "cruise" }, win), false, "only the agreed ids");
   assert.deepEqual(Object.keys(events()[0]), ["event", "page_type", "route_id", "faq_id"]);
 });
+
+// H2-03 / H2-04: Hoang Photo.
+test("photo concept and album ids are stable; an album in several concepts keeps one album_id", async () => {
+  const { photoConceptId, photoAlbumId } = await import("../src/lib/cta-tracking.js");
+  const { photoCategories, photoAlbumRows } = await import("../src/config/photo-album-list.js");
+  assert.deepEqual(photoCategories.map(photoConceptId), ["all", "nature_landscapes", "couples_honeymoons", "local_culture", "family_moments", "cinematic_travel", "proposals_celebrations"]);
+  assert.equal(photoAlbumId("spring-blossom"), "spring_blossom");
+  const ids = photoAlbumRows.map((row) => photoAlbumId(row.slug));
+  assert.equal(new Set(ids).size, ids.length, "one id per real album");
+  const multi = photoAlbumRows.filter((row) => Object.keys(row.categoryPositions || {}).length > 1 || (Array.isArray(row.categories) && row.categories.length > 1));
+  assert.ok(multi.length >= 1, "some albums appear in more than one concept");
+});
+
+test("photo gallery select and album open: one event per click, right ids, no cross-firing", async () => {
+  const { galleryCta, albumCta, trackPhotoFilterSelect } = await import("../src/lib/cta-tracking.js");
+  const landing = bookingPage(`
+    <a id="hero" href="/hoangphoto/albums/" ${attrs(galleryCta("photo_hero", "view_album", "All"))}>View Album</a>
+    <a id="card" href="/hoangphoto/nature-landscapes/" ${attrs(galleryCta("photo_concepts", "concept_card", "Nature & Landscapes"))}><img alt=""></a>
+    <a id="all" href="/hoangphoto/albums/" ${attrs(galleryCta("photo_concepts", "view_all_album", "All"))}>View All Album</a>`,
+  { pageType: "photo_landing", serviceType: "photography" }, "https://hoangluxury.travel/hoangphoto/");
+  landing.click("#hero");
+  landing.click("#card img");
+  landing.click("#all");
+  assert.deepEqual(landing.all(), [
+    { event: "hlt_photo_gallery_select", page_type: "photo_landing", concept_id: "all", cta_location: "photo_hero", cta_id: "view_album" },
+    { event: "hlt_photo_gallery_select", page_type: "photo_landing", concept_id: "nature_landscapes", cta_location: "photo_concepts", cta_id: "concept_card" },
+    { event: "hlt_photo_gallery_select", page_type: "photo_landing", concept_id: "all", cta_location: "photo_concepts", cta_id: "view_all_album" },
+  ]);
+
+  const albums = bookingPage(`
+    <a id="media" href="/hoangphoto/local-culture/melody-of-the-mountains/" ${attrs(albumCta("melody-of-the-mountains", "Local Culture"))}><img alt=""></a>
+    <a id="caption" href="/hoangphoto/local-culture/melody-of-the-mountains/" ${attrs(albumCta("melody-of-the-mountains", "Couples & Honeymoons"))}>Melody of the Mountains</a>
+    <a id="page2" href="/hoangphoto/albums/?page=2">2</a>`,
+  { pageType: "photo_albums", serviceType: "photography" }, "https://hoangluxury.travel/hoangphoto/albums/");
+  albums.click("#media img");
+  albums.click("#caption");
+  albums.click("#page2");
+  assert.deepEqual(albums.all(), [
+    { event: "hlt_album_open", album_id: "melody_of_the_mountains", concept_id: "local_culture" },
+    { event: "hlt_album_open", album_id: "melody_of_the_mountains", concept_id: "couples_honeymoons" },
+  ], "same album keeps one album_id; no gallery event on album open; pagination is silent");
+
+  const win = { dataLayer: [] };
+  trackPhotoFilterSelect("Proposals & Celebrations", win);
+  assert.deepEqual(win.dataLayer, [{ event: "hlt_photo_gallery_select", page_type: "photo_albums", concept_id: "proposals_celebrations", cta_location: "album_filters", cta_id: "filter_tab" }]);
+});
