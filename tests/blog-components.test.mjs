@@ -365,6 +365,7 @@ test("Explore Sapa behaves like the destination filter without navigating to a t
     .replace('import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";', 'const aboutPageUrl = "/about-us/", whatsappInquiryUrl = "https://wa.me/fixture";')
     .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
     .replace('import usePublicBlog from "./hooks/usePublicBlog.js";', 'const usePublicBlog = () => globalThis.__blogFilterFixture;')
+    .replace('from "./lib/blog-filter-tracking.js"', `from ${JSON.stringify(new URL("../src/lib/blog-filter-tracking.js", import.meta.url).href)}`)
     .replace(/from "(?:\.\.?\/)+lib\/cta-tracking\.js"/, `from ${JSON.stringify(new URL("../src/lib/cta-tracking.js", import.meta.url).href)}`)
     .replace('from "./config/blog.js"', `from ${JSON.stringify(new URL("../src/config/blog.js", import.meta.url).href)}`);
   const { code } = await transformWithEsbuild(source, "BlogPage.jsx", { loader:"jsx", jsx:"transform" });
@@ -726,4 +727,71 @@ test("account pagination and pending changes protect navigation/reload and relea
     await act(async()=>finish({error:null}));assert.equal(busy,false);
     unload=new window.Event('beforeunload',{cancelable:true});window.dispatchEvent(unload);assert.equal(unload.defaultPrevented,false);
   } finally {await act(async()=>root.unmount());delete globalThis.__pendingUserFixture;}
+});
+
+// H3-01: hlt_blog_filter khi khách tự chọn Destinations / Topics (kể cả khi 0 bài).
+test("Blog filter pushes one hlt_blog_filter per new selection and nothing for deselect, load, search, sort or re-render", async () => {
+  const { blogDestinations, blogTopics } = await import("../src/config/blog-taxonomy.js");
+  const { blogFilterValue } = await import("../src/lib/blog-filter-tracking.js");
+  assert.deepEqual(blogDestinations.map((item) => blogFilterValue("destination", item)), ["sapa", "halong_bay", "ninh_binh", "ha_giang", "cat_ba", "cao_bang", "pu_luong", "moc_chau", "mu_cang_chai", "ta_xua"]);
+  assert.deepEqual(blogTopics.map((item) => blogFilterValue("topic", item)), ["plan_your_trip", "itineraries", "transport", "where_to_stay", "things_to_do", "food_and_drink", "travel_tips", "travel_costs"]);
+
+  const source = (await readFile(new URL("../src/BlogPage.jsx", import.meta.url), "utf8"))
+    .replace('from "react"', `from ${JSON.stringify(pathToFileURL(require.resolve("react")).href)}`)
+    .replace('import Header from "./components/layout/Header.jsx";', 'const Header = () => null;')
+    .replace('import WhatsAppGlyph from "./components/WhatsAppGlyph.jsx";', 'const WhatsAppGlyph = () => null;')
+    .replace('import Footer from "./components/layout/Footer.jsx";', 'const Footer = () => null;')
+    .replace('import ExperienceSlider from "./components/home/ExperienceSlider.jsx";', 'const ExperienceSlider = () => null;')
+    .replace('import { blogImages, journeyCardImages, blogStoryBackgroundUrl } from "./config/assets.js";', 'const blogImages = {hero:"/f.png", plan:"/f.png"}; const journeyCardImages = Array(9).fill("/f.png"); const blogStoryBackgroundUrl = "/f.png";')
+    .replace('import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";', 'const aboutPageUrl = "/about-us/", whatsappInquiryUrl = "https://wa.me/fixture";')
+    .replace('import usePageEntered from "./hooks/usePageEntered.js";', 'const usePageEntered = () => true;')
+    .replace('import usePublicBlog from "./hooks/usePublicBlog.js";', 'const usePublicBlog = () => globalThis.__blogFilterFixture;')
+    .replace('from "./lib/blog-filter-tracking.js"', `from ${JSON.stringify(new URL("../src/lib/blog-filter-tracking.js", import.meta.url).href)}`)
+    .replace(/from "(?:\.\.?\/)+lib\/cta-tracking\.js"/, `from ${JSON.stringify(new URL("../src/lib/cta-tracking.js", import.meta.url).href)}`)
+    .replace('from "./config/blog.js"', `from ${JSON.stringify(new URL("../src/config/blog.js", import.meta.url).href)}`);
+  const { code } = await transformWithEsbuild(source, "BlogPage.jsx", { loader: "jsx", jsx: "transform" });
+  const BlogPage = (await import(`data:text/javascript;base64,${Buffer.from(code).toString("base64")}`)).default;
+  // Blog hiện chưa có bài: bộ lọc vẫn phải đổi trạng thái và phát sự kiện.
+  globalThis.__blogFilterFixture = { loading: false, error: "", retry: () => {}, articles: [] };
+  const previousMatchMedia = window.matchMedia, previousScroll = window.HTMLElement.prototype.scrollIntoView;
+  window.matchMedia = () => ({ matches: true });
+  window.HTMLElement.prototype.scrollIntoView = () => {};
+  window.dataLayer = [];
+  const events = () => window.dataLayer.filter(({ event }) => event === "hlt_blog_filter").map(({ filter_type, filter_value }) => `${filter_type}:${filter_value}`);
+  const button = (group, name) => [...host.querySelectorAll(`[aria-label="Filter articles by ${group}"] button`)].find((item) => item.textContent === name);
+  const pressed = (group) => [...host.querySelectorAll(`[aria-label="Filter articles by ${group}"] button[aria-pressed="true"]`)].map((item) => item.textContent);
+  const click = (element) => act(async () => element.click());
+  const root = createRoot(host);
+  try {
+    await act(async () => root.render(React.createElement(BlogPage)));
+    assert.deepEqual(events(), [], "opening the Blog does not push");
+    await click(button("destination", "Sapa"));
+    assert.deepEqual(pressed("destination"), ["Sapa"]);
+    await click(button("destination", "Sapa"));               // bỏ chọn
+    assert.deepEqual(pressed("destination"), []);
+    await click(button("destination", "Sapa"));
+    await click(button("destination", "Ha Giang"));
+    await click(button("destination", "Ha Long"));
+    await click(button("topic", "Transport"));
+    await click(button("topic", "Travel Tips"));
+    assert.deepEqual(pressed("topic"), ["Travel Tips"]);
+    await act(async () => root.render(React.createElement(BlogPage)));   // render lại
+    const search = host.querySelector('input[type="search"]');
+    await act(async () => { Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set.call(search, "sapa food"); search.dispatchEvent(new window.Event("input", { bubbles: true })); });
+    const sort = host.querySelector("select");
+    await act(async () => { sort.value = sort.options[sort.options.length - 1].value; sort.dispatchEvent(new window.Event("change", { bubbles: true })); });
+    const explore = host.querySelector(".hlt-blog-destination-feature");
+    await click(explore);                                            // Explore Sapa: đổi Ha Long → Sapa
+    await click(explore);                                            // đã là Sapa: không đổi
+    assert.deepEqual(events(), [
+      "destination:sapa", "destination:sapa", "destination:ha_giang", "destination:halong_bay",
+      "topic:transport", "topic:travel_tips", "destination:sapa",
+    ]);
+    assert.deepEqual(window.dataLayer.map((item) => Object.keys(item).sort()), events().map(() => ["event", "filter_type", "filter_value"]));
+    assert.doesNotMatch(JSON.stringify(window.dataLayer), /sapa food/);
+  } finally {
+    await act(async () => root.unmount());
+    window.matchMedia = previousMatchMedia;
+    window.HTMLElement.prototype.scrollIntoView = previousScroll;
+  }
 });

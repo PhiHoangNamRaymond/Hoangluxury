@@ -9,6 +9,7 @@ import usePublicBlog from "./hooks/usePublicBlog.js";
 import { aboutPageUrl, whatsappInquiryUrl } from "./data.js";
 import usePageEntered from "./hooks/usePageEntered.js";
 import { waCta } from "./lib/cta-tracking.js";
+import { trackBlogFilter } from "./lib/blog-filter-tracking.js";
 
 const images = { hero: blogImages.hero, plan: blogImages.plan, sapa: journeyCardImages[0] };
 const destinations = [
@@ -74,13 +75,16 @@ export default function BlogPage() {
     });
   }
 
-  /* Bấm lại đúng nút đang bật thì bỏ lọc trục đó. */
+  /* Bấm lại đúng nút đang bật thì bỏ lọc trục đó. H3-01: chỉ phát hlt_blog_filter khi
+     chọn một giá trị mới (bỏ chọn, tải trang, render lại không tính). */
   function toggleDestination(value) {
+    if (destination !== value) trackBlogFilter("destination", value);
     setDestination((current) => (current === value ? null : value));
     setLimit(6);
   }
 
   function toggleTopic(value) {
+    if (topic !== value) trackBlogFilter("topic", value);
     setTopic((current) => (current === value ? null : value));
     setLimit(6);
   }
@@ -88,6 +92,7 @@ export default function BlogPage() {
   /* Thẻ điểm đến nổi bật (Explore Sapa): bấm bao nhiêu lần cũng chỉ hiện bài
      của điểm đến đó, các bộ lọc khác về mặc định - không bật/tắt như nút lọc. */
   function showDestination(value) {
+    if (destination !== value) trackBlogFilter("destination", value);
     setDestination(value);
     setTopic(null);
     setQuery("");
