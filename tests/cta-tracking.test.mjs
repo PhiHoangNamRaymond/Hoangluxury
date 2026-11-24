@@ -200,3 +200,21 @@ test("every Booking Form link in the site source carries bookingCta tracking att
   }
   assert.deepEqual(missing, []);
 });
+
+// H1-04: hoàn thành từng bước Booking Form mobile.
+test("booking steps 1-4 push once per form attempt; step 5 never; reset starts a new sequence", async () => {
+  const { createBookingStepTracker, BOOKING_STEP_EVENT } = await import("../src/lib/booking-step-tracking.js");
+  const win = { dataLayer: [] };
+  const tracker = createBookingStepTracker(win);
+  const steps = () => win.dataLayer.filter((item) => item.event === BOOKING_STEP_EVENT);
+  [1, 2, 1, 2, 3, 3, 4, 5].forEach((step) => tracker.complete(step)); // Back rồi Continue lại: không trùng
+  assert.deepEqual(steps(), [
+    { event: "hlt_booking_step_complete", form_id: "transfer_booking", step_number: 1, step_name: "journey_route" },
+    { event: "hlt_booking_step_complete", form_id: "transfer_booking", step_number: 2, step_name: "flight_details" },
+    { event: "hlt_booking_step_complete", form_id: "transfer_booking", step_number: 3, step_name: "passenger_details" },
+    { event: "hlt_booking_step_complete", form_id: "transfer_booking", step_number: 4, step_name: "ride_preferences" },
+  ]);
+  tracker.reset();
+  tracker.complete(1);
+  assert.equal(steps().length, 5);
+});

@@ -19,6 +19,7 @@ import { formTextError } from "./lib/public-config.js";
 import { bookingDevice, validFormsProxy, requestIdFor, submitForm } from "./lib/forms.js";
 import Turnstile from "./components/Turnstile.jsx";
 import { waCta } from "./lib/cta-tracking.js";
+import { createBookingStepTracker } from "./lib/booking-step-tracking.js";
 
 const initialForm = {
   departureDate: "",
@@ -258,6 +259,8 @@ export default function BookingPage() {
   const [turnstileToken, setTurnstileToken] = useState("");
   const [verificationReset, setVerificationReset] = useState(0);
   const requestRef = useRef(null);
+  // H1-04: bước nào đã hoàn thành trong lượt điền này (chỉ form nhiều bước mobile).
+  const stepTrackerRef = useRef(null);
   const today = bookingToday();
 
   const updateField = (event) => {
@@ -314,6 +317,8 @@ export default function BookingPage() {
   const goToNextStep = () => {
     if (!validateStep(currentStep)) return;
     setCurrentStep((step) => Math.min(step + 1, bookingSteps.length));
+    stepTrackerRef.current ??= createBookingStepTracker();
+    stepTrackerRef.current.complete(currentStep);
     window.requestAnimationFrame(() => {
       document.querySelector(".hlt-book-mobile-stepper")?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
@@ -363,6 +368,7 @@ export default function BookingPage() {
     try {
       await submitForm(bookingEndpoint, payload);
       requestRef.current = null;
+      stepTrackerRef.current?.reset();
       setForm(initialForm);
       setCurrentStep(1);
       setSubmission({
