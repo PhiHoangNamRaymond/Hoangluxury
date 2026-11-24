@@ -1,9 +1,9 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02), Photo gallery select (H2-03), Album open (H2-04), Blog filter (H3-01), About Us click (H3-04)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01), FAQ open (H2-02), Photo gallery select (H2-03), Album open (H2-04), Blog filter (H3-01), About Us click (H3-04), Booking form start (H1-03)
 
 Mã nguồn:
 
 - `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07, H2-01, H2-03, H2-04 và H3-04 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
-- `src/lib/booking-step-tracking.js`: H1-04.
+- `src/lib/booking-step-tracking.js`: H1-04 và H1-03 (bắt đầu điền Booking Form).
 - `src/lib/blog-filter-tracking.js`: H3-01, gọi từ bộ lọc trong `src/BlogPage.jsx`.
 - `src/lib/faq-tracking.js`: H2-02; mã `faq_id` gắn trong `src/config/journeys.js` và `src/config/cruises.js`.
 - `src/lib/booking-submit-tracking.js`: H1-05 (gọi từ `src/BookingPage.jsx`) và H1-08 (gọi từ `src/FeedbackPage.jsx`).
@@ -753,3 +753,40 @@ Bàn giao cho Marketing ngày 24/11/2026.
   - Trên trang About Us: 0 sự kiện.
 
 Marketing không cần tạo biến mới: dùng lại `page_type`, `route_id`, `cta_location`, `cta_id`, `cta_text`. Chỉ cần trigger `hlt_about_us_click` và tag `about_us_click`.
+
+# H1-03 – hlt_booking_form_start (PC + mobile)
+
+Bàn giao cho Marketing ngày 25/11/2026.
+
+```js
+{ event: "hlt_booking_form_start", form_id: "transfer_booking" }
+```
+
+- Phát **một lần** khi khách thực sự bắt đầu điền Booking Form, tức lần đầu nhập, chọn hoặc đổi giá trị một ô. Áp dụng cho mọi ô: ngày đi/về, điểm đón/trả, "không đi máy bay", chuyến bay, họ tên, mã quốc gia, số điện thoại, quốc gia, số người, loại hành trình, hành lý, yêu cầu đặc biệt.
+- PC (form một trang) và mobile (5 bước) dùng chung form và chung logic.
+- **Không phát:**
+  - Khi mở hoặc nhìn thấy trang `/booking/`.
+  - Khi chỉ focus hay bấm vào ô mà chưa nhập.
+  - Do mã quốc gia mặc định `+84`. Đây chỉ là giá trị ban đầu, không phải thao tác của khách.
+  - Khi bot điền ô bẫy ẩn.
+  - Khi nhập tiếp, sửa thông tin, Continue/Back trên mobile, bấm gửi, gửi lỗi, gửi thành công, render lại.
+- **Lượt điền mới:**
+  - Sau khi gửi thành công, form xoá trắng. Lần nhập tiếp theo tính là một lượt mới.
+  - Tải lại trang cũng là một lượt mới, vì form trống (website không lưu nháp nên không có trường hợp khôi phục dữ liệu cũ).
+- Chỉ có `form_id`, không gửi bất kỳ dữ liệu khách nhập.
+- H1-02, H1-04, H1-05 giữ nguyên.
+- GA4 `form_start` vẫn do Enhanced Measurement thu tự động; sự kiện này dùng cho Meta Pixel và TikTok Pixel. Lưu ý: `form_start` của GA4 có thể tính theo thời điểm hơi khác, có khi chỉ cần focus vào ô.
+
+## Kiểm tra
+
+- Test tích hợp trong `tests/booking-submit-tracking.test.mjs` dựng Booking Form thật:
+  - Mở trang và mã `+84` mặc định: không phát.
+  - Focus vào ô, điền ô bẫy: không phát.
+  - Ký tự đầu tiên: 1 sự kiện, chỉ có `form_id`.
+  - Điền hết, sửa, gửi lỗi, gửi thành công: không phát thêm.
+  - Booking mới sau khi gửi thành công: thêm 1 sự kiện.
+  - Không chứa dữ liệu khách.
+- Test của ô số điện thoại xác nhận mỗi lần nhập đều đánh dấu "đã bắt đầu"; sự kiện vẫn chỉ phát một lần.
+- Trên dev, trang `/booking/` thật:
+  - Ở 1440px và 375px: mở trang 0 sự kiện; focus/click vào ô 0; ký tự đầu tiên 1; nhập thêm nhiều ô vẫn 1.
+  - Trên mobile, Continue → Back → Continue vẫn 1, và H1-04 vẫn phát đúng bước 1.

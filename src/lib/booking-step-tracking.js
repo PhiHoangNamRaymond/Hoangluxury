@@ -35,3 +35,27 @@ export function createBookingStepTracker(win = window) {
     },
   };
 }
+
+/* Data Layer H1-03 – hlt_booking_form_start (yêu cầu marketing 25/11/2026), PC + mobile.
+   Phát một lần khi khách thực sự bắt đầu điền Booking Form: lần đầu nhập/chọn/đổi
+   giá trị một ô (chỉ focus vào ô thì chưa tính). Nhập tiếp, sửa, Continue/Back, gửi
+   form không phát thêm. Lượt mới: sau khi gửi thành công (form xoá trắng) hoặc khi
+   tải lại trang (form trống, không khôi phục nháp). Không gửi dữ liệu khách nhập.
+   GA4 form_start vẫn do Enhanced Measurement thu tự động; sự kiện này cho Meta/TikTok. */
+export const BOOKING_FORM_START_EVENT = "hlt_booking_form_start";
+
+export function createBookingFormStartTracker(win = window) {
+  let started = false;
+  return {
+    start() {
+      if (started) return false;
+      started = true;
+      win.dataLayer = win.dataLayer || [];
+      win.dataLayer.push({ event: BOOKING_FORM_START_EVENT, form_id: BOOKING_FORM_ID });
+      return true;
+    },
+    reset() {
+      started = false;
+    },
+  };
+}

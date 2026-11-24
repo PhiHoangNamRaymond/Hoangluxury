@@ -148,3 +148,42 @@ test("Booking Form: failed submits send one error log and no Data Layer event; e
   const serialized = JSON.stringify(window.dataLayer);
   assert.doesNotMatch(serialized, /Test Guest|912345678|Old Quarter|Sapa town|suitcases|test-token/);
 });
+
+// H1-03: hlt_booking_form_start – một lần mỗi lượt điền form, lượt mới sau khi gửi thành công.
+test("Booking Form start fires once on the first real input and again only for a new booking", async (t) => {
+  const responses = [];
+  globalThis.fetch = async (_url, init) => {
+    const body = Object.fromEntries(init.body);
+    if (body.form === "error-log") return Response.json({ ok: true });
+    return responses.shift() ?? Response.json({ ok: true });
+  };
+  window.dataLayer = [];
+  const starts = () => window.dataLayer.filter((item) => item.event === "hlt_booking_form_start");
+  const root = await mount();
+  t.after(() => act(() => root.unmount()));
+  assert.deepEqual(starts(), [], "opening /booking/ and the default +84 dial code do not count");
+  // Chỉ focus vào ô: chưa tính.
+  await act(async () => { document.querySelector('.hlt-book-form [name="pickup"]').focus(); });
+  assert.deepEqual(starts(), []);
+  // Bot điền ô bẫy ẩn: không tính.
+  await act(async () => setField("website", "spam"));
+  assert.deepEqual(starts(), []);
+  await act(async () => setField("website", ""));
+  // Lần nhập đầu tiên: một sự kiện, chỉ có form_id.
+  await act(async () => setField("pickup", "O"));
+  assert.deepEqual(starts(), [{ event: "hlt_booking_form_start", form_id: "transfer_booking" }]);
+  // Nhập tiếp, sửa, điền hết các ô, gửi lỗi, gửi lại: không phát thêm.
+  await fillValidForm();
+  await act(async () => setField("pickup", "Changed hotel"));
+  responses.push(Response.json({ ok: false }, { status: 500 }));
+  await clickSubmit();
+  assert.equal(starts().length, 1);
+  // Gửi thành công: vẫn 1; form xoá trắng, lượt mới bắt đầu khi khách điền lại.
+  responses.push(Response.json({ ok: true }));
+  await clickSubmit();
+  assert.match(document.body.textContent, /Your request was submitted/);
+  assert.equal(starts().length, 1);
+  await act(async () => setField("dropoff", "Ha Long"));
+  assert.equal(starts().length, 2, "a new booking after success records a new start");
+  assert.doesNotMatch(JSON.stringify(starts()), /Ha Long|hotel|Guest|9123/);
+});
