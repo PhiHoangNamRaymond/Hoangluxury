@@ -218,6 +218,7 @@ function IntercityTransfers({ currentId, currentTitle, whatsappHref }) {
 
 export default function JourneyPage({ slug }) {
   const journey = journeys[slug];
+  const compactMobileOrigin = slug === "ninh-binh-to-sapa" || slug === "mu-cang-chai-to-sapa";
   const whatsappHref = whatsappTransferRouteUrl(journey.origin, journey.destination);
   const pageEntered = usePageEntered();
 
@@ -322,7 +323,7 @@ export default function JourneyPage({ slug }) {
 
       <main className="hlt-journey">
         <section
-          className="hlt-journey-hero"
+          className={`hlt-journey-hero${compactMobileOrigin ? " has-compact-mobile-origin" : ""}`}
           style={{ "--journey-hero-img": `url(${heroImage})` }}
         >
           {/* Banner vẽ bằng ảnh nền CSS (cắt khác nhau theo cỡ màn hình); ảnh ẩn này
@@ -338,7 +339,10 @@ export default function JourneyPage({ slug }) {
               <h1>
                 <span className="hlt-journey-eyebrow">{journey.eyebrow || "Private Luxury Transfer"}</span>{" "}
                 <span className="hlt-journey-title">
-                  <span>{journey.titlePrefix || "Hanoi"}</span>{" "}
+                  <span className="hlt-journey-title-origin"
+                    style={compactMobileOrigin ? { "--origin-len": journey.titlePrefix.length } : undefined}>
+                    {journey.titlePrefix || "Hanoi"}
+                  </span>{" "}
                   <span className="hlt-journey-title-to">To</span>{" "}
                   {/* --dest-len: CSS co cỡ chữ để tên dài ("Mu Cang Chai") vẫn nằm 1 dòng */}
                   <span
