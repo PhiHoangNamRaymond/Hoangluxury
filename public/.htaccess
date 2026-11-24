@@ -12,6 +12,8 @@ Options -Indexes
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.googletagmanager.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com; upgrade-insecure-requests"
   Header always set Cache-Control "no-store" "expr=%{REQUEST_URI} =~ m#^/admin(?:/|$)#"
   Header always set X-Robots-Tag "noindex, nofollow" "expr=%{REQUEST_URI} =~ m#^/admin(?:/|$)#"
+  # Lệnh chuyển hướng chặn quốc gia (bên dưới) không được lưu cache ở Cloudflare/trình duyệt.
+  Header always set Cache-Control "no-store" env=HLT_GEO_BLOCK
 </IfModule>
 
 # Never serve source, credentials or database exports even if mis-uploaded.
@@ -28,6 +30,17 @@ RewriteRule ^ https://hoangluxury.travel%{REQUEST_URI} [R=301,L]
 
 RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
 RewriteRule ^(?:src|api|supabase|google-apps-script|tests|scripts|node_modules|backups|credentials|secrets)(?:/|$) - [F,L,NC]
+
+# Chặn theo quốc gia (yêu cầu chủ website 25/11/2026): khách từ Việt Nam, Trung Quốc,
+# Hồng Kông, Lào, Campuchia, Myanmar được chuyển tới trang thông báo /unavailable/.
+# CF-IPCountry do Cloudflare gắn: cần đám mây cam (Proxied) và IP Geolocation bật.
+# Chỉ chuyển trang (đường dẫn không có đuôi file hoặc .html); file tĩnh (.js, .css,
+# ảnh…) không chuyển để Cloudflare không lưu nhầm lệnh chuyển cho khách nước khác.
+# Không chừa /admin: team ở Việt Nam dùng VPN. Form /api/forms do Cloudflare Worker xử lý.
+RewriteCond %{HTTP:CF-IPCountry} ^(VN|CN|HK|LA|KH|MM)$ [NC]
+RewriteCond %{REQUEST_URI} !^/unavailable(?:/|$)
+RewriteCond %{REQUEST_URI} (^[^.]*$|\.html?$) [NC]
+RewriteRule ^ /unavailable/ [R=302,L,E=HLT_GEO_BLOCK:1]
 
 # Consolidate legacy aliases and old journey slugs on their canonical URLs.
 RewriteRule ^journeys/?$ /routes/ [R=301,L]

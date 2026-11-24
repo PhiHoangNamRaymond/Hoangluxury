@@ -38,18 +38,40 @@ test('public content deters ordinary copying and media dragging without blocking
   } finally { dom.window.close(); }
 });
 
-test('admin routes, disabled setup and developer shortcuts are not locked', () => {
+const press = (dom, options) => {
+  const key = new dom.window.KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...options });
+  dom.window.document.dispatchEvent(key); return key.defaultPrevented;
+};
+
+test('admin routes and disabled setup lock nothing, including developer shortcuts', () => {
   for (const path of ['/admin/', '/admin/writer']) {
     const { dom, doc, fire } = fixture(path);
-    try { setupContentProtection(doc); assert.equal(fire('story', 'copy').defaultPrevented, false); }
-    finally { dom.window.close(); }
+    try {
+      setupContentProtection(doc);
+      assert.equal(fire('story', 'copy').defaultPrevented, false);
+      assert.equal(press(dom, { key: 'F12' }), false);
+    } finally { dom.window.close(); }
   }
   const { dom, doc, fire } = fixture();
   try {
     setupContentProtection(doc, { enabled: false });
     assert.equal(fire('story', 'copy').defaultPrevented, false);
-    setupContentProtection(doc);
-    const key = new dom.window.KeyboardEvent('keydown', { key: 'F12', bubbles: true, cancelable: true });
-    doc.dispatchEvent(key); assert.equal(key.defaultPrevented, false);
+    assert.equal(press(dom, { key: 'F12' }), false);
+  } finally { dom.window.close(); }
+});
+
+test('public pages deter DevTools / view-source shortcuts but keep ordinary typing and copy in forms', () => {
+  const { dom, doc } = fixture();
+  try {
+    const cleanup = setupContentProtection(doc);
+    for (const options of [{ key: 'F12' }, { key: 'I', ctrlKey: true, shiftKey: true }, { key: 'J', ctrlKey: true, shiftKey: true },
+      { key: 'C', ctrlKey: true, shiftKey: true }, { key: 'u', ctrlKey: true }, { key: 'i', metaKey: true, altKey: true }, { key: 'u', metaKey: true }]) {
+      assert.equal(press(dom, options), true, JSON.stringify(options));
+    }
+    for (const options of [{ key: 'a' }, { key: 'c', ctrlKey: true }, { key: 'v', ctrlKey: true }, { key: 'i', ctrlKey: true }, { key: 'Enter' }]) {
+      assert.equal(press(dom, options), false, JSON.stringify(options));
+    }
+    cleanup();
+    assert.equal(press(dom, { key: 'F12' }), false, 'cleanup removes the shortcut block');
   } finally { dom.window.close(); }
 });

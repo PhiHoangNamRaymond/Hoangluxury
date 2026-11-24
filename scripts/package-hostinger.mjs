@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = resolve(root, 'dist');
-const title = 'Private Car Transfer From Hanoi Or Noi Bai Airport Hoang Luxury Travel Official Code';
+const title = 'Private Car Transfer Hoang Luxury Travel Official Code';
 if (process.platform !== 'win32') throw new Error('This packager uses Windows ZIP support. Build and ZIP the contents of dist, including .htaccess, on your platform.');
 for (const required of ['index.html', '.htaccess', 'robots.txt', 'sitemap.xml', 'booking/index.html', 'feedback/index.html', 'admin/index.html']) {
   if (!(await stat(resolve(dist, required))).isFile()) throw new Error(`Missing build file: ${required}. Run npm run build first.`);

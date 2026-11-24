@@ -64,7 +64,9 @@ async function fixture() {
       getDisplayValues() { return Array.from({length:height},(_,r)=>Array.from({length:width},(_,c)=>String(rows[row+r-1]?.[col+c-1] ?? ""))); },
       setNumberFormat() { return this; },
     });
-    const result = {rows,getRange:range,getMaxRows:()=>100,getMaxColumns:()=>30,getLastRow:()=>rows.length};
+    const result = {rows,getRange:range,getMaxRows:()=>100,getMaxColumns:()=>30,getLastRow:()=>rows.length,
+      appendRow:(values)=>{ rows.push([...values]); return result; },
+      deleteRows:(start,count)=>{ rows.splice(start-1,count); return result; }};
     sheets.set(name,result); return result;
   };
   const properties = {getProperty:(key)=>props.get(key) ?? null,setProperty:(key,value)=>props.set(key,value),deleteProperty:(key)=>props.delete(key),getProperties:()=>Object.fromEntries(props)};
@@ -340,4 +342,40 @@ test("client drops error logs the server rejects (4xx) and keeps them on 5xx",as
   assert.equal(store.size,0);
   assert.equal(await reportFormError(proxyUrl,{form:"feedback",category:"server"},{win,fetcher:async()=>Response.json({ok:false},{status:503})}),false);
   assert.equal(JSON.parse(store.get("hlt-form-error-log")).length,1);
+});
+
+// Audit 25/11/2026: log lỗi (không CAPTCHA) không được tranh khoá với booking; tab đầy thì xoay vòng;
+// feedback công khai không dùng hết giới hạn chung của booking.
+test("GAS error logs never take the booking/feedback script lock, even when over the hourly cap", async () => {
+  const f = await fixture(); let locks = 0;
+  f.context.LockService = { getScriptLock: () => ({ waitLock: () => { locks += 1; }, releaseLock: () => {} }) };
+  f.props.set("ERROR_LOG_HOURLY_LIMIT","2");
+  for (let i=0;i<6;i++) assert.equal(f.post(errorLog({proxySecret:secret})).ok,true);
+  assert.equal(locks,0);
+  assert.equal(f.sheets.get("Errors").rows.length,3,"header plus the 2 allowed rows");
+  assert.equal(f.post({...booking,proxySecret:secret,requestId:randomUUID()}).ok,true);
+  assert.equal(locks,1,"booking still uses the lock");
+});
+
+test("GAS rotates the Errors tab instead of going silent when it is full", async () => {
+  const f = await fixture(); f.props.set("ERROR_LOG_HOURLY_LIMIT","1000");
+  f.post(errorLog({proxySecret:secret}));
+  const rows = f.sheets.get("Errors").rows;
+  for (let i = rows.length; i <= 5001; i++) rows.push(["old"]);
+  const report = errorLog({proxySecret:secret});
+  assert.equal(f.post(report).ok,true);
+  assert.equal(rows[0][0],"Received At","header kept");
+  assert.equal(rows.length,5002 - 500 + 1);
+  assert.equal(rows.at(-1)[8],report.reportId,"newest log written after trimming the oldest block");
+});
+
+test("GAS keeps separate hourly caps: public feedback cannot exhaust booking capacity", async () => {
+  const f = await fixture(); f.props.set("FEEDBACK_HOURLY_LIMIT","2");
+  const feedback = {form:"feedback",rating:"5",feedback:"Offline test",proxySecret:secret};
+  for (const id of ["001","002"]) assert.equal(f.post({...feedback,bookingId:`HLT-100826-RKS001-${id}`,requestId:randomUUID()}).ok,true);
+  assert.equal(f.post({...feedback,bookingId:"HLT-100826-RKS001-003",requestId:randomUUID()}).ok,false,"feedback cap reached");
+  assert.equal(f.post({...booking,proxySecret:secret,requestId:randomUUID()}).ok,true,"bookings unaffected");
+  const defaults = await fixture();
+  for (let i=1;i<=30;i++) assert.equal(defaults.post({...feedback,bookingId:`HLT-100826-RKS001-${String(i).padStart(3,"0")}`,requestId:randomUUID()}).ok,true);
+  assert.equal(defaults.post({...feedback,bookingId:"HLT-100826-RKS001-099",requestId:randomUUID()}).ok,false,"default feedback cap is 30/hour");
 });

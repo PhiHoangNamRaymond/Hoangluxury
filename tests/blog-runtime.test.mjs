@@ -160,7 +160,7 @@ function inviteFixture(overrides = {}) {
       return query;
     },
   };
-  const serve = createInviteHandler({ client, allowedOrigins: "https://hoangluxury.travel,http://localhost:5173", logger: () => {} });
+  const serve = createInviteHandler({ client, allowedOrigins: "https://hoangluxury.travel,http://localhost:5173", logger: overrides.logger || (() => {}) });
   const request = (body = { email: "Writer@Example.com", fullName: "Writer", role: "writer", password: PASSWORD }, headers = {}) => new Request("https://edge.invalid", {
     method: "POST", headers: { Origin: "http://localhost:5173", Authorization: "Bearer actual-jwt", "Content-Type": "application/json", ...headers },
     body: typeof body === "string" ? body : JSON.stringify(body),
@@ -211,10 +211,19 @@ test("password reset needs an admin and a real account id, and never creates a u
   assert.deepEqual(calls[1], ["reset", id, { password: PASSWORD }]);
   assert.equal(calls.some(([name]) => name === "create"), false);
 
-  for (const [overrides, status] of [[{ role: "writer" }, 403], [{ resetError: new Error("gone") }, 400]]) {
+  for (const [overrides, status] of [[{ role: "writer" }, 403], [{ resetError: new Error("gone") }, 400],
+    [{ limited: true }, 429], [{ limitError: new Error("no migration") }, 503]]) {
     const other = inviteFixture(overrides);
     assert.equal((await other.serve(other.request({ action: "reset", userId: id, password: PASSWORD }))).status, status);
+    if (overrides.limited || overrides.limitError) assert.equal(other.calls.some(([name]) => name === "reset"), false, "rate-limited reset never reaches Auth");
   }
+  // Log ghi tài khoản bị reset (UUID), không ghi mật khẩu hay email.
+  const logs = [];
+  const audited = inviteFixture({ logger: (event) => logs.push(event) });
+  await audited.serve(audited.request({ action: "reset", userId: id, password: PASSWORD }));
+  assert.equal(logs.at(-1).target_id, id);
+  assert.equal(logs.at(-1).actor_id, "caller");
+  assert.doesNotMatch(JSON.stringify(logs), new RegExp(PASSWORD));
 });
 
 test("account creation does not report success for duplicate, rate limit or partial activation", async () => {

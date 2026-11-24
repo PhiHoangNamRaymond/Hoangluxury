@@ -9,7 +9,9 @@ Local source/tests were reviewed, not a penetration test of production.
 
 Public static React pages use an isolated anonymous Supabase client. Active
 writers are one editorial team: by owner decision they read and edit every
-article, including other people's drafts. They remain untrusted for deletion,
+article, including other people's drafts, and can publish or unpublish any
+article (RLS `articles_update_member`, migration 05; the editor UI exposes the
+same action). A compromised writer account can therefore change live content. They remain untrusted for deletion,
 authorship and account management, and every rule must hold when they bypass the
 UI and call the Data API directly. Active admins can publish or delete any
 article, create accounts and change permissions. The Edge Function holds a

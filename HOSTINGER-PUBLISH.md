@@ -5,7 +5,7 @@
 Chạy `npm run release:hostinger` trong thư mục project trên Windows.
 File được tạo trong `releases/<thời điểm>/`, tên chính xác:
 
-`Private Car Transfer From Hanoi Or Noi Bai Airport Hoang Luxury Travel Official Code.zip`
+`Private Car Transfer Hoang Luxury Travel Official Code.zip`
 
 Đây là **bản website đã build để upload**, không phải toàn bộ repository.
 ZIP chứa trực tiếp `index.html`, `.htaccess`, `assets/`, các trang và sitemap.
@@ -56,11 +56,15 @@ Tham khảo [hướng dẫn upload của Hostinger](https://www.hostinger.com/su
   trong `.htaccess`. Không bật Cache Everything cho `/admin/` hoặc dữ liệu riêng.
 - Turnstile: thêm `hoangluxury.travel` và `www.hoangluxury.travel` vào hostname của
   widget đang dùng, không đổi secret/site key đang hoạt động nếu không cần.
-- Supabase Secrets: giữ các origin đang dùng hợp lệ và thêm
-  `https://hoangluxury.travel`, `https://www.hoangluxury.travel` vào
-  `FORMS_ALLOWED_ORIGINS`, `BLOG_ALLOWED_ORIGINS`. Không có dấu `/` cuối hay wildcard.
-- Booking/feedback và tạo tài khoản blog vẫn gọi Supabase Edge Functions;
-  không cần chạy thư mục `api/` trên Hostinger. Không copy khóa server vào frontend.
+- Booking/feedback (và log lỗi tab Errors) gửi tới `https://hoangluxury.travel/api/forms`,
+  do **Cloudflare Worker** `hlt-booking-forms` xử lý (cloudflare/wrangler.toml), không phải
+  Hostinger. Vì vậy hai record web phải để **Proxied** (đám mây cam); tắt proxy thì
+  `/api/forms` rơi xuống Hostinger và bị `.htaccess` chặn 403. Khi build, `.env.local` phải có
+  `VITE_FORMS_PROXY_URL=https://hoangluxury.travel/api/forms`.
+- Tạo/đặt lại tài khoản blog gọi Supabase Edge Function `invite-writer`; giữ
+  `BLOG_ALLOWED_ORIGINS` gồm `https://hoangluxury.travel`, `https://www.hoangluxury.travel`.
+  Không có dấu `/` cuối hay wildcard. Không cần chạy thư mục `api/` trên Hostinger.
+  Không copy khóa server vào frontend.
 - Giá trị `VITE_*` được đóng vào JS lúc build. Đổi `.env.local` sau khi upload
   không đổi website đang chạy: phải build và upload lại.
 - Nếu test qua tên miền tạm Hostinger, form có thể bị CORS/Turnstile từ chối vì
@@ -70,51 +74,33 @@ Tham khảo [trỏ domain tới Hostinger](https://support.hostinger.com/en/arti
 [Cloudflare proxy](https://developers.cloudflare.com/dns/proxy-status/),
 [Full (strict)](https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/full-strict/).
 
-## 4. Chặn IP Việt Nam, ngoại lệ IP quản trị — chưa tự động bật
+## 4. Chặn sáu quốc gia bằng Cloudflare Worker — đã bật 25/11/2026
 
-Người dùng đã chọn: chặn các IP được xác định ở Việt Nam, **trừ IP công khai cố định
-của quản trị viên**. IP LAN như `192.168.x.x` không dùng được. Cần xác định IP public
-của mạng người quản trị, không lấy IP máy chủ Hostinger làm ngoại lệ. Nếu dùng IPv6, cần
-xác nhận cả IP/khối IPv6 ổn định. Đổi mạng/4G/VPN có thể đổi IP và bị chặn.
+Chặn toàn bộ VN, CN, HK, LA, KH, MM theo lựa chọn mới của chủ website;
+**không có ngoại lệ IP quản trị**. Dùng VPN ngoài sáu quốc gia để vào website
+và /admin/. Các dashboard Hostinger/Cloudflare vẫn truy cập riêng.
 
-Thực hiện trên Cloudflare WAF **Custom rules**, không làm bằng JS trình duyệt,
-không tin header quốc gia do client tự gửi tới origin, và không mở ngoại lệ chỉ
-dựa trên URL `/admin/` vì ai cũng gõ được URL đó.
+Worker hlt-booking-forms nay bao phủ hoangluxury.travel/* và
+www.hoangluxury.travel/*, kiểm tra request.cf.country trước khi phục vụ
+website hoặc xử lý /api/forms. Khách bị chặn nhận HTTP 403 và ảnh
+/unavailable/Maintenance%20HLT.png, không cache/noindex. Chỉ ảnh thông báo
+được miễn chặn để trang hiển thị được; không miễn trang admin hoặc API.
 
-1. Giữ hPanel/Cloudflare dashboard đang đăng nhập để có đường tắt rule khi cần.
-2. Xác nhận DNS domain thực sự qua Cloudflare, hai record web bật **Proxied**.
-3. Tạo custom IP list `hlt_admin_ips`, thêm IP quản trị thật và kiểm tra lại.
-   Không commit IP hoặc token Cloudflare vào Git. Nếu tài khoản không có list,
-   dùng bộ dựng rule `IP Source Address is not in` với các IP thật tương đương.
-4. Tạo custom rule, action **Block**, với logic:
+Giữ ảnh trong public/unavailable/ và trên hosting. Khi sửa Worker phải deploy
+riêng; build/upload ZIP không cập nhật Worker. Giữ Cloudflare proxy, Full (strict),
+secrets của form và rate limiting. Không bật lại rule WAF cũ "Block Vietnam"
+vì sẽ thay trang ảnh bằng màn hình chặn mặc định.
 
-```text
-(http.host in {"hoangluxury.travel" "www.hoangluxury.travel"}
- and ip.src.country eq "VN"
- and not ip.src in $hlt_admin_ips)
-```
-
-Chỉ dùng biểu thức sau khi list thật đã tồn tại; đây không phải rule đã được triển khai.
-Ngoại lệ nằm **trong cùng rule chặn**, không phải một rule Allow/Skip rộng bỏ qua các bảo vệ khác.
-5. Kiểm tra từ IP quản trị: home và `/admin/` phải vào được; từ một mạng Việt Nam
-   khác phải bị block; từ mạng ngoài Việt Nam phải vào được. Nếu lỗi, disable rule
-   trong Cloudflare dashboard, không xoá cơ chế đăng nhập admin.
-
-WAF chỉ bảo vệ traffic đi qua Cloudflare. Domain tạm Hostinger, IP origin, URL
-Vercel cũ hoặc endpoint Supabase không tự được rule này bảo vệ. Hạn chế đường
-truy cập vòng qua origin cần kiểm tra khả năng firewall của gói Hostinger và
-không được làm hỏng SSL/health checks; không coi rule trên là chặn tuyệt đối.
-Phân loại theo IP có thể sai hoặc bị thay đổi bằng VPN. Kiểm tra lại Search Console
-và chiến dịch quảng cáo sau khi bật vì crawler/đội marketing ở Việt Nam cũng có thể bị chặn.
-
-Tham khảo [Cloudflare country rule](https://developers.cloudflare.com/waf/custom-rules/use-cases/block-traffic-from-specific-countries/),
-[IP allowlist](https://developers.cloudflare.com/waf/custom-rules/use-cases/allow-traffic-from-ips-in-allowlist/).
+Xem [cấu hình, kiểm tra và rollback](cloudflare/COUNTRY-BLOCKING.md).
+Chặn chỉ áp dụng qua Cloudflare của hai hostname trên; không tự chặn IP origin,
+Vercel cũ hay endpoint Supabase. Vị trí IP có thể thay đổi bằng VPN.
 
 ## 5. Hạn chế copy và kiểm tra sau publish
 
 Nội dung công khai được hạn chế menu chuột phải, kéo ảnh/văn bản, và copy thông
 thường. Form, soạn thảo admin, link và thông tin liên hệ vẫn thao tác được.
-Không chặn F12, không phá điều hướng bàn phím, không che nội dung SEO.
+Theo yêu cầu chủ website (25/11/2026) chặn thêm phím tắt F12, Ctrl+Shift+I/J/C, Ctrl+U;
+không phá điều hướng bàn phím khác, không che nội dung SEO.
 Đây không phải DRM: không ngăn được screenshot, DevTools, request trực tiếp
 hoặc công cụ tắt JS. Có thể dùng watermark để tăng nhận diện quyền sở hữu.
 
@@ -130,5 +116,6 @@ Trước và sau khi bật chặn quốc gia, kiểm tra:
 - Không còn đường công khai Vercel cũ nếu muốn mọi khách đi qua lớp WAF mới;
   xử lý deployment cũ riêng sau khi domain chính ổn định, không tắt trước.
 
-Rollback: disable rule WAF nếu tự khoá, khôi phục bản phát hành/backup website
+Rollback: xem cloudflare/COUNTRY-BLOCKING.md để khôi phục Worker nếu cần;
+khôi phục bản phát hành/backup website
 trước hoặc DNS đã ghi lại. Không xoá dữ liệu Supabase/Sheet để rollback frontend.

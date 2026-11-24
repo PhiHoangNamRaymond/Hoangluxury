@@ -3,11 +3,12 @@ main = "forms-worker.js"
 compatibility_date = "2026-11-01"
 workers_dev = false
 routes = [
-  { pattern = "hoangluxury.travel/api/forms", zone_name = "hoangluxury.travel" },
-  { pattern = "www.hoangluxury.travel/api/forms", zone_name = "hoangluxury.travel" }
+  { pattern = "hoangluxury.travel/*", zone_name = "hoangluxury.travel" },
+  { pattern = "www.hoangluxury.travel/*", zone_name = "hoangluxury.travel" }
 ]
 
 [vars]
 # Giữ khớp với Cloudflare Dashboard: mỗi lần `wrangler deploy` ghi đè giá trị trên
-# Dashboard bằng dòng này. hoangluxury.vercel.app là bản test trên Vercel (24/11/2026).
-FORMS_ALLOWED_ORIGINS = "https://hoangluxury.travel,https://www.hoangluxury.travel,https://hoangluxury.vercel.app"
+# Dashboard bằng dòng này. Đã bỏ hoangluxury.vercel.app (25/11/2026): project Vercel bị
+# xoá, tên miền đó có thể bị người khác đăng ký lại nên không được nằm trong danh sách.
+FORMS_ALLOWED_ORIGINS = "https://hoangluxury.travel,https://www.hoangluxury.travel"

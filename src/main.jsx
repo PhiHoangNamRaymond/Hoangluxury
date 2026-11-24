@@ -44,6 +44,19 @@ const TermsPage = lazy(() => import("./PoliciesPage.jsx").then((m) => ({ default
 const JourneysPage = lazy(() => import("./JourneysPage.jsx"));
 const AdminApp = lazy(() => import("./admin/AdminApp.jsx"));
 
+// Link mời Feedback cũ (?bookingId=…&token=…) không còn dùng: xoá khỏi địa chỉ TRƯỚC khi
+// GTM/GA4 đọc page_location, để mã đặt chỗ và token không bị gửi sang analytics
+// (audit 25/11/2026). Các tham số khác (src, utm_…) giữ nguyên.
+{
+  const legacyQuery = new URLSearchParams(window.location.search);
+  if (["token", "bookingId"].some((name) => legacyQuery.has(name))) {
+    legacyQuery.delete("token");
+    legacyQuery.delete("bookingId");
+    const rest = legacyQuery.toString();
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${rest ? `?${rest}` : ""}${window.location.hash}`);
+  }
+}
+
 // Google Tag Manager nạp sớm nhất có thể (trừ trang quản trị).
 setupGtm();
 
@@ -335,9 +348,9 @@ if (!isAdminRoute) {
 // Ảnh chưa tải xong thì hiện khung xương thay vì ô trống.
 setupImageSkeletons();
 
-// Chặn chuột phải / sao chép / bôi đen / kéo ảnh trên trang công khai. TẠM TẮT từ
-// 22/11/2026 để đội marketing kiểm tra GTM bằng F12 (chuột phải > Inspect). Bật lại:
-// đổi thành true.
-const contentProtectionOn = false;
+// Chặn chuột phải / sao chép / bôi đen / kéo ảnh và phím tắt DevTools (F12, Ctrl+Shift+I/J/C,
+// Ctrl+U) trên trang công khai. Bật lại 25/11/2026 theo yêu cầu chủ website (đã tắt tạm
+// từ 22/11 để marketing kiểm tra GTM). Muốn tắt tạm: đổi thành false.
+const contentProtectionOn = true;
 const cleanupContentProtection = setupContentProtection(document, { enabled: contentProtectionOn && !isAdminRoute });
 if (import.meta.hot) import.meta.hot.dispose(cleanupContentProtection);
