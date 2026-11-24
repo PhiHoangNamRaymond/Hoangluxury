@@ -1,8 +1,8 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07)
 
 Mã nguồn:
 
-- `src/lib/cta-tracking.js`: H1-01, H1-02 và H1-06 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+- `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06 và H1-07 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
 - `src/lib/booking-submit-tracking.js`: H1-05, gọi từ hàm gửi form trong `src/BookingPage.jsx`.
 
@@ -299,7 +299,7 @@ Bàn giao cho Marketing ngày 24/11/2026.
 - **Không phát:**
   - Khi mở trực tiếp hoặc tải lại trang Catalog.
   - Khi nhấn link Catalog ngay trên trang Catalog, vì đó chỉ là tải lại trang.
-  - Khi nhấn nút mở tài liệu Google Drive/PDF trong Catalog (thuộc H2-11).
+  - Khi nhấn nút mở tài liệu Google Drive/PDF trong Catalog (thuộc H1-07).
   - Khi nhấn link tới trang khác.
 - **service_type** theo dịch vụ của **trang xuất phát**:
 
@@ -340,3 +340,55 @@ Bàn giao cho Marketing ngày 24/11/2026.
   - VIEW CATALOG ở hero trang Hanoi to Sapa: được `route_detail / private_transfer / hanoi_to_sapa / hero / catalog_route_hero`. Sự kiện ghi trước khi chuyển, Catalog mở bình thường, và không phát thêm khi tới Catalog.
   - Catalog trong menu mobile từ trang Blog: được `blog / null / null / mobile_menu / catalog_mobile_menu`, trang chuyển bình thường.
 - Nút "VIEW FLEET, ROUTES & PRICING" mở Google Drive trong trang Catalog không phát sự kiện nào.
+
+# H1-07 – hlt_catalog_open (PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{
+  event: "hlt_catalog_open",
+  page_type: "catalog",
+  catalog_id: "hlt_customer_catalog",
+  cta_id: "catalog_view_fleet_routes_pricing",
+  cta_location: "content"
+}
+```
+
+## Cách hoạt động
+
+- Phát khi khách nhấn **VIEW FLEET, ROUTES & PRICING** trên trang Catalog, tức nút mở file PDF trên Google Drive. PC và mobile dùng chung một nút, chỉ khác bố cục.
+- Dùng chung bộ bắt click với H1-01, H1-02 và H1-06. Mỗi lượt nhấn phát đúng một sự kiện với 4 trường, trong một lần push, trước khi tab Google Drive mở ra. Nút vẫn mở Google Drive ở tab mới như cũ.
+- **Chỉ tính khi đủ cả 3 điều kiện:**
+  - Đang ở trang Catalog.
+  - Nút đã được gắn mã `catalog_id`.
+  - Đích của link là một **file** trên `drive.google.com`.
+- **Không phát:**
+  - Khi mở hoặc tải lại trang Catalog.
+  - Khi nhấn BOOK VIA WHATSAPP.
+  - Khi nhấn link Catalog trên header/footer.
+  - Khi nhấn CATALOG hoặc VIEW CATALOG ở trang khác (những lượt này là H1-06).
+  - Khi nhấn chuột phải.
+- Nhấn chuột giữa (mở tab mới) vẫn được tính.
+- Không gửi đường dẫn Google Drive hay nội dung tài liệu.
+- Sau này nếu có thêm tài liệu khác, gắn `catalogOpenCta("<catalog_id>", "<cta_id>")` cho nút mới để phân biệt.
+
+## Kiểm tra
+
+- Có test tự động trong `tests/cta-tracking.test.mjs`. Test chỉ tính link Drive dạng file đã gắn nhãn, và không tính các trường hợp sau:
+  - Link Drive chưa gắn nhãn.
+  - Thư mục Drive.
+  - Link `#catalog` khi chưa cấu hình PDF.
+  - Link Catalog nội bộ, tên miền khác, WhatsApp.
+  - Nhấn chuột phải.
+  - Trang khác trang Catalog.
+- Test cũng xác nhận tracking không chặn việc mở link, và nhấn chuột giữa được tính.
+- Trên dev, trang Catalog ở khổ PC 1440px và mobile 375px:
+  - Nhấn VIEW FLEET: đúng 1 `hlt_catalog_open` đủ 4 trường.
+  - BOOK VIA WHATSAPP: chỉ phát `hlt_whatsapp_click`.
+  - Catalog trên header ngay trên trang Catalog: không phát.
+  - Tải trang: 0 sự kiện.
+- Từ trang chủ, nhấn CATALOG chỉ phát `hlt_catalog_click`.
+- Nút vẫn trỏ tới `drive.google.com/file/d/…/view` với `target="_blank"`, nên mở Google Drive ở tab mới như cũ.
+
+**Marketing cần tạo mới** biến `catalog_id`, trigger `hlt_catalog_open` và tag `catalog_open`. Các biến `page_type`, `cta_id`, `cta_location` dùng lại từ H1-01.

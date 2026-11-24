@@ -1,3 +1,8 @@
+// @ts-nocheck
+// File JavaScript thuần (có test Node trong tests/forms-security.test.mjs). Trình sửa
+// code của Supabase Dashboard lưu thành index.ts và kiểm tra kiểu TypeScript, báo đỏ
+// những chỗ JS hợp lệ (ví dụ tham số visitorLocation không truyền vào Deno.serve).
+// Dòng trên tắt kiểm tra kiểu đó; không ảnh hưởng cách function chạy.
 const productionOrigins = "https://hoangluxury.travel,https://www.hoangluxury.travel";
 const message = "Unable to process request. Please contact us via WhatsApp.";
 const validEndpoint = (value) => /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(value || "");
