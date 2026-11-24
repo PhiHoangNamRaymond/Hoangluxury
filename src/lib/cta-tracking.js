@@ -3,6 +3,7 @@
      H1-02 hlt_booking_form_click  mọi link dẫn tới Booking Form /booking/ (24/11/2026)
      H1-06 hlt_catalog_click       mọi link dẫn tới trang Catalog /catalog/ (24/11/2026)
      H1-07 hlt_catalog_open        link mở tài liệu Google Drive được đánh dấu trên trang Catalog
+     H2-01 hlt_destination_select  mọi link tới trang chi tiết tuyến / trang Halong Bay Cruises
 
    Một luồng xử lý ở document (pha capture), nên một lượt
    nhấn chỉ phát đúng một sự kiện, không phát khi render/tải trang, và chạy trước
@@ -25,8 +26,11 @@ export const WHATSAPP_EVENT = "hlt_whatsapp_click";
 export const BOOKING_EVENT = "hlt_booking_form_click";
 export const CATALOG_EVENT = "hlt_catalog_click";
 export const CATALOG_OPEN_EVENT = "hlt_catalog_open";
+export const DESTINATION_EVENT = "hlt_destination_select";
 
 const NONE = "none";
+
+import { cruisesPagePath, journeyKeyFromSlug } from "../config/journey-paths.js";
 
 function ctaAttributes(location, id, { service, route, text } = {}) {
   return {
@@ -56,6 +60,10 @@ export function catalogOpenCta(catalogId, ctaId, location = "content") {
     "data-hlt-catalog-id": catalogId,
   };
 }
+
+/* Link chọn tuyến / trang du thuyền (H2-01): <a {...destinationCta("header_mega_menu", "route_menu_link")}>.
+   Trang đích (destination_type, destination_id) luôn lấy từ chính href của link. */
+export const destinationCta = (location, id) => ctaAttributes(location, id);
 
 /* Mã tuyến từ khoá tuyến trong journeys.js: "sapa" → "hanoi_to_sapa",
    "sapa-to-ha-long" → "sapa_to_ha_long". */
@@ -92,6 +100,45 @@ export const isBookingHref = isSitePath(/^\/booking\/?$/i);
 
 /* H1-06 chỉ đo link tới trang Catalog nội bộ, không đo link mở tài liệu (H1-07). */
 export const isCatalogHref = isSitePath(/^\/catalog\/?$/i);
+
+/* H2-01: trang đích của một link nội bộ, hoặc null nếu không phải trang tuyến/du thuyền.
+   Nhận mọi đường dẫn tuyến (URL mới /routes/…, URL cũ /journey/…, khoá tuyến), nên
+   đủ cả các tuyến chỉ có trong menu đầy đủ. /routes/ (trang tổng hợp) không tính. */
+const cruisePaths = new Set([cruisesPagePath, "/cruises/", "/ha-long-cruises/"]);
+export function destinationFromHref(href, base = "https://hoangluxury.travel/") {
+  if (!href) return null;
+  try {
+    const url = new URL(href, base);
+    if (url.origin !== new URL(base).origin) return null;
+    const path = `${url.pathname.replace(/\/+$/, "")}/`.toLowerCase();
+    if (cruisePaths.has(path)) return { destination_type: "cruise", destination_id: "halong_bay_cruises" };
+    const slug = path.match(/^\/(?:routes|journey)\/([a-z0-9-]+)\/$/)?.[1];
+    const key = slug ? journeyKeyFromSlug(slug) : null;
+    return key ? { destination_type: "private_transfer", destination_id: routeIdFromJourneyKey(key) } : null;
+  } catch {
+    return null;
+  }
+}
+
+/* H2-01: dữ liệu sự kiện cho một link chọn tuyến / du thuyền (5 trường + event). */
+export function buildDestinationEvent(anchor, destination, context = {}) {
+  const location = anchor.getAttribute("data-hlt-cta-location")
+    || (anchor.closest("footer") ? "footer" : anchor.closest("header") ? "header" : "content");
+  return {
+    event: DESTINATION_EVENT,
+    page_type: context.pageType || null,
+    destination_type: destination.destination_type,
+    destination_id: destination.destination_id,
+    cta_location: location,
+    cta_id: anchor.getAttribute("data-hlt-cta-id") || (destination.destination_type === "cruise" ? "cruise_link" : "route_link"),
+  };
+}
+
+/* Link tới chính trang đang xem (tải lại trang tuyến / trang du thuyền): không tính. */
+function isCurrentDestination(destination, context = {}) {
+  if (destination.destination_type === "cruise") return context.pageType === "cruise";
+  return context.pageType === "route_detail" && context.routeId === destination.destination_id;
+}
 
 function isDriveFileHref(href) {
   try {
@@ -200,7 +247,11 @@ export function setupCtaTracking(context, win = window) {
     else if (state.context?.pageType !== "booking" && isBookingHref(href, win.location.href)) payload = buildBookingEvent(anchor, state.context);
     // Đang ở chính trang Catalog thì link Catalog chỉ tải lại trang: không tính.
     else if (state.context?.pageType !== "catalog" && isCatalogHref(href, win.location.href)) payload = buildCatalogEvent(anchor, state.context);
-    else payload = buildCatalogOpenEvent(anchor, href, state.context);
+    else {
+      const destination = destinationFromHref(href, win.location.href);
+      if (destination) payload = isCurrentDestination(destination, state.context) ? null : buildDestinationEvent(anchor, destination, state.context);
+      else payload = buildCatalogOpenEvent(anchor, href, state.context);
+    }
     if (!payload) return;
     win.dataLayer = win.dataLayer || [];
     win.dataLayer.push(payload);

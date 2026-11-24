@@ -11,7 +11,7 @@ import {
   journeyPickupIconUrl,
   journeysOutroWheelUrl,
 } from "./config/assets.js";
-import { routeIdFromJourneyKey, waCta } from "./lib/cta-tracking.js";
+import { destinationCta, routeIdFromJourneyKey, waCta } from "./lib/cta-tracking.js";
 
 const allRoutesData = [
   {
@@ -239,6 +239,7 @@ export default function JourneysPage() {
                     <a
                       className="hlt-jcard-compact-media"
                       href={routePageUrl}
+                      {...destinationCta("routes_grid", "route_card_image")}
                       tabIndex={-1}
                       aria-hidden="true"
                     >
@@ -254,7 +255,7 @@ export default function JourneysPage() {
                         <li><CompactIcon type="vehicle" />{item.vehicle}</li>
                         <li><CompactIcon type="service" />{item.service}</li>
                       </ul>
-                      <a className="hlt-jcard-compact-link" href={routePageUrl}>
+                      <a className="hlt-jcard-compact-link" href={routePageUrl} {...destinationCta("routes_grid", "route_card_button")}>
                         View Route
                       </a>
                     </div>
@@ -268,6 +269,7 @@ export default function JourneysPage() {
                     <a
                       className="hlt-jcard-media-link"
                       href={routePageUrl}
+                      {...destinationCta("routes_grid", "route_card_image")}
                       tabIndex={-1}
                       aria-hidden="true"
                     />
@@ -347,6 +349,7 @@ export default function JourneysPage() {
                     <a
                       href={routePageUrl}
                       className="hlt-jcard-btn hlt-jcard-btn-detail"
+                      {...destinationCta("routes_grid", "route_card_button")}
                     >
                       <span className="hlt-jcard-stars">★★★★★</span>
                       <span className="hlt-jcard-btn-dest">

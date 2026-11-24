@@ -1,10 +1,10 @@
-# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07)
+# Data Layer – WhatsApp (H1-01), Booking Form click (H1-02), Booking step (H1-04), Submit success (H1-05), Catalog click (H1-06), Catalog open (H1-07), Feedback submit (H1-08), Destination select (H2-01)
 
 Mã nguồn:
 
-- `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06 và H1-07 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
+- `src/lib/cta-tracking.js`: H1-01, H1-02, H1-06, H1-07 và H2-01 dùng chung một bộ bắt click, cùng tên trường và cùng quy ước giá trị.
 - `src/lib/booking-step-tracking.js`: H1-04.
-- `src/lib/booking-submit-tracking.js`: H1-05, gọi từ hàm gửi form trong `src/BookingPage.jsx`.
+- `src/lib/booking-submit-tracking.js`: H1-05 (gọi từ `src/BookingPage.jsx`) và H1-08 (gọi từ `src/FeedbackPage.jsx`).
 
 # H1-01 – hlt_whatsapp_click
 
@@ -392,3 +392,118 @@ Bàn giao cho Marketing ngày 24/11/2026.
 - Nút vẫn trỏ tới `drive.google.com/file/d/…/view` với `target="_blank"`, nên mở Google Drive ở tab mới như cũ.
 
 **Marketing cần tạo mới** biến `catalog_id`, trigger `hlt_catalog_open` và tag `catalog_open`. Các biến `page_type`, `cta_id`, `cta_location` dùng lại từ H1-01.
+
+# H1-08 – hlt_feedback_submit (PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026. Lưu ý: mã H1-08 trước đây dùng cho "booking_submit_error". Sự kiện đó đã bỏ hoàn toàn, nên mã H1-08 giờ chỉ là Feedback thành công.
+
+```js
+{ event: "hlt_feedback_submit" }
+```
+
+- Chỉ có tên sự kiện. Không có Booking ID, số sao, nội dung hay thông tin khách.
+- Sự kiện được phát trong hàm gửi Feedback, ngay sau khi máy chủ xác nhận đã lưu Feedback và trước khi hiện THANK YOU. Đây chính là điều kiện đang quyết định việc hiện THANK YOU.
+- "Máy chủ xác nhận" nghĩa là đã qua đủ các bước: Cloudflare Worker kiểm tra Turnstile, Apps Script kiểm tra Booking ID, ghi dòng vào tab Feedback, rồi trả `ok: true`. Gửi đi mà chưa nhận được xác nhận đó thì không tính.
+- PC và mobile dùng chung một form và cùng một logic.
+- **Không phát:**
+  - Khi mở trang, nhập Booking ID, chọn sao, viết nhận xét.
+  - Khi validation không qua (thiếu thông tin, Booking ID sai định dạng).
+  - Khi máy chủ từ chối: CAPTCHA, Booking ID, giới hạn lượt gửi hoặc lỗi backend.
+  - Khi mất mạng.
+  - Khi render lại, khi THANK YOU hiện lại, khi tải lại trang.
+- **Chống trùng:**
+  - Mỗi Feedback có một `requestId`, cũng là mã Apps Script dùng để chống ghi trùng. Mỗi `requestId` chỉ tính một lần.
+  - Nếu khách gửi lại đúng nội dung cũ, website dùng lại `requestId` cũ. Apps Script trả `ok` nhưng không ghi thêm dòng nào, nên website cũng không phát thêm sự kiện.
+  - Một Feedback mới (nội dung khác) có `requestId` mới, nên được tính thêm.
+  - Trong lúc đang gửi, nút bị khoá.
+- Giao diện, validation, Turnstile và cách gửi giữ nguyên.
+
+## Kiểm tra
+
+- Test tích hợp trong `tests/feedback-components.test.mjs` dựng trang Feedback thật, với máy chủ và Turnstile giả. Test kiểm tra lần lượt:
+  - Mở trang và điền form: không phát.
+  - Booking ID sai định dạng: không phát và không gửi gì lên máy chủ.
+  - Máy chủ trả 400: không phát.
+  - Máy chủ xác nhận: đúng 1 `hlt_feedback_submit`, THANK YOU hiện ra.
+  - Render lại: không phát thêm.
+  - Gửi lại đúng nội dung cũ (cùng `requestId`): không phát thêm.
+  - Feedback mới: phát thêm 1 sự kiện.
+  - Data Layer chỉ có trường `event`.
+- Trên dev, trang Feedback ở khổ PC 1440px và mobile 375px tải bình thường, và không phát sự kiện nào khi mở trang.
+- Không gửi thử Feedback thật, vì như vậy sẽ ghi một dòng thật vào tab Feedback. Marketing kiểm tra bằng GTM Preview trên website demo với một Feedback ghi rõ "TEST", rồi xoá dòng đó trong Sheet.
+
+**Marketing chỉ cần tạo** trigger `hlt_feedback_submit` và tag `feedback_submit`. Không cần biến nào.
+
+# H2-01 – hlt_destination_select (PC + mobile)
+
+Bàn giao cho Marketing ngày 24/11/2026.
+
+```js
+{
+  event: "hlt_destination_select",
+  page_type: "home",
+  destination_type: "private_transfer",
+  destination_id: "hanoi_to_sapa",
+  cta_location: "header_mega_menu",
+  cta_id: "route_menu_link"
+}
+```
+
+## Cách hoạt động
+
+- Dùng chung bộ bắt click với các sự kiện H1. Sự kiện được nhận theo **đích thực tế của link**: mọi link tới trang chi tiết tuyến, kể cả URL cũ `/journey/…`, hoặc tới trang Halong Bay Cruises đều phát đúng **một** sự kiện, trong một lần push, trước khi chuyển trang.
+- Vì nhận theo đích, nên **đủ cả 17 tuyến** có trang chi tiết, kể cả 8 tuyến chỉ có trong menu ROUTES đầy đủ. Link tuyến thêm sau này cũng tự được tính: link chưa gắn nhãn nhận `cta_location` là `header` / `footer` / `content`, và `cta_id` là `route_link` hoặc `cruise_link`. Ngoài ra có test báo lỗi khi link tuyến trong mã chưa gắn nhãn.
+- **Không phát:**
+  - Khi rê chuột vào ROUTES.
+  - Khi nhấn ROUTES để cuộn xuống bản đồ (`#routes`).
+  - Khi nhấn mũi tên mở/đóng menu mobile (đây là nút, không phải link).
+  - Khi nhấn **All Private Transfer Routes** (`/routes/`).
+  - Khi mở menu, cuộn trang, render lại.
+  - Khi vào trực tiếp hoặc tải lại trang tuyến / trang Cruise.
+  - Khi nhấn link dẫn về **chính trang đang xem**, vì đó chỉ là tải lại trang.
+- Nhấn vào ảnh nằm bên trong thẻ tuyến chỉ tính một lần, vì mỗi thẻ là một link duy nhất.
+- `page_type` dùng đúng giá trị như các sự kiện trước. Trang tổng hợp `/routes/` là `route_list`; ví dụ trong yêu cầu ghi `routes_index` chỉ để minh hoạ.
+- Không có `cta_text` và không có thông tin khách.
+
+## Giá trị thực tế
+
+**destination_type / destination_id**
+
+| destination_type | destination_id |
+|---|---|
+| `private_transfer` | `hanoi_to_sapa`, `hanoi_to_ha_long`, `hanoi_to_ninh_binh`, `hanoi_to_ha_giang`, `hanoi_to_cat_ba`, `hanoi_to_cao_bang`, `hanoi_to_mu_cang_chai`, `hanoi_to_moc_chau`, `hanoi_to_ta_xua`, `hanoi_to_pu_luong`, `sapa_to_ha_long`, `sapa_to_ninh_binh`, `sapa_to_ha_giang`, `sapa_to_mu_cang_chai`, `ha_long_to_sapa`, `ninh_binh_to_sapa`, `mu_cang_chai_to_sapa` |
+| `cruise` | `halong_bay_cruises` |
+
+`destination_id` dùng **đúng mã** `route_id` của các sự kiện H1, nên ghép báo cáo được với nhau.
+
+**cta_location / cta_id**
+
+| Vị trí | cta_location | cta_id |
+|---|---|---|
+| Bản đồ + 9 thẻ tuyến ở trang chủ (PC và mobile dùng chung) | `routes_map` | `route_map_card` |
+| Mega Menu ROUTES (PC): tên tuyến | `header_mega_menu` | `route_menu_link` |
+| Mega Menu ROUTES (PC): thẻ HA LONG BAY CRUISES / EXPLORE | `header_mega_menu` | `cruise_explore` |
+| Menu ROUTES mở rộng (mobile): tên tuyến | `mobile_routes_menu` | `route_menu_link` |
+| Menu ROUTES mở rộng (mobile): HA LONG BAY CRUISES / EXPLORE | `mobile_routes_menu` | `cruise_explore` |
+| Trang `/routes/`: ảnh tuyến (PC và mobile) | `routes_grid` | `route_card_image` |
+| Trang `/routes/`: nút View Route (PC và mobile) | `routes_grid` | `route_card_button` |
+| About Us: khu các điểm đến | `about_destinations` | `route_destination_card` |
+| Trang tuyến nối tỉnh: khu "Choose Your Route" (thẻ các tuyến khác) | `choose_your_route` | `route_option_card` |
+
+Toàn bộ thẻ HA LONG BAY CRUISES (tiêu đề, mô tả và chữ EXPLORE) là một link duy nhất, nên nhấn vào đâu trên thẻ cũng tính là `cruise_explore`, và chỉ tính một lần.
+
+## Kiểm tra
+
+- Có 2 test tự động trong `tests/cta-tracking.test.mjs`:
+  - Cả 17 tuyến (URL mới và URL cũ) cùng trang Cruise được nhận đúng mã.
+  - `/routes/`, `#routes` và tuyến không tồn tại không bị tính.
+  - Nhấn ảnh trong thẻ chỉ tính một lần.
+  - Đang ở Hanoi to Sapa mà chọn Ninh Binh thì `destination_id` là `hanoi_to_ninh_binh`. Bấm lại chính trang đang xem thì không tính.
+  - Mọi link tuyến trong mã đều có nhãn.
+- Trên dev (1440px), đã bấm mọi link tới trang tuyến / trang Cruise trên 7 trang: trang chủ, `/routes/`, About, Blog, Hanoi to Sapa, Sapa to Halong, Cruise.
+  - Số sự kiện bằng số link, trừ link về chính trang đang xem.
+  - Không phát nhầm sự kiện khác.
+  - `page_type` đúng trang xuất phát.
+- Menu ROUTES trên mobile dùng chung danh sách với PC và đã được bấm trong cùng lần kiểm tra. Marketing nên kiểm tra lại trên điện thoại thật bằng GTM Preview.
+
+**Marketing cần tạo mới** biến `destination_type`, `destination_id`, trigger `hlt_destination_select` và tag `destination_select`. Các biến `page_type`, `cta_location`, `cta_id` dùng lại.

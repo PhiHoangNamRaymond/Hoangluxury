@@ -14,7 +14,7 @@ import {
 import { catalogPageUrl, whatsappInquiryUrl } from "./data.js";
 import { journeyPagePath } from "./config/journey-paths.js";
 import usePageEntered from "./hooks/usePageEntered.js";
-import { catalogCta, waCta } from "./lib/cta-tracking.js";
+import { catalogCta, destinationCta, waCta } from "./lib/cta-tracking.js";
 
 /* Phần tử thứ ba là icon, chỉ hiện ở bản mobile */
 const luxuryValues = [
@@ -432,7 +432,7 @@ export default function AboutPage() {
               {destinationRows.map((row, rowIndex) => (
                 <div className={`hlt-about-destination-row is-row-${rowIndex + 1}`} key={rowIndex}>
                   {row.map((item) => (
-                    <a className="hlt-about-destination" href={journeyPagePath(item.slug)} key={item.slug}>
+                    <a className="hlt-about-destination" href={journeyPagePath(item.slug)} key={item.slug} {...destinationCta("about_destinations", "route_destination_card")}>
                       <img src={item.image} alt={`Hanoi to ${item.name} private transfer`} loading="lazy" />
                       <span>{item.name}</span>
                     </a>

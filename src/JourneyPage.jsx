@@ -39,7 +39,7 @@ import {
   journeys,
 } from "./config/journeys.js";
 import { journeyPagePath } from "./config/journey-paths.js";
-import { bookingCta, catalogCta, waCta } from "./lib/cta-tracking.js";
+import { bookingCta, catalogCta, destinationCta, waCta } from "./lib/cta-tracking.js";
 
 // Icon nét dày bo tròn theo bộ icon khách gửi (điểm đón / trả, dải điểm mạnh),
 // vẽ lại bằng SVG để sắc nét; màu và độ dày nét do CSS của từng chỗ quyết định.
@@ -194,7 +194,7 @@ function IntercityTransfers({ currentId, currentTitle, whatsappHref }) {
                 key={item.id}
                 {...(isCurrent
                   ? { "aria-current": "page" }
-                  : { href: journeyPagePath(item.routeKey) })}
+                  : { href: journeyPagePath(item.routeKey), ...destinationCta("choose_your_route", "route_option_card") })}
               >
                 {isCurrent && <span className="hlt-journey-option-badge">Popular Route</span>}
                 <img className="hlt-journey-intercity-icon" src={journeyIconBySlug[item.id]} alt="" />

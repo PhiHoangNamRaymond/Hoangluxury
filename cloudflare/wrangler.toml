@@ -8,4 +8,6 @@ routes = [
 ]
 
 [vars]
-FORMS_ALLOWED_ORIGINS = "https://hoangluxury.travel,https://www.hoangluxury.travel"
+# Giữ khớp với Cloudflare Dashboard: mỗi lần `wrangler deploy` ghi đè giá trị trên
+# Dashboard bằng dòng này. hoangluxury.vercel.app là bản test trên Vercel (24/11/2026).
+FORMS_ALLOWED_ORIGINS = "https://hoangluxury.travel,https://www.hoangluxury.travel,https://hoangluxury.vercel.app"
